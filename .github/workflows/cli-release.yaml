@@ -178,24 +178,3 @@ jobs:
           title: "${{ format('Cedra CLI Release v{0}', inputs.release_version) }}"
           files: |
             cedra-cli-*.zip
-
-  #bump-homebrew-version-pr:
-   # name: "Make PR to bump version in Homebrew"
-    #needs:
-     # - release-binaries
-    #runs-on: ubuntu-latest
-    #steps:
-     # - uses: mislav/bump-homebrew-formula-action@v3
-      #  with:
-       #   formula-name: cedra
-        #  tag-name: "${{ format('cedra-cli-v{0}', inputs.release_version) }}"
-         # base-branch: master
-          #create-pullrequest: true
-          #commit-message: |
-           # {{formulaName}} {{version}}
-
-            #Created by https://github.com/mislav/bump-homebrew-formula-action
-
-            #From CLI release run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        #env:
-         # COMMITTER_TOKEN: ${{ secrets.CEDRA_BOT_GH_PAT_CEDRA_CORE_HOMEBREW_BUMPER }}
