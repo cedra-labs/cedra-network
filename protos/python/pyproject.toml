@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "aptos-protos"
+version = "1.1.2"
+description = "Code generated from protobuf definitions for the Aptos tech stack"
+authors = ["Cedra Labs <opensource@cedra.network>"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/cedra-labs/cedra"
+homepage = "https://github.com/cedra-labs/cedra/tree/main/protos/python"
+keywords = ["web3", "cedra", "blockchain", "indexer"]
+packages = [{include = "aptos_protos"}]
+
+[tool.poe.tasks]
+generate = "./generate.sh"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+grpcio = "^1.57.0"
+protobuf = "^4.24.2"
+grpclib = "^0.4.5"
+
+[tool.poetry.group.dev.dependencies]
+grpcio-tools = "^1.57.0"
+poethepoet = "^0.22.0"
+black = "^23.7.0"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core>=1.4.2"]
+build-backend = "poetry.core.masonry.api"

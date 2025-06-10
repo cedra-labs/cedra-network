@@ -1,0 +1,12 @@
+[package]
+name = "CliArgs"
+version = "0.1.0"
+upgrade_policy = "compatible"
+
+[addresses]
+test_account = "_"
+
+[dependencies.AptosFramework]
+git = "https://github.com/cedra-labs/cedra-framework.git"
+subdir = "aptos-framework"
+rev = "mainnet"

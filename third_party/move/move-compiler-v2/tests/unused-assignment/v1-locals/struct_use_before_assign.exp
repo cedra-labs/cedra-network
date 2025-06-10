@@ -1,0 +1,31 @@
+
+Diagnostics:
+error: use of unassigned local `g`
+  ┌─ tests/unused-assignment/v1-locals/struct_use_before_assign.move:6:17
+  │
+6 │         let r = R { f: 3, g };
+  │                 ^^^^^^^^^^^^^
+
+error: use of unassigned local `y0`
+   ┌─ tests/unused-assignment/v1-locals/struct_use_before_assign.move:15:17
+   │
+15 │         let r = R { f: x0, g: y0 };
+   │                 ^^^^^^^^^^^^^^^^^^
+
+error: use of unassigned local `r`
+   ┌─ tests/unused-assignment/v1-locals/struct_use_before_assign.move:23:13
+   │
+23 │         let R { f: x, g: y } = r;
+   │             ^^^^^^^^^^^^^^^^
+
+error: use of unassigned local `y`
+   ┌─ tests/unused-assignment/v1-locals/struct_use_before_assign.move:30:17
+   │
+30 │         let z = y;
+   │                 ^
+
+error: use of unassigned local `x`
+   ┌─ tests/unused-assignment/v1-locals/struct_use_before_assign.move:31:17
+   │
+31 │         let q = x;
+   │                 ^

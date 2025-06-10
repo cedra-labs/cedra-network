@@ -1,0 +1,59 @@
+[package]
+name = "move-compiler-v2"
+version = "0.1.0"
+authors = ["Cedra Labs"]
+description = "Move compiler based on stackless bytecode"
+repository = "https://github.com/cedra-labs/cedra"
+homepage = "https://aptosfoundation.org/"
+license = "Apache-2.0"
+publish = false
+edition = "2021"
+
+[dependencies]
+abstract-domain-derive = { path = "../move-model/bytecode/abstract_domain_derive" }
+anyhow = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true, features = ["derive", "env"] }
+codespan = { workspace = true }
+codespan-reporting = { workspace = true, features = ["serde", "serialization"] }
+ethnum = { workspace = true }
+flexi_logger = { workspace = true }
+im = { workspace = true }
+itertools = { workspace = true }
+legacy-move-compiler = { workspace = true }
+log = { workspace = true, features = ["serde"] }
+move-binary-format = { workspace = true }
+move-borrow-graph = { workspace = true }
+move-bytecode-source-map = { workspace = true }
+move-bytecode-verifier = { workspace = true }
+move-command-line-common = { workspace = true }
+move-core-types = { workspace = true }
+move-disassembler = { workspace = true }
+move-ir-types = { workspace = true }
+move-model = { workspace = true }
+move-stackless-bytecode = { workspace = true }
+move-symbol-pool = { workspace = true }
+num = { workspace = true }
+once_cell = { workspace = true }
+petgraph = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+libtest-mimic = { workspace = true }
+move-command-line-common = { workspace = true }
+move-ir-types = { workspace = true }
+move-prover-test-utils = { workspace = true }
+move-stdlib = { path = "../move-stdlib" }
+walkdir = { workspace = true }
+
+[lib]
+doctest = false
+
+[[test]]
+name = "testsuite"
+harness = false
+doctest = false
+
+[package.metadata.cargo-machete]
+ignored = ["strum"]

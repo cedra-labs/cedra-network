@@ -1,0 +1,42 @@
+// -- Model dump before first bytecode pipeline
+module 0xc0ffee::dummy1 {
+    public inline fun expose(): u64 {
+        1
+    }
+} // end 0xc0ffee::dummy1
+module 0xc0ffee::dummy2 {
+    public fun main(): u64 {
+        {
+          let (): ();
+          1
+        }
+    }
+} // end 0xc0ffee::dummy2
+
+// -- Sourcified model before first bytecode pipeline
+module 0xc0ffee::dummy1 {
+    public inline fun expose(): u64 {
+        1
+    }
+}
+module 0xc0ffee::dummy2 {
+    public fun main(): u64 {
+        let ();
+        1
+    }
+}
+
+// -- Model dump before second bytecode pipeline
+module 0xc0ffee::dummy1 {
+    public inline fun expose(): u64 {
+        1
+    }
+} // end 0xc0ffee::dummy1
+module 0xc0ffee::dummy2 {
+    public fun main(): u64 {
+        1
+    }
+} // end 0xc0ffee::dummy2
+
+
+============ bytecode verification succeeded ========

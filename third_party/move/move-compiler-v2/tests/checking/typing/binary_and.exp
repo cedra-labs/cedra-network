@@ -1,0 +1,36 @@
+// -- Model dump before first bytecode pipeline
+module 0x8675309::M {
+    struct R {
+        f: bool,
+    }
+    private fun t0(x: bool,r: R) {
+        And(true, false);
+        And(false, true);
+        And(true, false);
+        And(true, true);
+        And(Copy(x), Move(x));
+        And(select M::R.f<R>(r), select M::R.f<R>(r));
+        And(And(true, false), And(true, false));
+        {
+          let M::R{ f: _ } = r;
+          Tuple()
+        }
+    }
+} // end 0x8675309::M
+
+// -- Sourcified model before first bytecode pipeline
+module 0x8675309::M {
+    struct R {
+        f: bool,
+    }
+    fun t0(x: bool, r: R) {
+        true && false;
+        false && true;
+        true && false;
+        true && true;
+        (copy x) && (move x);
+        r.f && r.f;
+        true && false && (true && false);
+        let R{f: _} = r;
+    }
+}

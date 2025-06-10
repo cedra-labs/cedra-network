@@ -1,0 +1,178 @@
+transforms:
+  k8s_logs:
+    type: remap
+    inputs:
+      - kubernetes_logs
+    source: |
+      .k8s = del(.kubernetes)
+      .k8s.cluster = "${K8S_CLUSTER:?err}"
+
+      del(.k8s.container_id)
+
+      del(.k8s.namespace_labels)
+
+      node_labels = del(.k8s.node_labels)
+      .k8s.node_labels."node.kubernetes.io/instance-type" = node_labels."node.kubernetes.io/instance-type"
+      .k8s.node_labels."topology.gke.io/zone" = node_labels."topology.gke.io/zone"
+
+      del(.k8s.labels."statefulset.kubernetes.io/pod-name")
+      del(.k8s.labels."pod-template-generation")
+      del(.k8s.labels."addonmanager.kubernetes.io/mode")
+      del(.k8s.container_image_id)
+      del(.k8s.pod_owner)
+      del(.k8s.labels."forge-image-tag")
+      del(.k8s.labels."controller-uid")
+
+      # del(.k8s.annotations."kubectl.kubernetes.io/last-applied-configuration")
+      # del(.k8s.annotations."seccomp.security.alpha.kubernetes.io/pod")
+      # del(.k8s.annotations."checksum/validator.yaml")
+      # del(.k8s.annotations."config-hash")
+      # del(.k8s.annotations."tls-secret-hash")
+      # del(.k8s.annotations."prometheus.io/port")
+      # del(.k8s.annotations."prometheus.io/scrape")
+
+      # if is_object(.k8s.annotations) && is_empty(object!(.k8s.annotations)) {
+      #   del(.k8s.annotations)
+      # }
+
+      .min_log_level_to_retain = .k8s.annotations."aptos.dev/min-log-level-to-retain"
+
+      del(.k8s.annotations)
+
+      del(.k8s.labels."app.kubernetes.io/managed-by")
+      del(.k8s.labels."app.kubernetes.io/part-of")
+      del(.k8s.labels."pod-template-hash")
+      del(.k8s.labels."controller-revision-hash")
+      .k8s.node_name = del(.k8s.pod_node_name)
+
+      del(.k8s.pod_ips)
+      del(.k8s.pod_uid)
+
+      del(."@timestamp.nanos")
+      del(.source_type)
+      del(.hostname)
+      del(.file)
+
+  normalized_logs:
+    type: remap
+    inputs:
+      - k8s_logs
+    source: |
+      parsed_message, err = parse_json(.message)
+      if err == null && is_object(parsed_message) {
+        del(.message)
+        . = merge!(., parsed_message, deep: true)
+        # if the parsed_message didn't have a `.message` property fall back to some common fields under `.data`
+        if !exists(.message) {
+          fallback_message, err = string(parsed_message.data.message) ?? string(parsed_message.data.event) ?? string(parsed_message.data.error) ?? string(parsed_message.data.name) ?? string(parsed_message.data.method)
+          if err == null {
+            .message = fallback_message
+          }
+        }
+      }
+      if exists(.fields) {
+        . = merge!(., .fields)
+        del(.fields)
+      }
+      if exists(.level) && is_string(.level) {
+        .level = downcase!(.level);
+      }
+      if !exists(.message) && exists(.msg) {
+        .message = del(.msg)
+      }
+      parsed_timestamp, err = parse_timestamp(.timestamp, "%+") # parse as ISO 8601 / RFC 3339 according to https://github.com/vectordotdev/vrl/blob/650547870a16c66dcfab01ec382cfdc23415d85b/lib/core/src/conversion.rs#L249C6-L249C8
+      if err == null {
+        .timestamp = parsed_timestamp
+      }
+
+  # This stage filters forge logs based off of node index and log level.
+  # It retains all logs for nodes 0-4 and only error logs for nodes 5+.
+  # The `aptos.dev/min-log-level-to-retain` pod annotation overrides the default behavior.
+  filter_forge_logs:
+    type: filter
+    inputs:
+      - normalized_logs
+    condition: |
+      aptos_node_index = to_int(parse_regex(.k8s.pod_name, r'^aptos-node-(?P<node_index>\d+)-.*').node_index ?? 0) ?? 0
+
+      is_forge_log = contains(to_string!(.k8s.cluster), "forge") && exists(.k8s.labels."forge-namespace")
+      is_low_index_forge_node = aptos_node_index < 5
+      is_error_log = (.level == "error")
+
+      log_level_values = {
+        "trace": 1,
+        "debug": 2,
+        "info": 3, 
+        "warn": 4,
+        "error": 5,
+      }
+
+      has_log_level_annotation = .min_log_level_to_retain != null
+      log_level_annotation_value = get(log_level_values, [.min_log_level_to_retain]) ?? null
+      log_value = get(log_level_values, [.level]) ?? null
+      is_allowed_log_level = (log_level_annotation_value != null && log_value != null && log_value >= log_level_annotation_value) ?? false
+
+      retain_log = 
+        !is_forge_log || 
+        (has_log_level_annotation && is_allowed_log_level) || 
+        (!has_log_level_annotation && is_low_index_forge_node) ||
+        (!has_log_level_annotation && is_error_log)
+
+      retain_log
+  
+  delete_temp_fields:
+    type: remap
+    inputs:
+      - filter_forge_logs
+    source:
+      del(.min_log_level_to_retain)
+
+  final_logs:
+    type: filter
+    inputs:
+      - delete_temp_fields
+    # temporarily filter out noisy logs in vector until https://github.com/cedra-labs/cedra/pull/13965 lands in mainnet release
+    # temporarily filter out noisy logs from https://aptos-org.slack.com/archives/C06TH3DH7SB/p1721328005384169?thread_ts=1720695143.603089&cid=C06TH3DH7SB until lands in mainnet release
+    condition: |
+      if is_string(.message) {
+        message = to_string!(.message)
+        if .level == "debug" && ( .message == "ReceiveProactiveRandShare" || .message == "ReceiveRandShareFastPath" ) {
+          return false
+        }
+        if starts_with(message, "ReceiveVote") || starts_with(message, "OrderVote:") || starts_with(message, "Receive commit vote BlockInfo") {
+          return false
+        }
+      }
+      true
+
+  uptrace_logs:
+    type: remap
+    inputs:
+      - final_logs
+    source: |
+      . = flatten(., ".") # in order for fields to become individual, filterable top-level fields in uptrace we need to flatten nested objects into top-level keys.
+      .service_name = .k8s.labels.app
+      .repo = "k8s"
+
+  # datadog_logs:
+  #   type: remap
+  #   inputs:
+  #     - final_logs
+  #   source: |
+  #     .ddsource = "k8s"
+  #     if is_string(.k8s.labels.app) {
+  #       .service = .k8s.labels.app
+  #     }
+  #     .ddtags, _ = "kube_cluster_name:" + .k8s.cluster + ",kube_namespace:" + .k8s.namespace + ",pod_name:" + .k8s.pod_name
+
+  # signoz_logs:
+  #   type: remap
+  #   inputs:
+  #     - final_logs
+  #   source: |
+  #     .severity_text = del(.level)
+  #     .source_type = "k8s"
+  #     tmp = { "k8s": del(.k8s)}
+  #     resources_tmp = flatten(tmp, ".")
+  #     . = flatten(., ".")
+  #     .resources = resources_tmp

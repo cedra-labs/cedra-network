@@ -1,0 +1,10 @@
+
+Diagnostics:
+warning: This assignment/binding to the left-hand-side variable `y` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_y`), or renaming to `_`
+   ┌─ tests/reference-safety/write_ref_dest.move:16:9
+   │
+16 │         (y, _) = (*&y, 1);
+   │         ^^^^^^^^^^^^^^^^^
+
+
+============ bytecode verification succeeded ========

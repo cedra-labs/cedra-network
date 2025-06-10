@@ -1,0 +1,8 @@
+apiVersion: v2
+name: aptos-genesis
+version: 0.1.0
+appVersion: 0.1.0
+description: Aptos blockchain automated genesis ceremony for testnets
+home: https://cedra.network/
+sources:
+- https://github.com/cedra-labs/cedra

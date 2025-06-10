@@ -1,0 +1,7 @@
+
+Diagnostics:
+error: undeclared `y`
+  ┌─ tests/checking/naming/assert_one_arg.move:5:22
+  │
+5 │         assert!(x != y);
+  │                      ^

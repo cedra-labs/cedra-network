@@ -1,0 +1,36 @@
+[package]
+name = "aptos-comparison-testing"
+version = "0.1.0"
+authors = ["Cedra Labs <opensource@cedra.network>"]
+description = "A tool to perform comparison testing on the compiler"
+repository = "https://github.com/cedra-labs/cedra"
+homepage = "https://cedra.dev"
+license = "Apache-2.0"
+publish = false
+edition = "2021"
+default-run = "aptos-comparison-testing"
+
+[dependencies]
+anyhow = { workspace = true }
+aptos-block-executor = { workspace = true }
+aptos-framework = { workspace = true }
+aptos-language-e2e-tests = { workspace = true }
+aptos-rest-client = { workspace = true }
+aptos-transaction-simulation = { workspace = true }
+aptos-types = { workspace = true }
+aptos-validator-interface = { workspace = true }
+aptos-vm = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+futures = { workspace = true }
+itertools = { workspace = true }
+legacy-move-compiler = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }
+move-model = { workspace = true }
+move-package = { workspace = true }
+rocksdb = { workspace = true }
+serde = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }

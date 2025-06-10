@@ -1,0 +1,25 @@
+// -- Model dump before first bytecode pipeline
+module 0x42::M {
+    private fun bar(x: u64): u64 {
+        if Gt<u64>(x, 0) {
+          Tuple()
+        } else {
+          Abort(1)
+        };
+        Sub<u64>(x, 1)
+    }
+    spec fun foo(): u64 {
+        M::$bar(2)
+    }
+    spec fun $bar(x: u64): u64 {
+        Sub<u64>(x, 1)
+    }
+} // end 0x42::M
+
+// -- Sourcified model before first bytecode pipeline
+module 0x42::M {
+    fun bar(x: u64): u64 {
+        if (x > 0) () else abort 1;
+        x - 1
+    }
+}

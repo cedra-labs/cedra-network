@@ -1,0 +1,23 @@
+
+Diagnostics:
+error: cannot write local `s` since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/borrow_local_field_invalid.move:14:9
+   │
+12 │         let f = &v.f;
+   │                 ---- field `f` previously borrowed here
+13 │         let s = &mut v;
+14 │         *s = S { f: 0, g: 0 };
+   │         ^^^^^^^^^^^^^^^^^^^^^ write attempted here
+15 │         *f;
+   │         -- conflicting reference `f` used here
+
+error: cannot immutably borrow local `s` which is already mutably borrowed
+   ┌─ tests/reference-safety/v1-tests/borrow_local_field_invalid.move:19:17
+   │
+18 │         let f = &mut v.f;
+   │                 -------- field `f` via local `v` previously mutably borrowed here
+19 │         let s = &v;
+   │                 ^^ borrow attempted here
+20 │         *s;
+21 │         *f;
+   │         -- conflicting reference `f` used here

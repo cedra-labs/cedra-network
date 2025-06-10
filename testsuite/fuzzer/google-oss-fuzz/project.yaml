@@ -1,0 +1,14 @@
+homepage: "https://aptos.dev"
+language: rust
+primary_contact: "gerardo@cedra.network"
+main_repo: "https://github.com/cedra-labs/cedra"
+auto_ccs:
+  - "oss-fuzz-notifications@cedra.network"
+  - "security@cedra.network"
+  - "andrea.cappa@cedra.network"
+  - "marco.ilardi@cedra.network"
+sanitizers:
+  - none
+fuzzing_engines:
+  - libfuzzer
+coverage_extra_args: -ignore-filename-regex=.*/rustc/.*

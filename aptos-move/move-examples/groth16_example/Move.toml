@@ -1,0 +1,6 @@
+[package]
+name = "GenericGroth16"
+version = "0.0.0"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "aptos-framework", rev = "mainnet" }

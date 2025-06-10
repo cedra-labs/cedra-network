@@ -1,0 +1,63 @@
+// -- Model dump before first bytecode pipeline
+module 0x8675309::M {
+    struct R {
+        dummy_field: bool,
+    }
+    private fun t0() {
+        {
+          let x: u64 = 0;
+          x
+        };
+        {
+          let x: u64 = 0;
+          Borrow(Immutable)(x)
+        };
+        {
+          let y: u64 = 0;
+          Borrow(Mutable)(Add<u64>(y, 1))
+        };
+        M::R{ dummy_field: _ } = {
+          let r: R = {
+            let r: R = pack M::R(false);
+            r
+          };
+          r
+        };
+        {
+          let x: u64 = 0;
+          Tuple(x, false)
+        };
+        Tuple()
+    }
+} // end 0x8675309::M
+
+// -- Sourcified model before first bytecode pipeline
+module 0x8675309::M {
+    struct R {
+    }
+    fun t0() {
+        {
+            let x = 0;
+            x
+        };
+        {
+            let x = 0;
+            &x
+        };
+        {
+            let y = 0;
+            &mut (y + 1)
+        };
+        R{} = {
+            let r = {
+                let r = R{};
+                r
+            };
+            r
+        };
+        {
+            let x = 0;
+            (x, false)
+        };
+    }
+}

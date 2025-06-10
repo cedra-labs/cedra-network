@@ -1,0 +1,19 @@
+
+Diagnostics:
+error: expected 1 type argument but 2 were provided
+  ┌─ tests/checking/naming/other_builtins_invalid.move:3:9
+  │
+3 │         freeze<u64, bool>(x);
+  │         ^^^^^^^^^^^^^^^^^^^^
+
+error: expected 1 type argument but 0 were provided
+  ┌─ tests/checking/naming/other_builtins_invalid.move:4:9
+  │
+4 │         freeze<>(x);
+  │         ^^^^^^^^^^^
+
+error: assert macro must have one or two arguments
+  ┌─ tests/checking/naming/other_builtins_invalid.move:5:16
+  │
+5 │         assert!();
+  │                ^^

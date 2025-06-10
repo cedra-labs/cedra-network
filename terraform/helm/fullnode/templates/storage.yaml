@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "aptos-fullnode.fullname" . }}-e{{ .Values.chain.era }}
+  labels:
+    {{- include "aptos-fullnode.labels" . | nindent 4 }}
+spec:
+{{- with .Values.storage }}
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ .class }}
+  resources:
+    requests:
+      storage: {{ .size }}
+  {{- if .snapshotRefForRestore }}
+  dataSourceRef:
+    apiGroup: snapshot.storage.k8s.io
+    kind: VolumeSnapshot
+    name: {{ .snapshotRefForRestore }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,21 @@
+// -- Model dump before first bytecode pipeline
+module 0x42::M {
+    private fun foo(x: &mut u64): u64 {
+        x = Add<u64>(Deref(x), 1);
+        Deref(x)
+    }
+    spec {
+      let zero = 0;
+      let one = Add(zero, 1);
+      ensures Eq<u64>(result0(), Add(Old<u64>($t0), one));
+    }
+
+} // end 0x42::M
+
+// -- Sourcified model before first bytecode pipeline
+module 0x42::M {
+    fun foo(x: &mut u64): u64 {
+        *x = *x + 1;
+        *x
+    }
+}

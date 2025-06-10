@@ -1,0 +1,7 @@
+
+Diagnostics:
+error: only simple resource names can be used with `acquires`
+  ┌─ tests/checking-lang-v1/acquires_list_generic.move:6:24
+  │
+6 │     fun foo() acquires B<CupC<R>> {
+  │                        ^^^^^^^^^^^

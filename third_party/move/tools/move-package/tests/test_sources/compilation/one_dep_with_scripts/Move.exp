@@ -1,0 +1,7 @@
+Script function name `a_script` duplicated in the following files:
+	`tests/test_sources/compilation/one_dep_with_scripts/sources/a_script.move`
+	`tests/test_sources/compilation/one_dep_with_scripts/sources/a_script.move`
+Script function name `b_script` duplicated in the following files:
+	`tests/test_sources/compilation/one_dep_with_scripts/sources/b_script.move`
+	`tests/test_sources/compilation/one_dep_with_scripts/sources/b_script.move`
+Please rename script functions to remove duplication

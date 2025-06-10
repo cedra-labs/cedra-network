@@ -1,0 +1,66 @@
+// -- Model dump before first bytecode pipeline
+module 0xc0ffee::m {
+    public fun test(): u8 {
+        {
+          let x: u8 = 40;
+          {
+            let z: u64 = 30;
+            {
+              let y: u8 = Move(x);
+              {
+                let (_: u8, q: u64): (u8, u64) = Tuple(x, z);
+                y
+              }
+            }
+          }
+        }
+    }
+} // end 0xc0ffee::m
+
+// -- Sourcified model before first bytecode pipeline
+module 0xc0ffee::m {
+    public fun test(): u8 {
+        let x = 40u8;
+        let z = 30;
+        let y = move x;
+        let (_,q) = (x, z);
+        y
+    }
+}
+
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+public fun m::test(): u8 {
+     var $t0: u8
+     var $t1: u8
+     var $t2: u64
+     var $t3: u8
+     var $t4: u64
+     var $t5: u8
+  0: $t1 := 40
+  1: $t2 := 30
+  2: $t3 := move($t1)
+  3: $t5 := infer($t1)
+  4: $t4 := infer($t2)
+  5: $t0 := infer($t3)
+  6: return $t0
+}
+
+
+Diagnostics:
+warning: This assignment/binding to the left-hand-side variable `q` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_q`), or renaming to `_`
+  ┌─ tests/bytecode-generator/wildcard7.move:6:13
+  │
+6 │         let (_, q) = (x, z);
+  │             ^^^^^^
+
+
+Diagnostics:
+error: cannot move local `x` since it is still in use
+  ┌─ tests/bytecode-generator/wildcard7.move:5:17
+  │
+5 │         let y = move x;
+  │                 ^^^^^^ attempted to move here
+6 │         let (_, q) = (x, z);
+  │              - used here

@@ -1,0 +1,85 @@
+
+Diagnostics:
+error: cannot transfer mutable return value 1 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:16:9
+   │
+15 │         let f = freeze(s1);
+   │                 ---------- previously borrowed here
+16 │         (s1, f)
+   │         ^^^^^^^ transfer attempted here
+
+error: cannot transfer mutable return value 1 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:20:9
+   │
+19 │         let f = &s1.f;
+   │                 ----- field `f` previously borrowed here
+20 │         (s1, f)
+   │         ^^^^^^^ transfer attempted here
+
+error: cannot transfer mutable return value 1 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:24:9
+   │
+23 │         let f = &s1.f;
+   │                 ----- previously borrowed here
+24 │         (&mut s1.f, f)
+   │         ^^^^^^^^^^^^^^ transfer attempted here
+
+error: cannot transfer mutable return value 1 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:28:9
+   │
+27 │         let f = id(&s1.f);
+   │                 --------- previously borrowed here
+28 │         (&mut s1.f, f)
+   │         ^^^^^^^^^^^^^^ transfer attempted here
+
+error: cannot transfer mutable return value 2 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:32:9
+   │
+32 │         (s1, s1) // error in v1 since &mut cannot be copied
+   │         ^^^^^^^^
+   │         ││
+   │         │previously mutably borrowed here
+   │         transfer attempted here
+
+error: cannot transfer mutable return value 1 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:36:9
+   │
+35 │         let f =  &mut s1.f;
+   │                  --------- field `f` previously mutably borrowed here
+36 │         (s1, f)
+   │         ^^^^^^^ transfer attempted here
+
+error: cannot transfer mutable return value 2 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:39:9
+   │
+39 │         (&mut s1.f, s1)
+   │         ^^^^^^^^^^^^^^^
+   │         ││
+   │         │field `f` previously mutably borrowed here
+   │         transfer attempted here
+
+error: cannot transfer mutable return value 2 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:42:9
+   │
+42 │         (id_mut(s1), s1)
+   │         ^^^^^^^^^^^^^^^^
+   │         ││
+   │         │previously mutably borrowed here
+   │         transfer attempted here
+
+error: cannot transfer mutable return value 1 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:46:9
+   │
+45 │         let f = id_mut(&mut s1.f);
+   │                 ----------------- field `f` previously mutably borrowed here
+46 │         (s1, f)
+   │         ^^^^^^^ transfer attempted here
+
+error: cannot transfer mutable return value 2 since it is borrowed
+   ┌─ tests/reference-safety/v1-tests/return_mutual_borrows_invalid.move:49:9
+   │
+49 │         (id_mut(&mut s1.f), s1)
+   │         ^^^^^^^^^^^^^^^^^^^^^^^
+   │         ││
+   │         │field `f` previously mutably borrowed here
+   │         transfer attempted here

@@ -1,0 +1,42 @@
+[package]
+name = "move-vm-types"
+version = "0.1.0"
+authors = ["Diem Association <opensource@diem.com>"]
+description = "Types for Move VM"
+repository = "https://github.com/diem/diem"
+homepage = "https://diem.com"
+license = "Apache-2.0"
+publish = false
+edition = "2021"
+
+[dependencies]
+ambassador = { workspace = true }
+bcs = { workspace = true }
+better_any = { workspace = true }
+bytes = { workspace = true }
+crossbeam = { workspace = true }
+dashmap = { workspace = true }
+derivative = { workspace = true }
+hashbrown = { workspace = true }
+itertools = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }
+parking_lot = { workspace = true }
+proptest = { workspace = true, optional = true }
+serde = { workspace = true, features = ["derive", "rc"] }
+sha3 = { workspace = true }
+smallbitvec = { workspace = true }
+smallvec = { workspace = true }
+triomphe = { workspace = true }
+
+[dev-dependencies]
+claims = { workspace = true }
+mockall = { workspace = true }
+move-binary-format = { workspace = true, features = ["fuzzing"] }
+proptest = { workspace = true }
+rand = { workspace = true }
+
+[features]
+default = []
+testing = []
+fuzzing = ["proptest", "move-binary-format/fuzzing"]

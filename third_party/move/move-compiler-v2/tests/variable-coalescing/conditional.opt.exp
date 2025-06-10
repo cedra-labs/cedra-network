@@ -1,0 +1,135 @@
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::test($t0: bool): u64 {
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+  0: $t2 := 2
+  1: if ($t0) goto 2 else goto 6
+  2: label L0
+  3: $t3 := 3
+  4: $t1 := infer($t3)
+  5: goto 11
+  6: label L1
+  7: $t5 := infer($t2)
+  8: $t6 := 1
+  9: $t4 := +($t5, $t6)
+ 10: $t1 := infer($t4)
+ 11: label L2
+ 12: return $t1
+}
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::test($t0: bool): u64 {
+     var $t1: u64
+  0: if ($t0) goto 1 else goto 4
+  1: label L0
+  2: $t1 := 3
+  3: goto 6
+  4: label L1
+  5: $t1 := 3
+  6: label L2
+  7: return $t1
+}
+
+============ after DeadStoreElimination: ================
+
+[variant baseline]
+fun m::test($t0: bool): u64 {
+     var $t1: u64
+  0: if ($t0) goto 1 else goto 5
+  1: label L0
+  2: $t1 := 3
+  3: label L2
+  4: return $t1
+  5: label L1
+  6: $t1 := 3
+  7: goto 3
+}
+
+============ after VariableCoalescingAnnotator: ================
+
+[variant baseline]
+fun m::test($t0: bool): u64 {
+     var $t1: u64
+     # live vars: $t0
+     # events: b:$t0, e:$t0
+  0: if ($t0) goto 1 else goto 5
+     # live vars:
+  1: label L0
+     # live vars:
+     # events: b:$t1
+  2: $t1 := 3
+     # live vars: $t1
+  3: label L2
+     # live vars: $t1
+  4: return $t1
+     # live vars:
+  5: label L1
+     # live vars:
+  6: $t1 := 3
+     # live vars: $t1
+     # events: e:$t1
+  7: goto 3
+}
+
+============ after VariableCoalescingTransformer: ================
+
+[variant baseline]
+fun m::test($t0: bool): u64 {
+     var $t1: u64
+  0: if ($t0) goto 1 else goto 5
+  1: label L0
+  2: $t1 := 3
+  3: label L2
+  4: return $t1
+  5: label L1
+  6: $t1 := 3
+  7: goto 3
+}
+
+============ after DeadStoreElimination: ================
+
+[variant baseline]
+fun m::test($t0: bool): u64 {
+     var $t1: u64
+  0: if ($t0) goto 1 else goto 5
+  1: label L0
+  2: $t1 := 3
+  3: label L2
+  4: return $t1
+  5: label L1
+  6: $t1 := 3
+  7: goto 3
+}
+
+
+============ disassembled file-format ==================
+// Move bytecode v8
+module c0ffee.m {
+
+
+test(p: bool): u64 /* def_idx: 0 */ {
+L1:	return: u64
+B0:
+	0: MoveLoc[0](p: bool)
+	1: BrFalse(6)
+B1:
+	2: LdU64(3)
+	3: StLoc[1](return: u64)
+B2:
+	4: MoveLoc[1](return: u64)
+	5: Ret
+B3:
+	6: LdU64(3)
+	7: StLoc[1](return: u64)
+	8: Branch(4)
+}
+}
+============ bytecode verification succeeded ========

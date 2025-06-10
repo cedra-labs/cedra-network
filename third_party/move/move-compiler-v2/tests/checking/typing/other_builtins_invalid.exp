@@ -1,0 +1,37 @@
+
+Diagnostics:
+error: cannot use `&u64` with an operator which expects a value of type `&mut u64` (mutability mismatch)
+  ┌─ tests/checking/typing/other_builtins_invalid.move:4:22
+  │
+4 │         (freeze<u64>(x): &mut u64);
+  │                      ^
+
+error: cannot use `&vector<bool>` with an operator which expects a value of type `&mut vector<bool>` (mutability mismatch)
+  ┌─ tests/checking/typing/other_builtins_invalid.move:5:31
+  │
+5 │         (freeze<vector<bool>>(&any()): &mut vector<bool>);
+  │                               ^^^^^^
+
+error: expected `bool` but found a value of type `integer`
+  ┌─ tests/checking/typing/other_builtins_invalid.move:7:18
+  │
+7 │         (assert!(42, true): ());
+  │                  ^^
+
+error: expected `u64` but found a value of type `bool`
+  ┌─ tests/checking/typing/other_builtins_invalid.move:7:22
+  │
+7 │         (assert!(42, true): ());
+  │                      ^^^^
+
+error: expected `bool` but found a value of type `()`
+  ┌─ tests/checking/typing/other_builtins_invalid.move:8:10
+  │
+8 │         (assert!(true && false, *x): bool);
+  │          ^^^^^^
+
+error: expected `u64` but found a value of type `u8`
+  ┌─ tests/checking/typing/other_builtins_invalid.move:9:32
+  │
+9 │         assert!(true || false, 0u8);
+  │                                ^^^

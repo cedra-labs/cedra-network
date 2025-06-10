@@ -1,0 +1,21 @@
+[package]
+name = "fuzzer"
+version = "0.1.0"
+edition = "2021"
+license = { workspace = true }
+
+[dependencies]
+aptos-framework = { workspace = true }
+aptos-types = { workspace = true }
+arbitrary = { workspace = true }
+base64 = "0.21.7"
+bcs = { workspace = true }
+clap = { workspace = true }
+csv = { workspace = true }
+dearbitrary = { workspace = true }
+hex = { workspace = true }
+move-binary-format = { workspace = true, features = ["fuzzing"] }
+move-core-types = { workspace = true, features = ["fuzzing"] }
+rayon = { workspace = true }
+sha2 = { workspace = true }
+walkdir = { workspace = true }

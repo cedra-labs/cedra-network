@@ -1,0 +1,426 @@
+============ initial translation from Move ================
+
+[variant baseline]
+public fun signer::address_of($t0|s: &signer): address {
+     var $t1: &signer
+     var $t2: &address
+     var $t3: address
+  0: $t1 := move($t0)
+  1: $t2 := signer::borrow_address($t1)
+  2: $t3 := read_ref($t2)
+  3: return $t3
+}
+
+
+[variant baseline]
+public native fun signer::borrow_address($t0|s: &signer): &address;
+
+
+[variant baseline]
+fun SmokeTest::arithmetic_ops($t0|a: u64): (u64, u64) {
+     var $t1|$t4: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: bool
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+  0: $t2 := 2
+  1: $t1 := $t2
+  2: $t3 := copy($t1)
+  3: $t4 := 2
+  4: $t5 := !=($t3, $t4)
+  5: if ($t5) goto 6 else goto 9
+  6: label L1
+  7: $t6 := 42
+  8: abort($t6)
+  9: label L0
+ 10: $t7 := move($t1)
+ 11: $t8 := move($t0)
+ 12: return ($t7, $t8)
+}
+
+
+[variant baseline]
+fun SmokeTest::bool_ops($t0|a: u64, $t1|b: u64): (bool, bool) {
+     var $t2|$t7: bool
+     var $t3|c: bool
+     var $t4|$t11: bool
+     var $t5|d: bool
+     var $t6|$t16: bool [unused]
+     var $t7: u64
+     var $t8: u64
+     var $t9: bool
+     var $t10: u64
+     var $t11: u64
+     var $t12: bool
+     var $t13: bool
+     var $t14: u64
+     var $t15: u64
+     var $t16: bool
+     var $t17: bool
+     var $t18: bool
+     var $t19: bool
+     var $t20: bool
+     var $t21: bool
+     var $t22: u64
+     var $t23: bool
+     var $t24: bool
+     var $t25: u64
+     var $t26: u64
+     var $t27: bool
+     var $t28: bool
+  0: $t7 := copy($t0)
+  1: $t8 := copy($t1)
+  2: $t9 := >($t7, $t8)
+  3: if ($t9) goto 4 else goto 41
+  4: label L1
+  5: $t10 := copy($t0)
+  6: $t11 := copy($t1)
+  7: $t12 := >=($t10, $t11)
+  8: $t2 := $t12
+  9: goto 10
+ 10: label L7
+ 11: $t13 := move($t2)
+ 12: $t3 := $t13
+ 13: $t14 := copy($t0)
+ 14: $t15 := copy($t1)
+ 15: $t16 := <($t14, $t15)
+ 16: if ($t16) goto 17 else goto 35
+ 17: label L3
+ 18: $t17 := true
+ 19: $t4 := $t17
+ 20: goto 21
+ 21: label L6
+ 22: $t18 := move($t4)
+ 23: $t5 := $t18
+ 24: $t19 := copy($t3)
+ 25: $t20 := copy($t5)
+ 26: $t21 := !=($t19, $t20)
+ 27: if ($t21) goto 31 else goto 28
+ 28: label L5
+ 29: $t22 := 42
+ 30: abort($t22)
+ 31: label L4
+ 32: $t23 := move($t3)
+ 33: $t24 := move($t5)
+ 34: return ($t23, $t24)
+ 35: label L2
+ 36: $t25 := move($t0)
+ 37: $t26 := move($t1)
+ 38: $t27 := <=($t25, $t26)
+ 39: $t4 := $t27
+ 40: goto 21
+ 41: label L0
+ 42: $t28 := false
+ 43: $t2 := $t28
+ 44: goto 10
+}
+
+
+[variant baseline]
+fun SmokeTest::borrow_global_mut_test($t0|a: address) {
+     var $t1|r: &mut 0x42::SmokeTest::R [unused]
+     var $t2: address
+     var $t3: &mut 0x42::SmokeTest::R
+     var $t4: address
+     var $t5: &mut 0x42::SmokeTest::R
+  0: $t2 := copy($t0)
+  1: $t3 := borrow_global<0x42::SmokeTest::R>($t2)
+  2: drop($t3)
+  3: $t4 := move($t0)
+  4: $t5 := borrow_global<0x42::SmokeTest::R>($t4)
+  5: drop($t5)
+  6: return ()
+}
+
+
+[variant baseline]
+fun SmokeTest::create_resource($t0|sender: &signer) {
+     var $t1: &signer
+     var $t2: u64
+     var $t3: 0x42::SmokeTest::R
+  0: $t1 := move($t0)
+  1: $t2 := 1
+  2: $t3 := pack 0x42::SmokeTest::R($t2)
+  3: move_to<0x42::SmokeTest::R>($t3, $t1)
+  4: return ()
+}
+
+
+[variant baseline]
+fun SmokeTest::create_resoure_generic($t0|sender: &signer) {
+     var $t1: &signer
+     var $t2: u64
+     var $t3: 0x42::SmokeTest::G<u64>
+  0: $t1 := move($t0)
+  1: $t2 := 1
+  2: $t3 := pack 0x42::SmokeTest::G<u64>($t2)
+  3: move_to<0x42::SmokeTest::G<u64>>($t3, $t1)
+  4: return ()
+}
+
+
+[variant baseline]
+fun SmokeTest::exists_resource($t0|sender: &signer): bool {
+     var $t1: &signer
+     var $t2: address
+     var $t3: bool
+  0: $t1 := move($t0)
+  1: $t2 := signer::address_of($t1)
+  2: $t3 := exists<0x42::SmokeTest::R>($t2)
+  3: return $t3
+}
+
+
+[variant baseline]
+fun SmokeTest::identity($t0|a: 0x42::SmokeTest::A, $t1|b: 0x42::SmokeTest::B, $t2|c: 0x42::SmokeTest::C): (0x42::SmokeTest::A, 0x42::SmokeTest::B, 0x42::SmokeTest::C) {
+     var $t3: 0x42::SmokeTest::A
+     var $t4: 0x42::SmokeTest::B
+     var $t5: 0x42::SmokeTest::C
+  0: $t3 := move($t0)
+  1: $t4 := move($t1)
+  2: $t5 := move($t2)
+  3: return ($t3, $t4, $t5)
+}
+
+
+[variant baseline]
+fun SmokeTest::move_from_addr($t0|a: address) {
+     var $t1: address
+     var $t2: 0x42::SmokeTest::R
+     var $t3: u64
+  0: $t1 := move($t0)
+  1: $t2 := move_from<0x42::SmokeTest::R>($t1)
+  2: $t3 := unpack 0x42::SmokeTest::R($t2)
+  3: drop($t3)
+  4: return ()
+}
+
+
+[variant baseline]
+fun SmokeTest::move_from_addr_to_sender($t0|sender: &signer, $t1|a: address) {
+     var $t2|x: u64
+     var $t3: address
+     var $t4: 0x42::SmokeTest::R
+     var $t5: u64
+     var $t6: &signer
+     var $t7: u64
+     var $t8: 0x42::SmokeTest::R
+  0: $t3 := move($t1)
+  1: $t4 := move_from<0x42::SmokeTest::R>($t3)
+  2: $t5 := unpack 0x42::SmokeTest::R($t4)
+  3: $t2 := $t5
+  4: $t6 := move($t0)
+  5: $t7 := move($t2)
+  6: $t8 := pack 0x42::SmokeTest::R($t7)
+  7: move_to<0x42::SmokeTest::R>($t8, $t6)
+  8: return ()
+}
+
+
+[variant baseline]
+fun SmokeTest::pack_A($t0|a: address, $t1|va: u64): 0x42::SmokeTest::A {
+     var $t2: address
+     var $t3: u64
+     var $t4: 0x42::SmokeTest::A
+  0: $t2 := move($t0)
+  1: $t3 := move($t1)
+  2: $t4 := pack 0x42::SmokeTest::A($t2, $t3)
+  3: return $t4
+}
+
+
+[variant baseline]
+fun SmokeTest::pack_B($t0|a: address, $t1|va: u64, $t2|vb: u64): 0x42::SmokeTest::B {
+     var $t3|var_a: 0x42::SmokeTest::A
+     var $t4: address
+     var $t5: u64
+     var $t6: 0x42::SmokeTest::A
+     var $t7: u64
+     var $t8: 0x42::SmokeTest::A
+     var $t9: 0x42::SmokeTest::B
+  0: $t4 := move($t0)
+  1: $t5 := move($t1)
+  2: $t6 := pack 0x42::SmokeTest::A($t4, $t5)
+  3: $t3 := $t6
+  4: $t7 := move($t2)
+  5: $t8 := move($t3)
+  6: $t9 := pack 0x42::SmokeTest::B($t7, $t8)
+  7: return $t9
+}
+
+
+[variant baseline]
+fun SmokeTest::pack_C($t0|a: address, $t1|va: u64, $t2|vb: u64, $t3|vc: u64): 0x42::SmokeTest::C {
+     var $t4|var_a: 0x42::SmokeTest::A
+     var $t5|var_b: 0x42::SmokeTest::B
+     var $t6: address
+     var $t7: u64
+     var $t8: 0x42::SmokeTest::A
+     var $t9: u64
+     var $t10: 0x42::SmokeTest::A
+     var $t11: 0x42::SmokeTest::B
+     var $t12: u64
+     var $t13: 0x42::SmokeTest::B
+     var $t14: 0x42::SmokeTest::C
+  0: $t6 := move($t0)
+  1: $t7 := move($t1)
+  2: $t8 := pack 0x42::SmokeTest::A($t6, $t7)
+  3: $t4 := $t8
+  4: $t9 := move($t2)
+  5: $t10 := move($t4)
+  6: $t11 := pack 0x42::SmokeTest::B($t9, $t10)
+  7: $t5 := $t11
+  8: $t12 := move($t3)
+  9: $t13 := move($t5)
+ 10: $t14 := pack 0x42::SmokeTest::C($t12, $t13)
+ 11: return $t14
+}
+
+
+[variant baseline]
+fun SmokeTest::ref_A($t0|a: address, $t1|b: bool): 0x42::SmokeTest::A {
+     var $t2|var_a: 0x42::SmokeTest::A
+     var $t3: bool
+     var $t4: address
+     var $t5: u64
+     var $t6: 0x42::SmokeTest::A
+     var $t7: &0x42::SmokeTest::A
+     var $t8: &u64
+     var $t9: u64
+     var $t10: u64
+     var $t11: bool
+     var $t12: u64
+     var $t13: 0x42::SmokeTest::A
+     var $t14: address
+     var $t15: u64
+     var $t16: 0x42::SmokeTest::A
+  0: $t3 := move($t1)
+  1: if ($t3) goto 2 else goto 21
+  2: label L1
+  3: $t4 := move($t0)
+  4: $t5 := 1
+  5: $t6 := pack 0x42::SmokeTest::A($t4, $t5)
+  6: $t2 := $t6
+  7: goto 8
+  8: label L4
+  9: $t7 := borrow_local($t2)
+ 10: $t8 := borrow_field<0x42::SmokeTest::A>.val($t7)
+ 11: $t9 := read_ref($t8)
+ 12: $t10 := 42
+ 13: $t11 := !=($t9, $t10)
+ 14: if ($t11) goto 15 else goto 18
+ 15: label L3
+ 16: $t12 := 42
+ 17: abort($t12)
+ 18: label L2
+ 19: $t13 := move($t2)
+ 20: return $t13
+ 21: label L0
+ 22: $t14 := move($t0)
+ 23: $t15 := 42
+ 24: $t16 := pack 0x42::SmokeTest::A($t14, $t15)
+ 25: $t2 := $t16
+ 26: goto 8
+}
+
+
+[variant baseline]
+fun SmokeTest::unpack_A($t0|a: address, $t1|va: u64): (address, u64) {
+     var $t2: address
+     var $t3: u64
+     var $t4: 0x42::SmokeTest::A
+     var $t5: address
+     var $t6: u64
+  0: $t2 := move($t0)
+  1: $t3 := move($t1)
+  2: $t4 := pack 0x42::SmokeTest::A($t2, $t3)
+  3: ($t5, $t6) := unpack 0x42::SmokeTest::A($t4)
+  4: return ($t5, $t6)
+}
+
+
+[variant baseline]
+fun SmokeTest::unpack_B($t0|a: address, $t1|va: u64, $t2|vb: u64): (address, u64, u64) {
+     var $t3|var_a: 0x42::SmokeTest::A
+     var $t4: address
+     var $t5: u64
+     var $t6: 0x42::SmokeTest::A
+     var $t7: u64
+     var $t8: 0x42::SmokeTest::A
+     var $t9: 0x42::SmokeTest::B
+     var $t10: u64
+     var $t11: 0x42::SmokeTest::A
+     var $t12: address
+     var $t13: u64
+     var $t14: address
+     var $t15: u64
+     var $t16: u64
+  0: $t4 := move($t0)
+  1: $t5 := move($t1)
+  2: $t6 := pack 0x42::SmokeTest::A($t4, $t5)
+  3: $t3 := $t6
+  4: $t7 := move($t2)
+  5: $t8 := move($t3)
+  6: $t9 := pack 0x42::SmokeTest::B($t7, $t8)
+  7: ($t10, $t11) := unpack 0x42::SmokeTest::B($t9)
+  8: ($t12, $t13) := unpack 0x42::SmokeTest::A($t11)
+  9: $t2 := $t13
+ 10: $t0 := $t12
+ 11: $t1 := $t10
+ 12: $t14 := move($t0)
+ 13: $t15 := move($t2)
+ 14: $t16 := move($t1)
+ 15: return ($t14, $t15, $t16)
+}
+
+
+[variant baseline]
+fun SmokeTest::unpack_C($t0|a: address, $t1|va: u64, $t2|vb: u64, $t3|vc: u64): (address, u64, u64, u64) {
+     var $t4|var_a: 0x42::SmokeTest::A
+     var $t5|var_b: 0x42::SmokeTest::B
+     var $t6: address
+     var $t7: u64
+     var $t8: 0x42::SmokeTest::A
+     var $t9: u64
+     var $t10: 0x42::SmokeTest::A
+     var $t11: 0x42::SmokeTest::B
+     var $t12: u64
+     var $t13: 0x42::SmokeTest::B
+     var $t14: 0x42::SmokeTest::C
+     var $t15: u64
+     var $t16: 0x42::SmokeTest::B
+     var $t17: u64
+     var $t18: 0x42::SmokeTest::A
+     var $t19: address
+     var $t20: u64
+     var $t21: address
+     var $t22: u64
+     var $t23: u64
+     var $t24: u64
+  0: $t6 := move($t0)
+  1: $t7 := move($t1)
+  2: $t8 := pack 0x42::SmokeTest::A($t6, $t7)
+  3: $t4 := $t8
+  4: $t9 := move($t2)
+  5: $t10 := move($t4)
+  6: $t11 := pack 0x42::SmokeTest::B($t9, $t10)
+  7: $t5 := $t11
+  8: $t12 := move($t3)
+  9: $t13 := move($t5)
+ 10: $t14 := pack 0x42::SmokeTest::C($t12, $t13)
+ 11: ($t15, $t16) := unpack 0x42::SmokeTest::C($t14)
+ 12: ($t17, $t18) := unpack 0x42::SmokeTest::B($t16)
+ 13: ($t19, $t20) := unpack 0x42::SmokeTest::A($t18)
+ 14: $t3 := $t20
+ 15: $t0 := $t19
+ 16: $t2 := $t17
+ 17: $t1 := $t15
+ 18: $t21 := move($t0)
+ 19: $t22 := move($t3)
+ 20: $t23 := move($t2)
+ 21: $t24 := move($t1)
+ 22: return ($t21, $t22, $t23, $t24)
+}

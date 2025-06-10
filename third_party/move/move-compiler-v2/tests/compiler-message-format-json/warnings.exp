@@ -1,0 +1,4 @@
+
+Diagnostics:
+{"severity":"Warning","code":null,"message":"This assignment/binding to the left-hand-side variable `a` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_a`), or renaming to `_`","labels":[{"style":"Primary","file_id":"tests/compiler-message-format-json/warnings.move","range":{"start":57,"end":58},"message":""}],"notes":[]}
+{"severity":"Warning","code":null,"message":"This assignment/binding to the left-hand-side variable `b` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_b`), or renaming to `_`","labels":[{"style":"Primary","file_id":"tests/compiler-message-format-json/warnings.move","range":{"start":76,"end":77},"message":""}],"notes":[]}

@@ -1,0 +1,10 @@
+[package]
+name = 'guild'
+version = '1.0.0'
+
+[addresses]
+guild = "_"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "aptos-framework", rev = "mainnet" }
+AptosTokenObjects = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "aptos-token-objects", rev = "mainnet" }

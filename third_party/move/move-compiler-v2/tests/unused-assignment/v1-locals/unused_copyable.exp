@@ -1,0 +1,19 @@
+
+Diagnostics:
+warning: Unused value of parameter `i`. Consider removing the parameter, or prefixing with an underscore (e.g., `_i`), or binding to `_`
+  ┌─ tests/unused-assignment/v1-locals/unused_copyable.move:5:12
+  │
+5 │     fun t0(i: u64, s: S) {
+  │            ^
+
+warning: Unused value of parameter `s`. Consider removing the parameter, or prefixing with an underscore (e.g., `_s`), or binding to `_`
+  ┌─ tests/unused-assignment/v1-locals/unused_copyable.move:5:20
+  │
+5 │     fun t0(i: u64, s: S) {
+  │                    ^
+
+warning: This assignment/binding to the left-hand-side variable `s` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_s`), or renaming to `_`
+  ┌─ tests/unused-assignment/v1-locals/unused_copyable.move:9:17
+  │
+9 │         let s = S{};
+  │                 ^^^

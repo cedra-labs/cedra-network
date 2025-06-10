@@ -1,0 +1,77 @@
+// -- Model dump before first bytecode pipeline
+module 0x8675309::M {
+    struct R {
+        dummy_field: bool,
+    }
+    struct S {
+        dummy_field: bool,
+    }
+    private fun t0(b: bool,u: u64,s: S,r: R): R {
+        Borrow(Immutable)(b);
+        Borrow(Mutable)(b);
+        Borrow(Immutable)(u);
+        Borrow(Mutable)(u);
+        Borrow(Immutable)(s);
+        Borrow(Mutable)(s);
+        Borrow(Immutable)(r);
+        Borrow(Mutable)(r);
+        r
+    }
+    private fun t1(): R {
+        {
+          let b: bool = true;
+          {
+            let u: u64 = 0;
+            {
+              let s: S = pack M::S(false);
+              {
+                let r: R = pack M::R(false);
+                Borrow(Immutable)(b);
+                Borrow(Mutable)(b);
+                Borrow(Immutable)(u);
+                Borrow(Mutable)(u);
+                Borrow(Immutable)(s);
+                Borrow(Mutable)(s);
+                Borrow(Immutable)(r);
+                Borrow(Mutable)(r);
+                r
+              }
+            }
+          }
+        }
+    }
+} // end 0x8675309::M
+
+// -- Sourcified model before first bytecode pipeline
+module 0x8675309::M {
+    struct R {
+    }
+    struct S has drop {
+    }
+    fun t0(b: bool, u: u64, s: S, r: R): R {
+        &b;
+        &mut b;
+        &u;
+        &mut u;
+        &s;
+        &mut s;
+        &r;
+        &mut r;
+        r
+    }
+    fun t1(): R {
+        let b = true;
+        let u = 0;
+        let s = S{};
+        let r = R{};
+        &b;
+        &mut b;
+        &u;
+        &mut u;
+        &s;
+        &mut s;
+        &r;
+        &mut r;
+        r
+    }
+}

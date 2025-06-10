@@ -1,0 +1,16 @@
+[package]
+name = "aptos-protos"
+version = "1.3.1"
+authors = ["Cedra Labs <opensource@cedra.network>"]
+description = "Code generated from Cedra protobuf definitions"
+repository = "https://github.com/cedra-labs/cedra"
+homepage = "https://cedra.network"
+license = "Apache-2.0"
+publish = true
+edition = "2021"
+
+[dependencies]
+pbjson = { workspace = true }
+prost = { workspace = true }
+serde = { workspace = true }
+tonic = { workspace = true }

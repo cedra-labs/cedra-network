@@ -1,0 +1,65 @@
+// -- Model dump before first bytecode pipeline
+module 0x8675309::M {
+    private fun t0(cond: bool,u: &u64,u_mut: &mut u64) {
+        {
+          let _: &u64 = if cond {
+            u
+          } else {
+            Freeze(false)(u_mut)
+          };
+          {
+            let _: &u64 = if cond {
+              Freeze(false)(u_mut)
+            } else {
+              u
+            };
+            {
+              let _: &u64 = if cond {
+                Freeze(false)(u_mut)
+              } else {
+                Freeze(false)(u_mut)
+              };
+              Tuple()
+            }
+          }
+        }
+    }
+    private fun t1(cond: bool,u: &u64,u_mut: &mut u64) {
+        {
+          let (_: &u64, _: &u64): (&u64, &u64) = if cond {
+            Tuple(u, u)
+          } else {
+            Tuple(Freeze(false)(u_mut), Freeze(false)(u_mut))
+          };
+          {
+            let (_: &u64, _: &u64): (&u64, &u64) = if cond {
+              Tuple(Freeze(false)(u_mut), u)
+            } else {
+              Tuple(u, Freeze(false)(u_mut))
+            };
+            {
+              let (_: &u64, _: &u64): (&u64, &u64) = if cond {
+                Tuple(u, Freeze(false)(u_mut))
+              } else {
+                Tuple(Freeze(false)(u_mut), u)
+              };
+              Tuple()
+            }
+          }
+        }
+    }
+} // end 0x8675309::M
+
+// -- Sourcified model before first bytecode pipeline
+module 0x8675309::M {
+    fun t0(cond: bool, u: &u64, u_mut: &mut u64) {
+        let _ = if (cond) u else /*freeze*/u_mut;
+        let _ = if (cond) /*freeze*/u_mut else u;
+        let _ = if (cond) /*freeze*/u_mut else /*freeze*/u_mut;
+    }
+    fun t1(cond: bool, u: &u64, u_mut: &mut u64) {
+        let (_,_) = if (cond) (u, u) else (/*freeze*/u_mut, /*freeze*/u_mut);
+        let (_,_) = if (cond) (/*freeze*/u_mut, u) else (u, /*freeze*/u_mut);
+        let (_,_) = if (cond) (u, /*freeze*/u_mut) else (/*freeze*/u_mut, u);
+    }
+}

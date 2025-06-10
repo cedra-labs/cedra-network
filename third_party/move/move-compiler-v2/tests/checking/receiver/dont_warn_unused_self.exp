@@ -1,0 +1,22 @@
+// -- Model dump before first bytecode pipeline
+module 0x42::m {
+    struct S {
+        x: u64,
+    }
+    private fun receiver(self: S,y: u64) {
+        Tuple()
+    }
+    spec {
+      requires true;
+    }
+
+} // end 0x42::m
+
+// -- Sourcified model before first bytecode pipeline
+module 0x42::m {
+    struct S has drop {
+        x: u64,
+    }
+    fun receiver(self: S, y: u64) {
+    }
+}

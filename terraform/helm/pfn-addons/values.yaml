@@ -1,0 +1,36 @@
+service:
+  enableOnchainDiscovery: false
+
+  # AWS
+  loadBalancerSourceRanges:
+  sessionAffinity:
+  domain:
+  aws_tags:
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- The name of the service account to use. If not set and create is true, a name is generated using the fullname template
+  name:
+  annotations:
+
+ingress:
+  class: alb
+  # the below only work for alb ingress
+  wafAclArn:
+  acm_certificate:
+  loadBalancerSourceRanges:
+  enableStickyness: true
+  cookieDurationSeconds: 86400
+  logging:
+    enabled: false
+  # the below only work for gce ingress
+  gce_managed_certificate:
+  gce_managed_certificate_domains:
+  # -- Security policy to apply to the backend services behind the ingress
+  gce_security_policy:
+  # -- Enable HTTP/2 on the backends shards
+  backend_http2: false
+  # -- The maximum number of seconds that a PFN is allowed to be behind
+  # to be considered healthy and be allowed to serve traffic
+  health_check_duration_secs:

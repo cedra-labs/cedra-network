@@ -1,0 +1,44 @@
+// -- Model dump before first bytecode pipeline
+module 0xc0ffee::dummy1 {
+    private fun bar(b: bool) {
+        {
+          let (): () = if b {
+            dummy1::baz()
+          } else {
+            Tuple()
+          };
+          Tuple()
+        }
+    }
+    private fun baz() {
+        Tuple()
+    }
+} // end 0xc0ffee::dummy1
+module 0xc0ffee::dummy2 {
+    struct State {
+        value: u64,
+    }
+    private fun tuple_assignments(s: &signer,state: State) {
+        {
+          let (): () = MoveTo<State>(s, state);
+          Tuple()
+        }
+    }
+} // end 0xc0ffee::dummy2
+
+// -- Sourcified model before first bytecode pipeline
+module 0xc0ffee::dummy1 {
+    fun bar(b: bool) {
+        let () = if (b) baz();
+    }
+    fun baz() {
+    }
+}
+module 0xc0ffee::dummy2 {
+    struct State has key {
+        value: u64,
+    }
+    fun tuple_assignments(s: &signer, state: State) {
+        let () = move_to<State>(s, state);
+    }
+}
