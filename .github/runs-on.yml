@@ -1,0 +1,3 @@
+# Inherit from the internal-ops repo
+# https://runs-on.com/configuration/repo-config/
+_extends: internal-ops

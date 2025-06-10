@@ -1,0 +1,19 @@
+on:
+  workflow_dispatch:
+    inputs:
+      tag-name:
+        description: 'cli version'
+        required: true
+
+jobs:
+  homebrew:
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mislav/bump-homebrew-formula-action@v3
+        with:
+          formula-name: cedra
+          tag-name: cedra-cli-v${{ github.event.inputs.tag-name }}
+          download-url: https://github.com/cedra-labs/cedra/releases/download/cedra-cli-v${{ github.event.inputs.tag-name }}/cedra-cli-${{ github.event.inputs.tag-name }}-macOS-x86_64.zip
+        env:
+          COMMITTER_TOKEN: ${{ secrets.CEDRA_BOT_GH_PAT_CEDRA_CORE_HOMEBREW_BUMPER  }}

@@ -1,0 +1,26 @@
+name: Target Determinator Cargo Metadata Uploader
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    paths:
+      - ".github/workflows/cargo-metadata-upload.yaml"
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  cargo-metadata:
+    runs-on: runs-on,cpu=4,ram=16,family=m7a+m7i-flex,image=aptos-ubuntu-x64,run-id=${{ github.run_id }},spot=co
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dsherret/rust-toolchain-file@v1
+      - id: auth
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+      - shell: bash
+        run: |
+          set -ex
+          cargo metadata --all-features | gcloud storage cp - gs://aptos-core-cargo-metadata-public/metadata-${{ github.sha }}.json
