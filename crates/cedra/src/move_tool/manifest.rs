@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::load_manifest_account_arg;
-use aptos_types::account_address::AccountAddress;
+use cedra_types::account_address::AccountAddress;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::collections::BTreeMap;
 
@@ -76,7 +76,7 @@ pub struct Dependency {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub subdir: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub aptos: Option<String>,
+    pub cedra: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub address: Option<String>,
 }

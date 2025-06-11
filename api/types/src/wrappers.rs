@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! The purpose of this file is to define wrappers that we can use in the
@@ -12,7 +12,7 @@
 
 use crate::{Address, VerifyInput, U64};
 use anyhow::{bail, Context};
-use aptos_types::{event::EventKey, state_store::state_key::StateKey};
+use cedra_types::{event::EventKey, state_store::state_key::StateKey};
 use move_core_types::identifier::{IdentStr, Identifier};
 use poem_openapi::Object;
 use serde::{Deserialize, Serialize};

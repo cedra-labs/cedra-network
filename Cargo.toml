@@ -6,101 +6,101 @@ members = [
     "api/openapi-spec-generator",
     "api/test-context",
     "api/types",
-    "aptos-move/aptos-abstract-gas-usage",
-    "aptos-move/aptos-aggregator",
-    "aptos-move/aptos-debugger",
-    "aptos-move/aptos-e2e-comparison-testing",
-    "aptos-move/aptos-gas-algebra",
-    "aptos-move/aptos-gas-calibration",
-    "aptos-move/aptos-gas-meter",
-    "aptos-move/aptos-gas-profiling",
-    "aptos-move/aptos-gas-schedule",
-    "aptos-move/aptos-gas-schedule-updator",
-    "aptos-move/aptos-memory-usage-tracker",
-    "aptos-move/aptos-native-interface",
-    "aptos-move/aptos-release-builder",
-    "aptos-move/aptos-resource-viewer",
-    "aptos-move/aptos-sdk-builder",
-    "aptos-move/aptos-transaction-benchmarks",
-    "aptos-move/aptos-transaction-simulation",
-    "aptos-move/aptos-transactional-test-harness",
-    "aptos-move/aptos-validator-interface",
-    "aptos-move/aptos-vm",
-    "aptos-move/aptos-vm-benchmarks",
-    "aptos-move/aptos-vm-environment",
-    "aptos-move/aptos-vm-logging",
-    "aptos-move/aptos-vm-profiling",
-    "aptos-move/aptos-vm-types",
-    "aptos-move/aptos-workspace-server",
-    "aptos-move/block-executor",
-    "aptos-move/e2e-benchmark",
-    "aptos-move/e2e-move-tests",
-    "aptos-move/e2e-tests",
-    "aptos-move/e2e-testsuite",
-    "aptos-move/framework",
-    "aptos-move/framework/cached-packages",
-    "aptos-move/framework/table-natives",
-    "aptos-move/move-examples",
-    "aptos-move/mvhashmap",
-    "aptos-move/package-builder",
-    "aptos-move/replay-benchmark",
-    "aptos-move/script-composer",
-    "aptos-move/vm-genesis",
-    "aptos-node",
+    "cedra-move/cedra-abstract-gas-usage",
+    "cedra-move/cedra-aggregator",
+    "cedra-move/cedra-debugger",
+    "cedra-move/cedra-e2e-comparison-testing",
+    "cedra-move/cedra-gas-algebra",
+    "cedra-move/cedra-gas-calibration",
+    "cedra-move/cedra-gas-meter",
+    "cedra-move/cedra-gas-profiling",
+    "cedra-move/cedra-gas-schedule",
+    "cedra-move/cedra-gas-schedule-updator",
+    "cedra-move/cedra-memory-usage-tracker",
+    "cedra-move/cedra-native-interface",
+    "cedra-move/cedra-release-builder",
+    "cedra-move/cedra-resource-viewer",
+    "cedra-move/cedra-sdk-builder",
+    "cedra-move/cedra-transaction-benchmarks",
+    "cedra-move/cedra-transaction-simulation",
+    "cedra-move/cedra-transactional-test-harness",
+    "cedra-move/cedra-validator-interface",
+    "cedra-move/cedra-vm",
+    "cedra-move/cedra-vm-benchmarks",
+    "cedra-move/cedra-vm-environment",
+    "cedra-move/cedra-vm-logging",
+    "cedra-move/cedra-vm-profiling",
+    "cedra-move/cedra-vm-types",
+    "cedra-move/cedra-workspace-server",
+    "cedra-move/block-executor",
+    "cedra-move/e2e-benchmark",
+    "cedra-move/e2e-move-tests",
+    "cedra-move/e2e-tests",
+    "cedra-move/e2e-testsuite",
+    "cedra-move/framework",
+    "cedra-move/framework/cached-packages",
+    "cedra-move/framework/table-natives",
+    "cedra-move/move-examples",
+    "cedra-move/mvhashmap",
+    "cedra-move/package-builder",
+    "cedra-move/replay-benchmark",
+    "cedra-move/script-composer",
+    "cedra-move/vm-genesis",
+    "cedra-node",
     "config",
     "config/global-constants",
     "consensus",
     "consensus/consensus-types",
     "consensus/safety-rules",
     "crates/cedra",
-    "crates/aptos-admin-service",
-    "crates/aptos-api-tester",
-    "crates/aptos-bcs-utils",
-    "crates/aptos-bitvec",
-    "crates/aptos-build-info",
-    "crates/aptos-collections",
-    "crates/aptos-compression",
-    "crates/aptos-crypto",
-    "crates/aptos-crypto-derive",
-    "crates/aptos-debugger",
-    "crates/aptos-dkg",
-    "crates/aptos-drop-helper",
-    "crates/aptos-enum-conversion-derive",
-    "crates/aptos-faucet/cli",
-    "crates/aptos-faucet/core",
-    "crates/aptos-faucet/metrics-server",
-    "crates/aptos-faucet/service",
-    "crates/aptos-genesis",
-    "crates/aptos-github-client",
-    "crates/aptos-id-generator",
-    "crates/aptos-infallible",
-    "crates/aptos-inspection-service",
-    "crates/aptos-jwk-consensus",
-    "crates/aptos-keygen",
-    "crates/aptos-ledger",
-    "crates/aptos-localnet",
-    "crates/aptos-log-derive",
-    "crates/aptos-logger",
-    "crates/aptos-metrics-core",
-    "crates/aptos-network-checker",
-    "crates/aptos-node-identity",
-    "crates/aptos-openapi",
-    "crates/aptos-profiler",
-    "crates/aptos-proptest-helpers",
-    "crates/aptos-push-metrics",
-    "crates/aptos-rate-limiter",
-    "crates/aptos-rest-client",
-    "crates/aptos-retrier",
-    "crates/aptos-rosetta",
-    "crates/aptos-rosetta-cli",
-    "crates/aptos-runtimes",
-    "crates/aptos-speculative-state-helper",
-    "crates/aptos-system-utils",
-    "crates/aptos-telemetry",
-    "crates/aptos-telemetry-service",
-    "crates/aptos-temppath",
-    "crates/aptos-time-service",
-    "crates/aptos-warp-webserver",
+    "crates/cedra-admin-service",
+    "crates/cedra-api-tester",
+    "crates/cedra-bcs-utils",
+    "crates/cedra-bitvec",
+    "crates/cedra-build-info",
+    "crates/cedra-collections",
+    "crates/cedra-compression",
+    "crates/cedra-crypto",
+    "crates/cedra-crypto-derive",
+    "crates/cedra-debugger",
+    "crates/cedra-dkg",
+    "crates/cedra-drop-helper",
+    "crates/cedra-enum-conversion-derive",
+    "crates/cedra-faucet/cli",
+    "crates/cedra-faucet/core",
+    "crates/cedra-faucet/metrics-server",
+    "crates/cedra-faucet/service",
+    "crates/cedra-genesis",
+    "crates/cedra-github-client",
+    "crates/cedra-id-generator",
+    "crates/cedra-infallible",
+    "crates/cedra-inspection-service",
+    "crates/cedra-jwk-consensus",
+    "crates/cedra-keygen",
+    "crates/cedra-ledger",
+    "crates/cedra-localnet",
+    "crates/cedra-log-derive",
+    "crates/cedra-logger",
+    "crates/cedra-metrics-core",
+    "crates/cedra-network-checker",
+    "crates/cedra-node-identity",
+    "crates/cedra-openapi",
+    "crates/cedra-profiler",
+    "crates/cedra-proptest-helpers",
+    "crates/cedra-push-metrics",
+    "crates/cedra-rate-limiter",
+    "crates/cedra-rest-client",
+    "crates/cedra-retrier",
+    "crates/cedra-rosetta",
+    "crates/cedra-rosetta-cli",
+    "crates/cedra-runtimes",
+    "crates/cedra-speculative-state-helper",
+    "crates/cedra-system-utils",
+    "crates/cedra-telemetry",
+    "crates/cedra-telemetry-service",
+    "crates/cedra-temppath",
+    "crates/cedra-time-service",
+    "crates/cedra-warp-webserver",
     "crates/bounded-executor",
     "crates/channel",
     "crates/crash-handler",
@@ -117,7 +117,7 @@ members = [
     "crates/transaction-generator-lib",
     "crates/transaction-workloads-lib",
     "crates/validator-transaction-pool",
-    "devtools/aptos-cargo-cli",
+    "devtools/cedra-cargo-cli",
     "dkg",
     "ecosystem/indexer-grpc/indexer-grpc-cache-worker",
     "ecosystem/indexer-grpc/indexer-grpc-data-service",
@@ -166,7 +166,7 @@ members = [
     "secure/net",
     "secure/storage",
     "secure/storage/vault",
-    "state-sync/aptos-data-client",
+    "state-sync/cedra-data-client",
     "state-sync/data-streaming-service",
     "state-sync/inter-component/consensus-notifications",
     "state-sync/inter-component/event-notifications",
@@ -177,7 +177,7 @@ members = [
     "state-sync/storage-service/server",
     "state-sync/storage-service/types",
     "storage/accumulator",
-    "storage/aptosdb",
+    "storage/cedradb",
     "storage/backup/backup-cli",
     "storage/backup/backup-service",
     "storage/db-tool",
@@ -255,22 +255,22 @@ members = [
     "vm-validator",
 ]
 
-# NOTE: default-members is the complete list of binaries that form the "production Aptos codebase". These members should
+# NOTE: default-members is the complete list of binaries that form the "production Cedra codebase". These members should
 # never include crates that require fuzzing features or test features. These are the crates we want built with no extra
 # test-only code included.
 #
 # For more, see the "Conditional compilation for tests" section in documentation/coding_guidelines.md.
 default-members = [
-    "aptos-node",
+    "cedra-node",
     "consensus/safety-rules",
     "crates/cedra",
-    "crates/aptos-debugger",
-    "crates/aptos-faucet/service",
-    "crates/aptos-keygen",
-    "crates/aptos-rate-limiter",
-    "crates/aptos-rosetta",
+    "crates/cedra-debugger",
+    "crates/cedra-faucet/service",
+    "crates/cedra-keygen",
+    "crates/cedra-rate-limiter",
+    "crates/cedra-rosetta",
     "crates/transaction-emitter",
-    "aptos-move/framework",
+    "cedra-move/framework",
     "storage/backup/backup-cli",
     "ecosystem/node-checker",
 ]
@@ -290,186 +290,186 @@ rust-version = "1.86.0"
 # Internal crate dependencies.
 # Please do not add any test features here: they should be declared by the individual crate.
 cedra = { path = "crates/cedra" }
-aptos-accumulator = { path = "storage/accumulator" }
-aptos-admin-service = { path = "crates/aptos-admin-service" }
-aptos-aggregator = { path = "aptos-move/aptos-aggregator" }
-aptos-api = { path = "api" }
-aptos-api-test-context = { path = "api/test-context" }
-aptos-api-types = { path = "api/types" }
-aptos-backup-cli = { path = "storage/backup/backup-cli" }
-aptos-backup-service = { path = "storage/backup/backup-service" }
-aptos-bcs-utils = { path = "crates/aptos-bcs-utils" }
-aptos-bounded-executor = { path = "crates/bounded-executor" }
-aptos-block-executor = { path = "aptos-move/block-executor" }
-aptos-bitvec = { path = "crates/aptos-bitvec" }
-aptos-build-info = { path = "crates/aptos-build-info" }
-aptos-cached-packages = { path = "aptos-move/framework/cached-packages" }
-aptos-channels = { path = "crates/channel" }
-aptos-cli-common = { path = "crates/aptos-cli-common" }
-aptos-collections = { path = "crates/aptos-collections" }
-aptos-compression = { path = "crates/aptos-compression" }
-aptos-consensus = { path = "consensus" }
-aptos-consensus-notifications = { path = "state-sync/inter-component/consensus-notifications" }
-aptos-consensus-types = { path = "consensus/consensus-types" }
-aptos-config = { path = "config" }
-aptos-crash-handler = { path = "crates/crash-handler" }
-aptos-crypto = { path = "crates/aptos-crypto" }
-aptos-crypto-derive = { path = "crates/aptos-crypto-derive" }
-aptos-data-client = { path = "state-sync/aptos-data-client" }
-aptos-data-streaming-service = { path = "state-sync/data-streaming-service" }
-aptos-db = { path = "storage/aptosdb" }
-aptos-db-indexer = { path = "storage/indexer" }
-aptos-db-indexer-schemas = { path = "storage/indexer_schemas" }
-aptos-db-tool = { path = "storage/db-tool" }
-aptos-debugger = { path = "crates/aptos-debugger" }
-aptos-dkg = { path = "crates/aptos-dkg" }
-aptos-dkg-runtime = { path = "dkg" }
-aptos-drop-helper = { path = "crates/aptos-drop-helper" }
-aptos-event-notifications = { path = "state-sync/inter-component/event-notifications" }
-aptos-executor = { path = "execution/executor" }
-aptos-block-partitioner = { path = "execution/block-partitioner" }
-aptos-enum-conversion-derive = { path = "crates/aptos-enum-conversion-derive" }
-aptos-executor-service = { path = "execution/executor-service" }
-aptos-executor-test-helpers = { path = "execution/executor-test-helpers" }
-aptos-executor-types = { path = "execution/executor-types" }
-aptos-experimental-hexy = { path = "experimental/storage/hexy" }
-aptos-experimental-bulk-txn-submit = { path = "experimental/bulk-txn-submit" }
-aptos-experimental-layered-map = { path = "experimental/storage/layered-map" }
-aptos-experimental-ptx-executor = { path = "experimental/execution/ptx-executor" }
-aptos-experimental-runtimes = { path = "experimental/runtimes" }
-aptos-faucet-cli = { path = "crates/aptos-faucet/cli" }
-aptos-faucet-core = { path = "crates/aptos-faucet/core" }
-aptos-faucet-service = { path = "crates/aptos-faucet/service" }
-aptos-faucet-metrics-server = { path = "crates/aptos-faucet/metrics-server" }
-aptos-fallible = { path = "crates/fallible" }
-aptos-forge = { path = "testsuite/forge" }
-aptos-framework = { path = "aptos-move/framework" }
+cedra-accumulator = { path = "storage/accumulator" }
+cedra-admin-service = { path = "crates/cedra-admin-service" }
+cedra-aggregator = { path = "cedra-move/cedra-aggregator" }
+cedra-api = { path = "api" }
+cedra-api-test-context = { path = "api/test-context" }
+cedra-api-types = { path = "api/types" }
+cedra-backup-cli = { path = "storage/backup/backup-cli" }
+cedra-backup-service = { path = "storage/backup/backup-service" }
+cedra-bcs-utils = { path = "crates/cedra-bcs-utils" }
+cedra-bounded-executor = { path = "crates/bounded-executor" }
+cedra-block-executor = { path = "cedra-move/block-executor" }
+cedra-bitvec = { path = "crates/cedra-bitvec" }
+cedra-build-info = { path = "crates/cedra-build-info" }
+cedra-cached-packages = { path = "cedra-move/framework/cached-packages" }
+cedra-channels = { path = "crates/channel" }
+cedra-cli-common = { path = "crates/cedra-cli-common" }
+cedra-collections = { path = "crates/cedra-collections" }
+cedra-compression = { path = "crates/cedra-compression" }
+cedra-consensus = { path = "consensus" }
+cedra-consensus-notifications = { path = "state-sync/inter-component/consensus-notifications" }
+cedra-consensus-types = { path = "consensus/consensus-types" }
+cedra-config = { path = "config" }
+cedra-crash-handler = { path = "crates/crash-handler" }
+cedra-crypto = { path = "crates/cedra-crypto" }
+cedra-crypto-derive = { path = "crates/cedra-crypto-derive" }
+cedra-data-client = { path = "state-sync/cedra-data-client" }
+cedra-data-streaming-service = { path = "state-sync/data-streaming-service" }
+cedra-db = { path = "storage/cedradb" }
+cedra-db-indexer = { path = "storage/indexer" }
+cedra-db-indexer-schemas = { path = "storage/indexer_schemas" }
+cedra-db-tool = { path = "storage/db-tool" }
+cedra-debugger = { path = "crates/cedra-debugger" }
+cedra-dkg = { path = "crates/cedra-dkg" }
+cedra-dkg-runtime = { path = "dkg" }
+cedra-drop-helper = { path = "crates/cedra-drop-helper" }
+cedra-event-notifications = { path = "state-sync/inter-component/event-notifications" }
+cedra-executor = { path = "execution/executor" }
+cedra-block-partitioner = { path = "execution/block-partitioner" }
+cedra-enum-conversion-derive = { path = "crates/cedra-enum-conversion-derive" }
+cedra-executor-service = { path = "execution/executor-service" }
+cedra-executor-test-helpers = { path = "execution/executor-test-helpers" }
+cedra-executor-types = { path = "execution/executor-types" }
+cedra-experimental-hexy = { path = "experimental/storage/hexy" }
+cedra-experimental-bulk-txn-submit = { path = "experimental/bulk-txn-submit" }
+cedra-experimental-layered-map = { path = "experimental/storage/layered-map" }
+cedra-experimental-ptx-executor = { path = "experimental/execution/ptx-executor" }
+cedra-experimental-runtimes = { path = "experimental/runtimes" }
+cedra-faucet-cli = { path = "crates/cedra-faucet/cli" }
+cedra-faucet-core = { path = "crates/cedra-faucet/core" }
+cedra-faucet-service = { path = "crates/cedra-faucet/service" }
+cedra-faucet-metrics-server = { path = "crates/cedra-faucet/metrics-server" }
+cedra-fallible = { path = "crates/fallible" }
+cedra-forge = { path = "testsuite/forge" }
+cedra-framework = { path = "cedra-move/framework" }
 fuzzer = { path = "testsuite/fuzzer" }
-aptos-abstract-gas-usage = { path = "aptos-move/aptos-abstract-gas-usage" }
-aptos-gas-meter = { path = "aptos-move/aptos-gas-meter" }
-aptos-gas-algebra = { path = "aptos-move/aptos-gas-algebra" }
-aptos-gas-calibration = { path = "aptos-move/aptos-gas-calibration" }
-aptos-gas-profiling = { path = "aptos-move/aptos-gas-profiling" }
-aptos-gas-schedule = { path = "aptos-move/aptos-gas-schedule" }
-aptos-gas-schedule-updator = { path = "aptos-move/aptos-gas-schedule-updator" }
-aptos-genesis = { path = "crates/aptos-genesis" }
-aptos-github-client = { path = "crates/aptos-github-client" }
-aptos-global-constants = { path = "config/global-constants" }
-aptos-id-generator = { path = "crates/aptos-id-generator" }
-aptos-indexer = { path = "crates/indexer" }
-aptos-indexer-grpc-cache-worker = { path = "ecosystem/indexer-grpc/indexer-grpc-cache-worker" }
-aptos-indexer-grpc-data-service = { path = "ecosystem/indexer-grpc/indexer-grpc-data-service" }
-aptos-indexer-grpc-data-service-v2 = { path = "ecosystem/indexer-grpc/indexer-grpc-data-service-v2" }
-aptos-indexer-grpc-file-store = { path = "ecosystem/indexer-grpc/indexer-grpc-file-store" }
-aptos-indexer-grpc-file-checker = { path = "ecosystem/indexer-grpc/indexer-grpc-file-checker" }
-aptos-indexer-grpc-file-store-backfiller = { path = "ecosystem/indexer-grpc/indexer-grpc-file-store-backfiller" }
-aptos-indexer-grpc-fullnode = { path = "ecosystem/indexer-grpc/indexer-grpc-fullnode" }
-aptos-indexer-grpc-in-memory-cache-benchmark = { path = "ecosystem/indexer-grpc/indexer-grpc-in-memory-cache-benchmark" }
-aptos-indexer-grpc-manager = { path = "ecosystem/indexer-grpc/indexer-grpc-manager" }
-aptos-indexer-grpc-table-info = { path = "ecosystem/indexer-grpc/indexer-grpc-table-info" }
-aptos-indexer-test-transactions = { path = "ecosystem/indexer-grpc/indexer-test-transactions" }
-aptos-indexer-grpc-utils = { path = "ecosystem/indexer-grpc/indexer-grpc-utils" }
-aptos-indexer-grpc-server-framework = { path = "ecosystem/indexer-grpc/indexer-grpc-server-framework" }
-aptos-indexer-transaction-generator = { path = "ecosystem/indexer-grpc/indexer-transaction-generator" }
-aptos-infallible = { path = "crates/aptos-infallible" }
-aptos-inspection-service = { path = "crates/aptos-inspection-service" }
-aptos-jellyfish-merkle = { path = "storage/jellyfish-merkle" }
-aptos-jwk-consensus = { path = "crates/aptos-jwk-consensus" }
-aptos-jwk-utils = { path = "crates/jwk-utils" }
-aptos-keygen = { path = "crates/aptos-keygen" }
-aptos-language-e2e-tests = { path = "aptos-move/e2e-tests" }
-aptos-ledger = { path = "crates/aptos-ledger" }
-aptos-localnet = { path = "crates/aptos-localnet" }
-aptos-log-derive = { path = "crates/aptos-log-derive" }
-aptos-logger = { path = "crates/aptos-logger" }
-aptos-memory-usage-tracker = { path = "aptos-move/aptos-memory-usage-tracker" }
-aptos-mempool = { path = "mempool" }
-aptos-mempool-notifications = { path = "state-sync/inter-component/mempool-notifications" }
-aptos-memsocket = { path = "network/memsocket" }
-aptos-metrics-core = { path = "crates/aptos-metrics-core" }
-aptos-move-debugger = { path = "aptos-move/aptos-debugger" }
-aptos-move-examples = { path = "aptos-move/move-examples" }
-aptos-move-e2e-benchmark = { path = "aptos-move/e2e-benchmark" }
-aptos-mvhashmap = { path = "aptos-move/mvhashmap" }
-aptos-native-interface = { path = "aptos-move/aptos-native-interface" }
-aptos-netcore = { path = "network/netcore" }
-aptos-network = { path = "network/framework" }
-aptos-network-benchmark = { path = "network/benchmark" }
-aptos-network-builder = { path = "network/builder" }
-aptos-network-checker = { path = "crates/aptos-network-checker" }
-aptos-network-discovery = { path = "network/discovery" }
-aptos-nft-metadata-crawler = { path = "ecosystem/nft-metadata-crawler" }
-aptos-node = { path = "aptos-node" }
-aptos-node-checker = { path = "ecosystem/node-checker" }
-aptos-node-identity = { path = "crates/aptos-node-identity" }
-aptos-node-resource-metrics = { path = "crates/node-resource-metrics" }
-aptos-num-variants = { path = "crates/num-variants" }
-aptos-openapi = { path = "crates/aptos-openapi" }
-aptos-package-builder = { path = "aptos-move/package-builder" }
-aptos-peer-monitoring-service-client = { path = "peer-monitoring-service/client" }
-aptos-peer-monitoring-service-server = { path = "peer-monitoring-service/server" }
-aptos-peer-monitoring-service-types = { path = "peer-monitoring-service/types" }
-aptos-keyless-common = { path = "keyless/common" }
-aptos-keyless-pepper-common = { path = "keyless/pepper/common" }
-aptos-keyless-pepper-service = { path = "keyless/pepper/service" }
-aptos-profiler = { path = "crates/aptos-profiler" }
-aptos-proptest-helpers = { path = "crates/aptos-proptest-helpers" }
-aptos-protos = { path = "protos/rust" }
-aptos-proxy = { path = "crates/proxy" }
-aptos-push-metrics = { path = "crates/aptos-push-metrics" }
-aptos-rate-limiter = { path = "crates/aptos-rate-limiter" }
-aptos-release-builder = { path = "aptos-move/aptos-release-builder" }
-aptos-reliable-broadcast = { path = "crates/reliable-broadcast" }
-aptos-replay-benchmark = { path = "aptos-move/replay-benchmark" }
-aptos-resource-viewer = { path = "aptos-move/aptos-resource-viewer" }
-aptos-rest-client = { path = "crates/aptos-rest-client" }
-aptos-retrier = { path = "crates/aptos-retrier" }
-aptos-rocksdb-options = { path = "storage/rocksdb-options" }
-aptos-rosetta = { path = "crates/aptos-rosetta" }
-aptos-runtimes = { path = "crates/aptos-runtimes" }
-aptos-safety-rules = { path = "consensus/safety-rules" }
-aptos-schemadb = { path = "storage/schemadb" }
-aptos-scratchpad = { path = "storage/scratchpad" }
-aptos-script-composer = { path = "aptos-move/script-composer" }
-aptos-sdk = { path = "sdk" }
-aptos-sdk-builder = { path = "aptos-move/aptos-sdk-builder" }
-aptos-secure-net = { path = "secure/net" }
-aptos-secure-storage = { path = "secure/storage" }
-aptos-short-hex-str = { path = "crates/short-hex-str" }
-aptos-speculative-state-helper = { path = "crates/aptos-speculative-state-helper" }
-aptos-state-sync-driver = { path = "state-sync/state-sync-driver" }
-aptos-storage-interface = { path = "storage/storage-interface" }
-aptos-storage-service-client = { path = "state-sync/storage-service/client" }
-aptos-storage-service-notifications = { path = "state-sync/inter-component/storage-service-notifications" }
-aptos-storage-service-types = { path = "state-sync/storage-service/types" }
-aptos-storage-service-server = { path = "state-sync/storage-service/server" }
-aptos-system-utils = { path = "crates/aptos-system-utils" }
-aptos-transaction-filter = { path = "ecosystem/indexer-grpc/transaction-filter" }
-aptos-telemetry = { path = "crates/aptos-telemetry" }
-aptos-telemetry-service = { path = "crates/aptos-telemetry-service" }
-aptos-temppath = { path = "crates/aptos-temppath" }
-aptos-testcases = { path = "testsuite/testcases" }
-aptos-time-service = { path = "crates/aptos-time-service", features = [
+cedra-abstract-gas-usage = { path = "cedra-move/cedra-abstract-gas-usage" }
+cedra-gas-meter = { path = "cedra-move/cedra-gas-meter" }
+cedra-gas-algebra = { path = "cedra-move/cedra-gas-algebra" }
+cedra-gas-calibration = { path = "cedra-move/cedra-gas-calibration" }
+cedra-gas-profiling = { path = "cedra-move/cedra-gas-profiling" }
+cedra-gas-schedule = { path = "cedra-move/cedra-gas-schedule" }
+cedra-gas-schedule-updator = { path = "cedra-move/cedra-gas-schedule-updator" }
+cedra-genesis = { path = "crates/cedra-genesis" }
+cedra-github-client = { path = "crates/cedra-github-client" }
+cedra-global-constants = { path = "config/global-constants" }
+cedra-id-generator = { path = "crates/cedra-id-generator" }
+cedra-indexer = { path = "crates/indexer" }
+cedra-indexer-grpc-cache-worker = { path = "ecosystem/indexer-grpc/indexer-grpc-cache-worker" }
+cedra-indexer-grpc-data-service = { path = "ecosystem/indexer-grpc/indexer-grpc-data-service" }
+cedra-indexer-grpc-data-service-v2 = { path = "ecosystem/indexer-grpc/indexer-grpc-data-service-v2" }
+cedra-indexer-grpc-file-store = { path = "ecosystem/indexer-grpc/indexer-grpc-file-store" }
+cedra-indexer-grpc-file-checker = { path = "ecosystem/indexer-grpc/indexer-grpc-file-checker" }
+cedra-indexer-grpc-file-store-backfiller = { path = "ecosystem/indexer-grpc/indexer-grpc-file-store-backfiller" }
+cedra-indexer-grpc-fullnode = { path = "ecosystem/indexer-grpc/indexer-grpc-fullnode" }
+cedra-indexer-grpc-in-memory-cache-benchmark = { path = "ecosystem/indexer-grpc/indexer-grpc-in-memory-cache-benchmark" }
+cedra-indexer-grpc-manager = { path = "ecosystem/indexer-grpc/indexer-grpc-manager" }
+cedra-indexer-grpc-table-info = { path = "ecosystem/indexer-grpc/indexer-grpc-table-info" }
+cedra-indexer-test-transactions = { path = "ecosystem/indexer-grpc/indexer-test-transactions" }
+cedra-indexer-grpc-utils = { path = "ecosystem/indexer-grpc/indexer-grpc-utils" }
+cedra-indexer-grpc-server-framework = { path = "ecosystem/indexer-grpc/indexer-grpc-server-framework" }
+cedra-indexer-transaction-generator = { path = "ecosystem/indexer-grpc/indexer-transaction-generator" }
+cedra-infallible = { path = "crates/cedra-infallible" }
+cedra-inspection-service = { path = "crates/cedra-inspection-service" }
+cedra-jellyfish-merkle = { path = "storage/jellyfish-merkle" }
+cedra-jwk-consensus = { path = "crates/cedra-jwk-consensus" }
+cedra-jwk-utils = { path = "crates/jwk-utils" }
+cedra-keygen = { path = "crates/cedra-keygen" }
+cedra-language-e2e-tests = { path = "cedra-move/e2e-tests" }
+cedra-ledger = { path = "crates/cedra-ledger" }
+cedra-localnet = { path = "crates/cedra-localnet" }
+cedra-log-derive = { path = "crates/cedra-log-derive" }
+cedra-logger = { path = "crates/cedra-logger" }
+cedra-memory-usage-tracker = { path = "cedra-move/cedra-memory-usage-tracker" }
+cedra-mempool = { path = "mempool" }
+cedra-mempool-notifications = { path = "state-sync/inter-component/mempool-notifications" }
+cedra-memsocket = { path = "network/memsocket" }
+cedra-metrics-core = { path = "crates/cedra-metrics-core" }
+cedra-move-debugger = { path = "cedra-move/cedra-debugger" }
+cedra-move-examples = { path = "cedra-move/move-examples" }
+cedra-move-e2e-benchmark = { path = "cedra-move/e2e-benchmark" }
+cedra-mvhashmap = { path = "cedra-move/mvhashmap" }
+cedra-native-interface = { path = "cedra-move/cedra-native-interface" }
+cedra-netcore = { path = "network/netcore" }
+cedra-network = { path = "network/framework" }
+cedra-network-benchmark = { path = "network/benchmark" }
+cedra-network-builder = { path = "network/builder" }
+cedra-network-checker = { path = "crates/cedra-network-checker" }
+cedra-network-discovery = { path = "network/discovery" }
+cedra-nft-metadata-crawler = { path = "ecosystem/nft-metadata-crawler" }
+cedra-node = { path = "cedra-node" }
+cedra-node-checker = { path = "ecosystem/node-checker" }
+cedra-node-identity = { path = "crates/cedra-node-identity" }
+cedra-node-resource-metrics = { path = "crates/node-resource-metrics" }
+cedra-num-variants = { path = "crates/num-variants" }
+cedra-openapi = { path = "crates/cedra-openapi" }
+cedra-package-builder = { path = "cedra-move/package-builder" }
+cedra-peer-monitoring-service-client = { path = "peer-monitoring-service/client" }
+cedra-peer-monitoring-service-server = { path = "peer-monitoring-service/server" }
+cedra-peer-monitoring-service-types = { path = "peer-monitoring-service/types" }
+cedra-keyless-common = { path = "keyless/common" }
+cedra-keyless-pepper-common = { path = "keyless/pepper/common" }
+cedra-keyless-pepper-service = { path = "keyless/pepper/service" }
+cedra-profiler = { path = "crates/cedra-profiler" }
+cedra-proptest-helpers = { path = "crates/cedra-proptest-helpers" }
+cedra-protos = { path = "protos/rust" }
+cedra-proxy = { path = "crates/proxy" }
+cedra-push-metrics = { path = "crates/cedra-push-metrics" }
+cedra-rate-limiter = { path = "crates/cedra-rate-limiter" }
+cedra-release-builder = { path = "cedra-move/cedra-release-builder" }
+cedra-reliable-broadcast = { path = "crates/reliable-broadcast" }
+cedra-replay-benchmark = { path = "cedra-move/replay-benchmark" }
+cedra-resource-viewer = { path = "cedra-move/cedra-resource-viewer" }
+cedra-rest-client = { path = "crates/cedra-rest-client" }
+cedra-retrier = { path = "crates/cedra-retrier" }
+cedra-rocksdb-options = { path = "storage/rocksdb-options" }
+cedra-rosetta = { path = "crates/cedra-rosetta" }
+cedra-runtimes = { path = "crates/cedra-runtimes" }
+cedra-safety-rules = { path = "consensus/safety-rules" }
+cedra-schemadb = { path = "storage/schemadb" }
+cedra-scratchpad = { path = "storage/scratchpad" }
+cedra-script-composer = { path = "cedra-move/script-composer" }
+cedra-sdk = { path = "sdk" }
+cedra-sdk-builder = { path = "cedra-move/cedra-sdk-builder" }
+cedra-secure-net = { path = "secure/net" }
+cedra-secure-storage = { path = "secure/storage" }
+cedra-short-hex-str = { path = "crates/short-hex-str" }
+cedra-speculative-state-helper = { path = "crates/cedra-speculative-state-helper" }
+cedra-state-sync-driver = { path = "state-sync/state-sync-driver" }
+cedra-storage-interface = { path = "storage/storage-interface" }
+cedra-storage-service-client = { path = "state-sync/storage-service/client" }
+cedra-storage-service-notifications = { path = "state-sync/inter-component/storage-service-notifications" }
+cedra-storage-service-types = { path = "state-sync/storage-service/types" }
+cedra-storage-service-server = { path = "state-sync/storage-service/server" }
+cedra-system-utils = { path = "crates/cedra-system-utils" }
+cedra-transaction-filter = { path = "ecosystem/indexer-grpc/transaction-filter" }
+cedra-telemetry = { path = "crates/cedra-telemetry" }
+cedra-telemetry-service = { path = "crates/cedra-telemetry-service" }
+cedra-temppath = { path = "crates/cedra-temppath" }
+cedra-testcases = { path = "testsuite/testcases" }
+cedra-time-service = { path = "crates/cedra-time-service", features = [
     "async",
 ] }
-aptos-transaction-emitter-lib = { path = "crates/transaction-emitter-lib" }
-aptos-transaction-generator-lib = { path = "crates/transaction-generator-lib" }
-aptos-transaction-workloads-lib = { path = "crates/transaction-workloads-lib" }
-aptos-transaction-simulation = { path = "aptos-move/aptos-transaction-simulation" }
-aptos-transactional-test-harness = { path = "aptos-move/aptos-transactional-test-harness" }
-aptos-types = { path = "types" }
-aptos-validator-interface = { path = "aptos-move/aptos-validator-interface" }
-aptos-validator-transaction-pool = { path = "crates/validator-transaction-pool" }
-aptos-vault-client = { path = "secure/storage/vault" }
-aptos-vm = { path = "aptos-move/aptos-vm" }
-aptos-vm-environment = { path = "aptos-move/aptos-vm-environment" }
-aptos-vm-logging = { path = "aptos-move/aptos-vm-logging" }
-aptos-vm-genesis = { path = "aptos-move/vm-genesis" }
-aptos-vm-types = { path = "aptos-move/aptos-vm-types" }
-aptos-vm-validator = { path = "vm-validator" }
-aptos-workspace-server = { path = "aptos-move/aptos-workspace-server" }
-aptos-warp-webserver = { path = "crates/aptos-warp-webserver" }
-aptos-cargo-cli = { path = "devtools/aptos-cargo-cli" }
+cedra-transaction-emitter-lib = { path = "crates/transaction-emitter-lib" }
+cedra-transaction-generator-lib = { path = "crates/transaction-generator-lib" }
+cedra-transaction-workloads-lib = { path = "crates/transaction-workloads-lib" }
+cedra-transaction-simulation = { path = "cedra-move/cedra-transaction-simulation" }
+cedra-transactional-test-harness = { path = "cedra-move/cedra-transactional-test-harness" }
+cedra-types = { path = "types" }
+cedra-validator-interface = { path = "cedra-move/cedra-validator-interface" }
+cedra-validator-transaction-pool = { path = "crates/validator-transaction-pool" }
+cedra-vault-client = { path = "secure/storage/vault" }
+cedra-vm = { path = "cedra-move/cedra-vm" }
+cedra-vm-environment = { path = "cedra-move/cedra-vm-environment" }
+cedra-vm-logging = { path = "cedra-move/cedra-vm-logging" }
+cedra-vm-genesis = { path = "cedra-move/vm-genesis" }
+cedra-vm-types = { path = "cedra-move/cedra-vm-types" }
+cedra-vm-validator = { path = "vm-validator" }
+cedra-workspace-server = { path = "cedra-move/cedra-workspace-server" }
+cedra-warp-webserver = { path = "crates/cedra-warp-webserver" }
+cedra-cargo-cli = { path = "devtools/cedra-cargo-cli" }
 
 # External crate dependencies.
 # Please do not add any test features here: they should be declared by the individual crate.
@@ -691,7 +691,7 @@ pprof = { version = "0.11", features = ["flamegraph", "protobuf-codec"] }
 pretty = "0.10.0"
 pretty_assertions = "1.2.1"
 # We set default-features to false so we don't onboard the libpq dep. See more here:
-# https://github.com/aptos-labs/aptos/pull/12568
+# https://github.com/cedra-labs/cedra-network/pull/12568
 processor = { git = "https://github.com/cedra-labs/cedra-indexer-processors-v2.git", default-features = false, rev = "80927b066a6c5a87827d7c160104e04d35f5e79b" } #, rev = "b0edf2a3710dac6577cec922693f97e8b95f1dc3"
 procfs = "0.14.1"
 proc-macro2 = "1.0.38"
@@ -857,8 +857,8 @@ move-prover-boogie-backend = { path = "third_party/move/move-prover/boogie-backe
 move-prover-bytecode-pipeline = { path = "third_party/move/move-prover/bytecode-pipeline" }
 move-prover-test-utils = { path = "third_party/move/move-prover/test-utils" }
 move-prover-lab = { path = "third_party/move/move-prover/lab" }
-aptos-move-stdlib = { path = "aptos-move/framework/move-stdlib" }
-aptos-table-natives = { path = "aptos-move/framework/table-natives" }
+cedra-move-stdlib = { path = "cedra-move/framework/move-stdlib" }
+cedra-table-natives = { path = "cedra-move/framework/table-natives" }
 move-resource-viewer = { path = "third_party/move/tools/move-resource-viewer" }
 move-stackless-bytecode = { path = "third_party/move/move-model/bytecode" }
 move-stackless-bytecode-test-utils = { path = "third_party/move/move-model/bytecode-test-utils" }

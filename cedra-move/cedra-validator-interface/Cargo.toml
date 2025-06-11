@@ -1,0 +1,29 @@
+[package]
+name = "cedra-validator-interface"
+description = "Defines interfaces between the cedra nodes and local move infrastructure"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-api-types = { workspace = true }
+cedra-config = { workspace = true }
+cedra-db = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-types = { workspace = true }
+async-recursion = { workspace = true }
+async-trait = { workspace = true }
+bcs = { workspace = true }
+lru = { workspace = true }
+move-core-types = { workspace = true }
+tokio = { workspace = true }

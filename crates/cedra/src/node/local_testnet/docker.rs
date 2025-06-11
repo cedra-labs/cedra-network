@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::traits::ShutdownStep;
 use anyhow::{Context, Result};
-pub use aptos_localnet::docker::get_docker;
+pub use cedra_localnet::docker::get_docker;
 use async_trait::async_trait;
 use bollard::{
     container::{RemoveContainerOptions, StopContainerOptions},
@@ -16,7 +16,7 @@ use futures::TryStreamExt;
 use std::{fs::create_dir_all, path::Path};
 use tracing::{info, warn};
 
-pub const CONTAINER_NETWORK_NAME: &str = "aptos-local-testnet-network";
+pub const CONTAINER_NETWORK_NAME: &str = "cedra-local-testnet-network";
 
 /// Delete a container. If the container doesn't exist, that's fine, just move on.
 pub async fn delete_container(container_name: &str) -> Result<()> {

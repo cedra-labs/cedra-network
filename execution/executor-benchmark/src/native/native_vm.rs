@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,21 +9,21 @@ use crate::{
         native_transaction::{compute_deltas_for_batch, NativeTransaction},
     },
 };
-use aptos_aggregator::{
+use cedra_aggregator::{
     bounded_math::SignedU128,
     delayed_change::{DelayedApplyChange, DelayedChange},
     delta_change_set::{DeltaOp, DeltaWithMax},
     delta_math::DeltaHistory,
 };
-use aptos_block_executor::{
-    code_cache_global_manager::AptosModuleCacheManager,
+use cedra_block_executor::{
+    code_cache_global_manager::CedraModuleCacheManager,
     task::{ExecutionStatus, ExecutorTask},
     txn_commit_hook::NoOpTransactionCommitHook,
     txn_provider::default::DefaultTxnProvider,
 };
-use aptos_logger::error;
-use aptos_mvhashmap::types::TxnIndex;
-use aptos_types::{
+use cedra_logger::error;
+use cedra_mvhashmap::types::TxnIndex;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{
         primary_apt_store, AccountResource, CoinInfoResource, CoinRegister, CoinStoreResource,
@@ -46,12 +46,12 @@ use aptos_types::{
     write_set::WriteOp,
     CedraCoinType,
 };
-use aptos_vm::{
-    block_executor::{AptosBlockExecutorWrapper, AptosTransactionOutput},
+use cedra_vm::{
+    block_executor::{CedraBlockExecutorWrapper, CedraTransactionOutput},
     VMBlockExecutor,
 };
-use aptos_vm_environment::environment::AptosEnvironment;
-use aptos_vm_types::{
+use cedra_vm_environment::environment::CedraEnvironment;
+use cedra_vm_types::{
     abstract_write_op::{
         AbstractResourceWriteOp, GroupWrite, ResourceGroupInPlaceDelayedFieldChangeOp,
     },
@@ -91,15 +91,15 @@ impl VMBlockExecutor for NativeVMBlockExecutor {
         onchain_config: BlockExecutorConfigFromOnchain,
         transaction_slice_metadata: TransactionSliceMetadata,
     ) -> Result<BlockOutput<TransactionOutput>, VMStatus> {
-        AptosBlockExecutorWrapper::<NativeVMExecutorTask>::execute_block_on_thread_pool::<
+        CedraBlockExecutorWrapper::<NativeVMExecutorTask>::execute_block_on_thread_pool::<
             _,
-            NoOpTransactionCommitHook<AptosTransactionOutput, VMStatus>,
+            NoOpTransactionCommitHook<CedraTransactionOutput, VMStatus>,
             _,
         >(
             Arc::clone(&NATIVE_EXECUTOR_POOL),
             txn_provider,
             state_view,
-            &AptosModuleCacheManager::new(),
+            &CedraModuleCacheManager::new(),
             BlockExecutorConfig {
                 local: BlockExecutorLocalConfig::default_with_concurrency_level(
                     NativeConfig::get_concurrency_level(),
@@ -119,10 +119,10 @@ pub(crate) struct NativeVMExecutorTask {
 
 impl ExecutorTask for NativeVMExecutorTask {
     type Error = VMStatus;
-    type Output = AptosTransactionOutput;
+    type Output = CedraTransactionOutput;
     type Txn = SignatureVerifiedTransaction;
 
-    fn init(env: &AptosEnvironment, _state_view: &impl StateView) -> Self {
+    fn init(env: &CedraEnvironment, _state_view: &impl StateView) -> Self {
         let fa_migration_complete = env
             .features()
             .is_enabled(FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE);
@@ -148,7 +148,7 @@ impl ExecutorTask for NativeVMExecutorTask {
         executor_with_group_view: &(impl ExecutorView + ResourceGroupView),
         txn: &SignatureVerifiedTransaction,
         _txn_idx: TxnIndex,
-    ) -> ExecutionStatus<AptosTransactionOutput, VMStatus> {
+    ) -> ExecutionStatus<CedraTransactionOutput, VMStatus> {
         let gas_units = 4;
 
         match self.execute_transaction_impl(
@@ -157,11 +157,11 @@ impl ExecutorTask for NativeVMExecutorTask {
             gas_units,
             self.fa_migration_complete,
         ) {
-            Ok(change_set) => ExecutionStatus::Success(AptosTransactionOutput::new(VMOutput::new(
+            Ok(change_set) => ExecutionStatus::Success(CedraTransactionOutput::new(VMOutput::new(
                 change_set,
                 ModuleWriteSet::empty(),
                 FeeStatement::new(gas_units, gas_units, 0, 0, 0),
-                TransactionStatus::Keep(aptos_types::transaction::ExecutionStatus::Success),
+                TransactionStatus::Keep(cedra_types::transaction::ExecutionStatus::Success),
             ))),
             Err(_) => ExecutionStatus::SpeculativeExecutionAbortError("something".to_string()),
         }

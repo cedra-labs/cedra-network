@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::transcript_aggregation::TranscriptAggregationState;
-use aptos_crypto::{bls12381::bls12381_keys, Uniform};
-use aptos_infallible::duration_since_epoch;
-use aptos_reliable_broadcast::BroadcastStatus;
-use aptos_types::{
+use cedra_crypto::{bls12381::bls12381_keys, Uniform};
+use cedra_infallible::duration_since_epoch;
+use cedra_reliable_broadcast::BroadcastStatus;
+use cedra_types::{
     dkg::{
         dummy_dkg::{DummyDKG, DummyDKGTranscript},
         DKGSessionMetadata, DKGTrait, DKGTranscript, DKGTranscriptMetadata,

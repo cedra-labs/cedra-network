@@ -1,6 +1,6 @@
 [package]
-name = "aptos-transaction-generator-lib"
-description = "Library for Aptos transaction generator"
+name = "cedra-transaction-generator-lib"
+description = "Library for Cedra transaction generator"
 version = "0.0.0"
 
 # Workspace inherited keys
@@ -14,10 +14,10 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-framework = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-sdk = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-sdk = { workspace = true }
 async-trait = { workspace = true }
 clap = { workspace = true }
 log = { workspace = true }

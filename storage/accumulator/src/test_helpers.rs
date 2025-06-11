@@ -1,16 +1,16 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{HashReader, MerkleAccumulator, MerkleAccumulatorView};
 use anyhow::{ensure, format_err, Result};
-use aptos_crypto::hash::{HashValue, TestOnlyHasher, ACCUMULATOR_PLACEHOLDER_HASH};
-use aptos_types::proof::{definition::LeafCount, position::Position};
+use cedra_crypto::hash::{HashValue, TestOnlyHasher, ACCUMULATOR_PLACEHOLDER_HASH};
+use cedra_types::proof::{definition::LeafCount, position::Position};
 use proptest::{collection::vec, prelude::*};
 use std::collections::HashMap;
 
 pub(crate) type InMemoryAccumulator =
-    aptos_types::proof::accumulator::InMemoryAccumulator<TestOnlyHasher>;
+    cedra_types::proof::accumulator::InMemoryAccumulator<TestOnlyHasher>;
 pub(crate) type TestAccumulator = MerkleAccumulator<MockHashStore, TestOnlyHasher>;
 
 pub(crate) struct MockHashStore {

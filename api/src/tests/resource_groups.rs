@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
-use aptos_api_test_context::{current_function_name, TestContext};
+use cedra_api_test_context::{current_function_name, TestContext};
 use serde_json::json;
 use std::path::PathBuf;
 
@@ -35,7 +35,7 @@ async fn test_gen_resource_group() {
     let named_addresses_clone = named_addresses.clone();
     let txn = futures::executor::block_on(async move {
         let path = PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
-            .join("../aptos-move/move-examples/resource_groups/primary");
+            .join("../cedra-move/move-examples/resource_groups/primary");
         TestContext::build_package(path, named_addresses_clone)
     });
     context.publish_package(&mut admin0, txn).await;
@@ -43,7 +43,7 @@ async fn test_gen_resource_group() {
     let named_addresses_clone = named_addresses.clone();
     let txn = futures::executor::block_on(async move {
         let path = PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
-            .join("../aptos-move/move-examples/resource_groups/secondary");
+            .join("../cedra-move/move-examples/resource_groups/secondary");
         TestContext::build_package(path, named_addresses_clone)
     });
     context.publish_package(&mut admin1, txn).await;

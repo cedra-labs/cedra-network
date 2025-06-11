@@ -7,9 +7,9 @@ authors = []
 
 [dev-addresses]
 
-[dependencies.AptosFramework]
+[dependencies.CedraFramework]
 git = "https://github.com/cedra-labs/cedra-framework.git"
 rev = "mainnet"
-subdir = "aptos-framework"
+subdir = "cedra-framework"
 
 [dev-dependencies]

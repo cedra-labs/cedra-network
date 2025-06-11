@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     block_storage::tracing::{observe_block, BlockStage},
     pipeline::buffer_manager::OrderedBlocks,
 };
-use aptos_consensus_types::{common::Round, pipelined_block::PipelinedBlock};
-use aptos_reliable_broadcast::DropGuard;
-use aptos_types::randomness::{FullRandMetadata, Randomness};
+use cedra_consensus_types::{common::Round, pipelined_block::PipelinedBlock};
+use cedra_reliable_broadcast::DropGuard;
+use cedra_types::randomness::{FullRandMetadata, Randomness};
 use std::collections::{BTreeMap, HashMap};
 
 /// Maintain the ordered blocks received from consensus and corresponding randomness
@@ -158,7 +158,7 @@ mod tests {
         block_queue::{BlockQueue, QueueItem},
         test_utils::create_ordered_blocks,
     };
-    use aptos_types::randomness::Randomness;
+    use cedra_types::randomness::Randomness;
     use std::collections::HashSet;
 
     #[test]

@@ -1,0 +1,10 @@
+[package]
+name = "DataStructure"
+version = "0.0.1"
+
+[dependencies]
+CedraStdlib = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-stdlib", rev = "mainnet" }
+
+
+[addresses]
+std = "0x1"

@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use aptos_transaction_generator_lib::publishing::prebuild_packages::create_prebuilt_packages_rs_file;
+use cedra_transaction_generator_lib::publishing::prebuild_packages::create_prebuilt_packages_rs_file;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
 #[clap(
     name = "module-publish",
     about = "Write Move packages binaries in a Rust file (raw_module_data.rs). Defaults to \n\
-         aptos-core/crates/transaction-workloads-lib/src/raw_module_data.rs"
+         cedra-core/crates/transaction-workloads-lib/src/raw_module_data.rs"
 )]
 struct Args {
     #[clap(long, help = "Optional output directory for raw_module_data.rs")]
@@ -34,17 +34,17 @@ fn additional_packages() -> Vec<(&'static str, &'static str, bool)> {
         ("complex", "src/packages/complex", false),
         (
             "ambassador_token",
-            "../../aptos-move/move-examples/token_objects/ambassador",
+            "../../cedra-move/move-examples/token_objects/ambassador",
             false,
         ),
         (
             "aggregator_examples",
-            "../../aptos-move/move-examples/aggregator_examples",
+            "../../cedra-move/move-examples/aggregator_examples",
             false,
         ),
         (
             "bcs_stream",
-            "../../aptos-move/move-examples/bcs-stream",
+            "../../cedra-move/move-examples/bcs-stream",
             false,
         ),
     ]

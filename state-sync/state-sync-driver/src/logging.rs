@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{error::Error, notification_handlers::ErrorNotification};
-use aptos_logger::Schema;
+use cedra_logger::Schema;
 use serde::Serialize;
 
 #[derive(Schema)]

@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 #![allow(clippy::extra_unused_lifetimes)]
 use super::transactions::TransactionQuery;
 use crate::{models::transactions::Transaction, schema::events, util::standardize_address};
-use aptos_api_types::Event as APIEvent;
+use cedra_api_types::Event as APIEvent;
 use field_count::FieldCount;
 use serde::{Deserialize, Serialize};
 

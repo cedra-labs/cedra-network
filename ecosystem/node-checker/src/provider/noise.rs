@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! There is only one noise based Checker right now, so this Provider is a bit light
@@ -10,11 +10,11 @@ use super::{
     CommonProviderConfig,
 };
 use anyhow::Result;
-use aptos_network_checker::{
+use cedra_network_checker::{
     args::{CheckEndpointArgs, HandshakeArgs, NodeAddressArgs},
     check_endpoint::check_endpoint,
 };
-use aptos_sdk::types::{chain_id::ChainId, network_address::NetworkAddress};
+use cedra_sdk::types::{chain_id::ChainId, network_address::NetworkAddress};
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;

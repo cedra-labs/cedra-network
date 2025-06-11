@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{batch_update_gradually, generate_traffic};
 use anyhow::bail;
-use aptos_forge::{NetworkContextSynchronizer, NetworkTest, Result, SwarmExt, Test};
+use cedra_forge::{NetworkContextSynchronizer, NetworkTest, Result, SwarmExt, Test};
 use async_trait::async_trait;
 use log::info;
 use std::ops::DerefMut;

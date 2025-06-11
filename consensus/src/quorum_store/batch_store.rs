@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -12,12 +12,12 @@ use crate::{
     },
 };
 use anyhow::bail;
-use aptos_consensus_types::proof_of_store::{BatchInfo, SignedBatchInfo};
-use aptos_crypto::{CryptoMaterialError, HashValue};
-use aptos_executor_types::{ExecutorError, ExecutorResult};
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_types::{transaction::SignedTransaction, validator_signer::ValidatorSigner, PeerId};
+use cedra_consensus_types::proof_of_store::{BatchInfo, SignedBatchInfo};
+use cedra_crypto::{CryptoMaterialError, HashValue};
+use cedra_executor_types::{ExecutorError, ExecutorResult};
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_types::{transaction::SignedTransaction, validator_signer::ValidatorSigner, PeerId};
 use dashmap::{
     mapref::entry::Entry::{Occupied, Vacant},
     DashMap,
@@ -386,7 +386,7 @@ impl BatchStore {
             Ok(SignedBatchInfo::new_with_signature(
                 batch_info.clone(),
                 self.validator_signer.author(),
-                aptos_crypto::bls12381::Signature::dummy_signature(),
+                cedra_crypto::bls12381::Signature::dummy_signature(),
             ))
         });
         SignedBatchInfo::new(batch_info, &self.validator_signer)

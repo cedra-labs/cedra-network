@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! This file contains logic for reading the node information from on-chain and
@@ -12,9 +12,9 @@ use crate::{
     helpers::extract_network_address,
 };
 use anyhow::{Context, Result};
-use aptos_logger::info;
-use aptos_sdk::{
-    rest_client::Client as AptosClient,
+use cedra_logger::info;
+use cedra_sdk::{
+    rest_client::Client as CedraClient,
     types::{
         account_address::AccountAddress, account_config::CORE_CODE_ADDRESS,
         on_chain_config::ValidatorSet, validator_info::ValidatorInfo,
@@ -35,7 +35,7 @@ pub struct GetValidatorFullNodes {
 impl GetValidatorFullNodes {
     /// Get all the on chain validator info.
     async fn get_validator_infos(&self) -> Result<Vec<ValidatorInfo>> {
-        let client = AptosClient::new(self.node_address.clone());
+        let client = CedraClient::new(self.node_address.clone());
         let response = client
             .get_account_resource_bcs::<ValidatorSet>(CORE_CODE_ADDRESS, "0x1::stake::ValidatorSet")
             .await?;

@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::{
     CliCommand, CliConfig, CliError, CliTypedResult, ConfigSearchMode, ProfileOptions, RestOptions,
 };
-use aptos_types::account_address::AccountAddress;
+use cedra_types::account_address::AccountAddress;
 use async_trait::async_trait;
 use clap::{Parser, ValueEnum};
 use serde_json::json;
@@ -82,7 +82,7 @@ impl CliCommand<Vec<serde_json::Value>> for ListAccount {
             account
         } else {
             return Err(CliError::CommandArgumentError(
-                "Please provide an account using --account or run aptos init".to_string(),
+                "Please provide an account using --account or run cedra init".to_string(),
             ));
         };
 

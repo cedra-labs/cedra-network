@@ -52,7 +52,7 @@ GRPC_IS_READY_MESSAGE = f"""
     ======================================
 """
 
-SHARED_DOCKER_VOLUME_NAMES = ["aptos-shared", "indexer-grpc-file-store"]
+SHARED_DOCKER_VOLUME_NAMES = ["cedra-shared", "indexer-grpc-file-store"]
 
 WAIT_TESTNET_START_TIMEOUT_SECS = 60
 WAIT_INDEXER_GRPC_START_TIMEOUT_SECS = 60
@@ -246,7 +246,7 @@ def wait_for_indexer_grpc_progress(context: SystemContext) -> None:
                     "-import-path",
                     "protos/proto",
                     "-proto",
-                    "aptos/indexer/v1/raw_data.proto",
+                    "cedra/indexer/v1/raw_data.proto",
                     "-plaintext",
                     GRPC_DATA_SERVICE_NON_TLS_URL,
                     "cedra.indexer.v1.RawData/GetTransactions",
@@ -366,7 +366,7 @@ def check_system(context: SystemContext) -> None:
 
 
 def main() -> None:
-    # Change to the root of aptos-core.
+    # Change to the root of cedra-core.
     abspath = os.path.abspath(__file__)
     dname = os.path.dirname(abspath)
     os.chdir(dname)
@@ -393,7 +393,7 @@ def main() -> None:
     if platform.system() == "Darwin" and platform.processor().startswith("arm"):
         # If we're on an ARM Mac, use the amd64 Redis image. On some ARM Macs the ARM
         # Redis image doesn't work so we use the amd64 image for now. See more here:
-        # https://github.com/cedra-labs/cedra/issues/9878
+        # https://github.com/cedra-labs/cedra-network/issues/9878
         if not os.environ.get("REDIS_IMAGE_REPO"):
             os.environ["REDIS_IMAGE_REPO"] = "amd64/redis"
             log.info(

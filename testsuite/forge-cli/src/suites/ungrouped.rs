@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,22 +13,22 @@ use super::{
     },
 };
 use anyhow::Result;
-use aptos_cached_packages::aptos_stdlib;
-use aptos_config::config::{ConsensusConfig, MempoolConfig, NodeConfig};
-use aptos_forge::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_config::config::{ConsensusConfig, MempoolConfig, NodeConfig};
+use cedra_forge::{
     args::TransactionTypeArg,
     emitter::NumAccountsMode,
     success_criteria::{
         LatencyType, MetricsThreshold, StateProgressThreshold, SuccessCriteria,
         SystemMetricsThreshold,
     },
-    AdminContext, AdminTest, AptosContext, AptosTest, EmitJobMode, EmitJobRequest, ForgeConfig,
+    AdminContext, AdminTest, CedraContext, CedraTest, EmitJobMode, EmitJobRequest, ForgeConfig,
     NetworkContext, NetworkContextSynchronizer, NetworkTest, Test, WorkflowProgress,
 };
-use aptos_logger::info;
-use aptos_rest_client::Client as RestClient;
-use aptos_sdk::move_types::account_address::AccountAddress;
-use aptos_testcases::{
+use cedra_logger::info;
+use cedra_rest_client::Client as RestClient;
+use cedra_sdk::move_types::account_address::AccountAddress;
+use cedra_testcases::{
     self,
     consensus_reliability_tests::ChangingWorkingQuorumTest,
     forge_setup_test::ForgeSetupTest,
@@ -162,25 +162,25 @@ pub static RELIABLE_REAL_ENV_PROGRESS_THRESHOLD: Lazy<StateProgressThreshold> =
 pub fn run_forever() -> ForgeConfig {
     ForgeConfig::default()
         .add_admin_test(GetMetadata)
-        .with_genesis_module_bundle(aptos_cached_packages::head_release_bundle().clone())
-        .add_aptos_test(RunForever)
+        .with_genesis_module_bundle(cedra_cached_packages::head_release_bundle().clone())
+        .add_cedra_test(RunForever)
 }
 
 pub fn local_test_suite() -> ForgeConfig {
     ForgeConfig::default()
-        .add_aptos_test(FundAccount)
-        .add_aptos_test(TransferCoins)
+        .add_cedra_test(FundAccount)
+        .add_cedra_test(TransferCoins)
         .add_admin_test(GetMetadata)
         .add_network_test(RestartValidator)
         .add_network_test(EmitTransaction)
-        .with_genesis_module_bundle(aptos_cached_packages::head_release_bundle().clone())
+        .with_genesis_module_bundle(cedra_cached_packages::head_release_bundle().clone())
 }
 
 pub fn k8s_test_suite() -> ForgeConfig {
     ForgeConfig::default()
         .with_initial_validator_count(NonZeroUsize::new(30).unwrap())
-        .add_aptos_test(FundAccount)
-        .add_aptos_test(TransferCoins)
+        .add_cedra_test(FundAccount)
+        .add_cedra_test(TransferCoins)
         .add_admin_test(GetMetadata)
         .add_network_test(EmitTransaction)
         .add_network_test(FrameworkUpgrade)
@@ -408,7 +408,7 @@ fn background_emit_request(high_gas_price: bool) -> EmitJobRequest {
         .num_accounts_mode(NumAccountsMode::TransactionsPerAccount(1))
         .mode(EmitJobMode::ConstTps { tps: 10 });
     if high_gas_price {
-        result = result.gas_price(5 * aptos_global_constants::GAS_UNIT_PRICE);
+        result = result.gas_price(5 * cedra_global_constants::GAS_UNIT_PRICE);
     }
     result
 }
@@ -718,7 +718,7 @@ pub fn optimize_state_sync_for_throughput(node_config: &mut NodeConfig, max_chun
     let max_chunk_bytes = 40 * 1024 * 1024; // 10x the current limit (to prevent execution fallback)
 
     // Update the chunk sizes for the data client
-    let data_client_config = &mut node_config.state_sync.aptos_data_client;
+    let data_client_config = &mut node_config.state_sync.cedra_data_client;
     data_client_config.max_transaction_chunk_size = max_chunk_size;
     data_client_config.max_transaction_output_chunk_size = max_chunk_size;
 
@@ -902,8 +902,8 @@ impl Test for RunForever {
 }
 
 #[async_trait::async_trait]
-impl AptosTest for RunForever {
-    async fn run<'t>(&self, _ctx: &mut AptosContext<'t>) -> Result<()> {
+impl CedraTest for RunForever {
+    async fn run<'t>(&self, _ctx: &mut CedraContext<'t>) -> Result<()> {
         println!("The network has been deployed. Hit Ctrl+C to kill this, otherwise it will run forever.");
         let keep_running = Arc::new(AtomicBool::new(true));
         while keep_running.load(Ordering::Acquire) {
@@ -927,7 +927,7 @@ impl AdminTest for GetMetadata {
     fn run(&self, ctx: &mut AdminContext<'_>) -> Result<()> {
         let client = ctx.rest_client();
         let runtime = Runtime::new().unwrap();
-        runtime.block_on(client.get_aptos_version()).unwrap();
+        runtime.block_on(client.get_cedra_version()).unwrap();
         runtime.block_on(client.get_ledger_information()).unwrap();
 
         Ok(())
@@ -958,8 +958,8 @@ impl Test for FundAccount {
 }
 
 #[async_trait::async_trait]
-impl AptosTest for FundAccount {
-    async fn run<'t>(&self, ctx: &mut AptosContext<'t>) -> Result<()> {
+impl CedraTest for FundAccount {
+    async fn run<'t>(&self, ctx: &mut CedraContext<'t>) -> Result<()> {
         let client = ctx.client();
 
         let account = ctx.random_account();
@@ -982,8 +982,8 @@ impl Test for TransferCoins {
 }
 
 #[async_trait::async_trait]
-impl AptosTest for TransferCoins {
-    async fn run<'t>(&self, ctx: &mut AptosContext<'t>) -> Result<()> {
+impl CedraTest for TransferCoins {
+    async fn run<'t>(&self, ctx: &mut CedraContext<'t>) -> Result<()> {
         let client = ctx.client();
         let payer = ctx.random_account();
         let payee = ctx.random_account();
@@ -993,8 +993,8 @@ impl AptosTest for TransferCoins {
         check_account_balance(&client, payer.address(), 10000).await?;
 
         let transfer_txn = payer.sign_with_transaction_builder(
-            ctx.aptos_transaction_factory()
-                .payload(aptos_stdlib::cedra_coin_transfer(payee.address(), 10)),
+            ctx.cedra_transaction_factory()
+                .payload(cedra_stdlib::cedra_coin_transfer(payee.address(), 10)),
         );
         client.submit_and_wait(&transfer_txn).await?;
         check_account_balance(&client, payee.address(), 10).await?;

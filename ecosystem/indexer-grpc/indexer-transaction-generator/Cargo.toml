@@ -1,5 +1,5 @@
 [package]
-name = "aptos-indexer-transaction-generator"
+name = "cedra-indexer-transaction-generator"
 description = "Indexer integration testing framework."
 version = "1.0.0"
 
@@ -16,10 +16,10 @@ rust-version = { workspace = true }
 anyhow = { workspace = true }
 # used for localnode.
 cedra = { workspace = true }
-aptos-config = { workspace = true }
-aptos-faucet-core = { workspace = true }
-aptos-indexer-grpc-utils = { workspace = true }
-aptos-protos ={ workspace = true }
+cedra-config = { workspace = true }
+cedra-faucet-core = { workspace = true }
+cedra-indexer-grpc-utils = { workspace = true }
+cedra-protos ={ workspace = true }
 clap = { workspace = true }
 futures = { workspace = true }
 rand = { workspace = true }

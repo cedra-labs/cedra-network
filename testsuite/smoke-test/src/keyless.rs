@@ -1,19 +1,19 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{smoke_test_environment::SwarmBuilder, utils::get_on_chain_resource};
 use cedra::{common::types::GasOptions, test::CliTestFramework};
-use aptos_cached_packages::aptos_stdlib;
-use aptos_crypto::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_crypto::{
     ed25519::Ed25519PrivateKey, poseidon_bn254::keyless::fr_to_bytes_le, PrivateKey, SigningKey,
 };
-use aptos_forge::{AptosPublicInfo, LocalSwarm, NodeExt, Swarm, SwarmExt};
-use aptos_logger::{debug, info};
-use aptos_rest_client::Client;
-use aptos_sdk::types::{
+use cedra_forge::{CedraPublicInfo, LocalSwarm, NodeExt, Swarm, SwarmExt};
+use cedra_logger::{debug, info};
+use cedra_rest_client::Client;
+use cedra_sdk::types::{
     EphemeralKeyPair, EphemeralPrivateKey, FederatedKeylessAccount, KeylessAccount, LocalAccount,
 };
-use aptos_types::{
+use cedra_types::{
     jwks::{
         jwk::{JWKMoveStruct, JWK},
         rsa::RSA_JWK,
@@ -53,7 +53,7 @@ async fn test_keyless_oidc_txn_verifies() {
 
     info!("Submit OpenID transaction");
     let result = swarm
-        .aptos_public_info()
+        .cedra_public_info()
         .client()
         .submit_without_deserializing_response(&signed_txn)
         .await;
@@ -66,7 +66,7 @@ async fn test_keyless_oidc_txn_verifies() {
 #[tokio::test]
 async fn test_keyless_rotate_vk() {
     let (tw_sk, config, jwk, swarm, mut cli, root_idx) = setup_local_net().await;
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
 
     let (old_sig, old_pk) = get_sample_groth16_sig_and_pk();
     let signed_txn = sign_transaction(
@@ -144,7 +144,7 @@ async fn test_keyless_rotate_vk() {
 #[tokio::test]
 async fn test_keyless_secure_test_jwk_initialized_at_genesis() {
     let (swarm, _cli, _faucet) = SwarmBuilder::new_local(1)
-        .with_aptos()
+        .with_cedra()
         .build_with_cli(0)
         .await;
     let client = swarm.validators().next().unwrap().rest_client();
@@ -178,7 +178,7 @@ async fn test_keyless_oidc_txn_with_bad_jwt_sig() {
         },
     }
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     let signed_txn = sign_transaction(&mut info, sig, pk, &jwk, &config, Some(&tw_sk), 1).await;
 
     info!("Submit OpenID transaction with bad JWT signature");
@@ -199,7 +199,7 @@ async fn test_keyless_oidc_txn_with_expired_epk() {
 
     sig.exp_date_secs = 1; // This should fail the verification since the expiration date is way in the past
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     let signed_txn = sign_transaction(&mut info, sig, pk, &jwk, &config, Some(&tw_sk), 1).await;
 
     info!("Submit OpenID transaction with expired EPK");
@@ -219,7 +219,7 @@ async fn test_keyless_groth16_verifies() {
 
     info!("Submit keyless Groth16 transaction");
     let result = swarm
-        .aptos_public_info()
+        .cedra_public_info()
         .client()
         .submit_without_deserializing_response(&signed_txn)
         .await;
@@ -263,10 +263,10 @@ async fn federated_keyless_scenario(
         };
         let script = r#"
 script {
-    use aptos_framework::jwks;
-    use aptos_framework::aptos_governance;
+    use cedra_framework::jwks;
+    use cedra_framework::cedra_governance;
     fun main(core_resources: &signer) {
-        let framework = aptos_governance::get_signer_testnet_only(core_resources, @0x1);
+        let framework = cedra_governance::get_signer_testnet_only(core_resources, @0x1);
         jwks::set_patches(&framework, vector[]);
     }
 }
@@ -288,7 +288,7 @@ script {
         let script = format!(
             r#"
 script {{
-    use aptos_framework::jwks;
+    use cedra_framework::jwks;
     use std::string::utf8;
     fun main(account: &signer) {{
         let iss = b"{}";
@@ -319,7 +319,7 @@ script {{
         assert_eq!(Some(true), txn_result.unwrap().success);
     }
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
 
     let esk = EphemeralPrivateKey::Ed25519 {
         inner_private_key: get_sample_esk(),
@@ -375,7 +375,7 @@ script {{
 
     let txn_builder = info
         .transaction_factory()
-        .payload(aptos_stdlib::cedra_coin_transfer(
+        .payload(cedra_stdlib::cedra_coin_transfer(
             recipient.address(),
             1_000_000,
         ));
@@ -383,7 +383,7 @@ script {{
     let signed_txn = local_account.sign_with_transaction_builder(txn_builder);
 
     let result = swarm
-        .aptos_public_info()
+        .cedra_public_info()
         .client()
         .submit_without_deserializing_response(&signed_txn)
         .await;
@@ -398,7 +398,7 @@ async fn test_keyless_no_extra_field_groth16_verifies() {
 
     info!("Submit keyless Groth16 transaction");
     let result = swarm
-        .aptos_public_info()
+        .cedra_public_info()
         .client()
         .submit_without_deserializing_response(&signed_txn)
         .await;
@@ -413,7 +413,7 @@ async fn test_keyless_no_training_wheels_groth16_verifies() {
     let (_tw_sk, config, jwk, swarm, mut cli, root_idx) = setup_local_net().await;
     let (sig, pk) = get_sample_groth16_sig_and_pk();
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
 
     remove_training_wheels(&mut cli, &mut info, root_idx).await;
 
@@ -449,7 +449,7 @@ async fn test_keyless_groth16_verifies_using_rust_sdk() {
     )
     .unwrap();
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     let keyless_account = KeylessAccount::new(
         &get_sample_iss(),
         &get_sample_aud(),
@@ -482,14 +482,14 @@ async fn test_keyless_groth16_verifies_using_rust_sdk() {
 
     let builder = info
         .transaction_factory()
-        .payload(aptos_stdlib::cedra_coin_transfer(recipient.address(), 100));
+        .payload(cedra_stdlib::cedra_coin_transfer(recipient.address(), 100));
     let signed_txn = account.sign_with_transaction_builder(builder);
 
     remove_training_wheels(&mut cli, &mut info, root_idx).await;
 
     info!("Submit keyless Groth16 transaction");
     let result = swarm
-        .aptos_public_info()
+        .cedra_public_info()
         .client()
         .submit_without_deserializing_response(&signed_txn)
         .await;
@@ -517,7 +517,7 @@ async fn test_keyless_groth16_verifies_using_rust_sdk_from_jwt() {
     )
     .unwrap();
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     let keyless_account = KeylessAccount::new_from_jwt(
         &get_sample_jwt_token(),
         ephemeral_key_pair,
@@ -547,14 +547,14 @@ async fn test_keyless_groth16_verifies_using_rust_sdk_from_jwt() {
 
     let builder = info
         .transaction_factory()
-        .payload(aptos_stdlib::cedra_coin_transfer(recipient.address(), 100));
+        .payload(cedra_stdlib::cedra_coin_transfer(recipient.address(), 100));
     let signed_txn = account.sign_with_transaction_builder(builder);
 
     remove_training_wheels(&mut cli, &mut info, root_idx).await;
 
     info!("Submit keyless Groth16 transaction");
     let result = swarm
-        .aptos_public_info()
+        .cedra_public_info()
         .client()
         .submit_without_deserializing_response(&signed_txn)
         .await;
@@ -569,7 +569,7 @@ async fn test_keyless_groth16_with_mauled_proof() {
     let (tw_sk, config, jwk, swarm, _, _) = setup_local_net().await;
     let (sig, pk) = get_sample_groth16_sig_and_pk();
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     let signed_txn = sign_transaction(&mut info, sig, pk, &jwk, &config, Some(&tw_sk), 1).await;
     let signed_txn = maul_groth16_zkp_signature(signed_txn);
 
@@ -589,7 +589,7 @@ async fn test_keyless_groth16_with_bad_tw_signature() {
     let (_tw_sk, config, jwk, swarm, _, _) = setup_local_net().await;
     let (sig, pk) = get_sample_groth16_sig_and_pk();
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
 
     // using the sample ESK rather than the TW SK to get a bad training wheels signature
     let signed_txn = sign_transaction(
@@ -617,7 +617,7 @@ async fn test_keyless_groth16_with_bad_tw_signature() {
 }
 
 async fn sign_transaction_any_keyless_pk<'a>(
-    info: &mut AptosPublicInfo,
+    info: &mut CedraPublicInfo,
     mut sig: KeylessSignature,
     any_keyless_pk: AnyKeylessPublicKey,
     jwk: &RSA_JWK,
@@ -664,7 +664,7 @@ async fn sign_transaction_any_keyless_pk<'a>(
 
     let raw_txn = info
         .transaction_factory()
-        .payload(aptos_stdlib::cedra_coin_transfer(
+        .payload(cedra_stdlib::cedra_coin_transfer(
             recipient.address(),
             1_000_000,
         ))
@@ -724,7 +724,7 @@ async fn sign_transaction_any_keyless_pk<'a>(
 }
 
 async fn sign_transaction<'a>(
-    info: &mut AptosPublicInfo,
+    info: &mut CedraPublicInfo,
     sig: KeylessSignature,
     pk: KeylessPublicKey,
     jwk: &RSA_JWK,
@@ -776,7 +776,7 @@ async fn get_transaction(
 
     let (sig, pk) = get_pk_and_sig_func();
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     let signed_txn = sign_transaction(
         &mut info,
         sig.clone(),
@@ -822,7 +822,7 @@ async fn setup_local_net_inner(
             }
             conf.initial_features_override = Some(features);
         }))
-        .with_aptos()
+        .with_cedra()
         .build_with_cli(0)
         .await;
 
@@ -833,19 +833,19 @@ async fn setup_local_net_inner(
 
 pub(crate) async fn remove_training_wheels<'a>(
     cli: &mut CliTestFramework,
-    info: &mut AptosPublicInfo,
+    info: &mut CedraPublicInfo,
     root_idx: usize,
 ) {
     let script = format!(
         r#"
 script {{
-use aptos_framework::{};
-use aptos_framework::aptos_governance;
+use cedra_framework::{};
+use cedra_framework::cedra_governance;
 use std::option;
 fun main(core_resources: &signer) {{
-    let framework_signer = aptos_governance::get_signer_testnet_only(core_resources, @0x1);
+    let framework_signer = cedra_governance::get_signer_testnet_only(core_resources, @0x1);
     {}::update_training_wheels_for_next_epoch(&framework_signer, option::none());
-    aptos_governance::force_end_epoch(&framework_signer);
+    cedra_governance::force_end_epoch(&framework_signer);
 }}
 }}
 "#,
@@ -903,7 +903,7 @@ pub(crate) async fn spawn_network_and_execute_gov_proposals(
         .unwrap();
     debug!("txn_summary={:?}", txn_summary);
 
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
 
     // Increment sequence number since we installed the VK
     info.root_account().increment_sequence_number();
@@ -939,13 +939,13 @@ pub(crate) async fn spawn_network_and_execute_gov_proposals(
     let script = format!(
         r#"
 script {{
-use aptos_framework::jwks;
-use aptos_framework::{};
-use aptos_framework::aptos_governance;
+use cedra_framework::jwks;
+use cedra_framework::{};
+use cedra_framework::cedra_governance;
 use std::string::utf8;
 use std::option;
 fun main(core_resources: &signer) {{
-    let framework_signer = aptos_governance::get_signer_testnet_only(core_resources, @0000000000000000000000000000000000000000000000000000000000000001);
+    let framework_signer = cedra_governance::get_signer_testnet_only(core_resources, @0000000000000000000000000000000000000000000000000000000000000001);
     let jwk_0 = jwks::new_rsa_jwk(
         utf8(b"{}"),
         utf8(b"{}"),
@@ -960,7 +960,7 @@ fun main(core_resources: &signer) {{
 
     {}::update_max_exp_horizon_for_next_epoch(&framework_signer, {});
     {}::update_training_wheels_for_next_epoch(&framework_signer, option::some(x"{}"));
-    aptos_governance::force_end_epoch(&framework_signer);
+    cedra_governance::force_end_epoch(&framework_signer);
 }}
 }}
 "#,
@@ -1025,13 +1025,13 @@ fn get_rotate_vk_governance_script(vk: &Groth16VerificationKey) -> String {
     let script = format!(
         r#"
 script {{
-    use aptos_framework::{};
-    use aptos_framework::aptos_governance;
+    use cedra_framework::{};
+    use cedra_framework::cedra_governance;
     fun main(core_resources: &signer) {{
-        let framework_signer = aptos_governance::get_signer_testnet_only(core_resources, @0x1);
+        let framework_signer = cedra_governance::get_signer_testnet_only(core_resources, @0x1);
         let vk = {}::new_groth16_verification_key(x"{}", x"{}", x"{}", x"{}", vector[x"{}", x"{}"]);
         {}::set_groth16_verification_key_for_next_epoch(&framework_signer, vk);
-        aptos_governance::force_end_epoch(&framework_signer);
+        cedra_governance::force_end_epoch(&framework_signer);
     }}
 }}
 "#,
@@ -1052,7 +1052,7 @@ script {{
 
 async fn rotate_vk_by_governance<'a>(
     cli: &mut CliTestFramework,
-    info: &mut AptosPublicInfo,
+    info: &mut CedraPublicInfo,
     vk: &Groth16VerificationKey,
     root_idx: usize,
 ) {

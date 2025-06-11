@@ -1,4 +1,4 @@
-// Code example taken from https://github.com/cedra-labs/cedra/issues/12540
+// Code example taken from https://github.com/cedra-labs/cedra-network/issues/12540
 module 0xc0ffee::m {
     fun point_add_internal(a: &u64, b: &u64, _in_place: bool): u64 {
         *a + *b

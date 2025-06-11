@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{common::types::load_account_arg, move_tool::CachedPackageRegistry};
-use aptos_framework::UPGRADE_POLICY_CUSTOM_FIELD;
+use cedra_framework::UPGRADE_POLICY_CUSTOM_FIELD;
 use futures::executor::block_on;
 use move_package::{
     compilation::package_layout::CompiledPackageLayout, package_hooks::PackageHooks,
@@ -12,18 +12,18 @@ use move_symbol_pool::Symbol;
 use reqwest::Url;
 
 pub fn register_package_hooks() {
-    move_package::package_hooks::register_package_hooks(Box::new(AptosPackageHooks {}))
+    move_package::package_hooks::register_package_hooks(Box::new(CedraPackageHooks {}))
 }
 
-struct AptosPackageHooks {}
+struct CedraPackageHooks {}
 
-impl PackageHooks for AptosPackageHooks {
+impl PackageHooks for CedraPackageHooks {
     fn custom_package_info_fields(&self) -> Vec<String> {
         vec![UPGRADE_POLICY_CUSTOM_FIELD.to_string()]
     }
 
     fn custom_dependency_key(&self) -> Option<String> {
-        Some("aptos".to_string())
+        Some("cedra".to_string())
     }
 
     fn resolve_custom_dependency(

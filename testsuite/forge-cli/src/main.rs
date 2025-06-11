@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(clippy::field_reassign_with_default)]
 
 use anyhow::{bail, format_err, Context, Result};
-use aptos_forge::{config::ForgeConfig, Options, *};
-use aptos_logger::Level;
+use cedra_forge::{config::ForgeConfig, Options, *};
+use cedra_logger::Level;
 use clap::{Parser, Subcommand};
 use futures::{future, FutureExt};
 use rand::{rngs::ThreadRng, seq::SliceRandom, Rng};
@@ -233,7 +233,7 @@ fn random_namespace<R: Rng>(dictionary: Vec<String>, rng: &mut R) -> Result<Stri
 }
 
 fn main() -> Result<()> {
-    let mut logger = aptos_logger::Logger::new();
+    let mut logger = cedra_logger::Logger::new();
     logger.channel_size(1000).is_async(false).level(Level::Info);
     logger.build();
 
@@ -465,7 +465,7 @@ pub fn send_changelog_message(perf_msg: &str, from_commit: &Option<String>, to_c
 
 fn get_changelog(prev_commit: Option<&String>, upstream_commit: &str) -> String {
     let github_client = GitHub::new();
-    let commits = github_client.get_commits("aptos-labs/aptos-core", upstream_commit);
+    let commits = github_client.get_commits("cedra-labs/cedra-core", upstream_commit);
     match commits {
         Err(e) => {
             println!("Failed to get github commits: {:?}", e);

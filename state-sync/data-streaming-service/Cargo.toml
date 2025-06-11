@@ -1,5 +1,5 @@
 [package]
-name = "aptos-data-streaming-service"
+name = "cedra-data-streaming-service"
 description = "The data streaming service that sends data notifications to clients"
 version = "0.1.0"
 
@@ -13,16 +13,16 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-channels = { workspace = true }
-aptos-config = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-data-client = { workspace = true }
-aptos-id-generator = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-time-service = { workspace = true }
-aptos-types = { workspace = true }
+cedra-channels = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-data-client = { workspace = true }
+cedra-id-generator = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-types = { workspace = true }
 arc-swap = { workspace = true }
 async-trait = { workspace = true }
 enum_dispatch = { workspace = true }
@@ -34,9 +34,9 @@ tokio = { workspace = true }
 tokio-stream = { workspace = true }
 
 [dev-dependencies]
-aptos-storage-service-types = { workspace = true }
-aptos-time-service = { workspace = true, features = ["testing"] }
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-storage-service-types = { workspace = true }
+cedra-time-service = { workspace = true, features = ["testing"] }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 claims = { workspace = true }
 rand = { workspace = true }
 tokio = { workspace = true }

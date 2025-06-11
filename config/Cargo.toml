@@ -1,6 +1,6 @@
 [package]
-name = "aptos-config"
-description = "Aptos config"
+name = "cedra-config"
+description = "Cedra config"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,13 +14,13 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-global-constants = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-secure-storage = { workspace = true }
-aptos-short-hex-str = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-types = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-global-constants = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-secure-storage = { workspace = true }
+cedra-short-hex-str = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-types = { workspace = true }
 arr_macro = { workspace = true }
 bcs = { workspace = true }
 byteorder = { workspace = true }
@@ -38,14 +38,14 @@ thiserror = { workspace = true }
 url = { workspace = true }
 
 [dev-dependencies]
-aptos-crypto = { workspace = true }
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-crypto = { workspace = true }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 tempfile = { workspace = true }
 
 [features]
 default = []
 failpoints = []
-fuzzing = ["aptos-crypto/fuzzing", "aptos-types/fuzzing"]
+fuzzing = ["cedra-crypto/fuzzing", "cedra-types/fuzzing"]
 smoke-test = []
 testing = []
 tokio-console = []

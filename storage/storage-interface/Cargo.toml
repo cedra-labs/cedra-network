@@ -1,6 +1,6 @@
 [package]
-name = "aptos-storage-interface"
-description = "Aptos storage interface"
+name = "cedra-storage-interface"
+description = "Cedra storage interface"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,13 +14,13 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-experimental-layered-map = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-scratchpad = { workspace = true }
-aptos-secure-net = { workspace = true }
-aptos-types = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-experimental-layered-map = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-scratchpad = { workspace = true }
+cedra-secure-net = { workspace = true }
+cedra-types = { workspace = true }
 arr_macro = { workspace = true }
 bcs = { workspace = true }
 dashmap = { workspace = true }
@@ -36,11 +36,11 @@ serde = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 
 [features]
 default = []
-fuzzing = ["aptos-types/fuzzing"]
+fuzzing = ["cedra-types/fuzzing"]
 
 [package.metadata.cargo-machete]
 ignored = ["proptest"]

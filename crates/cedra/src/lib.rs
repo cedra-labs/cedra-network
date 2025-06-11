@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![deny(unsafe_code)]
@@ -21,14 +21,14 @@ use crate::common::{
     types::{CliCommand, CliResult, CliTypedResult},
     utils::cli_build_information,
 };
-use aptos_workspace_server::WorkspaceCommand;
+use cedra_workspace_server::WorkspaceCommand;
 use async_trait::async_trait;
 use clap::Parser;
 use std::collections::BTreeMap;
 
-/// Command Line Interface (CLI) for developing and interacting with the Aptos blockchain
+/// Command Line Interface (CLI) for developing and interacting with the Cedra blockchain
 #[derive(Parser)]
-#[clap(name = "aptos", author, version, propagate_version = true, styles = aptos_cli_common::aptos_cli_style())]
+#[clap(name = "cedra", author, version, propagate_version = true, styles = cedra_cli_common::cedra_cli_style())]
 pub enum Tool {
     #[clap(subcommand)]
     Account(account::AccountTool),

@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{new_test_context, new_test_context_with_config};
-use aptos_api_test_context::{current_function_name, TestContext};
-use aptos_cached_packages::aptos_stdlib;
-use aptos_config::config::{NodeConfig, ViewFilter, ViewFunctionId};
-use aptos_types::account_address::AccountAddress;
+use cedra_api_test_context::{current_function_name, TestContext};
+use cedra_cached_packages::cedra_stdlib;
+use cedra_config::config::{NodeConfig, ViewFilter, ViewFunctionId};
+use cedra_types::account_address::AccountAddress;
 use serde_json::{json, Value};
 use std::{path::PathBuf, str::FromStr};
 
@@ -62,7 +62,7 @@ async fn test_view_gas_used_header() {
     // Confirm the gas used header is present.
     assert!(
         resp.headers()
-            .get("X-Aptos-Gas-Used")
+            .get("X-Cedra-Gas-Used")
             .unwrap()
             .to_str()
             .unwrap()
@@ -159,7 +159,7 @@ async fn test_simple_view_invalid() {
         .post(
             "/view",
             json!({
-                "function":"0x1::aptos_account::assert_account_exists",
+                "function":"0x1::cedra_account::assert_account_exists",
                 "arguments": vec![owner.address().to_string()],
                 "type_arguments": [],
             }),
@@ -197,7 +197,7 @@ async fn test_versioned_simple_view() {
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn test_view_tuple() {
     let mut context = new_test_context(current_function_name!());
-    let payload = aptos_stdlib::publish_module_source(
+    let payload = cedra_stdlib::publish_module_source(
         "test_module",
         r#"
         module 0xa550c18::test_module {

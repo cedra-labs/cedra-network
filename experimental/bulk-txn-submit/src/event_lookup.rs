@@ -1,8 +1,8 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{bail, Result};
-use aptos_sdk::types::{account_address::AccountAddress, contract_event::ContractEvent};
+use cedra_sdk::types::{account_address::AccountAddress, contract_event::ContractEvent};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]

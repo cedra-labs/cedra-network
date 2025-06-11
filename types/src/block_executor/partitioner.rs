@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::transaction::{
@@ -6,7 +6,7 @@ use crate::transaction::{
     signature_verified_transaction::{into_signature_verified_block, SignatureVerifiedTransaction},
     Transaction,
 };
-use aptos_crypto::HashValue;
+use cedra_crypto::HashValue;
 use serde::{Deserialize, Serialize};
 use std::{
     cmp::Ordering,

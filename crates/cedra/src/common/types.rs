@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::utils::{explorer_transaction_link, fund_account, strip_private_key_prefix};
@@ -20,34 +20,34 @@ use crate::{
     move_tool::{ArgWithType, FunctionArgType, MemberId},
 };
 use anyhow::{bail, Context};
-use aptos_api_types::ViewFunction;
-use aptos_crypto::{
+use cedra_api_types::ViewFunction;
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey, Ed25519Signature},
     encoding_type::{EncodingError, EncodingType},
     x25519, PrivateKey, ValidCryptoMaterialStringExt,
 };
-use aptos_framework::chunked_publish::{CHUNK_SIZE_IN_BYTES, LARGE_PACKAGES_MODULE_ADDRESS};
-use aptos_global_constants::adjust_gas_headroom;
-use aptos_keygen::KeyGen;
-use aptos_logger::Level;
-use aptos_move_debugger::aptos_debugger::AptosDebugger;
-use aptos_rest_client::{
-    aptos_api_types::{EntryFunctionId, HashValue, MoveType, ViewRequest},
+use cedra_framework::chunked_publish::{CHUNK_SIZE_IN_BYTES, LARGE_PACKAGES_MODULE_ADDRESS};
+use cedra_global_constants::adjust_gas_headroom;
+use cedra_keygen::KeyGen;
+use cedra_logger::Level;
+use cedra_move_debugger::cedra_debugger::CedraDebugger;
+use cedra_rest_client::{
+    cedra_api_types::{EntryFunctionId, HashValue, MoveType, ViewRequest},
     error::RestError,
-    AptosBaseUrl, Client, Transaction,
+    CedraBaseUrl, Client, Transaction,
 };
-use aptos_sdk::{
+use cedra_sdk::{
     transaction_builder::TransactionFactory,
     types::{HardwareWalletAccount, HardwareWalletType, LocalAccount, TransactionSigner},
 };
-use aptos_types::{
+use cedra_types::{
     chain_id::ChainId,
     transaction::{
         authenticator::AuthenticationKey, EntryFunction, MultisigTransactionPayload, Script,
         SignedTransaction, TransactionArgument, TransactionPayload, TransactionStatus,
     },
 };
-use aptos_vm_types::output::VMOutput;
+use cedra_vm_types::output::VMOutput;
 use async_trait::async_trait;
 use clap::{Parser, ValueEnum};
 use hex::FromHexError;
@@ -76,27 +76,27 @@ use std::{
 };
 use thiserror::Error;
 
-pub const USER_AGENT: &str = concat!("aptos-cli/", env!("CARGO_PKG_VERSION"));
+pub const USER_AGENT: &str = concat!("cedra-cli/", env!("CARGO_PKG_VERSION"));
 pub const US_IN_SECS: u64 = 1_000_000;
 pub const ACCEPTED_CLOCK_SKEW_US: u64 = 5 * US_IN_SECS;
 pub const DEFAULT_EXPIRATION_SECS: u64 = 30;
 pub const DEFAULT_PROFILE: &str = "default";
 pub const GIT_IGNORE: &str = ".gitignore";
 
-pub const APTOS_FOLDER_GIT_IGNORE: &str = indoc! {"
+pub const CEDRA_FOLDER_GIT_IGNORE: &str = indoc! {"
     *
     testnet/
     config.yaml
 "};
 pub const MOVE_FOLDER_GIT_IGNORE: &str = indoc! {"
-  .aptos/
+  .cedra/
   build/
   .coverage_map.mvcov
   .trace"
 };
 
 // Custom header value to identify the client
-const X_APTOS_CLIENT_VALUE: &str = concat!("cedra-cli/", env!("CARGO_PKG_VERSION"));
+const X_CEDRA_CLIENT_VALUE: &str = concat!("cedra-cli/", env!("CARGO_PKG_VERSION"));
 
 /// A common result to be returned to users
 pub type CliResult = Result<String, String>;
@@ -117,7 +117,7 @@ pub enum CliError {
     CommandArgumentError(String),
     #[error("Unable to load config: {0} {1}")]
     ConfigLoadError(String, String),
-    #[error("Unable to find config {0}, have you run `aptos init`?")]
+    #[error("Unable to find config {0}, have you run `cedra init`?")]
     ConfigNotFoundError(String),
     #[error("Error accessing '{0}': {1}")]
     IO(String, #[source] std::io::Error),
@@ -176,14 +176,14 @@ impl From<RestError> for CliError {
     }
 }
 
-impl From<aptos_config::config::Error> for CliError {
-    fn from(e: aptos_config::config::Error) -> Self {
+impl From<cedra_config::config::Error> for CliError {
+    fn from(e: cedra_config::config::Error) -> Self {
         CliError::UnexpectedError(e.to_string())
     }
 }
 
-impl From<aptos_github_client::Error> for CliError {
-    fn from(e: aptos_github_client::Error) -> Self {
+impl From<cedra_github_client::Error> for CliError {
+    fn from(e: cedra_github_client::Error) -> Self {
         CliError::UnexpectedError(e.to_string())
     }
 }
@@ -206,8 +206,8 @@ impl From<std::string::FromUtf8Error> for CliError {
     }
 }
 
-impl From<aptos_crypto::CryptoMaterialError> for CliError {
-    fn from(e: aptos_crypto::CryptoMaterialError) -> Self {
+impl From<cedra_crypto::CryptoMaterialError> for CliError {
+    fn from(e: cedra_crypto::CryptoMaterialError) -> Self {
         CliError::UnexpectedError(e.to_string())
     }
 }
@@ -230,8 +230,8 @@ impl From<bcs::Error> for CliError {
     }
 }
 
-impl From<aptos_ledger::AptosLedgerError> for CliError {
-    fn from(e: aptos_ledger::AptosLedgerError) -> Self {
+impl From<cedra_ledger::CedraLedgerError> for CliError {
+    fn from(e: cedra_ledger::CedraLedgerError) -> Self {
         CliError::UnexpectedError(e.to_string())
     }
 }
@@ -247,7 +247,7 @@ impl From<EncodingError> for CliError {
     }
 }
 
-/// Config saved to `.aptos/config.yaml`
+/// Config saved to `.cedra/config.yaml`
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CliConfig {
     /// Map of profile configs
@@ -262,7 +262,7 @@ pub const CONFIG_FOLDER: &str = ".cedra";
 /// An individual profile
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct ProfileConfig {
-    /// Name of network being used, if setup from aptos init
+    /// Name of network being used, if setup from cedra init
     #[serde(skip_serializing_if = "Option::is_none")]
     pub network: Option<Network>,
     /// Private key for commands.
@@ -286,7 +286,7 @@ pub struct ProfileConfig {
         deserialize_with = "deserialize_address_str"
     )]
     pub account: Option<AccountAddress>,
-    /// URL for the Aptos rest endpoint
+    /// URL for the Cedra rest endpoint
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rest_url: Option<String>,
     /// URL for the Faucet endpoint (if applicable)
@@ -350,7 +350,7 @@ pub enum ConfigSearchMode {
 impl CliConfig {
     /// Checks if the config exists in the current working directory
     pub fn config_exists(mode: ConfigSearchMode) -> bool {
-        if let Ok(folder) = Self::aptos_folder(mode) {
+        if let Ok(folder) = Self::cedra_folder(mode) {
             let config_file = folder.join(CONFIG_FILE);
             let old_config_file = folder.join(LEGACY_CONFIG_FILE);
             config_file.exists() || old_config_file.exists()
@@ -361,7 +361,7 @@ impl CliConfig {
 
     /// Loads the config from the current working directory or one of its parents.
     pub fn load(mode: ConfigSearchMode) -> CliTypedResult<Self> {
-        let folder = Self::aptos_folder(mode)?;
+        let folder = Self::cedra_folder(mode)?;
 
         let config_file = folder.join(CONFIG_FILE);
         let old_config_file = folder.join(LEGACY_CONFIG_FILE);
@@ -412,33 +412,33 @@ impl CliConfig {
         }
     }
 
-    /// Saves the config to ./.aptos/config.yaml
+    /// Saves the config to ./.cedra/config.yaml
     pub fn save(&self) -> CliTypedResult<()> {
-        let aptos_folder = Self::aptos_folder(ConfigSearchMode::CurrentDir)?;
+        let cedra_folder = Self::cedra_folder(ConfigSearchMode::CurrentDir)?;
 
         // Create if it doesn't exist
-        let no_dir = !aptos_folder.exists();
-        create_dir_if_not_exist(aptos_folder.as_path())?;
+        let no_dir = !cedra_folder.exists();
+        create_dir_if_not_exist(cedra_folder.as_path())?;
 
-        // If the `.aptos/` doesn't exist, we'll add a .gitignore in it to ignore the config file
+        // If the `.cedra/` doesn't exist, we'll add a .gitignore in it to ignore the config file
         // so people don't save their credentials...
         if no_dir {
             write_to_user_only_file(
-                aptos_folder.join(GIT_IGNORE).as_path(),
+                cedra_folder.join(GIT_IGNORE).as_path(),
                 GIT_IGNORE,
-                APTOS_FOLDER_GIT_IGNORE.as_bytes(),
+                CEDRA_FOLDER_GIT_IGNORE.as_bytes(),
             )?;
         }
 
         // Save over previous config file
-        let config_file = aptos_folder.join(CONFIG_FILE);
+        let config_file = cedra_folder.join(CONFIG_FILE);
         let config_bytes = serde_yaml::to_string(&self).map_err(|err| {
             CliError::UnexpectedError(format!("Failed to serialize config {}", err))
         })?;
         write_to_user_only_file(&config_file, CONFIG_FILE, config_bytes.as_bytes())?;
 
         // As a cleanup, delete the old if it exists
-        let legacy_config_file = aptos_folder.join(LEGACY_CONFIG_FILE);
+        let legacy_config_file = cedra_folder.join(LEGACY_CONFIG_FILE);
         if legacy_config_file.exists() {
             eprintln!("Removing legacy config file {}", LEGACY_CONFIG_FILE);
             let _ = std::fs::remove_file(legacy_config_file);
@@ -446,8 +446,8 @@ impl CliConfig {
         Ok(())
     }
 
-    /// Finds the current directory's .aptos folder
-    fn aptos_folder(mode: ConfigSearchMode) -> CliTypedResult<PathBuf> {
+    /// Finds the current directory's .cedra folder
+    fn cedra_folder(mode: ConfigSearchMode) -> CliTypedResult<PathBuf> {
         let global_config = GlobalConfig::load()?;
         global_config.get_config_location(mode)
     }
@@ -1139,9 +1139,9 @@ impl RestOptions {
     }
 
     pub fn client(&self, profile: &ProfileOptions) -> CliTypedResult<Client> {
-        let mut client = Client::builder(AptosBaseUrl::Custom(self.url(profile)?))
+        let mut client = Client::builder(CedraBaseUrl::Custom(self.url(profile)?))
             .timeout(Duration::from_secs(self.connection_timeout_secs))
-            .header(aptos_api_types::X_APTOS_CLIENT, X_APTOS_CLIENT_VALUE)?;
+            .header(cedra_api_types::X_CEDRA_CLIENT, X_CEDRA_CLIENT_VALUE)?;
         if let Some(node_api_key) = &self.node_api_key {
             client = client.api_key(node_api_key)?;
         }
@@ -1375,7 +1375,7 @@ pub fn load_account_arg(str: &str) -> Result<AccountAddress, CliError> {
         Ok(account_address_from_public_key(&public_key))
     } else {
         Err(CliError::CommandArgumentError(
-            "'--account' or '--profile' after using aptos init must be provided".to_string(),
+            "'--account' or '--profile' after using cedra init must be provided".to_string(),
         ))
     }
 }
@@ -1663,13 +1663,13 @@ impl FaucetOptions {
                 .map_err(|err| CliError::UnableToParse("config faucet_url", err.to_string())),
             None => match profile.network {
                 Some(Network::Mainnet) => {
-                    Err(CliError::CommandArgumentError("There is no faucet for mainnet. Please create and fund the account by transferring funds from another account. If you are confident you want to use a faucet, set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile".to_string()))
+                    Err(CliError::CommandArgumentError("There is no faucet for mainnet. Please create and fund the account by transferring funds from another account. If you are confident you want to use a faucet, set --faucet-url or add a faucet URL to .cedra/config.yaml for the current profile".to_string()))
                 },
                 Some(Network::Testnet) => {
-                    Err(CliError::CommandArgumentError(format!("To get testnet Cedra you must visit {}. If you are confident you want to use a faucet programmatically, set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile", get_mint_site_url(None))))
+                    Err(CliError::CommandArgumentError(format!("To get testnet Cedra you must visit {}. If you are confident you want to use a faucet programmatically, set --faucet-url or add a faucet URL to .cedra/config.yaml for the current profile", get_mint_site_url(None))))
                 },
                 _ => {
-                    Err(CliError::CommandArgumentError("No faucet given. Please set --faucet-url or add a faucet URL to .aptos/config.yaml for the current profile".to_string()))
+                    Err(CliError::CommandArgumentError("No faucet given. Please set --faucet-url or add a faucet URL to .cedra/config.yaml for the current profile".to_string()))
                 },
             },
         }
@@ -2038,10 +2038,10 @@ impl TransactionOptions {
     ) -> CliTypedResult<TransactionSummary>
     where
         F: FnOnce(
-            &AptosDebugger,
+            &CedraDebugger,
             u64,
             SignedTransaction,
-            aptos_crypto::HashValue,
+            cedra_crypto::HashValue,
         ) -> CliTypedResult<(VMStatus, VMOutput)>,
     {
         let client = self.rest_client()?;
@@ -2084,7 +2084,7 @@ impl TransactionOptions {
             sender_account.sign_with_transaction_builder(transaction_factory.payload(payload));
         let hash = transaction.committed_hash();
 
-        let debugger = AptosDebugger::rest_client(client).unwrap();
+        let debugger = CedraDebugger::rest_client(client).unwrap();
         let (vm_status, vm_output) = execute(&debugger, version, transaction, hash)?;
 
         let success = match vm_output.status() {

@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 #![allow(unused)]
 
 pub use super::raw_module_data::PreBuiltPackagesImpl;
-use aptos_framework::natives::code::{MoveOption, PackageMetadata};
-use aptos_sdk::{
+use cedra_framework::natives::code::{MoveOption, PackageMetadata};
+use cedra_sdk::{
     bcs,
     move_types::{
         account_address::AccountAddress, ident_str, identifier::Identifier,
@@ -15,7 +15,7 @@ use aptos_sdk::{
         transaction::{EntryFunction, Script, TransactionPayload},
     },
 };
-use aptos_transaction_generator_lib::{
+use cedra_transaction_generator_lib::{
     entry_point_trait::{
         get_payload, AutomaticArgs, EntryPointTrait, MultiSigConfig, PreBuiltPackages,
     },

@@ -1,7 +1,7 @@
-moveUrl = "https://github.com/move-language/move-on-aptos.git"
-aptosUrl = "https://github.com/cedra-labs/cedra.git"
+moveUrl = "https://github.com/move-language/move-on-cedra.git"
+cedraUrl = "https://github.com/cedra-labs/cedra.git"
 
-# Workflow to pull from Move to Aptos. This creates a draft PR at the fixed branch `from_move`
+# Workflow to pull from Move to Cedra. This creates a draft PR at the fixed branch `from_move`
 # which should be further massaged before sending out.
 core.workflow(
     name = "pull_move",
@@ -24,11 +24,11 @@ core.workflow(
     ],
 )
 
-# Workflow to push from Aptos to Move. This creates a PR.
+# Workflow to push from Cedra to Move. This creates a PR.
 core.workflow(
     name = "push_move",
     origin = git.github_origin(
-        url = aptosUrl,
+        url = cedraUrl,
         ref = "main",
     ),
     destination = git.destination(
@@ -46,11 +46,11 @@ core.workflow(
     ],
 )
 
-# Workflow to push from Aptos to Move. This directly pushes without PR.
+# Workflow to push from Cedra to Move. This directly pushes without PR.
 core.workflow(
     name = "push_move_direct",
     origin = git.github_origin(
-        url = aptosUrl,
+        url = cedraUrl,
         ref = "main",
     ),
     destination = git.github_destination(

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // This is required because a diesel macro makes clippy sad
@@ -15,11 +15,11 @@ use crate::{
     schema::coin_activities,
     util::{parse_timestamp, standardize_address, truncate_str},
 };
-use aptos_api_types::{
+use cedra_api_types::{
     Event as APIEvent, Transaction as APITransaction, TransactionInfo as APITransactionInfo,
     TransactionPayload, UserTransactionRequest, WriteSetChange as APIWriteSetChange,
 };
-use aptos_types::{CedraCoinType, CoinType as CoinTypeTrait};
+use cedra_types::{CedraCoinType, CoinType as CoinTypeTrait};
 use bigdecimal::BigDecimal;
 use field_count::FieldCount;
 use serde::{Deserialize, Serialize};

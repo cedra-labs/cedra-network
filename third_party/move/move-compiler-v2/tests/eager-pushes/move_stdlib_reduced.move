@@ -1,4 +1,4 @@
-// Test case to showcase https://github.com/cedra-labs/cedra/issues/15339
+// Test case to showcase https://github.com/cedra-labs/cedra-network/issues/15339
 module 0xc0ffee::m {
     fun one(): u64 {
         1

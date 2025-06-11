@@ -1,18 +1,18 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::entry_point_trait::PreBuiltPackages;
-use aptos_framework::natives::code::PackageMetadata;
-use aptos_sdk::{
+use cedra_framework::natives::code::PackageMetadata;
+use cedra_sdk::{
     bcs,
     move_types::{identifier::Identifier, language_storage::ModuleId},
-    transaction_builder::aptos_stdlib,
+    transaction_builder::cedra_stdlib,
     types::{
         account_address::AccountAddress,
         transaction::{Script, TransactionPayload},
         vm::module_metadata::{
-            get_metadata_from_compiled_code, KnownAttribute, APTOS_METADATA_KEY,
-            APTOS_METADATA_KEY_V1,
+            get_metadata_from_compiled_code, KnownAttribute, CEDRA_METADATA_KEY,
+            CEDRA_METADATA_KEY_V1,
         },
     },
 };
@@ -238,7 +238,7 @@ impl Package {
     // Return a transaction payload to publish the current package
     pub fn publish_transaction_payload(&self) -> TransactionPayload {
         let (metadata_serialized, code) = self.get_publish_args();
-        aptos_stdlib::code_publish_package_txn(metadata_serialized, code)
+        cedra_stdlib::code_publish_package_txn(metadata_serialized, code)
     }
 
     pub fn get_module_id(&self, module_name: &str) -> ModuleId {
@@ -334,8 +334,8 @@ fn update(
                 });
             let mut count = 0;
             new_module.metadata.iter_mut().for_each(|metadata_holder| {
-                if metadata_holder.key == APTOS_METADATA_KEY_V1
-                    || metadata_holder.key == APTOS_METADATA_KEY
+                if metadata_holder.key == CEDRA_METADATA_KEY_V1
+                    || metadata_holder.key == CEDRA_METADATA_KEY
                 {
                     metadata_holder.value =
                         bcs::to_bytes(&metadata).expect("Metadata must serialize");

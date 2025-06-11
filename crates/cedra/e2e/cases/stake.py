@@ -1,11 +1,11 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
 import json
 import logging
 
-from aptos_sdk.account_address import AccountAddress
+from cedra_sdk.account_address import AccountAddress
 from common import TestError
 from test_helpers import RunHelper
 from test_results import test_case
@@ -20,7 +20,7 @@ def test_stake_initialize_stake_owner(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "initialize-stake-owner",
             "--initial-stake-amount",
@@ -37,7 +37,7 @@ def test_stake_initialize_stake_owner(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--profile",
@@ -58,7 +58,7 @@ def test_stake_add_stake(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "add-stake",
             "--amount",
@@ -75,7 +75,7 @@ def test_stake_add_stake(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--owner-address",
@@ -96,7 +96,7 @@ def test_stake_withdraw_stake_before_unlock(run_helper: RunHelper, test_name=Non
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--owner-address",
@@ -110,7 +110,7 @@ def test_stake_withdraw_stake_before_unlock(run_helper: RunHelper, test_name=Non
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "withdraw-stake",
             "--amount",
@@ -127,7 +127,7 @@ def test_stake_withdraw_stake_before_unlock(run_helper: RunHelper, test_name=Non
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--owner-address",
@@ -149,7 +149,7 @@ def test_stake_set_operator(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "init",
             "--profile",
             "operator",
@@ -164,7 +164,7 @@ def test_stake_set_operator(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "set-operator",
             "--operator-address",
@@ -183,7 +183,7 @@ def test_stake_set_voter(run_helper: RunHelper, test_name=None):
     # create a new voter account
     run_helper.run_command(
         test_name,
-        ["aptos", "init", "--profile", "voter", "--assume-yes", "--network", "local"],
+        ["cedra", "init", "--profile", "voter", "--assume-yes", "--network", "local"],
         input="\n",
     )
 
@@ -191,7 +191,7 @@ def test_stake_set_voter(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "set-delegated-voter",
             "--voter-address",
@@ -216,7 +216,7 @@ async def test_stake_create_staking_contract(run_helper: RunHelper, test_name=No
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "create-staking-contract",
             "--operator",
@@ -242,7 +242,7 @@ def test_stake_increase_lockup(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "increase-lockup",
             "--assume-yes",
@@ -259,7 +259,7 @@ def test_stake_unlock_stake(run_helper: RunHelper, test_name=None):
     # run the unlock-stake command
     response = run_helper.run_command(
         test_name,
-        ["aptos", "stake", "unlock-stake", "--amount", "1000000", "--assume-yes"],
+        ["cedra", "stake", "unlock-stake", "--amount", "1000000", "--assume-yes"],
     )
 
     result = json.loads(response.stdout)["Result"]
@@ -275,7 +275,7 @@ async def test_stake_withdraw_stake_after_unlock(run_helper: RunHelper, test_nam
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--owner-address",
@@ -290,7 +290,7 @@ async def test_stake_withdraw_stake_after_unlock(run_helper: RunHelper, test_nam
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "unlock-stake",
             "--amount",
@@ -309,7 +309,7 @@ async def test_stake_withdraw_stake_after_unlock(run_helper: RunHelper, test_nam
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "withdraw-stake",
             "--amount",
@@ -328,7 +328,7 @@ async def test_stake_withdraw_stake_after_unlock(run_helper: RunHelper, test_nam
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--owner-address",
@@ -349,7 +349,7 @@ def test_stake_request_commission(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "init",
             "--profile",
             "request_commission",
@@ -364,7 +364,7 @@ def test_stake_request_commission(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "create-staking-contract",
             "--profile",
@@ -385,7 +385,7 @@ def test_stake_request_commission(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "request-commission",
             "--profile",

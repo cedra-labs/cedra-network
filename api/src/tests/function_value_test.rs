@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
-use aptos_api_test_context::{current_function_name, TestContext};
+use cedra_api_test_context::{current_function_name, TestContext};
 use serde_json::json;
 use std::path::PathBuf;
 
@@ -17,7 +17,7 @@ async fn test_function_values() {
     let named_addresses = vec![("account".to_string(), account_addr)];
     let txn = futures::executor::block_on(async move {
         let path = PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
-            .join("../aptos-move/move-examples/function_values/calculator");
+            .join("../cedra-move/move-examples/function_values/calculator");
         TestContext::build_package_with_latest_language(path, named_addresses)
     });
     context.publish_package(&mut account, txn).await;

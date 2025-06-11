@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: This Checker requires that the target node API be open only because
@@ -11,7 +11,7 @@ use crate::{
     provider::{noise::NoiseProvider, ProviderCollection},
 };
 use anyhow::Result;
-use aptos_network_checker::args::HandshakeArgs;
+use cedra_network_checker::args::HandshakeArgs;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

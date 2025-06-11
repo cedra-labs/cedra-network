@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     common::types::{CliCommand, CliError, CliResult, CliTypedResult, MovePackageOptions},
     move_tool::fix_bytecode_version,
 };
-use aptos_framework::extended_checks;
+use cedra_framework::extended_checks;
 use async_trait::async_trait;
 use clap::{Parser, Subcommand};
 use legacy_move_compiler::compiled_unit::{CompiledUnit, NamedCompiledModule};
@@ -209,7 +209,7 @@ fn compile_coverage(
 /// Computes coverage for a package
 ///
 /// Computes coverage on a previous unit test run for a package.  Coverage input must
-/// first be built with `aptos move test --coverage`
+/// first be built with `cedra move test --coverage`
 #[derive(Subcommand)]
 pub enum CoveragePackage {
     Summary(SummaryCoverage),

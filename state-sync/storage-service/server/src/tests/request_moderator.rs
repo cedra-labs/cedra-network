@@ -1,27 +1,27 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     moderator::UnhealthyPeerState,
     tests::{mock::MockClient, utils},
 };
-use aptos_config::{
+use cedra_config::{
     config::{PeerRole, StorageServiceConfig},
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_netcore::transport::ConnectionOrigin;
-use aptos_network::{
+use cedra_netcore::transport::ConnectionOrigin;
+use cedra_network::{
     application::metadata::ConnectionState,
     protocols::wire::handshake::v1::{MessagingProtocolVersion, ProtocolIdSet},
     transport::{ConnectionId, ConnectionMetadata},
 };
-use aptos_storage_service_types::{
+use cedra_storage_service_types::{
     requests::{DataRequest, StorageServiceRequest, TransactionsWithProofRequest},
     responses::StorageServiceResponse,
     StorageServiceError,
 };
-use aptos_time_service::MockTimeService;
-use aptos_types::{account_address::AccountAddress, network_address::NetworkAddress, PeerId};
+use cedra_time_service::MockTimeService;
+use cedra_types::{account_address::AccountAddress, network_address::NetworkAddress, PeerId};
 use claims::assert_matches;
 use dashmap::DashMap;
 use std::{str::FromStr, sync::Arc, time::Duration};

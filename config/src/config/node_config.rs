@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{DagConsensusConfig, IndexerTableInfoConfig};
@@ -15,10 +15,10 @@ use crate::{
     },
     network_id::NetworkId,
 };
-use aptos_crypto::x25519;
-use aptos_logger::info;
-use aptos_temppath::TempPath;
-use aptos_types::account_address::AccountAddress as PeerId;
+use cedra_crypto::x25519;
+use cedra_logger::info;
+use cedra_temppath::TempPath;
+use cedra_types::account_address::AccountAddress as PeerId;
 use rand::{prelude::StdRng, SeedableRng};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -27,7 +27,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-/// The node configuration defines the configuration for a single Aptos
+/// The node configuration defines the configuration for a single Cedra
 /// node (i.e., validator or fullnode). It is composed of module
 /// configurations for each of the modules that the node uses (e.g.,
 /// the API, indexer, mempool, state sync, etc.).

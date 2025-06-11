@@ -28,7 +28,7 @@ Value `k` and `b` should be printed.
 {"b": 336.51096106242346, "k": 4.868293006038344}
 ```
 
-Combined with the [pre-defined](https://github.com/cedra-labs/cedra/blob/2d6ed231ca39fc07422dfe95aa76746b2210e36d/cedra-move/cedra-gas-schedule/src/gas_schedule/move_stdlib.rs#L23-L24) SHA2-256 gas formula (unscaled internal gas):`g(n)=183n+11028`,
+Combined with the [pre-defined](https://github.com/cedra-labs/cedra-network/blob/2d6ed231ca39fc07422dfe95aa76746b2210e36d/cedra-move/cedra-gas-schedule/src/gas_schedule/move_stdlib.rs#L23-L24) SHA2-256 gas formula (unscaled internal gas):`g(n)=183n+11028`,
 it can be calculated that `gas_per_ns = 183/k`.
 
 Second last, go to `scripts/algebra-gas/update_algebra_gas_params.py`

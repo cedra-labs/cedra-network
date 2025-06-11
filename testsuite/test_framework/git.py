@@ -84,7 +84,7 @@ class Git:
         self, remote: str, pattern: str, regex: str
     ) -> list[str]:
         """
-        Get remote branches that match a specific pattern (e.g. aptos-release-v*).
+        Get remote branches that match a specific pattern (e.g. cedra-release-v*).
         This uses ls-remote and a user-specified regex pattern to filter branches.
         """
         result = self.run(["ls-remote", "--heads", remote, pattern])

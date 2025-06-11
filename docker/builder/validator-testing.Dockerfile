@@ -33,11 +33,11 @@ FROM tools-builder
 # cache invalidation and reduce build times. 
 FROM validator-testing-base  AS validator-testing
 
-RUN addgroup --system --gid 6180 aptos && adduser --system --ingroup aptos --no-create-home --uid 6180 aptos
+RUN addgroup --system --gid 6180 cedra && adduser --system --ingroup cedra --no-create-home --uid 6180 cedra
 
-RUN mkdir -p /opt/aptos/etc
-COPY --link --from=node-builder /aptos/dist/aptos-node /usr/local/bin/
-COPY --link --from=tools-builder /aptos/dist/aptos-debugger /usr/local/bin/
+RUN mkdir -p /opt/cedra/etc
+COPY --link --from=node-builder /cedra/dist/cedra-node /usr/local/bin/
+COPY --link --from=tools-builder /cedra/dist/cedra-debugger /usr/local/bin/
 
 # Admission control
 EXPOSE 8000

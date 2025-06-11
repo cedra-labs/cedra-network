@@ -10,7 +10,7 @@ spec:
   restartPolicy: Never  # Pod restarts only if it fails  
   containers:  
     - name: replay-verify-worker  
-      image: us-docker.pkg.dev/aptos-registry/docker/tools:nightly  
+      image: us-docker.pkg.dev/cedra-registry/docker/tools:nightly  
       volumeMounts:  
         - mountPath: /mnt/archive  
           name: archive  

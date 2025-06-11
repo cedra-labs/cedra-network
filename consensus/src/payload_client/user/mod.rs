@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::error::QuorumStoreError;
-use aptos_consensus_types::{common::Payload, payload_pull_params::PayloadPullParameters};
+use cedra_consensus_types::{common::Payload, payload_pull_params::PayloadPullParameters};
 #[cfg(test)]
-use aptos_types::transaction::SignedTransaction;
+use cedra_types::transaction::SignedTransaction;
 use futures::future::BoxFuture;
 #[cfg(test)]
 use std::time::Duration;
@@ -43,7 +43,7 @@ impl UserPayloadClient for DummyClient {
         mut params: PayloadPullParameters,
         _wait_callback: BoxFuture<'static, ()>,
     ) -> anyhow::Result<Payload, QuorumStoreError> {
-        use aptos_consensus_types::utils::PayloadTxnsSize;
+        use cedra_consensus_types::utils::PayloadTxnsSize;
 
         let timer = Instant::now();
         let mut nxt_txn_idx = 0;

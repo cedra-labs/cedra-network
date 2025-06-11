@@ -6,4 +6,4 @@ authors = []
 [addresses]
 
 [dependencies]
-AptosFramework = { local = "../../../../../../aptos-move/framework/aptos-framework" }
+CedraFramework = { local = "../../../../../../cedra-move/framework/cedra-framework" }

@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
 use crate::tests::new_test_context_with_db_sharding_and_internal_indexer;
-use aptos_api_test_context::{current_function_name, find_value, TestContext};
-use aptos_api_types::{MoveModuleBytecode, MoveResource, MoveStructTag, StateKeyWrapper};
-use aptos_cached_packages::aptos_stdlib;
-use aptos_sdk::types::CEDRA_COIN_TYPE_STR;
-use aptos_types::{
+use cedra_api_test_context::{current_function_name, find_value, TestContext};
+use cedra_api_types::{MoveModuleBytecode, MoveResource, MoveStructTag, StateKeyWrapper};
+use cedra_cached_packages::cedra_stdlib;
+use cedra_sdk::types::CEDRA_COIN_TYPE_STR;
+use cedra_types::{
     account_config::{primary_apt_store, ObjectCoreResource},
     transaction::{EntryFunction, TransactionPayload},
     CedraCoinType, CoinType,
@@ -102,7 +102,7 @@ async fn test_get_module_with_entry_functions() {
 // Unstable due to framework changes
 #[ignore]
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-async fn test_get_module_aptos_config() {
+async fn test_get_module_cedra_config() {
     let mut context = new_test_context(current_function_name!());
     let address = "0x1";
 
@@ -197,10 +197,10 @@ async fn test_account_auto_creation() {
     let root_account = context.root_account().await;
     let account = context.gen_account();
     let txn1 = root_account.sign_with_transaction_builder(context.transaction_factory().payload(
-        aptos_stdlib::coin_migrate_to_fungible_store(CedraCoinType::type_tag()),
+        cedra_stdlib::coin_migrate_to_fungible_store(CedraCoinType::type_tag()),
     ));
     let txn2 = root_account.sign_with_transaction_builder(context.transaction_factory().payload(
-        aptos_stdlib::aptos_account_fungible_transfer_only(account.address(), 10_000_000_000),
+        cedra_stdlib::cedra_account_fungible_transfer_only(account.address(), 10_000_000_000),
     ));
     context
         .commit_block(&vec![txn1.clone(), txn2.clone()])
@@ -208,7 +208,7 @@ async fn test_account_auto_creation() {
     let txn = account.sign_with_transaction_builder(
         context
             .transaction_factory()
-            .payload(aptos_stdlib::aptos_account_fungible_transfer_only(
+            .payload(cedra_stdlib::cedra_account_fungible_transfer_only(
                 root_account.address(),
                 1,
             ))
@@ -232,7 +232,7 @@ async fn test_get_account_balance() {
 
     // Migrate to fungible store
     let txn = root_account.sign_with_transaction_builder(context.transaction_factory().payload(
-        aptos_stdlib::coin_migrate_to_fungible_store(CedraCoinType::type_tag()),
+        cedra_stdlib::coin_migrate_to_fungible_store(CedraCoinType::type_tag()),
     ));
     context.commit_block(&vec![txn.clone()]).await;
 
@@ -280,7 +280,7 @@ async fn test_get_account_balance() {
 
 async fn test_get_account_modules_by_ledger_version_with_context(mut context: TestContext) {
     let payload =
-        aptos_stdlib::publish_module_source("test_module", "module 0xa550c18::test_module {}");
+        cedra_stdlib::publish_module_source("test_module", "module 0xa550c18::test_module {}");
 
     let root_account = context.root_account().await;
     let txn =
@@ -329,7 +329,7 @@ async fn test_get_core_account_data_not_found() {
     let resp = context.expect_status_code(200).get("/accounts/0xf").await;
     context.check_golden_output(resp);
     context
-        .disable_feature(aptos_types::on_chain_config::FeatureFlag::DEFAULT_ACCOUNT_RESOURCE as u64)
+        .disable_feature(cedra_types::on_chain_config::FeatureFlag::DEFAULT_ACCOUNT_RESOURCE as u64)
         .await;
     context.expect_status_code(404).get("/accounts/0xf").await;
 }
@@ -350,7 +350,7 @@ async fn test_get_account_resources_with_pagination() {
         .path(&format!("/v1{}", account_resources(address)));
     let resp = context.reply(req).await;
     assert_eq!(resp.status(), 200);
-    assert!(!resp.headers().contains_key("X-Aptos-Cursor"));
+    assert!(!resp.headers().contains_key("X-Cedra-Cursor"));
     let all_resources: Vec<MoveResource> = serde_json::from_slice(resp.body()).unwrap();
     // We assert there are at least 10 resources. If there aren't, the rest of the
     // test will be wrong.
@@ -367,7 +367,7 @@ async fn test_get_account_resources_with_pagination() {
     assert_eq!(resp.status(), 200);
     let cursor_header = resp
         .headers()
-        .get("X-Aptos-Cursor")
+        .get("X-Cedra-Cursor")
         .expect("Cursor header was missing");
     let cursor_header = StateKeyWrapper::from_str(cursor_header.to_str().unwrap()).unwrap();
     let resources: Vec<MoveResource> = serde_json::from_slice(resp.body()).unwrap();
@@ -392,7 +392,7 @@ async fn test_get_account_resources_with_pagination() {
     assert_eq!(resp.status(), 200);
     let cursor_header = resp
         .headers()
-        .get("X-Aptos-Cursor")
+        .get("X-Cedra-Cursor")
         .expect("Cursor header was missing");
     let cursor_header = StateKeyWrapper::from_str(cursor_header.to_str().unwrap()).unwrap();
     let resources: Vec<MoveResource> = serde_json::from_slice(resp.body()).unwrap();
@@ -407,7 +407,7 @@ async fn test_get_account_resources_with_pagination() {
     ));
     let resp = context.reply(req).await;
     assert_eq!(resp.status(), 200);
-    assert!(!resp.headers().contains_key("X-Aptos-Cursor"));
+    assert!(!resp.headers().contains_key("X-Cedra-Cursor"));
     let resources: Vec<MoveResource> = serde_json::from_slice(resp.body()).unwrap();
     assert_eq!(resources.len(), all_resources.len() - 9);
     assert_eq!(resources, all_resources[9..].to_vec());
@@ -430,7 +430,7 @@ async fn test_get_account_modules_with_pagination() {
         .path(&format!("/v1{}", account_modules(address)));
     let resp = context.reply(req).await;
     assert_eq!(resp.status(), 200);
-    assert!(!resp.headers().contains_key("X-Aptos-Cursor"));
+    assert!(!resp.headers().contains_key("X-Cedra-Cursor"));
     let all_modules: Vec<MoveModuleBytecode> = serde_json::from_slice(resp.body()).unwrap();
     // We assert there are at least 10 modules. If there aren't, the rest of the
     // test will be wrong.
@@ -446,7 +446,7 @@ async fn test_get_account_modules_with_pagination() {
     assert_eq!(resp.status(), 200);
     let cursor_header = resp
         .headers()
-        .get("X-Aptos-Cursor")
+        .get("X-Cedra-Cursor")
         .expect("Cursor header was missing");
     let cursor_header = StateKeyWrapper::from_str(cursor_header.to_str().unwrap()).unwrap();
     let modules: Vec<MoveModuleBytecode> = serde_json::from_slice(resp.body()).unwrap();
@@ -463,7 +463,7 @@ async fn test_get_account_modules_with_pagination() {
     assert_eq!(resp.status(), 200);
     let cursor_header = resp
         .headers()
-        .get("X-Aptos-Cursor")
+        .get("X-Cedra-Cursor")
         .expect("Cursor header was missing");
     let cursor_header = StateKeyWrapper::from_str(cursor_header.to_str().unwrap()).unwrap();
     let modules: Vec<MoveModuleBytecode> = serde_json::from_slice(resp.body()).unwrap();
@@ -478,7 +478,7 @@ async fn test_get_account_modules_with_pagination() {
     ));
     let resp = context.reply(req).await;
     assert_eq!(resp.status(), 200);
-    assert!(!resp.headers().contains_key("X-Aptos-Cursor"));
+    assert!(!resp.headers().contains_key("X-Cedra-Cursor"));
     let modules: Vec<MoveModuleBytecode> = serde_json::from_slice(resp.body()).unwrap();
     assert_eq!(modules.len(), all_modules.len() - 10);
     assert_eq!(modules, all_modules[10..].to_vec());

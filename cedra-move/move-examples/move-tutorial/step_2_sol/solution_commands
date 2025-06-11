@@ -1,0 +1,11 @@
+# Exercise 1
+cedra move test --dump
+
+# Exercise 2
+cedra move test --coverage
+
+Followed by:
+
+cedra move coverage summary
+cedra move coverage summary --summarize-functions
+cedra move coverage source --module basic_coin

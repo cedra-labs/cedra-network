@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -9,18 +9,18 @@ use crate::{
     DKGMessage,
 };
 use anyhow::{anyhow, Result};
-use aptos_bounded_executor::BoundedExecutor;
-use aptos_channels::{aptos_channel, message_queues::QueueStyle};
-use aptos_config::config::{ReliableBroadcastConfig, SafetyRulesConfig};
-use aptos_event_notifications::{
+use cedra_bounded_executor::BoundedExecutor;
+use cedra_channels::{cedra_channel, message_queues::QueueStyle};
+use cedra_config::config::{ReliableBroadcastConfig, SafetyRulesConfig};
+use cedra_event_notifications::{
     EventNotification, EventNotificationListener, ReconfigNotification,
     ReconfigNotificationListener,
 };
-use aptos_logger::{debug, error, info, warn};
-use aptos_network::{application::interface::NetworkClient, protocols::network::Event};
-use aptos_reliable_broadcast::ReliableBroadcast;
-use aptos_safety_rules::{safety_rules_manager::storage, PersistentSafetyStorage};
-use aptos_types::{
+use cedra_logger::{debug, error, info, warn};
+use cedra_network::{application::interface::NetworkClient, protocols::network::Event};
+use cedra_reliable_broadcast::ReliableBroadcast;
+use cedra_safety_rules::{safety_rules_manager::storage, PersistentSafetyStorage};
+use cedra_types::{
     account_address::AccountAddress,
     dkg::{DKGStartEvent, DKGState, DefaultDKG},
     epoch_state::EpochState,
@@ -29,7 +29,7 @@ use aptos_types::{
         OnChainRandomnessConfig, RandomnessConfigMoveStruct, RandomnessConfigSeqNum, ValidatorSet,
     },
 };
-use aptos_validator_transaction_pool::VTxnPoolState;
+use cedra_validator_transaction_pool::VTxnPoolState;
 use futures::StreamExt;
 use futures_channel::oneshot;
 use std::{sync::Arc, time::Duration};
@@ -46,13 +46,13 @@ pub struct EpochManager<P: OnChainConfigProvider> {
 
     // Msgs to DKG manager
     dkg_rpc_msg_tx:
-        Option<aptos_channel::Sender<AccountAddress, (AccountAddress, IncomingRpcRequest)>>,
+        Option<cedra_channel::Sender<AccountAddress, (AccountAddress, IncomingRpcRequest)>>,
     dkg_manager_close_tx: Option<oneshot::Sender<oneshot::Sender<()>>>,
-    dkg_start_event_tx: Option<aptos_channel::Sender<(), DKGStartEvent>>,
+    dkg_start_event_tx: Option<cedra_channel::Sender<(), DKGStartEvent>>,
     vtxn_pool: VTxnPoolState,
 
     // Network utils
-    self_sender: aptos_channels::Sender<Event<DKGMessage>>,
+    self_sender: cedra_channels::Sender<Event<DKGMessage>>,
     network_sender: DKGNetworkClient<NetworkClient<DKGMessage>>,
     rb_config: ReliableBroadcastConfig,
 
@@ -68,7 +68,7 @@ impl<P: OnChainConfigProvider> EpochManager<P> {
         my_addr: AccountAddress,
         reconfig_events: ReconfigNotificationListener<P>,
         dkg_start_events: EventNotificationListener,
-        self_sender: aptos_channels::Sender<Event<DKGMessage>>,
+        self_sender: cedra_channels::Sender<Event<DKGMessage>>,
         network_sender: DKGNetworkClient<NetworkClient<DKGMessage>>,
         vtxn_pool: VTxnPoolState,
         rb_config: ReliableBroadcastConfig,
@@ -214,17 +214,17 @@ impl<P: OnChainConfigProvider> EpochManager<P> {
                     .max_delay(Duration::from_millis(
                         self.rb_config.backoff_policy_max_delay_ms,
                     )),
-                aptos_time_service::TimeService::real(),
+                cedra_time_service::TimeService::real(),
                 Duration::from_millis(self.rb_config.rpc_timeout_ms),
                 BoundedExecutor::new(8, tokio::runtime::Handle::current()),
             );
             let agg_trx_producer = AggTranscriptProducer::new(rb);
 
             let (dkg_start_event_tx, dkg_start_event_rx) =
-                aptos_channel::new(QueueStyle::KLAST, 1, None);
+                cedra_channel::new(QueueStyle::KLAST, 1, None);
             self.dkg_start_event_tx = Some(dkg_start_event_tx);
 
-            let (dkg_rpc_msg_tx, dkg_rpc_msg_rx) = aptos_channel::new::<
+            let (dkg_rpc_msg_tx, dkg_rpc_msg_rx) = cedra_channel::new::<
                 AccountAddress,
                 (AccountAddress, IncomingRpcRequest),
             >(QueueStyle::FIFO, 100, None);

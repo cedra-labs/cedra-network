@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -12,16 +12,16 @@ use crate::{
     config::GlobalConfig,
     CliResult,
 };
-use aptos_build_info::build_information;
-use aptos_crypto::{
+use cedra_build_info::build_information;
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey},
     ValidCryptoMaterial, ValidCryptoMaterialStringExt,
 };
-use aptos_keygen::KeyGen;
-use aptos_logger::{debug, Level};
-use aptos_rest_client::{aptos_api_types::HashValue, Account, Client, FaucetClient, State};
-use aptos_telemetry::service::telemetry_is_disabled;
-use aptos_types::{
+use cedra_keygen::KeyGen;
+use cedra_logger::{debug, Level};
+use cedra_rest_client::{cedra_api_types::HashValue, Account, Client, FaucetClient, State};
+use cedra_telemetry::service::telemetry_is_disabled;
+use cedra_types::{
     account_address::create_multisig_account_address,
     chain_id::ChainId,
     on_chain_config::{FeatureFlag, Features},
@@ -136,7 +136,7 @@ async fn send_telemetry_event(command: &str, latency: Duration, error: Option<&s
     let build_information = cli_build_information();
 
     // Send the event
-    aptos_telemetry::cli_metrics::send_cli_telemetry_event(
+    cedra_telemetry::cli_metrics::send_cli_telemetry_event(
         build_information,
         command.into(),
         latency,
@@ -262,7 +262,7 @@ pub fn append_file_extension(
 
 /// Retrieves account resource from the rest client
 pub async fn get_account(
-    client: &aptos_rest_client::Client,
+    client: &cedra_rest_client::Client,
     address: AccountAddress,
 ) -> CliTypedResult<Account> {
     let account_response = client
@@ -274,7 +274,7 @@ pub async fn get_account(
 
 /// Retrieves account resource from the rest client
 pub async fn get_account_with_state(
-    client: &aptos_rest_client::Client,
+    client: &cedra_rest_client::Client,
     address: AccountAddress,
 ) -> CliTypedResult<(Account, State)> {
     let account_response = client
@@ -286,7 +286,7 @@ pub async fn get_account_with_state(
 
 /// Retrieves sequence number from the rest client
 pub async fn get_sequence_number(
-    client: &aptos_rest_client::Client,
+    client: &cedra_rest_client::Client,
     address: AccountAddress,
 ) -> CliTypedResult<u64> {
     Ok(get_account(client, address).await?.sequence_number)
@@ -294,7 +294,7 @@ pub async fn get_sequence_number(
 
 /// Retrieves the auth key from the rest client
 pub async fn get_auth_key(
-    client: &aptos_rest_client::Client,
+    client: &cedra_rest_client::Client,
     address: AccountAddress,
 ) -> CliTypedResult<AuthenticationKey> {
     Ok(get_account(client, address).await?.authentication_key)
@@ -471,7 +471,7 @@ pub async fn fund_account(
 
 /// Wait for transactions, returning an error if any of them fail.
 pub async fn wait_for_transactions(
-    client: &aptos_rest_client::Client,
+    client: &cedra_rest_client::Client,
     hashes: Vec<HashValue>,
 ) -> CliTypedResult<()> {
     let sys_time = SystemTime::now()
@@ -493,7 +493,7 @@ pub async fn wait_for_transactions(
 }
 
 pub fn start_logger(level: Level) {
-    let mut logger = aptos_logger::Logger::new();
+    let mut logger = cedra_logger::Logger::new();
     logger.channel_size(1000).is_async(false).level(level);
     logger.build();
 }
@@ -583,7 +583,7 @@ pub fn explorer_account_link(hash: AccountAddress, network: Option<Network>) -> 
 }
 
 pub fn explorer_transaction_link(
-    hash: aptos_crypto::HashValue,
+    hash: cedra_crypto::HashValue,
     network: Option<Network>,
 ) -> String {
     // For now, default to what the browser is already on, though the link could be wrong
@@ -603,7 +603,7 @@ pub fn explorer_transaction_link(
 
 /// Strips the private key prefix for a given key string if it is AIP-80 compliant.
 ///
-/// [Read about AIP-80](https://github.com/aptos-foundation/AIPs/blob/main/aips/aip-80.md)
+/// [Read about AIP-80](https://github.com/cedra-foundation/AIPs/blob/main/aips/aip-80.md)
 pub fn strip_private_key_prefix(key: &String) -> CliTypedResult<String> {
     let disabled_prefixes = ["secp256k1-priv-"];
     let enabled_prefixes = ["ed25519-priv-"];
@@ -658,7 +658,7 @@ pub fn deserialize_address_str<'de, D: Deserializer<'de>>(
 
 /// Serializes an [`ValidCryptoMaterial`] with a prefix AIP-80 prefix if present.
 ///
-/// [Read about AIP-80](https://github.com/aptos-foundation/AIPs/blob/main/aips/aip-80.md)
+/// [Read about AIP-80](https://github.com/cedra-foundation/AIPs/blob/main/aips/aip-80.md)
 pub fn serialize_material_with_prefix<S: Serializer, T: ValidCryptoMaterial>(
     material: &Option<T>,
     serializer: S,
@@ -676,7 +676,7 @@ pub fn serialize_material_with_prefix<S: Serializer, T: ValidCryptoMaterial>(
 
 /// Deserializes an [`ValidCryptoMaterial`] with a prefix AIP-80 prefix if present.
 ///
-/// [Read about AIP-80](https://github.com/aptos-foundation/AIPs/blob/main/aips/aip-80.md)
+/// [Read about AIP-80](https://github.com/cedra-foundation/AIPs/blob/main/aips/aip-80.md)
 pub fn deserialize_material_with_prefix<'de, D: Deserializer<'de>, T: ValidCryptoMaterial>(
     deserializer: D,
 ) -> Result<Option<T>, D::Error> {

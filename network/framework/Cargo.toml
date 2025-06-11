@@ -1,6 +1,6 @@
 [package]
-name = "aptos-network"
-description = "Aptos networking stack"
+name = "cedra-network"
+description = "Cedra networking stack"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,23 +14,23 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-bitvec = { workspace = true }
-aptos-channels = { workspace = true }
-aptos-compression = { workspace = true }
-aptos-config = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-id-generator = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-memsocket = { workspace = true, optional = true }
-aptos-metrics-core = { workspace = true }
-aptos-netcore = { workspace = true }
-aptos-num-variants = { workspace = true }
-aptos-peer-monitoring-service-types = { workspace = true }
-aptos-proptest-helpers = { workspace = true, optional = true }
-aptos-short-hex-str = { workspace = true }
-aptos-time-service = { workspace = true }
-aptos-types = { workspace = true }
+cedra-bitvec = { workspace = true }
+cedra-channels = { workspace = true }
+cedra-compression = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-id-generator = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-memsocket = { workspace = true, optional = true }
+cedra-metrics-core = { workspace = true }
+cedra-netcore = { workspace = true }
+cedra-num-variants = { workspace = true }
+cedra-peer-monitoring-service-types = { workspace = true }
+cedra-proptest-helpers = { workspace = true, optional = true }
+cedra-short-hex-str = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-types = { workspace = true }
 arc-swap = { workspace = true }
 async-trait = { workspace = true }
 bcs = { workspace = true }
@@ -47,8 +47,8 @@ proptest = { workspace = true, optional = true }
 proptest-derive = { workspace = true, optional = true }
 rand = { workspace = true, features = ["small_rng"] }
 # Note: we cannot rely on the workspace version of rand. So we use this workaround. See:
-# https://github.com/cedra-labs/cedra/blob/main/state-sync/aptos-data-client/Cargo.toml#L41.
-# See also https://github.com/cedra-labs/cedra/issues/13031
+# https://github.com/cedra-labs/cedra-network/blob/main/state-sync/cedra-data-client/Cargo.toml#L41.
+# See also https://github.com/cedra-labs/cedra-network/issues/13031
 rand_latest = { package = "rand", version = "0.8.5" }
 serde = { workspace = true }
 serde_bytes = { workspace = true }
@@ -60,21 +60,21 @@ tokio-stream = { workspace = true }
 tokio-util = { workspace = true }
 
 [dev-dependencies]
-aptos-bitvec = { workspace = true, features = ["fuzzing"] }
-aptos-config = { workspace = true, features = ["testing"] }
-aptos-memsocket = { workspace = true }
-aptos-netcore = { workspace = true, features = ["testing"] }
-aptos-proptest-helpers = { workspace = true }
-aptos-time-service = { workspace = true, features = ["testing"] }
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-bitvec = { workspace = true, features = ["fuzzing"] }
+cedra-config = { workspace = true, features = ["testing"] }
+cedra-memsocket = { workspace = true }
+cedra-netcore = { workspace = true, features = ["testing"] }
+cedra-proptest-helpers = { workspace = true }
+cedra-time-service = { workspace = true, features = ["testing"] }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 proptest = { workspace = true }
 proptest-derive = { workspace = true }
 rand_core = { workspace = true }
 
 [features]
 default = []
-fuzzing = ["aptos-bitvec/fuzzing", "aptos-config/fuzzing", "aptos-crypto/fuzzing", "aptos-types/fuzzing", "aptos-proptest-helpers", "aptos-time-service/testing", "aptos-types/fuzzing", "aptos-memsocket/testing", "aptos-netcore/fuzzing", "proptest", "proptest-derive"]
-testing = ["aptos-config/testing", "aptos-time-service/testing", "aptos-memsocket/testing", "aptos-netcore/testing"]
+fuzzing = ["cedra-bitvec/fuzzing", "cedra-config/fuzzing", "cedra-crypto/fuzzing", "cedra-types/fuzzing", "cedra-proptest-helpers", "cedra-time-service/testing", "cedra-types/fuzzing", "cedra-memsocket/testing", "cedra-netcore/fuzzing", "proptest", "proptest-derive"]
+testing = ["cedra-config/testing", "cedra-time-service/testing", "cedra-memsocket/testing", "cedra-netcore/testing"]
 
 [package.metadata.cargo-machete]
 ignored = ["serde_bytes"]

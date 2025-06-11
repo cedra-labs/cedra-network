@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 from cedra.util.timestamp import (
-    timestamp_pb2 as aptos_dot_util_dot_timestamp_dot_timestamp__pb2,
+    timestamp_pb2 as cedra_dot_util_dot_timestamp_dot_timestamp__pb2,
 )
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(

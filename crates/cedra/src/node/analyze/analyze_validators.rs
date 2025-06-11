@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::fetch_metadata::ValidatorInfo;
 use anyhow::Result;
-use aptos_bitvec::BitVec;
-use aptos_logger::error;
-use aptos_rest_client::VersionedNewBlockEvent;
-use aptos_storage_interface::{DbReader, Order};
-use aptos_types::{
+use cedra_bitvec::BitVec;
+use cedra_logger::error;
+use cedra_rest_client::VersionedNewBlockEvent;
+use cedra_storage_interface::{DbReader, Order};
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{new_block_event_key, NewBlockEvent},
 };
@@ -308,15 +308,15 @@ pub struct AnalyzeValidators {}
 
 impl AnalyzeValidators {
     /// Fetch all events from a single epoch from DB.
-    pub fn fetch_epoch(epoch: u64, aptos_db: &dyn DbReader) -> Result<Vec<VersionedNewBlockEvent>> {
+    pub fn fetch_epoch(epoch: u64, cedra_db: &dyn DbReader) -> Result<Vec<VersionedNewBlockEvent>> {
         let batch = 100;
 
         let mut cursor = u64::MAX;
         let mut result: Vec<VersionedNewBlockEvent> = vec![];
-        let ledger_version = aptos_db.get_latest_ledger_info()?.ledger_info().version();
+        let ledger_version = cedra_db.get_latest_ledger_info()?.ledger_info().version();
 
         loop {
-            let raw_events = aptos_db.get_events(
+            let raw_events = cedra_db.get_events(
                 &new_block_event_key(),
                 cursor,
                 Order::Descending,

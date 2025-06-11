@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::common::{
     error::Error,
     logging::{LogEntry, LogSchema},
 };
-use aptos_config::config::ConsensusObserverConfig;
-use aptos_logger::warn;
-use aptos_storage_interface::DbReader;
-use aptos_time_service::{TimeService, TimeServiceTrait};
-use aptos_types::{ledger_info::LedgerInfoWithSignatures, transaction::Version};
+use cedra_config::config::ConsensusObserverConfig;
+use cedra_logger::warn;
+use cedra_storage_interface::DbReader;
+use cedra_time_service::{TimeService, TimeServiceTrait};
+use cedra_types::{ledger_info::LedgerInfoWithSignatures, transaction::Version};
 use std::{
     sync::Arc,
     time::{Duration, Instant},
@@ -167,9 +167,9 @@ impl ObserverFallbackManager {
 #[cfg(test)]
 mod test {
     use super::*;
-    use aptos_crypto::HashValue;
-    use aptos_storage_interface::Result;
-    use aptos_types::{
+    use cedra_crypto::HashValue;
+    use cedra_storage_interface::Result;
+    use cedra_types::{
         aggregate_signature::AggregateSignature, block_info::BlockInfo, ledger_info::LedgerInfo,
         transaction::Version,
     };

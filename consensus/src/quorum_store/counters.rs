@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(clippy::unwrap_used)]
 
-use aptos_metrics_core::{
+use cedra_metrics_core::{
     exponential_buckets, op_counters::DurationHistogram, register_avg_counter, register_histogram,
     register_histogram_vec, register_int_counter, register_int_counter_vec, Histogram,
     HistogramVec, IntCounter, IntCounterVec,
@@ -718,7 +718,7 @@ pub static SENT_BATCH_REQUEST_RETRY_COUNT: Lazy<IntCounter> = Lazy::new(|| {
 /// Counters(queued,dequeued,dropped) related to batch retrieval per epoch task
 pub static BATCH_RETRIEVAL_TASK_MSGS: Lazy<IntCounterVec> = Lazy::new(|| {
     register_int_counter_vec!(
-        "aptos_quorum_store_batch_retrieval_task_msgs_count",
+        "cedra_quorum_store_batch_retrieval_task_msgs_count",
         "Counters(queued,dequeued,dropped) related to batch retrieval task",
         &["state"]
     )

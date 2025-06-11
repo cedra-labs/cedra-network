@@ -1,9 +1,9 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{errors::FilterError, filters::MoveStructTagFilter, traits::Filterable};
 use anyhow::Error;
-use aptos_protos::transaction::v1::{move_type::Content, Event};
+use cedra_protos::transaction::v1::{move_type::Content, Event};
 use derivative::Derivative;
 use memchr::memmem::Finder;
 use once_cell::sync::OnceCell;
@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 
 /// Example:
 /// ```
-/// use aptos_transaction_filter::{EventFilterBuilder, MoveStructTagFilterBuilder};
+/// use cedra_transaction_filter::{EventFilterBuilder, MoveStructTagFilterBuilder};
 ///
 /// let move_struct_tag_filter = MoveStructTagFilterBuilder::default()
 ///   .address("0x0077")
@@ -41,8 +41,8 @@ pub struct EventFilter {
     data_substring_finder: OnceCell<Finder<'static>>,
 }
 
-impl From<aptos_protos::indexer::v1::EventFilter> for EventFilter {
-    fn from(proto_filter: aptos_protos::indexer::v1::EventFilter) -> Self {
+impl From<cedra_protos::indexer::v1::EventFilter> for EventFilter {
+    fn from(proto_filter: cedra_protos::indexer::v1::EventFilter) -> Self {
         Self {
             data_substring_filter: proto_filter.data_substring_filter,
             struct_type: proto_filter.struct_type.map(|f| f.into()),
@@ -51,7 +51,7 @@ impl From<aptos_protos::indexer::v1::EventFilter> for EventFilter {
     }
 }
 
-impl From<EventFilter> for aptos_protos::indexer::v1::EventFilter {
+impl From<EventFilter> for cedra_protos::indexer::v1::EventFilter {
     fn from(event_filter: EventFilter) -> Self {
         Self {
             struct_type: event_filter.struct_type.map(Into::into),

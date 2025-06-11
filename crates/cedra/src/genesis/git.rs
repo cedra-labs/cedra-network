@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -8,10 +8,10 @@ use crate::{
     },
     CliCommand,
 };
-use aptos_config::config::Token;
-use aptos_framework::ReleaseBundle;
-use aptos_genesis::config::Layout;
-use aptos_github_client::Client as GithubClient;
+use cedra_config::config::Token;
+use cedra_framework::ReleaseBundle;
+use cedra_genesis::config::Layout;
+use cedra_github_client::Client as GithubClient;
 use async_trait::async_trait;
 use clap::Parser;
 use serde::{de::DeserializeOwned, Serialize};
@@ -73,7 +73,7 @@ impl FromStr for GithubRepo {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let parts: Vec<_> = s.split('/').collect();
         if parts.len() != 2 {
-            Err(CliError::CommandArgumentError("Invalid repository must be of the form 'owner/repository` e.g. 'aptos-labs/aptos-core'".to_string()))
+            Err(CliError::CommandArgumentError("Invalid repository must be of the form 'owner/repository` e.g. 'cedra-labs/cedra-core'".to_string()))
         } else {
             Ok(GithubRepo {
                 owner: parts.first().unwrap().to_string(),
@@ -85,7 +85,7 @@ impl FromStr for GithubRepo {
 
 #[derive(Clone, Default, Parser)]
 pub struct GitOptions {
-    /// Github repository e.g. 'aptos-labs/aptos-core'
+    /// Github repository e.g. 'cedra-labs/cedra-core'
     ///
     /// Mutually exclusive with `--local-repository-dir`
     #[clap(long)]

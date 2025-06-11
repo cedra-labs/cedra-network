@@ -5,8 +5,8 @@ edition = "2021"
 license = { workspace = true }
 
 [dependencies]
-aptos-framework = { workspace = true }
-aptos-types = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-types = { workspace = true }
 arbitrary = { workspace = true }
 base64 = "0.21.7"
 bcs = { workspace = true }

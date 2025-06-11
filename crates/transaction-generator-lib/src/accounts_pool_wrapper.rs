@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{ObjectPool, TransactionGenerator, TransactionGeneratorCreator};
-use aptos_sdk::types::{transaction::SignedTransaction, LocalAccount};
+use cedra_sdk::types::{transaction::SignedTransaction, LocalAccount};
 use rand::{rngs::StdRng, SeedableRng};
 use std::sync::Arc;
 

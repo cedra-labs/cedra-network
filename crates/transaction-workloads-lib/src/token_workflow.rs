@@ -1,9 +1,9 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::EntryPoints;
-use aptos_sdk::transaction_builder::TransactionFactory;
-use aptos_transaction_generator_lib::{
+use cedra_sdk::transaction_builder::TransactionFactory;
+use cedra_transaction_generator_lib::{
     call_custom_modules::{
         CustomModulesDelegationGeneratorCreator, UserModuleTransactionGenerator,
     },

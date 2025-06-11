@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-//! How and where to record the Serde format of interesting Aptos types.
+//! How and where to record the Serde format of interesting Cedra types.
 //! See API documentation with `cargo doc -p serde-reflection --open`
 
-use aptos_crypto::ed25519::{Ed25519PublicKey, Ed25519Signature};
-use aptos_types::{
+use cedra_crypto::ed25519::{Ed25519PublicKey, Ed25519Signature};
+use cedra_types::{
     keyless,
     keyless::{EphemeralCertificate, Groth16Proof, IdCommitment, Pepper, ZeroKnowledgeSig},
     transaction::authenticator::{EphemeralPublicKey, EphemeralSignature},
@@ -17,7 +17,7 @@ use std::fmt::{Display, Formatter};
 
 /// Rest API types
 mod api;
-/// Aptos transactions.
+/// Cedra transactions.
 mod cedra;
 /// Consensus messages.
 mod consensus;
@@ -34,7 +34,7 @@ pub use linter::lint_bcs_format;
 /// A corpus of Rust types to trace, and optionally record on disk.
 pub enum Corpus {
     API,
-    Aptos,
+    Cedra,
     Consensus,
     Network,
     MoveABI,
@@ -45,7 +45,7 @@ impl Corpus {
     pub fn get_registry(self) -> Registry {
         let result = match self {
             Corpus::API => api::get_registry(),
-            Corpus::Aptos => cedra::get_registry(),
+            Corpus::Cedra => cedra::get_registry(),
             Corpus::Consensus => consensus::get_registry(),
             Corpus::Network => network::get_registry(),
             Corpus::MoveABI => move_abi::get_registry(),
@@ -62,7 +62,7 @@ impl Corpus {
     pub fn output_file(self) -> Option<&'static str> {
         match self {
             Corpus::API => api::output_file(),
-            Corpus::Aptos => cedra::output_file(),
+            Corpus::Cedra => cedra::output_file(),
             Corpus::Consensus => consensus::output_file(),
             Corpus::Network => network::output_file(),
             Corpus::MoveABI => move_abi::output_file(),
@@ -74,7 +74,7 @@ impl Display for Corpus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str(match self {
             Corpus::API => "API",
-            Corpus::Aptos => "Aptos",
+            Corpus::Cedra => "Cedra",
             Corpus::Consensus => "Consensus",
             Corpus::Network => "Network",
             Corpus::MoveABI => "MoveABI",

@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::schema::ordered_transaction_by_account::OrderedTransactionByAccountSchema;
-use aptos_schemadb::iterator::SchemaIterator;
-use aptos_storage_interface::{db_ensure as ensure, AptosDbError, Result};
-use aptos_types::{
+use cedra_schemadb::iterator::SchemaIterator;
+use cedra_storage_interface::{db_ensure as ensure, CedraDbError, Result};
+use cedra_types::{
     account_address::AccountAddress, indexer::indexer_db_reader::Order, transaction::Version,
 };
 
@@ -22,7 +22,7 @@ pub const MAX_REQUEST_LIMIT: u64 = 10_000;
 
 pub fn error_if_too_many_requested(num_requested: u64, max_allowed: u64) -> Result<()> {
     if num_requested > max_allowed {
-        Err(AptosDbError::TooManyRequested(num_requested, max_allowed))
+        Err(CedraDbError::TooManyRequested(num_requested, max_allowed))
     } else {
         Ok(())
     }
@@ -41,7 +41,7 @@ pub fn get_first_seq_num_and_limit(order: Order, cursor: u64, limit: u64) -> Res
     })
 }
 
-// This is a replicate of the AccountOrderedTransactionsIter from storage/aptosdb crate.
+// This is a replicate of the AccountOrderedTransactionsIter from storage/cedradb crate.
 pub struct AccountOrderedTransactionsIter<'a> {
     inner: SchemaIterator<'a, OrderedTransactionByAccountSchema>,
     address: AccountAddress,

@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::tests::{mock, mock::MockClient, utils};
-use aptos_config::{
+use cedra_config::{
     config::StorageServiceConfig,
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_storage_service_types::requests::{
+use cedra_storage_service_types::requests::{
     DataRequest, NewTransactionsWithProofRequest, StorageServiceRequest,
 };
-use aptos_types::{epoch_change::EpochChangeProof, PeerId};
+use cedra_types::{epoch_change::EpochChangeProof, PeerId};
 use claims::assert_none;
 use futures::channel::oneshot::Receiver;
 
@@ -365,7 +365,7 @@ async fn get_new_transactions_with_proof(
     known_version: u64,
     known_epoch: u64,
     include_events: bool,
-) -> Receiver<Result<bytes::Bytes, aptos_network::protocols::network::RpcError>> {
+) -> Receiver<Result<bytes::Bytes, cedra_network::protocols::network::RpcError>> {
     get_new_transactions_with_proof_for_peer(
         mock_client,
         known_version,
@@ -383,7 +383,7 @@ async fn get_new_transactions_with_proof_for_peer(
     known_epoch: u64,
     include_events: bool,
     peer_network_id: Option<PeerNetworkId>,
-) -> Receiver<Result<bytes::Bytes, aptos_network::protocols::network::RpcError>> {
+) -> Receiver<Result<bytes::Bytes, cedra_network::protocols::network::RpcError>> {
     // Create the data request
     let data_request = DataRequest::GetNewTransactionsWithProof(NewTransactionsWithProofRequest {
         known_version,

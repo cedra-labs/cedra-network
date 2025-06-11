@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -18,8 +18,8 @@ use crate::{
     },
     schema,
 };
-use aptos_api_types::Transaction as APITransaction;
-use aptos_types::{CedraCoinType, CoinType};
+use cedra_api_types::Transaction as APITransaction;
+use cedra_types::{CedraCoinType, CoinType};
 use async_trait::async_trait;
 use diesel::{pg::upsert::excluded, result::Error, ExpressionMethods, PgConnection};
 use field_count::FieldCount;
@@ -77,7 +77,7 @@ fn insert_to_db(
     coin_supply: Vec<CoinSupply>,
     account_transactions: Vec<AccountTransaction>,
 ) -> Result<(), diesel::result::Error> {
-    aptos_logger::trace!(
+    cedra_logger::trace!(
         name = name,
         start_version = start_version,
         end_version = end_version,

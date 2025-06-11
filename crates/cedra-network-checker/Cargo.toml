@@ -1,0 +1,26 @@
+[package]
+name = "cedra-network-checker"
+description = "Cedra network checker"
+version = "0.0.1"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-network = { workspace = true }
+cedra-types = { workspace = true }
+clap = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+

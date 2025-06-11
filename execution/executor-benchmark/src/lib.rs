@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -19,33 +19,33 @@ use crate::{
     db_access::DbAccessUtil, pipeline::Pipeline, transaction_committer::TransactionCommitter,
     transaction_executor::TransactionExecutor, transaction_generator::TransactionGenerator,
 };
-use aptos_block_executor::counters::{
+use cedra_block_executor::counters::{
     self as block_executor_counters, GasType, BLOCK_EXECUTOR_INNER_EXECUTE_BLOCK,
 };
-use aptos_config::config::{NodeConfig, PrunerConfig, NO_OP_STORAGE_PRUNER_CONFIG};
-use aptos_db::AptosDB;
-use aptos_executor::{
+use cedra_config::config::{NodeConfig, PrunerConfig, NO_OP_STORAGE_PRUNER_CONFIG};
+use cedra_db::CedraDB;
+use cedra_executor::{
     block_executor::BlockExecutor,
     metrics::{
         COMMIT_BLOCKS, GET_BLOCK_EXECUTION_OUTPUT_BY_EXECUTING, OTHER_TIMERS,
         PROCESSED_TXNS_OUTPUT_SIZE, UPDATE_LEDGER,
     },
 };
-use aptos_jellyfish_merkle::metrics::{
-    APTOS_JELLYFISH_INTERNAL_ENCODED_BYTES, APTOS_JELLYFISH_LEAF_ENCODED_BYTES,
+use cedra_jellyfish_merkle::metrics::{
+    CEDRA_JELLYFISH_INTERNAL_ENCODED_BYTES, CEDRA_JELLYFISH_LEAF_ENCODED_BYTES,
 };
-use aptos_logger::{info, warn};
-use aptos_metrics_core::Histogram;
-use aptos_sdk::types::LocalAccount;
-use aptos_storage_interface::{
+use cedra_logger::{info, warn};
+use cedra_metrics_core::Histogram;
+use cedra_sdk::types::LocalAccount;
+use cedra_storage_interface::{
     state_store::state_view::db_state_view::LatestDbStateCheckpointView, DbReader, DbReaderWriter,
 };
-use aptos_transaction_generator_lib::{
+use cedra_transaction_generator_lib::{
     create_txn_generator_creator, AlwaysApproveRootAccountHandle, TransactionGeneratorCreator,
     TransactionType::{self, CoinTransfer},
 };
-use aptos_types::on_chain_config::{FeatureFlag, Features};
-use aptos_vm::{aptos_vm::AptosVMBlockExecutor, AptosVM, VMBlockExecutor};
+use cedra_types::on_chain_config::{FeatureFlag, Features};
+use cedra_vm::{cedra_vm::CedraVMBlockExecutor, CedraVM, VMBlockExecutor};
 use db_generator::create_db_with_accounts;
 use db_reliable_submitter::DbReliableTransactionSubmitter;
 use metrics::TIMER;
@@ -65,7 +65,7 @@ pub fn default_benchmark_features() -> Features {
 
 pub fn init_db(config: &NodeConfig) -> DbReaderWriter {
     DbReaderWriter::new(
-        AptosDB::open(
+        CedraDB::open(
             config.storage.get_dir_paths(),
             false, /* readonly */
             config.storage.storage_pruner_config,
@@ -90,7 +90,7 @@ fn create_checkpoint(
     }
     std::fs::create_dir_all(checkpoint_dir.as_ref()).unwrap();
 
-    AptosDB::create_checkpoint(source_dir, checkpoint_dir, enable_storage_sharding)
+    CedraDB::create_checkpoint(source_dir, checkpoint_dir, enable_storage_sharding)
         .expect("db checkpoint creation fails.");
 }
 
@@ -105,7 +105,7 @@ pub enum BenchmarkWorkload {
 
 enum InitializedBenchmarkWorkload {
     TransactionMix {
-        transaction_generators: Vec<Box<dyn aptos_transaction_generator_lib::TransactionGenerator>>,
+        transaction_generators: Vec<Box<dyn cedra_transaction_generator_lib::TransactionGenerator>>,
         phase: Arc<AtomicUsize>,
         workload_name: String,
     },
@@ -143,7 +143,7 @@ where
         enable_storage_sharding,
     );
     let (mut config, genesis_key) =
-        aptos_genesis::test_utils::test_config_with_custom_features(init_features);
+        cedra_genesis::test_utils::test_config_with_custom_features(init_features);
     config.storage.dir = checkpoint_dir.as_ref().to_path_buf();
     config.storage.storage_pruner_config = pruner_config;
     config.storage.rocksdb_configs.enable_storage_sharding = enable_storage_sharding;
@@ -157,7 +157,7 @@ where
             if matches!(transaction_type, CoinTransfer { non_conflicting, .. } if *non_conflicting)
             {
                 // In case of non-conflicting coin transfer,
-                // `aptos_executor_benchmark::transaction_generator::TransactionGenerator` needs to hold
+                // `cedra_executor_benchmark::transaction_generator::TransactionGenerator` needs to hold
                 // at least `block_size` number of accounts, all as signer only.
                 num_accounts_to_load = block_size;
                 if transactions_per_sender > 1 {
@@ -203,7 +203,7 @@ where
             let (main_signer_accounts, burner_accounts) =
                 accounts_cache.split(num_main_signer_accounts);
 
-            let (transaction_generator_creator, phase) = init_workload::<AptosVMBlockExecutor>(
+            let (transaction_generator_creator, phase) = init_workload::<CedraVMBlockExecutor>(
                 transaction_mix,
                 root_account.clone(),
                 main_signer_accounts,
@@ -311,7 +311,7 @@ where
     }
 
     // Assert there were no error log lines in the run.
-    assert_eq!(0, aptos_logger::ERROR_LOG_COUNT.get());
+    assert_eq!(0, cedra_logger::ERROR_LOG_COUNT.get());
 
     OverallMeasurement::print_end_table(&staged_results, &overall_results);
 
@@ -422,7 +422,7 @@ fn add_accounts_impl<V>(
     V: VMBlockExecutor + 'static,
 {
     let (mut config, genesis_key) =
-        aptos_genesis::test_utils::test_config_with_custom_features(init_features);
+        cedra_genesis::test_utils::test_config_with_custom_features(init_features);
     config.storage.dir = output_dir.as_ref().to_path_buf();
     config.storage.storage_pruner_config = pruner_config;
     config.storage.rocksdb_configs.enable_storage_sharding = enable_storage_sharding;
@@ -483,7 +483,7 @@ fn add_accounts_impl<V>(
     );
 
     // Assert there were no error log lines in the run.
-    assert_eq!(0, aptos_logger::ERROR_LOG_COUNT.get());
+    assert_eq!(0, cedra_logger::ERROR_LOG_COUNT.get());
 
     log_total_supply(&db.reader);
 
@@ -492,11 +492,11 @@ fn add_accounts_impl<V>(
 
     println!(
         "Total written internal nodes value size: {} bytes",
-        APTOS_JELLYFISH_INTERNAL_ENCODED_BYTES.get()
+        CEDRA_JELLYFISH_INTERNAL_ENCODED_BYTES.get()
     );
     println!(
         "Total written leaf nodes value size: {} bytes",
-        APTOS_JELLYFISH_LEAF_ENCODED_BYTES.get()
+        CEDRA_JELLYFISH_LEAF_ENCODED_BYTES.get()
     );
 }
 
@@ -917,11 +917,11 @@ pub fn run_single_with_default_params(
     concurrency_level: usize,
     mode: SingleRunMode,
 ) -> (Vec<OverallMeasurement>, OverallMeasurement) {
-    aptos_logger::Logger::new().init();
+    cedra_logger::Logger::new().init();
 
-    AptosVM::set_num_shards_once(1);
-    AptosVM::set_concurrency_level_once(concurrency_level);
-    AptosVM::set_processed_transactions_detailed_counters();
+    CedraVM::set_num_shards_once(1);
+    CedraVM::set_concurrency_level_once(concurrency_level);
+    CedraVM::set_processed_transactions_detailed_counters();
 
     rayon::ThreadPoolBuilder::new()
         .thread_name(|index| format!("rayon-global-{}", index))
@@ -967,7 +967,7 @@ pub fn run_single_with_default_params(
         ..Default::default()
     };
 
-    create_db_with_accounts::<AptosVMBlockExecutor>(
+    create_db_with_accounts::<CedraVMBlockExecutor>(
         num_accounts,       /* num_accounts */
         100000 * 100000000, /* init_account_balance */
         10000,              /* block_size */
@@ -989,7 +989,7 @@ pub fn run_single_with_default_params(
         ..Default::default()
     };
 
-    run_benchmark::<AptosVMBlockExecutor>(
+    run_benchmark::<CedraVMBlockExecutor>(
         benchmark_block_size, /* block_size */
         30,                   /* num_blocks */
         BenchmarkWorkload::TransactionMix(vec![(transaction_type, 1)]),
@@ -1013,7 +1013,7 @@ mod tests {
         db_generator::bootstrap_with_genesis,
         default_benchmark_features, init_db,
         native::{
-            aptos_vm_uncoordinated::AptosVMParallelUncoordinatedBlockExecutor,
+            cedra_vm_uncoordinated::CedraVMParallelUncoordinatedBlockExecutor,
             native_config::NativeConfig,
             native_vm::NativeVMBlockExecutor,
             parallel_uncoordinated_block_executor::{
@@ -1026,22 +1026,22 @@ mod tests {
         transaction_generator::TransactionGenerator,
         BenchmarkWorkload,
     };
-    use aptos_config::config::NO_OP_STORAGE_PRUNER_CONFIG;
-    use aptos_crypto::HashValue;
-    use aptos_executor::block_executor::BlockExecutor;
-    use aptos_executor_types::BlockExecutorTrait;
-    use aptos_sdk::{transaction_builder::aptos_stdlib, types::LocalAccount};
-    use aptos_temppath::TempPath;
-    use aptos_transaction_generator_lib::WorkflowProgress;
-    use aptos_transaction_workloads_lib::args::TransactionTypeArg;
-    use aptos_types::{
+    use cedra_config::config::NO_OP_STORAGE_PRUNER_CONFIG;
+    use cedra_crypto::HashValue;
+    use cedra_executor::block_executor::BlockExecutor;
+    use cedra_executor_types::BlockExecutorTrait;
+    use cedra_sdk::{transaction_builder::cedra_stdlib, types::LocalAccount};
+    use cedra_temppath::TempPath;
+    use cedra_transaction_generator_lib::WorkflowProgress;
+    use cedra_transaction_workloads_lib::args::TransactionTypeArg;
+    use cedra_types::{
         access_path::Path,
         account_address::AccountAddress,
         on_chain_config::{FeatureFlag, Features},
         state_store::state_key::inner::StateKeyInner,
         transaction::{Transaction, TransactionPayload},
     };
-    use aptos_vm::{aptos_vm::AptosVMBlockExecutor, AptosVM, VMBlockExecutor};
+    use cedra_vm::{cedra_vm::CedraVMBlockExecutor, CedraVM, VMBlockExecutor};
     use itertools::Itertools;
     use move_core_types::language_storage::StructTag;
     use rand::thread_rng;
@@ -1052,7 +1052,7 @@ mod tests {
 
     #[test]
     fn test_compare_vm_and_vm_uncoordinated() {
-        test_compare_prod_and_another_all_types::<AptosVMParallelUncoordinatedBlockExecutor>(true);
+        test_compare_prod_and_another_all_types::<CedraVMParallelUncoordinatedBlockExecutor>(true);
     }
 
     #[test]
@@ -1076,13 +1076,13 @@ mod tests {
         // non_fa_features.disable(FeatureFlag::COIN_TO_FUNGIBLE_ASSET_MIGRATION);
 
         test_compare_prod_and_another::<E>(values_match, non_fa_features.clone(), |address| {
-            aptos_stdlib::aptos_account_transfer(address, 1000)
+            cedra_stdlib::cedra_account_transfer(address, 1000)
         });
 
         test_compare_prod_and_another::<E>(
             values_match,
             non_fa_features,
-            aptos_stdlib::aptos_account_create_account,
+            cedra_stdlib::cedra_account_create_account,
         );
 
         let mut fa_features = default_benchmark_features();
@@ -1092,17 +1092,17 @@ mod tests {
         fa_features.disable(FeatureFlag::CONCURRENT_FUNGIBLE_BALANCE);
 
         test_compare_prod_and_another::<E>(values_match, fa_features.clone(), |address| {
-            aptos_stdlib::aptos_account_fungible_transfer_only(address, 1000)
+            cedra_stdlib::cedra_account_fungible_transfer_only(address, 1000)
         });
 
         test_compare_prod_and_another::<E>(values_match, fa_features.clone(), |address| {
-            aptos_stdlib::aptos_account_transfer(address, 1000)
+            cedra_stdlib::cedra_account_transfer(address, 1000)
         });
 
         test_compare_prod_and_another::<E>(
             values_match,
             fa_features,
-            aptos_stdlib::aptos_account_create_account,
+            cedra_stdlib::cedra_account_create_account,
         );
     }
 
@@ -1111,7 +1111,7 @@ mod tests {
         features: Features,
         txn_payload_f: impl Fn(AccountAddress) -> TransactionPayload,
     ) {
-        aptos_logger::Logger::new().init();
+        cedra_logger::Logger::new().init();
 
         let db_dir = TempPath::new();
 
@@ -1120,14 +1120,14 @@ mod tests {
         bootstrap_with_genesis(&db_dir, false, features.clone());
 
         let (mut config, genesis_key) =
-            aptos_genesis::test_utils::test_config_with_custom_features(features);
+            cedra_genesis::test_utils::test_config_with_custom_features(features);
         config.storage.dir = db_dir.as_ref().to_path_buf();
         config.storage.storage_pruner_config = NO_OP_STORAGE_PRUNER_CONFIG;
         config.storage.rocksdb_configs.enable_storage_sharding = false;
 
         let (txn, vm_result) = {
             let vm_db = init_db(&config);
-            let vm_executor = BlockExecutor::<AptosVMBlockExecutor>::new(vm_db.clone());
+            let vm_executor = BlockExecutor::<CedraVMBlockExecutor>::new(vm_db.clone());
 
             let root_account = TransactionGenerator::read_root_account(genesis_key, &vm_db);
             let dst = LocalAccount::generate(&mut thread_rng());
@@ -1265,7 +1265,7 @@ mod tests {
     ) where
         E: VMBlockExecutor + 'static,
     {
-        aptos_logger::Logger::new().init();
+        cedra_logger::Logger::new().init();
 
         let storage_dir = TempPath::new();
         let checkpoint_dir = TempPath::new();
@@ -1276,7 +1276,7 @@ mod tests {
         features.enable(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE);
         features.enable(FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE);
 
-        crate::db_generator::create_db_with_accounts::<AptosVMBlockExecutor>(
+        crate::db_generator::create_db_with_accounts::<CedraVMBlockExecutor>(
             100, /* num_accounts */
             // TODO(Gas): double check if this is correct
             100_000_000_000, /* init_account_balance */
@@ -1324,15 +1324,15 @@ mod tests {
 
     #[test]
     fn test_benchmark_default() {
-        test_generic_benchmark::<AptosVMBlockExecutor>(None, true);
+        test_generic_benchmark::<CedraVMBlockExecutor>(None, true);
     }
 
     #[test]
     fn test_publish_transaction() {
-        AptosVM::set_num_shards_once(1);
-        AptosVM::set_concurrency_level_once(4);
-        AptosVM::set_processed_transactions_detailed_counters();
-        test_generic_benchmark::<AptosVMBlockExecutor>(
+        CedraVM::set_num_shards_once(1);
+        CedraVM::set_concurrency_level_once(4);
+        CedraVM::set_processed_transactions_detailed_counters();
+        test_generic_benchmark::<CedraVMBlockExecutor>(
             Some(TransactionTypeArg::RepublishAndCall),
             true,
         );
@@ -1340,11 +1340,11 @@ mod tests {
 
     #[test]
     fn test_benchmark_transaction() {
-        AptosVM::set_num_shards_once(4);
-        AptosVM::set_concurrency_level_once(4);
-        AptosVM::set_processed_transactions_detailed_counters();
+        CedraVM::set_num_shards_once(4);
+        CedraVM::set_concurrency_level_once(4);
+        CedraVM::set_processed_transactions_detailed_counters();
         NativeConfig::set_concurrency_level_once(4);
-        test_generic_benchmark::<AptosVMBlockExecutor>(
+        test_generic_benchmark::<CedraVMBlockExecutor>(
             Some(TransactionTypeArg::ModifyGlobalMilestoneAggV2),
             true,
         );

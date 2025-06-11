@@ -1,6 +1,6 @@
 [package]
-name = "aptos-indexer-grpc-fullnode"
-description = "Aptos Indexer GRPC runtime on fullnode."
+name = "cedra-indexer-grpc-fullnode"
+description = "Cedra Indexer GRPC runtime on fullnode."
 version = "1.0.0"
 
 # Workspace inherited keys
@@ -29,19 +29,19 @@ tokio-stream = { workspace = true }
 tonic = { workspace = true }
 tonic-reflection = { workspace = true }
 
-aptos-api = { workspace = true }
-aptos-api-types = { workspace = true }
-aptos-bitvec = { workspace = true }
-aptos-config = { workspace = true }
-aptos-indexer-grpc-utils = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-mempool = { workspace = true }
-aptos-metrics-core = { workspace = true }
+cedra-api = { workspace = true }
+cedra-api-types = { workspace = true }
+cedra-bitvec = { workspace = true }
+cedra-config = { workspace = true }
+cedra-indexer-grpc-utils = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-mempool = { workspace = true }
+cedra-metrics-core = { workspace = true }
 cedra-moving-average = { workspace = true }
-aptos-protos = { workspace = true }
-aptos-runtimes = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-types = { workspace = true }
+cedra-protos = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-types = { workspace = true }
 
 move-core-types = { workspace = true }
 
@@ -50,19 +50,19 @@ goldenfile = { workspace = true }
 rand = { workspace = true }
 regex = { workspace = true }
 
-aptos-api-test-context = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-db = { workspace = true }
-aptos-executor = { workspace = true }
-aptos-executor-types = { workspace = true }
-aptos-framework = { workspace = true }
-aptos-genesis = { workspace = true }
-aptos-global-constants = { workspace = true }
-aptos-mempool = { workspace = true }
-aptos-mempool-notifications = { workspace = true }
-aptos-proptest-helpers = { workspace = true }
-aptos-sdk = { workspace = true }
-aptos-secure-storage = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-vm = { workspace = true }
-aptos-vm-validator = { workspace = true }
+cedra-api-test-context = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-db = { workspace = true }
+cedra-executor = { workspace = true }
+cedra-executor-types = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-genesis = { workspace = true }
+cedra-global-constants = { workspace = true }
+cedra-mempool = { workspace = true }
+cedra-mempool-notifications = { workspace = true }
+cedra-proptest-helpers = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-secure-storage = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-validator = { workspace = true }

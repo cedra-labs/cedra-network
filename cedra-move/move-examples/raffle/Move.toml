@@ -1,0 +1,11 @@
+[package]
+name = "raffle"
+version = "0.0.1"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+CedraStdlib = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-stdlib", rev = "mainnet" }
+
+
+[addresses]
+raffle = "_"

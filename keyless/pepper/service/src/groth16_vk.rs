@@ -1,9 +1,9 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::watcher::{unhexlify_api_bytes, ExternalResource};
 use anyhow::{anyhow, Result};
-use aptos_infallible::RwLock;
+use cedra_infallible::RwLock;
 use ark_bn254::{Bn254, G1Affine, G2Affine};
 use ark_groth16::{PreparedVerifyingKey, VerifyingKey};
 use ark_serialize::CanonicalDeserialize;

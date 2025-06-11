@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,13 +6,13 @@ use crate::{
     stream_coordinator::IndexerStreamCoordinator,
     ServiceContext,
 };
-use aptos_indexer_grpc_utils::{
+use cedra_indexer_grpc_utils::{
     counters::{log_grpc_step_fullnode, IndexerGrpcStep},
     timestamp_now_proto,
 };
-use aptos_logger::{error, info};
+use cedra_logger::{error, info};
 use cedra_moving_average::MovingAverage;
-use aptos_protos::{
+use cedra_protos::{
     indexer::v1::FullnodeInfo,
     internal::fullnode::v1::{
         fullnode_data_server::FullnodeData, stream_status::StatusType,
@@ -158,7 +158,7 @@ impl FullnodeData for FullnodeDataService {
                         }
                     },
                     Err(_) => {
-                        aptos_logger::warn!("[Indexer Fullnode] Unable to send end batch status");
+                        cedra_logger::warn!("[Indexer Fullnode] Unable to send end batch status");
                         break;
                     },
                 }

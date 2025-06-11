@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
-use aptos_drop_helper::async_concurrent_dropper::AsyncConcurrentDropper;
+use cedra_drop_helper::async_concurrent_dropper::AsyncConcurrentDropper;
 use once_cell::sync::Lazy;
 
 pub(crate) static DROPPER: Lazy<AsyncConcurrentDropper> =

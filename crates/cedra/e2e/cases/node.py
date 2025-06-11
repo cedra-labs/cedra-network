@@ -1,4 +1,4 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import json
@@ -14,7 +14,7 @@ def test_node_show_validator_set(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "show-validator-set",
             "--profile",
@@ -47,7 +47,7 @@ def test_node_update_consensus_key(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "init",
             "--assume-yes",
             "--network",
@@ -62,7 +62,7 @@ def test_node_update_consensus_key(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "stake",
             "initialize-stake-owner",
             "--profile",
@@ -81,7 +81,7 @@ def test_node_update_consensus_key(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "update-consensus-key",
             "--profile",
@@ -102,7 +102,7 @@ def test_node_update_consensus_key(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--profile",
@@ -134,7 +134,7 @@ def test_node_update_validator_network_address(run_helper: RunHelper, test_name=
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "update-validator-network-addresses",
             "--profile",
@@ -157,7 +157,7 @@ def test_node_update_validator_network_address(run_helper: RunHelper, test_name=
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "node",
             "get-stake-pool",
             "--profile",

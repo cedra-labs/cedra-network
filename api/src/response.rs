@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-//! The Aptos API response / error handling philosophy.
+//! The Cedra API response / error handling philosophy.
 //!
 //! The return type for every endpoint should be a
 //! `poem::Result<MyResponse<T>, MyError>` where MyResponse is an instance of
@@ -27,10 +27,10 @@
 //! returned by each function and its callers is enforced at compile time.
 //! See generate_error_traits and its invocations for more on this topic.
 
-// TODO: https://github.com/cedra-labs/cedra/issues/2279
+// TODO: https://github.com/cedra-labs/cedra-network/issues/2279
 
 use super::{accept_type::AcceptType, bcs_payload::Bcs};
-use aptos_api_types::{Address, AptosError, AptosErrorCode, HashValue, LedgerInfo};
+use cedra_api_types::{Address, CedraError, CedraErrorCode, HashValue, LedgerInfo};
 use move_core_types::{
     identifier::{IdentStr, Identifier},
     language_storage::StructTag,
@@ -41,7 +41,7 @@ use std::fmt::Display;
 
 /// An enum representing the different types of outputs for APIs
 #[derive(ResponseContent)]
-pub enum AptosResponseContent<T: ToJSON + Send + Sync> {
+pub enum CedraResponseContent<T: ToJSON + Send + Sync> {
     /// When returning data as JSON, we take in T and then serialize to JSON as
     /// part of the response.
     Json(Json<T>),
@@ -55,9 +55,9 @@ pub enum AptosResponseContent<T: ToJSON + Send + Sync> {
 /// This trait defines common functions that all error responses should impl.
 /// As a user you shouldn't worry about this, the generate_error_response macro
 /// takes care of it for you. Mostly these are helpers to allow callers holding
-/// an error response to manipulate the AptosError inside it.
-pub trait AptosErrorResponse {
-    fn inner_mut(&mut self) -> &mut AptosError;
+/// an error response to manipulate the CedraError inside it.
+pub trait CedraErrorResponse {
+    fn inner_mut(&mut self) -> &mut CedraError;
 }
 
 /// This macro defines traits for all of the given status codes. In each trait
@@ -68,41 +68,41 @@ pub trait AptosErrorResponse {
 /// fn fail_point_poem<E: InternalError>(name: &str) -> anyhow::Result<(), E>
 /// This should be invoked just once, taking in every status that we use
 /// throughout the entire API. Every one of these traits requires that the
-/// implementor also implements AptosErrorResponse, which saves functions from
+/// implementor also implements CedraErrorResponse, which saves functions from
 /// having to add that bound to errors themselves.
 #[macro_export]
 macro_rules! generate_error_traits {
     ($($trait_name:ident),*) => {
         paste::paste! {
         $(
-        pub trait [<$trait_name Error>]: AptosErrorResponse {
+        pub trait [<$trait_name Error>]: CedraErrorResponse {
             // With ledger info and an error code
             #[allow(unused)]
             fn [<$trait_name:snake _with_code>]<Err: std::fmt::Display>(
                 err: Err,
-                error_code: aptos_api_types::AptosErrorCode,
-                ledger_info: &aptos_api_types::LedgerInfo,
+                error_code: cedra_api_types::CedraErrorCode,
+                ledger_info: &cedra_api_types::LedgerInfo,
             ) -> Self where Self: Sized;
 
             // With an error code and no ledger info headers (special case)
             #[allow(unused)]
             fn [<$trait_name:snake _with_code_no_info>]<Err: std::fmt::Display>(
                 err: Err,
-                error_code: aptos_api_types::AptosErrorCode,
+                error_code: cedra_api_types::CedraErrorCode,
             ) -> Self where Self: Sized;
 
             #[allow(unused)]
             fn [<$trait_name:snake _with_vm_status>]<Err: std::fmt::Display>(
                 err: Err,
-                error_code: aptos_api_types::AptosErrorCode,
-                vm_status: aptos_types::vm_status::StatusCode,
-                ledger_info: &aptos_api_types::LedgerInfo
+                error_code: cedra_api_types::CedraErrorCode,
+                vm_status: cedra_types::vm_status::StatusCode,
+                ledger_info: &cedra_api_types::LedgerInfo
             ) -> Self where Self: Sized;
 
             #[allow(unused)]
-            fn [<$trait_name:snake _from_aptos_error>](
-                aptos_error: aptos_api_types::AptosError,
-                ledger_info: &aptos_api_types::LedgerInfo
+            fn [<$trait_name:snake _from_cedra_error>](
+                cedra_error: cedra_api_types::CedraError,
+                ledger_info: &cedra_api_types::LedgerInfo
             ) -> Self where Self: Sized;
         }
         )*
@@ -130,25 +130,25 @@ macro_rules! generate_error_response {
         pub enum $enum_name {
             $(
             #[oai(status = $status)]
-            $name(poem_openapi::payload::Json<Box<aptos_api_types::AptosError>>,
+            $name(poem_openapi::payload::Json<Box<cedra_api_types::CedraError>>,
                 // We use just regular u64 here instead of U64 since all header
                 // values are implicitly strings anyway.
                 /// Chain ID of the current chain
-                #[oai(header = "X-Aptos-Chain-Id")] Option<u8>,
+                #[oai(header = "X-Cedra-Chain-Id")] Option<u8>,
                 /// Current ledger version of the chain
-                #[oai(header = "X-Aptos-Ledger-Version")] Option<u64>,
+                #[oai(header = "X-Cedra-Ledger-Version")] Option<u64>,
                 /// Oldest non-pruned ledger version of the chain
-                #[oai(header = "X-Aptos-Ledger-Oldest-Version")] Option<u64>,
+                #[oai(header = "X-Cedra-Ledger-Oldest-Version")] Option<u64>,
                 /// Current timestamp of the chain
-                #[oai(header = "X-Aptos-Ledger-TimestampUsec")] Option<u64>,
+                #[oai(header = "X-Cedra-Ledger-TimestampUsec")] Option<u64>,
                 /// Current epoch of the chain
-                #[oai(header = "X-Aptos-Epoch")] Option<u64>,
+                #[oai(header = "X-Cedra-Epoch")] Option<u64>,
                 /// Current block height of the chain
-                #[oai(header = "X-Aptos-Block-Height")] Option<u64>,
+                #[oai(header = "X-Cedra-Block-Height")] Option<u64>,
                 /// Oldest non-pruned block height of the chain
-                #[oai(header = "X-Aptos-Oldest-Block-Height")] Option<u64>,
+                #[oai(header = "X-Cedra-Oldest-Block-Height")] Option<u64>,
                 /// The cost of the call in terms of gas
-                #[oai(header = "X-Aptos-Gas-Used")] Option<u64>,
+                #[oai(header = "X-Cedra-Gas-Used")] Option<u64>,
             ),
             )*
         }
@@ -161,10 +161,10 @@ macro_rules! generate_error_response {
         impl $crate::response::[<$name Error>] for $enum_name {
             fn [<$name:snake _with_code>]<Err: std::fmt::Display>(
                 err: Err,
-                error_code: aptos_api_types::AptosErrorCode,
-                ledger_info: &aptos_api_types::LedgerInfo
+                error_code: cedra_api_types::CedraErrorCode,
+                ledger_info: &cedra_api_types::LedgerInfo
             )-> Self where Self: Sized {
-                let error = aptos_api_types::AptosError::new_with_error_code(err, error_code);
+                let error = cedra_api_types::CedraError::new_with_error_code(err, error_code);
                 let payload = poem_openapi::payload::Json(Box::new(error));
 
                 Self::from($enum_name::$name(
@@ -182,9 +182,9 @@ macro_rules! generate_error_response {
 
             fn [<$name:snake _with_code_no_info>]<Err: std::fmt::Display>(
                 err: Err,
-                error_code: aptos_api_types::AptosErrorCode,
+                error_code: cedra_api_types::CedraErrorCode,
             )-> Self where Self: Sized {
-                let error = aptos_api_types::AptosError::new_with_error_code(err, error_code);
+                let error = cedra_api_types::CedraError::new_with_error_code(err, error_code);
                 let payload = poem_openapi::payload::Json(Box::new(error));
 
                 Self::from($enum_name::$name(
@@ -202,11 +202,11 @@ macro_rules! generate_error_response {
 
             fn [<$name:snake _with_vm_status>]<Err: std::fmt::Display>(
                 err: Err,
-                error_code: aptos_api_types::AptosErrorCode,
-                vm_status: aptos_types::vm_status::StatusCode,
-                ledger_info: &aptos_api_types::LedgerInfo
+                error_code: cedra_api_types::CedraErrorCode,
+                vm_status: cedra_types::vm_status::StatusCode,
+                ledger_info: &cedra_api_types::LedgerInfo
             ) -> Self where Self: Sized {
-                let error = aptos_api_types::AptosError::new_with_vm_status(err, error_code, vm_status);
+                let error = cedra_api_types::CedraError::new_with_vm_status(err, error_code, vm_status);
                 let payload = poem_openapi::payload::Json(Box::new(error));
                 Self::from($enum_name::$name(
                     payload,
@@ -221,11 +221,11 @@ macro_rules! generate_error_response {
                 ))
             }
 
-            fn [<$name:snake _from_aptos_error>](
-                aptos_error: aptos_api_types::AptosError,
-                ledger_info: &aptos_api_types::LedgerInfo
+            fn [<$name:snake _from_cedra_error>](
+                cedra_error: cedra_api_types::CedraError,
+                ledger_info: &cedra_api_types::LedgerInfo
             ) -> Self where Self: Sized {
-                let payload = poem_openapi::payload::Json(Box::new(aptos_error));
+                let payload = poem_openapi::payload::Json(Box::new(cedra_error));
                 Self::from($enum_name::$name(
                     payload,
                     Some(ledger_info.chain_id),
@@ -242,9 +242,9 @@ macro_rules! generate_error_response {
         )*
         }
 
-        // Generate a function that helps get the AptosError within.
-        impl $crate::response::AptosErrorResponse for $enum_name {
-            fn inner_mut(&mut self) -> &mut aptos_api_types::AptosError {
+        // Generate a function that helps get the CedraError within.
+        impl $crate::response::CedraErrorResponse for $enum_name {
+            fn inner_mut(&mut self) -> &mut cedra_api_types::CedraError {
                 match self {
                     $(
                     $enum_name::$name(poem_openapi::payload::Json(inner),
@@ -293,27 +293,27 @@ macro_rules! generate_success_response {
             $name(
                 // We use just regular u64 here instead of U64 since all header
                 // values are implicitly strings anyway.
-                $crate::response::AptosResponseContent<T>,
+                $crate::response::CedraResponseContent<T>,
                 /// Chain ID of the current chain
-                #[oai(header = "X-Aptos-Chain-Id")] u8,
+                #[oai(header = "X-Cedra-Chain-Id")] u8,
                 /// Current ledger version of the chain
-                #[oai(header = "X-Aptos-Ledger-Version")] u64,
+                #[oai(header = "X-Cedra-Ledger-Version")] u64,
                 /// Oldest non-pruned ledger version of the chain
-                #[oai(header = "X-Aptos-Ledger-Oldest-Version")] u64,
+                #[oai(header = "X-Cedra-Ledger-Oldest-Version")] u64,
                 /// Current timestamp of the chain
-                #[oai(header = "X-Aptos-Ledger-TimestampUsec")] u64,
+                #[oai(header = "X-Cedra-Ledger-TimestampUsec")] u64,
                 /// Current epoch of the chain
-                #[oai(header = "X-Aptos-Epoch")] u64,
+                #[oai(header = "X-Cedra-Epoch")] u64,
                 /// Current block height of the chain
-                #[oai(header = "X-Aptos-Block-Height")] u64,
+                #[oai(header = "X-Cedra-Block-Height")] u64,
                 /// Oldest non-pruned block height of the chain
-                #[oai(header = "X-Aptos-Oldest-Block-Height")] u64,
+                #[oai(header = "X-Cedra-Oldest-Block-Height")] u64,
                 /// The cost of the call in terms of gas
-                #[oai(header = "X-Aptos-Gas-Used")] Option<u64>,
+                #[oai(header = "X-Cedra-Gas-Used")] Option<u64>,
                 /// Cursor to be used for endpoints that support cursor-based
                 /// pagination. Pass this to the `start` field of the endpoint
                 /// on the next call to get the next page of results.
-                #[oai(header = "X-Aptos-Cursor")] Option<String>,
+                #[oai(header = "X-Cedra-Cursor")] Option<String>,
             ),
             )*
         }
@@ -327,17 +327,17 @@ macro_rules! generate_success_response {
             )*
         }
 
-        // Generate a From impl that builds a response from AptosResponseContent.
+        // Generate a From impl that builds a response from CedraResponseContent.
         // Each variant in the main enum takes in the same argument, so the macro
         // is really just helping us enumerate and build each variant. We use this
         // in the other From impls.
-        impl <T: poem_openapi::types::ToJSON + Send + Sync> From<($crate::response::AptosResponseContent<T>, &aptos_api_types::LedgerInfo, [<$enum_name Status>])>
+        impl <T: poem_openapi::types::ToJSON + Send + Sync> From<($crate::response::CedraResponseContent<T>, &cedra_api_types::LedgerInfo, [<$enum_name Status>])>
             for $enum_name<T>
         {
             fn from(
                 (value, ledger_info, status): (
-                    $crate::response::AptosResponseContent<T>,
-                    &aptos_api_types::LedgerInfo,
+                    $crate::response::CedraResponseContent<T>,
+                    &cedra_api_types::LedgerInfo,
                     [<$enum_name Status>]
                 ),
             ) -> Self {
@@ -363,29 +363,29 @@ macro_rules! generate_success_response {
         }
 
         // Generate a From impl that builds a response from a Json<T> and friends.
-        impl<T: poem_openapi::types::ToJSON + Send + Sync> From<(poem_openapi::payload::Json<T>, &aptos_api_types::LedgerInfo, [<$enum_name Status>])>
+        impl<T: poem_openapi::types::ToJSON + Send + Sync> From<(poem_openapi::payload::Json<T>, &cedra_api_types::LedgerInfo, [<$enum_name Status>])>
             for $enum_name<T>
         {
             fn from(
-                (value, ledger_info, status): (poem_openapi::payload::Json<T>, &aptos_api_types::LedgerInfo, [<$enum_name Status>]),
+                (value, ledger_info, status): (poem_openapi::payload::Json<T>, &cedra_api_types::LedgerInfo, [<$enum_name Status>]),
             ) -> Self {
-                let content = $crate::response::AptosResponseContent::Json(value);
+                let content = $crate::response::CedraResponseContent::Json(value);
                 Self::from((content, ledger_info, status))
             }
         }
 
         // Generate a From impl that builds a response from a Bcs<Vec<u8>> and friends.
-        impl<T: poem_openapi::types::ToJSON + Send + Sync> From<($crate::bcs_payload::Bcs, &aptos_api_types::LedgerInfo, [<$enum_name Status>])>
+        impl<T: poem_openapi::types::ToJSON + Send + Sync> From<($crate::bcs_payload::Bcs, &cedra_api_types::LedgerInfo, [<$enum_name Status>])>
             for $enum_name<T>
         {
             fn from(
                 (value, ledger_info, status): (
                     $crate::bcs_payload::Bcs,
-                    &aptos_api_types::LedgerInfo,
+                    &cedra_api_types::LedgerInfo,
                     [<$enum_name Status>]
                 ),
             ) -> Self {
-                let content = $crate::response::AptosResponseContent::Bcs(value);
+                let content = $crate::response::CedraResponseContent::Bcs(value);
                 Self::from((content, ledger_info, status))
             }
         }
@@ -398,7 +398,7 @@ macro_rules! generate_success_response {
             pub fn try_from_rust_value<E: $crate::response::InternalError>(
                 (value, ledger_info, status, accept_type): (
                     T,
-                    &aptos_api_types::LedgerInfo,
+                    &cedra_api_types::LedgerInfo,
                     [<$enum_name Status>],
                     &$crate::accept_type::AcceptType
                 ),
@@ -409,7 +409,7 @@ macro_rules! generate_success_response {
                             bcs::to_bytes(&value)
                                 .map_err(|e| E::internal_with_code(
                                     e,
-                                    aptos_api_types::AptosErrorCode::InternalError,
+                                    cedra_api_types::CedraErrorCode::InternalError,
                                     ledger_info
                                 ))?
                         ),
@@ -427,7 +427,7 @@ macro_rules! generate_success_response {
            pub fn try_from_json<E: $crate::response::InternalError>(
                 (value, ledger_info, status): (
                     T,
-                    &aptos_api_types::LedgerInfo,
+                    &cedra_api_types::LedgerInfo,
                     [<$enum_name Status>],
                 ),
             ) -> Result<Self, E> {
@@ -441,7 +441,7 @@ macro_rules! generate_success_response {
             pub fn try_from_bcs<B: serde::Serialize, E: $crate::response::InternalError>(
                 (value, ledger_info, status): (
                     B,
-                    &aptos_api_types::LedgerInfo,
+                    &cedra_api_types::LedgerInfo,
                     [<$enum_name Status>],
                 ),
             ) -> Result<Self, E> {
@@ -450,7 +450,7 @@ macro_rules! generate_success_response {
                         bcs::to_bytes(&value)
                             .map_err(|e| E::internal_with_code(
                                 e,
-                                aptos_api_types::AptosErrorCode::InternalError,
+                                cedra_api_types::CedraErrorCode::InternalError,
                                 ledger_info
                             ))?
                     ),
@@ -462,7 +462,7 @@ macro_rules! generate_success_response {
             pub fn try_from_encoded<E: $crate::response::InternalError>(
                 (value, ledger_info, status): (
                     Vec<u8>,
-                    &aptos_api_types::LedgerInfo,
+                    &cedra_api_types::LedgerInfo,
                     [<$enum_name Status>],
                 ),
             ) -> Result<Self, E> {
@@ -475,11 +475,11 @@ macro_rules! generate_success_response {
                )))
             }
 
-            pub fn with_cursor(mut self, new_cursor: Option<aptos_types::state_store::state_key::StateKey>) -> Self {
+            pub fn with_cursor(mut self, new_cursor: Option<cedra_types::state_store::state_key::StateKey>) -> Self {
                 match self {
                     $(
                     [<$enum_name>]::$name(_, _, _, _, _, _, _, _, _, ref mut cursor) => {
-                        *cursor = new_cursor.map(|c| aptos_api_types::StateKeyWrapper::from(c).to_string());
+                        *cursor = new_cursor.map(|c| cedra_api_types::StateKeyWrapper::from(c).to_string());
                     }
                     )*
                 }
@@ -552,7 +552,7 @@ pub type BasicResultWith404<T> = poem::Result<BasicResponse<T>, BasicErrorWith40
 pub fn build_not_found<S: Display, E: NotFoundError>(
     resource: &str,
     identifier: S,
-    error_code: AptosErrorCode,
+    error_code: CedraErrorCode,
     ledger_info: &LedgerInfo,
 ) -> E {
     E::not_found_with_code(
@@ -568,7 +568,7 @@ pub fn json_api_disabled<S: Display, E: ForbiddenError>(identifier: S) -> E {
             "{} with JSON output is disabled on this endpoint",
             identifier
         ),
-        AptosErrorCode::ApiDisabled,
+        CedraErrorCode::ApiDisabled,
     )
 }
 
@@ -578,21 +578,21 @@ pub fn bcs_api_disabled<S: Display, E: ForbiddenError>(identifier: S) -> E {
             "{} with BCS output is disabled on this endpoint",
             identifier
         ),
-        AptosErrorCode::ApiDisabled,
+        CedraErrorCode::ApiDisabled,
     )
 }
 
 pub fn api_disabled<S: Display, E: ForbiddenError>(identifier: S) -> E {
     E::forbidden_with_code_no_info(
         format!("{} is disabled on this endpoint", identifier),
-        AptosErrorCode::ApiDisabled,
+        CedraErrorCode::ApiDisabled,
     )
 }
 
 pub fn api_forbidden<S: Display, E: ForbiddenError>(identifier: S, extra_help: S) -> E {
     E::forbidden_with_code_no_info(
         format!("{} is not allowed. {}", identifier, extra_help),
-        AptosErrorCode::ApiDisabled,
+        CedraErrorCode::ApiDisabled,
     )
 }
 
@@ -600,7 +600,7 @@ pub fn version_not_found<E: NotFoundError>(ledger_version: u64, ledger_info: &Le
     build_not_found(
         "Ledger version",
         format!("Ledger version({})", ledger_version),
-        AptosErrorCode::VersionNotFound,
+        CedraErrorCode::VersionNotFound,
         ledger_info,
     )
 }
@@ -612,7 +612,7 @@ pub fn transaction_not_found_by_version<E: NotFoundError>(
     build_not_found(
         "Transaction",
         format!("Ledger version({})", ledger_version),
-        AptosErrorCode::TransactionNotFound,
+        CedraErrorCode::TransactionNotFound,
         ledger_info,
     )
 }
@@ -624,7 +624,7 @@ pub fn transaction_not_found_by_hash<E: NotFoundError>(
     build_not_found(
         "Transaction",
         format!("Transaction hash({})", hash),
-        AptosErrorCode::TransactionNotFound,
+        CedraErrorCode::TransactionNotFound,
         ledger_info,
     )
 }
@@ -632,7 +632,7 @@ pub fn transaction_not_found_by_hash<E: NotFoundError>(
 pub fn version_pruned<E: GoneError>(ledger_version: u64, ledger_info: &LedgerInfo) -> E {
     E::gone_with_code(
         format!("Ledger version({}) has been pruned", ledger_version),
-        AptosErrorCode::VersionPruned,
+        CedraErrorCode::VersionPruned,
         ledger_info,
     )
 }
@@ -648,7 +648,7 @@ pub fn account_not_found<E: NotFoundError>(
             "Address({}) and Ledger version({})",
             address, ledger_version
         ),
-        AptosErrorCode::AccountNotFound,
+        CedraErrorCode::AccountNotFound,
         ledger_info,
     )
 }
@@ -665,7 +665,7 @@ pub fn resource_not_found<E: NotFoundError>(
             "Address({}), Struct tag({}) and Ledger version({})",
             address, struct_tag, ledger_version
         ),
-        AptosErrorCode::ResourceNotFound,
+        CedraErrorCode::ResourceNotFound,
         ledger_info,
     )
 }
@@ -682,7 +682,7 @@ pub fn module_not_found<E: NotFoundError>(
             "Address({}), Module name({}) and Ledger version({})",
             address, module_name, ledger_version
         ),
-        AptosErrorCode::ModuleNotFound,
+        CedraErrorCode::ModuleNotFound,
         ledger_info,
     )
 }
@@ -700,7 +700,7 @@ pub fn struct_field_not_found<E: NotFoundError>(
             "Address({}), Struct tag({}), Field name({}) and Ledger version({})",
             address, struct_tag, field_name, ledger_version
         ),
-        AptosErrorCode::StructFieldNotFound,
+        CedraErrorCode::StructFieldNotFound,
         ledger_info,
     )
 }
@@ -717,7 +717,7 @@ pub fn table_item_not_found<E: NotFoundError>(
             "Table handle({}), Table key({}) and Ledger version({})",
             table_handle, table_key, ledger_version
         ),
-        AptosErrorCode::TableItemNotFound,
+        CedraErrorCode::TableItemNotFound,
         ledger_info,
     )
 }
@@ -729,7 +729,7 @@ pub fn block_not_found_by_height<E: NotFoundError>(
     build_not_found(
         "Block",
         format!("Block height({})", block_height,),
-        AptosErrorCode::BlockNotFound,
+        CedraErrorCode::BlockNotFound,
         ledger_info,
     )
 }
@@ -741,7 +741,7 @@ pub fn block_not_found_by_version<E: NotFoundError>(
     build_not_found(
         "Block",
         format!("Ledger version({})", ledger_version,),
-        AptosErrorCode::BlockNotFound,
+        CedraErrorCode::BlockNotFound,
         ledger_info,
     )
 }
@@ -749,7 +749,7 @@ pub fn block_not_found_by_version<E: NotFoundError>(
 pub fn block_pruned_by_height<E: GoneError>(block_height: u64, ledger_info: &LedgerInfo) -> E {
     E::gone_with_code(
         format!("Block({}) has been pruned", block_height),
-        AptosErrorCode::BlockPruned,
+        CedraErrorCode::BlockPruned,
         ledger_info,
     )
 }

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{CheckResult, Checker, CheckerError, CommonCheckerConfig};
@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 // TODO: When we have it, switch to using a crate that unifies metric names.
 // As it is now, this metric name could change and we'd never catch it here
 // at compile time.
-const PROPOSALS_METRIC: &str = "aptos_consensus_proposals_count";
+const PROPOSALS_METRIC: &str = "cedra_consensus_proposals_count";
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -77,7 +77,7 @@ impl ConsensusProposalsChecker {
     }
 }
 
-// See https://github.com/cedra-labs/cedra/pull/1450 for a discussion on
+// See https://github.com/cedra-labs/cedra-network/pull/1450 for a discussion on
 // how this Checker can be improved.
 #[async_trait::async_trait]
 impl Checker for ConsensusProposalsChecker {

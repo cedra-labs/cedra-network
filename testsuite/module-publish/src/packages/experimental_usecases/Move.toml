@@ -3,10 +3,10 @@ name = "ExperimentalUsecases"
 version = "0.0.0"
 
 [dependencies]
-AptosFramework = { local = "../../../../../aptos-move/framework/aptos-framework" }
-AptosExperimental = { local = "../../../../../aptos-move/framework/aptos-experimental" }
-AptosToken = { local = "../../../../../aptos-move/framework/aptos-token" }
-AptosTokenObjects = { local = "../../../../../aptos-move/framework/aptos-token-objects" }
+CedraFramework = { local = "../../../../../cedra-move/framework/cedra-framework" }
+CedraExperimental = { local = "../../../../../cedra-move/framework/cedra-experimental" }
+CedraToken = { local = "../../../../../cedra-move/framework/cedra-token" }
+CedraTokenObjects = { local = "../../../../../cedra-move/framework/cedra-token-objects" }
 
 # testing exchanging of constant address works as well.
 [addresses]

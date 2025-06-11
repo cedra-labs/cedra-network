@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::keyless::{
@@ -11,7 +11,7 @@ use crate::keyless::{
     Configuration, EphemeralCertificate, KeylessPublicKey, KeylessSignature,
     VERIFICATION_KEY_FOR_TESTING,
 };
-use aptos_crypto::poseidon_bn254::keyless::fr_to_bytes_le;
+use cedra_crypto::poseidon_bn254::keyless::fr_to_bytes_le;
 use std::ops::{AddAssign, Deref};
 
 /// Outputs:

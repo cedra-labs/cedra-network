@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::native_transaction::compute_deltas_for_batch;
@@ -8,10 +8,10 @@ use crate::{
     native::{native_config::NATIVE_EXECUTOR_POOL, native_transaction::NativeTransaction},
 };
 use anyhow::{bail, Result};
-use aptos_block_executor::{
+use cedra_block_executor::{
     counters::BLOCK_EXECUTOR_INNER_EXECUTE_BLOCK, txn_provider::default::DefaultTxnProvider,
 };
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{
         primary_apt_store, AccountResource, CoinInfoResource, CoinRegister, CoinStoreResource,
@@ -35,7 +35,7 @@ use aptos_types::{
     write_set::{WriteOp, WriteSetMut},
     CedraCoinType,
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use dashmap::{
     mapref::one::{Ref, RefMut},
     DashMap,

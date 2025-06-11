@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::liveness::{
     proposer_election::ProposerElection, round_proposer_election::RoundProposer,
 };
-use aptos_consensus_types::common::{Author, Round};
-use aptos_types::account_address::AccountAddress;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_types::account_address::AccountAddress;
 use std::collections::HashMap;
 
 #[test]

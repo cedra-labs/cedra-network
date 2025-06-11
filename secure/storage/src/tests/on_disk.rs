@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{tests::suite, OnDiskStorage, Storage};
-use aptos_temppath::TempPath;
+use cedra_temppath::TempPath;
 
 #[test]
 fn on_disk() {

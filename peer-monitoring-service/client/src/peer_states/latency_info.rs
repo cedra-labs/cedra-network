@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,15 +6,15 @@ use crate::{
     peer_states::{key_value::StateValueInterface, request_tracker::RequestTracker},
     Error, LogEntry, LogEvent, LogSchema,
 };
-use aptos_config::{config::LatencyMonitoringConfig, network_id::PeerNetworkId};
-use aptos_infallible::RwLock;
-use aptos_logger::{error, warn};
-use aptos_network::application::metadata::PeerMetadata;
-use aptos_peer_monitoring_service_types::{
+use cedra_config::{config::LatencyMonitoringConfig, network_id::PeerNetworkId};
+use cedra_infallible::RwLock;
+use cedra_logger::{error, warn};
+use cedra_network::application::metadata::PeerMetadata;
+use cedra_peer_monitoring_service_types::{
     request::{LatencyPingRequest, PeerMonitoringServiceRequest},
     response::PeerMonitoringServiceResponse,
 };
-use aptos_time_service::TimeService;
+use cedra_time_service::TimeService;
 use std::{
     collections::BTreeMap,
     fmt,
@@ -235,22 +235,22 @@ impl Display for LatencyInfoState {
 #[cfg(test)]
 mod test {
     use crate::peer_states::{key_value::StateValueInterface, latency_info::LatencyInfoState};
-    use aptos_config::{
+    use cedra_config::{
         config::{LatencyMonitoringConfig, PeerRole},
         network_id::{NetworkId, PeerNetworkId},
     };
-    use aptos_netcore::transport::ConnectionOrigin;
-    use aptos_network::{
+    use cedra_netcore::transport::ConnectionOrigin;
+    use cedra_network::{
         application::metadata::PeerMetadata,
         protocols::wire::handshake::v1::{MessagingProtocolVersion, ProtocolIdSet},
         transport::{ConnectionId, ConnectionMetadata},
     };
-    use aptos_peer_monitoring_service_types::{
+    use cedra_peer_monitoring_service_types::{
         request::{LatencyPingRequest, PeerMonitoringServiceRequest},
         response::{LatencyPingResponse, PeerMonitoringServiceResponse},
     };
-    use aptos_time_service::TimeService;
-    use aptos_types::{network_address::NetworkAddress, PeerId};
+    use cedra_time_service::TimeService;
+    use cedra_types::{network_address::NetworkAddress, PeerId};
     use rand::{rngs::OsRng, Rng};
     use std::{cmp::min, str::FromStr};
 

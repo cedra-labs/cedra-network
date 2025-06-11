@@ -8,9 +8,9 @@ named_addr = "0xFED"
 
 [dev-addresses]
 
-[dependencies.AptosFramework]
+[dependencies.CedraFramework]
 git = "https://github.com/cedra-labs/cedra.git"
 rev = "mainnet"
-subdir = "aptos-move/framework/aptos-framework"
+subdir = "cedra-move/framework/cedra-framework"
 
 [dev-dependencies]

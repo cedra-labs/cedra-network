@@ -1,8 +1,8 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::{CliCommand, CliTypedResult};
-use aptos_workspace_server::WorkspaceCommand;
+use cedra_workspace_server::WorkspaceCommand;
 use async_trait::async_trait;
 
 #[async_trait]

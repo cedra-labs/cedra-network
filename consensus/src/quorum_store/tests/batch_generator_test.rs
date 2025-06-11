@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -11,13 +11,13 @@ use crate::{
         create_vec_signed_transactions_with_gas,
     },
 };
-use aptos_config::config::QuorumStoreConfig;
-use aptos_consensus_types::{
+use cedra_config::config::QuorumStoreConfig;
+use cedra_consensus_types::{
     common::{TransactionInProgress, TransactionSummary},
     proof_of_store::{BatchId, SignedBatchInfo},
 };
-use aptos_mempool::{QuorumStoreRequest, QuorumStoreResponse};
-use aptos_types::transaction::SignedTransaction;
+use cedra_mempool::{QuorumStoreRequest, QuorumStoreResponse};
+use cedra_types::transaction::SignedTransaction;
 use futures::{
     channel::mpsc::{channel, Receiver},
     StreamExt,

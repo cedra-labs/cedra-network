@@ -1,0 +1,40 @@
+[package]
+name = "cedra-genesis"
+description = "A tool to manage genesis"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-db = { workspace = true }
+cedra-executor = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-keygen = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-genesis = { workspace = true }
+bcs = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+serde_yaml = { workspace = true }
+
+[dev-dependencies]
+cedra-config = { workspace = true }
+
+[features]
+testing = []
+fuzzing = ["cedra-config/fuzzing"]

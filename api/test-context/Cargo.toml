@@ -1,6 +1,6 @@
 [package]
-name = "aptos-api-test-context"
-description = "Aptos API test context"
+name = "cedra-api-test-context"
+description = "Cedra API test context"
 version = "0.2.0"
 
 # Workspace inherited keys
@@ -13,26 +13,26 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-api = { workspace = true }
-aptos-api-types = { workspace = true }
-aptos-cached-packages = { workspace = true }
-aptos-config = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-db = { workspace = true, features = ["fuzzing"] }
-aptos-executor = { workspace = true }
-aptos-executor-types = { workspace = true }
-aptos-framework = { workspace = true }
-aptos-genesis = { workspace = true }
-aptos-indexer-grpc-table-info = { workspace = true }
-aptos-mempool = { workspace = true, features = ["fuzzing"] }
-aptos-mempool-notifications = { workspace = true }
-aptos-sdk = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-types = { workspace = true }
-aptos-vm = { workspace = true }
-aptos-vm-logging = { workspace = true }
-aptos-vm-validator = { workspace = true }
+cedra-api = { workspace = true }
+cedra-api-types = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-db = { workspace = true, features = ["fuzzing"] }
+cedra-executor = { workspace = true }
+cedra-executor-types = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-genesis = { workspace = true }
+cedra-indexer-grpc-table-info = { workspace = true }
+cedra-mempool = { workspace = true, features = ["fuzzing"] }
+cedra-mempool-notifications = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-logging = { workspace = true }
+cedra-vm-validator = { workspace = true }
 bcs = { workspace = true }
 bytes = { workspace = true }
 goldenfile = { workspace = true }

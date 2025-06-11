@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::{
@@ -9,11 +9,11 @@ use crate::consensus_observer::{
     network::observer_message::OrderedBlock,
     observer::{execution_pool::ObservedOrderedBlock, payload_store::BlockPayloadStore},
 };
-use aptos_config::{config::ConsensusObserverConfig, network_id::PeerNetworkId};
-use aptos_crypto::HashValue;
-use aptos_infallible::Mutex;
-use aptos_logger::{error, info, warn};
-use aptos_types::block_info::Round;
+use cedra_config::{config::ConsensusObserverConfig, network_id::PeerNetworkId};
+use cedra_crypto::HashValue;
+use cedra_infallible::Mutex;
+use cedra_logger::{error, info, warn};
+use cedra_types::block_info::Round;
 use std::{
     collections::{btree_map::Entry, BTreeMap},
     sync::Arc,
@@ -322,14 +322,14 @@ mod test {
         network::observer_message::{BlockPayload, BlockTransactionPayload},
         observer::payload_store::BlockPayloadStore,
     };
-    use aptos_consensus_types::{
+    use cedra_consensus_types::{
         block::Block,
         block_data::{BlockData, BlockType},
         pipelined_block::{OrderedBlockWindow, PipelinedBlock},
         quorum_cert::QuorumCert,
     };
-    use aptos_crypto::HashValue;
-    use aptos_types::{
+    use cedra_crypto::HashValue;
+    use cedra_types::{
         aggregate_signature::AggregateSignature,
         block_info::BlockInfo,
         ledger_info::{LedgerInfo, LedgerInfoWithSignatures},

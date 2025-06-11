@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::txn_hash_and_authenticator_deduper::TxnHashAndAuthenticatorDeduper;
-use aptos_logger::info;
-use aptos_types::{on_chain_config::TransactionDeduperType, transaction::SignedTransaction};
+use cedra_logger::info;
+use cedra_types::{on_chain_config::TransactionDeduperType, transaction::SignedTransaction};
 use std::sync::Arc;
 
 /// Interface to dedup transactions. The dedup filters duplicate transactions within a block.

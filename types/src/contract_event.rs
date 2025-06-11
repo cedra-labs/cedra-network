@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,7 +13,7 @@ use crate::{
     transaction::Version,
 };
 use anyhow::{bail, Error, Result};
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher};
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 use move_core_types::{
     ident_str,
     language_storage::{StructTag, TypeTag, CORE_CODE_ADDRESS},

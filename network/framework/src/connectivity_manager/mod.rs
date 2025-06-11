@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -35,18 +35,18 @@ use crate::{
     peer_manager::{self, conn_notifs_channel, ConnectionRequestSender, PeerManagerError},
     transport::ConnectionMetadata,
 };
-use aptos_config::{
+use cedra_config::{
     config::{Peer, PeerRole, PeerSet},
     network_id::NetworkContext,
 };
-use aptos_crypto::x25519;
-use aptos_infallible::RwLock;
-use aptos_logger::prelude::*;
-use aptos_netcore::transport::ConnectionOrigin;
-use aptos_num_variants::NumVariants;
-use aptos_short_hex_str::AsShortHexStr;
-use aptos_time_service::{TimeService, TimeServiceTrait};
-use aptos_types::{account_address::AccountAddress, network_address::NetworkAddress, PeerId};
+use cedra_crypto::x25519;
+use cedra_infallible::RwLock;
+use cedra_logger::prelude::*;
+use cedra_netcore::transport::ConnectionOrigin;
+use cedra_num_variants::NumVariants;
+use cedra_short_hex_str::AsShortHexStr;
+use cedra_time_service::{TimeService, TimeServiceTrait};
+use cedra_types::{account_address::AccountAddress, network_address::NetworkAddress, PeerId};
 use futures::{
     channel::oneshot,
     future::{BoxFuture, FutureExt},
@@ -109,7 +109,7 @@ pub struct ConnectivityManager<TBackoff> {
     /// Channel to receive notifications from PeerManager.
     connection_notifs_rx: conn_notifs_channel::Receiver,
     /// Channel over which we receive requests from other actors.
-    requests_rx: aptos_channels::Receiver<ConnectivityRequest>,
+    requests_rx: cedra_channels::Receiver<ConnectivityRequest>,
     /// Peers queued to be dialed, potentially with some delay. The dial can be canceled by
     /// sending over (or dropping) the associated oneshot sender.
     dial_queue: HashMap<PeerId, oneshot::Sender<()>>,
@@ -353,7 +353,7 @@ where
         seeds: PeerSet,
         connection_reqs_tx: ConnectionRequestSender,
         connection_notifs_rx: conn_notifs_channel::Receiver,
-        requests_rx: aptos_channels::Receiver<ConnectivityRequest>,
+        requests_rx: cedra_channels::Receiver<ConnectivityRequest>,
         connectivity_check_interval: Duration,
         backoff_strategy: TBackoff,
         max_delay: Duration,

@@ -1,7 +1,7 @@
 ---
 id: state sync
 title: State Sync
-custom_edit_url: https://github.com/cedra-labs/cedra/edit/main/state-sync/README.md
+custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/state-sync/README.md
 ---
 
 # State Synchronization (State Sync)
@@ -43,13 +43,13 @@ a batch of transactions.
 ### Code structure
 
 The state sync code structure matches the architecture outlined above:
-- **Driver:** [https://github.com/cedra-labs/cedra/tree/main/state-sync/state-sync-driver](https://github.com/cedra-labs/cedra/tree/main/state-sync/state-sync-driver)
-- **Data Streaming Service:** [https://github.com/cedra-labs/cedra/tree/main/state-sync/data-streaming-service](https://github.com/cedra-labs/cedra/tree/main/state-sync/data-streaming-service)
-- **Cedra Data Client**: [https://github.com/cedra-labs/cedra/tree/main/state-sync/cedra-data-client](https://github.com/cedra-labs/cedra/tree/main/state-sync/cedra-data-client)
-- **Storage Service:** [https://github.com/cedra-labs/cedra/tree/main/state-sync/storage-service](https://github.com/cedra-labs/cedra/tree/main/state-sync/storage-service)
+- **Driver:** [https://github.com/cedra-labs/cedra-network/tree/main/state-sync/state-sync-driver](https://github.com/cedra-labs/cedra-network/tree/main/state-sync/state-sync-driver)
+- **Data Streaming Service:** [https://github.com/cedra-labs/cedra-network/tree/main/state-sync/data-streaming-service](https://github.com/cedra-labs/cedra-network/tree/main/state-sync/data-streaming-service)
+- **Cedra Data Client**: [https://github.com/cedra-labs/cedra-network/tree/main/state-sync/cedra-data-client](https://github.com/cedra-labs/cedra-network/tree/main/state-sync/cedra-data-client)
+- **Storage Service:** [https://github.com/cedra-labs/cedra-network/tree/main/state-sync/storage-service](https://github.com/cedra-labs/cedra-network/tree/main/state-sync/storage-service)
 
 In addition, there is also a directory containing the code for
-**inter-component** communication: [https://github.com/cedra-labs/cedra/tree/main/state-sync/inter-component](https://github.com/cedra-labs/cedra/tree/main/state-sync/inter-component).
+**inter-component** communication: [https://github.com/cedra-labs/cedra-network/tree/main/state-sync/inter-component](https://github.com/cedra-labs/cedra-network/tree/main/state-sync/inter-component).
 This is required so that:
    - State sync can handle notifications from consensus (e.g., to catch up after falling behind)
    - State sync can notify mempool when transactions are committed (i.e., so they can be removed from mempool)

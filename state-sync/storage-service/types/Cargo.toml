@@ -1,6 +1,6 @@
 [package]
-name = "aptos-storage-service-types"
-description = "Common types offered by the Aptos storage service"
+name = "cedra-storage-service-types"
+description = "Common types offered by the Cedra storage service"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -13,18 +13,18 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-compression = { workspace = true }
-aptos-config = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-time-service = { workspace = true }
-aptos-types = { workspace = true }
+cedra-compression = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-types = { workspace = true }
 bcs = { workspace = true }
 num-traits = { workspace = true }
 serde = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
-aptos-time-service = { workspace = true, features = ["testing"] }
+cedra-time-service = { workspace = true, features = ["testing"] }
 claims = { workspace = true }
 proptest = { workspace = true }
 rand = { workspace = true }

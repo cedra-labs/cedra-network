@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -13,12 +13,12 @@ use crate::{
     ApiTags, Context,
 };
 use anyhow::Context as anyhowContext;
-use aptos_api_types::{
-    AptosErrorCode, AsConverter, MoveValue, ViewFunction, ViewRequest, MAX_RECURSIVE_TYPES_ALLOWED,
+use cedra_api_types::{
+    CedraErrorCode, AsConverter, MoveValue, ViewFunction, ViewRequest, MAX_RECURSIVE_TYPES_ALLOWED,
     U64,
 };
-use aptos_bcs_utils::serialize_uleb128;
-use aptos_vm::AptosVM;
+use cedra_bcs_utils::serialize_uleb128;
+use cedra_vm::CedraVM;
 use itertools::Itertools;
 use move_core_types::language_storage::TypeTag;
 use poem_openapi::{param::Query, payload::Json, ApiRequest, OpenApi};
@@ -45,7 +45,7 @@ impl ViewFunctionApi {
     ///
     /// Execute the Move function with the given parameters and return its execution result.
     ///
-    /// The Aptos nodes prune account state history, via a configurable time window.
+    /// The Cedra nodes prune account state history, via a configurable time window.
     /// If the requested ledger version has been pruned, the server responds with a 410.
     #[oai(
         path = "/view",
@@ -88,7 +88,7 @@ fn view_request(
         .map_err(|err| {
             BasicErrorWith404::bad_request_with_code(
                 err,
-                AptosErrorCode::InternalError,
+                CedraErrorCode::InternalError,
                 &ledger_info,
             )
         })?;
@@ -100,7 +100,7 @@ fn view_request(
             .map_err(|err| {
                 BasicErrorWith404::bad_request_with_code(
                     err,
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                     &ledger_info,
                 )
             })?,
@@ -110,7 +110,7 @@ fn view_request(
                 .map_err(|err| {
                     BasicErrorWith404::bad_request_with_code(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                         &ledger_info,
                     )
                 })?
@@ -128,11 +128,11 @@ fn view_request(
                 "Function {}::{} is not allowed",
                 view_function.module, view_function.function
             ),
-            AptosErrorCode::InvalidInput,
+            CedraErrorCode::InvalidInput,
         ));
     }
 
-    let output = AptosVM::execute_view_function(
+    let output = CedraVM::execute_view_function(
         &state_view,
         view_function.module.clone(),
         view_function.function.clone(),
@@ -141,7 +141,7 @@ fn view_request(
         context.node_config.api.max_gas_view_function,
     );
     let values = output.values.map_err(|err| {
-        BasicErrorWith404::bad_request_with_code_no_info(err, AptosErrorCode::InvalidInput)
+        BasicErrorWith404::bad_request_with_code_no_info(err, CedraErrorCode::InvalidInput)
     })?;
     let result = match accept_type {
         AcceptType::Bcs => {
@@ -154,7 +154,7 @@ fn view_request(
             serialize_uleb128(&mut length, num_vals as u64).map_err(|err| {
                 BasicErrorWith404::internal_with_code(
                     err,
-                    AptosErrorCode::InternalError,
+                    CedraErrorCode::InternalError,
                     &ledger_info,
                 )
             })?;
@@ -177,7 +177,7 @@ fn view_request(
                 .map_err(|err| {
                     BasicErrorWith404::bad_request_with_code(
                         err,
-                        AptosErrorCode::InternalError,
+                        CedraErrorCode::InternalError,
                         &ledger_info,
                     )
                 })?;
@@ -194,7 +194,7 @@ fn view_request(
                 .map_err(|err| {
                     BasicErrorWith404::bad_request_with_code(
                         err,
-                        AptosErrorCode::InternalError,
+                        CedraErrorCode::InternalError,
                         &ledger_info,
                     )
                 })?;

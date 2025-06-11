@@ -1,0 +1,10 @@
+[package]
+name = "calculator"
+version = "0.0.0"
+
+[addresses]
+account = "_"
+
+[dependencies]
+CedraFramework = { local = "../../../framework/cedra-framework" }
+CedraStdlib = { local = "../../../framework/cedra-stdlib" }

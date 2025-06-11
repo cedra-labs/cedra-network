@@ -1,0 +1,50 @@
+[package]
+name = "cedra-telemetry"
+description = "Cedra utilities to collect observability data from a node and send it to a remote destination"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-api = { workspace = true }
+cedra-config = { workspace = true }
+cedra-consensus = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-db = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-mempool = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-network = { workspace = true }
+cedra-node-resource-metrics = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-state-sync-driver = { workspace = true }
+cedra-telemetry-service = { workspace = true }
+cedra-types = { workspace = true }
+flate2 = { workspace = true }
+futures = { workspace = true }
+once_cell = { workspace = true }
+prometheus = { workspace = true }
+rand = { workspace = true }
+rand_core = { workspace = true }
+reqwest = { workspace = true }
+reqwest-middleware = { workspace = true }
+reqwest-retry = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sysinfo = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+url = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+httpmock = { workspace = true }

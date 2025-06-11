@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::{common::error::Error, observer::subscription_utils};
-use aptos_config::{config::ConsensusObserverConfig, network_id::PeerNetworkId};
-use aptos_network::application::metadata::PeerMetadata;
-use aptos_storage_interface::DbReader;
-use aptos_time_service::{TimeService, TimeServiceTrait};
+use cedra_config::{config::ConsensusObserverConfig, network_id::PeerNetworkId};
+use cedra_network::application::metadata::PeerMetadata;
+use cedra_storage_interface::DbReader;
+use cedra_time_service::{TimeService, TimeServiceTrait};
 use std::{
     collections::{HashMap, HashSet},
     sync::Arc,
@@ -235,16 +235,16 @@ impl ConsensusObserverSubscription {
 #[cfg(test)]
 mod test {
     use super::*;
-    use aptos_config::config::PeerRole;
-    use aptos_netcore::transport::ConnectionOrigin;
-    use aptos_network::{
+    use cedra_config::config::PeerRole;
+    use cedra_netcore::transport::ConnectionOrigin;
+    use cedra_network::{
         protocols::wire::handshake::v1::{MessagingProtocolVersion, ProtocolIdSet},
         transport::{ConnectionId, ConnectionMetadata},
         ProtocolId,
     };
-    use aptos_peer_monitoring_service_types::PeerMonitoringMetadata;
-    use aptos_storage_interface::Result;
-    use aptos_types::{network_address::NetworkAddress, transaction::Version};
+    use cedra_peer_monitoring_service_types::PeerMonitoringMetadata;
+    use cedra_storage_interface::Result;
+    use cedra_types::{network_address::NetworkAddress, transaction::Version};
     use claims::assert_matches;
     use mockall::mock;
 

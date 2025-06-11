@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use aptos_config::config::RocksdbConfig;
-use aptos_db_indexer_schemas::schema::{column_families, internal_indexer_column_families};
-use aptos_rocksdb_options::gen_rocksdb_options;
-use aptos_schemadb::DB;
+use cedra_config::config::RocksdbConfig;
+use cedra_db_indexer_schemas::schema::{column_families, internal_indexer_column_families};
+use cedra_rocksdb_options::gen_rocksdb_options;
+use cedra_schemadb::DB;
 use std::{mem, path::Path};
 
 const INTERNAL_INDEXER_DB_NAME: &str = "internal_indexer_db";

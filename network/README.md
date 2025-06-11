@@ -1,7 +1,7 @@
 ---
 id: network
 title: Network
-custom_edit_url: https://github.com/cedra-labs/cedra/edit/main/network/README.md
+custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/network/README.md
 ---
 
 ## Overview

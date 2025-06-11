@@ -1,9 +1,0 @@
-[package]
-name = "BCSStream"
-version = "0.0.0"
-
-[addresses]
-bcs_stream = "0xCAFE"
-
-[dependencies]
-AptosStdlib = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "aptos-stdlib", rev = "mainnet" }

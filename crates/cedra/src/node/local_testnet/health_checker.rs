@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::indexer_api::confirm_metadata_applied;
@@ -51,7 +51,7 @@ impl HealthChecker {
                 Ok(())
             },
             HealthChecker::NodeApi(url) => {
-                aptos_rest_client::Client::new(Url::clone(url))
+                cedra_rest_client::Client::new(Url::clone(url))
                     .get_index()
                     .await?;
                 Ok(())

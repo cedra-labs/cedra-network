@@ -1,18 +1,18 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     smoke_test_environment::SwarmBuilder, txn_emitter::generate_traffic,
     utils::update_consensus_config,
 };
-use aptos_consensus::QUORUM_STORE_DB_NAME;
-use aptos_forge::{
+use cedra_consensus::QUORUM_STORE_DB_NAME;
+use cedra_forge::{
     args::TransactionTypeArg, reconfig, wait_for_all_nodes_to_catchup, NodeExt, Swarm, SwarmExt,
     TransactionType,
 };
-use aptos_logger::info;
-use aptos_rest_client::Client;
-use aptos_types::{
+use cedra_logger::info;
+use cedra_rest_client::Client;
+use cedra_types::{
     on_chain_config::{ConsensusConfigV1, OnChainConsensusConfig},
     PeerId,
 };
@@ -65,7 +65,7 @@ async fn generate_traffic_and_assert_committed(
 #[tokio::test]
 async fn test_onchain_config_quorum_store_enabled_and_disabled() {
     let (mut swarm, mut cli, _faucet) = SwarmBuilder::new_local(4)
-        .with_aptos()
+        .with_cedra()
         // Start with V1
         .with_init_genesis_config(Arc::new(|genesis_config| {
             genesis_config.consensus_config =
@@ -145,7 +145,7 @@ async fn test_onchain_config_quorum_store_enabled_and_disabled() {
 #[tokio::test]
 async fn test_remote_batch_reads() {
     let mut swarm = SwarmBuilder::new_local(4)
-        .with_aptos()
+        .with_cedra()
         .with_init_config(Arc::new(|_, conf, _| {
             conf.api.failpoints_enabled = true;
         }))
@@ -186,7 +186,7 @@ async fn test_remote_batch_reads() {
 
 async fn test_batch_id_on_restart(do_wipe_db: bool) {
     let mut swarm = SwarmBuilder::new_local(4)
-        .with_aptos()
+        .with_cedra()
         // TODO: remove when quorum store becomes the in-code default
         .with_init_genesis_config(Arc::new(|genesis_config| {
             genesis_config.consensus_config =
@@ -283,7 +283,7 @@ async fn test_batch_id_on_restart_wiped_db() {
 #[tokio::test]
 async fn test_swarm_with_bad_non_qs_node() {
     let mut swarm = SwarmBuilder::new_local(4)
-        .with_aptos()
+        .with_cedra()
         .with_init_config(Arc::new(|_, conf, _| {
             conf.api.failpoints_enabled = true;
         }))

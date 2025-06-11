@@ -21,7 +21,7 @@ def transaction_emitter_main(
 ):
     #
     # Create command array
-    command_array = ["aptos-transaction-emitter"]
+    command_array = ["cedra-transaction-emitter"]
     command_array.extend(args)
 
     #

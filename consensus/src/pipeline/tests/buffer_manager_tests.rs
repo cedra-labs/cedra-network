@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -24,16 +24,16 @@ use crate::{
         RandomComputeResultStateComputer,
     },
 };
-use aptos_bounded_executor::BoundedExecutor;
-use aptos_channels::{aptos_channel, message_queues::QueueStyle};
-use aptos_config::{config::ConsensusObserverConfig, network_id::NetworkId};
-use aptos_consensus_types::{
+use cedra_bounded_executor::BoundedExecutor;
+use cedra_channels::{cedra_channel, message_queues::QueueStyle};
+use cedra_config::{config::ConsensusObserverConfig, network_id::NetworkId};
+use cedra_consensus_types::{
     block::block_test_utils::certificate_for_genesis, pipelined_block::PipelinedBlock,
     vote_proposal::VoteProposal,
 };
-use aptos_crypto::{hash::ACCUMULATOR_PLACEHOLDER_HASH, HashValue};
-use aptos_infallible::Mutex;
-use aptos_network::{
+use cedra_crypto::{hash::ACCUMULATOR_PLACEHOLDER_HASH, HashValue};
+use cedra_infallible::Mutex;
+use cedra_network::{
     application::{interface::NetworkClient, storage::PeersAndMetadata},
     peer_manager::{ConnectionRequestSender, PeerManagerRequestSender},
     protocols::{
@@ -41,9 +41,9 @@ use aptos_network::{
         network::{Event, NewNetworkSender},
     },
 };
-use aptos_safety_rules::{PersistentSafetyStorage, SafetyRulesManager};
-use aptos_secure_storage::Storage;
-use aptos_types::{
+use cedra_safety_rules::{PersistentSafetyStorage, SafetyRulesManager};
+use cedra_secure_storage::Storage;
+use cedra_types::{
     account_address::AccountAddress,
     epoch_state::EpochState,
     ledger_info::LedgerInfo,
@@ -63,8 +63,8 @@ pub fn prepare_buffer_manager(
     BufferManager,
     Sender<OrderedBlocks>,
     Sender<ResetRequest>,
-    aptos_channel::Sender<AccountAddress, (AccountAddress, IncomingCommitRequest)>,
-    aptos_channels::UnboundedReceiver<Event<ConsensusMsg>>,
+    cedra_channel::Sender<AccountAddress, (AccountAddress, IncomingCommitRequest)>,
+    cedra_channels::UnboundedReceiver<Event<ConsensusMsg>>,
     PipelinePhase<ExecutionSchedulePhase>,
     PipelinePhase<ExecutionWaitPhase>,
     PipelinePhase<SigningPhase>,
@@ -86,7 +86,7 @@ pub fn prepare_buffer_manager(
         Waypoint::new_epoch_boundary(&LedgerInfo::mock_genesis(Some(validator_set))).unwrap();
 
     let safety_storage = PersistentSafetyStorage::initialize(
-        Storage::from(aptos_secure_storage::InMemoryStorage::new()),
+        Storage::from(cedra_secure_storage::InMemoryStorage::new()),
         signer.author(),
         signer.private_key().clone(),
         waypoint,
@@ -99,8 +99,8 @@ pub fn prepare_buffer_manager(
     let mut safety_rules = MetricsSafetyRules::new(safety_rules_manager.client(), storage);
     safety_rules.perform_initialize().unwrap();
 
-    let (network_reqs_tx, _network_reqs_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-    let (connection_reqs_tx, _) = aptos_channel::new(QueueStyle::FIFO, 8, None);
+    let (network_reqs_tx, _network_reqs_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+    let (connection_reqs_tx, _) = cedra_channel::new(QueueStyle::FIFO, 8, None);
     let network_sender = network::NetworkSender::new(
         PeerManagerRequestSender::new(network_reqs_tx),
         ConnectionRequestSender::new(connection_reqs_tx),
@@ -113,7 +113,7 @@ pub fn prepare_buffer_manager(
     );
     let consensus_network_client = ConsensusNetworkClient::new(network_client);
 
-    let (self_loop_tx, self_loop_rx) = aptos_channels::new_unbounded_test();
+    let (self_loop_tx, self_loop_rx) = cedra_channels::new_unbounded_test();
     let validators = Arc::new(validators);
     let network = NetworkSender::new(
         author,
@@ -122,7 +122,7 @@ pub fn prepare_buffer_manager(
         validators.clone(),
     );
 
-    let (msg_tx, msg_rx) = aptos_channel::new::<
+    let (msg_tx, msg_rx) = cedra_channel::new::<
         AccountAddress,
         (AccountAddress, IncomingCommitRequest),
     >(QueueStyle::FIFO, channel_size, None);
@@ -185,8 +185,8 @@ pub fn prepare_buffer_manager(
 pub fn launch_buffer_manager() -> (
     Sender<OrderedBlocks>,
     Sender<ResetRequest>,
-    aptos_channel::Sender<AccountAddress, (AccountAddress, IncomingCommitRequest)>,
-    aptos_channels::UnboundedReceiver<Event<ConsensusMsg>>,
+    cedra_channel::Sender<AccountAddress, (AccountAddress, IncomingCommitRequest)>,
+    cedra_channels::UnboundedReceiver<Event<ConsensusMsg>>,
     HashValue,
     Runtime,
     Vec<ValidatorSigner>,
@@ -233,7 +233,7 @@ pub fn launch_buffer_manager() -> (
 
 async fn loopback_commit_vote(
     msg: Event<ConsensusMsg>,
-    msg_tx: &aptos_channel::Sender<AccountAddress, (AccountAddress, IncomingCommitRequest)>,
+    msg_tx: &cedra_channel::Sender<AccountAddress, (AccountAddress, IncomingCommitRequest)>,
     verifier: &ValidatorVerifier,
 ) {
     match msg {

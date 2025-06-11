@@ -1,4 +1,4 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 # This file contains functions for running the localnet.
@@ -16,8 +16,8 @@ LOG = logging.getLogger(__name__)
 # stop running it later using the container name.
 def run_node(network: Network, image_repo_with_project: str, pull=True):
     image_name = build_image_name(image_repo_with_project, network)
-    container_name = f"aptos-tools-{network}"
-    LOG.info(f"Trying to run aptos CLI localnet from image: {image_name}")
+    container_name = f"cedra-tools-{network}"
+    LOG.info(f"Trying to run cedra CLI localnet from image: {image_name}")
 
     # Confirm that the Docker daemon is running.
     try:
@@ -62,7 +62,7 @@ def run_node(network: Network, image_repo_with_project: str, pull=True):
         "-p",
         f"{FAUCET_PORT}:{FAUCET_PORT}",
         image_name,
-        "aptos",
+        "cedra",
         "node",
         "run-local-testnet",
         "--with-faucet",
@@ -75,7 +75,7 @@ def run_node(network: Network, image_repo_with_project: str, pull=True):
         **kwargs,
     )
 
-    LOG.info(f"Running aptos CLI localnet from image: {image_name}. Container name: {container_name}")
+    LOG.info(f"Running cedra CLI localnet from image: {image_name}. Container name: {container_name}")
     return container_name
 
 

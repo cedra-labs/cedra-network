@@ -1842,7 +1842,7 @@ impl<'env, 'translator> ModuleBuilder<'env, 'translator> {
                     let lang_ver_ge_2 =
                         et.env().language_version.is_at_least(LanguageVersion::V2_0);
                     for f in fields.values() {
-                        // In Aptos Move 2.0 and above, field `self` is omitted from local bindings
+                        // In Cedra Move 2.0 and above, field `self` is omitted from local bindings
                         // so `self` can be used to refer to `self` parameter.
                         if lang_ver_ge_2
                             && f.name.display(et.symbol_pool()).to_string()

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,8 +10,8 @@ use crate::{
     validator_verifier::{ValidatorConsensusInfo, ValidatorVerifier},
 };
 use anyhow::{anyhow, ensure};
-use aptos_crypto::{bls12381, bls12381::PrivateKey};
-use aptos_dkg::{
+use cedra_crypto::{bls12381, bls12381::PrivateKey};
+use cedra_dkg::{
     pvss,
     pvss::{
         traits::{Convert, Reconstructable, Transcript},

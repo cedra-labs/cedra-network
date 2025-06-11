@@ -164,15 +164,15 @@ test = ["anyio[trio]", "coverage[toml] (>=7)", "exceptiongroup (>=1.2.0)", "hypo
 trio = ["trio (>=0.26.1)"]
 
 [[package]]
-name = "aptos-sdk"
+name = "cedra-sdk"
 version = "0.10.0"
-description = "Aptos SDK"
+description = "Cedra SDK"
 optional = false
 python-versions = ">=3.8.1"
 groups = ["main"]
 files = [
-    {file = "aptos_sdk-0.10.0-py3-none-any.whl", hash = "sha256:f6e736cc73cdba3a6dc43302df2fb9de0c72b9c53139d95cc0c70b5f0a68e208"},
-    {file = "aptos_sdk-0.10.0.tar.gz", hash = "sha256:72dbbd2b7f7e5f1dc329f506527eb873196f94658f79d686de75b1971ae521a8"},
+    {file = "cedra_sdk-0.10.0-py3-none-any.whl", hash = "sha256:f6e736cc73cdba3a6dc43302df2fb9de0c72b9c53139d95cc0c70b5f0a68e208"},
+    {file = "cedra_sdk-0.10.0.tar.gz", hash = "sha256:72dbbd2b7f7e5f1dc329f506527eb873196f94658f79d686de75b1971ae521a8"},
 ]
 
 [package.dependencies]

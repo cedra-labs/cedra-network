@@ -1,0 +1,38 @@
+[package]
+name = "cedra-move-debugger"
+version = "0.1.0"
+description = "A tool to replay transactions on chain and to execute transactions locally."
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-block-executor = { workspace = true }
+cedra-consensus = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-gas-profiling = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-types = { workspace = true }
+cedra-validator-interface = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-environment = { workspace = true }
+cedra-vm-logging = { workspace = true }
+cedra-vm-types = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+itertools = { workspace = true }
+regex = { workspace = true }
+reqwest = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }
+
+[[bin]]
+name = "remote-gas-profiler"

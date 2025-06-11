@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::dag_store::DagStore;
@@ -14,10 +14,10 @@ use crate::dag::{
     types::NodeMetadata,
     CertifiedNode,
 };
-use aptos_consensus_types::common::Round;
-use aptos_infallible::Mutex;
-use aptos_logger::debug;
-use aptos_types::epoch_state::EpochState;
+use cedra_consensus_types::common::Round;
+use cedra_infallible::Mutex;
+use cedra_logger::debug;
+use cedra_types::epoch_state::EpochState;
 use std::sync::Arc;
 
 pub trait TOrderRule: Send + Sync {

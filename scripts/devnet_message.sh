@@ -7,9 +7,9 @@ curl https://devnet.cedra.dev/v1 > "$TEMP"
 COMMIT="$(jq -r .git_hash "$TEMP")"
 CHAIN_ID="$(jq -r .chain_id "$TEMP")"
 
-DIGEST="$(crane digest aptoslabs/validator:devnet_"$COMMIT")"
-GENESIS_SHA="$(curl https://devnet.aptoslabs.com/genesis.blob | shasum -a 256 | awk '{print $1}')"
-WAYPOINT="$(curl https://devnet.aptoslabs.com/waypoint.txt)"
+DIGEST="$(crane digest cedralabs/validator:devnet_"$COMMIT")"
+GENESIS_SHA="$(curl https://devnet.cedralabs.com/genesis.blob | shasum -a 256 | awk '{print $1}')"
+WAYPOINT="$(curl https://devnet.cedralabs.com/waypoint.txt)"
 
 cat <<EOF
 
@@ -23,6 +23,6 @@ For upgrade, make sure you pulled the latest docker image, or build the rust bin
 - genesis.blob sha256: $GENESIS_SHA
 - waypoint: $WAYPOINT
 - Chain ID: $CHAIN_ID
-You can follow the instructions here for upgrade: https://aptos.dev/nodes/full-node/update-fullnode-with-new-devnet-releases
+You can follow the instructions here for upgrade: https://cedra.dev/nodes/full-node/update-fullnode-with-new-devnet-releases
 
 EOF

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,13 +13,13 @@ use crate::{
     wrapped_ledger_info::WrappedLedgerInfo,
 };
 use anyhow::Error;
-use aptos_crypto::hash::{HashValue, ACCUMULATOR_PLACEHOLDER_HASH};
-use aptos_executor_types::{
+use cedra_crypto::hash::{HashValue, ACCUMULATOR_PLACEHOLDER_HASH};
+use cedra_executor_types::{
     state_compute_result::StateComputeResult, ExecutorError, ExecutorResult,
 };
-use aptos_infallible::Mutex;
-use aptos_logger::{error, info, warn};
-use aptos_types::{
+use cedra_infallible::Mutex;
+use cedra_logger::{error, info, warn};
+use cedra_types::{
     block_info::BlockInfo,
     contract_event::ContractEvent,
     ledger_info::LedgerInfoWithSignatures,

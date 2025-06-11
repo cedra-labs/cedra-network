@@ -1,0 +1,13 @@
+[package]
+name = "cedra-abstract-gas-usage"
+version = "0.1.0"
+edition = "2021"
+license = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-gas-algebra = { workspace = true }
+cedra-gas-meter = { workspace = true }
+cedra-gas-schedule = { workspace = true }
+cedra-vm-types = { workspace = true }
+move-binary-format = { workspace = true }

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{create_k8s_client, K8sApi, ReadWrite, Result};
@@ -298,7 +298,7 @@ mod tests {
 
         // try a simple instant query
         // if it fails to connect to a prometheus instance, skip the test
-        let query = r#"container_cpu_usage_seconds_total{chain_name=~".*forge.*", pod="aptos-node-0-validator-0", container="validator"}"#;
+        let query = r#"container_cpu_usage_seconds_total{chain_name=~".*forge.*", pod="cedra-node-0-validator-0", container="validator"}"#;
         let response = client.query(query, None, None).await;
         match response {
             Ok(pres) => {
@@ -337,38 +337,38 @@ mod tests {
         labels_map.insert("some_label".to_string(), "blabla".to_string());
 
         // test when no existing labels
-        let original_query = "aptos_connections";
-        let expected_query = r#"aptos_connections{a="a",some_label="blabla"}"#;
+        let original_query = "cedra_connections";
+        let expected_query = r#"cedra_connections{a="a",some_label="blabla"}"#;
         let new_query = construct_query_with_extra_labels(original_query, &labels_map);
         assert_eq!(expected_query, new_query);
 
         // test when empty labels
-        let original_query = "aptos_connections{}";
-        let expected_query = r#"aptos_connections{a="a",some_label="blabla"}"#;
+        let original_query = "cedra_connections{}";
+        let expected_query = r#"cedra_connections{a="a",some_label="blabla"}"#;
         let new_query = construct_query_with_extra_labels(original_query, &labels_map);
         assert_eq!(expected_query, new_query);
 
         // test when existing labels
-        let original_query = r#"aptos_connections{abc="123",def="456"}"#;
-        let expected_query = r#"aptos_connections{a="a",some_label="blabla",abc="123",def="456"}"#;
+        let original_query = r#"cedra_connections{abc="123",def="456"}"#;
+        let expected_query = r#"cedra_connections{a="a",some_label="blabla",abc="123",def="456"}"#;
         let new_query = construct_query_with_extra_labels(original_query, &labels_map);
         assert_eq!(expected_query, new_query);
 
         // test when multiple queries
-        let original_query = r#"aptos_connections{abc="123",def="456"} - aptos_disconnects{abc="123"} / aptos_count{}"#;
-        let expected_query = r#"aptos_connections{a="a",some_label="blabla",abc="123",def="456"} - aptos_disconnects{a="a",some_label="blabla",abc="123"} / aptos_count{a="a",some_label="blabla"}"#;
+        let original_query = r#"cedra_connections{abc="123",def="456"} - cedra_disconnects{abc="123"} / cedra_count{}"#;
+        let expected_query = r#"cedra_connections{a="a",some_label="blabla",abc="123",def="456"} - cedra_disconnects{a="a",some_label="blabla",abc="123"} / cedra_count{a="a",some_label="blabla"}"#;
         let new_query = construct_query_with_extra_labels(original_query, &labels_map);
         assert_eq!(expected_query, new_query);
 
         // test when empty labels and parens
-        let original_query = "sum(rate(aptos_connections{}[1m])) by (network_id, role_type)";
-        let expected_query = r#"sum(rate(aptos_connections{a="a",some_label="blabla"}[1m])) by (network_id, role_type)"#;
+        let original_query = "sum(rate(cedra_connections{}[1m])) by (network_id, role_type)";
+        let expected_query = r#"sum(rate(cedra_connections{a="a",some_label="blabla"}[1m])) by (network_id, role_type)"#;
         let new_query = construct_query_with_extra_labels(original_query, &labels_map);
         assert_eq!(expected_query, new_query);
 
         // test when multiple queries and labels
-        let original_query = "sum(rate(aptos_connections{role_type='validator'}[1m])) / sum(aptos_network_peers{role_type='validator'})";
-        let expected_query = r#"sum(rate(aptos_connections{a="a",some_label="blabla",role_type='validator'}[1m])) / sum(aptos_network_peers{a="a",some_label="blabla",role_type='validator'})"#;
+        let original_query = "sum(rate(cedra_connections{role_type='validator'}[1m])) / sum(cedra_network_peers{role_type='validator'})";
+        let expected_query = r#"sum(rate(cedra_connections{a="a",some_label="blabla",role_type='validator'}[1m])) / sum(cedra_network_peers{a="a",some_label="blabla",role_type='validator'})"#;
         let new_query = construct_query_with_extra_labels(original_query, &labels_map);
         assert_eq!(expected_query, new_query);
     }

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -17,10 +17,10 @@ use crate::{
     utils::{unix_timestamp_sec, GlobalRestoreOptions, RestoreRunMode, TrustedWaypointOpt},
 };
 use anyhow::Result;
-use aptos_db::state_restore::StateSnapshotRestoreMode;
-use aptos_executor_types::VerifyExecutionMode;
-use aptos_logger::prelude::*;
-use aptos_types::transaction::Version;
+use cedra_db::state_restore::StateSnapshotRestoreMode;
+use cedra_executor_types::VerifyExecutionMode;
+use cedra_logger::prelude::*;
+use cedra_types::transaction::Version;
 use std::{path::PathBuf, sync::Arc};
 
 pub struct VerifyCoordinator {

@@ -1,0 +1,6 @@
+[package]
+name = 'EnablePartialGovernanceVoting'
+version = "0.0.0"
+
+[dependencies]
+CedraFramework = { local = "../../../../../framework/cedra-framework" }

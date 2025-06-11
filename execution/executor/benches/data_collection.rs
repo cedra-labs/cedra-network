@@ -1,8 +1,8 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_storage_interface::state_store::NUM_STATE_SHARDS;
-use aptos_types::{
+use cedra_storage_interface::state_store::NUM_STATE_SHARDS;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::AccountResource,
     event::{EventHandle, EventKey},

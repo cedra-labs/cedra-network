@@ -1,0 +1,11 @@
+[package]
+name = "package_manager"
+version = "1.0.0"
+upgrade_policy = "compatible"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+
+[addresses]
+deployer = "_"
+package = "_"

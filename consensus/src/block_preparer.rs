@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -8,9 +8,9 @@ use crate::{
     transaction_filter::TransactionFilter,
     transaction_shuffler::TransactionShuffler,
 };
-use aptos_consensus_types::{block::Block, quorum_cert::QuorumCert};
-use aptos_executor_types::ExecutorResult;
-use aptos_types::transaction::SignedTransaction;
+use cedra_consensus_types::{block::Block, quorum_cert::QuorumCert};
+use cedra_executor_types::ExecutorResult;
+use cedra_types::transaction::SignedTransaction;
 use fail::fail_point;
 use futures::future::Shared;
 use std::{future::Future, sync::Arc, time::Instant};
@@ -43,7 +43,7 @@ impl BlockPreparer {
         block_qc_fut: Shared<impl Future<Output = Option<Arc<QuorumCert>>>>,
     ) -> ExecutorResult<(Vec<SignedTransaction>, Option<u64>)> {
         fail_point!("consensus::prepare_block", |_| {
-            use aptos_executor_types::ExecutorError;
+            use cedra_executor_types::ExecutorError;
             use std::{thread, time::Duration};
             thread::sleep(Duration::from_millis(10));
             Err(ExecutorError::CouldNotGetData)

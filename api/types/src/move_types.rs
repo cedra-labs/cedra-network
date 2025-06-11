@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{Address, Bytecode, IdentifierWrapper, VerifyInput, VerifyInputWithRecursion};
 use anyhow::{bail, format_err};
-use aptos_resource_viewer::{
+use cedra_resource_viewer::{
     AnnotatedMoveClosure, AnnotatedMoveStruct, AnnotatedMoveValue, RawMoveStruct,
 };
-use aptos_types::{account_config::CORE_CODE_ADDRESS, event::EventKey, transaction::Module};
+use cedra_types::{account_config::CORE_CODE_ADDRESS, event::EventKey, transaction::Module};
 use move_binary_format::{
     access::ModuleAccess,
     file_format::{CompiledModule, CompiledScript, StructTypeParameter, Visibility},
@@ -1349,7 +1349,7 @@ pub fn verify_identifier(identifier: &str) -> anyhow::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use aptos_types::account_address::AccountAddress;
+    use cedra_types::account_address::AccountAddress;
     use move_core_types::{
         ability::AbilitySet,
         identifier::Identifier,
@@ -1465,9 +1465,9 @@ mod tests {
         test_serialize_deserialize(
             MoveModuleId {
                 address: "0x1".parse().unwrap(),
-                name: "Aptos".parse().unwrap(),
+                name: "Cedra".parse().unwrap(),
             },
-            json!("0x1::Aptos"),
+            json!("0x1::Cedra"),
         );
     }
 
@@ -1494,16 +1494,16 @@ mod tests {
                 .to_string()
         );
         assert_eq!(
-            "Invalid Move module ID: Aptos::Aptos",
-            "Aptos::Aptos"
+            "Invalid Move module ID: Cedra::Cedra",
+            "Cedra::Cedra"
                 .parse::<MoveModuleId>()
                 .err()
                 .unwrap()
                 .to_string()
         );
         assert_eq!(
-            "Invalid Move module ID: 0x1::Aptos::Aptos",
-            "0x1::Aptos::Aptos"
+            "Invalid Move module ID: 0x1::Cedra::Cedra",
+            "0x1::Cedra::Cedra"
                 .parse::<MoveModuleId>()
                 .err()
                 .unwrap()
@@ -1517,11 +1517,11 @@ mod tests {
             EntryFunctionId {
                 module: MoveModuleId {
                     address: "0x1".parse().unwrap(),
-                    name: "Aptos".parse().unwrap(),
+                    name: "Cedra".parse().unwrap(),
                 },
                 name: "Add".parse().unwrap(),
             },
-            json!("0x1::Aptos::Add"),
+            json!("0x1::Cedra::Add"),
         );
     }
 
@@ -1552,24 +1552,24 @@ mod tests {
                 .to_string()
         );
         assert_eq!(
-            "Invalid entry function ID Aptos::Aptos",
-            "Aptos::Aptos"
+            "Invalid entry function ID Cedra::Cedra",
+            "Cedra::Cedra"
                 .parse::<EntryFunctionId>()
                 .err()
                 .unwrap()
                 .to_string()
         );
         assert_eq!(
-            "Invalid entry function ID Aptos::Aptos::??",
-            "Aptos::Aptos::??"
+            "Invalid entry function ID Cedra::Cedra::??",
+            "Cedra::Cedra::??"
                 .parse::<EntryFunctionId>()
                 .err()
                 .unwrap()
                 .to_string()
         );
         assert_eq!(
-            "Invalid entry function ID 0x1::Aptos::Aptos::Aptos",
-            "0x1::Aptos::Aptos::Aptos"
+            "Invalid entry function ID 0x1::Cedra::Cedra::Cedra",
+            "0x1::Cedra::Cedra::Cedra"
                 .parse::<EntryFunctionId>()
                 .err()
                 .unwrap()

@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{bail, format_err, Result};
-use aptos_sdk::transaction_builder::TransactionFactory;
-use aptos_transaction_emitter_lib::{query_sequence_number, Cluster, TxnEmitter};
+use cedra_sdk::transaction_builder::TransactionFactory;
+use cedra_transaction_emitter_lib::{query_sequence_number, Cluster, TxnEmitter};
 use futures::future::join_all;
 use rand::{rngs::StdRng, SeedableRng};
 use std::{
@@ -17,7 +17,7 @@ pub async fn diag(cluster: &Cluster) -> Result<()> {
     let mut coin_source_account = cluster.load_coin_source_account(&client).await?;
     let emitter = TxnEmitter::new(
         TransactionFactory::new(cluster.chain_id)
-            .with_gas_unit_price(aptos_global_constants::GAS_UNIT_PRICE),
+            .with_gas_unit_price(cedra_global_constants::GAS_UNIT_PRICE),
         StdRng::from_entropy(),
         client,
     );

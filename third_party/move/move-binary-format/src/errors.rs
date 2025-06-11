@@ -17,7 +17,7 @@ pub type BinaryLoaderResult<T> = ::std::result::Result<T, PartialVMError>;
 pub type PartialVMResult<T> = ::std::result::Result<T, PartialVMError>;
 
 /// This macro is used to panic while debugging fuzzing crashes obtaining the right stack trace.
-/// e.g. DEBUG_VM_STATUS=ABORTED,UNKNOWN_INVARIANT_VIOLATION_ERROR ./fuzz.sh run move_aptosvm_publish_and_run <testcase>
+/// e.g. DEBUG_VM_STATUS=ABORTED,UNKNOWN_INVARIANT_VIOLATION_ERROR ./fuzz.sh run move_cedravm_publish_and_run <testcase>
 /// third_party/move/move-core/types/src/vm_status.rs:506 for the list of status codes.
 #[cfg(feature = "fuzzing")]
 macro_rules! fuzzing_maybe_panic {

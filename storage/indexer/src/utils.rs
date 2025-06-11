@@ -1,10 +1,10 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_db_indexer_schemas::schema::state_keys::StateKeysSchema;
-use aptos_schemadb::{iterator::SchemaIterator, ReadOptions, DB};
-use aptos_storage_interface::{DbReader, Result};
-use aptos_types::{
+use cedra_db_indexer_schemas::schema::state_keys::StateKeysSchema;
+use cedra_schemadb::{iterator::SchemaIterator, ReadOptions, DB};
+use cedra_storage_interface::{DbReader, Result};
+use cedra_types::{
     state_store::{
         state_key::{prefix::StateKeyPrefix, StateKey},
         state_value::StateValue,

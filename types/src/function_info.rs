@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::move_utils::{as_move_value::AsMoveValue, MemberId};
@@ -14,7 +14,7 @@ use std::{
     str::FromStr,
 };
 
-/// Reflection of aptos_framework::function_info::FunctionInfo
+/// Reflection of cedra_framework::function_info::FunctionInfo
 #[derive(Serialize, Deserialize, Eq, PartialEq, Debug, Clone, Hash)]
 #[cfg_attr(any(test, feature = "fuzzing"), derive(Arbitrary))]
 pub struct FunctionInfo {

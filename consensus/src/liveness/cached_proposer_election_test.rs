@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::proposer_election::ProposerElection;
 use crate::liveness::cached_proposer_election::CachedProposerElection;
-use aptos_consensus_types::common::{Author, Round};
-use aptos_infallible::Mutex;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_infallible::Mutex;
 use std::{cell::Cell, sync::Arc};
 
 struct MockProposerElection {

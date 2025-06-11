@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     remote_cordinator_client::RemoteCoordinatorClient,
     remote_cross_shard_client::RemoteCrossShardClient, remote_state_view::RemoteStateViewClient,
 };
-use aptos_secure_net::network_controller::NetworkController;
-use aptos_types::block_executor::partitioner::ShardId;
-use aptos_vm::sharded_block_executor::sharded_executor_service::ShardedExecutorService;
+use cedra_secure_net::network_controller::NetworkController;
+use cedra_types::block_executor::partitioner::ShardId;
+use cedra_vm::sharded_block_executor::sharded_executor_service::ShardedExecutorService;
 use std::{net::SocketAddr, sync::Arc, thread};
 
 /// A service that provides support for remote execution. Essentially, it reads a request from

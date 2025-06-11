@@ -1,16 +1,16 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use aptos_crypto::HashValue;
-use aptos_experimental_layered_map::{LayeredMap, MapLayer};
-use aptos_schemadb::{
+use cedra_crypto::HashValue;
+use cedra_experimental_layered_map::{LayeredMap, MapLayer};
+use cedra_schemadb::{
     batch::WriteBatch,
     define_schema,
     schema::{KeyCodec, ValueCodec},
     DB, DEFAULT_COLUMN_FAMILY_NAME,
 };
-use aptos_temppath::TempPath;
+use cedra_temppath::TempPath;
 use criterion::{
     criterion_group, criterion_main, measurement::WallTime, BatchSize, BenchmarkGroup, Criterion,
 };

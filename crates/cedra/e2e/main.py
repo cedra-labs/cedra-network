@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 """
@@ -13,9 +13,9 @@ Example (testing CLI in image):
   python3 main.py --base-network testnet --test-cli-tag mainnet_0431e2251d0b42920d89a52c63439f7b9eda6ac3
 
 Example (testing locally built CLI binary):
-  python3 main.py --base-network devnet --test-cli-path ~/aptos-core/target/release/aptos
+  python3 main.py --base-network devnet --test-cli-path ~/cedra-core/target/release/cedra
 
-This means, run the CLI test suite using a CLI built from mainnet_0431e2251d0b42920d89a52c63439f7b9eda6ac3 against a localnet built from the testnet branch of aptos-core.
+This means, run the CLI test suite using a CLI built from mainnet_0431e2251d0b42920d89a52c63439f7b9eda6ac3 against a localnet built from the testnet branch of cedra-core.
 
 Example (using a different image repo):
   See ~/.github/workflows/cli-e2e-tests.yaml
@@ -42,7 +42,7 @@ from cases.account import (
     test_account_rotate_key,
 )
 from cases.config import test_config_show_profiles
-from cases.init import test_aptos_header_included, test_init, test_metrics_accessible
+from cases.init import test_cedra_header_included, test_init, test_metrics_accessible
 from cases.move import (
     test_move_compile,
     test_move_compile_script,
@@ -93,13 +93,13 @@ def parse_args():
     parser.add_argument("-d", "--debug", action="store_true")
     parser.add_argument(
         "--image-repo-with-project",
-        default="aptoslabs",
+        default="cedralabs",
         help=(
             "What docker image repo (+ project) to use for the localnet. "
-            "By default we use Docker Hub: %(default)s (so, just aptoslabs for the "
+            "By default we use Docker Hub: %(default)s (so, just cedralabs for the "
             "project since Docker Hub is the implied default repo). If you want to "
             "specify a different repo, it might look like this: "
-            "docker.pkg.github.com/aptoslabs/aptos-core"
+            "docker.pkg.github.com/cedralabs/cedra-core"
         ),
     )
     parser.add_argument(
@@ -107,7 +107,7 @@ def parse_args():
         required=True,
         type=Network,
         choices=list(Network),
-        help="What branch the Aptos CLI used for the localnet should be built from",
+        help="What branch the Cedra CLI used for the localnet should be built from",
     )
     parser.add_argument(
         "--base-startup-timeout",
@@ -122,11 +122,11 @@ def parse_args():
     )
     test_cli_args.add_argument(
         "--test-cli-path",
-        help="Path to CLI binary we want to test, e.g. /home/dport/aptos-core/target/release/aptos",
+        help="Path to CLI binary we want to test, e.g. /home/dport/cedra-core/target/release/cedra",
     )
     parser.add_argument(
         "--working-directory",
-        default="/tmp/aptos-cli-tests",
+        default="/tmp/cedra-cli-tests",
         help="Where we'll run CLI commands from (in the host system). Default: %(default)s",
     )
     parser.add_argument(
@@ -155,8 +155,8 @@ async def run_tests(run_helper):
     test_account_lookup_address(run_helper)
     test_account_resource_account(run_helper)
 
-    # Make sure the aptos-cli header is included on the original request
-    test_aptos_header_included(run_helper)
+    # Make sure the cedra-cli header is included on the original request
+    test_cedra_header_included(run_helper)
 
     # Run move subcommand group tests.
     test_move_compile(run_helper)

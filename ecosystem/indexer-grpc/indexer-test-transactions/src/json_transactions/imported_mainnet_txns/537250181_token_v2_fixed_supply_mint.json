@@ -34,10 +34,10 @@
           "stateKeyHash": "+YubmZT49QYKC7wNZ1iSfZK6We5tbcBgfWU+9804IRg=",
           "type": {
             "address": "0x4",
-            "module": "aptos_token",
-            "name": "AptosCollection"
+            "module": "cedra_token",
+            "name": "CedraCollection"
           },
-          "typeStr": "0x4::aptos_token::AptosCollection",
+          "typeStr": "0x4::cedra_token::CedraCollection",
           "data": "{\"mutable_description\":true,\"mutable_token_description\":true,\"mutable_token_name\":true,\"mutable_token_properties\":true,\"mutable_token_uri\":true,\"mutable_uri\":true,\"mutator_ref\":{\"vec\":[{\"self\":\"0x2bed7aeca079697ec1700cc48bee658b2331d80996b05e56dfcb39fae22cbb63\"}]},\"royalty_mutator_ref\":{\"vec\":[{\"inner\":{\"self\":\"0x2bed7aeca079697ec1700cc48bee658b2331d80996b05e56dfcb39fae22cbb63\"}}]},\"tokens_burnable_by_creator\":true,\"tokens_freezable_by_creator\":true}"
         }
       },
@@ -104,10 +104,10 @@
           "stateKeyHash": "Cp6rR3EIAUh+6XRG2gM3yFCnH3axN/xyNYHfjaiccvk=",
           "type": {
             "address": "0x4",
-            "module": "aptos_token",
-            "name": "AptosToken"
+            "module": "cedra_token",
+            "name": "CedraToken"
           },
-          "typeStr": "0x4::aptos_token::AptosToken",
+          "typeStr": "0x4::cedra_token::CedraToken",
           "data": "{\"burn_ref\":{\"vec\":[{\"inner\":{\"vec\":[{\"self\":\"0x88fbd363b60336c664a3114000d723efffa6f745be049e42ca98aa631b018ac9\"}]},\"self\":{\"vec\":[]}}]},\"mutator_ref\":{\"vec\":[{\"self\":\"0x88fbd363b60336c664a3114000d723efffa6f745be049e42ca98aa631b018ac9\"}]},\"property_mutator_ref\":{\"self\":\"0x88fbd363b60336c664a3114000d723efffa6f745be049e42ca98aa631b018ac9\"},\"transfer_ref\":{\"vec\":[{\"self\":\"0x88fbd363b60336c664a3114000d723efffa6f745be049e42ca98aa631b018ac9\"}]}}"
         }
       },
@@ -246,7 +246,7 @@
           "function": {
             "module": {
               "address": "0x4",
-              "name": "aptos_token"
+              "name": "cedra_token"
             },
             "name": "mint"
           },
@@ -259,7 +259,7 @@
             "[]",
             "[]"
           ],
-          "entryFunctionIdStr": "0x4::aptos_token::mint"
+          "entryFunctionIdStr": "0x4::cedra_token::mint"
         }
       },
       "signature": {

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,15 +13,15 @@ use crate::{
     state_replication::StateComputer,
     test_utils::{consensus_runtime, RandomComputeResultStateComputer},
 };
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     block::{block_test_utils::certificate_for_genesis, Block},
     common::Payload,
     pipelined_block::PipelinedBlock,
     quorum_cert::QuorumCert,
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::{state_compute_result::StateComputeResult, ExecutorError};
-use aptos_types::{ledger_info::LedgerInfo, validator_verifier::random_validator_verifier};
+use cedra_crypto::HashValue;
+use cedra_executor_types::{state_compute_result::StateComputeResult, ExecutorError};
+use cedra_types::{ledger_info::LedgerInfo, validator_verifier::random_validator_verifier};
 use async_trait::async_trait;
 use std::sync::{
     atomic::{AtomicBool, AtomicU64},

@@ -1,6 +1,6 @@
 [package]
-name = "aptos-consensus"
-description = "Aptos consensus"
+name = "cedra-consensus"
+description = "Cedra consensus"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,40 +14,40 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-bitvec = { workspace = true }
-aptos-bounded-executor = { workspace = true }
-aptos-channels = { workspace = true }
-aptos-collections = { workspace = true }
-aptos-config = { workspace = true }
-aptos-consensus-notifications = { workspace = true }
-aptos-consensus-types = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-crypto-derive = { workspace = true }
-aptos-dkg = { workspace = true }
-aptos-enum-conversion-derive = { workspace = true }
-aptos-event-notifications = { workspace = true }
-aptos-executor = { workspace = true }
-aptos-executor-types = { workspace = true }
-aptos-experimental-runtimes = { workspace = true }
-aptos-fallible = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-mempool = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-network = { workspace = true }
-aptos-peer-monitoring-service-types = { workspace = true }
-aptos-reliable-broadcast = { workspace = true }
-aptos-runtimes = { workspace = true }
-aptos-safety-rules = { workspace = true }
-aptos-schemadb = { workspace = true }
-aptos-secure-storage = { workspace = true }
-aptos-short-hex-str = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-time-service = { workspace = true }
-aptos-types = { workspace = true }
-aptos-validator-transaction-pool = { workspace = true }
-aptos-vm = { workspace = true }
+cedra-bitvec = { workspace = true }
+cedra-bounded-executor = { workspace = true }
+cedra-channels = { workspace = true }
+cedra-collections = { workspace = true }
+cedra-config = { workspace = true }
+cedra-consensus-notifications = { workspace = true }
+cedra-consensus-types = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-crypto-derive = { workspace = true }
+cedra-dkg = { workspace = true }
+cedra-enum-conversion-derive = { workspace = true }
+cedra-event-notifications = { workspace = true }
+cedra-executor = { workspace = true }
+cedra-executor-types = { workspace = true }
+cedra-experimental-runtimes = { workspace = true }
+cedra-fallible = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-mempool = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-network = { workspace = true }
+cedra-peer-monitoring-service-types = { workspace = true }
+cedra-reliable-broadcast = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-safety-rules = { workspace = true }
+cedra-schemadb = { workspace = true }
+cedra-secure-storage = { workspace = true }
+cedra-short-hex-str = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-types = { workspace = true }
+cedra-validator-transaction-pool = { workspace = true }
+cedra-vm = { workspace = true }
 async-trait = { workspace = true }
 bcs = { workspace = true }
 byteorder = { workspace = true }
@@ -86,17 +86,17 @@ tokio-retry = { workspace = true }
 tokio-stream = { workspace = true }
 
 [dev-dependencies]
-aptos-cached-packages = { workspace = true }
-aptos-config = { workspace = true, features = ["fuzzing"] }
-aptos-consensus-types = { workspace = true, features = ["fuzzing"] }
-aptos-executor-test-helpers = { workspace = true }
-aptos-keygen = { workspace = true }
-aptos-mempool = { workspace = true, features = ["fuzzing"] }
-aptos-netcore = { workspace = true }
-aptos-network = { workspace = true, features = ["fuzzing"] }
-aptos-safety-rules = { workspace = true, features = ["testing"] }
-aptos-vm = { workspace = true, features = ["fuzzing"] }
-aptos-vm-validator = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-config = { workspace = true, features = ["fuzzing"] }
+cedra-consensus-types = { workspace = true, features = ["fuzzing"] }
+cedra-executor-test-helpers = { workspace = true }
+cedra-keygen = { workspace = true }
+cedra-mempool = { workspace = true, features = ["fuzzing"] }
+cedra-netcore = { workspace = true }
+cedra-network = { workspace = true, features = ["fuzzing"] }
+cedra-safety-rules = { workspace = true, features = ["testing"] }
+cedra-vm = { workspace = true, features = ["fuzzing"] }
+cedra-vm-validator = { workspace = true }
 claims = { workspace = true }
 mockall = { workspace = true }
 move-core-types = { workspace = true }
@@ -107,12 +107,12 @@ tempfile = { workspace = true }
 [features]
 default = []
 fuzzing = [
-    "aptos-consensus-types/fuzzing",
-    "aptos-config/fuzzing",
-    "aptos-crypto/fuzzing",
-    "aptos-mempool/fuzzing",
-    "aptos-types/fuzzing",
-    "aptos-safety-rules/testing",
+    "cedra-consensus-types/fuzzing",
+    "cedra-config/fuzzing",
+    "cedra-crypto/fuzzing",
+    "cedra-mempool/fuzzing",
+    "cedra-types/fuzzing",
+    "cedra-safety-rules/testing",
 ]
 failpoints = ["fail/failpoints"]
 

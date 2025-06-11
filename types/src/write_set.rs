@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -10,7 +10,7 @@ use crate::state_store::{
     state_value::{PersistedStateValueMetadata, StateValue, StateValueMetadata},
 };
 use anyhow::{bail, ensure, Result};
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher};
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 use bytes::Bytes;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};

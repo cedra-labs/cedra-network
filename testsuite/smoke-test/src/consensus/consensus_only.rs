@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use crate::{smoke_test_environment::new_local_swarm_with_aptos, txn_emitter::generate_traffic};
-use aptos_forge::args::TransactionTypeArg;
+use crate::{smoke_test_environment::new_local_swarm_with_cedra, txn_emitter::generate_traffic};
+use cedra_forge::args::TransactionTypeArg;
 use std::time::Duration;
 
 #[ignore]
 #[tokio::test]
 // Assumes that the consensus-only-perf-test feature is enabled.
 async fn test_consensus_only_with_txn_emitter() {
-    let mut swarm = new_local_swarm_with_aptos(1).await;
+    let mut swarm = new_local_swarm_with_cedra(1).await;
 
     let all_validators = swarm.validators().map(|v| v.peer_id()).collect::<Vec<_>>();
 

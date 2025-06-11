@@ -1,5 +1,5 @@
 [package]
-name = "aptos-consensus-notifications"
+name = "cedra-consensus-notifications"
 description = "The notification interface between state sync and consensus"
 version = "0.1.0"
 
@@ -13,9 +13,9 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-crypto = { workspace = true }
-aptos-runtimes = { workspace = true }
-aptos-types = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-types = { workspace = true }
 async-trait = { workspace = true }
 futures = { workspace = true }
 serde = { workspace = true }

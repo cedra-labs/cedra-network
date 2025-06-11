@@ -14,7 +14,7 @@ export PYTHONWARNINGS="ignore"
 
 PROTO_DIR=../proto
 WORKING_DIR=`mktemp -d`
-OUT_DIR=./aptos_protos
+OUT_DIR=./cedra_protos
 
 # Save __init__.py
 mv $OUT_DIR/__init__.py $WORKING_DIR/__init__.py

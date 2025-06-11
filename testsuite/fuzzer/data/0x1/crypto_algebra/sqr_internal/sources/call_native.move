@@ -1,6 +1,6 @@
 module poc::sqr_internal {
-    use aptos_std::crypto_algebra::{Self, Element};
-    use aptos_std::bls12381_algebra::{Fr};
+    use cedra_std::crypto_algebra::{Self, Element};
+    use cedra_std::bls12381_algebra::{Fr};
 
     public entry fun main(_owner: &signer) {
         let fr_element: Element<Fr> = crypto_algebra::from_u64<Fr>(3u64);

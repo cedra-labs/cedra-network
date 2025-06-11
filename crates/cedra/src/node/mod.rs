@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 pub mod analyze;
@@ -19,20 +19,20 @@ use crate::{
         fetch_metadata::FetchMetadata,
     },
 };
-use aptos_backup_cli::{
+use cedra_backup_cli::{
     coordinators::restore::{RestoreCoordinator, RestoreCoordinatorOpt},
     storage::DBToolStorageOpt,
     utils::GlobalRestoreOpt,
 };
-use aptos_cached_packages::aptos_stdlib;
-use aptos_crypto::{bls12381, bls12381::PublicKey, x25519, ValidCryptoMaterialStringExt};
-use aptos_genesis::config::{HostAndPort, OperatorConfiguration};
-use aptos_logger::Level;
-use aptos_network_checker::args::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_crypto::{bls12381, bls12381::PublicKey, x25519, ValidCryptoMaterialStringExt};
+use cedra_genesis::config::{HostAndPort, OperatorConfiguration};
+use cedra_logger::Level;
+use cedra_network_checker::args::{
     validate_address, CheckEndpointArgs, HandshakeArgs, NodeAddressArgs,
 };
-use aptos_rest_client::{aptos_api_types::VersionedEvent, Client, State};
-use aptos_types::{
+use cedra_rest_client::{cedra_api_types::VersionedEvent, Client, State};
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{BlockResource, CORE_CODE_ADDRESS},
     chain_id::ChainId,
@@ -639,7 +639,7 @@ impl CliCommand<TransactionSummary> for InitializeValidator {
             };
 
         self.txn_options
-            .submit_transaction(aptos_stdlib::stake_initialize_validator(
+            .submit_transaction(cedra_stdlib::stake_initialize_validator(
                 consensus_public_key.to_bytes().to_vec(),
                 consensus_proof_of_possession.to_bytes().to_vec(),
                 // BCS encode, so that we can hide the original type
@@ -706,7 +706,7 @@ impl CliCommand<TransactionSummary> for JoinValidatorSet {
             .address_fallback_to_txn(&self.txn_options)?;
 
         self.txn_options
-            .submit_transaction(aptos_stdlib::stake_join_validator_set(address))
+            .submit_transaction(cedra_stdlib::stake_join_validator_set(address))
             .await
             .map(|inner| inner.into())
     }
@@ -736,7 +736,7 @@ impl CliCommand<TransactionSummary> for LeaveValidatorSet {
             .address_fallback_to_txn(&self.txn_options)?;
 
         self.txn_options
-            .submit_transaction(aptos_stdlib::stake_leave_validator_set(address))
+            .submit_transaction(cedra_stdlib::stake_leave_validator_set(address))
             .await
             .map(|inner| inner.into())
     }
@@ -947,7 +947,7 @@ impl From<&ValidatorInfoSummary> for ValidatorInfo {
         ValidatorInfo::new(
             summary.account_address,
             summary.consensus_voting_power,
-            aptos_types::validator_config::ValidatorConfig::new(
+            cedra_types::validator_config::ValidatorConfig::new(
                 PublicKey::from_encoded_string(&config.consensus_public_key).unwrap(),
                 bcs::to_bytes(&config.validator_network_addresses).unwrap(),
                 bcs::to_bytes(&config.fullnode_network_addresses).unwrap(),
@@ -1077,7 +1077,7 @@ impl CliCommand<TransactionSummary> for UpdateConsensusKey {
             .validator_consensus_key_args
             .get_consensus_proof_of_possession(&operator_config)?;
         self.txn_options
-            .submit_transaction(aptos_stdlib::stake_rotate_consensus_key(
+            .submit_transaction(cedra_stdlib::stake_rotate_consensus_key(
                 address,
                 consensus_public_key.to_bytes().to_vec(),
                 consensus_proof_of_possession.to_bytes().to_vec(),
@@ -1137,7 +1137,7 @@ impl CliCommand<TransactionSummary> for UpdateValidatorNetworkAddresses {
             };
 
         self.txn_options
-            .submit_transaction(aptos_stdlib::stake_update_network_and_fullnode_addresses(
+            .submit_transaction(cedra_stdlib::stake_update_network_and_fullnode_addresses(
                 address,
                 // BCS encode, so that we can hide the original type
                 bcs::to_bytes(&validator_network_addresses)?,
@@ -1320,7 +1320,7 @@ impl CliCommand<()> for AnalyzeValidatorPerformance {
     }
 }
 
-/// Bootstrap AptosDB from a backup
+/// Bootstrap CedraDB from a backup
 ///
 /// Enables users to load from a backup to catch their node's DB up to a known state.
 #[derive(Parser)]
@@ -1398,7 +1398,7 @@ impl CliCommand<String> for CheckNetworkConnectivity {
         };
 
         // Check the endpoint
-        aptos_network_checker::check_endpoint(&check_endpoint_args, None)
+        cedra_network_checker::check_endpoint(&check_endpoint_args, None)
             .await
             .map_err(|error| CliError::UnexpectedError(error.to_string()))
     }
@@ -1502,7 +1502,7 @@ mod tests {
     async fn test_check_network_connectivity() {
         // Verify that an invalid address will return an error
         let args = &[
-            "aptos",
+            "cedra",
             "node",
             "check-network-connectivity",
             "--address",
@@ -1514,12 +1514,12 @@ mod tests {
         assert_contains(error_message, "Invalid address");
 
         // Verify that an invalid chain-id will return an error
-        let args = &["aptos", "node", "check-network-connectivity", "--address", "/ip4/34.70.116.169/tcp/6182/noise-ik/0x249f3301db104705652e0a0c471b46d13172b2baf14e31f007413f3baee46b0c/handshake/0", "--chain-id", "invalid-chain"];
+        let args = &["cedra", "node", "check-network-connectivity", "--address", "/ip4/34.70.116.169/tcp/6182/noise-ik/0x249f3301db104705652e0a0c471b46d13172b2baf14e31f007413f3baee46b0c/handshake/0", "--chain-id", "invalid-chain"];
         let error_message = run_tool_with_args(args).await.unwrap_err();
         assert_contains(error_message, "invalid value");
 
         // Verify that a failure to connect will return a timeout
-        let args = &["aptos", "node", "check-network-connectivity", "--address", "/ip4/31.71.116.169/tcp/0001/noise-ik/0x249f3301db104705652e0a0c471b46d13172b2baf14e31f007413f3baee46b0c/handshake/0", "--chain-id", "testnet"];
+        let args = &["cedra", "node", "check-network-connectivity", "--address", "/ip4/31.71.116.169/tcp/0001/noise-ik/0x249f3301db104705652e0a0c471b46d13172b2baf14e31f007413f3baee46b0c/handshake/0", "--chain-id", "testnet"];
         let error_message = run_tool_with_args(args).await.unwrap_err();
         assert_contains(error_message, "Timed out while checking endpoint");
     }

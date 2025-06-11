@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{
         primary_apt_store, AccountResource, CoinInfoResource, CoinStoreResource,

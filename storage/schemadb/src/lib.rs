@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -22,16 +22,16 @@ pub mod iterator;
 
 use crate::{
     metrics::{
-        APTOS_SCHEMADB_BATCH_COMMIT_BYTES, APTOS_SCHEMADB_BATCH_COMMIT_LATENCY_SECONDS,
-        APTOS_SCHEMADB_GET_BYTES, APTOS_SCHEMADB_GET_LATENCY_SECONDS, APTOS_SCHEMADB_ITER_BYTES,
-        APTOS_SCHEMADB_ITER_LATENCY_SECONDS, APTOS_SCHEMADB_SEEK_LATENCY_SECONDS,
+        CEDRA_SCHEMADB_BATCH_COMMIT_BYTES, CEDRA_SCHEMADB_BATCH_COMMIT_LATENCY_SECONDS,
+        CEDRA_SCHEMADB_GET_BYTES, CEDRA_SCHEMADB_GET_LATENCY_SECONDS, CEDRA_SCHEMADB_ITER_BYTES,
+        CEDRA_SCHEMADB_ITER_LATENCY_SECONDS, CEDRA_SCHEMADB_SEEK_LATENCY_SECONDS,
     },
     schema::{KeyCodec, Schema, SeekKeyCodec, ValueCodec},
 };
 use anyhow::format_err;
-use aptos_logger::prelude::*;
-use aptos_metrics_core::TimerHelper;
-use aptos_storage_interface::{AptosDbError, Result as DbResult};
+use cedra_logger::prelude::*;
+use cedra_metrics_core::TimerHelper;
+use cedra_storage_interface::{CedraDbError, Result as DbResult};
 use batch::{IntoRawBatch, NativeBatch, WriteBatch};
 use iterator::{ScanDirection, SchemaIterator};
 use rocksdb::ErrorKind;
@@ -195,7 +195,7 @@ impl DB {
 
     /// Reads single record by key.
     pub fn get<S: Schema>(&self, schema_key: &S::Key) -> DbResult<Option<S::Value>> {
-        let _timer = APTOS_SCHEMADB_GET_LATENCY_SECONDS
+        let _timer = CEDRA_SCHEMADB_GET_LATENCY_SECONDS
             .with_label_values(&[S::COLUMN_FAMILY_NAME])
             .start_timer();
 
@@ -203,7 +203,7 @@ impl DB {
         let cf_handle = self.get_cf_handle(S::COLUMN_FAMILY_NAME)?;
 
         let result = self.inner.get_cf(cf_handle, k).into_db_res()?;
-        APTOS_SCHEMADB_GET_BYTES
+        CEDRA_SCHEMADB_GET_BYTES
             .with_label_values(&[S::COLUMN_FAMILY_NAME])
             .observe(result.as_ref().map_or(0.0, |v| v.len() as f64));
 
@@ -267,7 +267,7 @@ impl DB {
 
     /// Writes a group of records wrapped in a [`SchemaBatch`].
     pub fn write_schemas(&self, batch: impl IntoRawBatch) -> DbResult<()> {
-        let _timer = APTOS_SCHEMADB_BATCH_COMMIT_LATENCY_SECONDS.timer_with(&[&self.name]);
+        let _timer = CEDRA_SCHEMADB_BATCH_COMMIT_LATENCY_SECONDS.timer_with(&[&self.name]);
 
         let raw_batch = batch.into_raw_batch(self)?;
 
@@ -277,7 +277,7 @@ impl DB {
             .into_db_res()?;
 
         raw_batch.stats.commit();
-        APTOS_SCHEMADB_BATCH_COMMIT_BYTES
+        CEDRA_SCHEMADB_BATCH_COMMIT_BYTES
             .with_label_values(&[&self.name])
             .observe(serialized_size as f64);
 
@@ -309,7 +309,7 @@ impl DB {
             .property_int_value_cf(self.get_cf_handle(cf_name)?, property_name)
             .into_db_res()?
             .ok_or_else(|| {
-                aptos_storage_interface::AptosDbError::Other(
+                cedra_storage_interface::CedraDbError::Other(
                     format!(
                         "Unable to get property \"{}\" of  column family \"{}\".",
                         property_name, cf_name,
@@ -353,9 +353,9 @@ trait DeUnc: AsRef<Path> {
 
 impl<T> DeUnc for T where T: AsRef<Path> {}
 
-fn to_db_err(rocksdb_err: rocksdb::Error) -> AptosDbError {
+fn to_db_err(rocksdb_err: rocksdb::Error) -> CedraDbError {
     match rocksdb_err.kind() {
-        ErrorKind::Incomplete => AptosDbError::RocksDbIncompleteResult(rocksdb_err.to_string()),
+        ErrorKind::Incomplete => CedraDbError::RocksDbIncompleteResult(rocksdb_err.to_string()),
         ErrorKind::NotFound
         | ErrorKind::Corruption
         | ErrorKind::NotSupported
@@ -370,7 +370,7 @@ fn to_db_err(rocksdb_err: rocksdb::Error) -> AptosDbError {
         | ErrorKind::TryAgain
         | ErrorKind::CompactionTooLarge
         | ErrorKind::ColumnFamilyDropped
-        | ErrorKind::Unknown => AptosDbError::OtherRocksDbError(rocksdb_err.to_string()),
+        | ErrorKind::Unknown => CedraDbError::OtherRocksDbError(rocksdb_err.to_string()),
     }
 }
 

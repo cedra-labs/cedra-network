@@ -12,9 +12,9 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from cedra.indexer.v1 import grpc_pb2 as aptos_dot_indexer_dot_v1_dot_grpc__pb2
+from cedra.indexer.v1 import grpc_pb2 as cedra_dot_indexer_dot_v1_dot_grpc__pb2
 from cedra.transaction.v1 import (
-    transaction_pb2 as aptos_dot_transaction_dot_v1_dot_transaction__pb2,
+    transaction_pb2 as cedra_dot_transaction_dot_v1_dot_transaction__pb2,
 )
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(

@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(dead_code)]
 
 use super::helpers::UserAccount;
-use aptos_types::keyless::{AnyKeylessPublicKey, EphemeralCertificate};
+use cedra_types::keyless::{AnyKeylessPublicKey, EphemeralCertificate};
 use arbitrary::Arbitrary;
 use serde::{Deserialize, Serialize};
 use serde_json;
@@ -121,8 +121,8 @@ pub struct TransactionState {
 }
 
 pub(crate) mod miscellaneous {
-    use aptos_crypto::{ed25519::ed25519_keys::Ed25519PrivateKey, PrivateKey, Uniform};
-    use aptos_types::{
+    use cedra_crypto::{ed25519::ed25519_keys::Ed25519PrivateKey, PrivateKey, Uniform};
+    use cedra_types::{
         jwks::rsa::INSECURE_TEST_RSA_KEY_PAIR,
         keyless::{Configuration, OpenIdSig, Pepper},
         transaction::authenticator::EphemeralPublicKey,
@@ -208,7 +208,7 @@ pub(crate) mod miscellaneous {
                 azp: "407408718192.apps.googleusercontent.com".to_string(),
                 aud: "407408718192.apps.googleusercontent.com".to_string(),
                 sub: "113990307082899718775".to_string(),
-                hd: "aptoslabs.com".to_string(),
+                hd: "cedralabs.com".to_string(),
                 email: "michael@cedra.network".to_string(),
                 email_verified: true,
                 at_hash: "bxIESuI59IoZb5alCASqBg".to_string(),

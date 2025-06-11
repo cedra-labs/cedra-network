@@ -1,0 +1,9 @@
+[package]
+name = "CedraExperimental"
+version = "1.0.0"
+
+[addresses]
+cedra_experimental = "0x7"
+
+[dependencies]
+CedraFramework = { local = "../cedra-framework" }

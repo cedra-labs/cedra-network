@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::sparse_merkle::utils::partition;
-use aptos_crypto::{
+use cedra_crypto::{
     hash::{CryptoHash, SPARSE_MERKLE_PLACEHOLDER_HASH},
     HashValue,
 };
-use aptos_types::proof::{
+use cedra_types::proof::{
     definition::NodeInProof, SparseMerkleInternalNode, SparseMerkleLeafNode, SparseMerkleProofExt,
 };
 use bitvec::prelude::*;

@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::error::Error;
-use aptos_logger::Schema;
+use cedra_logger::Schema;
 use serde::Serialize;
 
 #[derive(Schema)]
@@ -30,7 +30,7 @@ impl<'a> LogSchema<'a> {
 #[derive(Clone, Copy, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum LogEntry {
-    AptosDataClient,
+    CedraDataClient,
     CheckStreamProgress,
     CreatedSubscriptionStream,
     EndOfStreamNotification,

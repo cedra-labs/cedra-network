@@ -1,0 +1,11 @@
+[package]
+name = "basic_coin"
+version = "0.0.0"
+
+[addresses]
+named_addr = "0xDEADBEEF"
+
+[dependencies.CedraStdlib]
+git = 'https://github.com/cedra-labs/cedra-framework.git'
+rev = 'main'
+subdir = 'cedra-stdlib'

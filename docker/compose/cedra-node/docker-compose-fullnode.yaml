@@ -1,0 +1,72 @@
+# This compose file defines an Cedra Fullnode deployment.
+# Read the README.md files for instruction on how to install cedra-node
+
+version: "3.8"
+services:
+  haproxy:
+    image: haproxy:3.0.2
+    volumes:
+      - type: bind
+        source: ./haproxy-fullnode.cfg
+        target: /usr/local/etc/haproxy/haproxy.cfg
+      - type: bind
+        source: ./blocked.ips
+        target: /usr/local/etc/haproxy/blocked.ips
+    networks:
+      - shared
+    expose:
+      # Public fullnode access
+      - 6182
+      # REST API
+      - 8080
+      # Fullnode metrics
+      - 9101
+      # Haproxy stats page
+      - 9102
+    ports:
+      - "6182:6182"
+      - "8080:8080"
+      # Only expose these internally
+      - "127.0.0.1:9101:9101"
+      - "127.0.0.1:9102:9102"
+
+  fullnode:
+    image: "${VALIDATOR_IMAGE_REPO:-cedralabs/validator}:${IMAGE_TAG:-testnet}"
+    networks:
+      shared:
+    volumes:
+      - type: volume
+        source: cedra-fullnode
+        target: /opt/cedra/data
+      - type: bind
+        source: ./fullnode.yaml
+        target: /opt/cedra/etc/fullnode.yaml
+      - type: bind
+        source: ./genesis.blob
+        target: /opt/cedra/genesis/genesis.blob
+      - type: bind
+        source: ./waypoint.txt
+        target: /opt/cedra/genesis/waypoint.txt
+      - type: bind
+        source: ./keys/validator-full-node-identity.yaml
+        target: /opt/cedra/genesis/validator-full-node-identity.yaml
+    command: ["/usr/local/bin/cedra-node", "-f", "/opt/cedra/etc/fullnode.yaml"]
+    restart: unless-stopped
+    expose:
+      # Public fullnode access
+      - 6182
+      # REST API
+      - 8080
+      # Validator metrics
+      - 9101
+
+networks:
+  shared:
+    name: "cedra-docker-compose-shared"
+    ipam:
+      config:
+        - subnet: 172.16.1.0/24
+
+volumes:
+  cedra-fullnode:
+    name: cedra-fullnode

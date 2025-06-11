@@ -1,5 +1,5 @@
 module poc::derive_string_concat {
-    use aptos_framework::aggregator_v2;
+    use cedra_framework::aggregator_v2;
     use std::string;
 
     public entry fun main(_owner: &signer) {

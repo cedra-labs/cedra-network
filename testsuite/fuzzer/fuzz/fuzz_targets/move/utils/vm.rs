@@ -1,16 +1,16 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(dead_code)]
 
 use super::helpers::UserAccount;
 use crate::tdbg;
-use aptos_cached_packages::aptos_stdlib::code_publish_package_txn;
-use aptos_framework::natives::code::{
+use cedra_cached_packages::cedra_stdlib::code_publish_package_txn;
+use cedra_framework::natives::code::{
     ModuleMetadata, MoveOption, PackageDep, PackageMetadata, UpgradePolicy,
 };
-use aptos_language_e2e_tests::{account::Account, executor::FakeExecutor};
-use aptos_types::transaction::{ExecutionStatus, TransactionPayload, TransactionStatus};
+use cedra_language_e2e_tests::{account::Account, executor::FakeExecutor};
+use cedra_types::transaction::{ExecutionStatus, TransactionPayload, TransactionStatus};
 use arbitrary::Arbitrary;
 use libfuzzer_sys::Corpus;
 use move_binary_format::{

@@ -1,4 +1,4 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import json
@@ -23,7 +23,7 @@ async def test_account_fund_with_faucet(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "fund-with-faucet",
             "--account",
@@ -51,7 +51,7 @@ async def test_account_create_and_transfer(run_helper: RunHelper, test_name=None
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "create",
             "--account",
@@ -74,7 +74,7 @@ async def test_account_create_and_transfer(run_helper: RunHelper, test_name=None
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "transfer",
             "--account",
@@ -101,7 +101,7 @@ def test_account_list(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "list",
             "--account",
@@ -129,7 +129,7 @@ def test_account_lookup_address(run_helper: RunHelper, test_name=None):
     result_addr = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "lookup-address",
             "--auth-key",
@@ -155,7 +155,7 @@ def test_account_rotate_key(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "rotate-key",
             "--new-private-key",
@@ -167,7 +167,7 @@ def test_account_rotate_key(run_helper: RunHelper, test_name=None):
 
     if '"success": true' not in result.stdout:
         raise TestError(
-            f"[aptos account rotate-key --new-private-key {new_private_key} --skip-saving-profile --assume-yes] failed"
+            f"[cedra account rotate-key --new-private-key {new_private_key} --skip-saving-profile --assume-yes] failed"
         )
 
     new_profile = run_helper.get_account_info()
@@ -181,7 +181,7 @@ def test_account_rotate_key(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "lookup-address",
             f"--public-key={old_profile.public_key}",
@@ -197,7 +197,7 @@ def test_account_rotate_key(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "lookup-address",
             f"--public-key={new_profile.public_key}",
@@ -219,7 +219,7 @@ def test_account_resource_account(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "create-resource-account",
             "--seed",
@@ -239,7 +239,7 @@ def test_account_resource_account(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "derive-resource-account-address",
             "--seed",
@@ -259,7 +259,7 @@ def test_account_resource_account(run_helper: RunHelper, test_name=None):
     result = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "list",
             "--query=resources",

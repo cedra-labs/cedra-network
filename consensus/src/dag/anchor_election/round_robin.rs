@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::CommitHistory;
@@ -6,7 +6,7 @@ use crate::{
     dag::{anchor_election::AnchorElection, storage::CommitEvent},
     liveness::leader_reputation::VotingPowerRatio,
 };
-use aptos_consensus_types::common::{Author, Round};
+use cedra_consensus_types::common::{Author, Round};
 
 pub struct RoundRobinAnchorElection {
     validators: Vec<Author>,

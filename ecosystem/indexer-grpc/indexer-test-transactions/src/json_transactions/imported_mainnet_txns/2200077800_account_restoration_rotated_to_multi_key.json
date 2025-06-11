@@ -166,7 +166,7 @@
           "function": {
             "module": {
               "address": "0x1",
-              "name": "aptos_account"
+              "name": "cedra_account"
             },
             "name": "transfer"
           },
@@ -174,7 +174,7 @@
             "\"0xbaa06bd9684eefe879615e2cd77fd3ce3881c26867ae85055a577e1f584c00d2\"",
             "\"100\""
           ],
-          "entryFunctionIdStr": "0x1::aptos_account::transfer"
+          "entryFunctionIdStr": "0x1::cedra_account::transfer"
         }
       },
       "signature": {

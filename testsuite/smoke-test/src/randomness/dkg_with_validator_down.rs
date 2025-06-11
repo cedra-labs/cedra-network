@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     randomness::{decrypt_key_map, verify_dkg_transcript, wait_for_dkg_finish},
     smoke_test_environment::SwarmBuilder,
 };
-use aptos_forge::NodeExt;
-use aptos_types::on_chain_config::OnChainRandomnessConfig;
+use cedra_forge::NodeExt;
+use cedra_types::on_chain_config::OnChainRandomnessConfig;
 use std::sync::Arc;
 
 #[tokio::test]
@@ -17,7 +17,7 @@ async fn dkg_with_validator_down() {
 
     let mut swarm = SwarmBuilder::new_local(4)
         .with_num_fullnodes(1)
-        .with_aptos()
+        .with_cedra()
         .with_init_genesis_config(Arc::new(|conf| {
             conf.epoch_duration_secs = 10;
 

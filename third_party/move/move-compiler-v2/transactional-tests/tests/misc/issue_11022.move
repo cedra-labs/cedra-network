@@ -1,4 +1,4 @@
-// Example taken from https://github.com/cedra-labs/cedra/issues/11022
+// Example taken from https://github.com/cedra-labs/cedra-network/issues/11022
 //# publish
 module 0xc0ffee::dummy1 {
     const CC: u64 = 1;

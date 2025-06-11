@@ -1,0 +1,16 @@
+move_named_address_values = [
+    "std=0x1",
+    "cedra_std=0x1",
+    "cedra_framework=0x1",
+    "cedra_token=0x3",
+    "core_resources=0xA550C18",
+    "vm_reserved=0x0",
+    "Extensions=0x1",
+    "vm=0x0",
+    "cedra_fungible_asset=0xA"
+]
+move_deps = [
+    "../../../../../../cedra-move/framework/move-stdlib/sources",
+    "../../../../../../cedra-move/framework/cedra-stdlib/sources",
+    "../../../../../../cedra-move/framework/cedra-framework/sources",
+]

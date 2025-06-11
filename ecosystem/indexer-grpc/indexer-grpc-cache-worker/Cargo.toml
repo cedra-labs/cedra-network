@@ -1,5 +1,5 @@
 [package]
-name = "aptos-indexer-grpc-cache-worker"
+name = "cedra-indexer-grpc-cache-worker"
 description = "Indexer gRPC worker to collect on-chain data from node gRPC and push to cache."
 version = "1.0.0"
 
@@ -14,11 +14,11 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-indexer-grpc-server-framework = { workspace = true }
-aptos-indexer-grpc-utils = { workspace = true }
-aptos-metrics-core = { workspace = true }
+cedra-indexer-grpc-server-framework = { workspace = true }
+cedra-indexer-grpc-utils = { workspace = true }
+cedra-metrics-core = { workspace = true }
 cedra-moving-average = { workspace = true }
-aptos-protos = { workspace = true }
+cedra-protos = { workspace = true }
 async-trait = { workspace = true }
 clap = { workspace = true }
 futures = { workspace = true }
@@ -39,7 +39,7 @@ jemallocator = { version = "0.5.0", features = [
 ] }
 
 [dev-dependencies]
-aptos-config = { workspace = true }
+cedra-config = { workspace = true }
 reqwest = { workspace = true }
 tempfile = { workspace = true }
 

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,7 +6,7 @@ use crate::{
     token_workflow::TokenWorkflowKind,
     EntryPoints, OrderBookState,
 };
-use aptos_transaction_generator_lib::{TransactionType, WorkflowProgress};
+use cedra_transaction_generator_lib::{TransactionType, WorkflowProgress};
 use clap::{Parser, ValueEnum};
 use serde::{Deserialize, Serialize};
 

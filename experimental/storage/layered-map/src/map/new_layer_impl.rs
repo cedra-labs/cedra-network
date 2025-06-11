@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -8,8 +8,8 @@ use crate::{
     utils::binary_tree_height,
     Key, KeyHash, LayeredMap, MapLayer, Value,
 };
-use aptos_drop_helper::ArcAsyncDrop;
-use aptos_metrics_core::TimerHelper;
+use cedra_drop_helper::ArcAsyncDrop;
+use cedra_metrics_core::TimerHelper;
 use itertools::Itertools;
 use std::collections::BTreeMap;
 

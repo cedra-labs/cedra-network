@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! Database-related functions
@@ -80,10 +80,10 @@ where
         where_clause: additional_where_clause,
     };
     let debug = diesel::debug_query::<diesel::pg::Pg, _>(&final_query).to_string();
-    aptos_logger::debug!("Executing query: {:?}", debug);
+    cedra_logger::debug!("Executing query: {:?}", debug);
     let res = final_query.execute(conn);
     if let Err(ref e) = res {
-        aptos_logger::warn!("Error running query: {:?}\n{}", e, debug);
+        cedra_logger::warn!("Error running query: {:?}\n{}", e, debug);
     }
     res
 }

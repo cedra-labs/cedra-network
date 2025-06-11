@@ -1,6 +1,6 @@
 FROM debian-base AS telemetry-service
 
-COPY --link --from=tools-builder /aptos/dist/aptos-telemetry-service /usr/local/bin/aptos-telemetry-service
+COPY --link --from=tools-builder /cedra/dist/cedra-telemetry-service /usr/local/bin/cedra-telemetry-service
 
 EXPOSE 8000
 ENV RUST_LOG_FORMAT=json

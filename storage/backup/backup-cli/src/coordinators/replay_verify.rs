@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,13 +13,13 @@ use crate::{
     utils::{GlobalRestoreOptions, RestoreRunMode, TrustedWaypointOpt},
 };
 use anyhow::Result;
-use aptos_db::backup::restore_handler::RestoreHandler;
-use aptos_executor_types::VerifyExecutionMode;
-use aptos_logger::prelude::*;
-use aptos_storage_interface::AptosDbError;
-use aptos_types::{on_chain_config::TimedFeatureOverride, transaction::Version};
-use aptos_vm::AptosVM;
-use aptos_vm_environment::prod_configs::set_timed_feature_override;
+use cedra_db::backup::restore_handler::RestoreHandler;
+use cedra_executor_types::VerifyExecutionMode;
+use cedra_logger::prelude::*;
+use cedra_storage_interface::CedraDbError;
+use cedra_types::{on_chain_config::TimedFeatureOverride, transaction::Version};
+use cedra_vm::CedraVM;
+use cedra_vm_environment::prod_configs::set_timed_feature_override;
 use std::sync::Arc;
 use thiserror::Error;
 
@@ -37,8 +37,8 @@ impl From<anyhow::Error> for ReplayError {
     }
 }
 
-impl From<AptosDbError> for ReplayError {
-    fn from(error: AptosDbError) -> Self {
+impl From<CedraDbError> for ReplayError {
+    fn from(error: CedraDbError) -> Self {
         ReplayError::OtherError(error.to_string())
     }
 }
@@ -99,7 +99,7 @@ impl ReplayVerifyCoordinator {
     }
 
     async fn run_impl(self) -> Result<(), ReplayError> {
-        AptosVM::set_concurrency_level_once(self.replay_concurrency_level);
+        CedraVM::set_concurrency_level_once(self.replay_concurrency_level);
         set_timed_feature_override(TimedFeatureOverride::Replay);
 
         let metadata_view = metadata::cache::sync_and_load(

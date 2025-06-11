@@ -29,9 +29,9 @@ See [values.yaml][] for the full list of options you can configure.
 Connecting to Testnet
 -------------
 
-To connect to the Cedra devnet, you must have the correct genesis blob and waypoint. The source of truth for these are hosted here: https://github.com/aptos-labs/aptos-genesis-waypoint
+To connect to the Cedra devnet, you must have the correct genesis blob and waypoint. The source of truth for these are hosted here: https://github.com/cedra-labs/cedra-genesis-waypoint
 
-The waypoint and genesis blobs are download at runtime, and their URLs are specified in `.Values.aptos_chains`.
+The waypoint and genesis blobs are download at runtime, and their URLs are specified in `.Values.cedra_chains`.
 
 Deployment
 ----------
@@ -43,6 +43,6 @@ Deployment
        $ helm install fullnode --set storage.class=gp2 .
 
 
-[REST API]: https://github.com/cedra-labs/cedra/blob/main/api/doc/v0/openapi.yaml
+[REST API]: https://github.com/cedra-labs/cedra-network/blob/main/api/doc/v0/openapi.yaml
 [values.yaml]: values.yaml
-[Cedra dockerhub]: https://hub.docker.com/r/aptoslabs/validator/tags?page=1&ordering=last_updated
+[Cedra dockerhub]: https://hub.docker.com/r/cedralabs/validator/tags?page=1&ordering=last_updated

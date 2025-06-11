@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,22 +12,22 @@ use crate::{
     },
 };
 use anyhow::{anyhow, bail, ensure, format_err, Context as AnyhowContext, Result};
-use aptos_api_types::{
-    transaction::ReplayProtector, AptosErrorCode, AsConverter, BcsBlock, GasEstimation, LedgerInfo,
+use cedra_api_types::{
+    transaction::ReplayProtector, CedraErrorCode, AsConverter, BcsBlock, GasEstimation, LedgerInfo,
     ResourceGroup, TransactionOnChainData, TransactionSummary,
 };
-use aptos_config::config::{GasEstimationConfig, NodeConfig, RoleType};
-use aptos_crypto::HashValue;
-use aptos_gas_schedule::{AptosGasParameters, FromOnChainGasSchedule};
-use aptos_logger::{error, info, Schema};
-use aptos_mempool::{MempoolClientRequest, MempoolClientSender, SubmissionStatus};
-use aptos_storage_interface::{
+use cedra_config::config::{GasEstimationConfig, NodeConfig, RoleType};
+use cedra_crypto::HashValue;
+use cedra_gas_schedule::{CedraGasParameters, FromOnChainGasSchedule};
+use cedra_logger::{error, info, Schema};
+use cedra_mempool::{MempoolClientRequest, MempoolClientSender, SubmissionStatus};
+use cedra_storage_interface::{
     state_store::state_view::db_state_view::{
         DbStateView, DbStateViewAtVersion, LatestDbStateCheckpointView,
     },
-    AptosDbError, DbReader, Order, MAX_REQUEST_LIMIT,
+    CedraDbError, DbReader, Order, MAX_REQUEST_LIMIT,
 };
-use aptos_types::{
+use cedra_types::{
     access_path::{AccessPath, Path},
     account_address::AccountAddress,
     account_config::{AccountResource, NewBlockEvent},
@@ -165,7 +165,7 @@ impl Context {
         self.db
             .latest_state_checkpoint_view()
             .context("Failed to read latest state checkpoint from DB")
-            .map_err(|e| E::internal_with_code(e, AptosErrorCode::InternalError, ledger_info))
+            .map_err(|e| E::internal_with_code(e, CedraErrorCode::InternalError, ledger_info))
     }
 
     pub fn feature_enabled(&self, feature: FeatureFlag) -> Result<bool> {
@@ -185,7 +185,7 @@ impl Context {
         let state_view = self
             .state_view_at_version(requested_ledger_version)
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, &latest_ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, &latest_ledger_info)
             })?;
 
         Ok((latest_ledger_info, requested_ledger_version, state_view))
@@ -238,7 +238,7 @@ impl Context {
         self.db
             .get_first_viable_block()
             .context("Failed to retrieve oldest block information")
-            .map_err(|e| E::service_unavailable_with_code_no_info(e, AptosErrorCode::InternalError))
+            .map_err(|e| E::service_unavailable_with_code_no_info(e, CedraErrorCode::InternalError))
     }
 
     pub fn get_latest_storage_ledger_info<E: ServiceUnavailableError>(
@@ -248,7 +248,7 @@ impl Context {
             .get_latest_ledger_info_with_signatures()
             .context("Failed to retrieve latest ledger info")
             .map_err(|e| {
-                E::service_unavailable_with_code_no_info(e, AptosErrorCode::InternalError)
+                E::service_unavailable_with_code_no_info(e, CedraErrorCode::InternalError)
             })?;
 
         let (oldest_version, oldest_block_height) = self.get_oldest_version_and_block_height()?;
@@ -257,7 +257,7 @@ impl Context {
             .get_block_info_by_version(ledger_info.ledger_info().version())
             .context("Failed to retrieve latest block information")
             .map_err(|e| {
-                E::service_unavailable_with_code_no_info(e, AptosErrorCode::InternalError)
+                E::service_unavailable_with_code_no_info(e, CedraErrorCode::InternalError)
             })?;
 
         Ok(LedgerInfo::new(
@@ -325,7 +325,7 @@ impl Context {
                 if let Some(mut latest_version) = indexer_reader
                     .get_latest_internal_indexer_ledger_version()
                     .map_err(|err| {
-                        E::service_unavailable_with_code_no_info(err, AptosErrorCode::InternalError)
+                        E::service_unavailable_with_code_no_info(err, CedraErrorCode::InternalError)
                     })?
                 {
                     // The internal indexer version can be ahead of the storage committed version since it syncs to db's latest synced version
@@ -338,7 +338,7 @@ impl Context {
                         .map_err(|_| {
                             E::service_unavailable_with_code_no_info(
                                 "Failed to get block",
-                                AptosErrorCode::InternalError,
+                                CedraErrorCode::InternalError,
                             )
                         })?;
                     let (oldest_version, oldest_block_height) =
@@ -356,7 +356,7 @@ impl Context {
                     // Indexer doesn't have data yet as DB is boostrapping.
                     return Err(E::service_unavailable_with_code_no_info(
                         "DB is bootstrapping",
-                        AptosErrorCode::InternalError,
+                        CedraErrorCode::InternalError,
                     ));
                 }
             }
@@ -364,7 +364,7 @@ impl Context {
 
         Err(E::service_unavailable_with_code_no_info(
             "Indexer reader doesn't exist",
-            AptosErrorCode::InternalError,
+            CedraErrorCode::InternalError,
         ))
     }
 
@@ -388,7 +388,7 @@ impl Context {
     ) -> Result<Option<Vec<u8>>, E> {
         self.get_state_value(state_key, version)
             .context("Failed to retrieve state value")
-            .map_err(|e| E::internal_with_code(e, AptosErrorCode::InternalError, ledger_info))
+            .map_err(|e| E::internal_with_code(e, CedraErrorCode::InternalError, ledger_info))
     }
 
     pub fn get_resource<T: MoveResource>(
@@ -412,7 +412,7 @@ impl Context {
         self.get_resource(address, version)
             .context("Failed to read account resource.")
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, latest_ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, latest_ledger_info)
             })
     }
 
@@ -430,7 +430,7 @@ impl Context {
                         T::struct_identifier(),
                         address,
                     ),
-                    AptosErrorCode::ResourceNotFound,
+                    CedraErrorCode::ResourceNotFound,
                     latest_ledger_info,
                 )
             })
@@ -623,7 +623,7 @@ impl Context {
         self.db
             .get_block_timestamp(version)
             .context("Failed to retrieve block timestamp")
-            .map_err(|err| E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info))
+            .map_err(|err| E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info))
     }
 
     pub fn get_block_by_height<E: StdApiError>(
@@ -700,7 +700,7 @@ impl Context {
             .hash()
             .context("Failed to parse block hash")
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, latest_ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, latest_ledger_info)
             })?;
         let block_timestamp = new_block_event.proposed_time();
 
@@ -716,7 +716,7 @@ impl Context {
                     .map_err(|err| {
                         E::internal_with_code(
                             err,
-                            AptosErrorCode::InternalError,
+                            CedraErrorCode::InternalError,
                             latest_ledger_info,
                         )
                     })?,
@@ -740,14 +740,14 @@ impl Context {
         ledger_info: &LedgerInfo,
         data: Vec<TransactionOnChainData>,
         mut timestamp: u64,
-    ) -> Result<Vec<aptos_api_types::Transaction>, E> {
+    ) -> Result<Vec<cedra_api_types::Transaction>, E> {
         if data.is_empty() {
             return Ok(vec![]);
         }
 
         let state_view = self.latest_state_view_poem(ledger_info)?;
         let converter = state_view.as_converter(self.db.clone(), self.indexer_reader.clone());
-        let txns: Vec<aptos_api_types::Transaction> = data
+        let txns: Vec<cedra_api_types::Transaction> = data
             .into_iter()
             .map(|t| {
                 // Update the timestamp if the next block occurs
@@ -762,7 +762,7 @@ impl Context {
             .collect::<Result<_, anyhow::Error>>()
             .context("Failed to convert transaction data from storage")
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info)
             })?;
 
         Ok(txns)
@@ -772,14 +772,14 @@ impl Context {
         &self,
         ledger_info: &LedgerInfo,
         data: Vec<TransactionOnChainData>,
-    ) -> Result<Vec<aptos_api_types::Transaction>, E> {
+    ) -> Result<Vec<cedra_api_types::Transaction>, E> {
         if data.is_empty() {
             return Ok(vec![]);
         }
 
         let state_view = self.latest_state_view_poem(ledger_info)?;
         let converter = state_view.as_converter(self.db.clone(), self.indexer_reader.clone());
-        let txns: Vec<aptos_api_types::Transaction> = data
+        let txns: Vec<cedra_api_types::Transaction> = data
             .into_iter()
             .map(|t| {
                 let timestamp = self.db.get_block_timestamp(t.version)?;
@@ -789,7 +789,7 @@ impl Context {
             .collect::<Result<_, anyhow::Error>>()
             .context("Failed to convert transaction data from storage")
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info)
             })?;
 
         Ok(txns)
@@ -799,12 +799,12 @@ impl Context {
         &self,
         ledger_info: &LedgerInfo,
         data: Vec<IndexedTransactionSummary>,
-    ) -> Result<Vec<aptos_api_types::TransactionSummary>, E> {
+    ) -> Result<Vec<cedra_api_types::TransactionSummary>, E> {
         if data.is_empty() {
             return Ok(vec![]);
         }
 
-        let txn_summaries: Vec<aptos_api_types::TransactionSummary> = data
+        let txn_summaries: Vec<cedra_api_types::TransactionSummary> = data
             .into_iter()
             .map(|t| {
                 Ok(TransactionSummary {
@@ -812,10 +812,10 @@ impl Context {
                     version: t.version().into(),
                     transaction_hash: t.transaction_hash().into(),
                     replay_protector: match t.replay_protector() {
-                        aptos_types::transaction::ReplayProtector::Nonce(nonce) => {
+                        cedra_types::transaction::ReplayProtector::Nonce(nonce) => {
                             ReplayProtector::Nonce(nonce.into())
                         },
-                        aptos_types::transaction::ReplayProtector::SequenceNumber(seq_num) => {
+                        cedra_types::transaction::ReplayProtector::SequenceNumber(seq_num) => {
                             ReplayProtector::SequenceNumber(seq_num.into())
                         },
                     },
@@ -824,7 +824,7 @@ impl Context {
             .collect::<Result<_, anyhow::Error>>()
             .context("Failed to convert transaction summary data from storage")
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info)
             })?;
         Ok(txn_summaries)
     }
@@ -910,7 +910,7 @@ impl Context {
                 .as_ref()
                 .ok_or_else(|| anyhow!("Indexer reader is None"))
                 .map_err(|err| {
-                    E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info)
+                    E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info)
                 })?
                 .get_account_ordered_transactions(
                     address,
@@ -919,12 +919,12 @@ impl Context {
                     true,
                     ledger_version,
                 )
-                .map_err(|e| AptosDbError::Other(e.to_string()))
+                .map_err(|e| CedraDbError::Other(e.to_string()))
         };
         let txns = txns_res
             .context("Failed to retrieve account transactions")
             .map_err(|err| {
-                E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info)
+                E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info)
             })?;
         txns.into_inner()
             .into_iter()
@@ -934,7 +934,7 @@ impl Context {
             })
             .collect::<Result<Vec<_>>>()
             .context("Failed to parse account transactions")
-            .map_err(|err| E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info))
+            .map_err(|err| E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info))
     }
 
     pub fn get_account_transaction_summaries<E: NotFoundError + InternalError>(
@@ -955,7 +955,7 @@ impl Context {
                 ledger_version,
             )
             .context("Failed to retrieve account transaction summaries")
-            .map_err(|err| E::internal_with_code(err, AptosErrorCode::InternalError, ledger_info))
+            .map_err(|err| E::internal_with_code(err, CedraErrorCode::InternalError, ledger_info))
     }
 
     pub fn get_transaction_by_hash(
@@ -1461,7 +1461,7 @@ impl Context {
     pub fn get_gas_schedule<E: InternalError>(
         &self,
         ledger_info: &LedgerInfo,
-    ) -> Result<(u64, AptosGasParameters), E> {
+    ) -> Result<(u64, CedraGasParameters), E> {
         // If it's the same epoch, used the cached results
         {
             let cache = self.gas_schedule_cache.read().unwrap();
@@ -1497,7 +1497,7 @@ impl Context {
                 .db
                 .state_view_at_version(Some(ledger_info.version()))
                 .map_err(|e| {
-                    E::internal_with_code(e, AptosErrorCode::InternalError, ledger_info)
+                    E::internal_with_code(e, CedraErrorCode::InternalError, ledger_info)
                 })?;
 
             let gas_schedule_params = {
@@ -1505,7 +1505,7 @@ impl Context {
                     GasScheduleV2::fetch_config(&state_view).and_then(|gas_schedule| {
                         let feature_version = gas_schedule.feature_version;
                         let gas_schedule = gas_schedule.into_btree_map();
-                        AptosGasParameters::from_on_chain_gas_schedule(
+                        CedraGasParameters::from_on_chain_gas_schedule(
                             &gas_schedule,
                             feature_version,
                         )
@@ -1516,12 +1516,12 @@ impl Context {
                     None => GasSchedule::fetch_config(&state_view)
                         .and_then(|gas_schedule| {
                             let gas_schedule = gas_schedule.into_btree_map();
-                            AptosGasParameters::from_on_chain_gas_schedule(&gas_schedule, 0).ok()
+                            CedraGasParameters::from_on_chain_gas_schedule(&gas_schedule, 0).ok()
                         })
                         .ok_or_else(|| {
                             E::internal_with_code(
                                 "Failed to retrieve gas schedule",
-                                AptosErrorCode::InternalError,
+                                CedraErrorCode::InternalError,
                                 ledger_info,
                             )
                         }),
@@ -1567,7 +1567,7 @@ impl Context {
                 .db
                 .state_view_at_version(Some(ledger_info.version()))
                 .map_err(|e| {
-                    E::internal_with_code(e, AptosErrorCode::InternalError, ledger_info)
+                    E::internal_with_code(e, CedraErrorCode::InternalError, ledger_info)
                 })?;
 
             let execution_onchain_config = OnChainExecutionConfig::fetch_config(&state_view)
@@ -1623,7 +1623,7 @@ impl Context {
 
 pub struct GasScheduleCache {
     last_updated_epoch: Option<u64>,
-    gas_schedule_params: Option<AptosGasParameters>,
+    gas_schedule_params: Option<CedraGasParameters>,
 }
 
 pub struct GasEstimationCache {
@@ -1649,7 +1649,7 @@ where
 {
     tokio::task::spawn_blocking(func)
         .await
-        .map_err(|err| E::internal_with_code_no_info(err, AptosErrorCode::InternalError))?
+        .map_err(|err| E::internal_with_code_no_info(err, CedraErrorCode::InternalError))?
 }
 
 #[derive(Schema)]

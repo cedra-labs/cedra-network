@@ -149,20 +149,20 @@ export function joinTagSegments(...segments) {
 }
 
 export function assertTagMatchesSourceVersion(imageTag) {
-  const config = toml.parse(fs.readFileSync("aptos-node/Cargo.toml"));
+  const config = toml.parse(fs.readFileSync("cedra-node/Cargo.toml"));
   const configVersion = config.package.version;
   if (!doesTagMatchConfig(imageTag, configVersion)) {
     reportError(`image tag does not match cargo version: ${imageTag} !== ${configVersion}`, { throwOnFailure: true });
   }
 }
 
-const APTOS_RELEASE_REGEX = /aptos-node-v(\d+\.\d+\.\d+)/;
+const CEDRA_RELEASE_REGEX = /cedra-node-v(\d+\.\d+\.\d+)/;
 
 function doesTagMatchConfig(imageTag, configVersion) {
-  if (!APTOS_RELEASE_REGEX.test(imageTag)) {
+  if (!CEDRA_RELEASE_REGEX.test(imageTag)) {
     reportError(`image tag does not match cargo version: ${imageTag} !== ${configVersion}`, { throwOnFailure: true });
   }
-  const version = imageTag.match(APTOS_RELEASE_REGEX)[1];
+  const version = imageTag.match(CEDRA_RELEASE_REGEX)[1];
   return version === configVersion;
 }
 
@@ -182,5 +182,5 @@ function reportError(message, opts = { throwOnFailure: false }) {
 }
 
 export function isReleaseImage(imageTag) {
-  return APTOS_RELEASE_REGEX.test(imageTag);
+  return CEDRA_RELEASE_REGEX.test(imageTag);
 }

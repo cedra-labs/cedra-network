@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "aptos-protos"
+name = "cedra-protos"
 version = "1.1.2"
-description = "Code generated from protobuf definitions for the Aptos tech stack"
+description = "Code generated from protobuf definitions for the Cedra tech stack"
 authors = ["Cedra Labs <opensource@cedra.network>"]
 license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/cedra-labs/cedra"
-homepage = "https://github.com/cedra-labs/cedra/tree/main/protos/python"
+homepage = "https://github.com/cedra-labs/cedra-network/tree/main/protos/python"
 keywords = ["web3", "cedra", "blockchain", "indexer"]
-packages = [{include = "aptos_protos"}]
+packages = [{include = "cedra_protos"}]
 
 [tool.poe.tasks]
 generate = "./generate.sh"

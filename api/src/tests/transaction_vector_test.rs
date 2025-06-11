@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(clippy::arc_with_non_send_sync)]
@@ -16,13 +16,13 @@
  **************************************************************************************/
 
 use super::new_test_context;
-use aptos_api_test_context::current_function_name;
-use aptos_crypto::{
+use cedra_api_test_context::current_function_name;
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey},
     SigningKey, Uniform,
 };
-use aptos_proptest_helpers::ValueGenerator;
-use aptos_types::{
+use cedra_proptest_helpers::ValueGenerator;
+use cedra_types::{
     account_address::AccountAddress,
     chain_id::ChainId,
     transaction::{EntryFunction, RawTransaction, Script, SignedTransaction, TransactionArgument},

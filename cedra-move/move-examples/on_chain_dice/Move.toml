@@ -1,0 +1,9 @@
+[package]
+name = "OnChainDice"
+version = "0.0.0"
+
+[addresses]
+module_owner = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::types::FastShare;
@@ -11,11 +11,11 @@ use crate::{
     },
 };
 use anyhow::{bail, ensure};
-use aptos_consensus_types::common::Author;
-use aptos_enum_conversion_derive::EnumConversion;
-use aptos_network::{protocols::network::RpcError, ProtocolId};
-use aptos_reliable_broadcast::RBMessage;
-use aptos_types::epoch_state::EpochState;
+use cedra_consensus_types::common::Author;
+use cedra_enum_conversion_derive::EnumConversion;
+use cedra_network::{protocols::network::RpcError, ProtocolId};
+use cedra_reliable_broadcast::RBMessage;
+use cedra_types::epoch_state::EpochState;
 use bytes::Bytes;
 use futures_channel::oneshot;
 use serde::{Deserialize, Serialize};

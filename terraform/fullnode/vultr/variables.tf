@@ -19,7 +19,7 @@ variable "fullnode_helm_values_list" {
 variable "k8s_namespace" {
   description = "Kubernetes namespace that the fullnode will be deployed into"
   type        = string
-  default     = "aptos"
+  default     = "cedra"
 }
 
 variable "k8s_api_sources" {
@@ -47,13 +47,13 @@ variable "era" {
 }
 
 variable "chain_id" {
-  description = "Aptos chain ID"
+  description = "Cedra chain ID"
   type        = string
   default     = "DEVNET"
 }
 
 variable "chain_name" {
-  description = "Aptos chain name"
+  description = "Cedra chain name"
   type        = string
   default     = "devnet"
 }

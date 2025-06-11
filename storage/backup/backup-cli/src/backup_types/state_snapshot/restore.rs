@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -23,11 +23,11 @@ use crate::{
     },
 };
 use anyhow::{anyhow, ensure, Result};
-use aptos_db::state_restore::StateSnapshotRestoreMode;
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_storage_interface::StateSnapshotReceiver;
-use aptos_types::{
+use cedra_db::state_restore::StateSnapshotRestoreMode;
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_storage_interface::StateSnapshotReceiver;
+use cedra_types::{
     access_path::Path,
     ledger_info::LedgerInfoWithSignatures,
     on_chain_config::Features,
@@ -38,7 +38,7 @@ use aptos_types::{
     },
     transaction::Version,
 };
-use aptos_vm_environment::prod_configs::aptos_prod_verifier_config;
+use cedra_vm_environment::prod_configs::cedra_prod_verifier_config;
 use clap::Parser;
 use futures::{stream, TryStreamExt};
 use move_binary_format::CompiledModule;
@@ -236,7 +236,7 @@ impl StateSnapshotRestoreController {
         // TODO: Instead of using default features, fetch them from the the state.
         let features = Features::default();
 
-        let config = aptos_prod_verifier_config(&features);
+        let config = cedra_prod_verifier_config(&features);
         for (key, value) in blob {
             if let StateKeyInner::AccessPath(p) = key.inner() {
                 if let Path::Code(module_id) = p.get_path() {

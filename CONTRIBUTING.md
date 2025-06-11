@@ -10,7 +10,7 @@ Our goal is to make contributing to Cedra Core easy and transparent. See [Cedra 
 ## Cedra Core
 
 To contribute to the Cedra Core implementation, first start with the proper development copy.
-You may want to use the GitHub interface to fork [cedra-core](https://github.com/cedra-labs/cedra-network.git) and check out your fork.
+You may want to use the GitHub interface to fork [cedra-core](https://github.com/cedra-labs/cedra.git) and check out your fork.
 For development environment setup and first build, see [Building Cedra From Source](https://cedra.dev/guides/building-from-source)
 
 ## Our Development Process
@@ -106,4 +106,4 @@ It is important that the project history is bisect-able so that when regressions
 
 ## Issues
 
-Cedra Core uses [GitHub issues](https://github.com/cedra-labs/cedra/issues) to track bugs. Please include necessary information and instructions to reproduce your issue.
+Cedra Core uses [GitHub issues](https://github.com/cedra-labs/cedra-network/issues) to track bugs. Please include necessary information and instructions to reproduce your issue.

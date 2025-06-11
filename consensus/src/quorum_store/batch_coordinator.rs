@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -14,10 +14,10 @@ use crate::{
     },
 };
 use anyhow::ensure;
-use aptos_consensus_types::payload::TDataInfo;
-use aptos_logger::prelude::*;
-use aptos_short_hex_str::AsShortHexStr;
-use aptos_types::PeerId;
+use cedra_consensus_types::payload::TDataInfo;
+use cedra_logger::prelude::*;
+use cedra_short_hex_str::AsShortHexStr;
+use cedra_types::PeerId;
 use std::sync::Arc;
 use tokio::sync::{
     mpsc::{Receiver, Sender},

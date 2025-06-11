@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_bitvec::BitVec;
-use aptos_crypto::bls12381;
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher};
+use cedra_bitvec::BitVec;
+use cedra_crypto::bls12381;
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 use move_core_types::account_address::AccountAddress;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;

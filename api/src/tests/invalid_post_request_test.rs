@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
-use aptos_api_test_context::current_function_name;
+use cedra_api_test_context::current_function_name;
 use serde_json::{json, Value};
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
@@ -132,7 +132,7 @@ fn signing_message_request() -> Value {
         "expiration_timestamp_secs": "9991638487317",
         "payload": {
             "type": "entry_function_payload",
-            "function": "0x1::aptos_account::create_account",
+            "function": "0x1::cedra_account::create_account",
             "type_arguments": [
             ],
             "arguments": [

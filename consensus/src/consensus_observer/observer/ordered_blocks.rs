@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::{
@@ -9,10 +9,10 @@ use crate::consensus_observer::{
     network::observer_message::{CommitDecision, OrderedBlock},
     observer::execution_pool::ObservedOrderedBlock,
 };
-use aptos_config::config::ConsensusObserverConfig;
-use aptos_consensus_types::{common::Round, pipelined_block::PipelinedBlock};
-use aptos_logger::{debug, warn};
-use aptos_types::ledger_info::LedgerInfoWithSignatures;
+use cedra_config::config::ConsensusObserverConfig;
+use cedra_consensus_types::{common::Round, pipelined_block::PipelinedBlock};
+use cedra_logger::{debug, warn};
+use cedra_types::ledger_info::LedgerInfoWithSignatures;
 use std::{collections::BTreeMap, sync::Arc};
 
 /// A simple struct to store ordered blocks
@@ -218,14 +218,14 @@ impl OrderedBlockStore {
 #[cfg(test)]
 mod test {
     use super::*;
-    use aptos_consensus_types::{
+    use cedra_consensus_types::{
         block::Block,
         block_data::{BlockData, BlockType},
         pipelined_block::{OrderedBlockWindow, PipelinedBlock},
         quorum_cert::QuorumCert,
     };
-    use aptos_crypto::HashValue;
-    use aptos_types::{
+    use cedra_crypto::HashValue;
+    use cedra_types::{
         aggregate_signature::AggregateSignature, block_info::BlockInfo, ledger_info::LedgerInfo,
         transaction::Version,
     };
@@ -710,7 +710,7 @@ mod test {
             // Create a new block info
             let block_info = BlockInfo::new(
                 epoch,
-                i as aptos_types::block_info::Round,
+                i as cedra_types::block_info::Round,
                 HashValue::random(),
                 HashValue::random(),
                 i as Version,

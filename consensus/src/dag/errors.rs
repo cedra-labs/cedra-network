@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_bitvec::BitVec;
-use aptos_consensus_types::common::Round;
+use cedra_bitvec::BitVec;
+use cedra_consensus_types::common::Round;
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 use thiserror::Error as ThisError;

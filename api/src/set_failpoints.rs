@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::context::Context;
 #[allow(unused_imports)]
 use anyhow::{format_err, Result};
 #[cfg(feature = "failpoints")]
-use aptos_logger::prelude::*;
+use cedra_logger::prelude::*;
 use poem::{
     handler,
     web::{Data, Query},

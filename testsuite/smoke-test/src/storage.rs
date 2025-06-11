@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,11 +12,11 @@ use crate::{
     workspace_builder::workspace_root,
 };
 use anyhow::{bail, Result};
-use aptos_backup_cli::metadata::view::BackupStorageState;
-use aptos_forge::{reconfig, AptosPublicInfo, Node, NodeExt, Swarm, SwarmExt};
-use aptos_logger::info;
-use aptos_temppath::TempPath;
-use aptos_types::{transaction::Version, waypoint::Waypoint};
+use cedra_backup_cli::metadata::view::BackupStorageState;
+use cedra_forge::{reconfig, CedraPublicInfo, Node, NodeExt, Swarm, SwarmExt};
+use cedra_logger::info;
+use cedra_temppath::TempPath;
+use cedra_types::{transaction::Version, waypoint::Waypoint};
 use itertools::Itertools;
 use std::{
     fs,
@@ -34,12 +34,12 @@ const LINE: &str = "----------";
 #[tokio::test]
 async fn test_db_restore() {
     // pre-build tools
-    ::aptos_logger::Logger::new().init();
+    ::cedra_logger::Logger::new().init();
     info!("---------- 0. test_db_restore started.");
-    workspace_builder::get_bin("aptos-debugger");
+    workspace_builder::get_bin("cedra-debugger");
     info!("---------- 1. pre-building finished.");
 
-    let mut swarm = SwarmBuilder::new_local(4).with_aptos().build().await;
+    let mut swarm = SwarmBuilder::new_local(4).with_cedra().build().await;
     info!("---------- 1.1 swarm built, sending some transactions.");
     let validator_peer_ids = swarm.validators().map(|v| v.peer_id()).collect::<Vec<_>>();
     let client_1 = swarm
@@ -186,15 +186,15 @@ async fn test_db_restore() {
 }
 
 fn db_backup_verify(backup_path: &Path, trusted_waypoints: &[Waypoint]) {
-    info!("---------- running aptos-debugger aptos-db backup-verify");
+    info!("---------- running cedra-debugger cedra-db backup-verify");
     let now = Instant::now();
-    let bin_path = workspace_builder::get_bin("aptos-debugger");
+    let bin_path = workspace_builder::get_bin("cedra-debugger");
     let metadata_cache_path = TempPath::new();
 
     metadata_cache_path.create_as_dir().unwrap();
 
     let mut cmd = Command::new(bin_path.as_path());
-    cmd.args(["aptos-db", "backup", "verify"]);
+    cmd.args(["cedra-db", "backup", "verify"]);
     trusted_waypoints.iter().for_each(|w| {
         cmd.arg("--trust-waypoint");
         cmd.arg(&w.to_string());
@@ -219,14 +219,14 @@ fn db_backup_verify(backup_path: &Path, trusted_waypoints: &[Waypoint]) {
 fn replay_verify(backup_path: &Path, trusted_waypoints: &[Waypoint]) {
     info!("---------- running replay-verify");
     let now = Instant::now();
-    let bin_path = workspace_builder::get_bin("aptos-debugger");
+    let bin_path = workspace_builder::get_bin("cedra-debugger");
     let metadata_cache_path = TempPath::new();
     let target_db_dir = TempPath::new();
 
     metadata_cache_path.create_as_dir().unwrap();
 
     let mut cmd = Command::new(bin_path.as_path());
-    cmd.args(["aptos-db", "replay-verify"]);
+    cmd.args(["cedra-db", "replay-verify"]);
     trusted_waypoints.iter().for_each(|w| {
         cmd.arg("--trust-waypoint");
         cmd.arg(&w.to_string());
@@ -309,7 +309,7 @@ fn get_backup_storage_state(
     let output = Command::new(bin_path)
         .current_dir(workspace_root())
         .args([
-            "aptos-db",
+            "cedra-db",
             "backup",
             "query",
             "backup-storage-state",
@@ -333,9 +333,9 @@ pub(crate) fn db_backup(
     state_snapshot_interval_epochs: usize,
     trusted_waypoints: &[Waypoint],
 ) -> (TempPath, Version) {
-    info!("---------- running aptos db tool backup");
+    info!("---------- running cedra db tool backup");
     let now = Instant::now();
-    let bin_path = workspace_builder::get_bin("aptos-debugger");
+    let bin_path = workspace_builder::get_bin("cedra-debugger");
     let metadata_cache_path1 = TempPath::new();
     let metadata_cache_path2 = TempPath::new();
     let backup_path = TempPath::new();
@@ -352,7 +352,7 @@ pub(crate) fn db_backup(
     let mut backup_coordinator = Command::new(bin_path.as_path())
         .current_dir(workspace_root())
         .args([
-            "aptos-db",
+            "cedra-db",
             "backup",
             "continuously",
             "--backup-service-address",
@@ -386,7 +386,7 @@ pub(crate) fn db_backup(
     let compaction = Command::new(bin_path.as_path())
         .current_dir(workspace_root())
         .args([
-            "aptos-db",
+            "cedra-db",
             "backup-maintenance",
             "compact",
             "--epoch-ending-file-compact-factor",
@@ -423,13 +423,13 @@ pub(crate) fn db_restore(
     target_verion: Option<Version>, /* target version should be same as epoch ending version to start a node */
 ) {
     let now = Instant::now();
-    let bin_path = workspace_builder::get_bin("aptos-debugger");
+    let bin_path = workspace_builder::get_bin("cedra-debugger");
     let metadata_cache_path = TempPath::new();
 
     metadata_cache_path.create_as_dir().unwrap();
 
     let mut cmd = Command::new(bin_path.as_path());
-    cmd.args(["aptos-db", "restore", "bootstrap-db"]);
+    cmd.args(["cedra-db", "restore", "bootstrap-db"]);
     trusted_waypoints.iter().for_each(|w| {
         cmd.arg("--trust-waypoint");
         cmd.arg(&w.to_string());
@@ -462,7 +462,7 @@ pub(crate) fn db_restore(
     info!("Backup restored in {} seconds.", now.elapsed().as_secs());
 }
 
-async fn do_transfer_or_reconfig(info: &mut AptosPublicInfo) -> Result<()> {
+async fn do_transfer_or_reconfig(info: &mut CedraPublicInfo) -> Result<()> {
     const LOTS_MONEY: u64 = 100_000_000;
     let r = rand::random::<u64>() % 10;
     if r < 3 {
@@ -489,7 +489,7 @@ async fn do_transfer_or_reconfig(info: &mut AptosPublicInfo) -> Result<()> {
     Ok(())
 }
 
-async fn do_transfers_and_reconfigs(mut info: AptosPublicInfo, quit_flag: Arc<AtomicBool>) {
+async fn do_transfers_and_reconfigs(mut info: CedraPublicInfo, quit_flag: Arc<AtomicBool>) {
     // loop until aborted
     while !quit_flag.load(Ordering::Acquire) {
         do_transfer_or_reconfig(&mut info).await.unwrap();
@@ -498,10 +498,10 @@ async fn do_transfers_and_reconfigs(mut info: AptosPublicInfo, quit_flag: Arc<At
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 10)]
 async fn test_db_restart() {
-    ::aptos_logger::Logger::new().init();
+    ::cedra_logger::Logger::new().init();
 
     info!("{LINE} Test started.");
-    let mut swarm = SwarmBuilder::new_local(4).with_aptos().build().await;
+    let mut swarm = SwarmBuilder::new_local(4).with_cedra().build().await;
     swarm.wait_all_alive(Duration::from_secs(60)).await.unwrap();
     swarm
         .wait_for_all_nodes_to_catchup(Duration::from_secs(MAX_CATCH_UP_WAIT_SECS))
@@ -513,7 +513,7 @@ async fn test_db_restart() {
     let non_restarting_validator_id = restarting_validator_ids.pop().unwrap();
     let non_restarting_validator = swarm.validator(non_restarting_validator_id).unwrap();
     let chain_info = swarm.chain_info();
-    let mut pub_chain_info = AptosPublicInfo::new(
+    let mut pub_chain_info = CedraPublicInfo::new(
         chain_info.chain_id(),
         non_restarting_validator
             .inspection_service_endpoint()

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -25,15 +25,15 @@ use crate::{
     },
 };
 use anyhow::format_err;
-use aptos_config::config::StateSyncDriverConfig;
-use aptos_data_streaming_service::data_notification::NotificationId;
-use aptos_event_notifications::EventSubscriptionService;
-use aptos_executor_types::ChunkCommitNotification;
-use aptos_infallible::{Mutex, RwLock};
-use aptos_mempool_notifications::MempoolNotificationListener;
-use aptos_storage_interface::{AptosDbError, DbReaderWriter};
-use aptos_storage_service_notifications::StorageServiceNotificationListener;
-use aptos_types::{
+use cedra_config::config::StateSyncDriverConfig;
+use cedra_data_streaming_service::data_notification::NotificationId;
+use cedra_event_notifications::EventSubscriptionService;
+use cedra_executor_types::ChunkCommitNotification;
+use cedra_infallible::{Mutex, RwLock};
+use cedra_mempool_notifications::MempoolNotificationListener;
+use cedra_storage_interface::{CedraDbError, DbReaderWriter};
+use cedra_storage_service_notifications::StorageServiceNotificationListener;
+use cedra_types::{
     ledger_info::LedgerInfoWithSignatures,
     transaction::{TransactionOutputListWithProof, Version},
 };
@@ -656,7 +656,7 @@ async fn test_initialize_state_synchronizer_receiver_error() {
     db_writer
         .expect_get_state_snapshot_receiver()
         .returning(|_, _| {
-            Err(AptosDbError::Other(
+            Err(CedraDbError::Other(
                 "Failed to get snapshot receiver!".to_string(),
             ))
         });
@@ -824,7 +824,7 @@ async fn test_save_states_invalid_chunk() {
     snapshot_receiver
         .expect_add_chunk()
         .with(always(), always())
-        .returning(|_, _| Err(AptosDbError::Other("Invalid chunk!".to_string())));
+        .returning(|_, _| Err(CedraDbError::Other("Invalid chunk!".to_string())));
 
     // Setup the mock db writer
     let mut db_writer = create_mock_db_writer();
@@ -887,7 +887,7 @@ fn create_storage_synchronizer(
     StorageSynchronizer<MockChunkExecutor, PersistentMetadataStorage>,
     StorageSynchronizerHandles,
 ) {
-    aptos_logger::Logger::init_for_testing();
+    cedra_logger::Logger::init_for_testing();
 
     // Create the notification channels
     let (commit_notification_sender, commit_notification_listener) =
@@ -901,17 +901,17 @@ fn create_storage_synchronizer(
 
     // Create the mempool notification handler
     let (mempool_notification_sender, mempool_notification_listener) =
-        aptos_mempool_notifications::new_mempool_notifier_listener_pair(100);
+        cedra_mempool_notifications::new_mempool_notifier_listener_pair(100);
     let mempool_notification_handler = MempoolNotificationHandler::new(mempool_notification_sender);
 
     // Create the storage service handler
     let (storage_service_notifier, storage_service_listener) =
-        aptos_storage_service_notifications::new_storage_service_notifier_listener_pair();
+        cedra_storage_service_notifications::new_storage_service_notifier_listener_pair();
     let storage_service_notification_handler =
         StorageServiceNotificationHandler::new(storage_service_notifier);
 
     // Create the metadata storage
-    let db_path = aptos_temppath::TempPath::new();
+    let db_path = cedra_temppath::TempPath::new();
     let metadata_storage = PersistentMetadataStorage::new(db_path.path());
 
     // Create the storage synchronizer

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -9,10 +9,10 @@ use crate::{
     },
     tests::utils::create_ledger_info,
 };
-use aptos_config::config::{DataStreamingServiceConfig, DynamicPrefetchingConfig};
-use aptos_data_client::global_summary::GlobalDataSummary;
-use aptos_id_generator::U64IdGenerator;
-use aptos_storage_service_types::responses::CompleteDataRange;
+use cedra_config::config::{DataStreamingServiceConfig, DynamicPrefetchingConfig};
+use cedra_data_client::global_summary::GlobalDataSummary;
+use cedra_id_generator::U64IdGenerator;
+use cedra_storage_service_types::responses::CompleteDataRange;
 use std::sync::Arc;
 
 #[test]

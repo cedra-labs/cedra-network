@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -8,7 +8,7 @@ use crate::config::{
     node_config_loader::NodeType, transaction_filter_type::Filter, utils::RootPath, Error,
     NodeConfig,
 };
-use aptos_types::{chain_id::ChainId, transaction::Transaction, waypoint::Waypoint};
+use cedra_types::{chain_id::ChainId, transaction::Transaction, waypoint::Waypoint};
 use serde::{Deserialize, Serialize};
 use serde_yaml::Value;
 use std::{
@@ -234,8 +234,8 @@ impl ConfigOptimizer for ExecutionConfig {
 #[cfg(test)]
 mod test {
     use super::*;
-    use aptos_temppath::TempPath;
-    use aptos_types::{
+    use cedra_temppath::TempPath;
+    use cedra_types::{
         transaction::{ChangeSet, Transaction, WriteSetPayload},
         write_set::WriteSetMut,
     };

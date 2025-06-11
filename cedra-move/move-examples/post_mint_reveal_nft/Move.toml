@@ -1,0 +1,11 @@
+[package]
+name = "PostMint"
+version = "0.0.0"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+CedraToken = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-token", rev = "mainnet" }
+
+[addresses]
+cedra_framework = "0x1"
+post_mint_reveal_nft = "_"

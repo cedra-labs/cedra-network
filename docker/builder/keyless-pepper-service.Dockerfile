@@ -1,6 +1,6 @@
 FROM debian-base AS keyless-pepper-service
 
-COPY --link --from=tools-builder /aptos/dist/aptos-keyless-pepper-service /usr/local/bin/aptos-keyless-pepper-service
+COPY --link --from=tools-builder /cedra/dist/cedra-keyless-pepper-service /usr/local/bin/cedra-keyless-pepper-service
 
 EXPOSE 8000
 ENV RUST_LOG_FORMAT=json
@@ -13,4 +13,4 @@ ENV GIT_BRANCH ${GIT_BRANCH}
 ARG GIT_SHA
 ENV GIT_SHA ${GIT_SHA}
 
-ENTRYPOINT [ "aptos-keyless-pepper-service" ]
+ENTRYPOINT [ "cedra-keyless-pepper-service" ]

@@ -116,7 +116,7 @@
           "function": {
             "module": {
               "address": "0x1",
-              "name": "aptos_account"
+              "name": "cedra_account"
             },
             "name": "transfer_coins"
           },
@@ -134,7 +134,7 @@
             "\"0x49ffe7968750a5ffea80af6fd7657bb246ff8ce6657cbf2c8ed13d9276096b3f\"",
             "\"1\""
           ],
-          "entryFunctionIdStr": "0x1::aptos_account::transfer_coins"
+          "entryFunctionIdStr": "0x1::cedra_account::transfer_coins"
         }
       },
       "signature": {

@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 use anyhow::Result;
-use aptos_backup_cli::{
+use cedra_backup_cli::{
     coordinators::backup::BackupCompactor, metadata::cache::MetadataCacheOpt,
     storage::DBToolStorageOpt, utils::ConcurrentDownloadsOpt,
 };

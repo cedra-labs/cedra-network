@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,7 +6,7 @@ use crate::{
     network_interface::ConsensusMsg,
     quorum_store::types::{Batch, BatchRequest, BatchResponse},
 };
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     common::Author,
     proof_of_store::{ProofOfStore, ProofOfStoreMsg, SignedBatchInfo, SignedBatchInfoMsg},
 };

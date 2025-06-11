@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 ###########################################
@@ -43,7 +43,7 @@ if [[ "$SKIP_CHECKS" != "true" ]]; then
   fi
 
   # Check that the release doesn't already exist
-  if curl -s --stderr /dev/null --output /dev/null --head -f "https://github.com/cedra-labs/cedra/releases/download/aptos-cli-v$EXPECTED_VERSION/aptos-cli-$EXPECTED_VERSION-Ubuntu-22.04-x86_64.zip"; then
+  if curl -s --stderr /dev/null --output /dev/null --head -f "https://github.com/cedra-labs/cedra-network/releases/download/cedra-cli-v$EXPECTED_VERSION/cedra-cli-$EXPECTED_VERSION-Ubuntu-22.04-x86_64.zip"; then
     echo "$EXPECTED_VERSION already released"
     exit 3
   fi

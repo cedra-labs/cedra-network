@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -8,9 +8,9 @@ use crate::{
     test_helper::{gen_value, plus_one},
     JellyfishMerkleTree,
 };
-use aptos_crypto::HashValue;
-use aptos_storage_interface::Result;
-use aptos_types::transaction::Version;
+use cedra_crypto::HashValue;
+use cedra_storage_interface::Result;
+use cedra_types::transaction::Version;
 use rand::{rngs::StdRng, SeedableRng};
 use std::{collections::BTreeMap, sync::Arc};
 
