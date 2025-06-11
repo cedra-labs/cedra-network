@@ -422,7 +422,7 @@ fn recompute_merge_base_metadata(
         .arg("clone")
         .arg("--depth")
         .arg("500") // Clone the last 500 commits to ensure the merge base is included
-        .arg("https://github.com/cedra-labs/cedra.git")
+        .arg("https://github.com/cedra-labs/cedra-network.git")
         .arg(clone_directory.clone())
         .output()
         .expect("failed to execute git clone");

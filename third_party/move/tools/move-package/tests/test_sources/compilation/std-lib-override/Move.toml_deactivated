@@ -9,7 +9,7 @@ A = "0x42"
 [dev-addresses]
 
 [dependencies.CedraFramework]
-git = "https://github.com/cedra-labs/cedra.git"
+git = "https://github.com/cedra-labs/cedra-network.git"
 rev = "devnet"
 subdir = "cedra-move/framework/cedra-framework"
 

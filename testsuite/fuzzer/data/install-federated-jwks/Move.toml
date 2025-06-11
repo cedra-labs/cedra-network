@@ -9,7 +9,7 @@ named_addr = "0xFED"
 [dev-addresses]
 
 [dependencies.CedraFramework]
-git = "https://github.com/cedra-labs/cedra.git"
+git = "https://github.com/cedra-labs/cedra-network.git"
 rev = "mainnet"
 subdir = "cedra-move/framework/cedra-framework"
 

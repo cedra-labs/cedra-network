@@ -20,7 +20,7 @@ These instructions assume that you have a functioning GCP project.  If you do no
 
 2. Clone the cedra-core repo and go to the terraform gcp folder.
 
-         $ git clone https://github.com/cedra-labs/cedra.git
+         $ git clone https://github.com/cedra-labs/cedra-network.git
 
          $ cd cedra-core/terraform/fullnode/gcp
 

@@ -1,5 +1,5 @@
-moveUrl = "https://github.com/move-language/move-on-cedra.git"
-cedraUrl = "https://github.com/cedra-labs/cedra.git"
+moveUrl = "https://github.com/move-language/move-on-cedra-network.git"
+cedraUrl = "https://github.com/cedra-labs/cedra-network.git"
 
 # Workflow to pull from Move to Cedra. This creates a draft PR at the fixed branch `from_move`
 # which should be further massaged before sending out.

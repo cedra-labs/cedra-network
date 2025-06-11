@@ -2,7 +2,7 @@
 
 [![cedra-sdk on crates.io](https://img.shields.io/crates/v/cedra-sdk)](https://crates.io/crates/cedra-sdk)
 [![Documentation (latest release)](https://docs.rs/cedra-sdk/badge.svg)](https://docs.rs/cedra-sdk/)
-[![Documentation (master)](https://img.shields.io/badge/docs-master-59f)](https://cedra.github.io/cedra/cedra_sdk/)
+[![Documentation (master)](https://img.shields.io/badge/docs-master-59f)](https://cedra-network.github.io/cedra/cedra_sdk/)
 [![License](https://img.shields.io/badge/license-Apache-green.svg)](https://github.com/cedra-labs/cedra-network/blob/main/LICENSE)
 
 The official Rust SDK for Cedra.

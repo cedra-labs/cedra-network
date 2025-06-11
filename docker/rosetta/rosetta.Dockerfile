@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y cmake curl clang git pkg-config libssl-
 ### Build Rust code ###
 FROM rust-base as builder
 
-ARG GIT_REPO=https://github.com/cedra-labs/cedra.git
+ARG GIT_REPO=https://github.com/cedra-labs/cedra-network.git
 ARG GIT_REF
 
 RUN git clone $GIT_REPO ./ && git reset $GIT_REF --hard

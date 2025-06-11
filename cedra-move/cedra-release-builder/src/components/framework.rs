@@ -30,7 +30,7 @@ pub fn generate_upgrade_proposals(
         "only multi-step proposals can have a next execution hash"
     );
 
-    const CEDRA_GIT_PATH: &str = "https://github.com/cedra-labs/cedra.git";
+    const CEDRA_GIT_PATH: &str = "https://github.com/cedra-labs/cedra-network.git";
 
     // NOTE: This is skipping 0x7 (cedra-experimental package) which is only meant to be released
     // to devnet (or local testnet) via the genesis process and never released/upgraded in testnet

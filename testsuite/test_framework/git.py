@@ -40,7 +40,7 @@ class Git:
 
     def branch_matches_remote(self, remote: str, ref: str) -> bool:
         """Check if the current branch matches the remote branch"""
-        # git ls-remote --heads  https://github.com/cedra-labs/cedra.git rustielin/exp
+        # git ls-remote --heads  https://github.com/cedra-labs/cedra-network.git rustielin/exp
         remote_commit_hash = self.resolve_remote_ref(remote, ref)
         if remote_commit_hash is None:
             return False

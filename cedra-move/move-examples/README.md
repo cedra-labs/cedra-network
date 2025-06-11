@@ -1,7 +1,7 @@
 # README
 
 To play with these examples:
-1. Clone this repo by running `git clone https://github.com/cedra-labs/cedra.git`
+1. Clone this repo by running `git clone https://github.com/cedra-labs/cedra-network.git`
 2. Open a new terminal and navigate to this folder by running `cd cedra-move/move-examples`
 3. Navigate into the specific tutorial you are interested (ex. `cd hello_blockchain`)
 4. You can use the Cedra CLI to compile, test, publish, and run these contracts by using the commands outlined here: https://cedra.dev/move/move-on-cedra/cli/
