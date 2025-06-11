@@ -180,8 +180,8 @@ fn test_basic_fungible_token() {
 #[test]
 fn test_coin_to_fungible_asset_migration() {
     let mut h = MoveHarness::new_with_features(vec![], vec![
-        FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE,
-        FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE,
+        FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE,
+        FeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE,
         FeatureFlag::DEFAULT_TO_CONCURRENT_FUNGIBLE_BALANCE,
         FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_STORE,
     ]);
@@ -250,8 +250,8 @@ fn test_prologue_speculation() {
     let mut harness = MoveHarness::new_with_executor(executor);
     harness.enable_features(
         vec![
-            FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE,
-            FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE,
+            FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE,
+            FeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE,
             FeatureFlag::DEFAULT_TO_CONCURRENT_FUNGIBLE_BALANCE,
         ],
         vec![],

@@ -198,7 +198,7 @@
           "handle": "0xfe4bf4bb39ba78b9b87a4bd5d0b2116fa33dece102ec39992c55fd1941b338db",
           "key": "0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d0c417074657220436f75706f6e174150617373203541505420436f75706f6e2023323034320000000000000000",
           "data": {
-            "key": "{\"property_version\":\"0\",\"token_data_id\":{\"collection\":\"Apter Coupon\",\"creator\":\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\",\"name\":\"APass 5APT Coupon #2042\"}}",
+            "key": "{\"property_version\":\"0\",\"token_data_id\":{\"collection\":\"Apter Coupon\",\"creator\":\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\",\"name\":\"APass 5Cedra Coupon #2042\"}}",
             "keyType": "0x3::token::TokenId"
           }
         }
@@ -344,7 +344,7 @@
             "\"1\"",
             "\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\"",
             "\"Apter Coupon\"",
-            "\"APass 5APT Coupon #2042\"",
+            "\"APass 5Cedra Coupon #2042\"",
             "\"0\""
           ],
           "entryFunctionIdStr": "0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb::APDomain::register_with_discount"
@@ -373,7 +373,7 @@
           }
         },
         "typeStr": "0x3::token::WithdrawEvent",
-        "data": "{\"amount\":\"1\",\"id\":{\"property_version\":\"0\",\"token_data_id\":{\"collection\":\"Apter Coupon\",\"creator\":\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\",\"name\":\"APass 5APT Coupon #2042\"}}}"
+        "data": "{\"amount\":\"1\",\"id\":{\"property_version\":\"0\",\"token_data_id\":{\"collection\":\"Apter Coupon\",\"creator\":\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\",\"name\":\"APass 5Cedra Coupon #2042\"}}}"
       },
       {
         "key": {
@@ -389,7 +389,7 @@
           }
         },
         "typeStr": "0x3::token::BurnTokenEvent",
-        "data": "{\"amount\":\"1\",\"id\":{\"property_version\":\"0\",\"token_data_id\":{\"collection\":\"Apter Coupon\",\"creator\":\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\",\"name\":\"APass 5APT Coupon #2042\"}}}"
+        "data": "{\"amount\":\"1\",\"id\":{\"property_version\":\"0\",\"token_data_id\":{\"collection\":\"Apter Coupon\",\"creator\":\"0x42c289240fd449c03479f18abe739999e6aa5b6ceed0819026f6b597ca0d0d0d\",\"name\":\"APass 5Cedra Coupon #2042\"}}}"
       },
       {
         "key": {

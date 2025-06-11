@@ -78,8 +78,8 @@ pub enum TransactionTypeArg {
     SmartTablePicture1MWith1KChangeExceedsLimit,
     DeserializeU256,
     SimpleScript,
-    APTTransferWithPermissionedSigner,
-    APTTransferWithMasterSigner,
+    CedraTransferWithPermissionedSigner,
+    CedraTransferWithMasterSigner,
     /// Basic market where sell and buy prices are in distinct ranges,
     /// and there are no matches.
     OrderBookNoMatches,
@@ -366,11 +366,11 @@ impl TransactionTypeArg {
             },
             TransactionTypeArg::DeserializeU256 => call_custom_module(EntryPoints::DeserializeU256),
             TransactionTypeArg::SimpleScript => call_custom_module(EntryPoints::SimpleScript),
-            TransactionTypeArg::APTTransferWithPermissionedSigner => {
-                call_custom_module(EntryPoints::APTTransferWithPermissionedSigner)
+            TransactionTypeArg::CedraTransferWithPermissionedSigner => {
+                call_custom_module(EntryPoints::CedraTransferWithPermissionedSigner)
             },
-            TransactionTypeArg::APTTransferWithMasterSigner => {
-                call_custom_module(EntryPoints::APTTransferWithMasterSigner)
+            TransactionTypeArg::CedraTransferWithMasterSigner => {
+                call_custom_module(EntryPoints::CedraTransferWithMasterSigner)
             },
             TransactionTypeArg::OrderBookNoMatches => call_custom_module(EntryPoints::OrderBook {
                 state: OrderBookState::new(),

@@ -83,7 +83,7 @@ module cedra_framework::fungible_asset {
     /// Fungible metadata does not exist on this account.
     const EFUNGIBLE_METADATA_EXISTENCE: u64 = 30;
     /// Cannot register dispatch hook for Cedra.
-    const EAPT_NOT_DISPATCHABLE: u64 = 31;
+    const ECEDRA_NOT_DISPATCHABLE: u64 = 31;
     /// Flag for Concurrent Supply not enabled
     const ECONCURRENT_BALANCE_NOT_ENABLED: u64 = 32;
     /// Provided derived_supply function type doesn't meet the signature requirement.
@@ -455,7 +455,7 @@ module cedra_framework::fungible_asset {
         // Cannot register hook for Cedra.
         assert!(
             object::address_from_constructor_ref(constructor_ref) != @cedra_fungible_asset,
-            error::permission_denied(EAPT_NOT_DISPATCHABLE)
+            error::permission_denied(ECEDRA_NOT_DISPATCHABLE)
         );
         assert!(
             !object::can_generate_delete_ref(constructor_ref),

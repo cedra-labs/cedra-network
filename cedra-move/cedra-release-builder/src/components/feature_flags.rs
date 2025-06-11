@@ -112,7 +112,7 @@ pub enum FeatureFlag {
     RejectUnstableBytecode,
     TransactionContextExtension,
     CoinToFungibleAssetMigration,
-    PrimaryAPTFungibleStoreAtUserAddress,
+    PrimaryCedraFungibleStoreAtUserAddress,
     ObjectNativeDerivedAddress,
     DispatchableFungibleAsset,
     NewAccountsDefaultToFaAptStore,
@@ -322,18 +322,18 @@ impl From<FeatureFlag> for CedraFeatureFlag {
             FeatureFlag::CoinToFungibleAssetMigration => {
                 CedraFeatureFlag::COIN_TO_FUNGIBLE_ASSET_MIGRATION
             },
-            FeatureFlag::PrimaryAPTFungibleStoreAtUserAddress => {
-                CedraFeatureFlag::PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS
+            FeatureFlag::PrimaryCedraFungibleStoreAtUserAddress => {
+                CedraFeatureFlag::PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS
             },
             FeatureFlag::ObjectNativeDerivedAddress => {
                 CedraFeatureFlag::OBJECT_NATIVE_DERIVED_ADDRESS
             },
             FeatureFlag::DispatchableFungibleAsset => CedraFeatureFlag::DISPATCHABLE_FUNGIBLE_ASSET,
             FeatureFlag::NewAccountsDefaultToFaAptStore => {
-                CedraFeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE
+                CedraFeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE
             },
             FeatureFlag::OperationsDefaultToFaAptStore => {
-                CedraFeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE
+                CedraFeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE
             },
             FeatureFlag::AggregatorV2IsAtLeastApi => {
                 CedraFeatureFlag::AGGREGATOR_V2_IS_AT_LEAST_API
@@ -490,17 +490,17 @@ impl From<CedraFeatureFlag> for FeatureFlag {
             CedraFeatureFlag::COIN_TO_FUNGIBLE_ASSET_MIGRATION => {
                 FeatureFlag::CoinToFungibleAssetMigration
             },
-            CedraFeatureFlag::PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS => {
-                FeatureFlag::PrimaryAPTFungibleStoreAtUserAddress
+            CedraFeatureFlag::PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS => {
+                FeatureFlag::PrimaryCedraFungibleStoreAtUserAddress
             },
             CedraFeatureFlag::OBJECT_NATIVE_DERIVED_ADDRESS => {
                 FeatureFlag::ObjectNativeDerivedAddress
             },
             CedraFeatureFlag::DISPATCHABLE_FUNGIBLE_ASSET => FeatureFlag::DispatchableFungibleAsset,
-            CedraFeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE => {
+            CedraFeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE => {
                 FeatureFlag::NewAccountsDefaultToFaAptStore
             },
-            CedraFeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE => {
+            CedraFeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE => {
                 FeatureFlag::OperationsDefaultToFaAptStore
             },
             CedraFeatureFlag::AGGREGATOR_V2_IS_AT_LEAST_API => {

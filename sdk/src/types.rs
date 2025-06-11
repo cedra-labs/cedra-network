@@ -50,7 +50,7 @@ use std::{
 
 pub const CEDRA_COIN_TYPE_STR: &str = "0x1::cedra_coin::CedraCoin";
 lazy_static! {
-    pub static ref APT_METADATA_ADDRESS: AccountAddress = {
+    pub static ref CEDRA_METADATA_ADDRESS: AccountAddress = {
         let mut addr = [0u8; 32];
         addr[31] = 10u8;
         AccountAddress::new(addr)
@@ -134,7 +134,7 @@ pub struct LocalAccount {
 }
 
 pub fn get_apt_primary_store_address(address: AccountAddress) -> AccountAddress {
-    get_paired_fa_primary_store_address(address, *APT_METADATA_ADDRESS)
+    get_paired_fa_primary_store_address(address, *CEDRA_METADATA_ADDRESS)
 }
 
 pub fn get_paired_fa_primary_store_address(
@@ -150,9 +150,9 @@ pub fn get_paired_fa_primary_store_address(
 pub fn get_paired_fa_metadata_address(coin_type_name: &MoveStructTag) -> AccountAddress {
     let coin_type_name = coin_type_name.to_string();
     if coin_type_name == CEDRA_COIN_TYPE_STR {
-        *APT_METADATA_ADDRESS
+        *CEDRA_METADATA_ADDRESS
     } else {
-        let mut preimage = APT_METADATA_ADDRESS.to_vec();
+        let mut preimage = CEDRA_METADATA_ADDRESS.to_vec();
         preimage.extend(coin_type_name.as_bytes());
         preimage.push(0xFE);
         AccountAddress::from_bytes(HashValue::sha3_256_of(&preimage).to_vec()).unwrap()

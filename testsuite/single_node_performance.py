@@ -105,11 +105,11 @@ if os.environ.get("PROD_DB_FLAGS"):
 else:
     DB_CONFIG_FLAGS = "--enable-storage-sharding"
 
-if os.environ.get("DISABLE_FA_APT"):
+if os.environ.get("DISABLE_FA_Cedra"):
     FEATURE_FLAGS = ""
     FA_MIGRATION_COMPLETE = False
 else:
-    FEATURE_FLAGS = "--enable-feature NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE --enable-feature OPERATIONS_DEFAULT_TO_FA_APT_STORE"
+    FEATURE_FLAGS = "--enable-feature NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE --enable-feature OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE"
     FA_MIGRATION_COMPLETE = True
 
 if os.environ.get("ENABLE_PRUNER"):

@@ -772,12 +772,12 @@ Lifetime: transient
 
 
 
-<a id="0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE"></a>
+<a id="0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE"></a>
 
 Lifetime: transient
 
 
-<pre><code><b>const</b> <a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE</a>: u64 = 64;
+<pre><code><b>const</b> <a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a>: u64 = 64;
 </code></pre>
 
 
@@ -813,12 +813,12 @@ Whether we use more efficient native implementation of computing object derived 
 
 
 
-<a id="0x1_features_OPERATIONS_DEFAULT_TO_FA_APT_STORE"></a>
+<a id="0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE"></a>
 
 Lifetime: transient
 
 
-<pre><code><b>const</b> <a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_APT_STORE">OPERATIONS_DEFAULT_TO_FA_APT_STORE</a>: u64 = 65;
+<pre><code><b>const</b> <a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE">OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE</a>: u64 = 65;
 </code></pre>
 
 
@@ -876,11 +876,11 @@ Lifetime: transient
 
 
 
-<a id="0x1_features_PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS"></a>
+<a id="0x1_features_PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS"></a>
 
 
 
-<pre><code><b>const</b> <a href="features.md#0x1_features_PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS">PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS</a>: u64 = 61;
+<pre><code><b>const</b> <a href="features.md#0x1_features_PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS">PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS</a>: u64 = 61;
 </code></pre>
 
 
@@ -2975,7 +2975,7 @@ Deprecated feature
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_primary_apt_fungible_store_at_user_address_enabled">primary_apt_fungible_store_at_user_address_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
-    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS">PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS</a>)
+    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS">PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS</a>)
 }
 </code></pre>
 
@@ -3114,7 +3114,7 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_new_accounts_default_to_fa_apt_store_feature">get_new_accounts_default_to_fa_apt_store_feature</a>(): u64 { <a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE</a> }
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_new_accounts_default_to_fa_apt_store_feature">get_new_accounts_default_to_fa_apt_store_feature</a>(): u64 { <a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a> }
 </code></pre>
 
 
@@ -3137,7 +3137,7 @@ Deprecated feature
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_new_accounts_default_to_fa_apt_store_enabled">new_accounts_default_to_fa_apt_store_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
-    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE</a>)
+    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a>)
 }
 </code></pre>
 
@@ -3160,7 +3160,7 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_operations_default_to_fa_apt_store_feature">get_operations_default_to_fa_apt_store_feature</a>(): u64 { <a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_APT_STORE">OPERATIONS_DEFAULT_TO_FA_APT_STORE</a> }
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_operations_default_to_fa_apt_store_feature">get_operations_default_to_fa_apt_store_feature</a>(): u64 { <a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE">OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE</a> }
 </code></pre>
 
 
@@ -3183,7 +3183,7 @@ Deprecated feature
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_operations_default_to_fa_apt_store_enabled">operations_default_to_fa_apt_store_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
-    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_APT_STORE">OPERATIONS_DEFAULT_TO_FA_APT_STORE</a>)
+    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE">OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE</a>)
 }
 </code></pre>
 
@@ -4264,7 +4264,7 @@ Helper to check whether a feature flag is enabled.
 
 
 <pre><code><b>fun</b> <a href="features.md#0x1_features_spec_new_accounts_default_to_fa_apt_store_enabled">spec_new_accounts_default_to_fa_apt_store_enabled</a>(): bool {
-   <a href="features.md#0x1_features_spec_is_enabled">spec_is_enabled</a>(<a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE</a>)
+   <a href="features.md#0x1_features_spec_is_enabled">spec_is_enabled</a>(<a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a>)
 }
 </code></pre>
 

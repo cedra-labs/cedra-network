@@ -502,7 +502,7 @@ impl FakeExecutor {
         seq_num: u64,
     ) -> AccountData {
         let features = Features::fetch_config(&self.state_store).unwrap_or_default();
-        let use_fa_balance = features.is_enabled(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE);
+        let use_fa_balance = features.is_enabled(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE);
         let use_concurrent_balance =
             features.is_enabled(FeatureFlag::DEFAULT_TO_CONCURRENT_FUNGIBLE_BALANCE);
 

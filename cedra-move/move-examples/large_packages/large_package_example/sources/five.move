@@ -61,9 +61,9 @@
 ///     <ul>
 ///       <li>REST API: <a href="https://testnet.cedra.dev/v1">https://testnet.cedra.dev/v1</a></li>
 ///       <li>REST API Spec: <a href="https://testnet.cedra.dev/v1/spec#/">https://testnet.cedra.dev/v1/spec#/</a></li>
-///       <li>Indexer API: <a href="https://api.testnet.cedralabs.com/v1/graphql">https://api.testnet.cedralabs.com/v1/graphql</a></li>
+///       <li>Indexer API: <a href="https://testnet.cedralabs.com/v1/graphql">https://testnet.cedralabs.com/v1/graphql</a></li>
 ///       <li>Faucet API: <a href="https://faucet-api.cedra.dev">https://faucet-api.cedra.dev</a></li>
-///       <li><a href="https://cloud.hasura.io/public/graphiql?endpoint=https://api.testnet.cedralabs.com/v1/graphql">Indexer GraphQL</a></li>
+///       <li><a href="https://cloud.hasura.io/public/graphiql?endpoint=https://testnet.cedralabs.com/v1/graphql">Indexer GraphQL</a></li>
 ///     </ul>
 ///   </TabItem>
 ///   <TabItem value="mainnet" label="Mainnet">

@@ -14,12 +14,12 @@ module staking::commission_tests {
     const ONE_YEAR_IN_SECONDS: u64 = 31536000;
     const OPERATOR: address = @0x124;
     // 1 Cedra = 5.34378710 USD with 8 decimals of precision
-    const APT_PRICE: u128 = 534378710;
+    const CEDRA_PRICE: u128 = 534378710;
 
     fun set_up() {
         timestamp::set_time_has_started_for_testing(&account::create_signer_for_test(@cedra_framework));
         commission::init_for_test(&account::create_signer_for_test(@0xcafe));
-        oracle::set_test_price(APT_PRICE);
+        oracle::set_test_price(CEDRA_PRICE);
     }
 
     #[test(manager = @0x123)]
@@ -149,6 +149,6 @@ module staking::commission_tests {
 
 
     inline fun usd_to_apt(amount_usd: u64): u64 {
-        (math128::mul_div((amount_usd as u128) * math128::pow(10, 8), math128::pow(10, 8), APT_PRICE) as u64)
+        (math128::mul_div((amount_usd as u128) * math128::pow(10, 8), math128::pow(10, 8), CEDRA_PRICE) as u64)
     }
 }

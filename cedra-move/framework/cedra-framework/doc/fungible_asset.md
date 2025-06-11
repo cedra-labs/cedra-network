@@ -993,16 +993,6 @@ Cannot destroy non-empty fungible assets.
 
 
 
-<a id="0x1_fungible_asset_EAPT_NOT_DISPATCHABLE"></a>
-
-Cannot register dispatch hook for Cedra.
-
-
-<pre><code><b>const</b> <a href="fungible_asset.md#0x1_fungible_asset_EAPT_NOT_DISPATCHABLE">EAPT_NOT_DISPATCHABLE</a>: u64 = 31;
-</code></pre>
-
-
-
 <a id="0x1_fungible_asset_EBALANCE_IS_NOT_ZERO"></a>
 
 Cannot destroy fungible stores with a non-zero balance.
@@ -1029,6 +1019,16 @@ Burn ref and store do not match.
 
 
 <pre><code><b>const</b> <a href="fungible_asset.md#0x1_fungible_asset_EBURN_REF_AND_STORE_MISMATCH">EBURN_REF_AND_STORE_MISMATCH</a>: u64 = 10;
+</code></pre>
+
+
+
+<a id="0x1_fungible_asset_ECEDRA_NOT_DISPATCHABLE"></a>
+
+Cannot register dispatch hook for Cedra.
+
+
+<pre><code><b>const</b> <a href="fungible_asset.md#0x1_fungible_asset_ECEDRA_NOT_DISPATCHABLE">ECEDRA_NOT_DISPATCHABLE</a>: u64 = 31;
 </code></pre>
 
 
@@ -1745,7 +1745,7 @@ Check the requirements for registering a dispatchable function.
     // Cannot register hook for Cedra.
     <b>assert</b>!(
         <a href="object.md#0x1_object_address_from_constructor_ref">object::address_from_constructor_ref</a>(constructor_ref) != @cedra_fungible_asset,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="fungible_asset.md#0x1_fungible_asset_EAPT_NOT_DISPATCHABLE">EAPT_NOT_DISPATCHABLE</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="fungible_asset.md#0x1_fungible_asset_ECEDRA_NOT_DISPATCHABLE">ECEDRA_NOT_DISPATCHABLE</a>)
     );
     <b>assert</b>!(
         !<a href="object.md#0x1_object_can_generate_delete_ref">object::can_generate_delete_ref</a>(constructor_ref),

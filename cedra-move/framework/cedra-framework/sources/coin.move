@@ -106,7 +106,7 @@ module cedra_framework::coin {
     const ECOIN_CONVERSION_MAP_NOT_FOUND: u64 = 27;
 
     /// Cedra pairing is not eanbled yet.
-    const EAPT_PAIRING_IS_NOT_ENABLED: u64 = 28;
+    const ECEDRA_PAIRING_IS_NOT_ENABLED: u64 = 28;
 
     //
     // Constants
@@ -322,7 +322,7 @@ module cedra_framework::coin {
         let type = type_info::type_of<CoinType>();
         if (!table::contains(&map.coin_to_fungible_asset_map, type)) {
             let is_apt = is_apt<CoinType>();
-            assert!(!is_apt || allow_apt_creation, error::invalid_state(EAPT_PAIRING_IS_NOT_ENABLED));
+            assert!(!is_apt || allow_apt_creation, error::invalid_state(ECEDRA_PAIRING_IS_NOT_ENABLED));
             let metadata_object_cref =
                 if (is_apt) {
                     object::create_sticky_object_at_address(@cedra_framework, @cedra_fungible_asset)

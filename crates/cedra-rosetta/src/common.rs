@@ -145,16 +145,16 @@ pub fn decode_key<T: DeserializeOwned + ValidCryptoMaterial>(
     T::from_encoded_string(str).map_err(|_| ApiError::deserialization_failed(type_name))
 }
 
-const APT_SYMBOL: &str = "Cedra";
-const APT_DECIMALS: u8 = 8;
+const CEDRA_SYMBOL: &str = "Cedra";
+const CEDRA_DECIMALS: u8 = 8;
 
 /// Provides the [Currency] for 0x1::cedra_coin::CedraCoin aka Cedra
 ///
 /// Note that 0xA is the address for FA, but it has to be skipped in order to have backwards compatibility
 pub fn native_coin() -> Currency {
     Currency {
-        symbol: APT_SYMBOL.to_string(),
-        decimals: APT_DECIMALS,
+        symbol: CEDRA_SYMBOL.to_string(),
+        decimals: CEDRA_DECIMALS,
         metadata: Some(CurrencyMetadata {
             move_type: Some(native_coin_tag().to_string()),
             fa_address: None,

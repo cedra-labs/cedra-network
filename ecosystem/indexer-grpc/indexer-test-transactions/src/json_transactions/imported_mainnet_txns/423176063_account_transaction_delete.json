@@ -144,7 +144,7 @@
             "name": "Inscription"
           },
           "typeStr": "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apts::Inscription",
-          "data": "{\"amount\":\"23697\",\"burn\":{\"inner\":{\"vec\":[{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"}]},\"self\":{\"vec\":[]}},\"extend\":{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"},\"mutator\":{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"},\"name\":\"APTS #1201557\",\"propertyMutatorRef\":{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"}}"
+          "data": "{\"amount\":\"23697\",\"burn\":{\"inner\":{\"vec\":[{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"}]},\"self\":{\"vec\":[]}},\"extend\":{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"},\"mutator\":{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"},\"name\":\"CedraS #1201557\",\"propertyMutatorRef\":{\"self\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\"}}"
         }
       },
       {
@@ -186,7 +186,7 @@
             "name": "Token"
           },
           "typeStr": "0x4::token::Token",
-          "data": "{\"collection\":{\"inner\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\"},\"description\":\"\",\"index\":\"997491\",\"mutation_events\":{\"counter\":\"2\",\"guid\":{\"id\":{\"addr\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\",\"creation_num\":\"1125899906842625\"}}},\"name\":\"APTS #1201557\",\"uri\":\"https://img.apt-20.com/?tick=APTS&amt=23697\"}"
+          "data": "{\"collection\":{\"inner\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\"},\"description\":\"\",\"index\":\"997491\",\"mutation_events\":{\"counter\":\"2\",\"guid\":{\"id\":{\"addr\":\"0x9f387c30bad7e61f9039e108acd92825b65547a46b213dfde3495b0f1ee69423\",\"creation_num\":\"1125899906842625\"}}},\"name\":\"CedraS #1201557\",\"uri\":\"https://img.apt-20.com/?tick=CedraS&amt=23697\"}"
         }
       },
       {
@@ -214,7 +214,7 @@
             "name": "Inscription"
           },
           "typeStr": "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apts::Inscription",
-          "data": "{\"amount\":\"21024\",\"burn\":{\"inner\":{\"vec\":[{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"}]},\"self\":{\"vec\":[]}},\"extend\":{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"},\"mutator\":{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"},\"name\":\"APTS #1201558\",\"propertyMutatorRef\":{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"}}"
+          "data": "{\"amount\":\"21024\",\"burn\":{\"inner\":{\"vec\":[{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"}]},\"self\":{\"vec\":[]}},\"extend\":{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"},\"mutator\":{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"},\"name\":\"CedraS #1201558\",\"propertyMutatorRef\":{\"self\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\"}}"
         }
       },
       {
@@ -256,7 +256,7 @@
             "name": "Token"
           },
           "typeStr": "0x4::token::Token",
-          "data": "{\"collection\":{\"inner\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\"},\"description\":\"\",\"index\":\"997492\",\"mutation_events\":{\"counter\":\"2\",\"guid\":{\"id\":{\"addr\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\",\"creation_num\":\"1125899906842625\"}}},\"name\":\"APTS #1201558\",\"uri\":\"https://img.apt-20.com/?tick=APTS&amt=21024\"}"
+          "data": "{\"collection\":{\"inner\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\"},\"description\":\"\",\"index\":\"997492\",\"mutation_events\":{\"counter\":\"2\",\"guid\":{\"id\":{\"addr\":\"0x9f41d314d043ba08ec319a6e5353c63716149855aa2258a65bdbd5a9462f6c36\",\"creation_num\":\"1125899906842625\"}}},\"name\":\"CedraS #1201558\",\"uri\":\"https://img.apt-20.com/?tick=CedraS&amt=21024\"}"
         }
       },
       {
@@ -298,7 +298,7 @@
             "name": "Collection"
           },
           "typeStr": "0x4::collection::Collection",
-          "data": "{\"creator\":\"0xadeb45c274f9f4f535afe8957a8cf9ffecbd2b79026fba6c207111136d963f14\",\"description\":\"\",\"mutation_events\":{\"counter\":\"0\",\"guid\":{\"id\":{\"addr\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\",\"creation_num\":\"1125899906842627\"}}},\"name\":\"APTS\",\"uri\":\"https://img.apt-20.com/?tick=APTS\"}"
+          "data": "{\"creator\":\"0xadeb45c274f9f4f535afe8957a8cf9ffecbd2b79026fba6c207111136d963f14\",\"description\":\"\",\"mutation_events\":{\"counter\":\"0\",\"guid\":{\"id\":{\"addr\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\",\"creation_num\":\"1125899906842627\"}}},\"name\":\"CedraS\",\"uri\":\"https://img.apt-20.com/?tick=CedraS\"}"
         }
       },
       {
@@ -353,7 +353,7 @@
             "name": "Inscription"
           },
           "typeStr": "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apts::Inscription",
-          "data": "{\"amount\":\"23116\",\"burn\":{\"inner\":{\"vec\":[{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"}]},\"self\":{\"vec\":[]}},\"extend\":{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"},\"mutator\":{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"},\"name\":\"APTS #1201556\",\"propertyMutatorRef\":{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"}}"
+          "data": "{\"amount\":\"23116\",\"burn\":{\"inner\":{\"vec\":[{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"}]},\"self\":{\"vec\":[]}},\"extend\":{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"},\"mutator\":{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"},\"name\":\"CedraS #1201556\",\"propertyMutatorRef\":{\"self\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\"}}"
         }
       },
       {
@@ -395,7 +395,7 @@
             "name": "Token"
           },
           "typeStr": "0x4::token::Token",
-          "data": "{\"collection\":{\"inner\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\"},\"description\":\"\",\"index\":\"997490\",\"mutation_events\":{\"counter\":\"2\",\"guid\":{\"id\":{\"addr\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\",\"creation_num\":\"1125899906842625\"}}},\"name\":\"APTS #1201556\",\"uri\":\"https://img.apt-20.com/?tick=APTS&amt=23116\"}"
+          "data": "{\"collection\":{\"inner\":\"0xa3d9ad08adf8af8dc3bd6a4bdd910d2a1cc88bd5fbedae0ddaa3e89b260a785f\"},\"description\":\"\",\"index\":\"997490\",\"mutation_events\":{\"counter\":\"2\",\"guid\":{\"id\":{\"addr\":\"0xbcb216aa0f66fc94068718ce725105af04d6553a97e75271dee12d0034f623d0\",\"creation_num\":\"1125899906842625\"}}},\"name\":\"CedraS #1201556\",\"uri\":\"https://img.apt-20.com/?tick=CedraS&amt=23116\"}"
         }
       },
       {
@@ -824,7 +824,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"APTS #1201554\",\"old_value\":\"APTS\"}"
+        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"CedraS #1201554\",\"old_value\":\"CedraS\"}"
       },
       {
         "key": {
@@ -841,7 +841,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=APTS&amt=67837\",\"old_value\":\"\"}"
+        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=CedraS&amt=67837\",\"old_value\":\"\"}"
       },
       {
         "key": {
@@ -922,7 +922,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"APTS #1201555\",\"old_value\":\"APTS\"}"
+        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"CedraS #1201555\",\"old_value\":\"CedraS\"}"
       },
       {
         "key": {
@@ -939,7 +939,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=APTS&amt=44721\",\"old_value\":\"\"}"
+        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=CedraS&amt=44721\",\"old_value\":\"\"}"
       },
       {
         "key": {
@@ -1003,7 +1003,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"APTS #1201556\",\"old_value\":\"APTS\"}"
+        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"CedraS #1201556\",\"old_value\":\"CedraS\"}"
       },
       {
         "key": {
@@ -1020,7 +1020,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=APTS&amt=23116\",\"old_value\":\"\"}"
+        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=CedraS&amt=23116\",\"old_value\":\"\"}"
       },
       {
         "key": {
@@ -1116,7 +1116,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"APTS #1201557\",\"old_value\":\"APTS\"}"
+        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"CedraS #1201557\",\"old_value\":\"CedraS\"}"
       },
       {
         "key": {
@@ -1133,7 +1133,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=APTS&amt=23697\",\"old_value\":\"\"}"
+        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=CedraS&amt=23697\",\"old_value\":\"\"}"
       },
       {
         "key": {
@@ -1197,7 +1197,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"APTS #1201558\",\"old_value\":\"APTS\"}"
+        "data": "{\"mutated_field_name\":\"name\",\"new_value\":\"CedraS #1201558\",\"old_value\":\"CedraS\"}"
       },
       {
         "key": {
@@ -1214,7 +1214,7 @@
           }
         },
         "typeStr": "0x4::token::MutationEvent",
-        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=APTS&amt=21024\",\"old_value\":\"\"}"
+        "data": "{\"mutated_field_name\":\"uri\",\"new_value\":\"https://img.apt-20.com/?tick=CedraS&amt=21024\",\"old_value\":\"\"}"
       },
       {
         "key": {

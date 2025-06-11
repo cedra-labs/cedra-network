@@ -34,7 +34,7 @@ module staking::commission {
 
     const INITIAL_COMMISSION_AMOUNT: u64 = 100000;
     const ONE_YEAR_IN_SECONDS: u64 = 31536000;
-    const OCTAS_IN_ONE_APT: u128 = 100000000; // 1e8
+    const OCTAS_IN_ONE_Cedra: u128 = 100000000; // 1e8
     const MIN_BALANCE_FOR_DISTRIBUTION: u64 = 100000000; // 1 Cedra
 
     /// Account is not authorized to call this function.
@@ -220,13 +220,13 @@ module staking::commission {
     inline fun usd_to_apt(usd_amount: u64): u64 {
         let apt_price = oracle::get_apt_price();
         // Amount in Cedra octas = amount * number of octas in one Cedra / Cedra price.
-        math128::mul_div((usd_amount as u128) * OCTAS_IN_ONE_APT, oracle::precision(), apt_price) as u64
+        math128::mul_div((usd_amount as u128) * OCTAS_IN_ONE_Cedra, oracle::precision(), apt_price) as u64
     }
 
     inline fun apt_to_usd(apt_amount: u64): u64 {
         let apt_price = oracle::get_apt_price();
         // Amount in USD = amount * Cedra price / precision / number of octas in one Cedra.
-        math128::mul_div((apt_amount as u128), apt_price, oracle::precision() * OCTAS_IN_ONE_APT) as u64
+        math128::mul_div((apt_amount as u128), apt_price, oracle::precision() * OCTAS_IN_ONE_Cedra) as u64
     }
 
     #[test_only]

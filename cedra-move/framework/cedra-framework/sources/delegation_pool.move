@@ -2260,7 +2260,7 @@ module cedra_framework::delegation_pool {
     const LOCKUP_CYCLE_SECONDS: u64 = 2592000;
 
     #[test_only]
-    const ONE_APT: u64 = 100000000;
+    const ONE_Cedra: u64 = 100000000;
 
     #[test_only]
     const VALIDATOR_STATUS_PENDING_ACTIVE: u64 = 1;
@@ -2291,8 +2291,8 @@ module cedra_framework::delegation_pool {
     public fun initialize_for_test(cedra_framework: &signer) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -2305,8 +2305,8 @@ module cedra_framework::delegation_pool {
     public fun initialize_for_test_no_reward(cedra_framework: &signer) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             0,
@@ -2495,8 +2495,8 @@ module cedra_framework::delegation_pool {
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -2514,11 +2514,11 @@ module cedra_framework::delegation_pool {
         stake::rotate_consensus_key(validator, pool_address, CONSENSUS_KEY_1, CONSENSUS_POP_1);
 
         // zero `add_stake` fee as validator is not producing rewards this epoch
-        assert!(get_add_stake_fee(pool_address, 1000000 * ONE_APT) == 0, 0);
+        assert!(get_add_stake_fee(pool_address, 1000000 * ONE_Cedra) == 0, 0);
 
         // add 1M Cedra, join the validator set and activate this stake
-        stake::mint(validator, 1000000 * ONE_APT);
-        add_stake(validator, pool_address, 1000000 * ONE_APT);
+        stake::mint(validator, 1000000 * ONE_Cedra);
+        add_stake(validator, pool_address, 1000000 * ONE_Cedra);
 
         stake::join_validator_set(validator, pool_address);
         end_cedra_epoch();
@@ -2530,13 +2530,13 @@ module cedra_framework::delegation_pool {
         account::create_account_for_test(delegator2_address);
 
         // `add_stake` fee for 100000 coins: 100000 * 0.006265 / (1 + 0.006265)
-        assert!(get_add_stake_fee(pool_address, 100000 * ONE_APT) == 62259941466, 0);
+        assert!(get_add_stake_fee(pool_address, 100000 * ONE_Cedra) == 62259941466, 0);
 
         // add pending_active stake from multiple delegators
-        stake::mint(delegator1, 100000 * ONE_APT);
-        add_stake(delegator1, pool_address, 100000 * ONE_APT);
-        stake::mint(delegator2, 10000 * ONE_APT);
-        add_stake(delegator2, pool_address, 10000 * ONE_APT);
+        stake::mint(delegator1, 100000 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 100000 * ONE_Cedra);
+        stake::mint(delegator2, 10000 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 10000 * ONE_Cedra);
 
         end_cedra_epoch();
         // delegators should own the same amount as initially deposited
@@ -2544,19 +2544,19 @@ module cedra_framework::delegation_pool {
         assert_delegation(delegator2_address, pool_address, 1000000000000, 0, 0);
 
         // add more stake from delegator 1
-        stake::mint(delegator1, 10000 * ONE_APT);
+        stake::mint(delegator1, 10000 * ONE_Cedra);
         let (delegator1_active, _, _) = get_stake(pool_address, delegator1_address);
-        add_stake(delegator1, pool_address, 10000 * ONE_APT);
+        add_stake(delegator1, pool_address, 10000 * ONE_Cedra);
 
-        let fee = get_add_stake_fee(pool_address, 10000 * ONE_APT);
-        assert_delegation(delegator1_address, pool_address, delegator1_active + 10000 * ONE_APT - fee, 0, 0);
+        let fee = get_add_stake_fee(pool_address, 10000 * ONE_Cedra);
+        assert_delegation(delegator1_address, pool_address, delegator1_active + 10000 * ONE_Cedra - fee, 0, 0);
 
         // delegator 2 should not benefit in any way from this new stake
         assert_delegation(delegator2_address, pool_address, 1000000000000, 0, 0);
 
         // add more stake from delegator 2
-        stake::mint(delegator2, 100000 * ONE_APT);
-        add_stake(delegator2, pool_address, 100000 * ONE_APT);
+        stake::mint(delegator2, 100000 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 100000 * ONE_Cedra);
 
         end_cedra_epoch();
         // delegators should own the same amount as initially deposited + any rewards produced
@@ -2578,15 +2578,15 @@ module cedra_framework::delegation_pool {
         assert_delegation(delegator2_address, pool_address, 11075219250226, 0, 0);
 
         // add more stake from delegator 1
-        stake::mint(delegator1, 20000 * ONE_APT);
+        stake::mint(delegator1, 20000 * ONE_Cedra);
         (delegator1_active, _, _) = get_stake(pool_address, delegator1_address);
-        add_stake(delegator1, pool_address, 20000 * ONE_APT);
+        add_stake(delegator1, pool_address, 20000 * ONE_Cedra);
 
-        fee = get_add_stake_fee(pool_address, 20000 * ONE_APT);
-        assert_delegation(delegator1_address, pool_address, delegator1_active + 20000 * ONE_APT - fee, 0, 0);
+        fee = get_add_stake_fee(pool_address, 20000 * ONE_Cedra);
+        assert_delegation(delegator1_address, pool_address, delegator1_active + 20000 * ONE_Cedra - fee, 0, 0);
 
         // delegator 1 unlocks his entire newly added stake
-        unlock(delegator1, pool_address, 20000 * ONE_APT - fee);
+        unlock(delegator1, pool_address, 20000 * ONE_Cedra - fee);
         end_cedra_epoch();
         // delegator 1 should own previous 11131957502250 active * 1.006265 and 20000 coins pending_inactive
         assert_delegation(delegator1_address, pool_address, 11201699216002, 0, 2000000000000);
@@ -2613,22 +2613,22 @@ module cedra_framework::delegation_pool {
         );
 
         // add more stake from delegator 1
-        stake::mint(delegator1, 20000 * ONE_APT);
+        stake::mint(delegator1, 20000 * ONE_Cedra);
         let delegator1_pending_inactive: u64;
         (delegator1_active, _, delegator1_pending_inactive) = get_stake(pool_address, delegator1_address);
-        fee = get_add_stake_fee(pool_address, 20000 * ONE_APT);
-        add_stake(delegator1, pool_address, 20000 * ONE_APT);
+        fee = get_add_stake_fee(pool_address, 20000 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 20000 * ONE_Cedra);
 
         assert_delegation(
             delegator1_address,
             pool_address,
-            delegator1_active + 20000 * ONE_APT - fee,
+            delegator1_active + 20000 * ONE_Cedra - fee,
             0,
             delegator1_pending_inactive
         );
 
         // delegator 1 unlocks his entire newly added stake
-        unlock(delegator1, pool_address, 20000 * ONE_APT - fee);
+        unlock(delegator1, pool_address, 20000 * ONE_Cedra - fee);
         end_cedra_epoch();
         // delegator 1 should own previous 11201699216002 active * ~1.01253 and 20000 * ~1.01253 + 20000 coins pending_inactive
         assert_delegation(delegator1_address, pool_address, 11342056366822, 0, 4025059974939);
@@ -2647,7 +2647,7 @@ module cedra_framework::delegation_pool {
         delegator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, true, false);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, true, false);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -2656,11 +2656,11 @@ module cedra_framework::delegation_pool {
         account::create_account_for_test(delegator_address);
 
         // add stake without fees as validator is not active yet
-        stake::mint(delegator, 10 * ONE_APT);
-        add_stake(delegator, pool_address, 10 * ONE_APT);
+        stake::mint(delegator, 10 * ONE_Cedra);
+        add_stake(delegator, pool_address, 10 * ONE_Cedra);
         end_cedra_epoch();
 
-        unlock(validator, pool_address, 100 * ONE_APT);
+        unlock(validator, pool_address, 100 * ONE_Cedra);
 
         stake::assert_stake_pool(pool_address, 91000000000, 0, 0, 10000000000);
         end_cedra_epoch();
@@ -2719,55 +2719,55 @@ module cedra_framework::delegation_pool {
         validator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, false, false);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, false, false);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
 
         // validator is inactive => added stake is `active` by default
-        stake::assert_stake_pool(pool_address, 1000 * ONE_APT, 0, 0, 0);
-        assert_delegation(validator_address, pool_address, 1000 * ONE_APT, 0, 0);
+        stake::assert_stake_pool(pool_address, 1000 * ONE_Cedra, 0, 0, 0);
+        assert_delegation(validator_address, pool_address, 1000 * ONE_Cedra, 0, 0);
 
         // zero `add_stake` fee as validator is not producing rewards this epoch
-        assert!(get_add_stake_fee(pool_address, 250 * ONE_APT) == 0, 0);
+        assert!(get_add_stake_fee(pool_address, 250 * ONE_Cedra) == 0, 0);
 
         // check `add_stake` increases `active` stakes of delegator and stake pool
-        stake::mint(validator, 300 * ONE_APT);
+        stake::mint(validator, 300 * ONE_Cedra);
         let balance = coin::balance<CedraCoin>(validator_address);
-        add_stake(validator, pool_address, 250 * ONE_APT);
+        add_stake(validator, pool_address, 250 * ONE_Cedra);
 
         // check added stake have been transferred out of delegator account
-        assert!(coin::balance<CedraCoin>(validator_address) == balance - 250 * ONE_APT, 0);
+        assert!(coin::balance<CedraCoin>(validator_address) == balance - 250 * ONE_Cedra, 0);
         // zero `add_stake` fee charged from added stake
-        assert_delegation(validator_address, pool_address, 1250 * ONE_APT, 0, 0);
+        assert_delegation(validator_address, pool_address, 1250 * ONE_Cedra, 0, 0);
         // zero `add_stake` fee transferred to null shareholder
         assert_delegation(NULL_SHAREHOLDER, pool_address, 0, 0, 0);
         // added stake is automatically `active` on inactive validator
-        stake::assert_stake_pool(pool_address, 1250 * ONE_APT, 0, 0, 0);
+        stake::assert_stake_pool(pool_address, 1250 * ONE_Cedra, 0, 0, 0);
 
         // activate validator
         stake::join_validator_set(validator, pool_address);
         end_cedra_epoch();
 
         // add 250 coins being pending_active until next epoch
-        stake::mint(validator, 250 * ONE_APT);
-        add_stake(validator, pool_address, 250 * ONE_APT);
+        stake::mint(validator, 250 * ONE_Cedra);
+        add_stake(validator, pool_address, 250 * ONE_Cedra);
 
-        let fee1 = get_add_stake_fee(pool_address, 250 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 1500 * ONE_APT - fee1, 0, 0);
+        let fee1 = get_add_stake_fee(pool_address, 250 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 1500 * ONE_Cedra - fee1, 0, 0);
         // check `add_stake` fee has been transferred to the null shareholder
         assert_delegation(NULL_SHAREHOLDER, pool_address, fee1, 0, 0);
-        stake::assert_stake_pool(pool_address, 1250 * ONE_APT, 0, 250 * ONE_APT, 0);
+        stake::assert_stake_pool(pool_address, 1250 * ONE_Cedra, 0, 250 * ONE_Cedra, 0);
 
         // add 100 additional coins being pending_active until next epoch
-        stake::mint(validator, 100 * ONE_APT);
-        add_stake(validator, pool_address, 100 * ONE_APT);
+        stake::mint(validator, 100 * ONE_Cedra);
+        add_stake(validator, pool_address, 100 * ONE_Cedra);
 
-        let fee2 = get_add_stake_fee(pool_address, 100 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 1600 * ONE_APT - fee1 - fee2, 0, 0);
+        let fee2 = get_add_stake_fee(pool_address, 100 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 1600 * ONE_Cedra - fee1 - fee2, 0, 0);
         // check `add_stake` fee has been transferred to the null shareholder
         assert_delegation(NULL_SHAREHOLDER, pool_address, fee1 + fee2, 0, 0);
-        stake::assert_stake_pool(pool_address, 1250 * ONE_APT, 0, 350 * ONE_APT, 0);
+        stake::assert_stake_pool(pool_address, 1250 * ONE_Cedra, 0, 350 * ONE_Cedra, 0);
 
         end_cedra_epoch();
         // delegator got its `add_stake` fees back + 1250 * 1% * (100% - 0%) active rewards
@@ -2781,10 +2781,10 @@ module cedra_framework::delegation_pool {
         assert_delegation(NULL_SHAREHOLDER, pool_address, 0, 0, 0);
 
         // add 200 coins being pending_active until next epoch
-        stake::mint(validator, 200 * ONE_APT);
-        add_stake(validator, pool_address, 200 * ONE_APT);
+        stake::mint(validator, 200 * ONE_Cedra);
+        add_stake(validator, pool_address, 200 * ONE_Cedra);
 
-        fee1 = get_add_stake_fee(pool_address, 200 * ONE_APT);
+        fee1 = get_add_stake_fee(pool_address, 200 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 181250000000 - fee1, 0, 0);
         // check `add_stake` fee has been transferred to the null shareholder
         assert_delegation(NULL_SHAREHOLDER, pool_address, fee1 - 1, 0, 0);
@@ -2809,7 +2809,7 @@ module cedra_framework::delegation_pool {
         delegator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, true, true);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -2817,43 +2817,43 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::assert_stake_pool(pool_address, 1000 * ONE_APT, 0, 0, 0);
-        assert_delegation(validator_address, pool_address, 1000 * ONE_APT, 0, 0);
+        stake::assert_stake_pool(pool_address, 1000 * ONE_Cedra, 0, 0, 0);
+        assert_delegation(validator_address, pool_address, 1000 * ONE_Cedra, 0, 0);
 
         // add 250 coins from second account
-        stake::mint(delegator, 250 * ONE_APT);
-        add_stake(delegator, pool_address, 250 * ONE_APT);
+        stake::mint(delegator, 250 * ONE_Cedra);
+        add_stake(delegator, pool_address, 250 * ONE_Cedra);
 
-        let fee1 = get_add_stake_fee(pool_address, 250 * ONE_APT);
-        assert_delegation(delegator_address, pool_address, 250 * ONE_APT - fee1, 0, 0);
-        assert_delegation(validator_address, pool_address, 1000 * ONE_APT, 0, 0);
-        stake::assert_stake_pool(pool_address, 1000 * ONE_APT, 0, 250 * ONE_APT, 0);
+        let fee1 = get_add_stake_fee(pool_address, 250 * ONE_Cedra);
+        assert_delegation(delegator_address, pool_address, 250 * ONE_Cedra - fee1, 0, 0);
+        assert_delegation(validator_address, pool_address, 1000 * ONE_Cedra, 0, 0);
+        stake::assert_stake_pool(pool_address, 1000 * ONE_Cedra, 0, 250 * ONE_Cedra, 0);
 
         end_cedra_epoch();
         // 1000 * 1.01 active stake + 250 pending_active stake
-        stake::assert_stake_pool(pool_address, 1260 * ONE_APT, 0, 0, 0);
+        stake::assert_stake_pool(pool_address, 1260 * ONE_Cedra, 0, 0, 0);
         // delegator got its `add_stake` fee back
-        assert_delegation(delegator_address, pool_address, 250 * ONE_APT, 0, 0);
+        assert_delegation(delegator_address, pool_address, 250 * ONE_Cedra, 0, 0);
         // actual active rewards have been distributed to their earner(s)
         assert_delegation(validator_address, pool_address, 100999999999, 0, 0);
 
         // add another 250 coins from first account
-        stake::mint(validator, 250 * ONE_APT);
-        add_stake(validator, pool_address, 250 * ONE_APT);
+        stake::mint(validator, 250 * ONE_Cedra);
+        add_stake(validator, pool_address, 250 * ONE_Cedra);
 
-        fee1 = get_add_stake_fee(pool_address, 250 * ONE_APT);
+        fee1 = get_add_stake_fee(pool_address, 250 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 125999999999 - fee1, 0, 0);
-        assert_delegation(delegator_address, pool_address, 250 * ONE_APT, 0, 0);
-        stake::assert_stake_pool(pool_address, 1260 * ONE_APT, 0, 250 * ONE_APT, 0);
+        assert_delegation(delegator_address, pool_address, 250 * ONE_Cedra, 0, 0);
+        stake::assert_stake_pool(pool_address, 1260 * ONE_Cedra, 0, 250 * ONE_Cedra, 0);
 
         // add another 100 coins from second account
-        stake::mint(delegator, 100 * ONE_APT);
-        add_stake(delegator, pool_address, 100 * ONE_APT);
+        stake::mint(delegator, 100 * ONE_Cedra);
+        add_stake(delegator, pool_address, 100 * ONE_Cedra);
 
-        let fee2 = get_add_stake_fee(pool_address, 100 * ONE_APT);
-        assert_delegation(delegator_address, pool_address, 350 * ONE_APT - fee2, 0, 0);
+        let fee2 = get_add_stake_fee(pool_address, 100 * ONE_Cedra);
+        assert_delegation(delegator_address, pool_address, 350 * ONE_Cedra - fee2, 0, 0);
         assert_delegation(validator_address, pool_address, 125999999999 - fee1, 0, 0);
-        stake::assert_stake_pool(pool_address, 1260 * ONE_APT, 0, 350 * ONE_APT, 0);
+        stake::assert_stake_pool(pool_address, 1260 * ONE_Cedra, 0, 350 * ONE_Cedra, 0);
 
         end_cedra_epoch();
         // both delegators got their `add_stake` fees back
@@ -2871,7 +2871,7 @@ module cedra_framework::delegation_pool {
         delegator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -2880,42 +2880,42 @@ module cedra_framework::delegation_pool {
         account::create_account_for_test(delegator_address);
 
         // add 200 coins pending_active until next epoch
-        stake::mint(validator, 200 * ONE_APT);
-        add_stake(validator, pool_address, 200 * ONE_APT);
+        stake::mint(validator, 200 * ONE_Cedra);
+        add_stake(validator, pool_address, 200 * ONE_Cedra);
 
-        let fee = get_add_stake_fee(pool_address, 200 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 300 * ONE_APT - fee, 0, 0);
-        stake::assert_stake_pool(pool_address, 100 * ONE_APT, 0, 200 * ONE_APT, 0);
+        let fee = get_add_stake_fee(pool_address, 200 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 300 * ONE_Cedra - fee, 0, 0);
+        stake::assert_stake_pool(pool_address, 100 * ONE_Cedra, 0, 200 * ONE_Cedra, 0);
 
         // cannot unlock pending_active stake (only 100/300 stake can be displaced)
-        unlock(validator, pool_address, 100 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 200 * ONE_APT - fee, 0, 100 * ONE_APT);
-        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 100 * ONE_APT);
-        stake::assert_stake_pool(pool_address, 0, 0, 200 * ONE_APT, 100 * ONE_APT);
-        assert_inactive_shares_pool(pool_address, 0, true, 100 * ONE_APT);
+        unlock(validator, pool_address, 100 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 200 * ONE_Cedra - fee, 0, 100 * ONE_Cedra);
+        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 100 * ONE_Cedra);
+        stake::assert_stake_pool(pool_address, 0, 0, 200 * ONE_Cedra, 100 * ONE_Cedra);
+        assert_inactive_shares_pool(pool_address, 0, true, 100 * ONE_Cedra);
 
         // reactivate entire pending_inactive stake progressively
-        reactivate_stake(validator, pool_address, 50 * ONE_APT);
+        reactivate_stake(validator, pool_address, 50 * ONE_Cedra);
 
-        assert_delegation(validator_address, pool_address, 250 * ONE_APT - fee, 0, 50 * ONE_APT);
-        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 50 * ONE_APT);
-        stake::assert_stake_pool(pool_address, 50 * ONE_APT, 0, 200 * ONE_APT, 50 * ONE_APT);
+        assert_delegation(validator_address, pool_address, 250 * ONE_Cedra - fee, 0, 50 * ONE_Cedra);
+        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 50 * ONE_Cedra);
+        stake::assert_stake_pool(pool_address, 50 * ONE_Cedra, 0, 200 * ONE_Cedra, 50 * ONE_Cedra);
 
-        reactivate_stake(validator, pool_address, 50 * ONE_APT);
+        reactivate_stake(validator, pool_address, 50 * ONE_Cedra);
 
-        assert_delegation(validator_address, pool_address, 300 * ONE_APT - fee, 0, 0);
+        assert_delegation(validator_address, pool_address, 300 * ONE_Cedra - fee, 0, 0);
         assert_pending_withdrawal(validator_address, pool_address, false, 0, false, 0);
-        stake::assert_stake_pool(pool_address, 100 * ONE_APT, 0, 200 * ONE_APT, 0);
+        stake::assert_stake_pool(pool_address, 100 * ONE_Cedra, 0, 200 * ONE_Cedra, 0);
         // pending_inactive shares pool has not been deleted (as can still `unlock` this OLC)
         assert_inactive_shares_pool(pool_address, 0, true, 0);
 
         end_cedra_epoch();
         // 10000000000 * 1.01 active stake + 20000000000 pending_active stake
-        assert_delegation(validator_address, pool_address, 301 * ONE_APT, 0, 0);
-        stake::assert_stake_pool(pool_address, 301 * ONE_APT, 0, 0, 0);
+        assert_delegation(validator_address, pool_address, 301 * ONE_Cedra, 0, 0);
+        stake::assert_stake_pool(pool_address, 301 * ONE_Cedra, 0, 0, 0);
 
         // can unlock more than at previous epoch as the pending_active stake became active
-        unlock(validator, pool_address, 150 * ONE_APT);
+        unlock(validator, pool_address, 150 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 15100000001, 0, 14999999999);
         stake::assert_stake_pool(pool_address, 15100000001, 0, 0, 14999999999);
         assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 14999999999);
@@ -2938,19 +2938,19 @@ module cedra_framework::delegation_pool {
         stake::assert_stake_pool(pool_address, 15403510001, 15301499997, 0, 0);
 
         // add 50 coins from another account
-        stake::mint(delegator, 50 * ONE_APT);
-        add_stake(delegator, pool_address, 50 * ONE_APT);
+        stake::mint(delegator, 50 * ONE_Cedra);
+        add_stake(delegator, pool_address, 50 * ONE_Cedra);
 
         // observed lockup cycle should have advanced at `add_stake`(on synchronization)
         assert!(observed_lockup_cycle(pool_address) == 1, 0);
 
-        fee = get_add_stake_fee(pool_address, 50 * ONE_APT);
+        fee = get_add_stake_fee(pool_address, 50 * ONE_Cedra);
         assert_delegation(delegator_address, pool_address, 4999999999 - fee, 0, 0);
         assert_delegation(validator_address, pool_address, 15403510001, 15301499997, 0);
-        stake::assert_stake_pool(pool_address, 15403510001, 15301499997, 50 * ONE_APT, 0);
+        stake::assert_stake_pool(pool_address, 15403510001, 15301499997, 50 * ONE_Cedra, 0);
 
         // cannot withdraw stake unlocked by others
-        withdraw(delegator, pool_address, 50 * ONE_APT);
+        withdraw(delegator, pool_address, 50 * ONE_Cedra);
         assert!(coin::balance<CedraCoin>(delegator_address) == 0, 0);
 
         // withdraw own unlocked stake
@@ -2984,7 +2984,7 @@ module cedra_framework::delegation_pool {
         assert_pending_withdrawal(validator_address, pool_address, true, 2, false, 10100000000);
 
         // create dummy validator to ensure the existing validator can leave the set
-        initialize_test_validator(delegator, 100 * ONE_APT, true, true);
+        initialize_test_validator(delegator, 100 * ONE_Cedra, true, true);
         // inactivate validator
         stake::leave_validator_set(validator, pool_address);
         end_cedra_epoch();
@@ -3016,9 +3016,9 @@ module cedra_framework::delegation_pool {
         // pending_inactive shares pool has not been deleted (as can still `unlock` this OLC)
         assert_inactive_shares_pool(pool_address, observed_lockup_cycle(pool_address), true, 0);
 
-        stake::mint(validator, 30 * ONE_APT);
-        add_stake(validator, pool_address, 30 * ONE_APT);
-        unlock(validator, pool_address, 10 * ONE_APT);
+        stake::mint(validator, 30 * ONE_Cedra);
+        add_stake(validator, pool_address, 30 * ONE_Cedra);
+        unlock(validator, pool_address, 10 * ONE_Cedra);
 
         assert_delegation(validator_address, pool_address, 1999999999, 0, 1000000000);
         // the pending withdrawal should be reported as still pending
@@ -3041,7 +3041,7 @@ module cedra_framework::delegation_pool {
         delegator2: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 200 * ONE_APT, true, true);
+        initialize_test_validator(validator, 200 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -3052,17 +3052,17 @@ module cedra_framework::delegation_pool {
         let delegator2_address = signer::address_of(delegator2);
         account::create_account_for_test(delegator2_address);
 
-        stake::mint(delegator1, 100 * ONE_APT);
-        stake::mint(delegator2, 200 * ONE_APT);
-        add_stake(delegator1, pool_address, 100 * ONE_APT);
-        add_stake(delegator2, pool_address, 200 * ONE_APT);
+        stake::mint(delegator1, 100 * ONE_Cedra);
+        stake::mint(delegator2, 200 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 100 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 200 * ONE_Cedra);
         end_cedra_epoch();
 
-        assert_delegation(delegator1_address, pool_address, 100 * ONE_APT, 0, 0);
-        assert_delegation(delegator2_address, pool_address, 200 * ONE_APT, 0, 0);
+        assert_delegation(delegator1_address, pool_address, 100 * ONE_Cedra, 0, 0);
+        assert_delegation(delegator2_address, pool_address, 200 * ONE_Cedra, 0, 0);
 
         // unlock some stake from delegator 1
-        unlock(delegator1, pool_address, 50 * ONE_APT);
+        unlock(delegator1, pool_address, 50 * ONE_Cedra);
         assert_delegation(delegator1_address, pool_address, 5000000000, 0, 4999999999);
 
         // move to lockup cycle 1
@@ -3071,13 +3071,13 @@ module cedra_framework::delegation_pool {
 
         // delegator 1 pending_inactive stake has been inactivated
         assert_delegation(delegator1_address, pool_address, 5050000000, 5049999998, 0);
-        assert_delegation(delegator2_address, pool_address, 202 * ONE_APT, 0, 0);
+        assert_delegation(delegator2_address, pool_address, 202 * ONE_Cedra, 0, 0);
 
         synchronize_delegation_pool(pool_address);
         assert!(total_coins_inactive(pool_address) == 5049999998, 0);
 
         // unlock some stake from delegator 2
-        unlock(delegator2, pool_address, 50 * ONE_APT);
+        unlock(delegator2, pool_address, 50 * ONE_Cedra);
         assert_delegation(delegator2_address, pool_address, 15200000001, 0, 4999999999);
 
         // withdraw some of inactive stake of delegator 1
@@ -3106,10 +3106,10 @@ module cedra_framework::delegation_pool {
         assert!(total_coins_inactive(pool_address) == total_coins_inactive - 3049999997, 0);
 
         // unlock some stake from delegator `validator`
-        unlock(validator, pool_address, 50 * ONE_APT);
+        unlock(validator, pool_address, 50 * ONE_Cedra);
 
         // create dummy validator to ensure the existing validator can leave the set
-        initialize_test_validator(delegator1, 100 * ONE_APT, true, true);
+        initialize_test_validator(delegator1, 100 * ONE_Cedra, true, true);
         // inactivate validator
         stake::leave_validator_set(validator, pool_address);
         end_cedra_epoch();
@@ -3148,30 +3148,30 @@ module cedra_framework::delegation_pool {
         validator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 200 * ONE_APT, true, true);
+        initialize_test_validator(validator, 200 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
 
         // unlock some stake from the active one
-        unlock(validator, pool_address, 100 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 100 * ONE_APT, 0, 100 * ONE_APT);
-        stake::assert_stake_pool(pool_address, 100 * ONE_APT, 0, 0, 100 * ONE_APT);
-        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 100 * ONE_APT);
+        unlock(validator, pool_address, 100 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 100 * ONE_Cedra, 0, 100 * ONE_Cedra);
+        stake::assert_stake_pool(pool_address, 100 * ONE_Cedra, 0, 0, 100 * ONE_Cedra);
+        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 100 * ONE_Cedra);
 
         // add some stake to pending_active state
-        stake::mint(validator, 150 * ONE_APT);
-        add_stake(validator, pool_address, 150 * ONE_APT);
+        stake::mint(validator, 150 * ONE_Cedra);
+        add_stake(validator, pool_address, 150 * ONE_Cedra);
 
-        let fee = get_add_stake_fee(pool_address, 150 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 250 * ONE_APT - fee, 0, 100 * ONE_APT);
-        stake::assert_stake_pool(pool_address, 100 * ONE_APT, 0, 150 * ONE_APT, 100 * ONE_APT);
+        let fee = get_add_stake_fee(pool_address, 150 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 250 * ONE_Cedra - fee, 0, 100 * ONE_Cedra);
+        stake::assert_stake_pool(pool_address, 100 * ONE_Cedra, 0, 150 * ONE_Cedra, 100 * ONE_Cedra);
 
         // can reactivate only pending_inactive stake
-        reactivate_stake(validator, pool_address, 150 * ONE_APT);
+        reactivate_stake(validator, pool_address, 150 * ONE_Cedra);
 
-        assert_delegation(validator_address, pool_address, 350 * ONE_APT - fee, 0, 0);
-        stake::assert_stake_pool(pool_address, 200 * ONE_APT, 0, 150 * ONE_APT, 0);
+        assert_delegation(validator_address, pool_address, 350 * ONE_Cedra - fee, 0, 0);
+        stake::assert_stake_pool(pool_address, 200 * ONE_Cedra, 0, 150 * ONE_Cedra, 0);
         assert_pending_withdrawal(validator_address, pool_address, false, 0, false, 0);
 
         end_cedra_epoch();
@@ -3179,7 +3179,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(validator_address, pool_address, 35200000000, 0, 0);
 
         // unlock stake added at previous epoch (expect some imprecision when moving shares)
-        unlock(validator, pool_address, 150 * ONE_APT);
+        unlock(validator, pool_address, 150 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 20200000001, 0, 14999999999);
         stake::assert_stake_pool(pool_address, 20200000001, 0, 0, 14999999999);
 
@@ -3196,7 +3196,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(validator_address, pool_address, 20402000001, 15149999998, 0);
 
         // unlock stake in the new lockup cycle (the pending withdrawal is executed)
-        unlock(validator, pool_address, 100 * ONE_APT);
+        unlock(validator, pool_address, 100 * ONE_Cedra);
         assert!(coin::balance<CedraCoin>(validator_address) == 15149999998, 0);
         assert_delegation(validator_address, pool_address, 10402000002, 0, 9999999999);
         assert_pending_withdrawal(validator_address, pool_address, true, 1, false, 9999999999);
@@ -3216,7 +3216,7 @@ module cedra_framework::delegation_pool {
         delegator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, true, true);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -3224,26 +3224,26 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::mint(delegator, 200 * ONE_APT);
-        add_stake(delegator, pool_address, 200 * ONE_APT);
+        stake::mint(delegator, 200 * ONE_Cedra);
+        add_stake(delegator, pool_address, 200 * ONE_Cedra);
 
-        unlock(validator, pool_address, 100 * ONE_APT);
-        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 100 * ONE_APT);
+        unlock(validator, pool_address, 100 * ONE_Cedra);
+        assert_pending_withdrawal(validator_address, pool_address, true, 0, false, 100 * ONE_Cedra);
 
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
 
-        assert_delegation(delegator_address, pool_address, 200 * ONE_APT, 0, 0);
+        assert_delegation(delegator_address, pool_address, 200 * ONE_Cedra, 0, 0);
         assert_delegation(validator_address, pool_address, 90899999999, 10100000000, 0);
         assert_pending_withdrawal(validator_address, pool_address, true, 0, true, 10100000000);
-        assert_inactive_shares_pool(pool_address, 0, true, 100 * ONE_APT);
+        assert_inactive_shares_pool(pool_address, 0, true, 100 * ONE_Cedra);
 
         // check cannot withdraw inactive stake unlocked by others
         withdraw(delegator, pool_address, MAX_U64);
-        assert_delegation(delegator_address, pool_address, 200 * ONE_APT, 0, 0);
+        assert_delegation(delegator_address, pool_address, 200 * ONE_Cedra, 0, 0);
         assert_delegation(validator_address, pool_address, 90899999999, 10100000000, 0);
 
-        unlock(delegator, pool_address, 100 * ONE_APT);
+        unlock(delegator, pool_address, 100 * ONE_Cedra);
         assert_delegation(delegator_address, pool_address, 10000000000, 0, 9999999999);
         assert_delegation(validator_address, pool_address, 90900000000, 10100000000, 0);
         assert_pending_withdrawal(delegator_address, pool_address, true, 1, false, 9999999999);
@@ -3292,7 +3292,7 @@ module cedra_framework::delegation_pool {
         delegator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1200 * ONE_APT, true, true);
+        initialize_test_validator(validator, 1200 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -3300,16 +3300,16 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::mint(delegator, 200 * ONE_APT);
-        add_stake(delegator, pool_address, 200 * ONE_APT);
+        stake::mint(delegator, 200 * ONE_Cedra);
+        add_stake(delegator, pool_address, 200 * ONE_Cedra);
 
         // create inactive and pending_inactive stakes on the stake pool
-        unlock(validator, pool_address, 200 * ONE_APT);
+        unlock(validator, pool_address, 200 * ONE_Cedra);
 
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
 
-        unlock(delegator, pool_address, 100 * ONE_APT);
+        unlock(delegator, pool_address, 100 * ONE_Cedra);
 
         // check no excess pending_inactive is inactivated in the special case
         // the validator had gone inactive before its lockup expired
@@ -3317,7 +3317,7 @@ module cedra_framework::delegation_pool {
         let observed_lockup_cycle = observed_lockup_cycle(pool_address);
 
         // create dummy validator to ensure the existing validator can leave the set
-        initialize_test_validator(delegator, 100 * ONE_APT, true, true);
+        initialize_test_validator(delegator, 100 * ONE_Cedra, true, true);
         // inactivate validator
         stake::leave_validator_set(validator, pool_address);
         end_cedra_epoch();
@@ -3398,21 +3398,21 @@ module cedra_framework::delegation_pool {
         validator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, true, true);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
 
         end_cedra_epoch();
         // 100000000000 active stake * 1.01
-        assert_delegation(validator_address, pool_address, 1010 * ONE_APT, 0, 0);
+        assert_delegation(validator_address, pool_address, 1010 * ONE_Cedra, 0, 0);
 
         // add stake in pending_active state
-        stake::mint(validator, 200 * ONE_APT);
-        add_stake(validator, pool_address, 200 * ONE_APT);
+        stake::mint(validator, 200 * ONE_Cedra);
+        add_stake(validator, pool_address, 200 * ONE_Cedra);
 
-        let fee = get_add_stake_fee(pool_address, 200 * ONE_APT);
-        assert_delegation(validator_address, pool_address, 1210 * ONE_APT - fee, 0, 0);
+        let fee = get_add_stake_fee(pool_address, 200 * ONE_Cedra);
+        assert_delegation(validator_address, pool_address, 1210 * ONE_Cedra - fee, 0, 0);
 
         end_cedra_epoch();
         // 101000000000 active stake * 1.01 + 20000000000 pending_active stake with no rewards
@@ -3435,7 +3435,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(validator_address, pool_address, 129516073574, 0, 0);
 
         // unlock 200 coins from delegator `validator`
-        unlock(validator, pool_address, 200 * ONE_APT);
+        unlock(validator, pool_address, 200 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 109516073575, 0, 19999999999);
 
         // end this lockup cycle
@@ -3449,10 +3449,10 @@ module cedra_framework::delegation_pool {
         assert_delegation(validator_address, pool_address, 111717346653, 20199999998, 0);
 
         // add stake in pending_active state
-        stake::mint(validator, 1000 * ONE_APT);
-        add_stake(validator, pool_address, 1000 * ONE_APT);
+        stake::mint(validator, 1000 * ONE_Cedra);
+        add_stake(validator, pool_address, 1000 * ONE_Cedra);
 
-        fee = get_add_stake_fee(pool_address, 1000 * ONE_APT);
+        fee = get_add_stake_fee(pool_address, 1000 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 211717346653 - fee, 20199999998, 0);
 
         end_cedra_epoch();
@@ -3471,7 +3471,7 @@ module cedra_framework::delegation_pool {
         delegator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 200 * ONE_APT, true, true);
+        initialize_test_validator(validator, 200 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -3480,23 +3480,23 @@ module cedra_framework::delegation_pool {
         account::create_account_for_test(delegator_address);
 
         // add stake in pending_active state
-        stake::mint(delegator, 300 * ONE_APT);
-        add_stake(delegator, pool_address, 300 * ONE_APT);
+        stake::mint(delegator, 300 * ONE_Cedra);
+        add_stake(delegator, pool_address, 300 * ONE_Cedra);
 
-        let fee = get_add_stake_fee(pool_address, 300 * ONE_APT);
-        assert_delegation(delegator_address, pool_address, 300 * ONE_APT - fee, 0, 0);
-        assert_delegation(validator_address, pool_address, 200 * ONE_APT, 0, 0);
-        stake::assert_stake_pool(pool_address, 200 * ONE_APT, 0, 300 * ONE_APT, 0);
+        let fee = get_add_stake_fee(pool_address, 300 * ONE_Cedra);
+        assert_delegation(delegator_address, pool_address, 300 * ONE_Cedra - fee, 0, 0);
+        assert_delegation(validator_address, pool_address, 200 * ONE_Cedra, 0, 0);
+        stake::assert_stake_pool(pool_address, 200 * ONE_Cedra, 0, 300 * ONE_Cedra, 0);
 
         end_cedra_epoch();
         // `delegator` got its `add_stake` fee back and `validator` its active stake rewards
-        assert_delegation(delegator_address, pool_address, 300 * ONE_APT, 0, 0);
+        assert_delegation(delegator_address, pool_address, 300 * ONE_Cedra, 0, 0);
         assert_delegation(validator_address, pool_address, 20199999999, 0, 0);
-        stake::assert_stake_pool(pool_address, 502 * ONE_APT, 0, 0, 0);
+        stake::assert_stake_pool(pool_address, 502 * ONE_Cedra, 0, 0, 0);
 
         // delegators earn their own rewards from now on
         end_cedra_epoch();
-        assert_delegation(delegator_address, pool_address, 303 * ONE_APT, 0, 0);
+        assert_delegation(delegator_address, pool_address, 303 * ONE_Cedra, 0, 0);
         assert_delegation(validator_address, pool_address, 20401999999, 0, 0);
         stake::assert_stake_pool(pool_address, 50702000000, 0, 0, 0);
 
@@ -3511,10 +3511,10 @@ module cedra_framework::delegation_pool {
         stake::assert_stake_pool(pool_address, 51721110200, 0, 0, 0);
 
         // add more stake in pending_active state than currently active
-        stake::mint(delegator, 1000 * ONE_APT);
-        add_stake(delegator, pool_address, 1000 * ONE_APT);
+        stake::mint(delegator, 1000 * ONE_Cedra);
+        add_stake(delegator, pool_address, 1000 * ONE_Cedra);
 
-        fee = get_add_stake_fee(pool_address, 1000 * ONE_APT);
+        fee = get_add_stake_fee(pool_address, 1000 * ONE_Cedra);
         assert_delegation(delegator_address, pool_address, 130909030000 - fee, 0, 0);
         assert_delegation(validator_address, pool_address, 20812080199, 0, 0);
 
@@ -3531,16 +3531,16 @@ module cedra_framework::delegation_pool {
         validator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, true, true);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
 
         end_cedra_epoch();
-        assert_delegation(validator_address, pool_address, 1010 * ONE_APT, 0, 0);
+        assert_delegation(validator_address, pool_address, 1010 * ONE_Cedra, 0, 0);
 
         // unlock 200 coins from delegator `validator`
-        unlock(validator, pool_address, 200 * ONE_APT);
+        unlock(validator, pool_address, 200 * ONE_Cedra);
         assert_delegation(validator_address, pool_address, 81000000001, 0, 19999999999);
 
         end_cedra_epoch(); // 81000000001 active stake * 1.01 + 19999999999 pending_inactive stake * 1.01
@@ -3552,7 +3552,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(validator_address, pool_address, 84288924811, 20606019996, 0);
 
         // unlock 200 coins from delegator `validator` which implicitly executes its pending withdrawal
-        unlock(validator, pool_address, 200 * ONE_APT);
+        unlock(validator, pool_address, 200 * ONE_Cedra);
         assert!(coin::balance<CedraCoin>(validator_address) == 20606019996, 0);
         assert_delegation(validator_address, pool_address, 64288924812, 0, 19999999999);
 
@@ -3578,7 +3578,7 @@ module cedra_framework::delegation_pool {
         delegator2: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 1000 * ONE_APT, true, true);
+        initialize_test_validator(validator, 1000 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -3589,16 +3589,16 @@ module cedra_framework::delegation_pool {
         let delegator2_address = signer::address_of(delegator2);
         account::create_account_for_test(delegator2_address);
 
-        stake::mint(delegator1, 300 * ONE_APT);
-        add_stake(delegator1, pool_address, 300 * ONE_APT);
+        stake::mint(delegator1, 300 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 300 * ONE_Cedra);
 
-        stake::mint(delegator2, 300 * ONE_APT);
-        add_stake(delegator2, pool_address, 300 * ONE_APT);
+        stake::mint(delegator2, 300 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 300 * ONE_Cedra);
 
         end_cedra_epoch();
 
         // create the pending withdrawal of delegator 1 in lockup cycle 0
-        unlock(delegator1, pool_address, 150 * ONE_APT);
+        unlock(delegator1, pool_address, 150 * ONE_Cedra);
         assert_pending_withdrawal(delegator1_address, pool_address, true, 0, false, 14999999999);
 
         // move to lockup cycle 1
@@ -3606,7 +3606,7 @@ module cedra_framework::delegation_pool {
         end_cedra_epoch();
 
         // create the pending withdrawal of delegator 2 in lockup cycle 1
-        unlock(delegator2, pool_address, 150 * ONE_APT);
+        unlock(delegator2, pool_address, 150 * ONE_Cedra);
         assert_pending_withdrawal(delegator2_address, pool_address, true, 1, false, 14999999999);
         // 14999999999 pending_inactive stake * 1.01
         assert_pending_withdrawal(delegator1_address, pool_address, true, 0, true, 15149999998);
@@ -3628,7 +3628,7 @@ module cedra_framework::delegation_pool {
         assert!(coin::balance<CedraCoin>(delegator2_address) == 5149999997, 0);
 
         // recreate the pending withdrawal of delegator 1 in lockup cycle 2
-        unlock(delegator1, pool_address, 100 * ONE_APT);
+        unlock(delegator1, pool_address, 100 * ONE_Cedra);
 
         // move to lockup cycle 3
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
@@ -3672,18 +3672,18 @@ module cedra_framework::delegation_pool {
         let delegator2_address = signer::address_of(delegator2);
         account::create_account_for_test(delegator2_address);
 
-        stake::mint(delegator1, 100 * ONE_APT);
-        add_stake(delegator1, pool_address, 100 * ONE_APT);
+        stake::mint(delegator1, 100 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 100 * ONE_Cedra);
 
-        stake::mint(delegator2, 200 * ONE_APT);
-        add_stake(delegator2, pool_address, 200 * ONE_APT);
+        stake::mint(delegator2, 200 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 200 * ONE_Cedra);
 
         // validator is inactive and added stake is instantly `active`
-        stake::assert_stake_pool(pool_address, 300 * ONE_APT, 0, 0, 0);
+        stake::assert_stake_pool(pool_address, 300 * ONE_Cedra, 0, 0, 0);
 
         // validator does not produce rewards yet
         end_cedra_epoch();
-        stake::assert_stake_pool(pool_address, 300 * ONE_APT, 0, 0, 0);
+        stake::assert_stake_pool(pool_address, 300 * ONE_Cedra, 0, 0, 0);
 
         // therefore, there are no operator commission rewards yet
         assert_delegation(validator_address, pool_address, 0, 0, 0);
@@ -3730,7 +3730,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(delegator2_address, pool_address, 20528914269, 0, 0);
 
         // check operator is rewarded by pending_inactive stake too
-        unlock(delegator2, pool_address, 100 * ONE_APT);
+        unlock(delegator2, pool_address, 100 * ONE_Cedra);
         stake::assert_stake_pool(pool_address, 20909030001, 0, 0, 9999999999);
 
         end_cedra_epoch();
@@ -3764,9 +3764,9 @@ module cedra_framework::delegation_pool {
         assert_pending_withdrawal(validator_address, pool_address, true, 0, true, 25536995);
 
         // check operator is not rewarded by `add_stake` fees
-        stake::mint(delegator1, 100 * ONE_APT);
-        assert!(get_add_stake_fee(pool_address, 100 * ONE_APT) > 0, 0);
-        add_stake(delegator1, pool_address, 100 * ONE_APT);
+        stake::mint(delegator1, 100 * ONE_Cedra);
+        assert!(get_add_stake_fee(pool_address, 100 * ONE_Cedra) > 0, 0);
+        add_stake(delegator1, pool_address, 100 * ONE_Cedra);
 
         end_cedra_epoch();
         stake::assert_stake_pool(pool_address, 31542594519, 10200999997, 0, 0);
@@ -3778,7 +3778,7 @@ module cedra_framework::delegation_pool {
         // 10620884336 active stake * (1.008735 ^ 2 epochs)
         // 10087349999 pending_inactive stake * 1.008735
         assert_delegation(delegator2_address, pool_address, 10807241561, 10175463001, 0);
-        unlock(delegator2, pool_address, 100 * ONE_APT);
+        unlock(delegator2, pool_address, 100 * ONE_Cedra);
         // 10807241561 - 100 Cedra < `MIN_COINS_ON_SHARES_POOL` thus active stake is entirely unlocked
         assert_delegation(delegator2_address, pool_address, 0, 0, 10807241561);
         end_cedra_epoch();
@@ -3821,9 +3821,9 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::mint(delegator, 200 * ONE_APT);
-        add_stake(delegator, pool_address, 200 * ONE_APT);
-        unlock(delegator, pool_address, 100 * ONE_APT);
+        stake::mint(delegator, 200 * ONE_Cedra);
+        add_stake(delegator, pool_address, 200 * ONE_Cedra);
+        unlock(delegator, pool_address, 100 * ONE_Cedra);
 
         // activate validator
         stake::rotate_consensus_key(old_operator, pool_address, CONSENSUS_KEY_1, CONSENSUS_POP_1);
@@ -3894,9 +3894,9 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::mint(delegator, 2000000 * ONE_APT);
-        add_stake(delegator, pool_address, 2000000 * ONE_APT);
-        unlock(delegator, pool_address, 1000000 * ONE_APT);
+        stake::mint(delegator, 2000000 * ONE_Cedra);
+        add_stake(delegator, pool_address, 2000000 * ONE_Cedra);
+        unlock(delegator, pool_address, 1000000 * ONE_Cedra);
 
         // activate validator
         stake::rotate_consensus_key(operator1, pool_address, CONSENSUS_KEY_1, CONSENSUS_POP_1);
@@ -3913,31 +3913,31 @@ module cedra_framework::delegation_pool {
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
 
-        withdraw(operator1, pool_address, ONE_APT);
-        assert!(coin::balance<CedraCoin>(operator1_address) == ONE_APT - 1, 0);
+        withdraw(operator1, pool_address, ONE_Cedra);
+        assert!(coin::balance<CedraCoin>(operator1_address) == ONE_Cedra - 1, 0);
 
         set_beneficiary_for_operator(operator1, beneficiary_address);
         assert!(beneficiary_for_operator(operator1_address) == beneficiary_address, 0);
         end_cedra_epoch();
 
-        unlock(beneficiary, pool_address, ONE_APT);
+        unlock(beneficiary, pool_address, ONE_Cedra);
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
 
-        withdraw(beneficiary, pool_address, ONE_APT);
-        assert!(coin::balance<CedraCoin>(beneficiary_address) == ONE_APT - 1, 0);
-        assert!(coin::balance<CedraCoin>(operator1_address) == ONE_APT - 1, 0);
+        withdraw(beneficiary, pool_address, ONE_Cedra);
+        assert!(coin::balance<CedraCoin>(beneficiary_address) == ONE_Cedra - 1, 0);
+        assert!(coin::balance<CedraCoin>(operator1_address) == ONE_Cedra - 1, 0);
 
         // switch operator to operator2. The rewards should go to operator2 not to the beneficiay of operator1.
         set_operator(operator1, operator2_address);
         end_cedra_epoch();
-        unlock(operator2, pool_address, ONE_APT);
+        unlock(operator2, pool_address, ONE_Cedra);
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
 
-        withdraw(operator2, pool_address, ONE_APT);
-        assert!(coin::balance<CedraCoin>(beneficiary_address) == ONE_APT - 1, 0);
-        assert!(coin::balance<CedraCoin>(operator2_address) == ONE_APT - 1, 0);
+        withdraw(operator2, pool_address, ONE_Cedra);
+        assert!(coin::balance<CedraCoin>(beneficiary_address) == ONE_Cedra - 1, 0);
+        assert!(coin::balance<CedraCoin>(operator2_address) == ONE_Cedra - 1, 0);
     }
 
     #[test(cedra_framework = @cedra_framework, operator = @0x123, delegator = @0x010)]
@@ -3959,9 +3959,9 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::mint(delegator, 200 * ONE_APT);
-        add_stake(delegator, pool_address, 200 * ONE_APT);
-        unlock(delegator, pool_address, 100 * ONE_APT);
+        stake::mint(delegator, 200 * ONE_Cedra);
+        add_stake(delegator, pool_address, 200 * ONE_Cedra);
+        unlock(delegator, pool_address, 100 * ONE_Cedra);
 
         // activate validator
         stake::rotate_consensus_key(operator, pool_address, CONSENSUS_KEY_1, CONSENSUS_POP_1);
@@ -3986,7 +3986,7 @@ module cedra_framework::delegation_pool {
 
         // Test that the `get_add_stake_fee` correctly uses the new commission percentage, and returns the correct
         // fee amount 76756290 in the following case, not 86593604 (calculated with the old commission rate).
-        assert!(get_add_stake_fee(pool_address, 100 * ONE_APT) == 76756290, 0);
+        assert!(get_add_stake_fee(pool_address, 100 * ONE_Cedra) == 76756290, 0);
 
         synchronize_delegation_pool(pool_address);
         // the commission percentage is updated to the new one.
@@ -4021,9 +4021,9 @@ module cedra_framework::delegation_pool {
         let delegator_address = signer::address_of(delegator);
         account::create_account_for_test(delegator_address);
 
-        stake::mint(delegator, 200 * ONE_APT);
-        add_stake(delegator, pool_address, 200 * ONE_APT);
-        unlock(delegator, pool_address, 100 * ONE_APT);
+        stake::mint(delegator, 200 * ONE_Cedra);
+        add_stake(delegator, pool_address, 200 * ONE_Cedra);
+        unlock(delegator, pool_address, 100 * ONE_Cedra);
 
         // activate validator
         stake::rotate_consensus_key(operator, pool_address, CONSENSUS_KEY_1, CONSENSUS_POP_1);
@@ -4062,7 +4062,7 @@ module cedra_framework::delegation_pool {
         delegator2: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, false);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -4074,10 +4074,10 @@ module cedra_framework::delegation_pool {
         account::create_account_for_test(delegator2_address);
 
         // add stake without fees as validator is not active yet
-        stake::mint(delegator1, 50 * ONE_APT);
-        add_stake(delegator1, pool_address, 50 * ONE_APT);
-        stake::mint(delegator2, 16 * ONE_APT);
-        add_stake(delegator2, pool_address, 16 * ONE_APT);
+        stake::mint(delegator1, 50 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 50 * ONE_Cedra);
+        stake::mint(delegator2, 16 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 16 * ONE_Cedra);
 
         // validator becomes active and share price is 1
         end_cedra_epoch();
@@ -4113,16 +4113,16 @@ module cedra_framework::delegation_pool {
 
         // active + pending_inactive balance < 2 * MIN_COINS_ON_SHARES_POOL
         // stake can live on only one of the shares pools
-        assert_delegation(delegator2_address, pool_address, 16 * ONE_APT, 0, 0);
+        assert_delegation(delegator2_address, pool_address, 16 * ONE_Cedra, 0, 0);
         unlock(delegator2, pool_address, 1);
-        assert_delegation(delegator2_address, pool_address, 0, 0, 16 * ONE_APT);
+        assert_delegation(delegator2_address, pool_address, 0, 0, 16 * ONE_Cedra);
         reactivate_stake(delegator2, pool_address, 1);
-        assert_delegation(delegator2_address, pool_address, 16 * ONE_APT, 0, 0);
+        assert_delegation(delegator2_address, pool_address, 16 * ONE_Cedra, 0, 0);
 
-        unlock(delegator2, pool_address, ONE_APT);
-        assert_delegation(delegator2_address, pool_address, 0, 0, 16 * ONE_APT);
-        reactivate_stake(delegator2, pool_address, 2 * ONE_APT);
-        assert_delegation(delegator2_address, pool_address, 16 * ONE_APT, 0, 0);
+        unlock(delegator2, pool_address, ONE_Cedra);
+        assert_delegation(delegator2_address, pool_address, 0, 0, 16 * ONE_Cedra);
+        reactivate_stake(delegator2, pool_address, 2 * ONE_Cedra);
+        assert_delegation(delegator2_address, pool_address, 16 * ONE_Cedra, 0, 0);
 
         // share price becomes 1.01 on both pools
         unlock(delegator1, pool_address, 1);
@@ -4171,11 +4171,11 @@ module cedra_framework::delegation_pool {
         initialize_for_test(cedra_framework);
         cedra_governance::initialize_for_test(
             cedra_framework,
-            (10 * ONE_APT as u128),
-            100 * ONE_APT,
+            (10 * ONE_Cedra as u128),
+            100 * ONE_Cedra,
             1000,
         );
-        initialize_test_validator(validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, false);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -4186,8 +4186,8 @@ module cedra_framework::delegation_pool {
 
         let delegator1_address = signer::address_of(delegator1);
         account::create_account_for_test(delegator1_address);
-        stake::mint(delegator1, 100 * ONE_APT);
-        add_stake(delegator1, pool_address, 10 * ONE_APT);
+        stake::mint(delegator1, 100 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 10 * ONE_Cedra);
         end_cedra_epoch();
 
         let execution_hash = vector::empty<u8>();
@@ -4211,11 +4211,11 @@ module cedra_framework::delegation_pool {
         initialize_for_test(cedra_framework);
         cedra_governance::initialize_for_test(
             cedra_framework,
-            (10 * ONE_APT as u128),
-            100 * ONE_APT,
+            (10 * ONE_Cedra as u128),
+            100 * ONE_Cedra,
             1000,
         );
-        initialize_test_validator(validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, false);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -4226,8 +4226,8 @@ module cedra_framework::delegation_pool {
 
         let delegator1_address = signer::address_of(delegator1);
         account::create_account_for_test(delegator1_address);
-        stake::mint(delegator1, 100 * ONE_APT);
-        add_stake(delegator1, pool_address, 100 * ONE_APT);
+        stake::mint(delegator1, 100 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 100 * ONE_Cedra);
         end_cedra_epoch();
 
         let execution_hash = vector::empty<u8>();
@@ -4261,11 +4261,11 @@ module cedra_framework::delegation_pool {
         initialize_for_test_no_reward(cedra_framework);
         cedra_governance::initialize_for_test(
             cedra_framework,
-            (10 * ONE_APT as u128),
-            100 * ONE_APT,
+            (10 * ONE_Cedra as u128),
+            100 * ONE_Cedra,
             1000,
         );
-        initialize_test_validator(validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, false);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -4283,59 +4283,59 @@ module cedra_framework::delegation_pool {
         let voter2_address = signer::address_of(voter2);
         account::create_account_for_test(voter2_address);
 
-        stake::mint(delegator1, 110 * ONE_APT);
-        add_stake(delegator1, pool_address, 10 * ONE_APT);
-        stake::mint(delegator2, 110 * ONE_APT);
-        add_stake(delegator2, pool_address, 90 * ONE_APT);
+        stake::mint(delegator1, 110 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 10 * ONE_Cedra);
+        stake::mint(delegator2, 110 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 90 * ONE_Cedra);
         // By default, the voter of a delegator is itself.
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         end_cedra_epoch();
         // Reward rate is 0. No reward so no voting power change.
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // Delegator1 delegates its voting power to voter1 but it takes 1 lockup cycle to take effects. So no voting power
         // change now.
         delegate_voting_power(delegator1, pool_address, voter1_address);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // 1 epoch passed but the lockup cycle hasn't ended. No voting power change.
         end_cedra_epoch();
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // One cycle passed. The voter change takes effects.
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 10 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 10 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // Delegator2 delegates its voting power to voter1 but it takes 1 lockup cycle to take effects. So no voting power
         // change now.
         delegate_voting_power(delegator2, pool_address, voter1_address);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 10 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 10 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // One cycle passed. The voter change takes effects.
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
         assert!(calculate_and_update_delegator_voter(pool_address, delegator2_address) == voter1_address, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
@@ -4345,7 +4345,7 @@ module cedra_framework::delegation_pool {
         delegate_voting_power(delegator1, pool_address, voter2_address);
         delegate_voting_power(delegator2, pool_address, voter2_address);
         delegate_voting_power(delegator1, pool_address, voter1_address);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
@@ -4355,23 +4355,23 @@ module cedra_framework::delegation_pool {
         end_cedra_epoch();
         assert!(calculate_and_update_delegator_voter(pool_address, delegator1_address) == voter1_address, 1);
         assert!(calculate_and_update_delegator_voter(pool_address, delegator2_address) == voter2_address, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 90 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
 
         // delegator1 adds stake to the pool. Voting power changes immediately.
-        add_stake(delegator1, pool_address, 90 * ONE_APT);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 90 * ONE_APT, 1);
+        add_stake(delegator1, pool_address, 90 * ONE_Cedra);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 90 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
 
         // delegator1 unlocks stake and changes its voter. No voting power change until next lockup cycle.
-        unlock(delegator1, pool_address, 90 * ONE_APT);
+        unlock(delegator1, pool_address, 90 * ONE_Cedra);
         delegate_voting_power(delegator1, pool_address, voter2_address);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 100 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 90 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
 
@@ -4379,17 +4379,17 @@ module cedra_framework::delegation_pool {
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
         // Withdrawl inactive shares will not change voting power.
-        withdraw(delegator1, pool_address, 45 * ONE_APT);
+        withdraw(delegator1, pool_address, 45 * ONE_Cedra);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 100 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 100 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
 
         // voter2 adds stake for itself. Voting power changes immediately.
-        stake::mint(voter2, 110 * ONE_APT);
-        add_stake(voter2, pool_address, 10 * ONE_APT);
+        stake::mint(voter2, 110 * ONE_Cedra);
+        add_stake(voter2, pool_address, 10 * ONE_Cedra);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 110 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 110 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
     }
@@ -4412,8 +4412,8 @@ module cedra_framework::delegation_pool {
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             100,
@@ -4422,13 +4422,13 @@ module cedra_framework::delegation_pool {
         );
         cedra_governance::initialize_for_test(
             cedra_framework,
-            (10 * ONE_APT as u128),
-            100 * ONE_APT,
+            (10 * ONE_Cedra as u128),
+            100 * ONE_Cedra,
             1000,
         );
 
         // 50% commission rate
-        initialize_test_validator_custom(validator, 100 * ONE_APT, true, false, 5000);
+        initialize_test_validator_custom(validator, 100 * ONE_Cedra, true, false, 5000);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -4446,32 +4446,32 @@ module cedra_framework::delegation_pool {
         let voter2_address = signer::address_of(voter2);
         account::create_account_for_test(voter2_address);
 
-        stake::mint(delegator1, 110 * ONE_APT);
-        add_stake(delegator1, pool_address, 10 * ONE_APT);
-        stake::mint(delegator2, 110 * ONE_APT);
-        add_stake(delegator2, pool_address, 90 * ONE_APT);
+        stake::mint(delegator1, 110 * ONE_Cedra);
+        add_stake(delegator1, pool_address, 10 * ONE_Cedra);
+        stake::mint(delegator2, 110 * ONE_Cedra);
+        add_stake(delegator2, pool_address, 90 * ONE_Cedra);
         // By default, the voter of a delegator is itself.
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 100 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 100 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // One epoch is passed. Delegators earn no reward because their stake was inactive.
         end_cedra_epoch();
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 100 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 100 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 10 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 90 * ONE_Cedra, 1);
 
         // 2 epoches are passed. Delegators earn reward and voting power increases. Operator earns reward and
         // commission. Because there is no operation during these 2 epoches. Operator's commission is not compounded.
         end_cedra_epoch();
         end_cedra_epoch();
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 550 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 25 * ONE_APT, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 225 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 550 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 25 * ONE_Cedra, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 225 * ONE_Cedra, 1);
 
         // Another epoch is passed. Voting power chage due to reward is correct even if delegator1 and delegator2 change its voter.
         delegate_voting_power(delegator1, pool_address, voter1_address);
@@ -4479,7 +4479,7 @@ module cedra_framework::delegation_pool {
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_cedra_epoch();
         assert!(calculate_and_update_voter_total_voting_power(pool_address, validator_address) == 122499999999, 1);
-        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 375 * ONE_APT, 1);
+        assert!(calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 375 * ONE_Cedra, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, voter2_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator1_address) == 0, 1);
         assert!(calculate_and_update_voter_total_voting_power(pool_address, delegator2_address) == 0, 1);
@@ -4501,7 +4501,7 @@ module cedra_framework::delegation_pool {
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
 
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
 
@@ -4510,8 +4510,8 @@ module cedra_framework::delegation_pool {
         let voter1_address = signer::address_of(voter1);
         let voter2_address = signer::address_of(voter2);
 
-        stake::mint(delegator, 100 * ONE_APT);
-        add_stake(delegator, pool_address, 20 * ONE_APT);
+        stake::mint(delegator, 100 * ONE_Cedra);
+        add_stake(delegator, pool_address, 20 * ONE_Cedra);
 
         let first_lockup_end = stake::get_lockup_secs(pool_address);
         // default voter is the delegator
@@ -4536,7 +4536,7 @@ module cedra_framework::delegation_pool {
             calculate_and_update_voter_total_voting_power(
                 pool_address,
                 delegator_address
-            ) == 20 * ONE_APT - get_add_stake_fee(pool_address, 20 * ONE_APT),
+            ) == 20 * ONE_Cedra - get_add_stake_fee(pool_address, 20 * ONE_Cedra),
             0
         );
 
@@ -4554,7 +4554,7 @@ module cedra_framework::delegation_pool {
         assert!(pending_voter == voter1_address, 0);
         assert!(last_locked_until_secs == second_lockup_end, 0);
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 20 * ONE_APT,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 20 * ONE_Cedra,
             0
         );
 
@@ -4568,17 +4568,17 @@ module cedra_framework::delegation_pool {
         assert!(pending_voter == voter2_address, 0);
         assert!(last_locked_until_secs == second_lockup_end, 0);
         assert!(
-            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 20 * ONE_APT,
+            calculate_and_update_voter_total_voting_power(pool_address, voter1_address) == 20 * ONE_Cedra,
             0
         );
 
         // stake added by delegator counts as voting power for the current voter
-        add_stake(delegator, pool_address, 30 * ONE_APT);
+        add_stake(delegator, pool_address, 30 * ONE_Cedra);
         assert!(
             calculate_and_update_voter_total_voting_power(
                 pool_address,
                 voter1_address
-            ) == 20 * ONE_APT + 30 * ONE_APT - get_add_stake_fee(pool_address, 30 * ONE_APT),
+            ) == 20 * ONE_Cedra + 30 * ONE_Cedra - get_add_stake_fee(pool_address, 30 * ONE_Cedra),
             0
         );
 
@@ -4641,8 +4641,8 @@ module cedra_framework::delegation_pool {
         initialize_for_test(cedra_framework);
 
         // activate more validators in order to inactivate one later
-        initialize_test_validator(validator, 100 * ONE_APT, true, false);
-        initialize_test_validator(validator_min_consensus, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, false);
+        initialize_test_validator(validator_min_consensus, 100 * ONE_Cedra, true, true);
 
         let validator_address = signer::address_of(validator);
         let pool_address = get_owned_pool_address(validator_address);
@@ -4745,7 +4745,7 @@ module cedra_framework::delegation_pool {
         validator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         features::change_feature_flags_for_testing(
             cedra_framework,
             vector[],
@@ -4762,7 +4762,7 @@ module cedra_framework::delegation_pool {
         validator: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
 
         let pool_address = get_owned_pool_address(signer::address_of(validator));
         assert!(!allowlisting_enabled(pool_address), 0);
@@ -4778,7 +4778,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
 
         let pool_address = get_owned_pool_address(signer::address_of(validator));
         assert!(!allowlisting_enabled(pool_address), 0);
@@ -4794,7 +4794,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
 
         let pool_address = get_owned_pool_address(signer::address_of(validator));
         assert!(!allowlisting_enabled(pool_address), 0);
@@ -4810,7 +4810,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
 
         let pool_address = get_owned_pool_address(signer::address_of(validator));
         assert!(!allowlisting_enabled(pool_address), 0);
@@ -4826,7 +4826,7 @@ module cedra_framework::delegation_pool {
         delegator_2: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         enable_delegation_pool_allowlisting_feature(cedra_framework);
 
         let validator_address = signer::address_of(validator);
@@ -4908,7 +4908,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         enable_delegation_pool_allowlisting_feature(cedra_framework);
 
         let validator_address = signer::address_of(validator);
@@ -4932,7 +4932,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         enable_delegation_pool_allowlisting_feature(cedra_framework);
 
         let validator_address = signer::address_of(validator);
@@ -4942,8 +4942,8 @@ module cedra_framework::delegation_pool {
         account::create_account_for_test(delegator_1_address);
 
         // add some active shares to NULL_SHAREHOLDER from `add_stake` fee
-        stake::mint(delegator_1, 50 * ONE_APT);
-        add_stake(delegator_1, pool_address, 50 * ONE_APT);
+        stake::mint(delegator_1, 50 * ONE_Cedra);
+        add_stake(delegator_1, pool_address, 50 * ONE_Cedra);
         assert!(get_delegator_active_shares(borrow_global<DelegationPool>(pool_address), NULL_SHAREHOLDER) != 0, 0);
 
         enable_delegators_allowlisting(validator);
@@ -4958,7 +4958,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         enable_delegation_pool_allowlisting_feature(cedra_framework);
 
         let validator_address = signer::address_of(validator);
@@ -4971,18 +4971,18 @@ module cedra_framework::delegation_pool {
         assert!(!allowlisting_enabled(pool_address), 0);
         assert!(delegator_allowlisted(pool_address, delegator_1_address), 0);
 
-        stake::mint(delegator_1, 30 * ONE_APT);
-        add_stake(delegator_1, pool_address, 20 * ONE_APT);
+        stake::mint(delegator_1, 30 * ONE_Cedra);
+        add_stake(delegator_1, pool_address, 20 * ONE_Cedra);
 
         end_cedra_epoch();
-        assert_delegation(delegator_1_address, pool_address, 20 * ONE_APT, 0, 0);
+        assert_delegation(delegator_1_address, pool_address, 20 * ONE_Cedra, 0, 0);
 
         // allowlist is created but has no address added
         enable_delegators_allowlisting(validator);
         assert!(allowlisting_enabled(pool_address), 0);
         assert!(!delegator_allowlisted(pool_address, delegator_1_address), 0);
 
-        add_stake(delegator_1, pool_address, 10 * ONE_APT);
+        add_stake(delegator_1, pool_address, 10 * ONE_Cedra);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123, delegator_1 = @0x010)]
@@ -4993,7 +4993,7 @@ module cedra_framework::delegation_pool {
         delegator_1: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         enable_delegation_pool_allowlisting_feature(cedra_framework);
 
         let validator_address = signer::address_of(validator);
@@ -5009,16 +5009,16 @@ module cedra_framework::delegation_pool {
         assert!(delegator_allowlisted(pool_address, delegator_1_address), 0);
 
         // delegator is allowed to add stake
-        stake::mint(delegator_1, 50 * ONE_APT);
-        add_stake(delegator_1, pool_address, 50 * ONE_APT);
+        stake::mint(delegator_1, 50 * ONE_Cedra);
+        add_stake(delegator_1, pool_address, 50 * ONE_Cedra);
 
         // restore `add_stake` fee back to delegator
         end_cedra_epoch();
-        assert_delegation(delegator_1_address, pool_address, 50 * ONE_APT, 0, 0);
+        assert_delegation(delegator_1_address, pool_address, 50 * ONE_Cedra, 0, 0);
 
         // some of the stake is unlocked by the delegator
-        unlock(delegator_1, pool_address, 30 * ONE_APT);
-        assert_delegation(delegator_1_address, pool_address, 20 * ONE_APT, 0, 2999999999);
+        unlock(delegator_1, pool_address, 30 * ONE_Cedra);
+        assert_delegation(delegator_1_address, pool_address, 20 * ONE_Cedra, 0, 2999999999);
 
         // remove delegator from allowlist
         remove_delegator_from_allowlist(validator, delegator_1_address);
@@ -5029,7 +5029,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(delegator_1_address, pool_address, 0, 0, 4999999999);
 
         // delegator cannot reactivate stake
-        reactivate_stake(delegator_1, pool_address, 50 * ONE_APT);
+        reactivate_stake(delegator_1, pool_address, 50 * ONE_Cedra);
         assert_delegation(delegator_1_address, pool_address, 0, 0, 4999999999);
     }
 
@@ -5041,7 +5041,7 @@ module cedra_framework::delegation_pool {
         delegator_2: &signer,
     ) acquires DelegationPoolOwnership, DelegationPool, GovernanceRecords, BeneficiaryForOperator, NextCommissionPercentage, DelegationPoolAllowlisting {
         initialize_for_test(cedra_framework);
-        initialize_test_validator(validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(validator, 100 * ONE_Cedra, true, true);
         enable_delegation_pool_allowlisting_feature(cedra_framework);
 
         let validator_address = signer::address_of(validator);
@@ -5054,14 +5054,14 @@ module cedra_framework::delegation_pool {
 
         // add stake while allowlisting is disabled
         assert!(!allowlisting_enabled(pool_address), 0);
-        stake::mint(delegator_1, 100 * ONE_APT);
-        stake::mint(delegator_2, 100 * ONE_APT);
-        add_stake(delegator_1, pool_address, 50 * ONE_APT);
-        add_stake(delegator_2, pool_address, 30 * ONE_APT);
+        stake::mint(delegator_1, 100 * ONE_Cedra);
+        stake::mint(delegator_2, 100 * ONE_Cedra);
+        add_stake(delegator_1, pool_address, 50 * ONE_Cedra);
+        add_stake(delegator_2, pool_address, 30 * ONE_Cedra);
 
         end_cedra_epoch();
-        assert_delegation(delegator_1_address, pool_address, 50 * ONE_APT, 0, 0);
-        assert_delegation(delegator_2_address, pool_address, 30 * ONE_APT, 0, 0);
+        assert_delegation(delegator_1_address, pool_address, 50 * ONE_Cedra, 0, 0);
+        assert_delegation(delegator_2_address, pool_address, 30 * ONE_Cedra, 0, 0);
 
         // create allowlist
         enable_delegators_allowlisting(validator);
@@ -5075,7 +5075,7 @@ module cedra_framework::delegation_pool {
 
         // evict delegator 2 which unlocks their entire active stake
         evict_delegator(validator, delegator_2_address);
-        assert_delegation(delegator_2_address, pool_address, 0, 0, 30 * ONE_APT);
+        assert_delegation(delegator_2_address, pool_address, 0, 0, 30 * ONE_Cedra);
 
         end_cedra_epoch();
         // 5000000000 * 1.01 active
@@ -5084,7 +5084,7 @@ module cedra_framework::delegation_pool {
         assert_delegation(delegator_2_address, pool_address, 0, 0, 3030000000);
 
         // can add stake when allowlisted
-        add_stake(delegator_1, pool_address, 10 * ONE_APT);
+        add_stake(delegator_1, pool_address, 10 * ONE_Cedra);
         end_cedra_epoch();
         // 5050000000 * 1.01 + 1000000000 active
         assert_delegation(delegator_1_address, pool_address, 6100500000, 0, 0);
@@ -5104,7 +5104,7 @@ module cedra_framework::delegation_pool {
         let active = pool_u64::balance(
             &borrow_global<DelegationPool>(pool_address).active_shares,
             delegator_1_address
-        ) + get_add_stake_fee(pool_address, 10 * ONE_APT);
+        ) + get_add_stake_fee(pool_address, 10 * ONE_Cedra);
         // 5050000000 + 1000000000 active at last `synchronize_delegation_pool`
         assert!(active == 6050000000, active);
 
@@ -5118,14 +5118,14 @@ module cedra_framework::delegation_pool {
 
         // allowlist delegator 1 back and check that they can add stake
         allowlist_delegator(validator, delegator_1_address);
-        add_stake(delegator_1, pool_address, 20 * ONE_APT);
+        add_stake(delegator_1, pool_address, 20 * ONE_Cedra);
         end_cedra_epoch();
         // 2000000000 active and 6161505000 * 1.01 pending-inactive
-        assert_delegation(delegator_1_address, pool_address, 20 * ONE_APT, 0, 6223120049);
+        assert_delegation(delegator_1_address, pool_address, 20 * ONE_Cedra, 0, 6223120049);
 
         // can reactivate stake when allowlisted
         reactivate_stake(delegator_1, pool_address, 5223120050);
-        assert_delegation(delegator_1_address, pool_address, 20 * ONE_APT + 5223120049, 0, 10 * ONE_APT);
+        assert_delegation(delegator_1_address, pool_address, 20 * ONE_Cedra + 5223120049, 0, 10 * ONE_Cedra);
 
         // evict delegator 1 after they reactivated
         remove_delegator_from_allowlist(validator, delegator_1_address);

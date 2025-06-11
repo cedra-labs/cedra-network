@@ -21,7 +21,7 @@ module cedra_framework::delegation_pool_integration_tests {
     const LOCKUP_CYCLE_SECONDS: u64 = 3600;
 
     #[test_only]
-    const ONE_APT: u64 = 100000000;
+    const ONE_Cedra: u64 = 100000000;
 
     #[test_only]
     const VALIDATOR_STATUS_PENDING_ACTIVE: u64 = 1;
@@ -39,8 +39,8 @@ module cedra_framework::delegation_pool_integration_tests {
     public fun initialize_for_test(cedra_framework: &signer) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -138,10 +138,10 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, false, false);
 
         // Add more stake to exceed max. This should fail.
-        mint_and_add_stake(validator, 9900 * ONE_APT + 1);
+        mint_and_add_stake(validator, 9900 * ONE_Cedra + 1);
     }
 
     #[test(cedra_framework = @0x1, validator_1 = @0x123, validator_2 = @0x234)]
@@ -153,8 +153,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -163,14 +163,14 @@ module cedra_framework::delegation_pool_integration_tests {
         );
         // Have one validator join the set to ensure the validator set is not empty when main validator joins.
         let (_sk_1, pk_1, pop_1) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, true, true);
 
         // Validator 2 joins validator set but epoch has not ended so validator is in pending_active state.
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, false);
 
         // Add more stake to exceed max. This should fail.
-        mint_and_add_stake(validator_2, 9900 * ONE_APT + 1);
+        mint_and_add_stake(validator_2, 9900 * ONE_Cedra + 1);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -182,10 +182,10 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         // Validator joins validator set and waits for epoch end so it's in the validator set.
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Add more stake to exceed max. This should fail.
-        mint_and_add_stake(validator, 9900 * ONE_APT + 1);
+        mint_and_add_stake(validator, 9900 * ONE_Cedra + 1);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -197,15 +197,15 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         // Validator joins validator set and waits for epoch end so it's in the validator set.
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Request to unlock 50 coins, which go to pending_inactive. Validator has 50 remaining in active.
         let pool_address = dp::get_owned_pool_address(signer::address_of(validator));
-        dp::unlock(validator, pool_address, 50 * ONE_APT);
-        stake::assert_validator_state(pool_address, 50 * ONE_APT, 0, 0, 50 * ONE_APT, 0);
+        dp::unlock(validator, pool_address, 50 * ONE_Cedra);
+        stake::assert_validator_state(pool_address, 50 * ONE_Cedra, 0, 0, 50 * ONE_Cedra, 0);
 
         // Add 9900 Cedra + 1 more. Total stake is 50 (active) + 50 (pending_inactive) + 9900 Cedra + 1 > 10000 so still exceeding max.
-        mint_and_add_stake(validator, 9900 * ONE_APT + 1);
+        mint_and_add_stake(validator, 9900 * ONE_Cedra + 1);
     }
 
     #[test(cedra_framework = @cedra_framework, validator_1 = @0x123, validator_2 = @0x234)]
@@ -218,14 +218,14 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, true, false);
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, true, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, true);
 
         // Leave validator set so validator is in pending_inactive state.
         stake::leave_validator_set(validator_1, dp::get_owned_pool_address(signer::address_of(validator_1)));
 
         // Add 9900 Cedra + 1 more. Total stake is 50 (active) + 50 (pending_inactive) + 9900 Cedra + 1 > 10000 so still exceeding max.
-        mint_and_add_stake(validator_1, 9900 * ONE_APT + 1);
+        mint_and_add_stake(validator_1, 9900 * ONE_Cedra + 1);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -235,7 +235,7 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Validator has a lockup now that they've joined the validator set.
         let validator_address = signer::address_of(validator);
@@ -244,20 +244,20 @@ module cedra_framework::delegation_pool_integration_tests {
 
         // Validator adds more stake while already being active.
         // The added stake should go to pending_active to wait for activation when next epoch starts.
-        stake::mint(validator, 900 * ONE_APT);
-        dp::add_stake(validator, pool_address, 100 * ONE_APT);
-        assert!(coin::balance<CedraCoin>(validator_address) == 800 * ONE_APT, 2);
-        stake::assert_validator_state(pool_address, 100 * ONE_APT, 0, 100 * ONE_APT, 0, 0);
+        stake::mint(validator, 900 * ONE_Cedra);
+        dp::add_stake(validator, pool_address, 100 * ONE_Cedra);
+        assert!(coin::balance<CedraCoin>(validator_address) == 800 * ONE_Cedra, 2);
+        stake::assert_validator_state(pool_address, 100 * ONE_Cedra, 0, 100 * ONE_Cedra, 0, 0);
 
         // Pending_active stake is activated in the new epoch.
         // Rewards of 1 coin are also distributed for the existing active stake of 100 coins.
         end_epoch();
         assert!(stake::get_validator_state(pool_address) == VALIDATOR_STATUS_ACTIVE, 3);
-        stake::assert_validator_state(pool_address, 201 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(pool_address, 201 * ONE_Cedra, 0, 0, 0, 0);
 
         // Request unlock of 100 coins. These 100 coins are moved to pending_inactive and will be unlocked when the
         // current lockup expires.
-        dp::unlock(validator, pool_address, 100 * ONE_APT);
+        dp::unlock(validator, pool_address, 100 * ONE_Cedra);
         stake::assert_validator_state(pool_address, 10100000001, 0, 0, 9999999999, 0);
 
         // Enough time has passed so the current lockup cycle should have ended.
@@ -272,10 +272,10 @@ module cedra_framework::delegation_pool_integration_tests {
         assert!(stake::get_remaining_lockup_secs(pool_address) == LOCKUP_CYCLE_SECONDS, 5);
 
         // Validator withdraws from inactive stake multiple times.
-        dp::withdraw(validator, pool_address, 50 * ONE_APT);
+        dp::withdraw(validator, pool_address, 50 * ONE_Cedra);
         assert!(coin::balance<CedraCoin>(validator_address) == 84999999999, 6);
         stake::assert_validator_state(pool_address, 10201000001, 5099999999, 0, 0, 0);
-        dp::withdraw(validator, pool_address, 51 * ONE_APT);
+        dp::withdraw(validator, pool_address, 51 * ONE_Cedra);
         assert!(coin::balance<CedraCoin>(validator_address) == 90099999998, 7);
         stake::assert_validator_state(pool_address, 10201000001, 0, 0, 0, 0);
 
@@ -297,8 +297,8 @@ module cedra_framework::delegation_pool_integration_tests {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -307,8 +307,8 @@ module cedra_framework::delegation_pool_integration_tests {
         );
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, false, false);
 
         // Validator 1 needs to be in the set so validator 2's added stake counts against the limit.
         stake::join_validator_set(validator_1, dp::get_owned_pool_address(signer::address_of(validator_1)));
@@ -327,8 +327,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -338,15 +338,15 @@ module cedra_framework::delegation_pool_integration_tests {
         // Need 1 validator to be in the active validator set so joining limit works.
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, false, true);
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, false, true);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, false, false);
 
         // Add more stake while still pending_active.
         let validator_2_address = dp::get_owned_pool_address(signer::address_of(validator_2));
         stake::join_validator_set(validator_2, validator_2_address);
         assert!(stake::get_validator_state(validator_2_address) == VALIDATOR_STATUS_PENDING_ACTIVE, 0);
-        mint_and_add_stake(validator_2, 100 * ONE_APT);
-        stake::assert_validator_state(validator_2_address, 200 * ONE_APT, 0, 0, 0, 0);
+        mint_and_add_stake(validator_2, 100 * ONE_Cedra);
+        stake::assert_validator_state(validator_2_address, 200 * ONE_Cedra, 0, 0, 0, 0);
     }
 
     #[test(cedra_framework = @cedra_framework, validator_1 = @0x123, validator_2 = @0x234)]
@@ -359,8 +359,8 @@ module cedra_framework::delegation_pool_integration_tests {
         // 100% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -369,15 +369,15 @@ module cedra_framework::delegation_pool_integration_tests {
         );
         // Need 1 validator to be in the active validator set so joining limit works.
         let (_sk_1, pk_1, pop_1) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, true, true);
 
         // Validator 2 joins the validator set but epoch has not ended so they're still pending_active.
         // Current voting power increase is already 100%. This is not failing yet.
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, false);
 
         // Add more stake, which now exceeds the 100% limit. This should fail.
-        mint_and_add_stake(validator_2, ONE_APT);
+        mint_and_add_stake(validator_2, ONE_Cedra);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -388,7 +388,7 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         // Validator joins but epoch hasn't ended, so the validator is still pending_active.
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, false);
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
         assert!(stake::get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_ACTIVE, 0);
 
@@ -406,8 +406,8 @@ module cedra_framework::delegation_pool_integration_tests {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -416,16 +416,16 @@ module cedra_framework::delegation_pool_integration_tests {
         );
         // Add initial stake and join the validator set.
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
-        stake::assert_validator_state(validator_address, 100 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(validator_address, 100 * ONE_Cedra, 0, 0, 0, 0);
         end_epoch();
-        stake::assert_validator_state(validator_address, 110 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(validator_address, 110 * ONE_Cedra, 0, 0, 0, 0);
         end_epoch();
-        stake::assert_validator_state(validator_address, 121 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(validator_address, 121 * ONE_Cedra, 0, 0, 0, 0);
         // Add more than 50% limit. The following line should fail.
-        mint_and_add_stake(validator, 99 * ONE_APT);
+        mint_and_add_stake(validator, 99 * ONE_Cedra);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -437,8 +437,8 @@ module cedra_framework::delegation_pool_integration_tests {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -446,10 +446,10 @@ module cedra_framework::delegation_pool_integration_tests {
             50
         );
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Add more than 50% limit. This should fail.
-        mint_and_add_stake(validator, 50 * ONE_APT + 1);
+        mint_and_add_stake(validator, 50 * ONE_Cedra + 1);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -460,8 +460,8 @@ module cedra_framework::delegation_pool_integration_tests {
         // Reward rate = 10%.
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -469,13 +469,13 @@ module cedra_framework::delegation_pool_integration_tests {
             100
         );
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Unlock half of the coins.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
         assert!(stake::get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS, 1);
-        dp::unlock(validator, validator_address, 50 * ONE_APT);
-        stake::assert_validator_state(validator_address, 50 * ONE_APT, 0, 0, 50 * ONE_APT, 0);
+        dp::unlock(validator, validator_address, 50 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 50 * ONE_Cedra, 0, 0, 50 * ONE_Cedra, 0);
 
         // Enough time has passed so the current lockup cycle should have ended.
         // 50 coins should have unlocked while the remaining 51 (50 + rewards) should stay locked for another cycle.
@@ -483,7 +483,7 @@ module cedra_framework::delegation_pool_integration_tests {
         end_epoch();
         assert!(stake::get_validator_state(validator_address) == VALIDATOR_STATUS_ACTIVE, 2);
         // Validator received rewards in both active and pending inactive.
-        stake::assert_validator_state(validator_address, 55 * ONE_APT, 55 * ONE_APT, 0, 0, 0);
+        stake::assert_validator_state(validator_address, 55 * ONE_Cedra, 55 * ONE_Cedra, 0, 0, 0);
         assert!(stake::get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS, 3);
     }
 
@@ -494,19 +494,19 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
         assert!(stake::get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS, 0);
 
         // One more epoch passes to generate rewards.
         end_epoch();
         assert!(stake::get_validator_state(validator_address) == VALIDATOR_STATUS_ACTIVE, 1);
-        stake::assert_validator_state(validator_address, 101 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(validator_address, 101 * ONE_Cedra, 0, 0, 0, 0);
 
         // Unlock all coins while still having a lockup.
         assert!(stake::get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS - EPOCH_DURATION, 2);
-        dp::unlock(validator, validator_address, 101 * ONE_APT);
-        stake::assert_validator_state(validator_address, 0, 0, 0, 101 * ONE_APT, 0);
+        dp::unlock(validator, validator_address, 101 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 0, 0, 0, 101 * ONE_Cedra, 0);
 
         // One more epoch passes while the current lockup cycle (3600 secs) has not ended.
         timestamp::fast_forward_seconds(1000);
@@ -532,11 +532,11 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, false, false);
 
         // Validator unlocks more stake than they have active. This should limit the unlock to 100.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
-        dp::unlock(validator, validator_address, 200 * ONE_APT);
+        dp::unlock(validator, validator_address, 200 * ONE_Cedra);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -547,18 +547,18 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         // Initial balance = 900 (idle) + 100 (staked) = 1000.
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
-        stake::mint(validator, 900 * ONE_APT);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
+        stake::mint(validator, 900 * ONE_Cedra);
 
         // Validator unlocks stake.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
-        dp::unlock(validator, validator_address, 100 * ONE_APT);
+        dp::unlock(validator, validator_address, 100 * ONE_Cedra);
         // Enough time has passed so the stake is fully unlocked.
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_epoch();
 
         // Validator can only withdraw a max of 100 unlocked coins even if they request to withdraw more than 100.
-        dp::withdraw(validator, validator_address, 200 * ONE_APT);
+        dp::withdraw(validator, validator_address, 200 * ONE_Cedra);
 
         // Receive back all coins with an extra 1 for rewards.
         assert!(coin::balance<CedraCoin>(signer::address_of(validator)) == 100100000000, 2);
@@ -572,16 +572,16 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Validator unlocks stake, which gets moved into pending_inactive.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
-        dp::unlock(validator, validator_address, 50 * ONE_APT);
-        stake::assert_validator_state(validator_address, 50 * ONE_APT, 0, 0, 50 * ONE_APT, 0);
+        dp::unlock(validator, validator_address, 50 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 50 * ONE_Cedra, 0, 0, 50 * ONE_Cedra, 0);
 
         // Validator can reactivate pending_inactive stake.
-        dp::reactivate_stake(validator, validator_address, 50 * ONE_APT);
-        stake::assert_validator_state(validator_address, 100 * ONE_APT, 0, 0, 0, 0);
+        dp::reactivate_stake(validator, validator_address, 50 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 100 * ONE_Cedra, 0, 0, 0, 0);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -591,14 +591,14 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Validator tries to reactivate more than available pending_inactive stake, which should limit to 50.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
-        dp::unlock(validator, validator_address, 50 * ONE_APT);
-        stake::assert_validator_state(validator_address, 50 * ONE_APT, 0, 0, 50 * ONE_APT, 0);
-        dp::reactivate_stake(validator, validator_address, 51 * ONE_APT);
-        stake::assert_validator_state(validator_address, 100 * ONE_APT, 0, 0, 0, 0);
+        dp::unlock(validator, validator_address, 50 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 50 * ONE_Cedra, 0, 0, 50 * ONE_Cedra, 0);
+        dp::reactivate_stake(validator, validator_address, 51 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 100 * ONE_Cedra, 0, 0, 0, 0);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -608,13 +608,13 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
 
         // Unlock enough coins that the remaining is not enough to meet the min required.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
         assert!(stake::get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS, 1);
-        dp::unlock(validator, validator_address, 50 * ONE_APT);
-        stake::assert_validator_state(validator_address, 50 * ONE_APT, 0, 0, 50 * ONE_APT, 0);
+        dp::unlock(validator, validator_address, 50 * ONE_Cedra);
+        stake::assert_validator_state(validator_address, 50 * ONE_Cedra, 0, 0, 50 * ONE_Cedra, 0);
 
         // Enough time has passed so the current lockup cycle should have ended.
         // 50 coins should have unlocked while the remaining 51 (50 + rewards) is not enough so the validator is kicked
@@ -637,9 +637,9 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(&pk_1, &pop_1, validator, 100 * ONE_Cedra, true, false);
         // We need a second validator here just so the first validator can leave.
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, true);
 
         // Leave the validator set while still having a lockup.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
@@ -647,18 +647,18 @@ module cedra_framework::delegation_pool_integration_tests {
         stake::leave_validator_set(validator, validator_address);
         // Validator is in pending_inactive state but is technically still part of the validator set.
         assert!(stake::get_validator_state(validator_address) == VALIDATOR_STATUS_PENDING_INACTIVE, 2);
-        stake::assert_validator_state(validator_address, 100 * ONE_APT, 0, 0, 0, 1);
+        stake::assert_validator_state(validator_address, 100 * ONE_Cedra, 0, 0, 0, 1);
         end_epoch();
 
         // Epoch has ended so validator is no longer part of the validator set.
         assert!(stake::get_validator_state(validator_address) == VALIDATOR_STATUS_INACTIVE, 3);
         // However, their stake, including rewards, should still subject to the existing lockup.
-        stake::assert_validator_state(validator_address, 101 * ONE_APT, 0, 0, 0, 1);
+        stake::assert_validator_state(validator_address, 101 * ONE_Cedra, 0, 0, 0, 1);
         assert!(stake::get_remaining_lockup_secs(validator_address) == LOCKUP_CYCLE_SECONDS - EPOCH_DURATION, 4);
 
         // If they try to unlock, their stake is moved to pending_inactive and would only be withdrawable after the
         // lockup has expired.
-        dp::unlock(validator, validator_address, 50 * ONE_APT);
+        dp::unlock(validator, validator_address, 50 * ONE_Cedra);
         stake::assert_validator_state(validator_address, 5100000001, 0, 0, 4999999999, 1);
         // A couple of epochs passed but lockup has not expired so the validator's stake remains the same.
         end_epoch();
@@ -689,9 +689,9 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator, 100 * ONE_APT, true, false);
+        initialize_test_validator(&pk_1, &pop_1, validator, 100 * ONE_Cedra, true, false);
         // We need a second validator here just so the first validator can leave.
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, true);
 
         // Leave the validator set while still having a lockup.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
@@ -720,8 +720,8 @@ module cedra_framework::delegation_pool_integration_tests {
         // Only 50% voting power increase is allowed in each epoch.
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -730,14 +730,14 @@ module cedra_framework::delegation_pool_integration_tests {
         );
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, true, false);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, true, false);
         // We need a second validator here just so the first validator can leave.
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, true);
 
         // Validator 1 leaves the validator set. Epoch has not ended so they're still pending_inactive.
         stake::leave_validator_set(validator_1, dp::get_owned_pool_address(signer::address_of(validator_1)));
         // Validator 1 adds more stake. This should not succeed as it should not count as a voting power increase.
-        mint_and_add_stake(validator_1, 51 * ONE_APT);
+        mint_and_add_stake(validator_1, 51 * ONE_Cedra);
     }
 
     #[test(cedra_framework = @0x1, validator_1 = @0x123, validator_2 = @0x234, validator_3 = @0x345)]
@@ -749,8 +749,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -760,9 +760,9 @@ module cedra_framework::delegation_pool_integration_tests {
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
         let (_sk_3, pk_3, pop_3) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_3, &pop_3, validator_3, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_3, &pop_3, validator_3, 100 * ONE_Cedra, false, false);
 
         let validator_1_address = dp::get_owned_pool_address(signer::address_of(validator_1));
         let validator_2_address = dp::get_owned_pool_address(signer::address_of(validator_2));
@@ -776,8 +776,8 @@ module cedra_framework::delegation_pool_integration_tests {
         assert!(stake::get_validator_state(validator_2_address) == VALIDATOR_STATUS_ACTIVE, 1);
 
         // Validator indices is the reverse order of the joining order.
-        stake::assert_validator_state(validator_1_address, 100 * ONE_APT, 0, 0, 0, 0);
-        stake::assert_validator_state(validator_2_address, 100 * ONE_APT, 0, 0, 0, 1);
+        stake::assert_validator_state(validator_1_address, 100 * ONE_Cedra, 0, 0, 0, 0);
+        stake::assert_validator_state(validator_2_address, 100 * ONE_Cedra, 0, 0, 0, 1);
 
         // Validator 1 rotates consensus key. Validator 2 leaves. Validator 3 joins.
         let (_sk_1b, pk_1b, pop_1b) = generate_identity();
@@ -795,16 +795,16 @@ module cedra_framework::delegation_pool_integration_tests {
         // Changes applied after new epoch
         end_epoch();
         assert!(stake::get_validator_state(validator_1_address) == VALIDATOR_STATUS_ACTIVE, 8);
-        stake::assert_validator_state(validator_1_address, 101 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(validator_1_address, 101 * ONE_Cedra, 0, 0, 0, 0);
         assert!(stake::get_validator_state(validator_2_address) == VALIDATOR_STATUS_INACTIVE, 9);
         // The validator index of validator 2 stays the same but this doesn't matter as the next time they rejoin the
         // validator set, their index will get set correctly.
-        stake::assert_validator_state(validator_2_address, 101 * ONE_APT, 0, 0, 0, 1);
+        stake::assert_validator_state(validator_2_address, 101 * ONE_Cedra, 0, 0, 0, 1);
         assert!(stake::get_validator_state(validator_3_address) == VALIDATOR_STATUS_ACTIVE, 10);
-        stake::assert_validator_state(validator_3_address, 100 * ONE_APT, 0, 0, 0, 1);
+        stake::assert_validator_state(validator_3_address, 100 * ONE_Cedra, 0, 0, 0, 1);
 
         // Validators without enough stake will be removed.
-        dp::unlock(validator_1, validator_1_address, 50 * ONE_APT);
+        dp::unlock(validator_1, validator_1_address, 50 * ONE_Cedra);
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_epoch();
         assert!(stake::get_validator_state(validator_1_address) == VALIDATOR_STATUS_INACTIVE, 11);
@@ -817,8 +817,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -829,9 +829,9 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_test_validator(&pk, &pop, validator, 0, false, false);
 
         // Add stake when the validator is not yet activated.
-        mint_and_add_stake(validator, 100 * ONE_APT);
+        mint_and_add_stake(validator, 100 * ONE_Cedra);
         let pool_address = dp::get_owned_pool_address(signer::address_of(validator));
-        stake::assert_validator_state(pool_address, 100 * ONE_APT, 0, 0, 0, 0);
+        stake::assert_validator_state(pool_address, 100 * ONE_Cedra, 0, 0, 0, 0);
 
         // Join the validator set with enough stake.
         stake::join_validator_set(validator, pool_address);
@@ -839,15 +839,15 @@ module cedra_framework::delegation_pool_integration_tests {
         assert!(stake::get_validator_state(pool_address) == VALIDATOR_STATUS_ACTIVE, 0);
 
         // Unlock the entire stake.
-        dp::unlock(validator, pool_address, 100 * ONE_APT);
-        stake::assert_validator_state(pool_address, 0, 0, 0, 100 * ONE_APT, 0);
+        dp::unlock(validator, pool_address, 100 * ONE_Cedra);
+        stake::assert_validator_state(pool_address, 0, 0, 0, 100 * ONE_Cedra, 0);
         timestamp::fast_forward_seconds(LOCKUP_CYCLE_SECONDS);
         end_epoch();
 
         // Withdraw stake + rewards.
-        stake::assert_validator_state(pool_address, 0, 101 * ONE_APT, 0, 0, 0);
-        dp::withdraw(validator, pool_address, 101 * ONE_APT);
-        assert!(coin::balance<CedraCoin>(signer::address_of(validator)) == 101 * ONE_APT, 1);
+        stake::assert_validator_state(pool_address, 0, 101 * ONE_Cedra, 0, 0, 0);
+        dp::withdraw(validator, pool_address, 101 * ONE_Cedra);
+        assert!(coin::balance<CedraCoin>(signer::address_of(validator)) == 101 * ONE_Cedra, 1);
         stake::assert_validator_state(pool_address, 0, 0, 0, 0, 0);
 
         // Operator can separately rotate consensus key.
@@ -873,8 +873,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             false,
             1,
@@ -884,7 +884,7 @@ module cedra_framework::delegation_pool_integration_tests {
 
         // Joining the validator set should fail as post genesis validator set change is not allowed.
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
     }
 
     #[test(cedra_framework = @cedra_framework, validator = @0x123)]
@@ -895,7 +895,7 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test(cedra_framework);
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, true, true);
         stake::join_validator_set(validator, @0x234);
     }
 
@@ -907,8 +907,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            100 * ONE_APT,
-            10000 * ONE_APT,
+            100 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             false,
             1,
@@ -916,7 +916,7 @@ module cedra_framework::delegation_pool_integration_tests {
             100
         );
         let (_sk, pk, pop) = generate_identity();
-        initialize_test_validator(&pk, &pop, validator, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk, &pop, validator, 100 * ONE_Cedra, false, false);
 
         // Bypass the check to join. This is the same function called during Genesis.
         let validator_address = dp::get_owned_pool_address(signer::address_of(validator));
@@ -951,11 +951,11 @@ module cedra_framework::delegation_pool_integration_tests {
         let (_sk_4, pk_4, pop_4) = generate_identity();
         let (_sk_5, pk_5, pop_5) = generate_identity();
 
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_3, &pop_3, validator_3, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_4, &pop_4, validator_4, 100 * ONE_APT, false, false);
-        initialize_test_validator(&pk_5, &pop_5, validator_5, 100 * ONE_APT, false, false);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_3, &pop_3, validator_3, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_4, &pop_4, validator_4, 100 * ONE_Cedra, false, false);
+        initialize_test_validator(&pk_5, &pop_5, validator_5, 100 * ONE_Cedra, false, false);
 
         let v1_addr = dp::get_owned_pool_address(signer::address_of(validator_1));
         let v2_addr = dp::get_owned_pool_address(signer::address_of(validator_2));
@@ -1008,8 +1008,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -1022,7 +1022,7 @@ module cedra_framework::delegation_pool_integration_tests {
         account::create_account_for_test(validator_address);
         dp::initialize_delegation_pool(validator, 0, vector::empty<u8>());
         validator_address = dp::get_owned_pool_address(validator_address);
-        mint_and_add_stake(validator, 100 * ONE_APT);
+        mint_and_add_stake(validator, 100 * ONE_Cedra);
 
         // Join the validator set with enough stake. This should fail because the validator didn't initialize validator
         // config.
@@ -1036,8 +1036,8 @@ module cedra_framework::delegation_pool_integration_tests {
     ) {
         initialize_for_test_custom(
             cedra_framework,
-            50 * ONE_APT,
-            10000 * ONE_APT,
+            50 * ONE_Cedra,
+            10000 * ONE_Cedra,
             LOCKUP_CYCLE_SECONDS,
             true,
             1,
@@ -1050,7 +1050,7 @@ module cedra_framework::delegation_pool_integration_tests {
         account::create_account_for_test(validator_address);
         dp::initialize_delegation_pool(validator, 0, vector::empty<u8>());
         validator_address = dp::get_owned_pool_address(validator_address);
-        mint_and_add_stake(validator, 100 * ONE_APT);
+        mint_and_add_stake(validator, 100 * ONE_Cedra);
 
         // Initialize validator config.
         let (_sk_new, pk_new, pop_new) = generate_identity();
@@ -1071,8 +1071,8 @@ module cedra_framework::delegation_pool_integration_tests {
         initialize_for_test(cedra_framework);
         let (_sk_1, pk_1, pop_1) = generate_identity();
         let (_sk_2, pk_2, pop_2) = generate_identity();
-        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_APT, true, false);
-        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_APT, true, true);
+        initialize_test_validator(&pk_1, &pop_1, validator_1, 100 * ONE_Cedra, true, false);
+        initialize_test_validator(&pk_2, &pop_2, validator_2, 100 * ONE_Cedra, true, true);
 
         // Remove validator 1 from the active validator set. Only validator 2 remains.
         let validator_to_remove = dp::get_owned_pool_address(signer::address_of(validator_1));

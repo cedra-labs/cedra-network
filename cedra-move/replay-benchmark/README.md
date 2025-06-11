@@ -23,7 +23,7 @@ not possible to download only first few transactions in a block - only the whole
 Transactions are fetched from the fullnode via REST API. Users should provide fullnode's REST API
 query endpoint using `--rest-endpoint E` flag. Examples of endpoints are:
   - devnet: https://api.devnet.cedralabs.com/v1
-  - testnet: https://api.testnet.cedralabs.com/v1
+  - testnet: https://testnet.cedralabs.com/v1
   - mainnet: https://api.mainnet.cedralabs.com/v1
 
 #### Example

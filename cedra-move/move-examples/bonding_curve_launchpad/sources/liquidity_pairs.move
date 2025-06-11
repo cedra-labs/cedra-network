@@ -17,8 +17,8 @@ module bonding_curve_launchpad::liquidity_pairs {
     friend bonding_curve_launchpad::bonding_curve_launchpad;
 
     const FA_DECIMALS: u8 = 8;
-    const INITIAL_VIRTUAL_APT_LIQUIDITY: u128 = 50_000_000_000;
-    const APT_LIQUIDITY_THRESHOLD: u128 = 600_000_000_000;
+    const INITIAL_VIRTUAL_CEDRA_LIQUIDITY: u128 = 50_000_000_000;
+    const CEDRA_LIQUIDITY_THRESHOLD: u128 = 600_000_000_000;
 
     /// Swapper does not own the FA being swapped.
     const EFA_PRIMARY_STORE_DOES_NOT_EXIST: u64 = 12;
@@ -191,7 +191,7 @@ module bonding_curve_launchpad::liquidity_pairs {
                 is_enabled: true,
                 is_frozen: true,
                 fa_reserves: fa_initial_liquidity,
-                apt_reserves: INITIAL_VIRTUAL_APT_LIQUIDITY,
+                apt_reserves: INITIAL_VIRTUAL_CEDRA_LIQUIDITY,
                 fa_store
             }
         );
@@ -199,7 +199,7 @@ module bonding_curve_launchpad::liquidity_pairs {
             LiquidityPairCreated {
                 fa_object_metadata,
                 initial_fa_reserves: fa_initial_liquidity,
-                initial_apt_reserves: INITIAL_VIRTUAL_APT_LIQUIDITY
+                initial_apt_reserves: INITIAL_VIRTUAL_CEDRA_LIQUIDITY
             }
         );
         // Optional initial swap given to the creator of the FA.
@@ -319,7 +319,7 @@ module bonding_curve_launchpad::liquidity_pairs {
         );
         // Check for graduation requirements. The Cedra reserves must be above the pre-defined
         // threshold to allow for graduation.
-        if (liquidity_pair.is_enabled && apt_updated_reserves > APT_LIQUIDITY_THRESHOLD) {
+        if (liquidity_pair.is_enabled && apt_updated_reserves > CEDRA_LIQUIDITY_THRESHOLD) {
             graduate(liquidity_pair, fa_object_metadata, transfer_ref, apt_updated_reserves, fa_updated_reserves);
         }
     }

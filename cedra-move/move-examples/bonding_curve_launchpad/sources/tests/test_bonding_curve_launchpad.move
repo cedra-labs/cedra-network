@@ -12,7 +12,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
     use swap::test_helpers;
 
     const ELIQUIDITY_PAIR_SWAP_AMOUNTOUT_INCORRECT: u64 = 1001;
-    const EUSER_APT_BALANCE_INCORRECT: u64 = 10001;
+    const EUSER_CEDRA_BALANCE_INCORRECT: u64 = 10001;
     const EINCORRECT_FROZEN_STATUS: u64 = 10002;
     const EUSER_FA_BALANCE_INCORRECT: u64 = 10003;
 
@@ -100,7 +100,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
                 b"https://t4.ftcdn.net/jpg/03/12/95/13/360_F_312951336_8LxW7gBLHslTnpbOAwxFo5FpD2R5vGxu.jpg"
             )
         );
-        assert!(coin::balance<CedraCoin>(user_address) == starting_apt_balance, EUSER_APT_BALANCE_INCORRECT);
+        assert!(coin::balance<CedraCoin>(user_address) == starting_apt_balance, EUSER_CEDRA_BALANCE_INCORRECT);
         assert!(bonding_curve_launchpad::get_balance(name, symbol, user_address) == 0, EUSER_FA_BALANCE_INCORRECT);
     }
 
@@ -137,7 +137,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
                 b"https://t4.ftcdn.net/jpg/03/12/95/13/360_F_312951336_8LxW7gBLHslTnpbOAwxFo5FpD2R5vGxu.jpg"
             )
         );
-        assert!(coin::balance<CedraCoin>(user_address) == starting_apt_balance - 1000, EUSER_APT_BALANCE_INCORRECT);
+        assert!(coin::balance<CedraCoin>(user_address) == starting_apt_balance - 1000, EUSER_CEDRA_BALANCE_INCORRECT);
         assert!(bonding_curve_launchpad::get_balance(name, symbol, user_address) == 16, EUSER_FA_BALANCE_INCORRECT);
     }
 
@@ -211,7 +211,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_launchpad::swap(bonding_curve_creator, name, symbol, false, 100_000_000);
         assert!(
             coin::balance<CedraCoin>(user_address) == starting_apt_balance - 100_000_000,
-            EUSER_APT_BALANCE_INCORRECT
+            EUSER_CEDRA_BALANCE_INCORRECT
         );
         assert!(
             bonding_curve_launchpad::get_balance(name, symbol, user_address) == 1_602_794,
@@ -221,7 +221,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_launchpad::swap(bonding_curve_creator, name, symbol, true, 1_602_794);
         assert!(
             coin::balance<CedraCoin>(user_address) == starting_apt_balance - 26,
-            EUSER_APT_BALANCE_INCORRECT
+            EUSER_CEDRA_BALANCE_INCORRECT
         ); // u256/u64 precision loss.
         assert!(
             bonding_curve_launchpad::get_balance(name, symbol, user_address) == 0,

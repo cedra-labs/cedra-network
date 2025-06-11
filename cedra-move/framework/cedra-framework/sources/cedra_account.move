@@ -22,7 +22,7 @@ module cedra_framework::cedra_account {
     /// Account does not exist.
     const EACCOUNT_NOT_FOUND: u64 = 1;
     /// Account is not registered to receive Cedra.
-    const EACCOUNT_NOT_REGISTERED_FOR_APT: u64 = 2;
+    const EACCOUNT_NOT_REGISTERED_FOR_Cedra: u64 = 2;
     /// Account opted out of receiving coins that they did not register to receive.
     const EACCOUNT_DOES_NOT_ACCEPT_DIRECT_COIN_TRANSFERS: u64 = 3;
     /// Account opted out of directly receiving NFT tokens.
@@ -174,7 +174,7 @@ module cedra_framework::cedra_account {
 
     public fun assert_account_is_registered_for_apt(addr: address) {
         assert_account_exists(addr);
-        assert!(coin::is_account_registered<CedraCoin>(addr), error::not_found(EACCOUNT_NOT_REGISTERED_FOR_APT));
+        assert!(coin::is_account_registered<CedraCoin>(addr), error::not_found(EACCOUNT_NOT_REGISTERED_FOR_Cedra));
     }
 
     /// Set whether `account` can receive direct transfers of coins that they have not explicitly registered to receive.

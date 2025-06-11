@@ -43,6 +43,7 @@ where
             let id = atomic_id.fetch_add(1, Ordering::SeqCst);
             format!("{}-{}", thread_name_clone, id)
         })
+        .disable_lifo_slot()
         .on_thread_start(on_thread_start)
         // Limit concurrent blocking tasks from spawn_blocking(), in case, for example, too many
         // Rest API calls overwhelm the node.

@@ -12,7 +12,7 @@ module staking::oracle {
 
     const PRECISION: u128 = 100000000; // 1e8
     const INITIAL_MAX_AGE_SECS: u64 = 120; // 2 minutes
-    const PYTH_APT_ID: vector<u8> = x"03ae4db29ed4ae33d323568895aa00337e658e348b37509f5372ae51f0af00d5";
+    const PYTH_CEDRA_ID: vector<u8> = x"03ae4db29ed4ae33d323568895aa00337e658e348b37509f5372ae51f0af00d5";
     const PYTH :vector<u8> = b"pyth";
 
     /// Price read from oracle is stale
@@ -36,7 +36,7 @@ module staking::oracle {
         };
 
         let config = &OracleConfig[@staking];
-        let price = pyth::get_price_no_older_than(price_identifier::from_byte_vec(PYTH_APT_ID), config.max_age_secs);
+        let price = pyth::get_price_no_older_than(price_identifier::from_byte_vec(PYTH_CEDRA_ID), config.max_age_secs);
         let raw_price = i64::get_magnitude_if_positive(&price::get_price(&price));
         let expo = price::get_expo(&price);
         // Standardize precision or otherwise we'll get different magnitudes for different decimals

@@ -28,6 +28,7 @@ use crate::{
     },
     CliCommand, CliResult,
 };
+use async_trait::async_trait;
 use cedra_api_types::CedraErrorCode;
 use cedra_crypto::HashValue;
 use cedra_framework::{
@@ -55,7 +56,6 @@ use cedra_types::{
     transaction::{Transaction, TransactionArgument, TransactionPayload, TransactionStatus},
 };
 use cedra_vm::data_cache::AsMoveResolver;
-use async_trait::async_trait;
 use clap::{Parser, Subcommand, ValueEnum};
 use colored::Colorize;
 use itertools::Itertools;
@@ -78,8 +78,8 @@ pub use stored_package::*;
 use tokio::task;
 use url::Url;
 
-pub mod cedra_debug_natives;
 mod bytecode;
+pub mod cedra_debug_natives;
 pub mod coverage;
 mod fmt;
 mod lint;
@@ -207,7 +207,7 @@ impl FrameworkPackageArgs {
         addresses: BTreeMap<String, ManifestNamedAddress>,
         prompt_options: PromptOptions,
     ) -> CliTypedResult<()> {
-        const cedra_framework: &str = "CedraFramework";
+        const CEDRA_FRAMEWORK: &str = "CedraFramework";
         const CEDRA_GIT_PATH: &str = "https://github.com/cedra-labs/cedra-framework.git";
         const SUBDIR_PATH: &str = "cedra-framework";
         const DEFAULT_BRANCH: &str = "mainnet";
@@ -233,24 +233,30 @@ impl FrameworkPackageArgs {
         // Add the framework dependency if it's provided
         let mut dependencies = BTreeMap::new();
         if let Some(ref path) = self.framework_local_dir {
-            dependencies.insert(cedra_framework.to_string(), Dependency {
-                local: Some(path.display().to_string()),
-                git: None,
-                rev: None,
-                subdir: None,
-                cedra: None,
-                address: None,
-            });
+            dependencies.insert(
+                CEDRA_FRAMEWORK.to_string(),
+                Dependency {
+                    local: Some(path.display().to_string()),
+                    git: None,
+                    rev: None,
+                    subdir: None,
+                    cedra: None,
+                    address: None,
+                },
+            );
         } else {
             let git_rev = self.framework_git_rev.as_deref().unwrap_or(DEFAULT_BRANCH);
-            dependencies.insert(cedra_framework.to_string(), Dependency {
-                local: None,
-                git: Some(CEDRA_GIT_PATH.to_string()),
-                rev: Some(git_rev.to_string()),
-                subdir: Some(SUBDIR_PATH.to_string()),
-                cedra: None,
-                address: None,
-            });
+            dependencies.insert(
+                CEDRA_FRAMEWORK.to_string(),
+                Dependency {
+                    local: None,
+                    git: Some(CEDRA_GIT_PATH.to_string()),
+                    rev: Some(git_rev.to_string()),
+                    subdir: Some(SUBDIR_PATH.to_string()),
+                    cedra: None,
+                    address: None,
+                },
+            );
         }
 
         let manifest = MovePackageManifest {

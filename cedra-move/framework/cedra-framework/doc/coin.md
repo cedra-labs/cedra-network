@@ -1065,16 +1065,6 @@ The value of aggregatable coin used for transaction fees redistribution does not
 
 
 
-<a id="0x1_coin_EAPT_PAIRING_IS_NOT_ENABLED"></a>
-
-Cedra pairing is not eanbled yet.
-
-
-<pre><code><b>const</b> <a href="coin.md#0x1_coin_EAPT_PAIRING_IS_NOT_ENABLED">EAPT_PAIRING_IS_NOT_ENABLED</a>: u64 = 28;
-</code></pre>
-
-
-
 <a id="0x1_coin_EBURN_REF_NOT_FOUND"></a>
 
 The BurnRef does not exist.
@@ -1091,6 +1081,16 @@ The BurnRefReceipt does not match the BurnRef to be returned.
 
 
 <pre><code><b>const</b> <a href="coin.md#0x1_coin_EBURN_REF_RECEIPT_MISMATCH">EBURN_REF_RECEIPT_MISMATCH</a>: u64 = 24;
+</code></pre>
+
+
+
+<a id="0x1_coin_ECEDRA_PAIRING_IS_NOT_ENABLED"></a>
+
+Cedra pairing is not eanbled yet.
+
+
+<pre><code><b>const</b> <a href="coin.md#0x1_coin_ECEDRA_PAIRING_IS_NOT_ENABLED">ECEDRA_PAIRING_IS_NOT_ENABLED</a>: u64 = 28;
 </code></pre>
 
 
@@ -1463,7 +1463,7 @@ Create Cedra pairing by passing <code>CedraCoin</code>.
     <b>let</b> type = <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;();
     <b>if</b> (!<a href="../../cedra-stdlib/doc/table.md#0x1_table_contains">table::contains</a>(&map.coin_to_fungible_asset_map, type)) {
         <b>let</b> is_apt = <a href="coin.md#0x1_coin_is_apt">is_apt</a>&lt;CoinType&gt;();
-        <b>assert</b>!(!is_apt || allow_apt_creation, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="coin.md#0x1_coin_EAPT_PAIRING_IS_NOT_ENABLED">EAPT_PAIRING_IS_NOT_ENABLED</a>));
+        <b>assert</b>!(!is_apt || allow_apt_creation, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="coin.md#0x1_coin_ECEDRA_PAIRING_IS_NOT_ENABLED">ECEDRA_PAIRING_IS_NOT_ENABLED</a>));
         <b>let</b> metadata_object_cref =
             <b>if</b> (is_apt) {
                 <a href="object.md#0x1_object_create_sticky_object_at_address">object::create_sticky_object_at_address</a>(@cedra_framework, @cedra_fungible_asset)
@@ -3763,6 +3763,36 @@ initialize, initialize_internal, initialize_with_parallelizable_supply;
 
 
 
+
+<a id="0x1_coin_spec_paired_metadata"></a>
+
+
+<pre><code><b>fun</b> <a href="coin.md#0x1_coin_spec_paired_metadata">spec_paired_metadata</a>&lt;CoinType&gt;(): Option&lt;Object&lt;Metadata&gt;&gt; {
+   <b>if</b> (<b>exists</b>&lt;<a href="coin.md#0x1_coin_CoinConversionMap">CoinConversionMap</a>&gt;(@cedra_framework)) {
+       <b>let</b> map = <b>global</b>&lt;<a href="coin.md#0x1_coin_CoinConversionMap">CoinConversionMap</a>&gt;(@cedra_framework).coin_to_fungible_asset_map;
+       <b>if</b> (<a href="../../cedra-stdlib/doc/table.md#0x1_table_spec_contains">table::spec_contains</a>(map, <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;())) {
+           <b>let</b> metadata = <a href="../../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(map, <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;());
+           <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_some">option::spec_some</a>(metadata)
+       } <b>else</b> {
+           <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_none">option::spec_none</a>()
+       }
+   } <b>else</b> {
+       <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_none">option::spec_none</a>()
+   }
+}
+</code></pre>
+
+
+
+
+<a id="0x1_coin_spec_is_account_registered"></a>
+
+
+<pre><code><b>fun</b> <a href="coin.md#0x1_coin_spec_is_account_registered">spec_is_account_registered</a>&lt;CoinType&gt;(account_addr:<b>address</b>): bool;
+</code></pre>
+
+
+
 <a id="@Specification_1_AggregatableCoin"></a>
 
 ### Struct `AggregatableCoin`
@@ -3959,36 +3989,6 @@ Get address by reflection.
 
 
 
-<a id="0x1_coin_spec_paired_metadata"></a>
-
-
-<pre><code><b>fun</b> <a href="coin.md#0x1_coin_spec_paired_metadata">spec_paired_metadata</a>&lt;CoinType&gt;(): Option&lt;Object&lt;Metadata&gt;&gt; {
-   <b>if</b> (<b>exists</b>&lt;<a href="coin.md#0x1_coin_CoinConversionMap">CoinConversionMap</a>&gt;(@cedra_framework)) {
-       <b>let</b> map = <b>global</b>&lt;<a href="coin.md#0x1_coin_CoinConversionMap">CoinConversionMap</a>&gt;(@cedra_framework).coin_to_fungible_asset_map;
-       <b>if</b> (<a href="../../cedra-stdlib/doc/table.md#0x1_table_spec_contains">table::spec_contains</a>(map, <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;())) {
-           <b>let</b> metadata = <a href="../../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(map, <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;());
-           <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_some">option::spec_some</a>(metadata)
-       } <b>else</b> {
-           <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_none">option::spec_none</a>()
-       }
-   } <b>else</b> {
-       <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_none">option::spec_none</a>()
-   }
-}
-</code></pre>
-
-
-
-
-<a id="0x1_coin_spec_is_account_registered"></a>
-
-
-<pre><code><b>fun</b> <a href="coin.md#0x1_coin_spec_is_account_registered">spec_is_account_registered</a>&lt;CoinType&gt;(account_addr:<b>address</b>): bool;
-</code></pre>
-
-
-
-
 <pre><code><b>pragma</b> aborts_if_is_partial;
 <b>aborts_if</b> <b>false</b>;
 <b>ensures</b> [abstract] result == <a href="coin.md#0x1_coin_spec_is_account_registered">spec_is_account_registered</a>&lt;CoinType&gt;(account_addr);
@@ -4007,34 +4007,6 @@ Get address by reflection.
     <b>include</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(
         maybe_supply
     )) ==&gt; <a href="optional_aggregator.md#0x1_optional_aggregator_SubAbortsIf">optional_aggregator::SubAbortsIf</a> { <a href="optional_aggregator.md#0x1_optional_aggregator">optional_aggregator</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_borrow">option::borrow</a>(maybe_supply), value: amount };
-}
-</code></pre>
-
-
-
-
-<a id="0x1_coin_CoinAddAbortsIf"></a>
-
-
-<pre><code><b>schema</b> <a href="coin.md#0x1_coin_CoinAddAbortsIf">CoinAddAbortsIf</a>&lt;CoinType&gt; {
-    amount: u64;
-    <b>let</b> addr = <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;().account_address;
-    <b>let</b> maybe_supply = <b>global</b>&lt;<a href="coin.md#0x1_coin_CoinInfo">CoinInfo</a>&lt;CoinType&gt;&gt;(addr).<a href="coin.md#0x1_coin_supply">supply</a>;
-    <b>include</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(
-        maybe_supply
-    )) ==&gt; <a href="optional_aggregator.md#0x1_optional_aggregator_AddAbortsIf">optional_aggregator::AddAbortsIf</a> { <a href="optional_aggregator.md#0x1_optional_aggregator">optional_aggregator</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_borrow">option::borrow</a>(maybe_supply), value: amount };
-}
-</code></pre>
-
-
-
-
-<a id="0x1_coin_AbortsIfNotExistCoinInfo"></a>
-
-
-<pre><code><b>schema</b> <a href="coin.md#0x1_coin_AbortsIfNotExistCoinInfo">AbortsIfNotExistCoinInfo</a>&lt;CoinType&gt; {
-    <b>let</b> addr = <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CoinType&gt;().account_address;
-    <b>aborts_if</b> !<b>exists</b>&lt;<a href="coin.md#0x1_coin_CoinInfo">CoinInfo</a>&lt;CoinType&gt;&gt;(addr);
 }
 </code></pre>
 

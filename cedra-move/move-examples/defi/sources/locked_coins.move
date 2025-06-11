@@ -5,7 +5,7 @@
  * 1. Deploy the lockup contract. Deployer can decide if the contract is upgradable or not.
  * 2. Sponsor accounts (sponsors) call initialize_sponsor with the appropriate CoinType to set up their account for
  * creating locks later.
- * 2. Sponsors add locked APTs for custom expiration time + amount for recipients. Each lockup is called a "lock".
+ * 2. Sponsors add locked Cedras for custom expiration time + amount for recipients. Each lockup is called a "lock".
  * 3. Sponsors can revoke a lock or change lockup (reduce or extend) anytime. This gives flexibility in case of
  * contract violation or special circumstances. If this is not desired, the deployer can remove these functionalities
  * before deploying. If a lock is canceled, the locked coins will be sent back to the withdrawal address. This

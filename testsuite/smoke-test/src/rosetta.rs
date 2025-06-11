@@ -148,10 +148,13 @@ async fn test_block_transactions() {
     )
     .await
     .unwrap();
-    assert_eq!(response.block_identifier, BlockIdentifier {
-        index: 0,
-        hash: BlockHash::new(chain_id, 0).to_string(),
-    });
+    assert_eq!(
+        response.block_identifier,
+        BlockIdentifier {
+            index: 0,
+            hash: BlockHash::new(chain_id, 0).to_string(),
+        }
+    );
 
     // First fund account 1 with lots more gas
     cli.fund_account(0, Some(DEFAULT_FUNDED_COINS * 10))
@@ -268,10 +271,13 @@ async fn test_account_balance() {
     )
     .await
     .unwrap();
-    assert_eq!(response.block_identifier, BlockIdentifier {
-        index: 0,
-        hash: BlockHash::new(chain_id, 0).to_string(),
-    });
+    assert_eq!(
+        response.block_identifier,
+        BlockIdentifier {
+            index: 0,
+            hash: BlockHash::new(chain_id, 0).to_string(),
+        }
+    );
 
     // First fund account 1 with lots more gas
     cli.fund_account(0, Some(DEFAULT_FUNDED_COINS * 2))
@@ -866,14 +872,14 @@ async fn test_block() {
     .unwrap_err();
 
     // Test native stake pool and reset lockup support
-    const MIL_APT: u64 = 100000000000000;
-    cli.fund_account(2, Some(10 * MIL_APT)).await.unwrap();
+    const MIL_CEDRA: u64 = 100000000000000;
+    cli.fund_account(2, Some(10 * MIL_CEDRA)).await.unwrap();
     create_stake_pool_and_wait(
         &node_clients,
         private_key_2,
         Some(account_id_3),
         Some(account_id_2),
-        Some(MIL_APT),
+        Some(MIL_CEDRA),
         Some(5),
     )
     .await

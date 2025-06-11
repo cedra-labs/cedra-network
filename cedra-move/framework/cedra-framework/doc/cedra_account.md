@@ -198,12 +198,12 @@ Account does not exist.
 
 
 
-<a id="0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_APT"></a>
+<a id="0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_Cedra"></a>
 
 Account is not registered to receive Cedra.
 
 
-<pre><code><b>const</b> <a href="cedra_account.md#0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_APT">EACCOUNT_NOT_REGISTERED_FOR_APT</a>: u64 = 2;
+<pre><code><b>const</b> <a href="cedra_account.md#0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_Cedra">EACCOUNT_NOT_REGISTERED_FOR_Cedra</a>: u64 = 2;
 </code></pre>
 
 
@@ -555,7 +555,7 @@ This would create the recipient account first to receive the fungible assets.
 
 <pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_apt">assert_account_is_registered_for_apt</a>(addr: <b>address</b>) {
     <a href="cedra_account.md#0x1_cedra_account_assert_account_exists">assert_account_exists</a>(addr);
-    <b>assert</b>!(<a href="coin.md#0x1_coin_is_account_registered">coin::is_account_registered</a>&lt;CedraCoin&gt;(addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_account.md#0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_APT">EACCOUNT_NOT_REGISTERED_FOR_APT</a>));
+    <b>assert</b>!(<a href="coin.md#0x1_coin_is_account_registered">coin::is_account_registered</a>&lt;CedraCoin&gt;(addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_account.md#0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_Cedra">EACCOUNT_NOT_REGISTERED_FOR_Cedra</a>));
 }
 </code></pre>
 

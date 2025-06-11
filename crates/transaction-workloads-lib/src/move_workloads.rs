@@ -249,9 +249,9 @@ pub enum EntryPoints {
     /// load it into code cache.
     SimpleScript,
     /// Set up an Cedra transfer permission and transfering Cedra by using that permissioned signer.
-    APTTransferWithPermissionedSigner,
+    CedraTransferWithPermissionedSigner,
     /// Transfer Cedra using vanilla master signer to compare the performance.
-    APTTransferWithMasterSigner,
+    CedraTransferWithMasterSigner,
 
     OrderBook {
         state: Arc<OrderBookState>,
@@ -318,8 +318,8 @@ impl EntryPointTrait for EntryPoints {
             | EntryPoints::ResourceGroupsSenderMultiChange { .. }
             | EntryPoints::CoinInitAndMint
             | EntryPoints::FungibleAssetMint
-            | EntryPoints::APTTransferWithPermissionedSigner
-            | EntryPoints::APTTransferWithMasterSigner => "framework_usecases",
+            | EntryPoints::CedraTransferWithPermissionedSigner
+            | EntryPoints::CedraTransferWithMasterSigner => "framework_usecases",
             EntryPoints::OrderBook { .. } => "experimental_usecases",
             EntryPoints::TokenV2AmbassadorMint { .. } | EntryPoints::TokenV2AmbassadorBurn => {
                 "ambassador_token"
@@ -399,8 +399,8 @@ impl EntryPointTrait for EntryPoints {
             EntryPoints::IncGlobalMilestoneAggV2 { .. }
             | EntryPoints::CreateGlobalMilestoneAggV2 { .. } => "counter_with_milestone",
             EntryPoints::DeserializeU256 => "bcs_stream",
-            EntryPoints::APTTransferWithPermissionedSigner
-            | EntryPoints::APTTransferWithMasterSigner => "permissioned_transfer",
+            EntryPoints::CedraTransferWithPermissionedSigner
+            | EntryPoints::CedraTransferWithMasterSigner => "permissioned_transfer",
             EntryPoints::OrderBook { .. } => "order_book_example",
         }
     }
@@ -820,7 +820,7 @@ impl EntryPointTrait for EntryPoints {
                     ],
                 )
             },
-            EntryPoints::APTTransferWithPermissionedSigner => get_payload(
+            EntryPoints::CedraTransferWithPermissionedSigner => get_payload(
                 module_id,
                 ident_str!("transfer_permissioned").to_owned(),
                 vec![
@@ -828,7 +828,7 @@ impl EntryPointTrait for EntryPoints {
                     bcs::to_bytes(&1u64).unwrap(),
                 ],
             ),
-            EntryPoints::APTTransferWithMasterSigner => {
+            EntryPoints::CedraTransferWithMasterSigner => {
                 get_payload(module_id, ident_str!("transfer").to_owned(), vec![
                     bcs::to_bytes(&other.expect("Must provide other")).unwrap(),
                     bcs::to_bytes(&1u64).unwrap(),
@@ -984,8 +984,8 @@ impl EntryPointTrait for EntryPoints {
             EntryPoints::DeserializeU256 => AutomaticArgs::None,
             EntryPoints::IncGlobalMilestoneAggV2 { .. } => AutomaticArgs::None,
             EntryPoints::CreateGlobalMilestoneAggV2 { .. } => AutomaticArgs::Signer,
-            EntryPoints::APTTransferWithPermissionedSigner
-            | EntryPoints::APTTransferWithMasterSigner => AutomaticArgs::Signer,
+            EntryPoints::CedraTransferWithPermissionedSigner
+            | EntryPoints::CedraTransferWithMasterSigner => AutomaticArgs::Signer,
             EntryPoints::OrderBook { .. } => AutomaticArgs::None,
         }
     }

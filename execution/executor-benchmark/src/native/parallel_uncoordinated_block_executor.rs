@@ -279,9 +279,9 @@ impl<T: CommonNativeRawTransactionExecutor> RawTransactionExecutor for T {
     fn init_block_state(&self, state_view: &(impl StateView + Sync)) -> bool {
         let features = Features::fetch_config(&state_view).unwrap_or_default();
         let fa_migration_complete =
-            features.is_enabled(FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE);
+            features.is_enabled(FeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE);
         let new_accounts_default_to_fa =
-            features.is_enabled(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE);
+            features.is_enabled(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE);
         assert_eq!(
             fa_migration_complete, new_accounts_default_to_fa,
             "native code only works with both flags either enabled or disabled"

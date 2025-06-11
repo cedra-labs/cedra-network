@@ -80,8 +80,8 @@ fn initialize_harness(
 
     let common_features = vec![
         FeatureFlag::AGGREGATOR_V2_API,
-        FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE,
-        FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE,
+        FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE,
+        FeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE,
         FeatureFlag::DEFAULT_TO_CONCURRENT_FUNGIBLE_BALANCE,
     ];
 

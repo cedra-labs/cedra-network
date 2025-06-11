@@ -496,7 +496,7 @@ module std::features {
         is_enabled(COIN_TO_FUNGIBLE_ASSET_MIGRATION)
     }
 
-    const PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS: u64 = 61;
+    const PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS: u64 = 61;
 
     #[deprecated]
     public fun get_primary_apt_fungible_store_at_user_address_feature(
@@ -506,7 +506,7 @@ module std::features {
 
     #[deprecated]
     public fun primary_apt_fungible_store_at_user_address_enabled(): bool acquires Features {
-        is_enabled(PRIMARY_APT_FUNGIBLE_STORE_AT_USER_ADDRESS)
+        is_enabled(PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS)
     }
 
     const AGGREGATOR_V2_IS_AT_LEAST_API: u64 = 66;
@@ -536,21 +536,21 @@ module std::features {
     }
 
     /// Lifetime: transient
-    const NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE: u64 = 64;
+    const NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE: u64 = 64;
 
-    public fun get_new_accounts_default_to_fa_apt_store_feature(): u64 { NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE }
+    public fun get_new_accounts_default_to_fa_apt_store_feature(): u64 { NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE }
 
     public fun new_accounts_default_to_fa_apt_store_enabled(): bool acquires Features {
-        is_enabled(NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE)
+        is_enabled(NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE)
     }
 
     /// Lifetime: transient
-    const OPERATIONS_DEFAULT_TO_FA_APT_STORE: u64 = 65;
+    const OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE: u64 = 65;
 
-    public fun get_operations_default_to_fa_apt_store_feature(): u64 { OPERATIONS_DEFAULT_TO_FA_APT_STORE }
+    public fun get_operations_default_to_fa_apt_store_feature(): u64 { OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE }
 
     public fun operations_default_to_fa_apt_store_enabled(): bool acquires Features {
-        is_enabled(OPERATIONS_DEFAULT_TO_FA_APT_STORE)
+        is_enabled(OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE)
     }
 
     /// Whether enable concurent Fungible Balance

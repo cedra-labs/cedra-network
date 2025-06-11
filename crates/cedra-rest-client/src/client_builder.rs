@@ -25,7 +25,7 @@ impl CedraBaseUrl {
         match self {
             CedraBaseUrl::Mainnet => Url::from_str("https://api.mainnet.cedralabs.com").unwrap(),
             CedraBaseUrl::Devnet => Url::from_str("https://api.devnet.cedralabs.com").unwrap(),
-            CedraBaseUrl::Testnet => Url::from_str("https://api.testnet.cedralabs.com").unwrap(),
+            CedraBaseUrl::Testnet => Url::from_str("https://testnet.cedralabs.com").unwrap(),
             CedraBaseUrl::Custom(url) => url.to_owned(),
         }
     }
