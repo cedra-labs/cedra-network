@@ -6,6 +6,11 @@ All notable changes to the Cedra CLI will be captured in this file. This project
 - Add flag `--file-path <FILE_PATH>...` to `cedra move fmt`, which allows to specify individual files to format.
 - Fixed bug where `cedra move fmt` would format current directory if invalid `--package-path` was provided
 
+
+## [9.0.0]
+
+- Refactor cli to use inner deps
+
 ## [7.3.0]
 
 - Update boogie from 3.2.4 to 3.5.1.
