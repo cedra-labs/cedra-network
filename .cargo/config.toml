@@ -4,8 +4,6 @@ xclippy = [
   "--workspace",
   "--all-targets",
   "--",
-  "--check-cfg=cfg(fuzzing)",
-  "-Wunexpected_cfgs",
   "-Dwarnings",
   "-Wclippy::all", # TODO: at some point we need to clean up all the exceptions listed below
   "-Aclippy::upper_case_acronyms",
@@ -16,17 +14,6 @@ xclippy = [
   "-Aclippy::doc_lazy_continuation",
   "-Aclippy::collapsible_match",
   "-Aclippy::needless_borrows_for_generic_args",
-  "-Anon_local_definitions",
-  "-Aclippy::needless_lifetimes",
-  "-Aclippy::empty_line_after_doc_comments",
-  "-Aclippy::manual-ok-err",
-  "-Aclippy::doc-overindented-list-items",
-  "-Aclippy::unneeded_struct_pattern",
-  "-Aclippy::manual_div_ceil",
-  "-Aclippy::manual-repeat-n",
-  "-Aclippy::sliced-string-as-bytes",
-  "-Aclippy::obfuscated-if-else",
-  "-Aclippy::unnecessary-map-or",
 ]
 x = "run --package cedra-cargo-cli --bin cedra-cargo-cli --"
 
