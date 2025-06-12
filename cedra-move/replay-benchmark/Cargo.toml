@@ -1,0 +1,39 @@
+[package]
+name = "cedra-replay-benchmark"
+version = "0.1.0"
+description = "A tool to replay and locally benchmark on-chain transactions."
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-block-executor = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-gas-schedule = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-move-debugger = { workspace = true }
+cedra-push-metrics = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-environment = { workspace = true }
+bcs = { workspace = true }
+claims = { workspace = true }
+clap = { workspace = true }
+colored = { workspace = true }
+move-core-types = { workspace = true }
+parking_lot = { workspace = true }
+serde = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+cedra-crypto = { workspace = true }
+rand = { workspace = true }

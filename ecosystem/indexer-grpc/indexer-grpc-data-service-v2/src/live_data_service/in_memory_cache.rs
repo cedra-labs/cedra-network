@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,8 +6,8 @@ use crate::{
     live_data_service::{data_manager::DataManager, fetch_manager::FetchManager},
     metrics::TIMER,
 };
-use aptos_protos::transaction::v1::Transaction;
-use aptos_transaction_filter::{BooleanTransactionFilter, Filterable};
+use cedra_protos::transaction::v1::Transaction;
+use cedra_transaction_filter::{BooleanTransactionFilter, Filterable};
 use prost::Message;
 use std::sync::Arc;
 use tokio::sync::RwLock;

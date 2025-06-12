@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -7,13 +7,13 @@ use crate::{
     NetworkLoadTest,
 };
 use anyhow::Error;
-use aptos_config::config::{NodeConfig, OverrideNodeConfig};
-use aptos_forge::{
+use cedra_config::config::{NodeConfig, OverrideNodeConfig};
+use cedra_forge::{
     NetworkContext, NetworkContextSynchronizer, NetworkTest, OverrideNodeConfigFn, Result, Swarm,
     SwarmChaos, SwarmCpuStress, SwarmNetEm, Test,
 };
-use aptos_sdk::move_types::account_address::AccountAddress;
-use aptos_types::PeerId;
+use cedra_sdk::move_types::account_address::AccountAddress;
+use cedra_types::PeerId;
 use async_trait::async_trait;
 use itertools::{EitherOrBoth, Itertools};
 use log::info;

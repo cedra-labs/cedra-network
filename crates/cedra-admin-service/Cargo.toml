@@ -1,0 +1,33 @@
+[package]
+name = "cedra-admin-service"
+description = "The Admin Service"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-config = { workspace = true }
+cedra-consensus = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-mempool = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-system-utils = { workspace = true }
+cedra-types = { workspace = true }
+bcs = { workspace = true }
+futures-channel = { workspace = true }
+http = { workspace = true }
+hyper = { workspace = true }
+sha256 = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }

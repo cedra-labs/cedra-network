@@ -1,5 +1,5 @@
 [package]
-name = "aptos-experimental-runtimes"
+name = "cedra-experimental-runtimes"
 description = "Simple runtime spawning utilities"
 version = "0.1.0"
 
@@ -13,7 +13,7 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-runtimes = { workspace = true }
+cedra-runtimes = { workspace = true }
 core_affinity = { workspace = true }
 libc = { workspace = true }
 num_cpus = { workspace = true }

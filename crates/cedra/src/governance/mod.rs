@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 pub mod delegation_pool;
@@ -18,19 +18,19 @@ use crate::{
     move_tool::{FrameworkPackageArgs, IncludedArtifacts},
     CliCommand, CliResult,
 };
-use aptos_api_types::ViewFunction;
-use aptos_cached_packages::aptos_stdlib;
-use aptos_crypto::HashValue;
-use aptos_framework::{BuildOptions, BuiltPackage, ReleasePackage};
-use aptos_logger::warn;
-use aptos_rest_client::{
-    aptos_api_types::{Address, HexEncodedBytes, U128, U64},
+use cedra_api_types::ViewFunction;
+use cedra_cached_packages::cedra_stdlib;
+use cedra_crypto::HashValue;
+use cedra_framework::{BuildOptions, BuiltPackage, ReleasePackage};
+use cedra_logger::warn;
+use cedra_rest_client::{
+    cedra_api_types::{Address, HexEncodedBytes, U128, U64},
     Client, Transaction,
 };
-use aptos_sdk::move_types::language_storage::CORE_CODE_ADDRESS;
-use aptos_types::{
+use cedra_sdk::move_types::language_storage::CORE_CODE_ADDRESS;
+use cedra_types::{
     account_address::AccountAddress,
-    account_config::is_aptos_governance_create_proposal_event,
+    account_config::is_cedra_governance_create_proposal_event,
     event::EventHandle,
     governance::VotingRecords,
     stake_pool::StakePool,
@@ -183,7 +183,7 @@ impl CliCommand<Vec<ProposalSummary>> for ListProposals {
         let events = client
             .get_account_events_bcs(
                 AccountAddress::ONE,
-                "0x1::aptos_governance::GovernanceEvents",
+                "0x1::cedra_governance::GovernanceEvents",
                 "create_proposal_events",
                 None,
                 Some(100),
@@ -269,7 +269,7 @@ impl CliCommand<VerifyProposalResponse> for VerifyProposal {
 }
 
 async fn get_proposal(
-    client: &aptos_rest_client::Client,
+    client: &cedra_rest_client::Client,
     voting_table: AccountAddress,
     proposal_id: u64,
 ) -> CliTypedResult<JsonProposal> {
@@ -389,7 +389,7 @@ impl CliCommand<ProposalSubmissionSummary> for SubmitProposal {
         let txn: Transaction = if self.args.is_multi_step {
             self.args
                 .txn_options
-                .submit_transaction(aptos_stdlib::aptos_governance_create_proposal_v2(
+                .submit_transaction(cedra_stdlib::cedra_governance_create_proposal_v2(
                     self.pool_address_args.pool_address,
                     script_hash.to_vec(),
                     self.args.metadata_url.to_string().as_bytes().to_vec(),
@@ -400,7 +400,7 @@ impl CliCommand<ProposalSubmissionSummary> for SubmitProposal {
         } else {
             self.args
                 .txn_options
-                .submit_transaction(aptos_stdlib::aptos_governance_create_proposal(
+                .submit_transaction(cedra_stdlib::cedra_governance_create_proposal(
                     self.pool_address_args.pool_address,
                     script_hash.to_vec(),
                     self.args.metadata_url.to_string().as_bytes().to_vec(),
@@ -450,7 +450,7 @@ fn extract_proposal_id(txn: &Transaction) -> CliTypedResult<Option<u64>> {
         // Find event with proposal id
         let proposal_id =
             if let Some(event) = inner.events.iter().find(|event| {
-                is_aptos_governance_create_proposal_event(event.typ.to_string().as_str())
+                is_cedra_governance_create_proposal_event(event.typ.to_string().as_str())
             }) {
                 let data: CreateProposalEvent = serde_json::from_value(event.data.clone())
                     .map_err(|_| {
@@ -538,7 +538,7 @@ impl SubmitVote {
         let voting_records = client
             .get_account_resource_bcs::<VotingRecords>(
                 CORE_CODE_ADDRESS,
-                "0x1::aptos_governance::VotingRecords",
+                "0x1::cedra_governance::VotingRecords",
             )
             .await
             .unwrap()
@@ -550,7 +550,7 @@ impl SubmitVote {
             let voting_record = client
                 .get_table_item(
                     voting_records,
-                    "0x1::aptos_governance::RecordKey",
+                    "0x1::cedra_governance::RecordKey",
                     "bool",
                     VotingRecord {
                         proposal_id: proposal_id.to_string(),
@@ -587,7 +587,7 @@ impl SubmitVote {
             summaries.push(
                 self.args
                     .txn_options
-                    .submit_transaction(aptos_stdlib::aptos_governance_vote(
+                    .submit_transaction(cedra_stdlib::cedra_governance_vote(
                         *pool_address,
                         proposal_id,
                         vote,
@@ -643,7 +643,7 @@ impl SubmitVote {
                 .view(ViewFunction {
                     module: ModuleId::new(
                         AccountAddress::ONE,
-                        ident_str!("aptos_governance").to_owned(),
+                        ident_str!("cedra_governance").to_owned(),
                     ),
                     function: ident_str!("get_remaining_voting_power").to_owned(),
                     ty_args: vec![],
@@ -682,7 +682,7 @@ impl SubmitVote {
             summaries.push(
                 self.args
                     .txn_options
-                    .submit_transaction(aptos_stdlib::aptos_governance_partial_vote(
+                    .submit_transaction(cedra_stdlib::cedra_governance_partial_vote(
                         *pool_address,
                         proposal_id,
                         voting_power,
@@ -723,7 +723,7 @@ impl CliCommand<Vec<TransactionSummary>> for SubmitVote {
 }
 
 /// Submit a transaction to approve a proposal's script hash to bypass the transaction size limit.
-/// This is needed for upgrading large packages such as aptos-framework.
+/// This is needed for upgrading large packages such as cedra-framework.
 #[derive(Parser)]
 pub struct ApproveExecutionHash {
     /// Id of the proposal to vote on
@@ -744,7 +744,7 @@ impl CliCommand<TransactionSummary> for ApproveExecutionHash {
         Ok(self
             .txn_options
             .submit_transaction(
-                aptos_stdlib::aptos_governance_add_approved_script_hash_script(self.proposal_id),
+                cedra_stdlib::cedra_governance_add_approved_script_hash_script(self.proposal_id),
             )
             .await
             .map(TransactionSummary::from)?)
@@ -1072,13 +1072,13 @@ impl GenerateExecutionHash {
                 let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
                 path.pop();
                 path.pop();
-                path.join("aptos-move")
+                path.join("cedra-move")
                     .join("framework")
-                    .join("aptos-framework")
+                    .join("cedra-framework")
                     .canonicalize()
                     .map_err(|err| {
                         CliError::IO(
-                            format!("Failed to canonicalize aptos framework path: {:?}", path),
+                            format!("Failed to canonicalize cedra framework path: {:?}", path),
                             err,
                         )
                     })?
@@ -1229,7 +1229,7 @@ impl From<JsonProposal> for Proposal {
 struct JsonProposal {
     creation_time_secs: U64,
     early_resolution_vote_threshold: JsonEarlyResolutionThreshold,
-    execution_hash: aptos_rest_client::aptos_api_types::HashValue,
+    execution_hash: cedra_rest_client::cedra_api_types::HashValue,
     expiration_secs: U64,
     is_resolved: bool,
     min_vote_threshold: U128,

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -12,7 +12,7 @@ use crate::{
     update::get_revela_path,
 };
 use anyhow::Context;
-use aptos_types::vm::module_metadata::prelude::*;
+use cedra_types::vm::module_metadata::prelude::*;
 use async_trait::async_trait;
 use clap::{Args, Parser};
 use itertools::Itertools;
@@ -44,8 +44,8 @@ const DECOMPILER_EXTENSION: &str = "mv.move";
 /// of Move bytecode.
 ///
 /// For example, if you want to disassemble an on-chain package `PackName` at account `0x42`:
-/// 1. Download the package with `aptos move download --account 0x42 --package PackName --bytecode`
-/// 2. Disassemble the package bytecode with `aptos move disassemble --package-path PackName/bytecode_modules`
+/// 1. Download the package with `cedra move download --account 0x42 --package PackName --bytecode`
+/// 2. Disassemble the package bytecode with `cedra move disassemble --package-path PackName/bytecode_modules`
 #[derive(Debug, Parser)]
 pub struct Disassemble {
     #[clap(flatten)]
@@ -55,8 +55,8 @@ pub struct Disassemble {
 /// Decompile the Move bytecode pointed to into Move source code.
 ///
 /// For example, if you want to decompile an on-chain package `PackName` at account `0x42`:
-/// 1. Download the package with `aptos move download --account 0x42 --package PackName --bytecode`
-/// 2. Decompile the package bytecode with `aptos decompile --package-path PackName/bytecode_modules`
+/// 1. Download the package with `cedra move download --account 0x42 --package PackName --bytecode`
+/// 2. Decompile the package bytecode with `cedra decompile --package-path PackName/bytecode_modules`
 #[derive(Debug, Parser)]
 pub struct Decompile {
     #[clap(flatten)]
@@ -140,7 +140,7 @@ impl CliCommand<String> for Decompile {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 struct BytecodeMetadata {
-    aptos_metadata: Option<RuntimeModuleMetadataV1>,
+    cedra_metadata: Option<RuntimeModuleMetadataV1>,
     bytecode_version: u32,
     compilation_metadata: CompilationMetadata,
 }
@@ -240,7 +240,7 @@ impl BytecodeCommand {
                 serde_json::to_string_pretty(&v1_metadata).expect("expect compilation metadata")
             };
             BytecodeMetadata {
-                aptos_metadata: get_metadata_from_compiled_code(&script),
+                cedra_metadata: get_metadata_from_compiled_code(&script),
                 bytecode_version: script.version,
                 compilation_metadata: get_compilation_metadata(&script).unwrap_or(v1_metadata),
             }
@@ -248,7 +248,7 @@ impl BytecodeCommand {
             let module = CompiledModule::deserialize(&bytecode_bytes)
                 .context("Module blob can't be deserialized")?;
             BytecodeMetadata {
-                aptos_metadata: get_metadata_from_compiled_code(&module),
+                cedra_metadata: get_metadata_from_compiled_code(&module),
                 bytecode_version: module.version,
                 compilation_metadata: get_compilation_metadata(&module).unwrap_or(v1_metadata),
             }

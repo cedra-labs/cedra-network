@@ -1,0 +1,8 @@
+apiVersion: v2
+name: cedra-node
+version: 1.0.0
+appVersion: 1.0.0
+description: Cedra blockchain node deployment
+home: https://cedra.network/
+sources:
+- https://github.com/cedra-labs/cedra

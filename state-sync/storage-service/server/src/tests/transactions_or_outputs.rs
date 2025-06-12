@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::tests::{mock, mock::MockClient, utils};
-use aptos_config::config::StorageServiceConfig;
-use aptos_storage_service_types::{
+use cedra_config::config::StorageServiceConfig;
+use cedra_storage_service_types::{
     requests::{DataRequest, TransactionsOrOutputsWithProofRequest},
     responses::{DataResponse, StorageServiceResponse},
     StorageServiceError,
 };
-use aptos_types::transaction::{TransactionListWithProof, TransactionOutputListWithProof};
+use cedra_types::transaction::{TransactionListWithProof, TransactionOutputListWithProof};
 use claims::assert_matches;
 use mockall::{predicate::eq, Sequence};
 

@@ -1,0 +1,9 @@
+[package]
+name = "ResourceGroupsPrimary"
+version = "0.0.0"
+
+[addresses]
+resource_groups_primary = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

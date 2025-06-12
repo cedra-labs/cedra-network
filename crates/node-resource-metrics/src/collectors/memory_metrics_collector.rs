@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::collectors::common::{MeasureLatency, NAMESPACE};
-use aptos_infallible::Mutex;
-use aptos_metrics_core::const_metric::ConstMetric;
+use cedra_infallible::Mutex;
+use cedra_metrics_core::const_metric::ConstMetric;
 use prometheus::{
     core::{Collector, Desc, Describer},
     proto::MetricFamily,

@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "aptos-cli-e2e-tests"
+name = "cedra-cli-e2e-tests"
 package-mode = false
 version = "0.1.0"
-description = "Aptos CLI E2E tests"
+description = "Cedra CLI E2E tests"
 authors = ["Cedra Labs <opensource@cedra.network>"]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<=4"
-aptos-sdk = "^0.10.0"
+cedra-sdk = "^0.10.0"
 requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]

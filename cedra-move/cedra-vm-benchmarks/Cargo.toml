@@ -1,0 +1,15 @@
+[package]
+name = "cedra-vm-benchmarks"
+version = "0.1.0"
+edition = "2021"
+license = { workspace = true }
+
+[dependencies]
+cedra-cached-packages = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-language-e2e-tests = { workspace = true }
+cedra-types = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }

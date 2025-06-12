@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node
 
-// This script releases the main aptos docker images to docker hub.
-// It does so by copying the images from aptos GCP artifact registry to docker hub.
+// This script releases the main cedra docker images to docker hub.
+// It does so by copying the images from cedra GCP artifact registry to docker hub.
 // It also copies the release tags to GCP Artifact Registry and AWS ECR.
 //
 // Usually it's run in CI, but you can also run it locally in emergency situations, assuming you have the right credentials.
@@ -19,7 +19,7 @@
 //  - node (node.js)
 //  - crane - https://github.com/google/go-containerregistry/tree/main/cmd/crane#installation
 //  - pnpm - https://pnpm.io/installation
-// 2. docker login - with authorization to push to the `aptoslabs` org
+// 2. docker login - with authorization to push to the `cedralabs` org
 // 3. gcloud auth configure-docker us-docker.pkg.dev
 // 4. gcloud auth login --update-adc
 // 5. AWS CLI credentials configured
@@ -47,16 +47,16 @@ import {
   joinTagSegments,
 } from "./image-helpers.js";
 
-// When we release aptos-node, we also want to release related images for tooling, testing, etc. Similarly, other images have other related images
+// When we release cedra-node, we also want to release related images for tooling, testing, etc. Similarly, other images have other related images
 // that we can release together, ie in a release group.
 const IMAGES_TO_RELEASE_BY_RELEASE_GROUP = {
-  "aptos-node": [
+  "cedra-node": [
     "validator",
     "validator-testing",
     "faucet",
     "tools",
   ],
-  "aptos-indexer-grpc": [
+  "cedra-indexer-grpc": [
     "indexer-grpc",
   ],
 }
@@ -118,9 +118,9 @@ async function main() {
   const craneVersion = await $`${crane} version`;
   console.log(`INFO: crane version: ${craneVersion}`);
   
-  const AWS_ECR = `${parsedArgs.AWS_ACCOUNT_ID}.dkr.ecr.us-west-2.amazonaws.com/aptos`;
+  const AWS_ECR = `${parsedArgs.AWS_ACCOUNT_ID}.dkr.ecr.us-west-2.amazonaws.com/cedra`;
   const GCP_ARTIFACT_REPO = parsedArgs.GCP_DOCKER_ARTIFACT_REPO;
-  const DOCKERHUB = "docker.io/aptoslabs";
+  const DOCKERHUB = "docker.io/cedralabs";
 
   const INTERNAL_TARGET_REGISTRIES = [GCP_ARTIFACT_REPO, AWS_ECR];
 
@@ -179,8 +179,8 @@ async function main() {
 }
 
 // The image tag prefix is used to determine the release group. Examples:
-// * tag a release as "aptos-node-vX.Y.Z"
-// * tag a release as "aptos-indexer-grpc-vX.Y.Z"
+// * tag a release as "cedra-node-vX.Y.Z"
+// * tag a release as "cedra-indexer-grpc-vX.Y.Z"
 export function getImageReleaseGroupByImageTagPrefix(prefix) {
   // iterate over the keys in IMAGES_TO_RELEASE_BY_RELEASE_GROUP
   // if the prefix includes the release group, then return the release group
@@ -189,8 +189,8 @@ export function getImageReleaseGroupByImageTagPrefix(prefix) {
       return imageReleaseGroup;
     }
   }
-  // if there's no match, then release aptos-node by default
-  return "aptos-node";
+  // if there's no match, then release cedra-node by default
+  return "cedra-node";
 }
 
 

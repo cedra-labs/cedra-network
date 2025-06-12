@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -6,7 +6,7 @@ use crate::config::{
     config_optimizer::ConfigOptimizer, config_sanitizer::ConfigSanitizer,
     node_config_loader::NodeType, Error, NodeConfig,
 };
-use aptos_types::chain_id::ChainId;
+use cedra_types::chain_id::ChainId;
 use serde::{Deserialize, Serialize};
 use serde_yaml::Value;
 
@@ -27,7 +27,7 @@ const MAX_CONCURRENT_STATE_REQUESTS: u64 = 6;
 #[serde(default, deny_unknown_fields)]
 pub struct StateSyncConfig {
     pub data_streaming_service: DataStreamingServiceConfig,
-    pub aptos_data_client: AptosDataClientConfig,
+    pub cedra_data_client: CedraDataClientConfig,
     pub state_sync_driver: StateSyncDriverConfig,
     pub storage_service: StorageServiceConfig,
 }
@@ -307,7 +307,7 @@ impl Default for DynamicPrefetchingConfig {
 
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(default, deny_unknown_fields)]
-pub struct AptosDataPollerConfig {
+pub struct CedraDataPollerConfig {
     /// The additional number of polls to send per peer bucket (per second)
     pub additional_polls_per_peer_bucket: u64,
     /// The minimum number of polls that should be sent per second
@@ -324,7 +324,7 @@ pub struct AptosDataPollerConfig {
     pub poll_loop_interval_ms: u64,
 }
 
-impl Default for AptosDataPollerConfig {
+impl Default for CedraDataPollerConfig {
     fn default() -> Self {
         Self {
             additional_polls_per_peer_bucket: 1,
@@ -340,7 +340,7 @@ impl Default for AptosDataPollerConfig {
 
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(default, deny_unknown_fields)]
-pub struct AptosDataMultiFetchConfig {
+pub struct CedraDataMultiFetchConfig {
     /// Whether or not to enable multi-fetch for data client requests
     pub enable_multi_fetch: bool,
     /// The number of additional requests to send per peer bucket
@@ -356,7 +356,7 @@ pub struct AptosDataMultiFetchConfig {
     pub multi_fetch_peer_bucket_size: usize,
 }
 
-impl Default for AptosDataMultiFetchConfig {
+impl Default for CedraDataMultiFetchConfig {
     fn default() -> Self {
         Self {
             enable_multi_fetch: true,
@@ -370,7 +370,7 @@ impl Default for AptosDataMultiFetchConfig {
 
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(default, deny_unknown_fields)]
-pub struct AptosLatencyFilteringConfig {
+pub struct CedraLatencyFilteringConfig {
     /// The reduction factor for latency filtering when selecting peers
     pub latency_filtering_reduction_factor: u64,
     /// Minimum peer ratio for latency filtering
@@ -379,7 +379,7 @@ pub struct AptosLatencyFilteringConfig {
     pub min_peers_for_latency_filtering: u64,
 }
 
-impl Default for AptosLatencyFilteringConfig {
+impl Default for CedraLatencyFilteringConfig {
     fn default() -> Self {
         Self {
             latency_filtering_reduction_factor: 2, // Only consider the best 50% of peers
@@ -391,15 +391,15 @@ impl Default for AptosLatencyFilteringConfig {
 
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
 #[serde(default, deny_unknown_fields)]
-pub struct AptosDataClientConfig {
-    /// The aptos data poller config for the data client
-    pub data_poller_config: AptosDataPollerConfig,
-    /// The aptos data multi-fetch config for the data client
-    pub data_multi_fetch_config: AptosDataMultiFetchConfig,
+pub struct CedraDataClientConfig {
+    /// The cedra data poller config for the data client
+    pub data_poller_config: CedraDataPollerConfig,
+    /// The cedra data multi-fetch config for the data client
+    pub data_multi_fetch_config: CedraDataMultiFetchConfig,
     /// Whether or not to ignore peers with low peer scores
     pub ignore_low_score_peers: bool,
-    /// The aptos latency filtering config for the data client
-    pub latency_filtering_config: AptosLatencyFilteringConfig,
+    /// The cedra latency filtering config for the data client
+    pub latency_filtering_config: CedraLatencyFilteringConfig,
     /// The interval (milliseconds) at which to refresh the latency monitor
     pub latency_monitor_loop_interval_ms: u64,
     /// Maximum number of epoch ending ledger infos per chunk
@@ -428,13 +428,13 @@ pub struct AptosDataClientConfig {
     pub use_compression: bool,
 }
 
-impl Default for AptosDataClientConfig {
+impl Default for CedraDataClientConfig {
     fn default() -> Self {
         Self {
-            data_poller_config: AptosDataPollerConfig::default(),
-            data_multi_fetch_config: AptosDataMultiFetchConfig::default(),
+            data_poller_config: CedraDataPollerConfig::default(),
+            data_multi_fetch_config: CedraDataMultiFetchConfig::default(),
             ignore_low_score_peers: true,
-            latency_filtering_config: AptosLatencyFilteringConfig::default(),
+            latency_filtering_config: CedraLatencyFilteringConfig::default(),
             latency_monitor_loop_interval_ms: 100,
             max_epoch_chunk_size: MAX_EPOCH_CHUNK_SIZE,
             max_num_output_reductions: 0,

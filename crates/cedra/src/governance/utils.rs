@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{governance::*, *};
-use aptos_types::on_chain_config::FeatureFlag;
+use cedra_types::on_chain_config::FeatureFlag;
 
 pub fn vote_to_string(vote: bool) -> &'static str {
     if vote {

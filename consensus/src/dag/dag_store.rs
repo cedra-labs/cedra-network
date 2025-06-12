@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{
@@ -13,11 +13,11 @@ use crate::{
     payload_manager::TPayloadManager,
 };
 use anyhow::{anyhow, ensure};
-use aptos_consensus_types::common::{Author, Round};
-use aptos_crypto::HashValue;
-use aptos_infallible::RwLock;
-use aptos_logger::{debug, error, warn};
-use aptos_types::{epoch_state::EpochState, validator_verifier::ValidatorVerifier};
+use cedra_consensus_types::common::{Author, Round};
+use cedra_crypto::HashValue;
+use cedra_infallible::RwLock;
+use cedra_logger::{debug, error, warn};
+use cedra_types::{epoch_state::EpochState, validator_verifier::ValidatorVerifier};
 use std::{
     collections::{BTreeMap, HashMap, HashSet},
     ops::Deref,

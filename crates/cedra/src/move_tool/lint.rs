@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     common::types::{AccountAddressWrapper, CliCommand, CliTypedResult, MovePackageOptions},
     move_tool::IncludedArtifacts,
 };
-use aptos_framework::{BuildOptions, BuiltPackage};
+use cedra_framework::{BuildOptions, BuiltPackage};
 use async_trait::async_trait;
 use clap::Parser;
 use move_compiler_v2::Experiment;

@@ -1,19 +1,19 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{new_test_context, new_test_context_with_db_sharding_and_internal_indexer};
-use aptos_api_test_context::{current_function_name, TestContext};
-use aptos_crypto::{ed25519::Ed25519PrivateKey, SigningKey, ValidCryptoMaterial};
-use aptos_sdk::types::LocalAccount;
-use aptos_types::account_config::RotationProofChallenge;
+use cedra_api_test_context::{current_function_name, TestContext};
+use cedra_crypto::{ed25519::Ed25519PrivateKey, SigningKey, ValidCryptoMaterial};
+use cedra_sdk::types::LocalAccount;
+use cedra_types::account_config::RotationProofChallenge;
 use move_core_types::{account_address::AccountAddress, language_storage::CORE_CODE_ADDRESS};
 use serde_json::{json, Value};
 use std::path::PathBuf;
 
 static MODULE_EVENT_MIGRATION: u64 = 57;
-static NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE: u64 = 64;
-static OPERATIONS_DEFAULT_TO_FA_APT_STORE: u64 = 65;
+static NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE: u64 = 64;
+static OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE: u64 = 65;
 static NEW_ACCOUNTS_DEFAULT_TO_FA_STORE: u64 = 90;
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
@@ -56,7 +56,7 @@ async fn test_event_v2_translation_coin_deposit_event() {
 
     // Transfer coins from account1 to account2, emitting V1 events as the feature is disabled
     context
-        .api_execute_aptos_account_transfer(account2, account1.address(), 101)
+        .api_execute_cedra_account_transfer(account2, account1.address(), 101)
         .await;
 
     // Enable the MODULE_EVENT_MIGRATION feature
@@ -86,7 +86,7 @@ async fn test_event_v2_translation_coin_deposit_event() {
 
     // Transfer coins from account2 to account1, emitting V2 events as the feature is enabled
     context
-        .api_execute_aptos_account_transfer(account2, account1.address(), 102)
+        .api_execute_cedra_account_transfer(account2, account1.address(), 102)
         .await;
 
     // Check the event_by_creation_number API outputs the translated V1 event
@@ -163,10 +163,10 @@ async fn test_event_v2_translation_coin_withdraw_event() {
     // Start with the MODULE_EVENT_MIGRATION feature disabled
     context.disable_feature(MODULE_EVENT_MIGRATION).await;
     context
-        .disable_feature(NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE)
+        .disable_feature(NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE)
         .await;
     context
-        .disable_feature(OPERATIONS_DEFAULT_TO_FA_APT_STORE)
+        .disable_feature(OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE)
         .await;
     context
         .disable_feature(NEW_ACCOUNTS_DEFAULT_TO_FA_STORE)
@@ -178,7 +178,7 @@ async fn test_event_v2_translation_coin_withdraw_event() {
 
     // Transfer coins from account1 to account2, emitting V1 events as the feature is disabled
     context
-        .api_execute_aptos_account_transfer(account2, account1.address(), 101)
+        .api_execute_cedra_account_transfer(account2, account1.address(), 101)
         .await;
 
     // Enable the MODULE_EVENT_MIGRATION feature
@@ -207,7 +207,7 @@ async fn test_event_v2_translation_coin_withdraw_event() {
 
     // Transfer coins from account2 to account1, emitting V2 events as the feature is enabled
     context
-        .api_execute_aptos_account_transfer(account2, account1.address(), 102)
+        .api_execute_cedra_account_transfer(account2, account1.address(), 102)
         .await;
 
     // Check the event_by_creation_number API outputs the translated V1 event
@@ -284,10 +284,10 @@ async fn test_event_v2_translation_account_coin_register_event() {
     // Make sure that the MODULE_EVENT_MIGRATION feature is enabled
     context.enable_feature(MODULE_EVENT_MIGRATION).await;
     context
-        .disable_feature(NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE)
+        .disable_feature(NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE)
         .await;
     context
-        .disable_feature(OPERATIONS_DEFAULT_TO_FA_APT_STORE)
+        .disable_feature(OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE)
         .await;
     context
         .disable_feature(NEW_ACCOUNTS_DEFAULT_TO_FA_STORE)
@@ -310,7 +310,7 @@ async fn test_event_v2_translation_account_coin_register_event() {
 
     // Transfer coins from account2 to account1, emitting V2 events as the feature is enabled
     context
-        .api_execute_aptos_account_transfer(account1, account2.address(), 102)
+        .api_execute_cedra_account_transfer(account1, account2.address(), 102)
         .await;
 
     // Check the event_by_creation_number API outputs the translated V1 event

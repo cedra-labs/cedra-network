@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::{
@@ -9,11 +9,11 @@ use crate::consensus_observer::{
     },
     network::observer_message::{BlockPayload, OrderedBlock},
 };
-use aptos_config::config::ConsensusObserverConfig;
-use aptos_consensus_types::{common::Round, pipelined_block::PipelinedBlock};
-use aptos_infallible::Mutex;
-use aptos_logger::{error, warn};
-use aptos_types::epoch_state::EpochState;
+use cedra_config::config::ConsensusObserverConfig;
+use cedra_consensus_types::{common::Round, pipelined_block::PipelinedBlock};
+use cedra_infallible::Mutex;
+use cedra_logger::{error, warn};
+use cedra_types::epoch_state::EpochState;
 use std::{
     collections::{btree_map::Entry, BTreeMap},
     sync::Arc,
@@ -278,8 +278,8 @@ impl BlockPayloadStore {
 mod test {
     use super::*;
     use crate::consensus_observer::network::observer_message::BlockTransactionPayload;
-    use aptos_bitvec::BitVec;
-    use aptos_consensus_types::{
+    use cedra_bitvec::BitVec;
+    use cedra_consensus_types::{
         block::Block,
         block_data::{BlockData, BlockType},
         common::{Author, Payload, ProofWithData},
@@ -287,8 +287,8 @@ mod test {
         proof_of_store::{BatchId, BatchInfo, ProofOfStore},
         quorum_cert::QuorumCert,
     };
-    use aptos_crypto::HashValue;
-    use aptos_types::{
+    use cedra_crypto::HashValue;
+    use cedra_types::{
         aggregate_signature::AggregateSignature,
         block_info::{BlockInfo, Round},
         ledger_info::{LedgerInfo, LedgerInfoWithSignatures},

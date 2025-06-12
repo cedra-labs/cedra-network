@@ -1,6 +1,6 @@
 [package]
 name = "smoke-test"
-description = "Aptos end to end tests"
+description = "Cedra end to end tests"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -15,34 +15,34 @@ rust-version = { workspace = true }
 [dependencies]
 anyhow = { workspace = true }
 cedra = { workspace = true, features = ["fuzzing"] }
-aptos-bitvec = { path = "../../crates/aptos-bitvec" }
-aptos-cached-packages = { workspace = true }
-aptos-config = { workspace = true, features = ["smoke-test"] }
-aptos-consensus = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-db = { workspace = true }
-aptos-db-indexer-schemas = { workspace = true }
-aptos-dkg = { workspace = true }
-aptos-faucet-core = { workspace = true }
-aptos-forge = { workspace = true }
-aptos-framework = { workspace = true }
-aptos-gas-algebra = { workspace = true }
-aptos-gas-schedule = { workspace = true, features = ["testing"] }
-aptos-global-constants = { workspace = true }
-aptos-indexer = { workspace = true }
-aptos-indexer-grpc-table-info = { workspace = true }
-aptos-inspection-service = { workspace = true }
-aptos-keygen = { workspace = true }
-aptos-move-debugger = { workspace = true }
-aptos-release-builder = { workspace = true }
-aptos-rest-client = { workspace = true }
-aptos-rosetta = { workspace = true }
-aptos-schemadb = { workspace = true }
-aptos-sdk = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-types = { workspace = true }
-aptos-vm = { workspace = true }
+cedra-bitvec = { path = "../../crates/cedra-bitvec" }
+cedra-cached-packages = { workspace = true }
+cedra-config = { workspace = true, features = ["smoke-test"] }
+cedra-consensus = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-db = { workspace = true }
+cedra-db-indexer-schemas = { workspace = true }
+cedra-dkg = { workspace = true }
+cedra-faucet-core = { workspace = true }
+cedra-forge = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-gas-algebra = { workspace = true }
+cedra-gas-schedule = { workspace = true, features = ["testing"] }
+cedra-global-constants = { workspace = true }
+cedra-indexer = { workspace = true }
+cedra-indexer-grpc-table-info = { workspace = true }
+cedra-inspection-service = { workspace = true }
+cedra-keygen = { workspace = true }
+cedra-move-debugger = { workspace = true }
+cedra-release-builder = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-rosetta = { workspace = true }
+cedra-schemadb = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
 bcs = { workspace = true }
 diesel = { workspace = true, features = [
     "chrono",
@@ -65,14 +65,14 @@ url = { workspace = true }
 walkdir = { workspace = true }
 
 [dev-dependencies]
-aptos-backup-cli = { workspace = true }
-aptos-db-indexer = { workspace = true, features = ["fuzzing"] }
-aptos-genesis = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-secure-storage = { workspace = true }
-aptos-time-service = { workspace = true }
-aptos-vault-client = { workspace = true }
+cedra-backup-cli = { workspace = true }
+cedra-db-indexer = { workspace = true, features = ["fuzzing"] }
+cedra-genesis = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-secure-storage = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-vault-client = { workspace = true }
 base64 = { workspace = true }
 futures = { workspace = true }
 itertools = { workspace = true }

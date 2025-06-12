@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
-use aptos_api_test_context::{current_function_name, TestContext};
-use aptos_types::account_address::{self, AccountAddress};
+use cedra_api_test_context::{current_function_name, TestContext};
+use cedra_types::account_address::{self, AccountAddress};
 use serde_json::{json, Value};
 use std::{collections::BTreeMap, path::PathBuf};
 
@@ -25,7 +25,7 @@ async fn test_gen_object() {
     let named_addresses = vec![("hero".to_string(), user_addr)];
     let txn = futures::executor::block_on(async move {
         let path = PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
-            .join("../aptos-move/move-examples/token_objects/hero");
+            .join("../cedra-move/move-examples/token_objects/hero");
         TestContext::build_package(path, named_addresses)
     });
     context.publish_package(&mut user, txn).await;

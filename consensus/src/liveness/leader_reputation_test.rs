@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use super::leader_reputation::{
-    extract_epoch_to_proposers_impl, AptosDBBackend, ProposerAndVoterHeuristic,
+    extract_epoch_to_proposers_impl, CedraDBBackend, ProposerAndVoterHeuristic,
 };
 use crate::liveness::{
     leader_reputation::{
@@ -11,13 +11,13 @@ use crate::liveness::{
     },
     proposer_election::{choose_index, ProposerElection},
 };
-use aptos_bitvec::BitVec;
-use aptos_consensus_types::common::{Author, Round};
-use aptos_crypto::{bls12381, HashValue};
-use aptos_infallible::Mutex;
-use aptos_keygen::KeyGen;
-use aptos_storage_interface::DbReader;
-use aptos_types::{
+use cedra_bitvec::BitVec;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_crypto::{bls12381, HashValue};
+use cedra_infallible::Mutex;
+use cedra_keygen::KeyGen;
+use cedra_storage_interface::DbReader;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{new_block_event_key, NewBlockEvent},
     contract_event::{ContractEvent, EventWithVersion},
@@ -87,8 +87,8 @@ fn test_aggregation_indices_to_authors_out_of_index() {
 struct Example1 {
     validators0: Vec<Author>,
     validators1: Vec<Author>,
-    aptos_db: Arc<MockDbReader>,
-    backend: AptosDBBackend,
+    cedra_db: Arc<MockDbReader>,
+    backend: CedraDBBackend,
 }
 
 impl Example1 {
@@ -101,13 +101,13 @@ impl Example1 {
         let mut validators1: Vec<Author> = validators0[..3].to_vec();
         validators1.push(sorted_validators[4]);
 
-        let aptos_db = Arc::new(MockDbReader::new());
-        let backend = AptosDBBackend::new(window_size, 0, aptos_db.clone());
+        let cedra_db = Arc::new(MockDbReader::new());
+        let backend = CedraDBBackend::new(window_size, 0, cedra_db.clone());
 
         Self {
             validators0,
             validators1,
-            aptos_db,
+            cedra_db,
             backend,
         }
     }
@@ -117,26 +117,26 @@ impl Example1 {
     }
 
     fn step1(&mut self) {
-        self.aptos_db
+        self.cedra_db
             .add_event_with_data(self.validators0[0], vec![1, 2], vec![3]);
-        self.aptos_db
+        self.cedra_db
             .add_event_with_data(self.validators0[0], vec![1, 2], vec![]);
-        self.aptos_db
+        self.cedra_db
             .add_event_with_data(self.validators0[1], vec![0, 2], vec![2]);
-        self.aptos_db
+        self.cedra_db
             .add_event_with_data(self.validators0[2], vec![0, 1], vec![]);
     }
 
     fn step2(&mut self) {
-        self.aptos_db
+        self.cedra_db
             .add_event_with_data(self.validators0[3], vec![0, 1], vec![1]);
-        self.aptos_db
+        self.cedra_db
             .add_event_with_data(self.validators0[3], vec![0, 1], vec![1]);
     }
 
     fn step3(&mut self) {
-        self.aptos_db.new_epoch();
-        self.aptos_db
+        self.cedra_db.new_epoch();
+        self.cedra_db
             .add_event_with_data(self.validators1[3], vec![0, 1], vec![0]);
     }
 }
@@ -309,19 +309,19 @@ fn test_api(use_root_hash: bool) {
     let total_weights: u128 = expected_weights.iter().sum();
 
     let mut selected = [0; 5].to_vec();
-    let aptos_db = Arc::new(MockDbReader::new());
+    let cedra_db = Arc::new(MockDbReader::new());
 
     for epoch in 1..1000 {
-        aptos_db.new_epoch();
+        cedra_db.new_epoch();
         assert_eq!(
             (epoch, 1),
-            aptos_db.add_event_with_data(proposers[0], vec![1, 2], vec![])
+            cedra_db.add_event_with_data(proposers[0], vec![1, 2], vec![])
         );
         assert_eq!(
             (epoch, 2),
-            aptos_db.add_event_with_data(proposers[0], vec![3], vec![])
+            cedra_db.add_event_with_data(proposers[0], vec![3], vec![])
         );
-        let backend = Arc::new(AptosDBBackend::new(1, 4, aptos_db.clone()));
+        let backend = Arc::new(CedraDBBackend::new(1, 4, cedra_db.clone()));
         let leader_reputation = LeaderReputation::new(
             epoch,
             HashMap::from([(epoch, proposers.clone())]),
@@ -345,7 +345,7 @@ fn test_api(use_root_hash: bool) {
 
         let state = if use_root_hash {
             [
-                aptos_db.get_accumulator_root_hash(0).unwrap().to_vec(),
+                cedra_db.get_accumulator_root_hash(0).unwrap().to_vec(),
                 epoch.to_le_bytes().to_vec(),
                 round.to_le_bytes().to_vec(),
             ]
@@ -486,7 +486,7 @@ impl DbReader for MockDbReader {
     fn get_latest_block_events(
         &self,
         num_events: usize,
-    ) -> aptos_storage_interface::Result<Vec<EventWithVersion>> {
+    ) -> cedra_storage_interface::Result<Vec<EventWithVersion>> {
         *self.fetched.lock() += 1;
         let events = self.events.lock();
         // println!("Events {:?}", *events);
@@ -499,7 +499,7 @@ impl DbReader for MockDbReader {
     }
 
     /// Returns the latest version, error on on non-bootstrapped DB.
-    fn get_latest_ledger_info_version(&self) -> aptos_storage_interface::Result<Version> {
+    fn get_latest_ledger_info_version(&self) -> cedra_storage_interface::Result<Version> {
         let version = *self.idx.lock();
         let mut to_add = self.to_add_event_after_call.lock();
         if let Some((epoch, round)) = *to_add {
@@ -514,21 +514,21 @@ impl DbReader for MockDbReader {
     fn get_accumulator_root_hash(
         &self,
         _version: Version,
-    ) -> aptos_storage_interface::Result<HashValue> {
+    ) -> cedra_storage_interface::Result<HashValue> {
         Ok(HashValue::zero())
     }
 }
 
 #[test]
 fn backend_wrapper_test() {
-    let aptos_db = Arc::new(MockDbReader::new());
-    let backend = AptosDBBackend::new(3, 3, aptos_db.clone());
+    let cedra_db = Arc::new(MockDbReader::new());
+    let backend = CedraDBBackend::new(3, 3, cedra_db.clone());
 
-    aptos_db.add_event(0, 1);
-    aptos_db.new_epoch();
-    aptos_db.skip_rounds(1);
+    cedra_db.add_event(0, 1);
+    cedra_db.new_epoch();
+    cedra_db.skip_rounds(1);
     for i in 2..6 {
-        aptos_db.add_event(1, i);
+        cedra_db.add_event(1, i);
     }
     let mut fetch_count = 0;
 
@@ -543,7 +543,7 @@ fn backend_wrapper_test() {
         if to_fetch {
             fetch_count += 1;
         }
-        assert_eq!(fetch_count, aptos_db.fetched(), "At round {}", round);
+        assert_eq!(fetch_count, cedra_db.fetched(), "At round {}", round);
     };
 
     assert_history(6, vec![5, 4, 3], true);
@@ -555,23 +555,23 @@ fn backend_wrapper_test() {
     assert_history(6, vec![5, 4, 3], false);
 
     // as soon as history change, we fetch again
-    aptos_db.add_event(1, 6);
+    cedra_db.add_event(1, 6);
     assert_history(6, vec![6, 5, 4], true);
-    aptos_db.add_event(1, 7);
+    cedra_db.add_event(1, 7);
     assert_history(6, vec![6, 5, 4], false);
-    aptos_db.add_event(1, 8);
+    cedra_db.add_event(1, 8);
     assert_history(6, vec![6, 5, 4], false);
 
     assert_history(9, vec![8, 7, 6], true);
-    aptos_db.skip_rounds(1);
-    aptos_db.add_event(1, 10);
+    cedra_db.skip_rounds(1);
+    cedra_db.add_event(1, 10);
     // we need to refetch, as we don't know if round that arrived is for 9 or not.
     assert_history(9, vec![8, 7, 6], true);
     assert_history(9, vec![8, 7, 6], false);
-    aptos_db.add_event(1, 11);
+    cedra_db.add_event(1, 11);
     // since we already saw round 10, and are asking for round 9, no need to fetch again.
     assert_history(9, vec![8, 7, 6], false);
-    aptos_db.add_event(1, 12);
+    cedra_db.add_event(1, 12);
     assert_history(9, vec![8, 7, 6], false);
 
     // last time we fetched, we saw 10, so we don't need to fetch for 10
@@ -581,21 +581,21 @@ fn backend_wrapper_test() {
     assert_history(12, vec![12, 11, 10], false);
 
     // since history include target round, unrelated transaction don't require refresh
-    aptos_db.add_another_transaction();
+    cedra_db.add_another_transaction();
     assert_history(12, vec![12, 11, 10], false);
 
     // since history doesn't include target round, any unrelated transaction requires refresh
     assert_history(13, vec![12, 11, 10], true);
-    aptos_db.add_another_transaction();
+    cedra_db.add_another_transaction();
     assert_history(13, vec![12, 11, 10], true);
     assert_history(13, vec![12, 11, 10], false);
-    aptos_db.add_another_transaction();
+    cedra_db.add_another_transaction();
     assert_history(13, vec![12, 11, 10], true);
     assert_history(13, vec![12, 11, 10], false);
 
     // check for race condition
-    aptos_db.add_another_transaction();
-    aptos_db.add_event_after_call(1, 13);
+    cedra_db.add_another_transaction();
+    cedra_db.add_event_after_call(1, 13);
     // in the first we add event after latest_db_version is fetched, as a race.
     // Second one should know that there is nothing new.
     assert_history(14, vec![13, 12, 11], true);
@@ -604,17 +604,17 @@ fn backend_wrapper_test() {
 
 #[test]
 fn backend_test_cross_epoch() {
-    let aptos_db = Arc::new(MockDbReader::new());
-    let backend = AptosDBBackend::new(3, 3, aptos_db.clone());
+    let cedra_db = Arc::new(MockDbReader::new());
+    let backend = CedraDBBackend::new(3, 3, cedra_db.clone());
 
-    aptos_db.add_event(0, 1);
-    aptos_db.new_epoch();
-    aptos_db.add_event(1, 1);
-    aptos_db.add_event(1, 2);
-    aptos_db.add_event(1, 3);
-    aptos_db.new_epoch();
-    aptos_db.add_event(2, 1);
-    aptos_db.add_event(2, 2);
+    cedra_db.add_event(0, 1);
+    cedra_db.new_epoch();
+    cedra_db.add_event(1, 1);
+    cedra_db.add_event(1, 2);
+    cedra_db.add_event(1, 3);
+    cedra_db.new_epoch();
+    cedra_db.add_event(2, 1);
+    cedra_db.add_event(2, 2);
 
     let mut fetch_count = 0;
 
@@ -629,14 +629,14 @@ fn backend_test_cross_epoch() {
         if to_fetch {
             fetch_count += 1;
         }
-        assert_eq!(fetch_count, aptos_db.fetched(), "At round {}", round);
+        assert_eq!(fetch_count, cedra_db.fetched(), "At round {}", round);
     };
 
     assert_history(2, 2, vec![(2, 2), (2, 1), (1, 3)], true);
     assert_history(2, 1, vec![(2, 1), (1, 3), (1, 2)], false);
 
-    aptos_db.new_epoch();
-    aptos_db.add_event(3, 1);
+    cedra_db.new_epoch();
+    cedra_db.add_event(3, 1);
 
     assert_history(3, 2, vec![(3, 1), (2, 2), (2, 1)], true);
 }

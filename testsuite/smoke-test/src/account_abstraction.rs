@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::smoke_test_environment::SwarmBuilder;
-use aptos_cached_packages::aptos_stdlib;
-use aptos_crypto::SigningKey;
-use aptos_forge::Swarm;
-use aptos_sdk::types::{AccountKey, LocalAccount};
-use aptos_types::function_info::FunctionInfo;
+use cedra_cached_packages::cedra_stdlib;
+use cedra_crypto::SigningKey;
+use cedra_forge::Swarm;
+use cedra_sdk::types::{AccountKey, LocalAccount};
+use cedra_types::function_info::FunctionInfo;
 use ethers::{
     core::rand::rngs::OsRng,
     signers::{LocalWallet, Signer},
@@ -86,8 +86,8 @@ fn bytes_to_base58(bytes: &[u8]) -> String {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 1)]
 async fn test_solana_derivable_account() {
-    let swarm = SwarmBuilder::new_local(1).with_aptos().build().await;
-    let mut info = swarm.aptos_public_info();
+    let swarm = SwarmBuilder::new_local(1).with_cedra().build().await;
+    let mut info = swarm.cedra_public_info();
 
     let function_info = FunctionInfo::new(
         AccountAddress::ONE,
@@ -97,7 +97,7 @@ async fn test_solana_derivable_account() {
 
     let account_key = AccountKey::generate(&mut thread_rng());
     let base58_public_key = bytes_to_base58(&account_key.public_key().to_bytes());
-    let domain = "aptos.com";
+    let domain = "cedra.com";
     let account_identity = bcs::to_bytes(&SIWSAbstractPublicKey {
         base58_public_key: base58_public_key.clone(),
         domain: domain.to_string(),
@@ -108,10 +108,10 @@ async fn test_solana_derivable_account() {
         function_info,
         account_identity,
         Arc::new(move |x: &[u8]| {
-            let function_name = "0x1::aptos_account::create_account";
+            let function_name = "0x1::cedra_account::create_account";
             let digest = format!("0x{}", hex::encode(x));
             let message = format!(
-                "{} wants you to sign in with your Solana account:\n{}\n\nPlease confirm you explicitly initiated this request from {}. You are approving to execute transaction {} on Aptos blockchain (local).\n\nNonce: {}",
+                "{} wants you to sign in with your Solana account:\n{}\n\nPlease confirm you explicitly initiated this request from {}. You are approving to execute transaction {} on Cedra blockchain (local).\n\nNonce: {}",
                 domain,
                 base58_public_key,
                 domain,
@@ -136,7 +136,7 @@ async fn test_solana_derivable_account() {
         vec![],
         Some(&info.root_account()),
         info.transaction_factory()
-            .payload(aptos_stdlib::aptos_account_create_account(
+            .payload(cedra_stdlib::cedra_account_create_account(
                 AccountAddress::random(),
             )),
     );
@@ -148,8 +148,8 @@ async fn test_solana_derivable_account() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 1)]
 async fn test_ethereum_derivable_account() {
-    let swarm = SwarmBuilder::new_local(1).with_aptos().build().await;
-    let mut info = swarm.aptos_public_info();
+    let swarm = SwarmBuilder::new_local(1).with_cedra().build().await;
+    let mut info = swarm.cedra_public_info();
 
     let function_info = FunctionInfo::new(
         AccountAddress::ONE,
@@ -162,7 +162,7 @@ async fn test_ethereum_derivable_account() {
     let address: Address = wallet.address();
     let address_str = format!("0x{}", hex::encode(address.as_bytes()));
 
-    let domain = "aptos.com";
+    let domain = "cedra.com";
     let account_identity = bcs::to_bytes(&SIWEAbstractPublicKey {
         ethereum_address: address_str.as_bytes().to_vec(),
         domain: domain.as_bytes().to_vec(),
@@ -174,10 +174,10 @@ async fn test_ethereum_derivable_account() {
         account_identity,
         Arc::new({
             move |x: &[u8]| {
-                let function_name = "0x1::aptos_account::create_account";
+                let function_name = "0x1::cedra_account::create_account";
                 let digest = format!("0x{}", hex::encode(x));
                 let message_body = format!(
-                    "{} wants you to sign in with your Ethereum account:\n{}\n\nPlease confirm you explicitly initiated this request from {}. You are approving to execute transaction {} on Aptos blockchain (local).\n\nURI: {}\nVersion: 1\nChain ID: {}\nNonce: {}\nIssued At: {}",
+                    "{} wants you to sign in with your Ethereum account:\n{}\n\nPlease confirm you explicitly initiated this request from {}. You are approving to execute transaction {} on Cedra blockchain (local).\n\nURI: {}\nVersion: 1\nChain ID: {}\nNonce: {}\nIssued At: {}",
                     domain,
                     address_str,
                     domain,
@@ -212,7 +212,7 @@ async fn test_ethereum_derivable_account() {
         vec![],
         Some(&info.root_account()),
         info.transaction_factory()
-            .payload(aptos_stdlib::aptos_account_create_account(
+            .payload(cedra_stdlib::cedra_account_create_account(
                 AccountAddress::random(),
             )),
     );

@@ -1,0 +1,12 @@
+[package]
+name = "blake2b_256_internal"
+version = "1.0.0"
+authors = []
+
+[addresses]
+poc = "0xcaffe"
+
+[dependencies]
+MoveStdlib = { local = "../../../../../../cedra-move/framework/move-stdlib" }
+CedraFramework = { local = "../../../../../../cedra-move/framework/cedra-framework" }
+CedraStdlib = { local = "../../../../../../cedra-move/framework/cedra-stdlib" } 

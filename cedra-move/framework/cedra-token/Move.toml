@@ -1,0 +1,12 @@
+[package]
+name = "CedraToken"
+version = "1.0.0"
+
+[addresses]
+std = "0x1"
+cedra_framework = "0x1"
+cedra_token = "0x3"
+
+[dependencies]
+MoveStdlib = { local = "../move-stdlib" }
+CedraFramework = { local = "../cedra-framework"}

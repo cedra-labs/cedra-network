@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // This file was generated. Do not modify!
 //
-// To update this code, run `cargo run -p module-publish` in aptos core.
+// To update this code, run `cargo run -p module-publish` in cedra core.
 // That test compiles the set of modules defined in
 // `testsuite/simple/src/simple/sources/`
 // and it writes the binaries here.
@@ -12,7 +12,7 @@
 // This crate should also provide a Rust file that allows proper manipulation of each
 // module defined below.
 
-use aptos_transaction_generator_lib::entry_point_trait::PreBuiltPackages;
+use cedra_transaction_generator_lib::entry_point_trait::PreBuiltPackages;
 use once_cell::sync::Lazy;
 use std::collections::HashMap;
 

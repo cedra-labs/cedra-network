@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -19,12 +19,12 @@ use crate::{
     },
     tests::utils::{create_ledger_info, create_transaction_list_with_proof},
 };
-use aptos_config::config::DataStreamingServiceConfig;
-use aptos_crypto::HashValue;
-use aptos_data_client::{global_summary::GlobalDataSummary, interface::ResponsePayload};
-use aptos_id_generator::U64IdGenerator;
-use aptos_storage_service_types::responses::CompleteDataRange;
-use aptos_types::{
+use cedra_config::config::DataStreamingServiceConfig;
+use cedra_crypto::HashValue;
+use cedra_data_client::{global_summary::GlobalDataSummary, interface::ResponsePayload};
+use cedra_id_generator::U64IdGenerator;
+use cedra_storage_service_types::responses::CompleteDataRange;
+use cedra_types::{
     proof::{SparseMerkleRangeProof, TransactionInfoListWithProof},
     state_store::{
         state_key::StateKey,

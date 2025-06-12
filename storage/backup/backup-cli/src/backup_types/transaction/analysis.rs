@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use aptos_types::{
+use cedra_types::{
     contract_event::ContractEvent,
     transaction::{Transaction, TransactionInfo, Version},
     write_set::{TransactionWrite, WriteSet},

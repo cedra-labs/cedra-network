@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::transport::Transport;
-use aptos_types::{network_address::NetworkAddress, PeerId};
+use cedra_types::{network_address::NetworkAddress, PeerId};
 use futures::{
     future::{Future, FutureExt},
     stream::{Stream, StreamExt},

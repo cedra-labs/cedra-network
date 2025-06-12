@@ -1,25 +1,25 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{metrics::NUM_TXNS, pipeline::CommitBlockMessage};
-use aptos_crypto::hash::HashValue;
-use aptos_db::metrics::API_LATENCY_SECONDS;
-use aptos_executor::{
+use cedra_crypto::hash::HashValue;
+use cedra_db::metrics::API_LATENCY_SECONDS;
+use cedra_executor::{
     block_executor::BlockExecutor,
     metrics::{
         BLOCK_EXECUTION_WORKFLOW_WHOLE, COMMIT_BLOCKS, GET_BLOCK_EXECUTION_OUTPUT_BY_EXECUTING,
     },
 };
-use aptos_executor_types::BlockExecutorTrait;
-use aptos_logger::prelude::*;
-use aptos_types::{
+use cedra_executor_types::BlockExecutorTrait;
+use cedra_logger::prelude::*;
+use cedra_types::{
     aggregate_signature::AggregateSignature,
     block_info::BlockInfo,
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
     transaction::Version,
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use std::{
     sync::{mpsc, Arc},
     time::{Duration, Instant},

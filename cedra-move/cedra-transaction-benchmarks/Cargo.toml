@@ -1,0 +1,37 @@
+[package]
+name = "cedra-transaction-benchmarks"
+description = "Cedra transaction benchmarks"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+cedra-bitvec = { workspace = true }
+cedra-block-executor = { workspace = true }
+cedra-block-partitioner = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-language-e2e-tests = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-node-resource-metrics = { workspace = true }
+cedra-push-metrics =  { workspace = true }
+cedra-transaction-simulation = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-logging = { workspace = true }
+clap = { workspace = true }
+criterion = { workspace = true, features = ["html_reports"] }
+criterion-cpu-time = { workspace = true }
+num_cpus = { workspace = true }
+proptest = { workspace = true }
+
+[[bench]]
+name = "transaction_benches"
+harness = false

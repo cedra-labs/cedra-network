@@ -1,0 +1,9 @@
+[package]
+name = "RingDeque"
+version = "0.0.0"
+
+[dependencies]
+CedraFramework = { local = "../../framework/cedra-framework" }
+
+[addresses]
+ring_deque = "_"

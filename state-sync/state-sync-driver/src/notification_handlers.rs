@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -6,18 +6,18 @@ use crate::{
     error::Error,
     logging::{LogEntry, LogSchema},
 };
-use aptos_consensus_notifications::{
+use cedra_consensus_notifications::{
     ConsensusCommitNotification, ConsensusNotification, ConsensusNotificationListener,
     ConsensusSyncDurationNotification, ConsensusSyncTargetNotification,
 };
-use aptos_data_streaming_service::data_notification::NotificationId;
-use aptos_event_notifications::{EventNotificationSender, EventSubscriptionService};
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_mempool_notifications::MempoolNotificationSender;
-use aptos_storage_service_notifications::StorageServiceNotificationSender;
-use aptos_time_service::{TimeService, TimeServiceTrait};
-use aptos_types::{
+use cedra_data_streaming_service::data_notification::NotificationId;
+use cedra_event_notifications::{EventNotificationSender, EventSubscriptionService};
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_mempool_notifications::MempoolNotificationSender;
+use cedra_storage_service_notifications::StorageServiceNotificationSender;
+use cedra_time_service::{TimeService, TimeServiceTrait};
+use cedra_types::{
     contract_event::ContractEvent,
     ledger_info::LedgerInfoWithSignatures,
     transaction::{Transaction, Version},
@@ -355,7 +355,7 @@ impl ConsensusNotificationHandler {
     ) -> Result<(), Error> {
         // Wrap the result in an error that consensus can process
         let result = result.map_err(|error| {
-            aptos_consensus_notifications::Error::UnexpectedErrorEncountered(format!("{:?}", error))
+            cedra_consensus_notifications::Error::UnexpectedErrorEncountered(format!("{:?}", error))
         });
 
         // Send the result
@@ -387,7 +387,7 @@ impl ConsensusNotificationHandler {
     ) -> Result<(), Error> {
         // Wrap the result in an error that consensus can process
         let result = result.map_err(|error| {
-            aptos_consensus_notifications::Error::UnexpectedErrorEncountered(format!("{:?}", error))
+            cedra_consensus_notifications::Error::UnexpectedErrorEncountered(format!("{:?}", error))
         });
 
         // Send the result
@@ -415,7 +415,7 @@ impl ConsensusNotificationHandler {
     ) -> Result<(), Error> {
         // Wrap the result in an error that consensus can process
         let result = result.map_err(|error| {
-            aptos_consensus_notifications::Error::UnexpectedErrorEncountered(format!("{:?}", error))
+            cedra_consensus_notifications::Error::UnexpectedErrorEncountered(format!("{:?}", error))
         });
 
         // Send the result

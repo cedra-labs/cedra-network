@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 mod utils;
@@ -8,7 +8,7 @@ fn main() {
     let matches = Command::new("Fuzz CLI")
         .version("0.1")
         .author("Security Team @ Cedra Labs")
-        .about("This CLI is used to help craft and maintain fuzz targets for the Core components of the Aptos Blockchain.")
+        .about("This CLI is used to help craft and maintain fuzz targets for the Core components of the Cedra Blockchain.")
         .subcommand(
             Command::new("compile_federated_jwk")
                 .about("Compiles a module from source and dumps serialized metadata and code to be used as static initializers in fuzz targets.")

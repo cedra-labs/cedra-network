@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! This module defines physical storage schema storing metadata for the internal indexer
@@ -10,7 +10,7 @@ use crate::{
     schema::INDEXER_METADATA_CF_NAME,
 };
 use anyhow::Result;
-use aptos_schemadb::{
+use cedra_schemadb::{
     define_pub_schema,
     schema::{KeyCodec, ValueCodec},
 };

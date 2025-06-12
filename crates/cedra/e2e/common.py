@@ -1,10 +1,10 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import os
 from dataclasses import dataclass
 from enum import Enum
-from aptos_sdk.account_address import AccountAddress
+from cedra_sdk.account_address import AccountAddress
 NODE_PORT = 8080
 METRICS_PORT = 9101
 FAUCET_PORT = 8081
@@ -29,7 +29,7 @@ class AccountInfo:
 
 
 # This is an account that use for testing, for example to create it with the init
-# account, send funds to it, etc. This is not the account created by the `aptos init`
+# account, send funds to it, etc. This is not the account created by the `cedra init`
 # test. To get details about that account use get_account_info on the RunHelper.
 OTHER_ACCOUNT_ONE = AccountInfo(
     private_key="0x37368b46ce665362562c6d1d4ec01a08c8644c488690df5a17e13ba163e20221",

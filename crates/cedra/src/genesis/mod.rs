@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 pub mod git;
@@ -18,11 +18,11 @@ use crate::{
     },
     CliCommand, CliResult,
 };
-use aptos_crypto::{
+use cedra_crypto::{
     bls12381, ed25519::ED25519_PUBLIC_KEY_LENGTH, x25519, ValidCryptoMaterial,
     ValidCryptoMaterialStringExt,
 };
-use aptos_genesis::{
+use cedra_genesis::{
     builder::GenesisConfiguration,
     config::{
         AccountBalanceMap, EmployeePoolMap, HostAndPort, Layout, StringOperatorConfiguration,
@@ -31,12 +31,12 @@ use aptos_genesis::{
     mainnet::MainnetGenesisInfo,
     GenesisInfo,
 };
-use aptos_logger::info;
-use aptos_types::{
+use cedra_logger::info;
+use cedra_types::{
     account_address::{AccountAddress, AccountAddressWithChecks},
     on_chain_config::{OnChainConsensusConfig, OnChainExecutionConfig},
 };
-use aptos_vm_genesis::{default_gas_schedule, AccountBalance, EmployeePool};
+use cedra_vm_genesis::{default_gas_schedule, AccountBalance, EmployeePool};
 use async_trait::async_trait;
 use clap::Parser;
 use std::{
@@ -49,7 +49,7 @@ use std::{
 const WAYPOINT_FILE: &str = "waypoint.txt";
 const GENESIS_FILE: &str = "genesis.blob";
 
-/// Tool for setting up an Aptos chain Genesis transaction
+/// Tool for setting up an Cedra chain Genesis transaction
 ///
 /// This tool sets up a space for multiple initial "validator"
 /// accounts to build a genesis transaction for a new chain.

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,8 +9,8 @@ use crate::{
     },
     MoveFunction, MoveStructTag, MoveType,
 };
-use aptos_types::vm::module_metadata::prelude::*;
-use aptos_vm::determine_is_view;
+use cedra_types::vm::module_metadata::prelude::*;
+use cedra_vm::determine_is_view;
 use move_binary_format::{
     access::{ModuleAccess, ScriptAccess},
     file_format::{

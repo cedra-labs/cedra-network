@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::event_lookup::get_deposit_dst;
 use anyhow::{anyhow, Result};
-use aptos_sdk::{
+use cedra_sdk::{
     move_types::account_address::AccountAddress,
-    rest_client::aptos_api_types::TransactionOnChainData,
-    transaction_builder::{aptos_stdlib, TransactionFactory},
+    rest_client::cedra_api_types::TransactionOnChainData,
+    transaction_builder::{cedra_stdlib, TransactionFactory},
     types::{
         serde_helper::bcs_utils::bcs_size_of_byte_array,
         transaction::{SignedTransaction, TransactionPayload},
@@ -137,7 +137,7 @@ impl SignedTransactionBuilder<AccountAddress> for TransferAptSignedTransactionBu
         txn_factory: &TransactionFactory,
     ) -> SignedTransaction {
         account.sign_with_transaction_builder(txn_factory.payload(
-            aptos_stdlib::cedra_coin_transfer(*data, self.amount_to_send),
+            cedra_stdlib::cedra_coin_transfer(*data, self.amount_to_send),
         ))
     }
 
@@ -172,7 +172,7 @@ impl SignedTransactionBuilder<AccountAddress> for CreateAndTransferAptSignedTran
         txn_factory: &TransactionFactory,
     ) -> SignedTransaction {
         account.sign_with_transaction_builder(txn_factory.payload(
-            aptos_stdlib::aptos_account_transfer(*data, self.amount_to_send),
+            cedra_stdlib::cedra_account_transfer(*data, self.amount_to_send),
         ))
     }
 

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -11,18 +11,18 @@ use crate::{
     },
     QuorumStoreRequest,
 };
-use aptos_config::config::{NodeConfig, NodeType};
-use aptos_event_notifications::{DbBackedOnChainConfig, ReconfigNotificationListener};
-use aptos_infallible::{Mutex, RwLock};
-use aptos_logger::Level;
-use aptos_mempool_notifications::MempoolNotificationListener;
-use aptos_network::application::{
+use cedra_config::config::{NodeConfig, NodeType};
+use cedra_event_notifications::{DbBackedOnChainConfig, ReconfigNotificationListener};
+use cedra_infallible::{Mutex, RwLock};
+use cedra_logger::Level;
+use cedra_mempool_notifications::MempoolNotificationListener;
+use cedra_network::application::{
     interface::{NetworkClient, NetworkServiceEvents},
     storage::PeersAndMetadata,
 };
-use aptos_storage_interface::DbReader;
-use aptos_types::on_chain_config::OnChainConfigProvider;
-use aptos_vm_validator::vm_validator::{PooledVMValidator, TransactionValidation};
+use cedra_storage_interface::DbReader;
+use cedra_types::on_chain_config::OnChainConfigProvider;
+use cedra_vm_validator::vm_validator::{PooledVMValidator, TransactionValidation};
 use futures::channel::mpsc::{Receiver, UnboundedSender};
 use std::sync::Arc;
 use tokio::runtime::{Handle, Runtime};
@@ -79,7 +79,7 @@ pub(crate) fn start_shared_mempool<TransactionValidator, ConfigProvider>(
         config.mempool.system_transaction_gc_interval_ms,
     ));
 
-    if aptos_logger::enabled!(Level::Trace) {
+    if cedra_logger::enabled!(Level::Trace) {
         executor.spawn(snapshot_job(
             mempool,
             config.mempool.mempool_snapshot_interval_secs,
@@ -98,7 +98,7 @@ pub fn bootstrap(
     mempool_reconfig_events: ReconfigNotificationListener<DbBackedOnChainConfig>,
     peers_and_metadata: Arc<PeersAndMetadata>,
 ) -> Runtime {
-    let runtime = aptos_runtimes::spawn_named_runtime("shared-mem".into(), None);
+    let runtime = cedra_runtimes::spawn_named_runtime("shared-mem".into(), None);
     let mempool = Arc::new(Mutex::new(CoreMempool::new(config)));
     let vm_validator = Arc::new(RwLock::new(PooledVMValidator::new(
         Arc::clone(&db),

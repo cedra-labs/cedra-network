@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(dead_code)]
 
-use aptos_language_e2e_tests::{account::Account, executor::FakeExecutor};
+use cedra_language_e2e_tests::{account::Account, executor::FakeExecutor};
 use arbitrary::Arbitrary;
 use move_binary_format::file_format::CompiledModule;
 use move_core_types::{

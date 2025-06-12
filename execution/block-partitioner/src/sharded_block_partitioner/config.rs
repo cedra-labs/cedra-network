@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     sharded_block_partitioner::ShardedBlockPartitioner, BlockPartitioner, PartitionerConfig,
 };
-use aptos_types::block_executor::partitioner::RoundId;
+use cedra_types::block_executor::partitioner::RoundId;
 use clap::Parser;
 
-/// The configuration for `aptos_block_partitioner::sharded_block_partitioner::ShardedBlockPartitioner`,
-/// which is also referred to as `V1` in executor-benchmark after `aptos_block_partitioner::v2` is added.
+/// The configuration for `cedra_block_partitioner::sharded_block_partitioner::ShardedBlockPartitioner`,
+/// which is also referred to as `V1` in executor-benchmark after `cedra_block_partitioner::v2` is added.
 #[derive(Clone, Copy, Debug, Parser)]
 pub struct PartitionerV1Config {
     pub num_shards: usize,

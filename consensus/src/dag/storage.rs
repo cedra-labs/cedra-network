@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{types::Vote, NodeId};
 use crate::dag::{CertifiedNode, Node};
-use aptos_consensus_types::common::{Author, Round};
-use aptos_crypto::HashValue;
-use aptos_types::ledger_info::LedgerInfoWithSignatures;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_crypto::HashValue;
+use cedra_types::ledger_info::LedgerInfoWithSignatures;
 use std::collections::HashMap;
 
 #[derive(Clone)]

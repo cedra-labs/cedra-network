@@ -5,7 +5,7 @@
 @@ -14,7 +14,7 @@
 
      },
-     "aptos-node": {
+     "cedra-node": {
        "image": {
 -        "repo": "banana"
 +        "repo": "banana2"

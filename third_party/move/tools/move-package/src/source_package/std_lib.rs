@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -12,10 +12,10 @@ use std::{fmt::Display, path::PathBuf};
 
 /// Represents a standard library.
 pub enum StdLib {
-    AptosTokenObjects,
-    AptosToken,
-    AptosFramework,
-    AptosStdlib,
+    CedraTokenObjects,
+    CedraToken,
+    CedraFramework,
+    CedraStdlib,
     MoveStdlib,
 }
 
@@ -56,10 +56,10 @@ impl StdLib {
     /// Returns the name of the standard library.
     pub fn as_str(&self) -> &'static str {
         match self {
-            StdLib::AptosToken => "AptosToken",
-            StdLib::AptosTokenObjects => "AptosTokenObjects",
-            StdLib::AptosFramework => "AptosFramework",
-            StdLib::AptosStdlib => "AptosStdlib",
+            StdLib::CedraToken => "CedraToken",
+            StdLib::CedraTokenObjects => "CedraTokenObjects",
+            StdLib::CedraFramework => "CedraFramework",
+            StdLib::CedraStdlib => "CedraStdlib",
             StdLib::MoveStdlib => "MoveStdlib",
         }
     }
@@ -67,10 +67,10 @@ impl StdLib {
     /// Returns the standard library from the given package name, or `None` if the package name is not a standard library.
     pub fn from_package_name(package_name: Symbol) -> Option<StdLib> {
         match package_name.as_str() {
-            "AptosToken" => Some(StdLib::AptosToken),
-            "AptosTokenObjects" => Some(StdLib::AptosTokenObjects),
-            "AptosFramework" => Some(StdLib::AptosFramework),
-            "AptosStdlib" => Some(StdLib::AptosStdlib),
+            "CedraToken" => Some(StdLib::CedraToken),
+            "CedraTokenObjects" => Some(StdLib::CedraTokenObjects),
+            "CedraFramework" => Some(StdLib::CedraFramework),
+            "CedraStdlib" => Some(StdLib::CedraStdlib),
             "MoveStdlib" => Some(StdLib::MoveStdlib),
             _ => None,
         }
@@ -79,10 +79,10 @@ impl StdLib {
     /// Returns the subdirectory of the standard library in the git repository.
     fn sub_dir(&self) -> &'static str {
         match self {
-            StdLib::AptosToken => "aptos-token",
-            StdLib::AptosTokenObjects => "aptos-token-objects",
-            StdLib::AptosFramework => "aptos-framework",
-            StdLib::AptosStdlib => "aptos-stdlib",
+            StdLib::CedraToken => "cedra-token",
+            StdLib::CedraTokenObjects => "cedra-token-objects",
+            StdLib::CedraFramework => "cedra-framework",
+            StdLib::CedraStdlib => "cedra-stdlib",
             StdLib::MoveStdlib => "move-stdlib",
         }
     }

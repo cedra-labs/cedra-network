@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
-use aptos_api_test_context::{current_function_name, TestContext};
-use aptos_sdk::{transaction_builder::aptos_stdlib::aptos_token_stdlib, types::LocalAccount};
-use aptos_storage_interface::DbReader;
+use cedra_api_test_context::{current_function_name, TestContext};
+use cedra_sdk::{transaction_builder::cedra_stdlib::cedra_token_stdlib, types::LocalAccount};
+use cedra_storage_interface::DbReader;
 use move_core_types::account_address::AccountAddress;
 use serde::Serialize;
 use serde_json::{json, Value};
@@ -136,7 +136,7 @@ async fn test_merkle_leaves_with_nft_transfer() {
     let token_name = "token name".to_owned().into_bytes();
     let collection_builder =
         ctx.transaction_factory()
-            .payload(aptos_token_stdlib::token_create_collection_script(
+            .payload(cedra_token_stdlib::token_create_collection_script(
                 collection_name.clone(),
                 "description".to_owned().into_bytes(),
                 "uri".to_owned().into_bytes(),
@@ -148,7 +148,7 @@ async fn test_merkle_leaves_with_nft_transfer() {
 
     let token_builder =
         ctx.transaction_factory()
-            .payload(aptos_token_stdlib::token_create_token_script(
+            .payload(cedra_token_stdlib::token_create_token_script(
                 collection_name.clone(),
                 token_name.clone(),
                 "collection description".to_owned().into_bytes(),
@@ -177,7 +177,7 @@ async fn test_merkle_leaves_with_nft_transfer() {
     let transfer_to_owner_txn = creator.sign_multi_agent_with_transaction_builder(
         vec![owner],
         ctx.transaction_factory()
-            .payload(aptos_token_stdlib::token_direct_transfer_script(
+            .payload(cedra_token_stdlib::token_direct_transfer_script(
                 creator.address(),
                 collection_name.clone(),
                 token_name.clone(),
@@ -198,7 +198,7 @@ async fn test_merkle_leaves_with_nft_transfer() {
     let transfer_to_creator_txn = owner.sign_multi_agent_with_transaction_builder(
         vec![creator],
         ctx.transaction_factory()
-            .payload(aptos_token_stdlib::token_direct_transfer_script(
+            .payload(cedra_token_stdlib::token_direct_transfer_script(
                 creator.address(),
                 collection_name.clone(),
                 token_name.clone(),

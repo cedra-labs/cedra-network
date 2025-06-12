@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::storage::FileHandle;
 use anyhow::{ensure, Result};
-use aptos_types::transaction::Version;
+use cedra_types::transaction::Version;
 use serde::{Deserialize, Serialize};
 
 /// A chunk of a transaction backup manifest to represent the

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -13,9 +13,9 @@ use crate::{
     },
     CliCommand, CliTypedResult,
 };
-use aptos_genesis::config::{EmployeePoolMap, Layout};
-use aptos_sdk::move_types::account_address::AccountAddress;
-use aptos_types::account_address::{create_vesting_pool_address, default_stake_pool_address};
+use cedra_genesis::config::{EmployeePoolMap, Layout};
+use cedra_sdk::move_types::account_address::AccountAddress;
+use cedra_types::account_address::{create_vesting_pool_address, default_stake_pool_address};
 use async_trait::async_trait;
 use clap::Parser;
 use std::{

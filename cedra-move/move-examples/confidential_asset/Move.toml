@@ -1,0 +1,10 @@
+[package]
+name = "ConfidentialAssetExample"
+version = "1.0.0"
+
+[dependencies]
+CedraFramework = { local = "../../framework/cedra-framework" }
+CedraExperimental = { local = "../../framework/cedra-experimental" }
+
+[addresses]
+confidential_asset_example = "_"

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -17,7 +17,7 @@ use crate::{
     },
 };
 use anyhow::{Context, Result};
-use aptos_types::transaction::SignedTransaction;
+use cedra_types::transaction::SignedTransaction;
 use std::{
     str::FromStr,
     time::{SystemTime, UNIX_EPOCH},
@@ -73,7 +73,7 @@ impl<'a> CoinClient<'a> {
             TransactionPayload::EntryFunction(EntryFunction::new(
                 ModuleId::new(
                     AccountAddress::ONE,
-                    Identifier::new("aptos_account").unwrap(),
+                    Identifier::new("cedra_account").unwrap(),
                 ),
                 Identifier::new("transfer_coins").unwrap(),
                 vec![TypeTag::from_str(options.coin_type).unwrap()],

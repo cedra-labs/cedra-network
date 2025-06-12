@@ -1,9 +1,9 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{anyhow, ensure, Result};
-use aptos_infallible::RwLock;
-use aptos_logger::{debug, info, warn};
+use cedra_infallible::RwLock;
+use cedra_logger::{debug, info, warn};
 use serde::de::DeserializeOwned;
 use std::{sync::Arc, time::Duration};
 

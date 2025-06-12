@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -18,18 +18,18 @@ use crate::{
     },
     utils::OutputFallbackHandler,
 };
-use aptos_config::config::ContinuousSyncingMode;
-use aptos_consensus_notifications::{
+use cedra_config::config::ContinuousSyncingMode;
+use cedra_consensus_notifications::{
     ConsensusSyncDurationNotification, ConsensusSyncTargetNotification,
 };
-use aptos_data_streaming_service::{
+use cedra_data_streaming_service::{
     data_notification::{DataNotification, DataPayload, NotificationId},
     streaming_client::{NotificationAndFeedback, NotificationFeedback},
 };
-use aptos_infallible::Mutex;
-use aptos_storage_service_types::Epoch;
-use aptos_time_service::TimeService;
-use aptos_types::transaction::{TransactionOutputListWithProof, Version};
+use cedra_infallible::Mutex;
+use cedra_storage_service_types::Epoch;
+use cedra_time_service::TimeService;
+use cedra_types::transaction::{TransactionOutputListWithProof, Version};
 use claims::assert_matches;
 use futures::SinkExt;
 use mockall::{predicate::eq, Sequence};
@@ -794,7 +794,7 @@ fn create_continuous_syncer(
     OutputFallbackHandler,
 ) {
     // Initialize the logger for tests
-    aptos_logger::Logger::init_for_testing();
+    cedra_logger::Logger::init_for_testing();
 
     // Create the mock storage synchronizer
     let mock_storage_synchronizer = create_ready_storage_synchronizer(expect_reset_executor);

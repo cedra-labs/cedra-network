@@ -1,5 +1,5 @@
 module poc::native_print {
-   use aptos_std::debug;
+   use cedra_std::debug;
 
    public entry fun main(_owner: &signer) {
       let x = 42u64;

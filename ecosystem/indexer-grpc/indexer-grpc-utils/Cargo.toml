@@ -1,5 +1,5 @@
 [package]
-name = "aptos-indexer-grpc-utils"
+name = "cedra-indexer-grpc-utils"
 description = "Indexer gRPC utils."
 version = "1.0.0"
 
@@ -14,9 +14,9 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-protos = { workspace = true }
-aptos-transaction-filter = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-protos = { workspace = true }
+cedra-transaction-filter = { workspace = true }
 async-trait = { workspace = true }
 backoff = { workspace = true }
 base64 = { workspace = true }

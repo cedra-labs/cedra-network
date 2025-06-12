@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_bounded_executor::BoundedExecutor;
-use aptos_consensus_types::common::Author;
-use aptos_logger::{debug, sample, sample::SampleRate, warn};
-use aptos_time_service::{TimeService, TimeServiceTrait};
+use cedra_bounded_executor::BoundedExecutor;
+use cedra_consensus_types::common::Author;
+use cedra_logger::{debug, sample, sample::SampleRate, warn};
+use cedra_time_service::{TimeService, TimeServiceTrait};
 use async_trait::async_trait;
 use bytes::Bytes;
 use futures::{

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -6,9 +6,9 @@ use crate::tests::{
     common::TestTransaction,
     test_framework::{test_transaction, MempoolNode, MempoolTestFrameworkBuilder},
 };
-use aptos_config::network_id::PeerNetworkId;
-use aptos_netcore::transport::ConnectionOrigin;
-use aptos_network::{
+use cedra_config::network_id::PeerNetworkId;
+use cedra_netcore::transport::ConnectionOrigin;
+use cedra_network::{
     testutils::{
         test_framework::TestFramework,
         test_node::{
@@ -19,7 +19,7 @@ use aptos_network::{
     transport::ConnectionMetadata,
     ProtocolId,
 };
-use aptos_types::transaction::ReplayProtector;
+use cedra_types::transaction::ReplayProtector;
 use once_cell::sync::Lazy;
 use std::time::Duration;
 

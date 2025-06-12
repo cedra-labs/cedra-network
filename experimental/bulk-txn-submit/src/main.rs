@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{Context, Result};
-use aptos_experimental_bulk_txn_submit::{
+use cedra_experimental_bulk_txn_submit::{
     coordinator::{
         create_sample_addresses, execute_return_worker_funds, execute_submit,
         CreateSampleAddresses, SanitizeAddresses, SubmitArgs,
@@ -12,9 +12,9 @@ use aptos_experimental_bulk_txn_submit::{
         TransferAptSignedTransactionBuilder,
     },
 };
-use aptos_logger::{Level, Logger};
-use aptos_sdk::move_types::account_address::AccountAddress;
-use aptos_transaction_emitter_lib::Cluster;
+use cedra_logger::{Level, Logger};
+use cedra_sdk::move_types::account_address::AccountAddress;
+use cedra_transaction_emitter_lib::Cluster;
 use clap::{Parser, Subcommand};
 use rand::{seq::SliceRandom, thread_rng};
 use std::collections::HashSet;
@@ -48,7 +48,7 @@ pub struct Submit {
 pub enum WorkTypeSubcommand {
     /// Executes coin::transfer<CedraCoin> with given file providing list of destinations
     TransferApt(TransferArg),
-    /// Executes aptos_account::transfer with given file providing list of destinations
+    /// Executes cedra_account::transfer with given file providing list of destinations
     CreateAndTransferApt(TransferArg),
     /// Returns all leftover funds on the workers to the main source account
     ReturnWorkerFunds,

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,12 +12,12 @@ use crate::{
     },
 };
 use anyhow::{anyhow, ensure, Result};
-use aptos_metrics_core::TimerHelper;
-use aptos_storage_interface::{
+use cedra_metrics_core::TimerHelper;
+use cedra_storage_interface::{
     state_store::{state::LedgerState, state_summary::LedgerStateSummary},
     DbReader, LedgerSummary,
 };
-use aptos_types::{proof::accumulator::InMemoryTransactionAccumulator, transaction::Version};
+use cedra_types::{proof::accumulator::InMemoryTransactionAccumulator, transaction::Version};
 use std::{collections::VecDeque, sync::Arc};
 
 pub(crate) struct ChunkToUpdateLedger {

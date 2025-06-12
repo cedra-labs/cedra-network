@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::tests::{mock, mock::MockClient, utils};
-use aptos_config::{
+use cedra_config::{
     config::StorageServiceConfig,
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_types::{epoch_change::EpochChangeProof, PeerId};
+use cedra_types::{epoch_change::EpochChangeProof, PeerId};
 use claims::assert_none;
 
 #[tokio::test(flavor = "multi_thread")]

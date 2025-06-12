@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -23,13 +23,13 @@ use crate::{
     },
     test_utils::MockPayloadManager as MockPayloadClient,
 };
-use aptos_bounded_executor::BoundedExecutor;
-use aptos_config::config::DagPayloadConfig;
-use aptos_consensus_types::common::{Author, Round};
-use aptos_infallible::Mutex;
-use aptos_reliable_broadcast::{RBNetworkSender, ReliableBroadcast};
-use aptos_time_service::TimeService;
-use aptos_types::{
+use cedra_bounded_executor::BoundedExecutor;
+use cedra_config::config::DagPayloadConfig;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_infallible::Mutex;
+use cedra_reliable_broadcast::{RBNetworkSender, ReliableBroadcast};
+use cedra_time_service::TimeService;
+use cedra_types::{
     epoch_state::EpochState,
     ledger_info::{generate_ledger_info_with_sig, LedgerInfo, LedgerInfoWithSignatures},
     validator_signer::ValidatorSigner,
@@ -160,7 +160,7 @@ fn setup(
         validators,
         network_sender.clone(),
         ExponentialBackoff::from_millis(10),
-        aptos_time_service::TimeService::mock(),
+        cedra_time_service::TimeService::mock(),
         Duration::from_millis(500),
         BoundedExecutor::new(2, Handle::current()),
     ));
@@ -236,7 +236,7 @@ async fn test_certified_node_handler() {
 
 #[tokio::test]
 async fn test_dag_driver_drop() {
-    aptos_logger::Logger::init_for_testing();
+    cedra_logger::Logger::init_for_testing();
 
     let (signers, validator_verifier) = random_validator_verifier(4, None, false);
     let (tx, rx) = oneshot::channel();

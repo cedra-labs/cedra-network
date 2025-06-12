@@ -8,9 +8,9 @@ Pangu is a testnet creation and management CLI, which deploys on top of existing
 
 ## What is Pangu CLI?
 
-Ever had to wait for the Aptos devnet/testnet releases to test a new feature? Or, create a PR to launch testnets through Forge? Well, these will be a thing of the past with Pangu.
+Ever had to wait for the Cedra devnet/testnet releases to test a new feature? Or, create a PR to launch testnets through Forge? Well, these will be a thing of the past with Pangu.
 
-Pangu is a modular, customizable, and next-gen Aptos testnet creation-management CLI tool written in Python. Pangu allows you to create, and manage testnets on demand, and blazingly fast 🚀🚀🚀 
+Pangu is a modular, customizable, and next-gen Cedra testnet creation-management CLI tool written in Python. Pangu allows you to create, and manage testnets on demand, and blazingly fast 🚀🚀🚀 
 
 Pangu is inherently faster than its predecessors (Forge testnet creation) because:
 
@@ -91,7 +91,7 @@ CREATE OPTIONS:
     - Default: **`False`**
     - Example: **`-dry-run true`**
 1. **`-cedra-cli-path`**:
-    - The path to the Aptos CLI if it is not in your $PATH variable.
+    - The path to the Cedra CLI if it is not in your $PATH variable.
     - Default: **`cedra`**
     - Example: **`-cedra-cli-path /path/to/cedra`**
 2. **`-name`**:
@@ -101,7 +101,7 @@ CREATE OPTIONS:
 
 ## Pangu Node Config (Customizability)
 
-[Pangu config template](https://github.com/cedra-labs/cedra/blob/main/testsuite/pangu_lib/template_testnet_files/pangu_node_config.yaml)
+[Pangu config template](https://github.com/cedra-labs/cedra-network/blob/main/testsuite/pangu_lib/template_testnet_files/pangu_node_config.yaml)
 
 ```yaml
 blueprints:
@@ -143,7 +143,7 @@ Pangu allows you to use a default template to create n number of nodes without m
 
 To create a testnet with a custom topology, create a new pangu config file and pass it with the option "--pangu-node-configs-path" 
 
-- [**See the default config here**](https://github.com/cedra-labs/cedra/blob/main/testsuite/pangu_lib/template_testnet_files/pangu_node_config.yaml)
+- [**See the default config here**](https://github.com/cedra-labs/cedra-network/blob/main/testsuite/pangu_lib/template_testnet_files/pangu_node_config.yaml)
     - The config yaml should start with “blueprints:”
     - A blueprint describes the validator config, the validator image, the vfn config, the vfn image, stake_amount for the validator, and the number of validator/vfn pairs you would like to create with this specific blueprint.
     - The name of the blueprint will dictate the names of the pods (validators, vfns) created using it.
@@ -174,20 +174,20 @@ alias pangu="poetry run python pangu.py"
 
 Pangu lives in cedra-core/testsuite. Tips for navigating the codebase:
 
-- [**cedra-core/testsuite/pangu.py**](https://github.com/cedra-labs/cedra/blob/main/testsuite/pangu.py)
+- [**cedra-core/testsuite/pangu.py**](https://github.com/cedra-labs/cedra-network/blob/main/testsuite/pangu.py)
     - This is the entry point to the Pangu CLI. Use poetry run python pangu.py to run.
-- [**cedra-core/testsuite/test_framework**](https://github.com/cedra-labs/cedra/tree/main/testsuite/test_framework)
+- [**cedra-core/testsuite/test_framework**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/test_framework)
     - Includes the system abstractions for testing.
     - The Kubernetes abstraction might need to be updated to add new Kubernetes features.
-- [**cedra-core/testsuite/pangu_lib/node_commands**](https://github.com/cedra-labs/cedra/tree/main/testsuite/pangu_lib/node_commands)
+- [**cedra-core/testsuite/pangu_lib/node_commands**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/node_commands)
     - Includes the commands for the pangu node {COMMAND} commands
     - Each command has its own .py file, which are then aggregated in the commands.py file to be exported to pangu.py
-- [a**ptos-core/testsuite/pangu_lib/testnet_commands**](https://github.com/cedra-labs/cedra/tree/main/testsuite/pangu_lib/testnet_commands)
+- [a**ptos-core/testsuite/pangu_lib/testnet_commands**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/testnet_commands)
     - Includes the commands for the pangu testnet {COMMAND} commands
     - Each command has its own .py file, which are then aggregated in the commands.py file to be exported to pangu.py
-- [**cedra-core/testsuite/pangu_lib/tests**](https://github.com/cedra-labs/cedra/tree/main/testsuite/pangu_lib/tests)
+- [**cedra-core/testsuite/pangu_lib/tests**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/tests)
     - Includes the unit tests
-- [**cedra-core/testsuite/pangu-sdk**](https://github.com/cedra-labs/cedra/tree/main/testsuite/pangu-sdk)
+- [**cedra-core/testsuite/pangu-sdk**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu-sdk)
     - The Pangu Rust SDK is a light Rust wrapper around the Pangu CLI. It allows rust code to be able to run Pangu commands by passing structs, without having to generate the Pangu Config Yaml files. It is not feature complete, but should be a good starting point for the Pangu-Forge integrations.
 
 ## Metrics

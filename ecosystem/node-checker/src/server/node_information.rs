@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 use crate::configuration::NodeAddress;
-use aptos_config::config::RoleType;
-use aptos_sdk::types::chain_id::ChainId;
+use cedra_config::config::RoleType;
+use cedra_sdk::types::chain_id::ChainId;
 
 /// This struct captures all the relevant information needed to address a node
 /// and make assertions about its identity.

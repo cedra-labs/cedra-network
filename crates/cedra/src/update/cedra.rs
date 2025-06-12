@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // Out of the box the self_update crate assumes that you have releases named a
@@ -15,7 +15,7 @@ use crate::common::{
     utils::cli_build_information,
 };
 use anyhow::{anyhow, Context, Result};
-use aptos_build_info::BUILD_OS;
+use cedra_build_info::BUILD_OS;
 use async_trait::async_trait;
 use clap::Parser;
 use self_update::{
@@ -30,7 +30,7 @@ use std::process::Command;
 /// This can be used to update the CLI to the latest version. This is useful if you
 /// installed the CLI via the install script / by downloading the binary directly.
 #[derive(Debug, Parser)]
-pub struct AptosUpdateTool {
+pub struct CedraUpdateTool {
     /// The owner of the repo to download the binary from.
     #[clap(long, default_value = "cedra-labs")]
     repo_owner: String,
@@ -47,7 +47,7 @@ pub struct AptosUpdateTool {
     pub prompt_options: PromptOptions,
 }
 
-impl BinaryUpdater for AptosUpdateTool {
+impl BinaryUpdater for CedraUpdateTool {
     fn check(&self) -> bool {
         self.check
     }
@@ -72,7 +72,7 @@ impl BinaryUpdater for AptosUpdateTool {
 
         // Find the latest release of the CLI, in which we filter for the CLI tag.
         // If the release isn't in the last 30 items (the default API page size)
-        // this will fail. See https://github.com/cedra-labs/cedra/issues/6411.
+        // this will fail. See https://github.com/cedra-labs/cedra-network/issues/6411.
         let mut releases = releases.into_iter();
         let latest_release = loop {
             let release = match releases.next() {
@@ -205,9 +205,9 @@ impl InstallationMethod {
 }
 
 #[async_trait]
-impl CliCommand<String> for AptosUpdateTool {
+impl CliCommand<String> for CedraUpdateTool {
     fn command_name(&self) -> &'static str {
-        "UpdateAptos"
+        "UpdateCedra"
     }
 
     async fn execute(self) -> CliTypedResult<String> {

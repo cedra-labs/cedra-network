@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_crypto::hash::HashValue;
-use aptos_types::{
+use cedra_crypto::hash::HashValue;
+use cedra_types::{
     account_address::AccountAddress, account_config::NewBlockEvent, transaction::Version,
 };
 use serde::{Deserialize, Serialize};

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -122,7 +122,7 @@ impl OnChainConfig for OnChainExecutionConfig {
 
     /// The Move resource is
     /// ```ignore
-    /// struct AptosExecutionConfig has copy, drop, store {
+    /// struct CedraExecutionConfig has copy, drop, store {
     ///    config: vector<u8>,
     /// }
     /// ```

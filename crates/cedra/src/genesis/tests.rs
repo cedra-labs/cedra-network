@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -16,21 +16,21 @@ use crate::{
     },
     CliCommand,
 };
-use aptos_crypto::{
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey},
     PrivateKey,
 };
-use aptos_genesis::{
+use cedra_genesis::{
     config::{
         AccountBalanceMap, EmployeePoolConfig, EmployeePoolMap, HostAndPort, Layout,
         ValidatorConfiguration,
     },
     keys::PublicIdentity,
 };
-use aptos_keygen::KeyGen;
-use aptos_temppath::TempPath;
-use aptos_types::{account_address::AccountAddress, chain_id::ChainId};
-use aptos_vm_genesis::{AccountBalance, TestValidator};
+use cedra_keygen::KeyGen;
+use cedra_temppath::TempPath;
+use cedra_types::{account_address::AccountAddress, chain_id::ChainId};
+use cedra_vm_genesis::{AccountBalance, TestValidator};
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
@@ -254,7 +254,7 @@ async fn setup_git_dir(
 
 /// Add framework to git directory
 fn add_framework_to_dir(git_dir: &Path) {
-    aptos_cached_packages::head_release_bundle()
+    cedra_cached_packages::head_release_bundle()
         .write(git_dir.join(FRAMEWORK_NAME))
         .unwrap()
 }

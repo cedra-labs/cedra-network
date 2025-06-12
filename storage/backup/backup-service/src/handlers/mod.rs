@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,9 +9,9 @@ use crate::handlers::utils::{
     handle_rejection, reply_with_bcs_bytes, reply_with_bytes_sender, unwrap_or_500,
     LATENCY_HISTOGRAM,
 };
-use aptos_crypto::hash::HashValue;
-use aptos_db::backup::backup_handler::BackupHandler;
-use aptos_types::transaction::Version;
+use cedra_crypto::hash::HashValue;
+use cedra_db::backup::backup_handler::BackupHandler;
+use cedra_types::transaction::Version;
 use warp::{filters::BoxedFilter, reply::Reply, Filter};
 
 static DB_STATE: &str = "db_state";

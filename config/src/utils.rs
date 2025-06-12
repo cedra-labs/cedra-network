@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::config::NodeConfig;
-use aptos_crypto::_once_cell::sync::Lazy;
-use aptos_logger::prelude::*;
-use aptos_types::{
+use cedra_crypto::_once_cell::sync::Lazy;
+use cedra_logger::prelude::*;
+use cedra_types::{
     network_address::{NetworkAddress, Protocol},
     transaction::Transaction,
 };
@@ -102,14 +102,14 @@ fn try_bind(port: Option<u16>) -> ::std::io::Result<u16> {
 
 fn lock_path() -> String {
     format!(
-        "/tmp/aptos-port-counter.{}.lock",
+        "/tmp/cedra-port-counter.{}.lock",
         &NEXTEST_RUN_ID.clone().unwrap()
     )
 }
 
 fn counter_path() -> String {
     format!(
-        "/tmp/aptos-port-counter.{}",
+        "/tmp/cedra-port-counter.{}",
         &NEXTEST_RUN_ID.clone().unwrap()
     )
 }

@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_framework::{BuildOptions, BuiltPackage};
-use aptos_sdk::bcs;
+use cedra_framework::{BuildOptions, BuiltPackage};
+use cedra_sdk::bcs;
 use move_binary_format::CompiledModule;
 use move_package::source_package::std_lib::StdVersion;
 use std::{
@@ -17,7 +17,7 @@ fn get_local_framework_path() -> String {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .and_then(|p| p.parent())
-        .map(|p| p.join("aptos-move").join("framework"))
+        .map(|p| p.join("cedra-move").join("framework"))
         .expect("framework path")
         .to_string_lossy()
         .to_string()
@@ -27,7 +27,7 @@ pub fn create_prebuilt_packages_rs_file(
     base_dir: impl AsRef<Path>,
     packages_to_build: Vec<(&str, &str, bool)>,
     output_file: impl AsRef<Path>,
-    in_aptos_core: bool,
+    in_cedra_core: bool,
 ) -> anyhow::Result<()> {
     let mut string_buffer = "".to_string();
     //
@@ -35,7 +35,7 @@ pub fn create_prebuilt_packages_rs_file(
     //
     writeln!(
         string_buffer,
-        r#"// Copyright © Aptos Foundation
+        r#"// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0"#
     )
     .expect("Writing header comment failed");
@@ -48,7 +48,7 @@ pub fn create_prebuilt_packages_rs_file(
         r#"
 // This file was generated. Do not modify!
 //
-// To update this code, run `cargo run -p module-publish` in aptos core.
+// To update this code, run `cargo run -p module-publish` in cedra core.
 // That test compiles the set of modules defined in
 // `testsuite/simple/src/simple/sources/`
 // and it writes the binaries here.
@@ -65,7 +65,7 @@ pub fn create_prebuilt_packages_rs_file(
     writeln!(
         string_buffer,
         "
-use aptos_transaction_generator_lib::entry_point_trait::PreBuiltPackages;
+use cedra_transaction_generator_lib::entry_point_trait::PreBuiltPackages;
 use once_cell::sync::Lazy;
 use std::collections::HashMap;",
     )
@@ -80,7 +80,7 @@ use std::collections::HashMap;",
             BuildOptions::move_2()
         };
         build_options.dev = true;
-        if in_aptos_core {
+        if in_cedra_core {
             build_options.override_std = Some(StdVersion::Local(get_local_framework_path()));
         }
 

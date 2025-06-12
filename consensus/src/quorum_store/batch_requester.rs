@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -9,11 +9,11 @@ use crate::{
         types::{BatchRequest, BatchResponse, PersistedValue},
     },
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::*;
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_types::{transaction::SignedTransaction, validator_verifier::ValidatorVerifier, PeerId};
+use cedra_crypto::HashValue;
+use cedra_executor_types::*;
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_types::{transaction::SignedTransaction, validator_verifier::ValidatorVerifier, PeerId};
 use futures::{stream::FuturesUnordered, StreamExt};
 use rand::Rng;
 use std::{collections::BTreeSet, sync::Arc, time::Duration};

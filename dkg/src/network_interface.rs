@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::DKGMessage;
-use aptos_config::network_id::{NetworkId, PeerNetworkId};
-use aptos_network::{
+use cedra_config::network_id::{NetworkId, PeerNetworkId};
+use cedra_network::{
     application::{error::Error, interface::NetworkClientInterface},
     ProtocolId,
 };
-use aptos_types::PeerId;
+use cedra_types::PeerId;
 use bytes::Bytes;
 use std::{collections::HashMap, time::Duration};
 

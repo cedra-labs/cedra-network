@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,22 +9,22 @@ use crate::{
     shared_mempool::use_case_history::UseCaseHistory,
 };
 use anyhow::Result;
-use aptos_config::{
+use cedra_config::{
     config::{MempoolConfig, NodeType},
     network_id::PeerNetworkId,
 };
-use aptos_consensus_types::common::{
+use cedra_consensus_types::common::{
     RejectedTransactionSummary, TransactionInProgress, TransactionSummary,
 };
-use aptos_crypto::HashValue;
-use aptos_infallible::{Mutex, RwLock};
-use aptos_network::application::interface::NetworkClientInterface;
-use aptos_storage_interface::DbReader;
-use aptos_types::{
+use cedra_crypto::HashValue;
+use cedra_infallible::{Mutex, RwLock};
+use cedra_network::application::interface::NetworkClientInterface;
+use cedra_storage_interface::DbReader;
+use cedra_types::{
     account_address::AccountAddress, mempool_status::MempoolStatus, transaction::SignedTransaction,
     vm_status::DiscardedVMStatus,
 };
-use aptos_vm_validator::vm_validator::TransactionValidation;
+use cedra_vm_validator::vm_validator::TransactionValidation;
 use futures::{
     channel::{mpsc, mpsc::UnboundedSender, oneshot},
     future::Future,

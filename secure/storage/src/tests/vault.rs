@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -10,8 +10,8 @@ use crate::{
     },
     Capability, CryptoStorage, Error, Identity, KVStorage, Namespaced, Permission, Policy, Storage,
 };
-use aptos_crypto::{test_utils::TestAptosCrypto, Signature};
-use aptos_vault_client::dev::{self, ROOT_TOKEN};
+use cedra_crypto::{test_utils::TestCedraCrypto, Signature};
+use cedra_vault_client::dev::{self, ROOT_TOKEN};
 
 /// VaultStorage namespace constants
 const VAULT_NAMESPACE_1: &str = "namespace_1";
@@ -252,7 +252,7 @@ fn test_vault_crypto_policies() {
         pubkey
     );
 
-    let message = TestAptosCrypto("Hello, World".to_string());
+    let message = TestCedraCrypto("Hello, World".to_string());
 
     // Verify exporter policy
     let exporter_token = storage.create_token(vec![EXPORTER]).unwrap();

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,7 +6,7 @@ use crate::{
     update::{get_additional_binaries_dir, UpdateRequiredInfo},
 };
 use anyhow::{anyhow, bail, Context, Result};
-use aptos_build_info::BUILD_OS;
+use cedra_build_info::BUILD_OS;
 use self_update::{backends::github::Update, update::ReleaseUpdate};
 use std::path::PathBuf;
 

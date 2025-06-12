@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use self::{
@@ -12,7 +12,7 @@ use crate::{
     on_chain_config::OnChainConfig,
 };
 use anyhow::{bail, ensure, Context};
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher};
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 use jwk::JWKMoveStruct;
 use move_core_types::{
     ident_str,

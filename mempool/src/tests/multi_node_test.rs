@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -14,12 +14,12 @@ use crate::{
         },
     },
 };
-use aptos_config::{
+use cedra_config::{
     config::{NodeConfig, PeerRole},
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_netcore::transport::ConnectionOrigin;
-use aptos_network::{
+use cedra_netcore::transport::ConnectionOrigin;
+use cedra_network::{
     peer_manager::PeerManagerRequest,
     protocols::{
         direct_send::Message,
@@ -28,7 +28,7 @@ use aptos_network::{
     },
     ProtocolId,
 };
-use aptos_types::{
+use cedra_types::{
     transaction::{ReplayProtector, SignedTransaction},
     PeerId,
 };

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -32,28 +32,28 @@ use crate::{
     network_interface::CommitMessage,
     pipeline::{execution_client::TExecutionClient, pipeline_builder::PipelineBuilder},
 };
-use aptos_channels::{aptos_channel, aptos_channel::Receiver, message_queues::QueueStyle};
-use aptos_config::{
+use cedra_channels::{cedra_channel, cedra_channel::Receiver, message_queues::QueueStyle};
+use cedra_config::{
     config::{ConsensusObserverConfig, NodeConfig},
     network_id::PeerNetworkId,
 };
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     pipeline,
     pipelined_block::{PipelineFutures, PipelinedBlock},
     vote_data::VoteData,
     wrapped_ledger_info::WrappedLedgerInfo,
 };
-use aptos_crypto::{bls12381, Genesis};
-use aptos_event_notifications::{DbBackedOnChainConfig, ReconfigNotificationListener};
-use aptos_executor_types::state_compute_result::StateComputeResult;
-use aptos_infallible::Mutex;
-use aptos_logger::{debug, error, info, warn};
-use aptos_network::{
+use cedra_crypto::{bls12381, Genesis};
+use cedra_event_notifications::{DbBackedOnChainConfig, ReconfigNotificationListener};
+use cedra_executor_types::state_compute_result::StateComputeResult;
+use cedra_infallible::Mutex;
+use cedra_logger::{debug, error, info, warn};
+use cedra_network::{
     application::interface::NetworkClient, protocols::wire::handshake::v1::ProtocolId,
 };
-use aptos_storage_interface::DbReader;
-use aptos_time_service::TimeService;
-use aptos_types::{
+use cedra_storage_interface::DbReader;
+use cedra_time_service::TimeService;
+use cedra_types::{
     block_info::{BlockInfo, Round},
     epoch_state::EpochState,
     ledger_info::LedgerInfoWithSignatures,
@@ -1147,7 +1147,7 @@ impl ConsensusObserver {
         let signer = Arc::new(ValidatorSigner::new(AccountAddress::ZERO, sk.clone()));
         let dummy_signer = Arc::new(DagCommitSigner::new(signer.clone()));
         let (_, rand_msg_rx) =
-            aptos_channel::new::<AccountAddress, IncomingRandGenRequest>(QueueStyle::FIFO, 1, None);
+            cedra_channel::new::<AccountAddress, IncomingRandGenRequest>(QueueStyle::FIFO, 1, None);
         self.execution_client
             .start_epoch(
                 sk,

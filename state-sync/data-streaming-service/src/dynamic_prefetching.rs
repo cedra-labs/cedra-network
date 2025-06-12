@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{metrics, stream_engine::StreamEngine};
-use aptos_config::config::{DataStreamingServiceConfig, DynamicPrefetchingConfig};
-use aptos_time_service::{TimeService, TimeServiceTrait};
+use cedra_config::config::{DataStreamingServiceConfig, DynamicPrefetchingConfig};
+use cedra_time_service::{TimeService, TimeServiceTrait};
 use std::{
     cmp::{max, min},
     time::{Duration, Instant},
@@ -156,7 +156,7 @@ mod test {
     use crate::streaming_client::{
         GetAllStatesRequest, GetAllTransactionsOrOutputsRequest, StreamRequest,
     };
-    use aptos_data_client::global_summary::AdvertisedData;
+    use cedra_data_client::global_summary::AdvertisedData;
 
     #[test]
     fn test_initialize_prefetching_state() {

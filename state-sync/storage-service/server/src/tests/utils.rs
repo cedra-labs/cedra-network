@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -8,17 +8,17 @@ use crate::{
     tests::mock::{MockClient, MockDatabaseReader},
     StorageServiceServer,
 };
-use aptos_config::{
+use cedra_config::{
     config::StorageServiceConfig,
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
-use aptos_logger::Level;
-use aptos_network::protocols::network::RpcError;
-use aptos_storage_service_notifications::{
+use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
+use cedra_logger::Level;
+use cedra_network::protocols::network::RpcError;
+use cedra_storage_service_notifications::{
     StorageServiceNotificationSender, StorageServiceNotifier,
 };
-use aptos_storage_service_types::{
+use cedra_storage_service_types::{
     requests::{
         DataRequest, StateValuesWithProofRequest, StorageServiceRequest,
         SubscribeTransactionOutputsWithProofRequest,
@@ -28,8 +28,8 @@ use aptos_storage_service_types::{
     responses::{CompleteDataRange, DataResponse, StorageServerSummary, StorageServiceResponse},
     Epoch, StorageServiceError,
 };
-use aptos_time_service::{MockTimeService, TimeService};
-use aptos_types::{
+use cedra_time_service::{MockTimeService, TimeService};
+use cedra_types::{
     account_address::AccountAddress,
     aggregate_signature::AggregateSignature,
     block_info::BlockInfo,
@@ -507,9 +507,9 @@ pub async fn get_transactions_with_proof(
     send_storage_request(mock_client, use_compression, data_request).await
 }
 
-/// Initializes the Aptos logger for tests
+/// Initializes the Cedra logger for tests
 pub fn initialize_logger() {
-    aptos_logger::Logger::builder()
+    cedra_logger::Logger::builder()
         .is_async(false)
         .level(Level::Debug)
         .build();
@@ -570,7 +570,7 @@ pub async fn subscribe_to_transactions_or_outputs(
     max_num_output_reductions: u64,
     stream_id: u64,
     stream_index: u64,
-) -> Receiver<Result<bytes::Bytes, aptos_network::protocols::network::RpcError>> {
+) -> Receiver<Result<bytes::Bytes, cedra_network::protocols::network::RpcError>> {
     subscribe_to_transactions_or_outputs_for_peer(
         mock_client,
         known_version,
@@ -798,7 +798,7 @@ pub fn verify_active_stream_id_for_peer(
 /// and that the response contains the correct data.
 pub async fn verify_new_transaction_outputs_with_proof(
     mock_client: &mut MockClient,
-    receiver: Receiver<Result<bytes::Bytes, aptos_network::protocols::network::RpcError>>,
+    receiver: Receiver<Result<bytes::Bytes, cedra_network::protocols::network::RpcError>>,
     output_list_with_proof: TransactionOutputListWithProof,
     expected_ledger_info: LedgerInfoWithSignatures,
 ) {

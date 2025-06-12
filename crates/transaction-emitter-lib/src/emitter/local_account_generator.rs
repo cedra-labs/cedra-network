@@ -1,12 +1,12 @@
 use anyhow::bail;
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
-use aptos_crypto::ed25519::Ed25519PrivateKey;
-use aptos_sdk::types::{
+use cedra_crypto::ed25519::Ed25519PrivateKey;
+use cedra_sdk::types::{
     AccountKey, EphemeralKeyPair, EphemeralPrivateKey, KeylessAccount, LocalAccount,
 };
-use aptos_transaction_generator_lib::ReliableTransactionSubmitter;
-use aptos_types::{
+use cedra_transaction_generator_lib::ReliableTransactionSubmitter;
+use cedra_types::{
     keyless,
     keyless::{Claims, OpenIdSig, Pepper, ZeroKnowledgeSig},
 };

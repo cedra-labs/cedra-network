@@ -1,21 +1,21 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-use crate::aptos_cli::validator::generate_blob;
+use crate::cedra_cli::validator::generate_blob;
 use cedra::test::CliTestFramework;
-use aptos_cached_packages::aptos_stdlib;
-use aptos_config::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_config::{
     config::{NodeConfig, Peer, PeerRole, HANDSHAKE_VERSION},
     network_id::NetworkId,
 };
-use aptos_forge::{reconfig, LocalSwarm, NodeExt, Swarm, SwarmExt};
-use aptos_rest_client::{Client as RestClient, Client};
-use aptos_sdk::{
+use cedra_forge::{reconfig, LocalSwarm, NodeExt, Swarm, SwarmExt};
+use cedra_rest_client::{Client as RestClient, Client};
+use cedra_sdk::{
     transaction_builder::TransactionFactory,
     types::{transaction::SignedTransaction, LocalAccount},
 };
-use aptos_types::{
+use cedra_types::{
     network_address::{NetworkAddress, Protocol},
     on_chain_config::{OnChainConfig, OnChainConsensusConfig, OnChainExecutionConfig},
 };
@@ -76,7 +76,7 @@ pub fn add_node_to_seeds(
 }
 
 pub async fn create_and_fund_account(swarm: &'_ mut dyn Swarm, amount: u64) -> LocalAccount {
-    let mut info = swarm.aptos_public_info();
+    let mut info = swarm.cedra_public_info();
     info.create_and_fund_user_account(amount).await.unwrap()
 }
 
@@ -120,7 +120,7 @@ pub async fn execute_transactions(
 
     // Always ensure that at least one reconfiguration transaction is executed
     if !execute_epoch_changes {
-        aptos_forge::reconfig(
+        cedra_forge::reconfig(
             client,
             &transaction_factory,
             swarm.chain_info().root_account,
@@ -149,7 +149,7 @@ pub async fn transfer_coins_non_blocking(
     amount: u64,
 ) -> SignedTransaction {
     let txn = sender.sign_with_transaction_builder(transaction_factory.payload(
-        aptos_stdlib::cedra_coin_transfer(receiver.address(), amount),
+        cedra_stdlib::cedra_coin_transfer(receiver.address(), amount),
     ));
 
     client.submit(&txn).await.unwrap();
@@ -212,7 +212,7 @@ pub async fn check_create_mint_transfer_node(swarm: &mut LocalSwarm, idx: usize)
 
     // Create account 0, mint 10 coins and check balance
     let transaction_factory = TransactionFactory::new(swarm.chain_id());
-    let mut info = swarm.aptos_public_info_for_node(idx);
+    let mut info = swarm.cedra_public_info_for_node(idx);
     let mut account_0 = info.create_and_fund_user_account(10).await.unwrap();
     assert_balance(&client, &account_0, 10).await;
 
@@ -294,13 +294,13 @@ pub async fn update_consensus_config(
     let update_consensus_config_script = format!(
         r#"
     script {{
-        use aptos_framework::aptos_governance;
-        use aptos_framework::consensus_config;
+        use cedra_framework::cedra_governance;
+        use cedra_framework::consensus_config;
         fun main(core_resources: &signer) {{
-            let framework_signer = aptos_governance::get_signer_testnet_only(core_resources, @0000000000000000000000000000000000000000000000000000000000000001);
+            let framework_signer = cedra_governance::get_signer_testnet_only(core_resources, @0000000000000000000000000000000000000000000000000000000000000001);
             let config_bytes = {};
             consensus_config::set_for_next_epoch(&framework_signer, config_bytes);
-            aptos_governance::force_end_epoch(&framework_signer);
+            cedra_governance::force_end_epoch(&framework_signer);
         }}
     }}
     "#,
@@ -313,9 +313,9 @@ pub async fn update_consensus_config(
 
 #[cfg(test)]
 pub mod swarm_utils {
-    use aptos_config::config::{NodeConfig, SecureBackend, WaypointConfig};
-    use aptos_secure_storage::{KVStorage, Storage};
-    use aptos_types::waypoint::Waypoint;
+    use cedra_config::config::{NodeConfig, SecureBackend, WaypointConfig};
+    use cedra_secure_storage::{KVStorage, Storage};
+    use cedra_types::waypoint::Waypoint;
 
     pub fn insert_waypoint(node_config: &mut NodeConfig, waypoint: Waypoint) {
         node_config.base.waypoint = WaypointConfig::FromConfig(waypoint);
@@ -323,10 +323,10 @@ pub mod swarm_utils {
         let f = |backend: &SecureBackend| {
             let mut storage: Storage = backend.into();
             storage
-                .set(aptos_global_constants::WAYPOINT, waypoint)
+                .set(cedra_global_constants::WAYPOINT, waypoint)
                 .expect("Unable to write waypoint");
             storage
-                .set(aptos_global_constants::GENESIS_WAYPOINT, waypoint)
+                .set(cedra_global_constants::GENESIS_WAYPOINT, waypoint)
                 .expect("Unable to write waypoint");
         };
         let backend = &node_config.consensus.safety_rules.backend;

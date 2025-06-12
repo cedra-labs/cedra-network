@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{ensure, Context, Result};
-use aptos_indexer_grpc_utils::{
+use cedra_indexer_grpc_utils::{
     compression_util::StorageFormat, config::IndexerGrpcFileStoreConfig, create_grpc_client,
     file_store_operator::FileStoreOperator,
 };
-use aptos_protos::{
+use cedra_protos::{
     internal::fullnode::v1::{
         stream_status::StatusType, transactions_from_node_response::Response,
         GetTransactionsFromNodeRequest, TransactionsFromNodeResponse,

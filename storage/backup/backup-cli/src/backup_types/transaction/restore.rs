@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -25,20 +25,20 @@ use crate::{
     },
 };
 use anyhow::{anyhow, ensure, Result};
-use aptos_db::backup::restore_handler::RestoreHandler;
-use aptos_executor::chunk_executor::ChunkExecutor;
-use aptos_executor_types::{ChunkExecutorTrait, TransactionReplayer, VerifyExecutionMode};
-use aptos_logger::prelude::*;
-use aptos_metrics_core::TimerHelper;
-use aptos_storage_interface::DbReaderWriter;
-use aptos_types::{
+use cedra_db::backup::restore_handler::RestoreHandler;
+use cedra_executor::chunk_executor::ChunkExecutor;
+use cedra_executor_types::{ChunkExecutorTrait, TransactionReplayer, VerifyExecutionMode};
+use cedra_logger::prelude::*;
+use cedra_metrics_core::TimerHelper;
+use cedra_storage_interface::DbReaderWriter;
+use cedra_types::{
     contract_event::ContractEvent,
     ledger_info::LedgerInfoWithSignatures,
     proof::{TransactionAccumulatorRangeProof, TransactionInfoListWithProof},
     transaction::{Transaction, TransactionInfo, TransactionListWithProof, Version},
     write_set::WriteSet,
 };
-use aptos_vm::{aptos_vm::AptosVMBlockExecutor, AptosVM};
+use cedra_vm::{cedra_vm::CedraVMBlockExecutor, CedraVM};
 use clap::Parser;
 use futures::{
     future,
@@ -289,7 +289,7 @@ impl TransactionRestoreBatchController {
                 self.output_transaction_analysis.is_none(),
                 "Bug: requested to output transaction output sizing info in restore mode.",
             );
-            AptosVM::set_concurrency_level_once(self.global_opt.replay_concurrency_level);
+            CedraVM::set_concurrency_level_once(self.global_opt.replay_concurrency_level);
 
             let kv_only = self.replay_from_version.map_or(false, |(_, k)| k);
             let txns_to_execute_stream = self
@@ -405,7 +405,7 @@ impl TransactionRestoreBatchController {
             impl Stream<Item = Result<(Transaction, TransactionInfo, WriteSet, Vec<ContractEvent>)>>,
         >,
     > {
-        // get the next expected transaction version of the current aptos db from txn_info CF
+        // get the next expected transaction version of the current cedra db from txn_info CF
         let next_expected_version = self
             .global_opt
             .run_mode
@@ -593,8 +593,8 @@ impl TransactionRestoreBatchController {
         let (first_version, _) = self.replay_from_version.unwrap();
         restore_handler.reset_state_store();
         let replay_start = Instant::now();
-        let db = DbReaderWriter::from_arc(Arc::clone(&restore_handler.aptosdb));
-        let chunk_replayer = Arc::new(ChunkExecutor::<AptosVMBlockExecutor>::new(db));
+        let db = DbReaderWriter::from_arc(Arc::clone(&restore_handler.cedradb));
+        let chunk_replayer = Arc::new(ChunkExecutor::<CedraVMBlockExecutor>::new(db));
         let ledger_update_stream = txns_to_execute_stream
             .try_chunks(BATCH_SIZE)
             .err_into::<anyhow::Error>()

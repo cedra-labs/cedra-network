@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -20,17 +20,17 @@ use crate::{
     ApiTags,
 };
 use anyhow::Context as AnyhowContext;
-use aptos_api_types::{
+use cedra_api_types::{
     transaction::TransactionSummary, verify_function_identifier, verify_module_identifier, Address,
-    AptosError, AptosErrorCode, AsConverter, EncodeSubmissionRequest, GasEstimation,
+    CedraError, CedraErrorCode, AsConverter, EncodeSubmissionRequest, GasEstimation,
     GasEstimationBcs, HashValue, HexEncodedBytes, LedgerInfo, MoveType, PendingTransaction,
     SubmitTransactionRequest, Transaction, TransactionData, TransactionOnChainData,
     TransactionsBatchSingleSubmissionFailure, TransactionsBatchSubmissionResult, UserTransaction,
     VerifyInput, VerifyInputWithRecursion, U64,
 };
-use aptos_crypto::{hash::CryptoHash, signing_message};
-use aptos_logger::error;
-use aptos_types::{
+use cedra_crypto::{hash::CryptoHash, signing_message};
+use cedra_logger::error;
+use cedra_types::{
     account_address::AccountAddress,
     mempool_status::MempoolStatusCode,
     transaction::{
@@ -41,7 +41,7 @@ use aptos_types::{
     vm_status::StatusCode,
     CedraCoinType, CoinType,
 };
-use aptos_vm::{AptosSimulationVM, AptosVM};
+use cedra_vm::{CedraSimulationVM, CedraVM};
 use move_core_types::{ident_str, language_storage::ModuleId, vm_status::VMStatus};
 use poem_openapi::{
     param::{Path, Query},
@@ -90,7 +90,7 @@ pub enum SubmitTransactionPost {
 
     // TODO: Since I don't want to impl all the Poem derives on SignedTransaction,
     // find a way to at least indicate in the spec that it expects a SignedTransaction.
-    // TODO: https://github.com/cedra-labs/cedra/issues/2275
+    // TODO: https://github.com/cedra-labs/cedra-network/issues/2275
     #[oai(content_type = "application/x.cedra.signed_transaction+bcs")]
     Bcs(Bcs),
 }
@@ -113,7 +113,7 @@ pub enum SubmitTransactionsBatchPost {
 
     // TODO: Since I don't want to impl all the Poem derives on SignedTransaction,
     // find a way to at least indicate in the spec that it expects a SignedTransaction.
-    // TODO: https://github.com/cedra-labs/cedra/issues/2275
+    // TODO: https://github.com/cedra-labs/cedra-network/issues/2275
     #[oai(content_type = "application/x.cedra.signed_transaction+bcs")]
     Bcs(Bcs),
 }
@@ -189,7 +189,7 @@ impl TransactionsApi {
     /// looks the transaction up by hash in the mempool (pending, not yet committed).
     ///
     /// To create a transaction hash by yourself, do the following:
-    ///   1. Hash message bytes: "RawTransaction" bytes + BCS bytes of [Transaction](https://aptos-labs.github.io/aptos-core/aptos_types/transaction/enum.Transaction.html).
+    ///   1. Hash message bytes: "RawTransaction" bytes + BCS bytes of [Transaction](https://cedra-labs.github.io/cedra-core/cedra_types/transaction/enum.Transaction.html).
     ///   2. Apply hash algorithm `SHA3-256` to the hash message bytes.
     ///   3. Hex-encode the hash bytes with `0x` prefix.
     // TODO: Include a link to an example of how to do this ^
@@ -447,7 +447,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 SubmitTransactionError::bad_request_with_code_no_info(
                     err,
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                 )
             })?;
         fail_point_poem("endpoint_submit_transaction")?;
@@ -500,7 +500,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 SubmitTransactionError::bad_request_with_code_no_info(
                     err,
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                 )
             })?;
         fail_point_poem("endpoint_submit_batch_transactions")?;
@@ -518,7 +518,7 @@ impl TransactionsApi {
                     signed_transactions_batch.len(),
                     self.context.max_submit_transaction_batch_size(),
                 ),
-                AptosErrorCode::InvalidInput,
+                CedraErrorCode::InvalidInput,
                 &ledger_info,
             ));
         }
@@ -564,7 +564,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 SubmitTransactionError::bad_request_with_code_no_info(
                     err,
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                 )
             })?;
         fail_point_poem("endpoint_simulate_transaction")?;
@@ -584,13 +584,13 @@ impl TransactionsApi {
             // here for the block ID because we don't allow filtering by block ID for the
             // simulation filters. See the ConfigSanitizer for ApiConfig.
             if !context.node_config.api.simulation_filter.allows(
-                aptos_crypto::HashValue::zero(),
+                cedra_crypto::HashValue::zero(),
                 ledger_info.timestamp(),
                 &signed_transaction,
             ) {
                 return Err(SubmitTransactionError::forbidden_with_code(
                     "Transaction not allowed by simulation filter",
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                     &ledger_info,
                 ));
             }
@@ -629,10 +629,10 @@ impl TransactionsApi {
                     .map_err(|err| {
                         SubmitTransactionError::bad_request_with_code_no_info(
                             err,
-                            AptosErrorCode::InvalidInput,
+                            CedraErrorCode::InvalidInput,
                         )
                     })?;
-                let output = AptosVM::execute_view_function(
+                let output = CedraVM::execute_view_function(
                     &state_view,
                     ModuleId::new(AccountAddress::ONE, ident_str!("coin").into()),
                     ident_str!("balance").into(),
@@ -643,13 +643,13 @@ impl TransactionsApi {
                 let values = output.values.map_err(|err| {
                     SubmitTransactionError::bad_request_with_code_no_info(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                     )
                 })?;
                 let balance: u64 = bcs::from_bytes(&values[0]).map_err(|err| {
                     SubmitTransactionError::bad_request_with_code_no_info(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                     )
                 })?;
 
@@ -725,7 +725,7 @@ impl TransactionsApi {
             .verify()
             .context("'UserTransactionRequest' invalid")
             .map_err(|err| {
-                BasicError::bad_request_with_code_no_info(err, AptosErrorCode::InvalidInput)
+                BasicError::bad_request_with_code_no_info(err, CedraErrorCode::InvalidInput)
             })?;
         fail_point_poem("endpoint_encode_submission")?;
         if !self.context.node_config.api.encode_submission_enabled {
@@ -823,7 +823,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 BasicErrorWith404::internal_with_code(
                     err,
-                    AptosErrorCode::InternalError,
+                    CedraErrorCode::InternalError,
                     &latest_ledger_info,
                 )
             })?;
@@ -876,7 +876,7 @@ impl TransactionsApi {
                 .map_err(|err| {
                     BasicErrorWith404::internal_with_code(
                         err,
-                        AptosErrorCode::InternalError,
+                        CedraErrorCode::InternalError,
                         &latest_ledger_info,
                     )
                 })?
@@ -922,7 +922,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 BasicErrorWith404::internal_with_code(
                     err,
-                    AptosErrorCode::InternalError,
+                    CedraErrorCode::InternalError,
                     &latest_ledger_info,
                 )
             })?
@@ -948,7 +948,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 BasicErrorWith404::internal_with_code(
                     err,
-                    AptosErrorCode::InternalError,
+                    CedraErrorCode::InternalError,
                     &ledger_info,
                 )
             })?;
@@ -988,7 +988,7 @@ impl TransactionsApi {
                             .map_err(|err| {
                                 BasicErrorWith404::internal_with_code(
                                     err,
-                                    AptosErrorCode::InternalError,
+                                    CedraErrorCode::InternalError,
                                     ledger_info,
                                 )
                             })?
@@ -1000,7 +1000,7 @@ impl TransactionsApi {
                         .map_err(|err| {
                             BasicErrorWith404::internal_with_code(
                                 err,
-                                AptosErrorCode::InternalError,
+                                CedraErrorCode::InternalError,
                                 ledger_info,
                             )
                         })?,
@@ -1043,7 +1043,7 @@ impl TransactionsApi {
     /// it means the transaction is still pending.
     async fn get_by_hash(
         &self,
-        hash: aptos_crypto::HashValue,
+        hash: cedra_crypto::HashValue,
         storage_ledger_version: u64,
         internal_ledger_version: Option<u64>,
     ) -> anyhow::Result<Option<TransactionData>> {
@@ -1151,7 +1151,7 @@ impl TransactionsApi {
         if script.code().is_empty() {
             return Err(SubmitTransactionError::bad_request_with_code(
                 "Script payload bytecode must not be empty",
-                AptosErrorCode::InvalidInput,
+                CedraErrorCode::InvalidInput,
                 ledger_info,
             ));
         }
@@ -1163,7 +1163,7 @@ impl TransactionsApi {
                 .map_err(|err| {
                     SubmitTransactionError::bad_request_with_code(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                         ledger_info,
                     )
                 })?;
@@ -1187,7 +1187,7 @@ impl TransactionsApi {
                         .map_err(|err| {
                             SubmitTransactionError::bad_request_with_code(
                                 err,
-                                AptosErrorCode::InvalidInput,
+                                CedraErrorCode::InvalidInput,
                                 ledger_info,
                             )
                         })?;
@@ -1220,7 +1220,7 @@ impl TransactionsApi {
                     TransactionPayload::ModuleBundle(_) => {
                         return Err(SubmitTransactionError::bad_request_with_code(
                             "Module bundle payload has been removed",
-                            AptosErrorCode::InvalidInput,
+                            CedraErrorCode::InvalidInput,
                             ledger_info,
                         ))
                     },
@@ -1233,7 +1233,7 @@ impl TransactionsApi {
                             if extra_config.is_multisig() {
                                 return Err(SubmitTransactionError::bad_request_with_code(
                                     "Script transaction payload must not be a multisig transaction",
-                                    AptosErrorCode::InvalidInput,
+                                    CedraErrorCode::InvalidInput,
                                     ledger_info,
                                 ));
                             }
@@ -1248,7 +1248,7 @@ impl TransactionsApi {
                             if !extra_config.is_multisig() {
                                 return Err(SubmitTransactionError::bad_request_with_code(
                                     "Empty transaction payload must be a multisig transaction",
-                                    AptosErrorCode::InvalidInput,
+                                    CedraErrorCode::InvalidInput,
                                     ledger_info,
                                 ));
                             }
@@ -1268,7 +1268,7 @@ impl TransactionsApi {
                 .map_err(|err| {
                     SubmitTransactionError::bad_request_with_code(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                         ledger_info,
                     )
                 }),
@@ -1286,7 +1286,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 SubmitTransactionError::bad_request_with_code(
                     err,
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                     ledger_info,
                 )
             })?;
@@ -1296,7 +1296,7 @@ impl TransactionsApi {
             .map_err(|err| {
                 SubmitTransactionError::bad_request_with_code(
                     err,
-                    AptosErrorCode::InvalidInput,
+                    CedraErrorCode::InvalidInput,
                     ledger_info,
                 )
             })?;
@@ -1307,7 +1307,7 @@ impl TransactionsApi {
                 .map_err(|err| {
                     SubmitTransactionError::bad_request_with_code(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                         ledger_info,
                     )
                 })?;
@@ -1328,7 +1328,7 @@ impl TransactionsApi {
                     .map_err(|err| {
                         SubmitTransactionError::bad_request_with_code(
                             err,
-                            AptosErrorCode::InvalidInput,
+                            CedraErrorCode::InvalidInput,
                             ledger_info,
                         )
                     })?;
@@ -1346,7 +1346,7 @@ impl TransactionsApi {
                         .map_err(|err| {
                             SubmitTransactionError::bad_request_with_code(
                                 err,
-                                AptosErrorCode::InvalidInput,
+                                CedraErrorCode::InvalidInput,
                                 ledger_info,
                             )
                         })
@@ -1356,53 +1356,53 @@ impl TransactionsApi {
     }
 
     /// Submits a single transaction, and converts mempool codes to errors
-    async fn create_internal(&self, txn: SignedTransaction) -> Result<(), AptosError> {
+    async fn create_internal(&self, txn: SignedTransaction) -> Result<(), CedraError> {
         let (mempool_status, vm_status_opt) = self
             .context
             .submit_transaction(txn)
             .await
             .context("Mempool failed to initially evaluate submitted transaction")
             .map_err(|err| {
-                aptos_api_types::AptosError::new_with_error_code(err, AptosErrorCode::InternalError)
+                cedra_api_types::CedraError::new_with_error_code(err, CedraErrorCode::InternalError)
             })?;
         match mempool_status.code {
             MempoolStatusCode::Accepted => Ok(()),
             MempoolStatusCode::MempoolIsFull | MempoolStatusCode::TooManyTransactions => {
-                Err(AptosError::new_with_error_code(
+                Err(CedraError::new_with_error_code(
                     &mempool_status.message,
-                    AptosErrorCode::MempoolIsFull,
+                    CedraErrorCode::MempoolIsFull,
                 ))
             },
             MempoolStatusCode::VmError => {
                 if let Some(status) = vm_status_opt {
-                    Err(AptosError::new_with_vm_status(
+                    Err(CedraError::new_with_vm_status(
                         format!(
                             "Invalid transaction: Type: {:?} Code: {:?}",
                             status.status_type(),
                             status
                         ),
-                        AptosErrorCode::VmError,
+                        CedraErrorCode::VmError,
                         status,
                     ))
                 } else {
-                    Err(AptosError::new_with_vm_status(
+                    Err(CedraError::new_with_vm_status(
                         "Invalid transaction: unknown",
-                        AptosErrorCode::VmError,
+                        CedraErrorCode::VmError,
                         StatusCode::UNKNOWN_STATUS,
                     ))
                 }
             },
-            MempoolStatusCode::InvalidSeqNumber => Err(AptosError::new_with_error_code(
+            MempoolStatusCode::InvalidSeqNumber => Err(CedraError::new_with_error_code(
                 mempool_status.message,
-                AptosErrorCode::SequenceNumberTooOld,
+                CedraErrorCode::SequenceNumberTooOld,
             )),
-            MempoolStatusCode::InvalidUpdate => Err(AptosError::new_with_error_code(
+            MempoolStatusCode::InvalidUpdate => Err(CedraError::new_with_error_code(
                 mempool_status.message,
-                AptosErrorCode::InvalidTransactionUpdate,
+                CedraErrorCode::InvalidTransactionUpdate,
             )),
-            MempoolStatusCode::UnknownStatus => Err(AptosError::new_with_error_code(
+            MempoolStatusCode::UnknownStatus => Err(CedraError::new_with_error_code(
                 format!("Transaction was rejected with status {}", mempool_status,),
-                AptosErrorCode::InternalError,
+                CedraErrorCode::InternalError,
             )),
         }
     }
@@ -1424,7 +1424,7 @@ impl TransactionsApi {
                         .map_err(|e| {
                             SubmitTransactionError::internal_with_code(
                                 e,
-                                AptosErrorCode::InternalError,
+                                CedraErrorCode::InternalError,
                                 ledger_info,
                             )
                         })?;
@@ -1436,7 +1436,7 @@ impl TransactionsApi {
                             .context("Failed to build PendingTransaction from mempool response, even though it said the request was accepted")
                             .map_err(|err| SubmitTransactionError::internal_with_code(
                                 err,
-                                AptosErrorCode::InternalError,
+                                CedraErrorCode::InternalError,
                                 ledger_info,
                             ))?;
                     SubmitTransactionResponse::try_from_json((
@@ -1455,21 +1455,21 @@ impl TransactionsApi {
                 )),
             },
             Err(error) => match error.error_code {
-                AptosErrorCode::InternalError => Err(
-                    SubmitTransactionError::internal_from_aptos_error(error, ledger_info),
+                CedraErrorCode::InternalError => Err(
+                    SubmitTransactionError::internal_from_cedra_error(error, ledger_info),
                 ),
-                AptosErrorCode::VmError
-                | AptosErrorCode::SequenceNumberTooOld
-                | AptosErrorCode::InvalidTransactionUpdate => Err(
-                    SubmitTransactionError::bad_request_from_aptos_error(error, ledger_info),
+                CedraErrorCode::VmError
+                | CedraErrorCode::SequenceNumberTooOld
+                | CedraErrorCode::InvalidTransactionUpdate => Err(
+                    SubmitTransactionError::bad_request_from_cedra_error(error, ledger_info),
                 ),
-                AptosErrorCode::MempoolIsFull => Err(
-                    SubmitTransactionError::insufficient_storage_from_aptos_error(
+                CedraErrorCode::MempoolIsFull => Err(
+                    SubmitTransactionError::insufficient_storage_from_cedra_error(
                         error,
                         ledger_info,
                     ),
                 ),
-                _ => Err(SubmitTransactionError::internal_from_aptos_error(
+                _ => Err(SubmitTransactionError::internal_from_cedra_error(
                     error,
                     ledger_info,
                 )),
@@ -1513,7 +1513,7 @@ impl TransactionsApi {
         ))
     }
 
-    // TODO: This function leverages a lot of types from aptos_types, use the
+    // TODO: This function leverages a lot of types from cedra_types, use the
     // local API types and just return those directly, instead of converting
     // from these types in render_transactions.
     /// Simulate a transaction in the VM
@@ -1531,7 +1531,7 @@ impl TransactionsApi {
         if txn.verify_signature().is_ok() {
             return Err(SubmitTransactionError::bad_request_with_code(
                 "Simulated transactions must not have a valid signature",
-                AptosErrorCode::InvalidInput,
+                CedraErrorCode::InvalidInput,
                 &ledger_info,
             ));
         }
@@ -1539,7 +1539,7 @@ impl TransactionsApi {
         // Simulate transaction
         let state_view = self.context.latest_state_view_poem(&ledger_info)?;
         let (vm_status, output) =
-            AptosSimulationVM::create_vm_and_simulate_signed_transaction(&txn, &state_view);
+            CedraSimulationVM::create_vm_and_simulate_signed_transaction(&txn, &state_view);
         let version = ledger_info.version();
 
         // Ensure that all known statuses return their values in the output (even if they aren't supposed to)
@@ -1602,9 +1602,9 @@ impl TransactionsApi {
 
         // Build up a transaction from the outputs
         // All state hashes are invalid, and will be filled with 0s
-        let txn = aptos_types::transaction::Transaction::UserTransaction(txn);
-        let zero_hash = aptos_crypto::HashValue::zero();
-        let info = aptos_types::transaction::TransactionInfo::new(
+        let txn = cedra_types::transaction::Transaction::UserTransaction(txn);
+        let zero_hash = cedra_crypto::HashValue::zero();
+        let info = cedra_types::transaction::TransactionInfo::new(
             txn.hash(),
             zero_hash,
             zero_hash,
@@ -1656,7 +1656,7 @@ impl TransactionsApi {
                         _ => {
                             return Err(SubmitTransactionError::internal_with_code(
                                 "Simulation transaction resulted in a non-UserTransaction",
-                                AptosErrorCode::InternalError,
+                                CedraErrorCode::InternalError,
                                 &ledger_info,
                             ))
                         },
@@ -1686,7 +1686,7 @@ impl TransactionsApi {
         if accept_type == &AcceptType::Bcs {
             return Err(BasicError::bad_request_with_code_no_info(
                 "BCS is not supported for encode submission",
-                AptosErrorCode::BcsNotSupported,
+                CedraErrorCode::BcsNotSupported,
             ));
         }
 
@@ -1697,7 +1697,7 @@ impl TransactionsApi {
             .try_into_raw_transaction_poem(request.transaction, self.context.chain_id())
             .context("The given transaction is invalid")
             .map_err(|err| {
-                BasicError::bad_request_with_code(err, AptosErrorCode::InvalidInput, &ledger_info)
+                BasicError::bad_request_with_code(err, CedraErrorCode::InvalidInput, &ledger_info)
             })?;
 
         let raw_message = match request.secondary_signers {
@@ -1712,7 +1712,7 @@ impl TransactionsApi {
             )
             .context("Invalid transaction to generate signing message")
             .map_err(|err| {
-                BasicError::bad_request_with_code(err, AptosErrorCode::InvalidInput, &ledger_info)
+                BasicError::bad_request_with_code(err, CedraErrorCode::InvalidInput, &ledger_info)
             })?,
             None => raw_txn
                 .signing_message()
@@ -1720,7 +1720,7 @@ impl TransactionsApi {
                 .map_err(|err| {
                     BasicError::bad_request_with_code(
                         err,
-                        AptosErrorCode::InvalidInput,
+                        CedraErrorCode::InvalidInput,
                         &ledger_info,
                     )
                 })?,

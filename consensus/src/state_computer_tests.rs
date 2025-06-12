@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -7,15 +7,15 @@ use crate::{
     transaction_filter::TransactionFilter, transaction_shuffler::NoOpShuffler,
     txn_notifier::TxnNotifier,
 };
-use aptos_config::config::transaction_filter_type::Filter;
-use aptos_consensus_notifications::{ConsensusNotificationSender, Error};
-use aptos_consensus_types::{block::Block, block_data::BlockData};
-use aptos_crypto::HashValue;
-use aptos_executor_types::{
+use cedra_config::config::transaction_filter_type::Filter;
+use cedra_consensus_notifications::{ConsensusNotificationSender, Error};
+use cedra_consensus_types::{block::Block, block_data::BlockData};
+use cedra_crypto::HashValue;
+use cedra_executor_types::{
     state_compute_result::StateComputeResult, BlockExecutorTrait, ExecutorResult,
 };
-use aptos_infallible::Mutex;
-use aptos_types::{
+use cedra_infallible::Mutex;
+use cedra_types::{
     block_executor::{config::BlockExecutorConfigFromOnchain, partitioner::ExecutableBlock},
     contract_event::ContractEvent,
     epoch_state::EpochState,

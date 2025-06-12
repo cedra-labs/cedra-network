@@ -2,7 +2,7 @@
 
 FROM debian-base AS node-checker
 
-COPY  --link --from=tools-builder /aptos/dist/aptos-node-checker /usr/local/bin/aptos-node-checker
+COPY  --link --from=tools-builder /cedra/dist/cedra-node-checker /usr/local/bin/cedra-node-checker
 
 ENV RUST_LOG_FORMAT=json
 

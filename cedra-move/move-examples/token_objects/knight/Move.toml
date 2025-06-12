@@ -1,0 +1,10 @@
+[package]
+name = 'knight'
+version = '1.0.0'
+
+[addresses]
+knight = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+CedraTokenObjects = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-token-objects", rev = "mainnet" }

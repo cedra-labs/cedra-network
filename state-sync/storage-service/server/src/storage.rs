@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{error::Error, metrics::increment_network_frame_overflow};
-use aptos_config::config::StorageServiceConfig;
-use aptos_logger::debug;
-use aptos_storage_interface::{AptosDbError, DbReader, Result as StorageResult};
-use aptos_storage_service_types::responses::{
+use cedra_config::config::StorageServiceConfig;
+use cedra_logger::debug;
+use cedra_storage_interface::{CedraDbError, DbReader, Result as StorageResult};
+use cedra_storage_service_types::responses::{
     CompleteDataRange, DataResponse, DataSummary, TransactionOrOutputListWithProof,
 };
-use aptos_types::{
+use cedra_types::{
     epoch_change::EpochChangeProof,
     ledger_info::LedgerInfoWithSignatures,
     state_store::state_value::StateValueChunkWithProof,
@@ -17,11 +17,11 @@ use aptos_types::{
 use serde::Serialize;
 use std::{cmp::min, sync::Arc};
 
-/// The interface into local storage (e.g., the Aptos DB) used by the storage
+/// The interface into local storage (e.g., the Cedra DB) used by the storage
 /// server to handle client requests and responses.
 pub trait StorageReaderInterface: Clone + Send + 'static {
     /// Returns a data summary of the underlying storage state.
-    fn get_data_summary(&self) -> aptos_storage_service_types::Result<DataSummary, Error>;
+    fn get_data_summary(&self) -> cedra_storage_service_types::Result<DataSummary, Error>;
 
     /// Returns a list of transactions with a proof relative to the
     /// `proof_version`. The transaction list is expected to start at
@@ -34,7 +34,7 @@ pub trait StorageReaderInterface: Clone + Send + 'static {
         start_version: u64,
         end_version: u64,
         include_events: bool,
-    ) -> aptos_storage_service_types::Result<TransactionListWithProof, Error>;
+    ) -> cedra_storage_service_types::Result<TransactionListWithProof, Error>;
 
     /// Returns a list of epoch ending ledger infos, starting at `start_epoch`
     /// and ending at the `expected_end_epoch` (inclusive). For example, if
@@ -46,7 +46,7 @@ pub trait StorageReaderInterface: Clone + Send + 'static {
         &self,
         start_epoch: u64,
         expected_end_epoch: u64,
-    ) -> aptos_storage_service_types::Result<EpochChangeProof, Error>;
+    ) -> cedra_storage_service_types::Result<EpochChangeProof, Error>;
 
     /// Returns a list of transaction outputs with a proof relative to the
     /// `proof_version`. The transaction output list is expected to start at
@@ -58,7 +58,7 @@ pub trait StorageReaderInterface: Clone + Send + 'static {
         proof_version: u64,
         start_version: u64,
         end_version: u64,
-    ) -> aptos_storage_service_types::Result<TransactionOutputListWithProof, Error>;
+    ) -> cedra_storage_service_types::Result<TransactionOutputListWithProof, Error>;
 
     /// Returns a list of transaction or outputs with a proof relative to the
     /// `proof_version`. The data list is expected to start at `start_version`
@@ -73,11 +73,11 @@ pub trait StorageReaderInterface: Clone + Send + 'static {
         end_version: u64,
         include_events: bool,
         max_num_output_reductions: u64,
-    ) -> aptos_storage_service_types::Result<TransactionOrOutputListWithProof, Error>;
+    ) -> cedra_storage_service_types::Result<TransactionOrOutputListWithProof, Error>;
 
     /// Returns the number of states in the state tree at the specified version.
     fn get_number_of_states(&self, version: u64)
-        -> aptos_storage_service_types::Result<u64, Error>;
+        -> cedra_storage_service_types::Result<u64, Error>;
 
     /// Returns a chunk holding a list of state values starting at the
     /// specified `start_index` and ending at `end_index` (inclusive). In
@@ -88,7 +88,7 @@ pub trait StorageReaderInterface: Clone + Send + 'static {
         version: u64,
         start_index: u64,
         end_index: u64,
-    ) -> aptos_storage_service_types::Result<StateValueChunkWithProof, Error>;
+    ) -> cedra_storage_service_types::Result<StateValueChunkWithProof, Error>;
 }
 
 /// The underlying implementation of the StorageReaderInterface, used by the
@@ -114,7 +114,7 @@ impl StorageReader {
         &self,
         latest_version: Version,
         transactions_range: &Option<CompleteDataRange<Version>>,
-    ) -> aptos_storage_service_types::Result<Option<CompleteDataRange<Version>>, Error> {
+    ) -> cedra_storage_service_types::Result<Option<CompleteDataRange<Version>>, Error> {
         let pruner_enabled = self
             .storage
             .is_state_merkle_pruner_enabled()
@@ -152,7 +152,7 @@ impl StorageReader {
     fn fetch_transaction_range(
         &self,
         latest_version: Version,
-    ) -> aptos_storage_service_types::Result<Option<CompleteDataRange<Version>>, Error> {
+    ) -> cedra_storage_service_types::Result<Option<CompleteDataRange<Version>>, Error> {
         let first_transaction_version = self
             .storage
             .get_first_txn_version()
@@ -171,7 +171,7 @@ impl StorageReader {
     fn fetch_transaction_output_range(
         &self,
         latest_version: Version,
-    ) -> aptos_storage_service_types::Result<Option<CompleteDataRange<Version>>, Error> {
+    ) -> cedra_storage_service_types::Result<Option<CompleteDataRange<Version>>, Error> {
         let first_output_version = self
             .storage
             .get_first_write_set_version()
@@ -187,7 +187,7 @@ impl StorageReader {
 }
 
 impl StorageReaderInterface for StorageReader {
-    fn get_data_summary(&self) -> aptos_storage_service_types::Result<DataSummary, Error> {
+    fn get_data_summary(&self) -> cedra_storage_service_types::Result<DataSummary, Error> {
         // Fetch the latest ledger info
         let latest_ledger_info_with_sigs = self
             .storage
@@ -235,7 +235,7 @@ impl StorageReaderInterface for StorageReader {
         start_version: u64,
         end_version: u64,
         include_events: bool,
-    ) -> aptos_storage_service_types::Result<TransactionListWithProof, Error> {
+    ) -> cedra_storage_service_types::Result<TransactionListWithProof, Error> {
         // Calculate the number of transactions to fetch
         let expected_num_transactions = inclusive_range_len(start_version, end_version)?;
         let max_num_transactions = self.config.max_transaction_chunk_size;
@@ -286,7 +286,7 @@ impl StorageReaderInterface for StorageReader {
         &self,
         start_epoch: u64,
         expected_end_epoch: u64,
-    ) -> aptos_storage_service_types::Result<EpochChangeProof, Error> {
+    ) -> cedra_storage_service_types::Result<EpochChangeProof, Error> {
         // Calculate the number of ledger infos to fetch
         let expected_num_ledger_infos = inclusive_range_len(start_epoch, expected_end_epoch)?;
         let max_num_ledger_infos = self.config.max_epoch_chunk_size;
@@ -339,7 +339,7 @@ impl StorageReaderInterface for StorageReader {
         proof_version: u64,
         start_version: u64,
         end_version: u64,
-    ) -> aptos_storage_service_types::Result<TransactionOutputListWithProof, Error> {
+    ) -> cedra_storage_service_types::Result<TransactionOutputListWithProof, Error> {
         // Calculate the number of transaction outputs to fetch
         let expected_num_outputs = inclusive_range_len(start_version, end_version)?;
         let max_num_outputs = self.config.max_transaction_output_chunk_size;
@@ -387,7 +387,7 @@ impl StorageReaderInterface for StorageReader {
         end_version: u64,
         include_events: bool,
         max_num_output_reductions: u64,
-    ) -> aptos_storage_service_types::Result<TransactionOrOutputListWithProof, Error> {
+    ) -> cedra_storage_service_types::Result<TransactionOrOutputListWithProof, Error> {
         // Calculate the number of transaction outputs to fetch
         let expected_num_outputs = inclusive_range_len(start_version, end_version)?;
         let max_num_outputs = self.config.max_transaction_output_chunk_size;
@@ -440,7 +440,7 @@ impl StorageReaderInterface for StorageReader {
     fn get_number_of_states(
         &self,
         version: u64,
-    ) -> aptos_storage_service_types::Result<u64, Error> {
+    ) -> cedra_storage_service_types::Result<u64, Error> {
         let number_of_states = self
             .storage
             .get_state_item_count(version)
@@ -453,7 +453,7 @@ impl StorageReaderInterface for StorageReader {
         version: u64,
         start_index: u64,
         end_index: u64,
-    ) -> aptos_storage_service_types::Result<StateValueChunkWithProof, Error> {
+    ) -> cedra_storage_service_types::Result<StateValueChunkWithProof, Error> {
         // Calculate the number of state values to fetch
         let expected_num_state_values = inclusive_range_len(start_index, end_index)?;
         let max_num_state_values = self.config.max_state_chunk_size;
@@ -519,7 +519,7 @@ macro_rules! timed_read {
                     read_operation,
                     None,
                 );
-                result.map_err(|e| AptosDbError::Other(e.to_string()))
+                result.map_err(|e| CedraDbError::Other(e.to_string()))
             }
         )+
     };
@@ -583,7 +583,7 @@ impl DbReader for TimedStorageReader {
 
 /// Calculate `(start..=end).len()`. Returns an error if `end < start` or
 /// `end == u64::MAX`.
-fn inclusive_range_len(start: u64, end: u64) -> aptos_storage_service_types::Result<u64, Error> {
+fn inclusive_range_len(start: u64, end: u64) -> cedra_storage_service_types::Result<u64, Error> {
     // len = end - start + 1
     let len = end.checked_sub(start).ok_or_else(|| {
         Error::InvalidRequest(format!("end ({}) must be >= start ({})", end, start))
@@ -600,7 +600,7 @@ fn inclusive_range_len(start: u64, end: u64) -> aptos_storage_service_types::Res
 pub(crate) fn check_overflow_network_frame<T: ?Sized + Serialize>(
     data: &T,
     max_network_frame_bytes: u64,
-) -> aptos_storage_service_types::Result<(bool, u64), Error> {
+) -> cedra_storage_service_types::Result<(bool, u64), Error> {
     let num_serialized_bytes = bcs::to_bytes(&data)
         .map_err(|error| Error::UnexpectedErrorEncountered(error.to_string()))?
         .len() as u64;

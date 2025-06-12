@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::dag::observability::counters;
-use aptos_infallible::duration_since_epoch;
-use aptos_metrics_core::HistogramVec;
+use cedra_infallible::duration_since_epoch;
+use cedra_metrics_core::HistogramVec;
 use std::time::Duration;
 
 #[derive(strum_macros::AsRefStr)]

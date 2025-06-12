@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::pipeline::{CommitBlockMessage, LedgerUpdateMessage};
-use aptos_executor::block_executor::BlockExecutor;
-use aptos_executor_types::BlockExecutorTrait;
-use aptos_vm::VMBlockExecutor;
+use cedra_executor::block_executor::BlockExecutor;
+use cedra_executor_types::BlockExecutorTrait;
+use cedra_vm::VMBlockExecutor;
 use std::sync::{mpsc, Arc};
 
 pub enum CommitProcessing {

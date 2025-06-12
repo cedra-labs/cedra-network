@@ -294,4472 +294,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "aptos-abstract-gas-usage"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-gas-algebra",
- "aptos-gas-meter",
- "aptos-gas-schedule",
- "aptos-vm-types",
- "move-binary-format",
-]
-
-[[package]]
-name = "aptos-accumulator"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-types",
- "proptest",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-admin-service"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-consensus",
- "aptos-crypto",
- "aptos-infallible",
- "aptos-logger",
- "aptos-mempool",
- "aptos-runtimes",
- "aptos-storage-interface",
- "aptos-system-utils 0.1.0",
- "aptos-types",
- "bcs 0.1.4",
- "futures-channel",
- "http 0.2.12",
- "hyper 0.14.32",
- "sha256",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-aggregator"
-version = "0.1.0"
-dependencies = [
- "aptos-types",
- "bcs 0.1.4",
- "claims",
- "move-binary-format",
- "move-core-types",
- "move-vm-types",
- "once_cell",
- "test-case",
-]
-
-[[package]]
-name = "aptos-api"
-version = "0.2.0"
-dependencies = [
- "anyhow",
- "aptos-api-test-context",
- "aptos-api-types",
- "aptos-bcs-utils",
- "aptos-build-info",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-meter",
- "aptos-gas-schedule",
- "aptos-global-constants",
- "aptos-logger",
- "aptos-mempool",
- "aptos-metrics-core",
- "aptos-move-stdlib",
- "aptos-proptest-helpers",
- "aptos-runtimes",
- "aptos-sdk",
- "aptos-storage-interface",
- "aptos-types",
- "aptos-vm",
- "bcs 0.1.4",
- "bytes",
- "fail",
- "futures",
- "hex",
- "itertools 0.13.0",
- "mime",
- "mini-moka",
- "move-core-types",
- "move-package",
- "num_cpus",
- "once_cell",
- "passkey-types",
- "paste",
- "percent-encoding",
- "poem",
- "poem-openapi",
- "proptest",
- "rand 0.7.3",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
- "warp",
-]
-
-[[package]]
-name = "aptos-api-test-context"
-version = "0.2.0"
-dependencies = [
- "aptos-api",
- "aptos-api-types",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor",
- "aptos-executor-types",
- "aptos-framework",
- "aptos-genesis",
- "aptos-indexer-grpc-table-info",
- "aptos-mempool",
- "aptos-mempool-notifications",
- "aptos-sdk",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-logging",
- "aptos-vm-validator",
- "bcs 0.1.4",
- "bytes",
- "goldenfile",
- "hyper 0.14.32",
- "rand 0.7.3",
- "regex",
- "serde_json",
- "tokio",
- "warp",
- "warp-reverse-proxy",
-]
-
-[[package]]
-name = "aptos-api-tester"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-api-types",
- "aptos-cached-packages",
- "aptos-framework",
- "aptos-logger",
- "aptos-push-metrics",
- "aptos-rest-client",
- "aptos-sdk",
- "aptos-types",
- "futures",
- "move-core-types",
- "once_cell",
- "prometheus",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-api-types"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-crypto",
- "aptos-logger",
- "aptos-openapi",
- "aptos-resource-viewer",
- "aptos-storage-interface",
- "aptos-types",
- "aptos-vm",
- "async-trait",
- "bcs 0.1.4",
- "bytes",
- "hex",
- "indoc",
- "move-binary-format",
- "move-core-types",
- "once_cell",
- "poem",
- "poem-openapi",
- "poem-openapi-derive",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "aptos-backup-cli"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-backup-service",
- "aptos-config",
- "aptos-crypto",
- "aptos-db",
- "aptos-db-indexer-schemas",
- "aptos-executor",
- "aptos-executor-test-helpers",
- "aptos-executor-types",
- "aptos-indexer-grpc-table-info",
- "aptos-infallible",
- "aptos-jellyfish-merkle",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-proptest-helpers",
- "aptos-push-metrics",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "async-trait",
- "bcs 0.1.4",
- "bytes",
- "clap 4.5.40",
- "csv",
- "futures",
- "itertools 0.13.0",
- "move-binary-format",
- "move-bytecode-verifier",
- "num_cpus",
- "once_cell",
- "pin-project 1.1.10",
- "proptest",
- "rand 0.7.3",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "thiserror 1.0.69",
- "tokio",
- "tokio-io-timeout",
- "tokio-stream",
- "tokio-util 0.7.15",
- "warp",
-]
-
-[[package]]
-name = "aptos-backup-service"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "aptos-crypto",
- "aptos-db",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-runtimes",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "bcs 0.1.4",
- "bytes",
- "hyper 0.14.32",
- "once_cell",
- "reqwest 0.11.27",
- "serde",
- "tokio",
- "tokio-stream",
- "warp",
-]
-
-[[package]]
-name = "aptos-bcs-utils"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "hex",
-]
-
-[[package]]
-name = "aptos-bitvec"
-version = "0.1.0"
-dependencies = [
- "bcs 0.1.4",
- "proptest",
- "proptest-derive",
- "serde",
- "serde_bytes",
- "serde_json",
-]
-
-[[package]]
-name = "aptos-block-executor"
-version = "0.1.0"
-dependencies = [
- "ambassador",
- "anyhow",
- "aptos-aggregator",
- "aptos-drop-helper",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-mvhashmap",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm-environment",
- "aptos-vm-logging",
- "aptos-vm-types",
- "arc-swap",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "concurrent-queue",
- "criterion",
- "crossbeam",
- "derivative",
- "fail",
- "hashbrown 0.14.5",
- "itertools 0.13.0",
- "move-binary-format",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "num_cpus",
- "once_cell",
- "parking_lot 0.12.4",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rayon",
- "scopeguard",
- "test-case",
-]
-
-[[package]]
-name = "aptos-block-partitioner"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-types",
- "bcs 0.1.4",
- "clap 4.5.40",
- "criterion",
- "dashmap 5.5.3",
- "itertools 0.13.0",
- "jemallocator",
- "move-core-types",
- "once_cell",
- "rand 0.7.3",
- "rayon",
- "serde",
-]
-
-[[package]]
-name = "aptos-bounded-executor"
-version = "0.1.0"
-dependencies = [
- "futures",
- "rustversion",
- "tokio",
-]
-
-[[package]]
-name = "aptos-build-info"
-version = "0.1.0"
-dependencies = [
- "shadow-rs",
-]
-
-[[package]]
-name = "aptos-cached-packages"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-framework",
- "aptos-package-builder",
- "aptos-types",
- "bcs 0.1.4",
- "move-core-types",
- "once_cell",
- "proptest",
- "proptest-derive",
-]
-
-[[package]]
-name = "aptos-cargo-cli"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "camino",
- "chrono",
- "clap 4.5.40",
- "clap-verbosity-flag",
- "determinator",
- "env_logger 0.10.2",
- "guppy",
- "log",
- "reqwest 0.11.27",
- "url",
-]
-
-[[package]]
-name = "aptos-channels"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-infallible",
- "aptos-metrics-core",
- "aptos-types",
- "futures",
- "tokio",
-]
-
-[[package]]
-name = "aptos-cli-common"
-version = "1.0.0"
-dependencies = [
- "anstyle",
- "clap 4.5.40",
- "clap_complete",
-]
-
-[[package]]
-name = "aptos-collections"
-version = "0.1.0"
-
-[[package]]
-name = "aptos-comparison-testing"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-block-executor",
- "aptos-framework",
- "aptos-language-e2e-tests",
- "aptos-rest-client",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-validator-interface",
- "aptos-vm",
- "bcs 0.1.4",
- "clap 4.5.40",
- "futures",
- "itertools 0.13.0",
- "legacy-move-compiler",
- "move-binary-format",
- "move-core-types",
- "move-model",
- "move-package",
- "rocksdb",
- "serde",
- "tempfile",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-compression"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-types",
- "bcs 0.1.4",
- "lz4",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-config"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-global-constants",
- "aptos-logger",
- "aptos-secure-storage",
- "aptos-short-hex-str",
- "aptos-temppath",
- "aptos-types",
- "arr_macro",
- "bcs 0.1.4",
- "byteorder",
- "cfg-if",
- "get_if_addrs",
- "maplit",
- "num_cpus",
- "poem-openapi",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "serde_merge",
- "serde_yaml 0.8.26",
- "tempfile",
- "thiserror 1.0.69",
- "url",
-]
-
-[[package]]
-name = "aptos-consensus"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bitvec",
- "aptos-bounded-executor",
- "aptos-cached-packages",
- "aptos-channels",
- "aptos-collections",
- "aptos-config",
- "aptos-consensus-notifications",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-dkg",
- "aptos-enum-conversion-derive",
- "aptos-event-notifications",
- "aptos-executor",
- "aptos-executor-test-helpers",
- "aptos-executor-types",
- "aptos-experimental-runtimes",
- "aptos-fallible",
- "aptos-infallible",
- "aptos-keygen",
- "aptos-logger",
- "aptos-mempool",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-peer-monitoring-service-types",
- "aptos-reliable-broadcast",
- "aptos-runtimes",
- "aptos-safety-rules",
- "aptos-schemadb",
- "aptos-secure-storage",
- "aptos-short-hex-str",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-time-service",
- "aptos-types",
- "aptos-validator-transaction-pool",
- "aptos-vm",
- "aptos-vm-validator",
- "async-trait",
- "bcs 0.1.4",
- "byteorder",
- "bytes",
- "chrono",
- "claims",
- "clap 4.5.40",
- "dashmap 5.5.3",
- "enum_dispatch",
- "fail",
- "futures",
- "futures-channel",
- "hex",
- "itertools 0.13.0",
- "lru 0.7.8",
- "maplit",
- "mini-moka",
- "mirai-annotations",
- "mockall 0.11.4",
- "move-core-types",
- "num-derive",
- "num-traits",
- "once_cell",
- "ordered-float 3.9.2",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rayon",
- "scopeguard",
- "serde",
- "serde_bytes",
- "serde_json",
- "serde_yaml 0.8.26",
- "sha3 0.9.1",
- "strum_macros 0.24.3",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "tokio-retry",
- "tokio-stream",
-]
-
-[[package]]
-name = "aptos-consensus-notifications"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-runtimes",
- "aptos-types",
- "async-trait",
- "claims",
- "futures",
- "move-core-types",
- "serde",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "aptos-consensus-types"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bitvec",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-executor-types",
- "aptos-infallible",
- "aptos-logger",
- "aptos-short-hex-str",
- "aptos-types",
- "bcs 0.1.4",
- "derivative",
- "fail",
- "futures",
- "itertools 0.13.0",
- "mini-moka",
- "mirai-annotations",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rayon",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-crash-handler"
-version = "0.1.0"
-dependencies = [
- "aptos-logger",
- "backtrace",
- "move-core-types",
- "serde",
- "toml 0.7.8",
-]
-
-[[package]]
-name = "aptos-crypto"
-version = "0.0.3"
-dependencies = [
- "aes-gcm",
- "anyhow",
- "aptos-crypto-derive",
- "arbitrary",
- "ark-bls12-381",
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-groth16",
- "ark-serialize",
- "ark-std",
- "base64 0.13.1",
- "bcs 0.1.4",
- "bitvec 1.0.1",
- "blake2",
- "blake2-rfc",
- "blst",
- "bulletproofs",
- "byteorder",
- "bytes",
- "criterion",
- "curve25519-dalek 3.2.0",
- "curve25519-dalek-ng",
- "digest 0.9.0",
- "ed25519-dalek 1.0.1",
- "ff",
- "hex",
- "hkdf",
- "libsecp256k1",
- "merlin",
- "more-asserts",
- "neptune",
- "num-bigint 0.3.3",
- "num-integer",
- "once_cell",
- "p256",
- "poseidon-ark",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "ring 0.16.20",
- "serde",
- "serde-name",
- "serde_bytes",
- "serde_json",
- "sha2 0.10.9",
- "sha2 0.9.9",
- "sha3 0.9.1",
- "signature 2.2.0",
- "static_assertions",
- "thiserror 1.0.69",
- "tiny-keccak",
- "trybuild",
- "typenum",
- "x25519-dalek",
-]
-
-[[package]]
-name = "aptos-crypto-derive"
-version = "0.0.3"
-dependencies = [
- "anyhow",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "aptos-data-client"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-channels",
- "aptos-config",
- "aptos-crypto",
- "aptos-id-generator",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-peer-monitoring-service-types",
- "aptos-storage-interface",
- "aptos-storage-service-client",
- "aptos-storage-service-server",
- "aptos-storage-service-types",
- "aptos-time-service",
- "aptos-types",
- "arc-swap",
- "async-trait",
- "bcs 0.1.4",
- "claims",
- "dashmap 5.5.3",
- "futures",
- "itertools 0.13.0",
- "maplit",
- "mockall 0.11.4",
- "ordered-float 3.9.2",
- "rand 0.8.5",
- "serde",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "aptos-data-streaming-service"
-version = "0.1.0"
-dependencies = [
- "aptos-channels",
- "aptos-config",
- "aptos-crypto",
- "aptos-data-client",
- "aptos-id-generator",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-storage-service-types",
- "aptos-time-service",
- "aptos-types",
- "arc-swap",
- "async-trait",
- "claims",
- "enum_dispatch",
- "futures",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "thiserror 1.0.69",
- "tokio",
- "tokio-stream",
-]
-
-[[package]]
-name = "aptos-db"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-accumulator",
- "aptos-config",
- "aptos-crypto",
- "aptos-db-indexer",
- "aptos-db-indexer-schemas",
- "aptos-executor-types",
- "aptos-experimental-runtimes",
- "aptos-infallible",
- "aptos-jellyfish-merkle",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-proptest-helpers",
- "aptos-resource-viewer",
- "aptos-rocksdb-options",
- "aptos-schemadb",
- "aptos-scratchpad",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "arc-swap",
- "arr_macro",
- "bcs 0.1.4",
- "byteorder",
- "claims",
- "clap 4.5.40",
- "crossbeam-channel",
- "dashmap 5.5.3",
- "either",
- "hex",
- "indicatif 0.15.0",
- "itertools 0.13.0",
- "lru 0.7.8",
- "move-core-types",
- "once_cell",
- "ouroboros",
- "owo-colors",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rayon",
- "serde",
- "static_assertions",
- "status-line",
- "tokio",
-]
-
-[[package]]
-name = "aptos-db-indexer"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-db-indexer-schemas",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-proptest-helpers",
- "aptos-resource-viewer",
- "aptos-rocksdb-options",
- "aptos-schemadb",
- "aptos-storage-interface",
- "aptos-types",
- "bcs 0.1.4",
- "bytes",
- "dashmap 5.5.3",
- "move-core-types",
- "once_cell",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-db-indexer-schemas"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-proptest-helpers",
- "aptos-schemadb",
- "aptos-storage-interface",
- "aptos-types",
- "bcs 0.1.4",
- "byteorder",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "serde",
-]
-
-[[package]]
-name = "aptos-db-tool"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-backup-cli",
- "aptos-backup-service",
- "aptos-block-executor",
- "aptos-config",
- "aptos-db",
- "aptos-db-indexer",
- "aptos-executor",
- "aptos-executor-test-helpers",
- "aptos-executor-types",
- "aptos-indexer-grpc-table-info",
- "aptos-logger",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "bcs 0.1.4",
- "clap 4.5.40",
- "itertools 0.13.0",
- "rayon",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-debugger"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-consensus",
- "aptos-db-tool",
- "aptos-logger",
- "aptos-move-debugger",
- "aptos-push-metrics",
- "clap 4.5.40",
- "jemallocator",
- "tokio",
-]
-
-[[package]]
-name = "aptos-dkg"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-runtimes",
- "bcs 0.1.4",
- "blst",
- "blstrs",
- "criterion",
- "ff",
- "group",
- "hex",
- "merlin",
- "more-asserts",
- "num-bigint 0.3.3",
- "num-integer",
- "num-traits",
- "num_cpus",
- "once_cell",
- "pairing",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "rayon",
- "serde",
- "serde_bytes",
- "sha3 0.9.1",
- "static_assertions",
-]
-
-[[package]]
-name = "aptos-dkg-runtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bounded-executor",
- "aptos-channels",
- "aptos-config",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-enum-conversion-derive",
- "aptos-event-notifications",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-network",
- "aptos-reliable-broadcast",
- "aptos-runtimes",
- "aptos-safety-rules",
- "aptos-time-service",
- "aptos-types",
- "aptos-validator-transaction-pool",
- "async-trait",
- "bcs 0.1.4",
- "bytes",
- "fail",
- "futures",
- "futures-channel",
- "futures-util",
- "move-core-types",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "tokio",
- "tokio-retry",
-]
-
-[[package]]
-name = "aptos-drop-helper"
-version = "0.1.0"
-dependencies = [
- "aptos-infallible",
- "aptos-metrics-core",
- "once_cell",
- "rayon",
- "threadpool",
-]
-
-[[package]]
-name = "aptos-dynamic-transaction-composer"
-version = "0.1.1"
-dependencies = [
- "anyhow",
- "aptos-types",
- "bcs 0.1.4",
- "e2e-move-tests",
- "getrandom 0.2.16",
- "hex",
- "move-binary-format",
- "move-bytecode-verifier",
- "move-core-types",
- "reqwest 0.11.27",
- "serde",
- "serde_bytes",
- "serde_json",
- "wasm-bindgen",
- "wasm-bindgen-futures",
-]
-
-[[package]]
-name = "aptos-enum-conversion-derive"
-version = "0.0.3"
-dependencies = [
- "anyhow",
- "quote",
- "syn 1.0.109",
- "trybuild",
-]
-
-[[package]]
-name = "aptos-event-notifications"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-channels",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor-test-helpers",
- "aptos-id-generator",
- "aptos-infallible",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-genesis",
- "bcs 0.1.4",
- "claims",
- "futures",
- "move-binary-format",
- "move-core-types",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-executor"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-block-executor",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-db",
- "aptos-db-indexer",
- "aptos-drop-helper",
- "aptos-executor-service",
- "aptos-executor-test-helpers",
- "aptos-executor-types",
- "aptos-experimental-runtimes",
- "aptos-indexer-grpc-table-info",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-sdk",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-genesis",
- "arr_macro",
- "bcs 0.1.4",
- "bytes",
- "criterion",
- "fail",
- "itertools 0.13.0",
- "move-core-types",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rayon",
- "serde",
-]
-
-[[package]]
-name = "aptos-executor-benchmark"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-aggregator",
- "aptos-block-executor",
- "aptos-block-partitioner",
- "aptos-config",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor",
- "aptos-executor-service",
- "aptos-executor-types",
- "aptos-experimental-ptx-executor",
- "aptos-experimental-runtimes",
- "aptos-genesis",
- "aptos-jellyfish-merkle",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-mvhashmap",
- "aptos-node-resource-metrics",
- "aptos-profiler 0.1.0",
- "aptos-push-metrics",
- "aptos-sdk",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-transaction-generator-lib",
- "aptos-transaction-workloads-lib",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-logging",
- "aptos-vm-types",
- "async-trait",
- "bcs 0.1.4",
- "bytes",
- "chrono",
- "clap 4.5.40",
- "dashmap 5.5.3",
- "derivative",
- "indicatif 0.15.0",
- "itertools 0.13.0",
- "jemallocator",
- "move-core-types",
- "move-vm-types",
- "num_cpus",
- "once_cell",
- "rand 0.7.3",
- "rayon",
- "serde",
- "thread_local",
- "tokio",
- "toml 0.7.8",
-]
-
-[[package]]
-name = "aptos-executor-service"
-version = "0.1.0"
-dependencies = [
- "aptos-block-executor",
- "aptos-block-partitioner",
- "aptos-config",
- "aptos-infallible",
- "aptos-keygen",
- "aptos-language-e2e-tests",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-node-resource-metrics",
- "aptos-push-metrics",
- "aptos-secure-net",
- "aptos-storage-interface",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "bcs 0.1.4",
- "clap 4.5.40",
- "crossbeam-channel",
- "ctrlc",
- "dashmap 5.5.3",
- "itertools 0.13.0",
- "num_cpus",
- "once_cell",
- "rayon",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-executor-test-helpers"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor",
- "aptos-executor-types",
- "aptos-sdk",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-genesis",
- "move-core-types",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-executor-types"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-drop-helper",
- "aptos-infallible",
- "aptos-metrics-core",
- "aptos-scratchpad",
- "aptos-secure-net",
- "aptos-storage-interface",
- "aptos-types",
- "bcs 0.1.4",
- "criterion",
- "derive_more 0.99.20",
- "itertools 0.13.0",
- "once_cell",
- "ouroboros",
- "rayon",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-experimental-bulk-txn-submit"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-logger",
- "aptos-sdk",
- "aptos-transaction-emitter-lib",
- "aptos-transaction-generator-lib",
- "bcs 0.1.4",
- "chrono",
- "clap 4.5.40",
- "futures",
- "rand 0.7.3",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-experimental-hexy"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-experimental-layered-map",
- "aptos-infallible",
- "aptos-metrics-core",
- "criterion",
- "itertools 0.13.0",
- "jemallocator",
- "once_cell",
- "proptest",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-experimental-layered-map"
-version = "0.1.0"
-dependencies = [
- "ahash 0.8.12",
- "anyhow",
- "aptos-crypto",
- "aptos-drop-helper",
- "aptos-infallible",
- "aptos-metrics-core",
- "aptos-schemadb",
- "aptos-temppath",
- "bitvec 1.0.1",
- "criterion",
- "itertools 0.13.0",
- "jemallocator",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rocksdb",
-]
-
-[[package]]
-name = "aptos-experimental-ptx-executor"
-version = "0.1.0"
-dependencies = [
- "aptos-block-executor",
- "aptos-experimental-runtimes",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-logging",
- "aptos-vm-types",
- "hashbrown 0.14.5",
- "move-core-types",
- "once_cell",
- "rayon",
-]
-
-[[package]]
-name = "aptos-experimental-runtimes"
-version = "0.1.0"
-dependencies = [
- "aptos-runtimes",
- "core_affinity",
- "libc",
- "num_cpus",
- "once_cell",
- "rayon",
-]
-
-[[package]]
-name = "aptos-fallible"
-version = "0.1.0"
-dependencies = [
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-faucet-cli"
-version = "2.0.1"
-dependencies = [
- "anyhow",
- "aptos-faucet-core",
- "aptos-logger",
- "aptos-sdk",
- "clap 4.5.40",
- "tokio",
-]
-
-[[package]]
-name = "aptos-faucet-core"
-version = "2.0.1"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-faucet-metrics-server",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-sdk",
- "async-trait",
- "captcha",
- "clap 4.5.40",
- "deadpool-redis",
- "enum_dispatch",
- "firebase-token",
- "futures",
- "hex",
- "ipnet",
- "iprange",
- "lru 0.9.0",
- "once_cell",
- "poem",
- "poem-openapi",
- "rand 0.7.3",
- "redis",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "tokio",
-]
-
-[[package]]
-name = "aptos-faucet-metrics-server"
-version = "2.0.0"
-dependencies = [
- "anyhow",
- "aptos-logger",
- "aptos-metrics-core",
- "once_cell",
- "poem",
- "prometheus",
- "serde",
-]
-
-[[package]]
-name = "aptos-faucet-service"
-version = "2.0.1"
-dependencies = [
- "anyhow",
- "aptos-faucet-core",
- "aptos-logger",
- "clap 4.5.40",
- "tokio",
-]
-
-[[package]]
-name = "aptos-fn-check-client"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-logger",
- "aptos-node-checker",
- "aptos-sdk",
- "clap 4.5.40",
- "env_logger 0.10.2",
- "futures",
- "gcp-bigquery-client",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-forge"
-version = "0.0.0"
-dependencies = [
- "again",
- "anyhow",
- "aptos-cached-packages",
- "aptos-cli-common",
- "aptos-config",
- "aptos-db",
- "aptos-framework",
- "aptos-genesis",
- "aptos-global-constants",
- "aptos-infallible",
- "aptos-inspection-service",
- "aptos-logger",
- "aptos-rest-client",
- "aptos-retrier",
- "aptos-runtimes",
- "aptos-sdk",
- "aptos-short-hex-str",
- "aptos-state-sync-driver",
- "aptos-transaction-emitter-lib",
- "aptos-transaction-generator-lib",
- "aptos-transaction-workloads-lib",
- "async-trait",
- "cedra",
- "chrono",
- "clap 4.5.40",
- "either",
- "futures",
- "hex",
- "hyper 0.14.32",
- "itertools 0.13.0",
- "json-patch",
- "k8s-openapi",
- "kube",
- "log",
- "num_cpus",
- "once_cell",
- "prometheus-http-query",
- "quick-junit",
- "rand 0.7.3",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "serde_merge",
- "serde_yaml 0.8.26",
- "sugars",
- "tempfile",
- "termcolor",
- "thiserror 1.0.69",
- "tokio",
- "url",
- "uuid 1.17.0",
-]
-
-[[package]]
-name = "aptos-forge-cli"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-forge",
- "aptos-global-constants",
- "aptos-logger",
- "aptos-rest-client",
- "aptos-sdk",
- "aptos-testcases",
- "async-trait",
- "chrono",
- "clap 4.5.40",
- "env_logger 0.10.2",
- "futures",
- "jemallocator",
- "once_cell",
- "rand 0.7.3",
- "random_word",
- "reqwest 0.11.27",
- "serde_json",
- "serde_yaml 0.8.26",
- "sugars",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-framework"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-aggregator",
- "aptos-crypto",
- "aptos-gas-algebra",
- "aptos-gas-meter",
- "aptos-gas-schedule",
- "aptos-move-stdlib",
- "aptos-native-interface",
- "aptos-sdk-builder",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-types",
- "ark-bls12-381",
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-serialize",
- "ark-std",
- "bcs 0.1.4",
- "better_any",
- "blake2-rfc",
- "bulletproofs",
- "byteorder",
- "claims",
- "clap 4.5.40",
- "codespan-reporting",
- "curve25519-dalek-ng",
- "either",
- "flate2",
- "hex",
- "itertools 0.13.0",
- "legacy-move-compiler",
- "libsecp256k1",
- "log",
- "merlin",
- "move-binary-format",
- "move-cli",
- "move-command-line-common",
- "move-compiler-v2",
- "move-core-types",
- "move-docgen",
- "move-model",
- "move-package",
- "move-prover",
- "move-prover-boogie-backend",
- "move-prover-bytecode-pipeline",
- "move-prover-lab",
- "move-stackless-bytecode",
- "move-unit-test",
- "move-vm-runtime",
- "move-vm-types",
- "num-traits",
- "once_cell",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "ripemd",
- "serde",
- "serde_bytes",
- "sha2 0.10.9",
- "sha2 0.9.9",
- "sha3 0.9.1",
- "siphasher 0.3.11",
- "smallvec",
- "tempfile",
- "tiny-keccak",
- "toml 0.7.8",
-]
-
-[[package]]
-name = "aptos-gas-algebra"
-version = "0.0.1"
-dependencies = [
- "either",
- "move-core-types",
-]
-
-[[package]]
-name = "aptos-gas-calibration"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-abstract-gas-usage",
- "aptos-cached-packages",
- "aptos-framework",
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-language-e2e-tests",
- "aptos-types",
- "bcs 0.1.4",
- "clap 4.5.40",
- "float-cmp",
- "move-binary-format",
- "move-core-types",
- "move-ir-compiler",
- "nalgebra",
- "walkdir",
-]
-
-[[package]]
-name = "aptos-gas-meter"
-version = "0.1.0"
-dependencies = [
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-logger",
- "aptos-types",
- "aptos-vm-types",
- "move-binary-format",
- "move-core-types",
- "move-vm-types",
-]
-
-[[package]]
-name = "aptos-gas-profiling"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-gas-algebra",
- "aptos-gas-meter",
- "aptos-gas-schedule",
- "aptos-types",
- "aptos-vm-types",
- "handlebars",
- "inferno",
- "move-binary-format",
- "move-core-types",
- "move-vm-types",
- "regex",
- "serde_json",
- "smallvec",
-]
-
-[[package]]
-name = "aptos-gas-schedule"
-version = "0.1.0"
-dependencies = [
- "aptos-gas-algebra",
- "aptos-global-constants",
- "move-core-types",
- "move-vm-types",
- "paste",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-gas-schedule-updator"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-framework",
- "aptos-gas-schedule",
- "aptos-package-builder",
- "aptos-types",
- "bcs 0.1.4",
- "clap 4.5.40",
- "move-core-types",
- "move-model",
- "tempfile",
-]
-
-[[package]]
-name = "aptos-genesis"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor",
- "aptos-framework",
- "aptos-keygen",
- "aptos-logger",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-genesis",
- "bcs 0.1.4",
- "rand 0.7.3",
- "serde",
- "serde_yaml 0.8.26",
-]
-
-[[package]]
-name = "aptos-github-client"
-version = "0.1.0"
-dependencies = [
- "aptos-proxy",
- "base64 0.13.1",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "ureq",
-]
-
-[[package]]
-name = "aptos-global-constants"
-version = "0.1.0"
-
-[[package]]
-name = "aptos-id-generator"
-version = "0.1.0"
-
-[[package]]
-name = "aptos-indexer"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "aptos-api",
- "aptos-api-test-context",
- "aptos-api-types",
- "aptos-bitvec",
- "aptos-config",
- "aptos-logger",
- "aptos-mempool",
- "aptos-metrics-core",
- "aptos-runtimes",
- "aptos-storage-interface",
- "aptos-types",
- "async-trait",
- "bcs 0.1.4",
- "bigdecimal",
- "chrono",
- "diesel",
- "diesel_migrations",
- "field_count",
- "futures",
- "hex",
- "once_cell",
- "serde",
- "serde_json",
- "sha2 0.9.9",
- "tokio",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-cache-worker"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-metrics-core",
- "aptos-protos 1.3.1",
- "async-trait",
- "cedra-moving-average",
- "clap 4.5.40",
- "futures",
- "futures-core",
- "jemallocator",
- "once_cell",
- "prost 0.13.5",
- "redis",
- "reqwest 0.11.27",
- "serde",
- "tempfile",
- "tokio",
- "tonic 0.12.3",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-data-service"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-metrics-core",
- "aptos-protos 1.3.1",
- "aptos-transaction-filter 0.1.0",
- "async-trait",
- "cedra-moving-average",
- "clap 4.5.40",
- "futures",
- "jemallocator",
- "once_cell",
- "prost 0.13.5",
- "redis",
- "rstest",
- "serde",
- "serde_json",
- "tokio",
- "tokio-stream",
- "tonic 0.12.3",
- "tonic-reflection",
- "tracing",
- "uuid 1.17.0",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-data-service-v2"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-metrics-core",
- "aptos-protos 1.3.1",
- "aptos-transaction-filter 0.1.0",
- "async-trait",
- "build_html",
- "clap 4.5.40",
- "dashmap 5.5.3",
- "futures",
- "jemallocator",
- "once_cell",
- "prost 0.13.5",
- "rand 0.7.3",
- "serde",
- "tokio",
- "tokio-scoped",
- "tokio-stream",
- "tonic 0.12.3",
- "tonic-reflection",
- "tracing",
- "uuid 1.17.0",
- "warp",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-file-checker"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-metrics-core",
- "async-trait",
- "clap 4.5.40",
- "cloud-storage",
- "jemallocator",
- "once_cell",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-file-store"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-metrics-core",
- "async-trait",
- "cedra-moving-average",
- "clap 4.5.40",
- "futures",
- "jemallocator",
- "once_cell",
- "redis",
- "serde",
- "tokio",
- "tracing",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-file-store-backfiller"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-protos 1.3.1",
- "async-trait",
- "clap 4.5.40",
- "futures",
- "jemallocator",
- "serde",
- "serde_json",
- "tokio",
- "tonic 0.12.3",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-fullnode"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-api",
- "aptos-api-test-context",
- "aptos-api-types",
- "aptos-bitvec",
- "aptos-config",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor",
- "aptos-executor-types",
- "aptos-framework",
- "aptos-genesis",
- "aptos-global-constants",
- "aptos-indexer-grpc-utils",
- "aptos-logger",
- "aptos-mempool",
- "aptos-mempool-notifications",
- "aptos-metrics-core",
- "aptos-proptest-helpers",
- "aptos-protos 1.3.1",
- "aptos-runtimes",
- "aptos-sdk",
- "aptos-secure-storage",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-validator",
- "bcs 0.1.4",
- "bytes",
- "cedra-moving-average",
- "chrono",
- "futures",
- "goldenfile",
- "hex",
- "hyper 0.14.32",
- "itertools 0.13.0",
- "move-core-types",
- "once_cell",
- "rand 0.7.3",
- "regex",
- "serde",
- "serde_json",
- "tokio",
- "tokio-stream",
- "tonic 0.12.3",
- "tonic-reflection",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-in-memory-cache-benchmark"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-utils",
- "aptos-protos 1.3.1",
- "futures",
- "jemallocator",
- "lazy_static",
- "once_cell",
- "redis",
- "redis-test",
- "tokio",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-manager"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-indexer-grpc-server-framework",
- "aptos-indexer-grpc-utils",
- "aptos-metrics-core",
- "aptos-protos 1.3.1",
- "async-trait",
- "build_html",
- "clap 4.5.40",
- "dashmap 5.5.3",
- "futures",
- "jemallocator",
- "once_cell",
- "prost 0.13.5",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "tokio",
- "tokio-scoped",
- "tonic 0.12.3",
- "tracing",
- "warp",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-server-framework"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-metrics-core",
- "aptos-system-utils 0.1.0",
- "async-trait",
- "backtrace",
- "clap 4.5.40",
- "figment",
- "prometheus",
- "serde",
- "tempfile",
- "tokio",
- "toml 0.7.8",
- "tracing",
- "tracing-subscriber 0.3.19",
- "warp",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-table-info"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-api",
- "aptos-api-types",
- "aptos-config",
- "aptos-db-indexer",
- "aptos-indexer-grpc-fullnode",
- "aptos-indexer-grpc-utils",
- "aptos-logger",
- "aptos-mempool",
- "aptos-metrics-core",
- "aptos-runtimes",
- "aptos-storage-interface",
- "aptos-types",
- "flate2",
- "futures",
- "google-cloud-storage",
- "hyper 0.14.32",
- "itertools 0.13.0",
- "once_cell",
- "rocksdb",
- "serde",
- "serde_json",
- "tar",
- "tempfile",
- "tokio",
- "tokio-stream",
- "tokio-util 0.7.15",
-]
-
-[[package]]
-name = "aptos-indexer-grpc-utils"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-metrics-core",
- "aptos-protos 1.3.1",
- "aptos-transaction-filter 0.1.0",
- "async-trait",
- "backoff",
- "base64 0.13.1",
- "build_html",
- "bytesize",
- "chrono",
- "cloud-storage",
- "dashmap 5.5.3",
- "futures",
- "itertools 0.13.0",
- "lz4",
- "once_cell",
- "prometheus",
- "prost 0.13.5",
- "redis",
- "redis-test",
- "ripemd",
- "serde",
- "serde_json",
- "tokio",
- "tokio-util 0.7.15",
- "tonic 0.12.3",
- "tracing",
- "url",
- "warp",
-]
-
-[[package]]
-name = "aptos-indexer-test-transactions"
-version = "1.0.0"
-dependencies = [
- "aptos-protos 1.3.1",
- "serde_json",
-]
-
-[[package]]
-name = "aptos-indexer-transaction-generator"
-version = "1.0.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-faucet-core",
- "aptos-indexer-grpc-utils",
- "aptos-protos 1.3.1",
- "cedra",
- "clap 4.5.40",
- "futures",
- "itertools 0.13.0",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "tempfile",
- "tokio",
- "tokio-stream",
- "toml 0.7.8",
- "tonic 0.12.3",
- "url",
-]
-
-[[package]]
-name = "aptos-infallible"
-version = "0.1.0"
-
-[[package]]
-name = "aptos-inspection-service"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-build-info",
- "aptos-config",
- "aptos-data-client",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-network",
- "aptos-runtimes",
- "aptos-storage-interface",
- "aptos-storage-service-client",
- "aptos-telemetry",
- "aptos-time-service",
- "assert_approx_eq",
- "futures",
- "hyper 0.14.32",
- "once_cell",
- "prometheus",
- "reqwest 0.11.27",
- "rusty-fork",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-jellyfish-merkle"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-db",
- "aptos-experimental-runtimes",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-storage-interface",
- "aptos-types",
- "arr_macro",
- "bcs 0.1.4",
- "byteorder",
- "itertools 0.13.0",
- "num-derive",
- "num-traits",
- "once_cell",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rayon",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-jwk-consensus"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bitvec",
- "aptos-bounded-executor",
- "aptos-channels",
- "aptos-config",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-enum-conversion-derive",
- "aptos-event-notifications",
- "aptos-infallible",
- "aptos-jwk-utils",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-network",
- "aptos-reliable-broadcast",
- "aptos-runtimes",
- "aptos-safety-rules",
- "aptos-time-service",
- "aptos-types",
- "aptos-validator-transaction-pool",
- "async-trait",
- "bytes",
- "futures",
- "futures-channel",
- "futures-util",
- "move-core-types",
- "once_cell",
- "serde",
- "tokio",
- "tokio-retry",
-]
-
-[[package]]
-name = "aptos-jwk-utils"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-types",
- "http 0.2.12",
- "move-core-types",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-keygen"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-types",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-keyless-pepper-common"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-dkg",
- "aptos-types",
- "ark-bls12-381",
- "ark-ec",
- "ark-ff",
- "ark-serialize",
- "ark-std",
- "bcs 0.1.4",
- "blstrs",
- "derivation-path",
- "ed25519-dalek 1.0.1",
- "hex",
- "hmac 0.12.1",
- "jsonwebtoken 8.3.0",
- "once_cell",
- "rand 0.7.3",
- "regex",
- "serde",
- "serde-big-array",
- "sha2 0.10.9",
-]
-
-[[package]]
-name = "aptos-keyless-pepper-example-client-rust"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-infallible",
- "aptos-keyless-pepper-common",
- "aptos-types",
- "ark-bls12-381",
- "ark-serialize",
- "bcs 0.1.4",
- "firestore",
- "hex",
- "reqwest 0.11.27",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "aptos-keyless-pepper-service"
-version = "0.1.0"
-dependencies = [
- "aes-gcm",
- "anyhow",
- "aptos-crypto",
- "aptos-infallible",
- "aptos-inspection-service",
- "aptos-keyless-pepper-common",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-types",
- "ark-bls12-381",
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-groth16",
- "ark-serialize",
- "bcs 0.1.4",
- "dashmap 5.5.3",
- "firestore",
- "hex",
- "hyper 0.14.32",
- "jsonwebtoken 8.3.0",
- "jwt",
- "once_cell",
- "rand 0.7.3",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "sha3 0.9.1",
- "tokio",
- "uuid 1.17.0",
-]
-
-[[package]]
-name = "aptos-language-e2e-tests"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-abstract-gas-usage",
- "aptos-bitvec",
- "aptos-block-executor",
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-algebra",
- "aptos-gas-meter",
- "aptos-gas-profiling",
- "aptos-gas-schedule",
- "aptos-keygen",
- "aptos-proptest-helpers",
- "aptos-rest-client",
- "aptos-temppath",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-validator-interface",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-genesis",
- "aptos-vm-logging",
- "aptos-vm-types",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "goldenfile",
- "move-binary-format",
- "move-command-line-common",
- "move-core-types",
- "move-ir-compiler",
- "move-model",
- "move-vm-runtime",
- "move-vm-types",
- "num_cpus",
- "once_cell",
- "petgraph 0.5.1",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rayon",
- "serde",
-]
-
-[[package]]
-name = "aptos-ledger"
-version = "0.2.0"
-dependencies = [
- "aptos-crypto",
- "aptos-types",
- "hex",
- "ledger-apdu",
- "ledger-transport-hid",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-localnet"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-indexer-grpc-utils",
- "aptos-protos 1.3.1",
- "aptos-rest-client",
- "bollard",
- "diesel",
- "diesel-async",
- "dirs 5.0.1",
- "futures",
- "processor",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
- "tonic 0.12.3",
- "tracing",
- "version-compare",
-]
-
-[[package]]
-name = "aptos-log-derive"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "aptos-logger"
-version = "0.1.0"
-dependencies = [
- "aptos-infallible",
- "aptos-log-derive",
- "aptos-node-identity",
- "backtrace",
- "chrono",
- "console-subscriber",
- "erased-serde 0.3.31",
- "futures",
- "hostname",
- "once_cell",
- "pretty_assertions",
- "prometheus",
- "serde",
- "serde_json",
- "strum 0.24.1",
- "strum_macros 0.24.3",
- "tokio",
- "tracing",
- "tracing-subscriber 0.3.19",
-]
-
-[[package]]
-name = "aptos-memory-usage-tracker"
-version = "0.1.0"
-dependencies = [
- "aptos-gas-algebra",
- "aptos-gas-meter",
- "aptos-types",
- "move-binary-format",
- "move-core-types",
- "move-vm-types",
-]
-
-[[package]]
-name = "aptos-mempool"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bounded-executor",
- "aptos-channels",
- "aptos-compression",
- "aptos-config",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-event-notifications",
- "aptos-id-generator",
- "aptos-infallible",
- "aptos-logger",
- "aptos-mempool-notifications",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-peer-monitoring-service-types",
- "aptos-runtimes",
- "aptos-short-hex-str",
- "aptos-storage-interface",
- "aptos-time-service",
- "aptos-types",
- "aptos-vm-validator",
- "bcs 0.1.4",
- "enum_dispatch",
- "fail",
- "futures",
- "itertools 0.13.0",
- "maplit",
- "num_cpus",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rayon",
- "serde",
- "thiserror 1.0.69",
- "tokio",
- "tokio-stream",
-]
-
-[[package]]
-name = "aptos-mempool-notifications"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-types",
- "async-trait",
- "claims",
- "futures",
- "serde",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "aptos-memsocket"
-version = "0.1.0"
-dependencies = [
- "aptos-infallible",
- "bytes",
- "futures",
- "once_cell",
-]
-
-[[package]]
-name = "aptos-metrics-core"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "claims",
- "prometheus",
-]
-
-[[package]]
-name = "aptos-move-debugger"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-block-executor",
- "aptos-consensus",
- "aptos-crypto",
- "aptos-gas-profiling",
- "aptos-logger",
- "aptos-rest-client",
- "aptos-types",
- "aptos-validator-interface",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-logging",
- "aptos-vm-types",
- "bcs 0.1.4",
- "clap 4.5.40",
- "itertools 0.13.0",
- "regex",
- "reqwest 0.11.27",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-move-e2e-benchmark"
-version = "0.1.0"
-dependencies = [
- "aptos-language-e2e-tests",
- "aptos-logger",
- "aptos-transaction-generator-lib",
- "aptos-transaction-workloads-lib",
- "aptos-types",
- "clap 4.5.40",
- "rand 0.7.3",
- "serde_json",
-]
-
-[[package]]
-name = "aptos-move-examples"
-version = "0.1.0"
-dependencies = [
- "aptos-framework",
- "aptos-gas-schedule",
- "aptos-types",
- "aptos-vm",
- "clap 4.5.40",
- "move-cli",
- "move-model",
- "move-package",
- "move-prover",
- "move-unit-test",
- "move-vm-runtime",
- "tempfile",
-]
-
-[[package]]
-name = "aptos-move-stdlib"
-version = "0.1.1"
-dependencies = [
- "aptos-gas-schedule",
- "aptos-native-interface",
- "aptos-types",
- "bcs 0.1.4",
- "dir-diff",
- "file_diff",
- "move-cli",
- "move-core-types",
- "move-package",
- "move-unit-test",
- "move-vm-runtime",
- "move-vm-types",
- "sha2 0.9.9",
- "sha3 0.9.1",
- "smallvec",
- "tempfile",
-]
-
-[[package]]
-name = "aptos-mvhashmap"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-aggregator",
- "aptos-types",
- "aptos-vm-types",
- "bytes",
- "claims",
- "crossbeam",
- "dashmap 5.5.3",
- "move-binary-format",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "proptest",
- "proptest-derive",
- "rayon",
- "serde",
- "test-case",
-]
-
-[[package]]
-name = "aptos-native-interface"
-version = "0.1.0"
-dependencies = [
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-types",
- "bcs 0.1.4",
- "bytes",
- "move-binary-format",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "smallvec",
-]
-
-[[package]]
-name = "aptos-netcore"
-version = "0.1.0"
-dependencies = [
- "aptos-memsocket",
- "aptos-proxy",
- "aptos-types",
- "bytes",
- "futures",
- "pin-project 1.1.10",
- "serde",
- "tokio",
- "tokio-util 0.7.15",
- "url",
-]
-
-[[package]]
-name = "aptos-network"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bitvec",
- "aptos-channels",
- "aptos-compression",
- "aptos-config",
- "aptos-crypto",
- "aptos-id-generator",
- "aptos-infallible",
- "aptos-logger",
- "aptos-memsocket",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-num-variants",
- "aptos-peer-monitoring-service-types",
- "aptos-proptest-helpers",
- "aptos-short-hex-str",
- "aptos-time-service",
- "aptos-types",
- "arc-swap",
- "async-trait",
- "bcs 0.1.4",
- "bytes",
- "futures",
- "futures-util",
- "hex",
- "itertools 0.13.0",
- "maplit",
- "once_cell",
- "ordered-float 3.9.2",
- "pin-project 1.1.10",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rand 0.8.5",
- "rand_core 0.5.1",
- "serde",
- "serde_bytes",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
- "tokio-retry",
- "tokio-stream",
- "tokio-util 0.7.15",
-]
-
-[[package]]
-name = "aptos-network-benchmark"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-network",
- "aptos-time-service",
- "aptos-types",
- "async-channel 1.9.0",
- "bytes",
- "futures",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "tokio",
-]
-
-[[package]]
-name = "aptos-network-builder"
-version = "0.1.0"
-dependencies = [
- "aptos-channels",
- "aptos-config",
- "aptos-crypto",
- "aptos-event-notifications",
- "aptos-logger",
- "aptos-netcore",
- "aptos-network",
- "aptos-network-discovery",
- "aptos-time-service",
- "aptos-types",
- "bcs 0.1.4",
- "futures",
- "maplit",
- "rand 0.7.3",
- "serde",
- "tokio",
-]
-
-[[package]]
-name = "aptos-network-checker"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-crypto",
- "aptos-logger",
- "aptos-network",
- "aptos-types",
- "clap 4.5.40",
- "futures",
- "serde",
- "tokio",
-]
-
-[[package]]
-name = "aptos-network-discovery"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-channels",
- "aptos-config",
- "aptos-crypto",
- "aptos-event-notifications",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-rest-client",
- "aptos-short-hex-str",
- "aptos-temppath",
- "aptos-time-service",
- "aptos-types",
- "bcs 0.1.4",
- "futures",
- "once_cell",
- "rand 0.7.3",
- "serde_yaml 0.8.26",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-nft-metadata-crawler"
-version = "0.1.0"
-dependencies = [
- "ahash 0.8.12",
- "anyhow",
- "aptos-indexer-grpc-server-framework",
- "aptos-metrics-core",
- "async-trait",
- "axum 0.7.9",
- "backoff",
- "bytes",
- "chrono",
- "clap 4.5.40",
- "diesel",
- "diesel_migrations",
- "enum_dispatch",
- "field_count",
- "futures",
- "google-cloud-storage",
- "image",
- "once_cell",
- "rayon",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "sha256",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "aptos-node"
-version = "0.0.0-main"
-dependencies = [
- "anyhow",
- "aptos-admin-service",
- "aptos-api",
- "aptos-backup-service",
- "aptos-build-info",
- "aptos-cached-packages",
- "aptos-channels",
- "aptos-config",
- "aptos-consensus",
- "aptos-consensus-notifications",
- "aptos-crash-handler",
- "aptos-crypto",
- "aptos-data-client",
- "aptos-data-streaming-service",
- "aptos-db",
- "aptos-db-indexer",
- "aptos-dkg-runtime",
- "aptos-event-notifications",
- "aptos-executor",
- "aptos-framework",
- "aptos-genesis",
- "aptos-indexer",
- "aptos-indexer-grpc-fullnode",
- "aptos-indexer-grpc-table-info",
- "aptos-infallible",
- "aptos-inspection-service",
- "aptos-jwk-consensus",
- "aptos-logger",
- "aptos-mempool",
- "aptos-mempool-notifications",
- "aptos-network",
- "aptos-network-benchmark",
- "aptos-network-builder",
- "aptos-node-identity",
- "aptos-peer-monitoring-service-client",
- "aptos-peer-monitoring-service-server",
- "aptos-peer-monitoring-service-types",
- "aptos-runtimes",
- "aptos-state-sync-driver",
- "aptos-storage-interface",
- "aptos-storage-service-client",
- "aptos-storage-service-notifications",
- "aptos-storage-service-server",
- "aptos-storage-service-types",
- "aptos-telemetry",
- "aptos-temppath",
- "aptos-time-service",
- "aptos-types",
- "aptos-validator-transaction-pool",
- "aptos-vm",
- "aptos-vm-environment",
- "bcs 0.1.4",
- "clap 4.5.40",
- "either",
- "fail",
- "futures",
- "hex",
- "jemallocator",
- "num_cpus",
- "rand 0.7.3",
- "rayon",
- "rlimit",
- "rstack-self",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "tokio",
- "ureq",
- "url",
-]
-
-[[package]]
-name = "aptos-node-checker"
-version = "0.1.1"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-crypto",
- "aptos-logger",
- "aptos-network-checker",
- "aptos-rest-client",
- "aptos-sdk",
- "aptos-transaction-emitter-lib",
- "aptos-transaction-workloads-lib",
- "async-trait",
- "clap 4.5.40",
- "futures",
- "once_cell",
- "poem",
- "poem-openapi",
- "prometheus-parse",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "thiserror 1.0.69",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-node-identity"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-types",
- "claims",
- "once_cell",
-]
-
-[[package]]
-name = "aptos-node-resource-metrics"
-version = "0.1.0"
-dependencies = [
- "aptos-build-info",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "cfg-if",
- "once_cell",
- "procfs",
- "prometheus",
- "rlimit",
- "sysinfo",
-]
-
-[[package]]
-name = "aptos-num-variants"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "aptos-openapi"
-version = "0.1.0"
-dependencies = [
- "percent-encoding",
- "poem",
- "poem-openapi",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "aptos-openapi-spec-generator"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-api",
- "aptos-config",
- "aptos-mempool",
- "aptos-storage-interface",
- "aptos-types",
- "clap 4.5.40",
-]
-
-[[package]]
-name = "aptos-package-builder"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-framework",
- "itertools 0.13.0",
- "move-command-line-common",
- "move-package",
- "tempfile",
-]
-
-[[package]]
-name = "aptos-peer-monitoring-service-client"
-version = "0.1.0"
-dependencies = [
- "aptos-build-info",
- "aptos-channels",
- "aptos-config",
- "aptos-id-generator",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-peer-monitoring-service-server",
- "aptos-peer-monitoring-service-types",
- "aptos-time-service",
- "aptos-types",
- "bcs 0.1.4",
- "enum_dispatch",
- "futures",
- "maplit",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
- "tokio-stream",
-]
-
-[[package]]
-name = "aptos-peer-monitoring-service-server"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bounded-executor",
- "aptos-build-info",
- "aptos-channels",
- "aptos-config",
- "aptos-crypto",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-peer-monitoring-service-types",
- "aptos-storage-interface",
- "aptos-time-service",
- "aptos-types",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "futures",
- "maplit",
- "mockall 0.11.4",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "aptos-peer-monitoring-service-types"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "aptos-types",
- "bcs 0.1.4",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-profiler"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "backtrace",
- "jemalloc-sys",
- "jemallocator",
- "pprof",
- "regex",
-]
-
-[[package]]
-name = "aptos-profiler"
-version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12#f6e266175c32dc53c7a6d79aeef5582cc7a4df12"
-dependencies = [
- "anyhow",
- "backtrace",
- "jemalloc-sys",
- "jemallocator",
- "pprof",
- "regex",
-]
-
-[[package]]
-name = "aptos-proptest-helpers"
-version = "0.1.0"
-dependencies = [
- "crossbeam",
- "proptest",
- "proptest-derive",
-]
-
-[[package]]
-name = "aptos-protos"
-version = "1.3.1"
-dependencies = [
- "pbjson",
- "prost 0.13.5",
- "serde",
- "tonic 0.12.3",
-]
-
-[[package]]
-name = "aptos-protos"
-version = "1.3.1"
-source = "git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12#f6e266175c32dc53c7a6d79aeef5582cc7a4df12"
-dependencies = [
- "pbjson",
- "prost 0.13.5",
- "serde",
- "tonic 0.12.3",
-]
-
-[[package]]
-name = "aptos-proxy"
-version = "0.1.0"
-dependencies = [
- "ipnet",
-]
-
-[[package]]
-name = "aptos-push-metrics"
-version = "0.1.0"
-dependencies = [
- "aptos-logger",
- "aptos-metrics-core",
- "rand 0.7.3",
- "ureq",
- "url",
-]
-
-[[package]]
-name = "aptos-rate-limiter"
-version = "0.1.0"
-dependencies = [
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "futures",
- "pin-project 1.1.10",
- "tokio",
- "tokio-util 0.7.15",
-]
-
-[[package]]
-name = "aptos-release-builder"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-build-info",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-profiling",
- "aptos-gas-schedule",
- "aptos-gas-schedule-updator",
- "aptos-genesis",
- "aptos-infallible",
- "aptos-keygen",
- "aptos-language-e2e-tests",
- "aptos-move-debugger",
- "aptos-rest-client",
- "aptos-temppath",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-logging",
- "aptos-vm-types",
- "bcs 0.1.4",
- "cedra",
- "clap 4.5.40",
- "futures",
- "git2 0.16.1",
- "handlebars",
- "hex",
- "move-binary-format",
- "move-bytecode-verifier",
- "move-core-types",
- "move-model",
- "move-vm-runtime",
- "move-vm-types",
- "once_cell",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "sha3 0.9.1",
- "strum 0.24.1",
- "strum_macros 0.24.3",
- "tokio",
- "url",
- "walkdir",
-]
-
-[[package]]
-name = "aptos-reliable-broadcast"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bounded-executor",
- "aptos-consensus-types",
- "aptos-enum-conversion-derive",
- "aptos-infallible",
- "aptos-logger",
- "aptos-time-service",
- "aptos-types",
- "async-trait",
- "bytes",
- "claims",
- "futures",
- "futures-channel",
- "tokio",
- "tokio-retry",
-]
-
-[[package]]
-name = "aptos-replay-benchmark"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-block-executor",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-schedule",
- "aptos-logger",
- "aptos-move-debugger",
- "aptos-push-metrics",
- "aptos-rest-client",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "bcs 0.1.4",
- "claims",
- "clap 4.5.40",
- "colored",
- "move-core-types",
- "parking_lot 0.12.4",
- "rand 0.7.3",
- "serde",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-resource-viewer"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "move-binary-format",
- "move-bytecode-utils",
- "move-core-types",
- "move-resource-viewer",
-]
-
-[[package]]
-name = "aptos-rest-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "aptos-api-types",
- "aptos-crypto",
- "aptos-infallible",
- "aptos-logger",
- "aptos-types",
- "bcs 0.1.4",
- "bytes",
- "clap 4.5.40",
- "hex",
- "move-core-types",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-retrier"
-version = "0.1.0"
-dependencies = [
- "aptos-logger",
- "tokio",
-]
-
-[[package]]
-name = "aptos-rocksdb-options"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "rocksdb",
-]
-
-[[package]]
-name = "aptos-rosetta"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-crypto",
- "aptos-global-constants",
- "aptos-logger",
- "aptos-node",
- "aptos-rest-client",
- "aptos-runtimes",
- "aptos-sdk",
- "aptos-types",
- "aptos-warp-webserver",
- "bcs 0.1.4",
- "clap 4.5.40",
- "futures",
- "hex",
- "itertools 0.13.0",
- "move-core-types",
- "once_cell",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
- "url",
- "warp",
-]
-
-[[package]]
-name = "aptos-rosetta-cli"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "aptos-logger",
- "aptos-rosetta",
- "aptos-types",
- "cedra",
- "clap 4.5.40",
- "serde",
- "serde_json",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-runtimes"
-version = "0.1.0"
-dependencies = [
- "rayon",
- "tokio",
-]
-
-[[package]]
-name = "aptos-safety-rules"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-global-constants",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-proptest-helpers",
- "aptos-secure-net",
- "aptos-secure-storage",
- "aptos-types",
- "aptos-vault-client",
- "claims",
- "criterion",
- "hex",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rusty-fork",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-schemadb"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-drop-helper",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-storage-interface",
- "aptos-temppath",
- "byteorder",
- "dunce",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rocksdb",
-]
-
-[[package]]
-name = "aptos-scratchpad"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-drop-helper",
- "aptos-infallible",
- "aptos-metrics-core",
- "aptos-types",
- "aptos-vm",
- "bitvec 1.0.1",
- "criterion",
- "dashmap 5.5.3",
- "itertools 0.13.0",
- "jemallocator",
- "once_cell",
- "proptest",
- "rand 0.7.3",
- "rayon",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-sdk"
-version = "0.0.3"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-global-constants",
- "aptos-ledger",
- "aptos-rest-client",
- "aptos-types",
- "base64 0.13.1",
- "bcs 0.1.4",
- "ed25519-dalek-bip32",
- "hex",
- "lazy_static",
- "move-core-types",
- "once_cell",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tiny-bip39",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-sdk-builder"
-version = "0.2.0"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-framework",
- "aptos-types",
- "bcs 0.1.4",
- "clap 4.5.40",
- "heck 0.4.1",
- "move-core-types",
- "once_cell",
- "serde-generate",
- "serde-reflection",
- "serde_yaml 0.8.26",
- "tempfile",
- "textwrap 0.15.2",
- "which",
-]
-
-[[package]]
-name = "aptos-secure-net"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-protos 1.3.1",
- "bcs 0.1.4",
- "crossbeam-channel",
- "once_cell",
- "serde",
- "thiserror 1.0.69",
- "tokio",
- "tonic 0.12.3",
- "tonic-reflection",
-]
-
-[[package]]
-name = "aptos-secure-storage"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-infallible",
- "aptos-logger",
- "aptos-temppath",
- "aptos-time-service",
- "aptos-vault-client",
- "base64 0.13.1",
- "bcs 0.1.4",
- "chrono",
- "enum_dispatch",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-short-hex-str"
-version = "0.1.0"
-dependencies = [
- "hex",
- "mirai-annotations",
- "proptest",
- "serde",
- "static_assertions",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-speculative-state-helper"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-infallible",
- "claims",
- "crossbeam",
- "parking_lot 0.12.4",
- "proptest",
- "proptest-derive",
- "rayon",
-]
-
-[[package]]
-name = "aptos-state-sync-driver"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-channels",
- "aptos-config",
- "aptos-consensus-notifications",
- "aptos-crypto",
- "aptos-data-client",
- "aptos-data-streaming-service",
- "aptos-db",
- "aptos-event-notifications",
- "aptos-executor",
- "aptos-executor-test-helpers",
- "aptos-executor-types",
- "aptos-genesis",
- "aptos-infallible",
- "aptos-logger",
- "aptos-mempool-notifications",
- "aptos-metrics-core",
- "aptos-network",
- "aptos-runtimes",
- "aptos-schemadb",
- "aptos-storage-interface",
- "aptos-storage-service-client",
- "aptos-storage-service-notifications",
- "aptos-storage-service-types",
- "aptos-temppath",
- "aptos-time-service",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-genesis",
- "async-trait",
- "bcs 0.1.4",
- "claims",
- "futures",
- "mockall 0.11.4",
- "move-core-types",
- "ntest",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "thiserror 1.0.69",
- "tokio",
- "tokio-stream",
-]
-
-[[package]]
-name = "aptos-storage-interface"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-experimental-layered-map",
- "aptos-infallible",
- "aptos-metrics-core",
- "aptos-scratchpad",
- "aptos-secure-net",
- "aptos-types",
- "arr_macro",
- "bcs 0.1.4",
- "dashmap 5.5.3",
- "derive_more 0.99.20",
- "itertools 0.13.0",
- "once_cell",
- "parking_lot 0.12.4",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "rayon",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-storage-service-client"
-version = "0.1.0"
-dependencies = [
- "aptos-config",
- "aptos-network",
- "aptos-storage-service-types",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-storage-service-notifications"
-version = "0.1.0"
-dependencies = [
- "aptos-channels",
- "aptos-crypto",
- "async-trait",
- "claims",
- "futures",
- "serde",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "aptos-storage-service-server"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-bitvec",
- "aptos-channels",
- "aptos-config",
- "aptos-crypto",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-netcore",
- "aptos-network",
- "aptos-storage-interface",
- "aptos-storage-service-notifications",
- "aptos-storage-service-types",
- "aptos-time-service",
- "aptos-types",
- "arc-swap",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "dashmap 5.5.3",
- "futures",
- "maplit",
- "mini-moka",
- "mockall 0.11.4",
- "once_cell",
- "rand 0.7.3",
- "serde",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "aptos-storage-service-types"
-version = "0.1.0"
-dependencies = [
- "aptos-compression",
- "aptos-config",
- "aptos-crypto",
- "aptos-time-service",
- "aptos-types",
- "bcs 0.1.4",
- "claims",
- "num-traits",
- "proptest",
- "rand 0.7.3",
- "serde",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-system-utils"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-profiler 0.1.0",
- "async-mutex",
- "http 0.2.12",
- "hyper 0.14.32",
- "lazy_static",
- "mime",
- "pprof",
- "regex",
- "rstack-self",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "aptos-system-utils"
-version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12#f6e266175c32dc53c7a6d79aeef5582cc7a4df12"
-dependencies = [
- "anyhow",
- "aptos-profiler 0.1.0 (git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12)",
- "async-mutex",
- "http 0.2.12",
- "hyper 0.14.32",
- "lazy_static",
- "mime",
- "pprof",
- "regex",
- "rstack-self",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "aptos-table-natives"
-version = "0.1.0"
-dependencies = [
- "aptos-gas-schedule",
- "aptos-native-interface",
- "better_any",
- "bytes",
- "move-binary-format",
- "move-core-types",
- "move-table-extension",
- "move-vm-runtime",
- "move-vm-types",
- "sha3 0.9.1",
- "smallvec",
-]
-
-[[package]]
-name = "aptos-telemetry"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-api",
- "aptos-config",
- "aptos-consensus",
- "aptos-crypto",
- "aptos-db",
- "aptos-infallible",
- "aptos-logger",
- "aptos-mempool",
- "aptos-metrics-core",
- "aptos-network",
- "aptos-node-resource-metrics",
- "aptos-runtimes",
- "aptos-state-sync-driver",
- "aptos-telemetry-service",
- "aptos-types",
- "flate2",
- "futures",
- "httpmock",
- "once_cell",
- "prometheus",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "reqwest 0.11.27",
- "reqwest-middleware",
- "reqwest-retry",
- "serde",
- "serde_json",
- "sysinfo",
- "tokio",
- "tokio-stream",
- "url",
- "uuid 1.17.0",
-]
-
-[[package]]
-name = "aptos-telemetry-service"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-crypto",
- "aptos-infallible",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-rest-client",
- "aptos-types",
- "base64 0.13.1",
- "bcs 0.1.4",
- "chrono",
- "claims",
- "clap 4.5.40",
- "debug-ignore",
- "flate2",
- "futures",
- "gcp-bigquery-client",
- "httpmock",
- "jsonwebtoken 8.3.0",
- "once_cell",
- "prometheus",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "reqwest 0.11.27",
- "reqwest-middleware",
- "reqwest-retry",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "thiserror 1.0.69",
- "tokio",
- "tracing",
- "url",
- "uuid 1.17.0",
- "warp",
-]
-
-[[package]]
-name = "aptos-temppath"
-version = "0.1.0"
-dependencies = [
- "hex",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-testcases"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "aptos-config",
- "aptos-forge",
- "aptos-global-constants",
- "aptos-keygen",
- "aptos-logger",
- "aptos-release-builder",
- "aptos-rest-client",
- "aptos-runtimes",
- "aptos-sdk",
- "aptos-temppath",
- "aptos-types",
- "assert_approx_eq",
- "async-trait",
- "bcs 0.1.4",
- "cedra",
- "csv",
- "futures",
- "hex",
- "itertools 0.13.0",
- "log",
- "rand 0.7.3",
- "reqwest 0.11.27",
- "tokio",
-]
-
-[[package]]
-name = "aptos-time-service"
-version = "0.1.0"
-dependencies = [
- "aptos-infallible",
- "enum_dispatch",
- "futures",
- "pin-project 1.1.10",
- "thiserror 1.0.69",
- "tokio",
- "tokio-test",
-]
-
-[[package]]
-name = "aptos-transaction-benchmarks"
-version = "0.1.0"
-dependencies = [
- "aptos-bitvec",
- "aptos-block-executor",
- "aptos-block-partitioner",
- "aptos-crypto",
- "aptos-language-e2e-tests",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-node-resource-metrics",
- "aptos-push-metrics",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-logging",
- "clap 4.5.40",
- "criterion",
- "criterion-cpu-time",
- "num_cpus",
- "proptest",
-]
-
-[[package]]
-name = "aptos-transaction-emitter"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "aptos-global-constants",
- "aptos-logger",
- "aptos-sdk",
- "aptos-transaction-emitter-lib",
- "aptos-transaction-workloads-lib",
- "clap 4.5.40",
- "futures",
- "rand 0.7.3",
- "tokio",
-]
-
-[[package]]
-name = "aptos-transaction-emitter-lib"
-version = "0.0.0"
-dependencies = [
- "again",
- "anyhow",
- "aptos-config",
- "aptos-crypto",
- "aptos-global-constants",
- "aptos-infallible",
- "aptos-logger",
- "aptos-rest-client",
- "aptos-sdk",
- "aptos-transaction-generator-lib",
- "aptos-types",
- "async-trait",
- "base64 0.13.1",
- "clap 4.5.40",
- "futures",
- "hex",
- "itertools 0.13.0",
- "log",
- "once_cell",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "reqwest 0.11.27",
- "serde",
- "serde_json",
- "tokio",
- "url",
-]
-
-[[package]]
-name = "aptos-transaction-filter"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-protos 1.3.1",
- "derivative",
- "derive_builder",
- "lz4",
- "memchr",
- "once_cell",
- "prost 0.13.5",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-transaction-filter"
-version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12#f6e266175c32dc53c7a6d79aeef5582cc7a4df12"
-dependencies = [
- "anyhow",
- "aptos-protos 1.3.1 (git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12)",
- "derivative",
- "derive_builder",
- "memchr",
- "once_cell",
- "prost 0.13.5",
- "serde",
- "serde_json",
- "serde_yaml 0.8.26",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "aptos-transaction-generator-lib"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "aptos-framework",
- "aptos-infallible",
- "aptos-logger",
- "aptos-sdk",
- "async-trait",
- "clap 4.5.40",
- "log",
- "move-binary-format",
- "move-package",
- "once_cell",
- "rand 0.7.3",
- "serde",
-]
-
-[[package]]
-name = "aptos-transaction-simulation"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "aptos-crypto",
- "aptos-keygen",
- "aptos-types",
- "aptos-vm-genesis",
- "bcs 0.1.4",
- "bytes",
- "move-binary-format",
- "move-core-types",
- "once_cell",
- "parking_lot 0.12.4",
- "proptest",
- "serde",
-]
-
-[[package]]
-name = "aptos-transaction-workloads-lib"
-version = "0.0.0"
-dependencies = [
- "aptos-framework",
- "aptos-sdk",
- "aptos-transaction-generator-lib",
- "async-trait",
- "clap 4.5.40",
- "move-binary-format",
- "once_cell",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "serde",
-]
-
-[[package]]
-name = "aptos-transactional-test-harness"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-api-types",
- "aptos-block-executor",
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-schedule",
- "aptos-resource-viewer",
- "aptos-storage-interface",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-genesis",
- "bcs 0.1.4",
- "clap 4.5.40",
- "codespan-reporting",
- "datatest-stable",
- "hex",
- "move-binary-format",
- "move-bytecode-verifier",
- "move-command-line-common",
- "move-compiler-v2",
- "move-core-types",
- "move-model",
- "move-symbol-pool",
- "move-transactional-test-runner",
- "move-vm-runtime",
- "once_cell",
- "serde_json",
- "tempfile",
-]
-
-[[package]]
-name = "aptos-types"
-version = "0.0.3"
-dependencies = [
- "ahash 0.8.12",
- "anyhow",
- "aptos-bitvec",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-dkg",
- "aptos-infallible",
- "aptos-proptest-helpers",
- "arbitrary",
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-groth16",
- "ark-relations",
- "ark-serialize",
- "ark-std",
- "async-trait",
- "base64 0.13.1",
- "bcs 0.1.4",
- "bytes",
- "chrono",
- "chrono-tz 0.10.3",
- "ciborium",
- "claims",
- "coset",
- "criterion",
- "dashmap 5.5.3",
- "derivative",
- "fixed",
- "fxhash",
- "hashbrown 0.14.5",
- "hex",
- "itertools 0.13.0",
- "jsonwebtoken 8.3.0",
- "lru 0.7.8",
- "move-binary-format",
- "move-core-types",
- "move-model",
- "move-table-extension",
- "move-vm-types",
- "num-bigint 0.3.3",
- "num-derive",
- "num-traits",
- "once_cell",
- "p256",
- "passkey-authenticator",
- "passkey-client",
- "passkey-types",
- "poem-openapi",
- "poem-openapi-derive",
- "proptest",
- "proptest-derive",
- "quick_cache",
- "rand 0.7.3",
- "rayon",
- "ref-cast",
- "reqwest 0.11.27",
- "ring 0.16.20",
- "rsa 0.9.8",
- "serde",
- "serde-big-array",
- "serde_bytes",
- "serde_json",
- "serde_with",
- "serde_yaml 0.8.26",
- "strum 0.24.1",
- "strum_macros 0.24.3",
- "thiserror 1.0.69",
- "tokio",
- "tracing",
- "url",
-]
-
-[[package]]
-name = "aptos-validator-interface"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-api-types",
- "aptos-config",
- "aptos-db",
- "aptos-framework",
- "aptos-rest-client",
- "aptos-storage-interface",
- "aptos-types",
- "async-recursion",
- "async-trait",
- "bcs 0.1.4",
- "lru 0.7.8",
- "move-core-types",
- "tokio",
-]
-
-[[package]]
-name = "aptos-validator-transaction-pool"
-version = "0.1.0"
-dependencies = [
- "aptos-channels",
- "aptos-crypto",
- "aptos-infallible",
- "aptos-types",
- "futures-util",
- "tokio",
-]
-
-[[package]]
-name = "aptos-vault-client"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-proptest-helpers",
- "aptos-types",
- "base64 0.13.1",
- "chrono",
- "native-tls",
- "once_cell",
- "proptest",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "ureq",
-]
-
-[[package]]
-name = "aptos-vm"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-aggregator",
- "aptos-block-executor",
- "aptos-block-partitioner",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-experimental-runtimes",
- "aptos-framework",
- "aptos-gas-algebra",
- "aptos-gas-meter",
- "aptos-gas-schedule",
- "aptos-infallible",
- "aptos-keygen",
- "aptos-language-e2e-tests",
- "aptos-logger",
- "aptos-memory-usage-tracker",
- "aptos-metrics-core",
- "aptos-mvhashmap",
- "aptos-native-interface",
- "aptos-table-natives",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm-environment",
- "aptos-vm-logging",
- "aptos-vm-types",
- "ark-bn254",
- "ark-groth16",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "crossbeam-channel",
- "derive_more 0.99.20",
- "fail",
- "futures",
- "hex",
- "itertools 0.13.0",
- "move-binary-format",
- "move-core-types",
- "move-unit-test",
- "move-vm-metrics",
- "move-vm-runtime",
- "move-vm-types",
- "num_cpus",
- "once_cell",
- "ouroboros",
- "proptest",
- "rand 0.7.3",
- "rand_core 0.5.1",
- "rayon",
- "serde",
-]
-
-[[package]]
-name = "aptos-vm-benchmarks"
-version = "0.1.0"
-dependencies = [
- "aptos-cached-packages",
- "aptos-framework",
- "aptos-language-e2e-tests",
- "aptos-types",
- "bcs 0.1.4",
- "clap 4.5.40",
- "move-binary-format",
- "move-core-types",
-]
-
-[[package]]
-name = "aptos-vm-environment"
-version = "0.0.1"
-dependencies = [
- "aptos-framework",
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-move-stdlib",
- "aptos-native-interface",
- "aptos-table-natives",
- "aptos-types",
- "aptos-vm-types",
- "bcs 0.1.4",
- "move-binary-format",
- "move-bytecode-verifier",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "once_cell",
- "serde",
- "sha3 0.9.1",
-]
-
-[[package]]
-name = "aptos-vm-genesis"
-version = "0.1.0"
-dependencies = [
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-schedule",
- "aptos-proptest-helpers",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-types",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "move-binary-format",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "once_cell",
- "proptest",
- "proptest-derive",
- "rand 0.7.3",
- "serde",
-]
-
-[[package]]
-name = "aptos-vm-logging"
-version = "0.1.0"
-dependencies = [
- "aptos-crypto",
- "aptos-logger",
- "aptos-metrics-core",
- "aptos-speculative-state-helper",
- "aptos-types",
- "arc-swap",
- "once_cell",
- "serde",
-]
-
-[[package]]
-name = "aptos-vm-profiling"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-block-executor",
- "aptos-cached-packages",
- "aptos-gas-schedule",
- "aptos-move-stdlib",
- "aptos-native-interface",
- "aptos-table-natives",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "bcs 0.1.4",
- "clap 4.5.40",
- "glob",
- "move-binary-format",
- "move-core-types",
- "move-ir-compiler",
- "move-vm-runtime",
- "move-vm-test-utils",
- "move-vm-types",
- "once_cell",
- "smallvec",
-]
-
-[[package]]
-name = "aptos-vm-types"
-version = "0.0.1"
-dependencies = [
- "ambassador",
- "anyhow",
- "aptos-aggregator",
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "bcs 0.1.4",
- "bytes",
- "claims",
- "either",
- "move-binary-format",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "rand 0.7.3",
- "serde",
- "test-case",
-]
-
-[[package]]
-name = "aptos-vm-validator"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-db",
- "aptos-executor-test-helpers",
- "aptos-gas-schedule",
- "aptos-logger",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-genesis",
- "aptos-vm-logging",
- "fail",
- "move-binary-format",
- "move-core-types",
- "move-vm-runtime",
- "move-vm-types",
- "rand 0.7.3",
-]
-
-[[package]]
-name = "aptos-warp-webserver"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-api-types",
- "aptos-config",
- "aptos-logger",
- "bcs 0.1.4",
- "hyper 0.14.32",
- "serde",
- "serde_json",
- "warp",
-]
-
-[[package]]
-name = "aptos-workspace-server"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-faucet-core",
- "aptos-localnet",
- "aptos-node",
- "aptos-types",
- "bollard",
- "cedra-indexer-processor-sdk",
- "clap 4.5.40",
- "diesel",
- "diesel-async",
- "futures",
- "maplit",
- "processor",
- "rand 0.7.3",
- "tempfile",
- "tokio",
- "tokio-util 0.7.15",
- "url",
- "uuid 1.17.0",
-]
-
-[[package]]
 name = "arbitrary"
 version = "1.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6263,50 +1797,50 @@ dependencies = [
 
 [[package]]
 name = "cedra"
-version = "7.3.1"
+version = "9.0.0"
 dependencies = [
  "anyhow",
- "aptos-api-types",
- "aptos-backup-cli",
- "aptos-bitvec",
- "aptos-build-info",
- "aptos-cached-packages",
- "aptos-cli-common",
- "aptos-config",
- "aptos-crypto",
- "aptos-faucet-core",
- "aptos-framework",
- "aptos-gas-profiling",
- "aptos-gas-schedule",
- "aptos-genesis",
- "aptos-github-client",
- "aptos-global-constants",
- "aptos-indexer-grpc-server-framework",
- "aptos-keygen",
- "aptos-ledger",
- "aptos-localnet",
- "aptos-logger",
- "aptos-move-debugger",
- "aptos-network-checker",
- "aptos-node",
- "aptos-rest-client",
- "aptos-sdk",
- "aptos-storage-interface",
- "aptos-telemetry",
- "aptos-temppath",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-genesis",
- "aptos-vm-logging",
- "aptos-vm-types",
- "aptos-workspace-server",
  "async-trait",
  "backoff",
  "base64 0.13.1",
  "bcs 0.1.4",
  "bollard",
+ "cedra-api-types",
+ "cedra-backup-cli",
+ "cedra-bitvec",
+ "cedra-build-info",
+ "cedra-cached-packages",
+ "cedra-cli-common",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-faucet-core",
+ "cedra-framework",
+ "cedra-gas-profiling",
+ "cedra-gas-schedule",
+ "cedra-genesis",
+ "cedra-github-client",
+ "cedra-global-constants",
+ "cedra-indexer-grpc-server-framework",
  "cedra-indexer-processor-sdk",
+ "cedra-keygen",
+ "cedra-ledger",
+ "cedra-localnet",
+ "cedra-logger",
+ "cedra-move-debugger",
+ "cedra-network-checker",
+ "cedra-node",
+ "cedra-rest-client",
+ "cedra-sdk",
+ "cedra-storage-interface",
+ "cedra-telemetry",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-genesis",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "cedra-workspace-server",
  "chrono",
  "clap 4.5.40",
  "clap_complete",
@@ -6361,14 +1895,2095 @@ dependencies = [
 ]
 
 [[package]]
-name = "cedra-indexer-processor-sdk"
+name = "cedra-abstract-gas-usage"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=bc50a1311823234530007168984269acf91cffd8#bc50a1311823234530007168984269acf91cffd8"
+dependencies = [
+ "anyhow",
+ "cedra-gas-algebra",
+ "cedra-gas-meter",
+ "cedra-gas-schedule",
+ "cedra-vm-types",
+ "move-binary-format",
+]
+
+[[package]]
+name = "cedra-accumulator"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-crypto",
+ "cedra-types",
+ "proptest",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-admin-service"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-config",
+ "cedra-consensus",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-runtimes",
+ "cedra-storage-interface",
+ "cedra-system-utils 0.1.0",
+ "cedra-types",
+ "futures-channel",
+ "http 0.2.12",
+ "hyper 0.14.32",
+ "sha256",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-aggregator"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-types",
+ "claims",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-types",
+ "once_cell",
+ "test-case",
+]
+
+[[package]]
+name = "cedra-api"
+version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-api-test-context",
+ "cedra-api-types",
+ "cedra-bcs-utils",
+ "cedra-build-info",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-meter",
+ "cedra-gas-schedule",
+ "cedra-global-constants",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-metrics-core",
+ "cedra-move-stdlib",
+ "cedra-proptest-helpers",
+ "cedra-runtimes",
+ "cedra-sdk",
+ "cedra-storage-interface",
+ "cedra-types",
+ "cedra-vm",
+ "fail",
+ "futures",
+ "hex",
+ "itertools 0.13.0",
+ "mime",
+ "mini-moka",
+ "move-core-types",
+ "move-package",
+ "num_cpus",
+ "once_cell",
+ "passkey-types",
+ "paste",
+ "percent-encoding",
+ "poem",
+ "poem-openapi",
+ "proptest",
+ "rand 0.7.3",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+ "warp",
+]
+
+[[package]]
+name = "cedra-api-test-context"
+version = "0.2.0"
+dependencies = [
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-api",
+ "cedra-api-types",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor",
+ "cedra-executor-types",
+ "cedra-framework",
+ "cedra-genesis",
+ "cedra-indexer-grpc-table-info",
+ "cedra-mempool",
+ "cedra-mempool-notifications",
+ "cedra-sdk",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-logging",
+ "cedra-vm-validator",
+ "goldenfile",
+ "hyper 0.14.32",
+ "rand 0.7.3",
+ "regex",
+ "serde_json",
+ "tokio",
+ "warp",
+ "warp-reverse-proxy",
+]
+
+[[package]]
+name = "cedra-api-tester"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-api-types",
+ "cedra-cached-packages",
+ "cedra-framework",
+ "cedra-logger",
+ "cedra-push-metrics",
+ "cedra-rest-client",
+ "cedra-sdk",
+ "cedra-types",
+ "futures",
+ "move-core-types",
+ "once_cell",
+ "prometheus",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-api-types"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-openapi",
+ "cedra-resource-viewer",
+ "cedra-storage-interface",
+ "cedra-types",
+ "cedra-vm",
+ "hex",
+ "indoc",
+ "move-binary-format",
+ "move-core-types",
+ "once_cell",
+ "poem",
+ "poem-openapi",
+ "poem-openapi-derive",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "cedra-backup-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-backup-service",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-db-indexer-schemas",
+ "cedra-executor",
+ "cedra-executor-test-helpers",
+ "cedra-executor-types",
+ "cedra-indexer-grpc-table-info",
+ "cedra-infallible",
+ "cedra-jellyfish-merkle",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-proptest-helpers",
+ "cedra-push-metrics",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "clap 4.5.40",
+ "csv",
+ "futures",
+ "itertools 0.13.0",
+ "move-binary-format",
+ "move-bytecode-verifier",
+ "num_cpus",
+ "once_cell",
+ "pin-project 1.1.10",
+ "proptest",
+ "rand 0.7.3",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-io-timeout",
+ "tokio-stream",
+ "tokio-util 0.7.15",
+ "warp",
+]
+
+[[package]]
+name = "cedra-backup-service"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-runtimes",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "hyper 0.14.32",
+ "once_cell",
+ "reqwest 0.11.27",
+ "serde",
+ "tokio",
+ "tokio-stream",
+ "warp",
+]
+
+[[package]]
+name = "cedra-bcs-utils"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "hex",
+]
+
+[[package]]
+name = "cedra-bitvec"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "proptest",
+ "proptest-derive",
+ "serde",
+ "serde_bytes",
+ "serde_json",
+]
+
+[[package]]
+name = "cedra-block-executor"
+version = "0.1.0"
+dependencies = [
+ "ambassador",
+ "anyhow",
+ "arc-swap",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-aggregator",
+ "cedra-drop-helper",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-mvhashmap",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm-environment",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "claims",
+ "concurrent-queue",
+ "criterion",
+ "crossbeam",
+ "derivative",
+ "fail",
+ "hashbrown 0.14.5",
+ "itertools 0.13.0",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "num_cpus",
+ "once_cell",
+ "parking_lot 0.12.4",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rayon",
+ "scopeguard",
+ "test-case",
+]
+
+[[package]]
+name = "cedra-block-partitioner"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-types",
+ "clap 4.5.40",
+ "criterion",
+ "dashmap 5.5.3",
+ "itertools 0.13.0",
+ "jemallocator",
+ "move-core-types",
+ "once_cell",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+]
+
+[[package]]
+name = "cedra-bounded-executor"
+version = "0.1.0"
+dependencies = [
+ "futures",
+ "rustversion",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-build-info"
+version = "0.1.0"
+dependencies = [
+ "shadow-rs",
+]
+
+[[package]]
+name = "cedra-cached-packages"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-framework",
+ "cedra-package-builder",
+ "cedra-types",
+ "move-core-types",
+ "once_cell",
+ "proptest",
+ "proptest-derive",
+]
+
+[[package]]
+name = "cedra-cargo-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "camino",
+ "chrono",
+ "clap 4.5.40",
+ "clap-verbosity-flag",
+ "determinator",
+ "env_logger 0.10.2",
+ "guppy",
+ "log",
+ "reqwest 0.11.27",
+ "url",
+]
+
+[[package]]
+name = "cedra-channels"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "cedra-types",
+ "futures",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-cli-common"
+version = "1.0.0"
+dependencies = [
+ "anstyle",
+ "clap 4.5.40",
+ "clap_complete",
+]
+
+[[package]]
+name = "cedra-collections"
+version = "0.1.0"
+
+[[package]]
+name = "cedra-comparison-testing"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-block-executor",
+ "cedra-framework",
+ "cedra-language-e2e-tests",
+ "cedra-rest-client",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-validator-interface",
+ "cedra-vm",
+ "clap 4.5.40",
+ "futures",
+ "itertools 0.13.0",
+ "legacy-move-compiler",
+ "move-binary-format",
+ "move-core-types",
+ "move-model",
+ "move-package",
+ "rocksdb",
+ "serde",
+ "tempfile",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-compression"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-types",
+ "lz4",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-config"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arr_macro",
+ "bcs 0.1.4",
+ "byteorder",
+ "cedra-crypto",
+ "cedra-global-constants",
+ "cedra-logger",
+ "cedra-secure-storage",
+ "cedra-short-hex-str",
+ "cedra-temppath",
+ "cedra-types",
+ "cfg-if",
+ "get_if_addrs",
+ "maplit",
+ "num_cpus",
+ "poem-openapi",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "serde_merge",
+ "serde_yaml 0.8.26",
+ "tempfile",
+ "thiserror 1.0.69",
+ "url",
+]
+
+[[package]]
+name = "cedra-consensus"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "byteorder",
+ "bytes",
+ "cedra-bitvec",
+ "cedra-bounded-executor",
+ "cedra-cached-packages",
+ "cedra-channels",
+ "cedra-collections",
+ "cedra-config",
+ "cedra-consensus-notifications",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-dkg",
+ "cedra-enum-conversion-derive",
+ "cedra-event-notifications",
+ "cedra-executor",
+ "cedra-executor-test-helpers",
+ "cedra-executor-types",
+ "cedra-experimental-runtimes",
+ "cedra-fallible",
+ "cedra-infallible",
+ "cedra-keygen",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-peer-monitoring-service-types",
+ "cedra-reliable-broadcast",
+ "cedra-runtimes",
+ "cedra-safety-rules",
+ "cedra-schemadb",
+ "cedra-secure-storage",
+ "cedra-short-hex-str",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-validator-transaction-pool",
+ "cedra-vm",
+ "cedra-vm-validator",
+ "chrono",
+ "claims",
+ "clap 4.5.40",
+ "dashmap 5.5.3",
+ "enum_dispatch",
+ "fail",
+ "futures",
+ "futures-channel",
+ "hex",
+ "itertools 0.13.0",
+ "lru 0.7.8",
+ "maplit",
+ "mini-moka",
+ "mirai-annotations",
+ "mockall 0.11.4",
+ "move-core-types",
+ "num-derive",
+ "num-traits",
+ "once_cell",
+ "ordered-float 3.9.2",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rayon",
+ "scopeguard",
+ "serde",
+ "serde_bytes",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "sha3 0.9.1",
+ "strum_macros 0.24.3",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-retry",
+ "tokio-stream",
+]
+
+[[package]]
+name = "cedra-consensus-notifications"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "cedra-crypto",
+ "cedra-runtimes",
+ "cedra-types",
+ "claims",
+ "futures",
+ "move-core-types",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-consensus-types"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-bitvec",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-executor-types",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-short-hex-str",
+ "cedra-types",
+ "derivative",
+ "fail",
+ "futures",
+ "itertools 0.13.0",
+ "mini-moka",
+ "mirai-annotations",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-crash-handler"
+version = "0.1.0"
+dependencies = [
+ "backtrace",
+ "cedra-logger",
+ "move-core-types",
+ "serde",
+ "toml 0.7.8",
+]
+
+[[package]]
+name = "cedra-crypto"
+version = "0.0.3"
+dependencies = [
+ "aes-gcm",
+ "anyhow",
+ "arbitrary",
+ "ark-bls12-381",
+ "ark-bn254",
+ "ark-ec",
+ "ark-ff",
+ "ark-groth16",
+ "ark-serialize",
+ "ark-std",
+ "base64 0.13.1",
+ "bcs 0.1.4",
+ "bitvec 1.0.1",
+ "blake2",
+ "blake2-rfc",
+ "blst",
+ "bulletproofs",
+ "byteorder",
+ "bytes",
+ "cedra-crypto-derive",
+ "criterion",
+ "curve25519-dalek 3.2.0",
+ "curve25519-dalek-ng",
+ "digest 0.9.0",
+ "ed25519-dalek 1.0.1",
+ "ff",
+ "hex",
+ "hkdf",
+ "libsecp256k1",
+ "merlin",
+ "more-asserts",
+ "neptune",
+ "num-bigint 0.3.3",
+ "num-integer",
+ "once_cell",
+ "p256",
+ "poseidon-ark",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "ring 0.16.20",
+ "serde",
+ "serde-name",
+ "serde_bytes",
+ "serde_json",
+ "sha2 0.10.9",
+ "sha2 0.9.9",
+ "sha3 0.9.1",
+ "signature 2.2.0",
+ "static_assertions",
+ "thiserror 1.0.69",
+ "tiny-keccak",
+ "trybuild",
+ "typenum",
+ "x25519-dalek",
+]
+
+[[package]]
+name = "cedra-crypto-derive"
+version = "0.0.3"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "cedra-data-client"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "async-trait",
+ "bcs 0.1.4",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-id-generator",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-peer-monitoring-service-types",
+ "cedra-storage-interface",
+ "cedra-storage-service-client",
+ "cedra-storage-service-server",
+ "cedra-storage-service-types",
+ "cedra-time-service",
+ "cedra-types",
+ "claims",
+ "dashmap 5.5.3",
+ "futures",
+ "itertools 0.13.0",
+ "maplit",
+ "mockall 0.11.4",
+ "ordered-float 3.9.2",
+ "rand 0.8.5",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-data-streaming-service"
+version = "0.1.0"
+dependencies = [
+ "arc-swap",
+ "async-trait",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-data-client",
+ "cedra-id-generator",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-storage-service-types",
+ "cedra-time-service",
+ "cedra-types",
+ "claims",
+ "enum_dispatch",
+ "futures",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-stream",
+]
+
+[[package]]
+name = "cedra-db"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "arr_macro",
+ "bcs 0.1.4",
+ "byteorder",
+ "cedra-accumulator",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db-indexer",
+ "cedra-db-indexer-schemas",
+ "cedra-executor-types",
+ "cedra-experimental-runtimes",
+ "cedra-infallible",
+ "cedra-jellyfish-merkle",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-proptest-helpers",
+ "cedra-resource-viewer",
+ "cedra-rocksdb-options",
+ "cedra-schemadb",
+ "cedra-scratchpad",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "claims",
+ "clap 4.5.40",
+ "crossbeam-channel",
+ "dashmap 5.5.3",
+ "either",
+ "hex",
+ "indicatif 0.15.0",
+ "itertools 0.13.0",
+ "lru 0.7.8",
+ "move-core-types",
+ "once_cell",
+ "ouroboros",
+ "owo-colors",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+ "static_assertions",
+ "status-line",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-db-indexer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-config",
+ "cedra-db-indexer-schemas",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-proptest-helpers",
+ "cedra-resource-viewer",
+ "cedra-rocksdb-options",
+ "cedra-schemadb",
+ "cedra-storage-interface",
+ "cedra-types",
+ "dashmap 5.5.3",
+ "move-core-types",
+ "once_cell",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-db-indexer-schemas"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "byteorder",
+ "cedra-crypto",
+ "cedra-proptest-helpers",
+ "cedra-schemadb",
+ "cedra-storage-interface",
+ "cedra-types",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "serde",
+]
+
+[[package]]
+name = "cedra-db-tool"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-backup-cli",
+ "cedra-backup-service",
+ "cedra-block-executor",
+ "cedra-config",
+ "cedra-db",
+ "cedra-db-indexer",
+ "cedra-executor",
+ "cedra-executor-test-helpers",
+ "cedra-executor-types",
+ "cedra-indexer-grpc-table-info",
+ "cedra-logger",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "clap 4.5.40",
+ "itertools 0.13.0",
+ "rayon",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-debugger"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-consensus",
+ "cedra-db-tool",
+ "cedra-logger",
+ "cedra-move-debugger",
+ "cedra-push-metrics",
+ "clap 4.5.40",
+ "jemallocator",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-dkg"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "blst",
+ "blstrs",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-runtimes",
+ "criterion",
+ "ff",
+ "group",
+ "hex",
+ "merlin",
+ "more-asserts",
+ "num-bigint 0.3.3",
+ "num-integer",
+ "num-traits",
+ "num_cpus",
+ "once_cell",
+ "pairing",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "rayon",
+ "serde",
+ "serde_bytes",
+ "sha3 0.9.1",
+ "static_assertions",
+]
+
+[[package]]
+name = "cedra-dkg-runtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-bounded-executor",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-enum-conversion-derive",
+ "cedra-event-notifications",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-network",
+ "cedra-reliable-broadcast",
+ "cedra-runtimes",
+ "cedra-safety-rules",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-validator-transaction-pool",
+ "fail",
+ "futures",
+ "futures-channel",
+ "futures-util",
+ "move-core-types",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "tokio",
+ "tokio-retry",
+]
+
+[[package]]
+name = "cedra-drop-helper"
+version = "0.1.0"
+dependencies = [
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "once_cell",
+ "rayon",
+ "threadpool",
+]
+
+[[package]]
+name = "cedra-dynamic-transaction-composer"
+version = "0.1.1"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-types",
+ "e2e-move-tests",
+ "getrandom 0.2.16",
+ "hex",
+ "move-binary-format",
+ "move-bytecode-verifier",
+ "move-core-types",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_bytes",
+ "serde_json",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+]
+
+[[package]]
+name = "cedra-enum-conversion-derive"
+version = "0.0.3"
+dependencies = [
+ "anyhow",
+ "quote",
+ "syn 1.0.109",
+ "trybuild",
+]
+
+[[package]]
+name = "cedra-event-notifications"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-channels",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor-test-helpers",
+ "cedra-id-generator",
+ "cedra-infallible",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-genesis",
+ "claims",
+ "futures",
+ "move-binary-format",
+ "move-core-types",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-executor"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arr_macro",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-block-executor",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-db-indexer",
+ "cedra-drop-helper",
+ "cedra-executor-service",
+ "cedra-executor-test-helpers",
+ "cedra-executor-types",
+ "cedra-experimental-runtimes",
+ "cedra-indexer-grpc-table-info",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-sdk",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-genesis",
+ "criterion",
+ "fail",
+ "itertools 0.13.0",
+ "move-core-types",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+]
+
+[[package]]
+name = "cedra-executor-benchmark"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-aggregator",
+ "cedra-block-executor",
+ "cedra-block-partitioner",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor",
+ "cedra-executor-service",
+ "cedra-executor-types",
+ "cedra-experimental-ptx-executor",
+ "cedra-experimental-runtimes",
+ "cedra-genesis",
+ "cedra-jellyfish-merkle",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-mvhashmap",
+ "cedra-node-resource-metrics",
+ "cedra-profiler 0.1.0",
+ "cedra-push-metrics",
+ "cedra-sdk",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-transaction-generator-lib",
+ "cedra-transaction-workloads-lib",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "chrono",
+ "clap 4.5.40",
+ "dashmap 5.5.3",
+ "derivative",
+ "indicatif 0.15.0",
+ "itertools 0.13.0",
+ "jemallocator",
+ "move-core-types",
+ "move-vm-types",
+ "num_cpus",
+ "once_cell",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+ "thread_local",
+ "tokio",
+ "toml 0.7.8",
+]
+
+[[package]]
+name = "cedra-executor-service"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-block-executor",
+ "cedra-block-partitioner",
+ "cedra-config",
+ "cedra-infallible",
+ "cedra-keygen",
+ "cedra-language-e2e-tests",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-node-resource-metrics",
+ "cedra-push-metrics",
+ "cedra-secure-net",
+ "cedra-storage-interface",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "clap 4.5.40",
+ "crossbeam-channel",
+ "ctrlc",
+ "dashmap 5.5.3",
+ "itertools 0.13.0",
+ "num_cpus",
+ "once_cell",
+ "rayon",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-executor-test-helpers"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor",
+ "cedra-executor-types",
+ "cedra-sdk",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-genesis",
+ "move-core-types",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-executor-types"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-drop-helper",
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "cedra-scratchpad",
+ "cedra-secure-net",
+ "cedra-storage-interface",
+ "cedra-types",
+ "criterion",
+ "derive_more 0.99.20",
+ "itertools 0.13.0",
+ "once_cell",
+ "ouroboros",
+ "rayon",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-experimental-bulk-txn-submit"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-config",
+ "cedra-logger",
+ "cedra-sdk",
+ "cedra-transaction-emitter-lib",
+ "cedra-transaction-generator-lib",
+ "chrono",
+ "clap 4.5.40",
+ "futures",
+ "rand 0.7.3",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-experimental-hexy"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-crypto",
+ "cedra-experimental-layered-map",
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "criterion",
+ "itertools 0.13.0",
+ "jemallocator",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-experimental-layered-map"
+version = "0.1.0"
 dependencies = [
  "ahash 0.8.12",
  "anyhow",
- "aptos-protos 1.3.1 (git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12)",
- "aptos-system-utils 0.1.0 (git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12)",
+ "bitvec 1.0.1",
+ "cedra-crypto",
+ "cedra-drop-helper",
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "cedra-schemadb",
+ "cedra-temppath",
+ "criterion",
+ "itertools 0.13.0",
+ "jemallocator",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rocksdb",
+]
+
+[[package]]
+name = "cedra-experimental-ptx-executor"
+version = "0.1.0"
+dependencies = [
+ "cedra-block-executor",
+ "cedra-experimental-runtimes",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "hashbrown 0.14.5",
+ "move-core-types",
+ "once_cell",
+ "rayon",
+]
+
+[[package]]
+name = "cedra-experimental-runtimes"
+version = "0.1.0"
+dependencies = [
+ "cedra-runtimes",
+ "core_affinity",
+ "libc",
+ "num_cpus",
+ "once_cell",
+ "rayon",
+]
+
+[[package]]
+name = "cedra-fallible"
+version = "0.1.0"
+dependencies = [
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-faucet-cli"
+version = "2.0.1"
+dependencies = [
+ "anyhow",
+ "cedra-faucet-core",
+ "cedra-logger",
+ "cedra-sdk",
+ "clap 4.5.40",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-faucet-core"
+version = "2.0.1"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "captcha",
+ "cedra-config",
+ "cedra-faucet-metrics-server",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-sdk",
+ "clap 4.5.40",
+ "deadpool-redis",
+ "enum_dispatch",
+ "firebase-token",
+ "futures",
+ "hex",
+ "ipnet",
+ "iprange",
+ "lru 0.9.0",
+ "once_cell",
+ "poem",
+ "poem-openapi",
+ "rand 0.7.3",
+ "redis",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-faucet-metrics-server"
+version = "2.0.0"
+dependencies = [
+ "anyhow",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "once_cell",
+ "poem",
+ "prometheus",
+ "serde",
+]
+
+[[package]]
+name = "cedra-faucet-service"
+version = "2.0.1"
+dependencies = [
+ "anyhow",
+ "cedra-faucet-core",
+ "cedra-logger",
+ "clap 4.5.40",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-fn-check-client"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-logger",
+ "cedra-node-checker",
+ "cedra-sdk",
+ "clap 4.5.40",
+ "env_logger 0.10.2",
+ "futures",
+ "gcp-bigquery-client",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-forge"
+version = "0.0.0"
+dependencies = [
+ "again",
+ "anyhow",
+ "async-trait",
+ "cedra",
+ "cedra-cached-packages",
+ "cedra-cli-common",
+ "cedra-config",
+ "cedra-db",
+ "cedra-framework",
+ "cedra-genesis",
+ "cedra-global-constants",
+ "cedra-infallible",
+ "cedra-inspection-service",
+ "cedra-logger",
+ "cedra-rest-client",
+ "cedra-retrier",
+ "cedra-runtimes",
+ "cedra-sdk",
+ "cedra-short-hex-str",
+ "cedra-state-sync-driver",
+ "cedra-transaction-emitter-lib",
+ "cedra-transaction-generator-lib",
+ "cedra-transaction-workloads-lib",
+ "chrono",
+ "clap 4.5.40",
+ "either",
+ "futures",
+ "hex",
+ "hyper 0.14.32",
+ "itertools 0.13.0",
+ "json-patch",
+ "k8s-openapi",
+ "kube",
+ "log",
+ "num_cpus",
+ "once_cell",
+ "prometheus-http-query",
+ "quick-junit",
+ "rand 0.7.3",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "serde_merge",
+ "serde_yaml 0.8.26",
+ "sugars",
+ "tempfile",
+ "termcolor",
+ "thiserror 1.0.69",
+ "tokio",
+ "url",
+ "uuid 1.17.0",
+]
+
+[[package]]
+name = "cedra-forge-cli"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-forge",
+ "cedra-global-constants",
+ "cedra-logger",
+ "cedra-rest-client",
+ "cedra-sdk",
+ "cedra-testcases",
+ "chrono",
+ "clap 4.5.40",
+ "env_logger 0.10.2",
+ "futures",
+ "jemallocator",
+ "once_cell",
+ "rand 0.7.3",
+ "random_word",
+ "reqwest 0.11.27",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "sugars",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-framework"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "ark-bls12-381",
+ "ark-bn254",
+ "ark-ec",
+ "ark-ff",
+ "ark-serialize",
+ "ark-std",
+ "bcs 0.1.4",
+ "better_any",
+ "blake2-rfc",
+ "bulletproofs",
+ "byteorder",
+ "cedra-aggregator",
+ "cedra-crypto",
+ "cedra-gas-algebra",
+ "cedra-gas-meter",
+ "cedra-gas-schedule",
+ "cedra-move-stdlib",
+ "cedra-native-interface",
+ "cedra-sdk-builder",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-types",
+ "claims",
+ "clap 4.5.40",
+ "codespan-reporting",
+ "curve25519-dalek-ng",
+ "either",
+ "flate2",
+ "hex",
+ "itertools 0.13.0",
+ "legacy-move-compiler",
+ "libsecp256k1",
+ "log",
+ "merlin",
+ "move-binary-format",
+ "move-cli",
+ "move-command-line-common",
+ "move-compiler-v2",
+ "move-core-types",
+ "move-docgen",
+ "move-model",
+ "move-package",
+ "move-prover",
+ "move-prover-boogie-backend",
+ "move-prover-bytecode-pipeline",
+ "move-prover-lab",
+ "move-stackless-bytecode",
+ "move-unit-test",
+ "move-vm-runtime",
+ "move-vm-types",
+ "num-traits",
+ "once_cell",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "ripemd",
+ "serde",
+ "serde_bytes",
+ "sha2 0.10.9",
+ "sha2 0.9.9",
+ "sha3 0.9.1",
+ "siphasher 0.3.11",
+ "smallvec",
+ "tempfile",
+ "tiny-keccak",
+ "toml 0.7.8",
+]
+
+[[package]]
+name = "cedra-gas-algebra"
+version = "0.0.1"
+dependencies = [
+ "either",
+ "move-core-types",
+]
+
+[[package]]
+name = "cedra-gas-calibration"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-abstract-gas-usage",
+ "cedra-cached-packages",
+ "cedra-framework",
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-language-e2e-tests",
+ "cedra-types",
+ "clap 4.5.40",
+ "float-cmp",
+ "move-binary-format",
+ "move-core-types",
+ "move-ir-compiler",
+ "nalgebra",
+ "walkdir",
+]
+
+[[package]]
+name = "cedra-gas-meter"
+version = "0.1.0"
+dependencies = [
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-logger",
+ "cedra-types",
+ "cedra-vm-types",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-types",
+]
+
+[[package]]
+name = "cedra-gas-profiling"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-gas-algebra",
+ "cedra-gas-meter",
+ "cedra-gas-schedule",
+ "cedra-types",
+ "cedra-vm-types",
+ "handlebars",
+ "inferno",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-types",
+ "regex",
+ "serde_json",
+ "smallvec",
+]
+
+[[package]]
+name = "cedra-gas-schedule"
+version = "0.1.0"
+dependencies = [
+ "cedra-gas-algebra",
+ "cedra-global-constants",
+ "move-core-types",
+ "move-vm-types",
+ "paste",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-gas-schedule-updator"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-framework",
+ "cedra-gas-schedule",
+ "cedra-package-builder",
+ "cedra-types",
+ "clap 4.5.40",
+ "move-core-types",
+ "move-model",
+ "tempfile",
+]
+
+[[package]]
+name = "cedra-genesis"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor",
+ "cedra-framework",
+ "cedra-keygen",
+ "cedra-logger",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-genesis",
+ "rand 0.7.3",
+ "serde",
+ "serde_yaml 0.8.26",
+]
+
+[[package]]
+name = "cedra-github-client"
+version = "0.1.0"
+dependencies = [
+ "base64 0.13.1",
+ "cedra-proxy",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "ureq",
+]
+
+[[package]]
+name = "cedra-global-constants"
+version = "0.1.0"
+
+[[package]]
+name = "cedra-id-generator"
+version = "0.1.0"
+
+[[package]]
+name = "cedra-indexer"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "bigdecimal",
+ "cedra-api",
+ "cedra-api-test-context",
+ "cedra-api-types",
+ "cedra-bitvec",
+ "cedra-config",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-metrics-core",
+ "cedra-runtimes",
+ "cedra-storage-interface",
+ "cedra-types",
+ "chrono",
+ "diesel",
+ "diesel_migrations",
+ "field_count",
+ "futures",
+ "hex",
+ "once_cell",
+ "serde",
+ "serde_json",
+ "sha2 0.9.9",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-cache-worker"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-config",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-metrics-core",
+ "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-protos 1.3.1",
+ "clap 4.5.40",
+ "futures",
+ "futures-core",
+ "jemallocator",
+ "once_cell",
+ "prost 0.13.5",
+ "redis",
+ "reqwest 0.11.27",
+ "serde",
+ "tempfile",
+ "tokio",
+ "tonic 0.12.3",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-data-service"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-metrics-core",
+ "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-protos 1.3.1",
+ "cedra-transaction-filter 0.1.0",
+ "clap 4.5.40",
+ "futures",
+ "jemallocator",
+ "once_cell",
+ "prost 0.13.5",
+ "redis",
+ "rstest",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-stream",
+ "tonic 0.12.3",
+ "tonic-reflection",
+ "tracing",
+ "uuid 1.17.0",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-data-service-v2"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "build_html",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-metrics-core",
+ "cedra-protos 1.3.1",
+ "cedra-transaction-filter 0.1.0",
+ "clap 4.5.40",
+ "dashmap 5.5.3",
+ "futures",
+ "jemallocator",
+ "once_cell",
+ "prost 0.13.5",
+ "rand 0.7.3",
+ "serde",
+ "tokio",
+ "tokio-scoped",
+ "tokio-stream",
+ "tonic 0.12.3",
+ "tonic-reflection",
+ "tracing",
+ "uuid 1.17.0",
+ "warp",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-file-checker"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-metrics-core",
+ "clap 4.5.40",
+ "cloud-storage",
+ "jemallocator",
+ "once_cell",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-file-store"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-metrics-core",
+ "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "clap 4.5.40",
+ "futures",
+ "jemallocator",
+ "once_cell",
+ "redis",
+ "serde",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-file-store-backfiller"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-protos 1.3.1",
+ "clap 4.5.40",
+ "futures",
+ "jemallocator",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tonic 0.12.3",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-fullnode"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-api",
+ "cedra-api-test-context",
+ "cedra-api-types",
+ "cedra-bitvec",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor",
+ "cedra-executor-types",
+ "cedra-framework",
+ "cedra-genesis",
+ "cedra-global-constants",
+ "cedra-indexer-grpc-utils",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-mempool-notifications",
+ "cedra-metrics-core",
+ "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-proptest-helpers",
+ "cedra-protos 1.3.1",
+ "cedra-runtimes",
+ "cedra-sdk",
+ "cedra-secure-storage",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-validator",
+ "chrono",
+ "futures",
+ "goldenfile",
+ "hex",
+ "hyper 0.14.32",
+ "itertools 0.13.0",
+ "move-core-types",
+ "once_cell",
+ "rand 0.7.3",
+ "regex",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-stream",
+ "tonic 0.12.3",
+ "tonic-reflection",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-in-memory-cache-benchmark"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-indexer-grpc-utils",
+ "cedra-protos 1.3.1",
+ "futures",
+ "jemallocator",
+ "lazy_static",
+ "once_cell",
+ "redis",
+ "redis-test",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-manager"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "build_html",
+ "cedra-config",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-indexer-grpc-utils",
+ "cedra-metrics-core",
+ "cedra-protos 1.3.1",
+ "clap 4.5.40",
+ "dashmap 5.5.3",
+ "futures",
+ "jemallocator",
+ "once_cell",
+ "prost 0.13.5",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-scoped",
+ "tonic 0.12.3",
+ "tracing",
+ "warp",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-server-framework"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "backtrace",
+ "cedra-metrics-core",
+ "cedra-system-utils 0.1.0",
+ "clap 4.5.40",
+ "figment",
+ "prometheus",
+ "serde",
+ "tempfile",
+ "tokio",
+ "toml 0.7.8",
+ "tracing",
+ "tracing-subscriber 0.3.19",
+ "warp",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-table-info"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "cedra-api",
+ "cedra-api-types",
+ "cedra-config",
+ "cedra-db-indexer",
+ "cedra-indexer-grpc-fullnode",
+ "cedra-indexer-grpc-utils",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-metrics-core",
+ "cedra-runtimes",
+ "cedra-storage-interface",
+ "cedra-types",
+ "flate2",
+ "futures",
+ "google-cloud-storage",
+ "hyper 0.14.32",
+ "itertools 0.13.0",
+ "once_cell",
+ "rocksdb",
+ "serde",
+ "serde_json",
+ "tar",
+ "tempfile",
+ "tokio",
+ "tokio-stream",
+ "tokio-util 0.7.15",
+]
+
+[[package]]
+name = "cedra-indexer-grpc-utils"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "backoff",
+ "base64 0.13.1",
+ "build_html",
+ "bytesize",
+ "cedra-metrics-core",
+ "cedra-protos 1.3.1",
+ "cedra-transaction-filter 0.1.0",
+ "chrono",
+ "cloud-storage",
+ "dashmap 5.5.3",
+ "futures",
+ "itertools 0.13.0",
+ "lz4",
+ "once_cell",
+ "prometheus",
+ "prost 0.13.5",
+ "redis",
+ "redis-test",
+ "ripemd",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-util 0.7.15",
+ "tonic 0.12.3",
+ "tracing",
+ "url",
+ "warp",
+]
+
+[[package]]
+name = "cedra-indexer-processor-sdk"
+version = "0.1.0"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
+dependencies = [
+ "ahash 0.8.12",
+ "anyhow",
  "async-trait",
  "autometrics",
  "axum 0.7.9",
@@ -6376,6 +3991,8 @@ dependencies = [
  "bcs 0.1.4",
  "bigdecimal",
  "cedra-indexer-transaction-stream",
+ "cedra-protos 1.3.1 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
+ "cedra-system-utils 0.1.0 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
  "chrono",
  "clap 4.5.40",
  "derive_builder",
@@ -6413,14 +4030,47 @@ dependencies = [
 ]
 
 [[package]]
-name = "cedra-indexer-transaction-stream"
-version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=bc50a1311823234530007168984269acf91cffd8#bc50a1311823234530007168984269acf91cffd8"
+name = "cedra-indexer-test-transactions"
+version = "1.0.0"
+dependencies = [
+ "cedra-protos 1.3.1",
+ "serde_json",
+]
+
+[[package]]
+name = "cedra-indexer-transaction-generator"
+version = "1.0.0"
 dependencies = [
  "anyhow",
- "aptos-protos 1.3.1 (git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12)",
- "aptos-transaction-filter 0.1.0 (git+https://github.com/cedra-labs/cedra.git?rev=f6e266175c32dc53c7a6d79aeef5582cc7a4df12)",
- "cedra-moving-average",
+ "cedra",
+ "cedra-config",
+ "cedra-faucet-core",
+ "cedra-indexer-grpc-utils",
+ "cedra-protos 1.3.1",
+ "clap 4.5.40",
+ "futures",
+ "itertools 0.13.0",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "tempfile",
+ "tokio",
+ "tokio-stream",
+ "toml 0.7.8",
+ "tonic 0.12.3",
+ "url",
+]
+
+[[package]]
+name = "cedra-indexer-transaction-stream"
+version = "0.1.0"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
+dependencies = [
+ "anyhow",
+ "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39)",
+ "cedra-protos 1.3.1 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
+ "cedra-transaction-filter 0.1.0 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
  "chrono",
  "futures-util",
  "once_cell",
@@ -6435,11 +4085,2369 @@ dependencies = [
 ]
 
 [[package]]
+name = "cedra-infallible"
+version = "0.1.0"
+
+[[package]]
+name = "cedra-inspection-service"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "assert_approx_eq",
+ "cedra-build-info",
+ "cedra-config",
+ "cedra-data-client",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-network",
+ "cedra-runtimes",
+ "cedra-storage-interface",
+ "cedra-storage-service-client",
+ "cedra-telemetry",
+ "cedra-time-service",
+ "futures",
+ "hyper 0.14.32",
+ "once_cell",
+ "prometheus",
+ "reqwest 0.11.27",
+ "rusty-fork",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-jellyfish-merkle"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arr_macro",
+ "bcs 0.1.4",
+ "byteorder",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-db",
+ "cedra-experimental-runtimes",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-storage-interface",
+ "cedra-types",
+ "itertools 0.13.0",
+ "num-derive",
+ "num-traits",
+ "once_cell",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-jwk-consensus"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bytes",
+ "cedra-bitvec",
+ "cedra-bounded-executor",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-enum-conversion-derive",
+ "cedra-event-notifications",
+ "cedra-infallible",
+ "cedra-jwk-utils",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-network",
+ "cedra-reliable-broadcast",
+ "cedra-runtimes",
+ "cedra-safety-rules",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-validator-transaction-pool",
+ "futures",
+ "futures-channel",
+ "futures-util",
+ "move-core-types",
+ "once_cell",
+ "serde",
+ "tokio",
+ "tokio-retry",
+]
+
+[[package]]
+name = "cedra-jwk-utils"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-types",
+ "http 0.2.12",
+ "move-core-types",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-keygen"
+version = "0.1.0"
+dependencies = [
+ "cedra-crypto",
+ "cedra-types",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-keyless-pepper-common"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "ark-bls12-381",
+ "ark-ec",
+ "ark-ff",
+ "ark-serialize",
+ "ark-std",
+ "bcs 0.1.4",
+ "blstrs",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-dkg",
+ "cedra-types",
+ "derivation-path",
+ "ed25519-dalek 1.0.1",
+ "hex",
+ "hmac 0.12.1",
+ "jsonwebtoken 8.3.0",
+ "once_cell",
+ "rand 0.7.3",
+ "regex",
+ "serde",
+ "serde-big-array",
+ "sha2 0.10.9",
+]
+
+[[package]]
+name = "cedra-keyless-pepper-example-client-rust"
+version = "0.1.0"
+dependencies = [
+ "ark-bls12-381",
+ "ark-serialize",
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-keyless-pepper-common",
+ "cedra-types",
+ "firestore",
+ "hex",
+ "reqwest 0.11.27",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-keyless-pepper-service"
+version = "0.1.0"
+dependencies = [
+ "aes-gcm",
+ "anyhow",
+ "ark-bls12-381",
+ "ark-bn254",
+ "ark-ec",
+ "ark-ff",
+ "ark-groth16",
+ "ark-serialize",
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-inspection-service",
+ "cedra-keyless-pepper-common",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-types",
+ "dashmap 5.5.3",
+ "firestore",
+ "hex",
+ "hyper 0.14.32",
+ "jsonwebtoken 8.3.0",
+ "jwt",
+ "once_cell",
+ "rand 0.7.3",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "sha3 0.9.1",
+ "tokio",
+ "uuid 1.17.0",
+]
+
+[[package]]
+name = "cedra-language-e2e-tests"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-abstract-gas-usage",
+ "cedra-bitvec",
+ "cedra-block-executor",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-algebra",
+ "cedra-gas-meter",
+ "cedra-gas-profiling",
+ "cedra-gas-schedule",
+ "cedra-keygen",
+ "cedra-proptest-helpers",
+ "cedra-rest-client",
+ "cedra-temppath",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-validator-interface",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-genesis",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "claims",
+ "goldenfile",
+ "move-binary-format",
+ "move-command-line-common",
+ "move-core-types",
+ "move-ir-compiler",
+ "move-model",
+ "move-vm-runtime",
+ "move-vm-types",
+ "num_cpus",
+ "once_cell",
+ "petgraph 0.5.1",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+]
+
+[[package]]
+name = "cedra-ledger"
+version = "0.2.0"
+dependencies = [
+ "cedra-crypto",
+ "cedra-types",
+ "hex",
+ "ledger-apdu",
+ "ledger-transport-hid",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-localnet"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bollard",
+ "cedra-indexer-grpc-utils",
+ "cedra-protos 1.3.1",
+ "cedra-rest-client",
+ "diesel",
+ "diesel-async",
+ "dirs 5.0.1",
+ "futures",
+ "processor",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tonic 0.12.3",
+ "tracing",
+ "version-compare",
+]
+
+[[package]]
+name = "cedra-log-derive"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "cedra-logger"
+version = "0.1.0"
+dependencies = [
+ "backtrace",
+ "cedra-infallible",
+ "cedra-log-derive",
+ "cedra-node-identity",
+ "chrono",
+ "console-subscriber",
+ "erased-serde 0.3.31",
+ "futures",
+ "hostname",
+ "once_cell",
+ "pretty_assertions",
+ "prometheus",
+ "serde",
+ "serde_json",
+ "strum 0.24.1",
+ "strum_macros 0.24.3",
+ "tokio",
+ "tracing",
+ "tracing-subscriber 0.3.19",
+]
+
+[[package]]
+name = "cedra-memory-usage-tracker"
+version = "0.1.0"
+dependencies = [
+ "cedra-gas-algebra",
+ "cedra-gas-meter",
+ "cedra-types",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-types",
+]
+
+[[package]]
+name = "cedra-mempool"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-bounded-executor",
+ "cedra-channels",
+ "cedra-compression",
+ "cedra-config",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-event-notifications",
+ "cedra-id-generator",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-mempool-notifications",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-peer-monitoring-service-types",
+ "cedra-runtimes",
+ "cedra-short-hex-str",
+ "cedra-storage-interface",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-vm-validator",
+ "enum_dispatch",
+ "fail",
+ "futures",
+ "itertools 0.13.0",
+ "maplit",
+ "num_cpus",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-stream",
+]
+
+[[package]]
+name = "cedra-mempool-notifications"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "cedra-crypto",
+ "cedra-types",
+ "claims",
+ "futures",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-memsocket"
+version = "0.1.0"
+dependencies = [
+ "bytes",
+ "cedra-infallible",
+ "futures",
+ "once_cell",
+]
+
+[[package]]
+name = "cedra-metrics-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "claims",
+ "prometheus",
+]
+
+[[package]]
+name = "cedra-move-debugger"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-block-executor",
+ "cedra-consensus",
+ "cedra-crypto",
+ "cedra-gas-profiling",
+ "cedra-logger",
+ "cedra-rest-client",
+ "cedra-types",
+ "cedra-validator-interface",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "clap 4.5.40",
+ "itertools 0.13.0",
+ "regex",
+ "reqwest 0.11.27",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-move-e2e-benchmark"
+version = "0.1.0"
+dependencies = [
+ "cedra-language-e2e-tests",
+ "cedra-logger",
+ "cedra-transaction-generator-lib",
+ "cedra-transaction-workloads-lib",
+ "cedra-types",
+ "clap 4.5.40",
+ "rand 0.7.3",
+ "serde_json",
+]
+
+[[package]]
+name = "cedra-move-examples"
+version = "0.1.0"
+dependencies = [
+ "cedra-framework",
+ "cedra-gas-schedule",
+ "cedra-types",
+ "cedra-vm",
+ "clap 4.5.40",
+ "move-cli",
+ "move-model",
+ "move-package",
+ "move-prover",
+ "move-unit-test",
+ "move-vm-runtime",
+ "tempfile",
+]
+
+[[package]]
+name = "cedra-move-stdlib"
+version = "0.1.1"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-gas-schedule",
+ "cedra-native-interface",
+ "cedra-types",
+ "dir-diff",
+ "file_diff",
+ "move-cli",
+ "move-core-types",
+ "move-package",
+ "move-unit-test",
+ "move-vm-runtime",
+ "move-vm-types",
+ "sha2 0.9.9",
+ "sha3 0.9.1",
+ "smallvec",
+ "tempfile",
+]
+
+[[package]]
 name = "cedra-moving-average"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=bc50a1311823234530007168984269acf91cffd8#bc50a1311823234530007168984269acf91cffd8"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
 dependencies = [
  "chrono",
+]
+
+[[package]]
+name = "cedra-moving-average"
+version = "0.1.0"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0#eff287d24279e93d7391b314ba83297071c27aa0"
+dependencies = [
+ "chrono",
+]
+
+[[package]]
+name = "cedra-mvhashmap"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "cedra-aggregator",
+ "cedra-types",
+ "cedra-vm-types",
+ "claims",
+ "crossbeam",
+ "dashmap 5.5.3",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "proptest",
+ "proptest-derive",
+ "rayon",
+ "serde",
+ "test-case",
+]
+
+[[package]]
+name = "cedra-native-interface"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-types",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "smallvec",
+]
+
+[[package]]
+name = "cedra-netcore"
+version = "0.1.0"
+dependencies = [
+ "bytes",
+ "cedra-memsocket",
+ "cedra-proxy",
+ "cedra-types",
+ "futures",
+ "pin-project 1.1.10",
+ "serde",
+ "tokio",
+ "tokio-util 0.7.15",
+ "url",
+]
+
+[[package]]
+name = "cedra-network"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "async-trait",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-bitvec",
+ "cedra-channels",
+ "cedra-compression",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-id-generator",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-memsocket",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-num-variants",
+ "cedra-peer-monitoring-service-types",
+ "cedra-proptest-helpers",
+ "cedra-short-hex-str",
+ "cedra-time-service",
+ "cedra-types",
+ "futures",
+ "futures-util",
+ "hex",
+ "itertools 0.13.0",
+ "maplit",
+ "once_cell",
+ "ordered-float 3.9.2",
+ "pin-project 1.1.10",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rand 0.8.5",
+ "rand_core 0.5.1",
+ "serde",
+ "serde_bytes",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-retry",
+ "tokio-stream",
+ "tokio-util 0.7.15",
+]
+
+[[package]]
+name = "cedra-network-benchmark"
+version = "0.1.0"
+dependencies = [
+ "async-channel 1.9.0",
+ "bytes",
+ "cedra-config",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-network",
+ "cedra-time-service",
+ "cedra-types",
+ "futures",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-network-builder"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-event-notifications",
+ "cedra-logger",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-network-discovery",
+ "cedra-time-service",
+ "cedra-types",
+ "futures",
+ "maplit",
+ "rand 0.7.3",
+ "serde",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-network-checker"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-network",
+ "cedra-types",
+ "clap 4.5.40",
+ "futures",
+ "serde",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-network-discovery"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-event-notifications",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-rest-client",
+ "cedra-short-hex-str",
+ "cedra-temppath",
+ "cedra-time-service",
+ "cedra-types",
+ "futures",
+ "once_cell",
+ "rand 0.7.3",
+ "serde_yaml 0.8.26",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-nft-metadata-crawler"
+version = "0.1.0"
+dependencies = [
+ "ahash 0.8.12",
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "backoff",
+ "bytes",
+ "cedra-indexer-grpc-server-framework",
+ "cedra-metrics-core",
+ "chrono",
+ "clap 4.5.40",
+ "diesel",
+ "diesel_migrations",
+ "enum_dispatch",
+ "field_count",
+ "futures",
+ "google-cloud-storage",
+ "image",
+ "once_cell",
+ "rayon",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "sha256",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "cedra-node"
+version = "0.0.0-main"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-admin-service",
+ "cedra-api",
+ "cedra-backup-service",
+ "cedra-build-info",
+ "cedra-cached-packages",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-consensus",
+ "cedra-consensus-notifications",
+ "cedra-crash-handler",
+ "cedra-crypto",
+ "cedra-data-client",
+ "cedra-data-streaming-service",
+ "cedra-db",
+ "cedra-db-indexer",
+ "cedra-dkg-runtime",
+ "cedra-event-notifications",
+ "cedra-executor",
+ "cedra-framework",
+ "cedra-genesis",
+ "cedra-indexer",
+ "cedra-indexer-grpc-fullnode",
+ "cedra-indexer-grpc-table-info",
+ "cedra-infallible",
+ "cedra-inspection-service",
+ "cedra-jwk-consensus",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-mempool-notifications",
+ "cedra-network",
+ "cedra-network-benchmark",
+ "cedra-network-builder",
+ "cedra-node-identity",
+ "cedra-peer-monitoring-service-client",
+ "cedra-peer-monitoring-service-server",
+ "cedra-peer-monitoring-service-types",
+ "cedra-runtimes",
+ "cedra-state-sync-driver",
+ "cedra-storage-interface",
+ "cedra-storage-service-client",
+ "cedra-storage-service-notifications",
+ "cedra-storage-service-server",
+ "cedra-storage-service-types",
+ "cedra-telemetry",
+ "cedra-temppath",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-validator-transaction-pool",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "clap 4.5.40",
+ "either",
+ "fail",
+ "futures",
+ "hex",
+ "jemallocator",
+ "num_cpus",
+ "rand 0.7.3",
+ "rayon",
+ "rlimit",
+ "rstack-self",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "tokio",
+ "ureq",
+ "url",
+]
+
+[[package]]
+name = "cedra-node-checker"
+version = "0.1.1"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-network-checker",
+ "cedra-rest-client",
+ "cedra-sdk",
+ "cedra-transaction-emitter-lib",
+ "cedra-transaction-workloads-lib",
+ "clap 4.5.40",
+ "futures",
+ "once_cell",
+ "poem",
+ "poem-openapi",
+ "prometheus-parse",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "thiserror 1.0.69",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-node-identity"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-types",
+ "claims",
+ "once_cell",
+]
+
+[[package]]
+name = "cedra-node-resource-metrics"
+version = "0.1.0"
+dependencies = [
+ "cedra-build-info",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cfg-if",
+ "once_cell",
+ "procfs",
+ "prometheus",
+ "rlimit",
+ "sysinfo",
+]
+
+[[package]]
+name = "cedra-num-variants"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "cedra-openapi"
+version = "0.1.0"
+dependencies = [
+ "percent-encoding",
+ "poem",
+ "poem-openapi",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "cedra-openapi-spec-generator"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-api",
+ "cedra-config",
+ "cedra-mempool",
+ "cedra-storage-interface",
+ "cedra-types",
+ "clap 4.5.40",
+]
+
+[[package]]
+name = "cedra-package-builder"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-framework",
+ "itertools 0.13.0",
+ "move-command-line-common",
+ "move-package",
+ "tempfile",
+]
+
+[[package]]
+name = "cedra-peer-monitoring-service-client"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-build-info",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-id-generator",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-peer-monitoring-service-server",
+ "cedra-peer-monitoring-service-types",
+ "cedra-time-service",
+ "cedra-types",
+ "enum_dispatch",
+ "futures",
+ "maplit",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-stream",
+]
+
+[[package]]
+name = "cedra-peer-monitoring-service-server"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-bounded-executor",
+ "cedra-build-info",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-peer-monitoring-service-types",
+ "cedra-storage-interface",
+ "cedra-time-service",
+ "cedra-types",
+ "claims",
+ "futures",
+ "maplit",
+ "mockall 0.11.4",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-peer-monitoring-service-types"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-config",
+ "cedra-types",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-profiler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "backtrace",
+ "jemalloc-sys",
+ "jemallocator",
+ "pprof",
+ "regex",
+]
+
+[[package]]
+name = "cedra-profiler"
+version = "0.1.0"
+source = "git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6#e8b7b18c6b07f5338af169246ada024a8a5ca4f6"
+dependencies = [
+ "anyhow",
+ "backtrace",
+ "jemalloc-sys",
+ "jemallocator",
+ "pprof",
+ "regex",
+]
+
+[[package]]
+name = "cedra-proptest-helpers"
+version = "0.1.0"
+dependencies = [
+ "crossbeam",
+ "proptest",
+ "proptest-derive",
+]
+
+[[package]]
+name = "cedra-protos"
+version = "1.3.1"
+dependencies = [
+ "pbjson",
+ "prost 0.13.5",
+ "serde",
+ "tonic 0.12.3",
+]
+
+[[package]]
+name = "cedra-protos"
+version = "1.3.1"
+source = "git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6#e8b7b18c6b07f5338af169246ada024a8a5ca4f6"
+dependencies = [
+ "pbjson",
+ "prost 0.13.5",
+ "serde",
+ "tonic 0.12.3",
+]
+
+[[package]]
+name = "cedra-proxy"
+version = "0.1.0"
+dependencies = [
+ "ipnet",
+]
+
+[[package]]
+name = "cedra-push-metrics"
+version = "0.1.0"
+dependencies = [
+ "cedra-logger",
+ "cedra-metrics-core",
+ "rand 0.7.3",
+ "ureq",
+ "url",
+]
+
+[[package]]
+name = "cedra-rate-limiter"
+version = "0.1.0"
+dependencies = [
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "futures",
+ "pin-project 1.1.10",
+ "tokio",
+ "tokio-util 0.7.15",
+]
+
+[[package]]
+name = "cedra-release-builder"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra",
+ "cedra-build-info",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-profiling",
+ "cedra-gas-schedule",
+ "cedra-gas-schedule-updator",
+ "cedra-genesis",
+ "cedra-infallible",
+ "cedra-keygen",
+ "cedra-language-e2e-tests",
+ "cedra-move-debugger",
+ "cedra-rest-client",
+ "cedra-temppath",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "clap 4.5.40",
+ "futures",
+ "git2 0.16.1",
+ "handlebars",
+ "hex",
+ "move-binary-format",
+ "move-bytecode-verifier",
+ "move-core-types",
+ "move-model",
+ "move-vm-runtime",
+ "move-vm-types",
+ "once_cell",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "sha3 0.9.1",
+ "strum 0.24.1",
+ "strum_macros 0.24.3",
+ "tokio",
+ "url",
+ "walkdir",
+]
+
+[[package]]
+name = "cedra-reliable-broadcast"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bytes",
+ "cedra-bounded-executor",
+ "cedra-consensus-types",
+ "cedra-enum-conversion-derive",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-time-service",
+ "cedra-types",
+ "claims",
+ "futures",
+ "futures-channel",
+ "tokio",
+ "tokio-retry",
+]
+
+[[package]]
+name = "cedra-replay-benchmark"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-block-executor",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-schedule",
+ "cedra-logger",
+ "cedra-move-debugger",
+ "cedra-push-metrics",
+ "cedra-rest-client",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "claims",
+ "clap 4.5.40",
+ "colored",
+ "move-core-types",
+ "parking_lot 0.12.4",
+ "rand 0.7.3",
+ "serde",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-resource-viewer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "move-binary-format",
+ "move-bytecode-utils",
+ "move-core-types",
+ "move-resource-viewer",
+]
+
+[[package]]
+name = "cedra-rest-client"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-api-types",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-types",
+ "clap 4.5.40",
+ "hex",
+ "move-core-types",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-retrier"
+version = "0.1.0"
+dependencies = [
+ "cedra-logger",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-rocksdb-options"
+version = "0.1.0"
+dependencies = [
+ "cedra-config",
+ "rocksdb",
+]
+
+[[package]]
+name = "cedra-rosetta"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-global-constants",
+ "cedra-logger",
+ "cedra-node",
+ "cedra-rest-client",
+ "cedra-runtimes",
+ "cedra-sdk",
+ "cedra-types",
+ "cedra-warp-webserver",
+ "clap 4.5.40",
+ "futures",
+ "hex",
+ "itertools 0.13.0",
+ "move-core-types",
+ "once_cell",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+ "warp",
+]
+
+[[package]]
+name = "cedra-rosetta-cli"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "cedra",
+ "cedra-logger",
+ "cedra-rosetta",
+ "cedra-types",
+ "clap 4.5.40",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-runtimes"
+version = "0.1.0"
+dependencies = [
+ "rayon",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-safety-rules"
+version = "0.1.0"
+dependencies = [
+ "cedra-config",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-global-constants",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-proptest-helpers",
+ "cedra-secure-net",
+ "cedra-secure-storage",
+ "cedra-types",
+ "cedra-vault-client",
+ "claims",
+ "criterion",
+ "hex",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rusty-fork",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-schemadb"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "byteorder",
+ "cedra-drop-helper",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "dunce",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rocksdb",
+]
+
+[[package]]
+name = "cedra-scratchpad"
+version = "0.1.0"
+dependencies = [
+ "bitvec 1.0.1",
+ "cedra-crypto",
+ "cedra-drop-helper",
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "cedra-types",
+ "cedra-vm",
+ "criterion",
+ "dashmap 5.5.3",
+ "itertools 0.13.0",
+ "jemallocator",
+ "once_cell",
+ "proptest",
+ "rand 0.7.3",
+ "rayon",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-sdk"
+version = "0.0.3"
+dependencies = [
+ "anyhow",
+ "base64 0.13.1",
+ "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-global-constants",
+ "cedra-ledger",
+ "cedra-rest-client",
+ "cedra-types",
+ "ed25519-dalek-bip32",
+ "hex",
+ "lazy_static",
+ "move-core-types",
+ "once_cell",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tiny-bip39",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-sdk-builder"
+version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-framework",
+ "cedra-types",
+ "clap 4.5.40",
+ "heck 0.4.1",
+ "move-core-types",
+ "once_cell",
+ "serde-generate",
+ "serde-reflection",
+ "serde_yaml 0.8.26",
+ "tempfile",
+ "textwrap 0.15.2",
+ "which",
+]
+
+[[package]]
+name = "cedra-secure-net"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-config",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-protos 1.3.1",
+ "crossbeam-channel",
+ "once_cell",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+ "tonic 0.12.3",
+ "tonic-reflection",
+]
+
+[[package]]
+name = "cedra-secure-storage"
+version = "0.1.0"
+dependencies = [
+ "base64 0.13.1",
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-temppath",
+ "cedra-time-service",
+ "cedra-vault-client",
+ "chrono",
+ "enum_dispatch",
+ "rand 0.7.3",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-short-hex-str"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "mirai-annotations",
+ "proptest",
+ "serde",
+ "static_assertions",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-speculative-state-helper"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-infallible",
+ "claims",
+ "crossbeam",
+ "parking_lot 0.12.4",
+ "proptest",
+ "proptest-derive",
+ "rayon",
+]
+
+[[package]]
+name = "cedra-state-sync-driver"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bcs 0.1.4",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-consensus-notifications",
+ "cedra-crypto",
+ "cedra-data-client",
+ "cedra-data-streaming-service",
+ "cedra-db",
+ "cedra-event-notifications",
+ "cedra-executor",
+ "cedra-executor-test-helpers",
+ "cedra-executor-types",
+ "cedra-genesis",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-mempool-notifications",
+ "cedra-metrics-core",
+ "cedra-network",
+ "cedra-runtimes",
+ "cedra-schemadb",
+ "cedra-storage-interface",
+ "cedra-storage-service-client",
+ "cedra-storage-service-notifications",
+ "cedra-storage-service-types",
+ "cedra-temppath",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-genesis",
+ "claims",
+ "futures",
+ "mockall 0.11.4",
+ "move-core-types",
+ "ntest",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-stream",
+]
+
+[[package]]
+name = "cedra-storage-interface"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arr_macro",
+ "bcs 0.1.4",
+ "cedra-crypto",
+ "cedra-experimental-layered-map",
+ "cedra-infallible",
+ "cedra-metrics-core",
+ "cedra-scratchpad",
+ "cedra-secure-net",
+ "cedra-types",
+ "dashmap 5.5.3",
+ "derive_more 0.99.20",
+ "itertools 0.13.0",
+ "once_cell",
+ "parking_lot 0.12.4",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "rayon",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-storage-service-client"
+version = "0.1.0"
+dependencies = [
+ "cedra-config",
+ "cedra-network",
+ "cedra-storage-service-types",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-storage-service-notifications"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "cedra-channels",
+ "cedra-crypto",
+ "claims",
+ "futures",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-storage-service-server"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arc-swap",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-bitvec",
+ "cedra-channels",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-netcore",
+ "cedra-network",
+ "cedra-storage-interface",
+ "cedra-storage-service-notifications",
+ "cedra-storage-service-types",
+ "cedra-time-service",
+ "cedra-types",
+ "claims",
+ "dashmap 5.5.3",
+ "futures",
+ "maplit",
+ "mini-moka",
+ "mockall 0.11.4",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-storage-service-types"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-compression",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-time-service",
+ "cedra-types",
+ "claims",
+ "num-traits",
+ "proptest",
+ "rand 0.7.3",
+ "serde",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-system-utils"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-mutex",
+ "cedra-profiler 0.1.0",
+ "http 0.2.12",
+ "hyper 0.14.32",
+ "lazy_static",
+ "mime",
+ "pprof",
+ "regex",
+ "rstack-self",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "cedra-system-utils"
+version = "0.1.0"
+source = "git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6#e8b7b18c6b07f5338af169246ada024a8a5ca4f6"
+dependencies = [
+ "anyhow",
+ "async-mutex",
+ "cedra-profiler 0.1.0 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
+ "http 0.2.12",
+ "hyper 0.14.32",
+ "lazy_static",
+ "mime",
+ "pprof",
+ "regex",
+ "rstack-self",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "cedra-table-natives"
+version = "0.1.0"
+dependencies = [
+ "better_any",
+ "bytes",
+ "cedra-gas-schedule",
+ "cedra-native-interface",
+ "move-binary-format",
+ "move-core-types",
+ "move-table-extension",
+ "move-vm-runtime",
+ "move-vm-types",
+ "sha3 0.9.1",
+ "smallvec",
+]
+
+[[package]]
+name = "cedra-telemetry"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-api",
+ "cedra-config",
+ "cedra-consensus",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-mempool",
+ "cedra-metrics-core",
+ "cedra-network",
+ "cedra-node-resource-metrics",
+ "cedra-runtimes",
+ "cedra-state-sync-driver",
+ "cedra-telemetry-service",
+ "cedra-types",
+ "flate2",
+ "futures",
+ "httpmock",
+ "once_cell",
+ "prometheus",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "reqwest 0.11.27",
+ "reqwest-middleware",
+ "reqwest-retry",
+ "serde",
+ "serde_json",
+ "sysinfo",
+ "tokio",
+ "tokio-stream",
+ "url",
+ "uuid 1.17.0",
+]
+
+[[package]]
+name = "cedra-telemetry-service"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "base64 0.13.1",
+ "bcs 0.1.4",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-rest-client",
+ "cedra-types",
+ "chrono",
+ "claims",
+ "clap 4.5.40",
+ "debug-ignore",
+ "flate2",
+ "futures",
+ "gcp-bigquery-client",
+ "httpmock",
+ "jsonwebtoken 8.3.0",
+ "once_cell",
+ "prometheus",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "reqwest 0.11.27",
+ "reqwest-middleware",
+ "reqwest-retry",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "thiserror 1.0.69",
+ "tokio",
+ "tracing",
+ "url",
+ "uuid 1.17.0",
+ "warp",
+]
+
+[[package]]
+name = "cedra-temppath"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-testcases"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "assert_approx_eq",
+ "async-trait",
+ "bcs 0.1.4",
+ "cedra",
+ "cedra-config",
+ "cedra-forge",
+ "cedra-global-constants",
+ "cedra-keygen",
+ "cedra-logger",
+ "cedra-release-builder",
+ "cedra-rest-client",
+ "cedra-runtimes",
+ "cedra-sdk",
+ "cedra-temppath",
+ "cedra-types",
+ "csv",
+ "futures",
+ "hex",
+ "itertools 0.13.0",
+ "log",
+ "rand 0.7.3",
+ "reqwest 0.11.27",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-time-service"
+version = "0.1.0"
+dependencies = [
+ "cedra-infallible",
+ "enum_dispatch",
+ "futures",
+ "pin-project 1.1.10",
+ "thiserror 1.0.69",
+ "tokio",
+ "tokio-test",
+]
+
+[[package]]
+name = "cedra-transaction-benchmarks"
+version = "0.1.0"
+dependencies = [
+ "cedra-bitvec",
+ "cedra-block-executor",
+ "cedra-block-partitioner",
+ "cedra-crypto",
+ "cedra-language-e2e-tests",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-node-resource-metrics",
+ "cedra-push-metrics",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-logging",
+ "clap 4.5.40",
+ "criterion",
+ "criterion-cpu-time",
+ "num_cpus",
+ "proptest",
+]
+
+[[package]]
+name = "cedra-transaction-emitter"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "cedra-global-constants",
+ "cedra-logger",
+ "cedra-sdk",
+ "cedra-transaction-emitter-lib",
+ "cedra-transaction-workloads-lib",
+ "clap 4.5.40",
+ "futures",
+ "rand 0.7.3",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-transaction-emitter-lib"
+version = "0.0.0"
+dependencies = [
+ "again",
+ "anyhow",
+ "async-trait",
+ "base64 0.13.1",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-global-constants",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-rest-client",
+ "cedra-sdk",
+ "cedra-transaction-generator-lib",
+ "cedra-types",
+ "clap 4.5.40",
+ "futures",
+ "hex",
+ "itertools 0.13.0",
+ "log",
+ "once_cell",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+]
+
+[[package]]
+name = "cedra-transaction-filter"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-protos 1.3.1",
+ "derivative",
+ "derive_builder",
+ "lz4",
+ "memchr",
+ "once_cell",
+ "prost 0.13.5",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-transaction-filter"
+version = "0.1.0"
+source = "git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6#e8b7b18c6b07f5338af169246ada024a8a5ca4f6"
+dependencies = [
+ "anyhow",
+ "cedra-protos 1.3.1 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
+ "derivative",
+ "derive_builder",
+ "memchr",
+ "once_cell",
+ "prost 0.13.5",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.8.26",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "cedra-transaction-generator-lib"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "cedra-framework",
+ "cedra-infallible",
+ "cedra-logger",
+ "cedra-sdk",
+ "clap 4.5.40",
+ "log",
+ "move-binary-format",
+ "move-package",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+]
+
+[[package]]
+name = "cedra-transaction-simulation"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-crypto",
+ "cedra-keygen",
+ "cedra-types",
+ "cedra-vm-genesis",
+ "move-binary-format",
+ "move-core-types",
+ "once_cell",
+ "parking_lot 0.12.4",
+ "proptest",
+ "serde",
+]
+
+[[package]]
+name = "cedra-transaction-workloads-lib"
+version = "0.0.0"
+dependencies = [
+ "async-trait",
+ "cedra-framework",
+ "cedra-sdk",
+ "cedra-transaction-generator-lib",
+ "clap 4.5.40",
+ "move-binary-format",
+ "once_cell",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "serde",
+]
+
+[[package]]
+name = "cedra-transactional-test-harness"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-api-types",
+ "cedra-block-executor",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-schedule",
+ "cedra-resource-viewer",
+ "cedra-storage-interface",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-genesis",
+ "clap 4.5.40",
+ "codespan-reporting",
+ "datatest-stable",
+ "hex",
+ "move-binary-format",
+ "move-bytecode-verifier",
+ "move-command-line-common",
+ "move-compiler-v2",
+ "move-core-types",
+ "move-model",
+ "move-symbol-pool",
+ "move-transactional-test-runner",
+ "move-vm-runtime",
+ "once_cell",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
+name = "cedra-types"
+version = "0.0.3"
+dependencies = [
+ "ahash 0.8.12",
+ "anyhow",
+ "arbitrary",
+ "ark-bn254",
+ "ark-ec",
+ "ark-ff",
+ "ark-groth16",
+ "ark-relations",
+ "ark-serialize",
+ "ark-std",
+ "async-trait",
+ "base64 0.13.1",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-bitvec",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-dkg",
+ "cedra-infallible",
+ "cedra-proptest-helpers",
+ "chrono",
+ "chrono-tz 0.10.3",
+ "ciborium",
+ "claims",
+ "coset",
+ "criterion",
+ "dashmap 5.5.3",
+ "derivative",
+ "fixed",
+ "fxhash",
+ "hashbrown 0.14.5",
+ "hex",
+ "itertools 0.13.0",
+ "jsonwebtoken 8.3.0",
+ "lru 0.7.8",
+ "move-binary-format",
+ "move-core-types",
+ "move-model",
+ "move-table-extension",
+ "move-vm-types",
+ "num-bigint 0.3.3",
+ "num-derive",
+ "num-traits",
+ "once_cell",
+ "p256",
+ "passkey-authenticator",
+ "passkey-client",
+ "passkey-types",
+ "poem-openapi",
+ "poem-openapi-derive",
+ "proptest",
+ "proptest-derive",
+ "quick_cache",
+ "rand 0.7.3",
+ "rayon",
+ "ref-cast",
+ "reqwest 0.11.27",
+ "ring 0.16.20",
+ "rsa 0.9.8",
+ "serde",
+ "serde-big-array",
+ "serde_bytes",
+ "serde_json",
+ "serde_with",
+ "serde_yaml 0.8.26",
+ "strum 0.24.1",
+ "strum_macros 0.24.3",
+ "thiserror 1.0.69",
+ "tokio",
+ "tracing",
+ "url",
+]
+
+[[package]]
+name = "cedra-validator-interface"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-recursion",
+ "async-trait",
+ "bcs 0.1.4",
+ "cedra-api-types",
+ "cedra-config",
+ "cedra-db",
+ "cedra-framework",
+ "cedra-rest-client",
+ "cedra-storage-interface",
+ "cedra-types",
+ "lru 0.7.8",
+ "move-core-types",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-validator-transaction-pool"
+version = "0.1.0"
+dependencies = [
+ "cedra-channels",
+ "cedra-crypto",
+ "cedra-infallible",
+ "cedra-types",
+ "futures-util",
+ "tokio",
+]
+
+[[package]]
+name = "cedra-vault-client"
+version = "0.1.0"
+dependencies = [
+ "base64 0.13.1",
+ "cedra-crypto",
+ "cedra-proptest-helpers",
+ "cedra-types",
+ "chrono",
+ "native-tls",
+ "once_cell",
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "ureq",
+]
+
+[[package]]
+name = "cedra-vm"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "ark-bn254",
+ "ark-groth16",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-aggregator",
+ "cedra-block-executor",
+ "cedra-block-partitioner",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-experimental-runtimes",
+ "cedra-framework",
+ "cedra-gas-algebra",
+ "cedra-gas-meter",
+ "cedra-gas-schedule",
+ "cedra-infallible",
+ "cedra-keygen",
+ "cedra-language-e2e-tests",
+ "cedra-logger",
+ "cedra-memory-usage-tracker",
+ "cedra-metrics-core",
+ "cedra-mvhashmap",
+ "cedra-native-interface",
+ "cedra-table-natives",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm-environment",
+ "cedra-vm-logging",
+ "cedra-vm-types",
+ "claims",
+ "crossbeam-channel",
+ "derive_more 0.99.20",
+ "fail",
+ "futures",
+ "hex",
+ "itertools 0.13.0",
+ "move-binary-format",
+ "move-core-types",
+ "move-unit-test",
+ "move-vm-metrics",
+ "move-vm-runtime",
+ "move-vm-types",
+ "num_cpus",
+ "once_cell",
+ "ouroboros",
+ "proptest",
+ "rand 0.7.3",
+ "rand_core 0.5.1",
+ "rayon",
+ "serde",
+]
+
+[[package]]
+name = "cedra-vm-benchmarks"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-framework",
+ "cedra-language-e2e-tests",
+ "cedra-types",
+ "clap 4.5.40",
+ "move-binary-format",
+ "move-core-types",
+]
+
+[[package]]
+name = "cedra-vm-environment"
+version = "0.0.1"
+dependencies = [
+ "bcs 0.1.4",
+ "cedra-framework",
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-move-stdlib",
+ "cedra-native-interface",
+ "cedra-table-natives",
+ "cedra-types",
+ "cedra-vm-types",
+ "move-binary-format",
+ "move-bytecode-verifier",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "once_cell",
+ "serde",
+ "sha3 0.9.1",
+]
+
+[[package]]
+name = "cedra-vm-genesis"
+version = "0.1.0"
+dependencies = [
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-schedule",
+ "cedra-proptest-helpers",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-types",
+ "claims",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "once_cell",
+ "proptest",
+ "proptest-derive",
+ "rand 0.7.3",
+ "serde",
+]
+
+[[package]]
+name = "cedra-vm-logging"
+version = "0.1.0"
+dependencies = [
+ "arc-swap",
+ "cedra-crypto",
+ "cedra-logger",
+ "cedra-metrics-core",
+ "cedra-speculative-state-helper",
+ "cedra-types",
+ "once_cell",
+ "serde",
+]
+
+[[package]]
+name = "cedra-vm-profiling"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-block-executor",
+ "cedra-cached-packages",
+ "cedra-gas-schedule",
+ "cedra-move-stdlib",
+ "cedra-native-interface",
+ "cedra-table-natives",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "clap 4.5.40",
+ "glob",
+ "move-binary-format",
+ "move-core-types",
+ "move-ir-compiler",
+ "move-vm-runtime",
+ "move-vm-test-utils",
+ "move-vm-types",
+ "once_cell",
+ "smallvec",
+]
+
+[[package]]
+name = "cedra-vm-types"
+version = "0.0.1"
+dependencies = [
+ "ambassador",
+ "anyhow",
+ "bcs 0.1.4",
+ "bytes",
+ "cedra-aggregator",
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "claims",
+ "either",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "rand 0.7.3",
+ "serde",
+ "test-case",
+]
+
+[[package]]
+name = "cedra-vm-validator"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-executor-test-helpers",
+ "cedra-gas-schedule",
+ "cedra-logger",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-genesis",
+ "cedra-vm-logging",
+ "fail",
+ "move-binary-format",
+ "move-core-types",
+ "move-vm-runtime",
+ "move-vm-types",
+ "rand 0.7.3",
+]
+
+[[package]]
+name = "cedra-warp-webserver"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bcs 0.1.4",
+ "cedra-api-types",
+ "cedra-config",
+ "cedra-logger",
+ "hyper 0.14.32",
+ "serde",
+ "serde_json",
+ "warp",
+]
+
+[[package]]
+name = "cedra-workspace-server"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bollard",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-faucet-core",
+ "cedra-indexer-processor-sdk",
+ "cedra-localnet",
+ "cedra-node",
+ "cedra-types",
+ "clap 4.5.40",
+ "diesel",
+ "diesel-async",
+ "futures",
+ "maplit",
+ "processor",
+ "rand 0.7.3",
+ "tempfile",
+ "tokio",
+ "tokio-util 0.7.15",
+ "url",
+ "uuid 1.17.0",
 ]
 
 [[package]]
@@ -8112,23 +8120,23 @@ name = "e2e-move-tests"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-framework",
- "aptos-gas-algebra",
- "aptos-gas-profiling",
- "aptos-gas-schedule",
- "aptos-language-e2e-tests",
- "aptos-package-builder",
- "aptos-rest-client",
- "aptos-transaction-generator-lib",
- "aptos-transaction-simulation",
- "aptos-transaction-workloads-lib",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
- "aptos-vm-types",
  "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-gas-algebra",
+ "cedra-gas-profiling",
+ "cedra-gas-schedule",
+ "cedra-language-e2e-tests",
+ "cedra-package-builder",
+ "cedra-rest-client",
+ "cedra-transaction-generator-lib",
+ "cedra-transaction-simulation",
+ "cedra-transaction-workloads-lib",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
+ "cedra-vm-types",
  "claims",
  "hex",
  "move-binary-format",
@@ -9249,11 +9257,11 @@ dependencies = [
 name = "fuzzer"
 version = "0.1.0"
 dependencies = [
- "aptos-framework",
- "aptos-types",
  "arbitrary",
  "base64 0.21.7",
  "bcs 0.1.4",
+ "cedra-framework",
+ "cedra-types",
  "clap 4.5.40",
  "csv",
  "dearbitrary",
@@ -9269,18 +9277,18 @@ dependencies = [
 name = "fuzzer-fuzz"
 version = "0.0.0"
 dependencies = [
- "aptos-cached-packages",
- "aptos-consensus",
- "aptos-crypto",
- "aptos-framework",
- "aptos-language-e2e-tests",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-environment",
  "arbitrary",
  "base64 0.13.1",
  "bcs 0.1.4",
+ "cedra-cached-packages",
+ "cedra-consensus",
+ "cedra-crypto",
+ "cedra-framework",
+ "cedra-language-e2e-tests",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-environment",
  "libfuzzer-sys",
  "move-binary-format",
  "move-bytecode-verifier",
@@ -9323,7 +9331,7 @@ dependencies = [
  "once_cell",
  "prost 0.13.5",
  "prost-types 0.13.5",
- "reqwest 0.12.19",
+ "reqwest 0.12.20",
  "secret-vault-value",
  "serde",
  "serde_json",
@@ -9363,15 +9371,15 @@ dependencies = [
 name = "generate-format"
 version = "0.1.0"
 dependencies = [
- "aptos-api-types",
- "aptos-config",
- "aptos-consensus",
- "aptos-consensus-types",
- "aptos-crypto",
- "aptos-crypto-derive",
- "aptos-network",
- "aptos-types",
  "bcs 0.1.4",
+ "cedra-api-types",
+ "cedra-config",
+ "cedra-consensus",
+ "cedra-consensus-types",
+ "cedra-crypto",
+ "cedra-crypto-derive",
+ "cedra-network",
+ "cedra-types",
  "clap 4.5.40",
  "move-core-types",
  "rand 0.7.3",
@@ -9435,7 +9443,7 @@ dependencies = [
  "cfg-if",
  "js-sys",
  "libc",
- "wasi 0.11.0+wasi-snapshot-preview1",
+ "wasi 0.11.1+wasi-snapshot-preview1",
  "wasm-bindgen",
 ]
 
@@ -10756,7 +10764,7 @@ dependencies = [
 [[package]]
 name = "instrumented-channel"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=bc50a1311823234530007168984269acf91cffd8#bc50a1311823234530007168984269acf91cffd8"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
 dependencies = [
  "delegate",
  "derive_builder",
@@ -11238,16 +11246,16 @@ dependencies = [
 name = "language-e2e-testsuite"
 version = "0.1.0"
 dependencies = [
- "aptos-cached-packages",
- "aptos-crypto",
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-language-e2e-tests",
- "aptos-logger",
- "aptos-transaction-simulation",
- "aptos-types",
- "aptos-vm",
- "aptos-vm-genesis",
+ "cedra-cached-packages",
+ "cedra-crypto",
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-language-e2e-tests",
+ "cedra-logger",
+ "cedra-transaction-simulation",
+ "cedra-types",
+ "cedra-vm",
+ "cedra-vm-genesis",
  "claims",
  "fail",
  "move-binary-format",
@@ -11864,7 +11872,7 @@ checksum = "a4a650543ca06a924e8b371db273b2756685faae30f8487da1b56505a8f78b0c"
 dependencies = [
  "libc",
  "log",
- "wasi 0.11.0+wasi-snapshot-preview1",
+ "wasi 0.11.1+wasi-snapshot-preview1",
  "windows-sys 0.48.0",
 ]
 
@@ -11875,7 +11883,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "78bed444cc8a2160f01cbcf811ef18cac863ad68ae8ca62092e8db51d51c761c"
 dependencies = [
  "libc",
- "wasi 0.11.0+wasi-snapshot-preview1",
+ "wasi 0.11.1+wasi-snapshot-preview1",
  "windows-sys 0.59.0",
 ]
 
@@ -11944,7 +11952,7 @@ name = "module-publish"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "aptos-transaction-generator-lib",
+ "cedra-transaction-generator-lib",
  "clap 4.5.40",
 ]
 
@@ -14753,7 +14761,7 @@ dependencies = [
 [[package]]
 name = "processor"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processors-v2.git?rev=80927b066a6c5a87827d7c160104e04d35f5e79b#80927b066a6c5a87827d7c160104e04d35f5e79b"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processors-v2.git?rev=fa6a5d97b7f243f2198b9542d195da4586edeb94#fa6a5d97b7f243f2198b9542d195da4586edeb94"
 dependencies = [
  "ahash 0.8.12",
  "allocative",
@@ -15106,7 +15114,7 @@ dependencies = [
  "mach2",
  "once_cell",
  "raw-cpuid",
- "wasi 0.11.0+wasi-snapshot-preview1",
+ "wasi 0.11.1+wasi-snapshot-preview1",
  "web-sys",
  "winapi 0.3.9",
 ]
@@ -15632,9 +15640,9 @@ dependencies = [
 
 [[package]]
 name = "reqwest"
-version = "0.12.19"
+version = "0.12.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a2f8e5513d63f2e5b386eb5106dc67eaf3f84e95258e210489136b8b92ad6119"
+checksum = "eabf4c97d9130e2bf606614eb937e86edac8292eaa6f422f995d7e8de1eb1813"
 dependencies = [
  "async-compression",
  "base64 0.22.1",
@@ -15647,12 +15655,9 @@ dependencies = [
  "hyper 1.6.0",
  "hyper-rustls 0.27.7",
  "hyper-util",
- "ipnet",
  "js-sys",
  "log",
- "mime",
  "mime_guess",
- "once_cell",
  "percent-encoding",
  "pin-project-lite",
  "quinn",
@@ -16247,7 +16252,7 @@ dependencies = [
 [[package]]
 name = "sample"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=bc50a1311823234530007168984269acf91cffd8#bc50a1311823234530007168984269acf91cffd8"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
 dependencies = [
  "tracing",
 ]
@@ -17057,45 +17062,45 @@ name = "smoke-test"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "aptos-backup-cli",
- "aptos-bitvec",
- "aptos-cached-packages",
- "aptos-config",
- "aptos-consensus",
- "aptos-crypto",
- "aptos-db",
- "aptos-db-indexer",
- "aptos-db-indexer-schemas",
- "aptos-dkg",
- "aptos-faucet-core",
- "aptos-forge",
- "aptos-framework",
- "aptos-gas-algebra",
- "aptos-gas-schedule",
- "aptos-genesis",
- "aptos-global-constants",
- "aptos-indexer",
- "aptos-indexer-grpc-table-info",
- "aptos-infallible",
- "aptos-inspection-service",
- "aptos-keygen",
- "aptos-logger",
- "aptos-move-debugger",
- "aptos-release-builder",
- "aptos-rest-client",
- "aptos-rosetta",
- "aptos-schemadb",
- "aptos-sdk",
- "aptos-secure-storage",
- "aptos-storage-interface",
- "aptos-temppath",
- "aptos-time-service",
- "aptos-types",
- "aptos-vault-client",
- "aptos-vm",
  "base64 0.13.1",
  "bcs 0.1.4",
  "cedra",
+ "cedra-backup-cli",
+ "cedra-bitvec",
+ "cedra-cached-packages",
+ "cedra-config",
+ "cedra-consensus",
+ "cedra-crypto",
+ "cedra-db",
+ "cedra-db-indexer",
+ "cedra-db-indexer-schemas",
+ "cedra-dkg",
+ "cedra-faucet-core",
+ "cedra-forge",
+ "cedra-framework",
+ "cedra-gas-algebra",
+ "cedra-gas-schedule",
+ "cedra-genesis",
+ "cedra-global-constants",
+ "cedra-indexer",
+ "cedra-indexer-grpc-table-info",
+ "cedra-infallible",
+ "cedra-inspection-service",
+ "cedra-keygen",
+ "cedra-logger",
+ "cedra-move-debugger",
+ "cedra-release-builder",
+ "cedra-rest-client",
+ "cedra-rosetta",
+ "cedra-schemadb",
+ "cedra-sdk",
+ "cedra-secure-storage",
+ "cedra-storage-interface",
+ "cedra-temppath",
+ "cedra-time-service",
+ "cedra-types",
+ "cedra-vault-client",
+ "cedra-vm",
  "diesel",
  "digest 0.9.0",
  "ethers",
@@ -18200,7 +18205,7 @@ dependencies = [
  "serde_spanned",
  "toml_datetime",
  "toml_write",
- "winnow 0.7.10",
+ "winnow 0.7.11",
 ]
 
 [[package]]
@@ -18945,7 +18950,7 @@ dependencies = [
  "libc",
  "rustix 0.38.44",
  "rustversion",
- "wasi 0.11.0+wasi-snapshot-preview1",
+ "wasi 0.11.1+wasi-snapshot-preview1",
  "wasm-bindgen",
  "winapi 0.3.9",
 ]
@@ -19132,9 +19137,9 @@ checksum = "cccddf32554fecc6acb585f82a32a72e28b48f8c4c1883ddfeeeaa96f7d8e519"
 
 [[package]]
 name = "wasi"
-version = "0.11.0+wasi-snapshot-preview1"
+version = "0.11.1+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
+checksum = "ccf3ec651a847eb01de73ccad15eb7d99f80485de043efb2f370cd654f4ea44b"
 
 [[package]]
 name = "wasi"
@@ -19731,9 +19736,9 @@ dependencies = [
 
 [[package]]
 name = "winnow"
-version = "0.7.10"
+version = "0.7.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c06928c8748d81b05c9be96aad92e1b6ff01833332f281e8cfca3be4b35fc9ec"
+checksum = "74c7b26e3480b707944fc872477815d29a8e429d2f93a1ce000f5fa84a15cbcd"
 dependencies = [
  "memchr",
 ]

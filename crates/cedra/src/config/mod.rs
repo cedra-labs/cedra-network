@@ -1,26 +1,26 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     common::{
         types::{
             CliCommand, CliConfig, CliError, CliResult, CliTypedResult, ConfigSearchMode,
-            ProfileSummary, APTOS_FOLDER_GIT_IGNORE, CONFIG_FOLDER, GIT_IGNORE,
+            ProfileSummary, CEDRA_FOLDER_GIT_IGNORE, CONFIG_FOLDER, GIT_IGNORE,
         },
         utils::{create_dir_if_not_exist, current_dir, read_from_file, write_to_user_only_file},
     },
     genesis::git::{from_yaml, to_yaml},
     Tool,
 };
-use aptos_cli_common::generate_cli_completions;
-use aptos_crypto::ValidCryptoMaterialStringExt;
+use cedra_cli_common::generate_cli_completions;
+use cedra_crypto::ValidCryptoMaterialStringExt;
 use async_trait::async_trait;
 use clap::{Parser, ValueEnum};
 use clap_complete::Shell;
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, fmt::Formatter, path::PathBuf, str::FromStr};
 
-/// Tool for interacting with configuration of the Aptos CLI tool
+/// Tool for interacting with configuration of the Cedra CLI tool
 ///
 /// This tool handles the global configuration of the CLI tool for
 /// default configuration, and user specific settings.
@@ -71,7 +71,7 @@ impl CliCommand<()> for GenerateShellCompletions {
     }
 
     async fn execute(self) -> CliTypedResult<()> {
-        generate_cli_completions::<Tool>("aptos", self.shell, self.output_file.as_path())
+        generate_cli_completions::<Tool>("cedra", self.shell, self.output_file.as_path())
             .map_err(|err| CliError::IO(self.output_file.display().to_string(), err))
     }
 }
@@ -83,8 +83,8 @@ impl CliCommand<()> for GenerateShellCompletions {
 pub struct SetGlobalConfig {
     /// A configuration for where to place and use the config
     ///
-    /// `Workspace` will put the `.aptos/` folder in the current directory, where
-    /// `Global` will put the `.aptos/` folder in your home directory
+    /// `Workspace` will put the `.cedra/` folder in the current directory, where
+    /// `Global` will put the `.cedra/` folder in your home directory
     #[clap(long)]
     config_type: Option<ConfigType>,
     /// A configuration for how to expect the prompt response
@@ -375,7 +375,7 @@ impl GlobalConfig {
         write_to_user_only_file(
             global_folder.join(GIT_IGNORE).as_path(),
             ".gitignore",
-            APTOS_FOLDER_GIT_IGNORE.as_bytes(),
+            CEDRA_FOLDER_GIT_IGNORE.as_bytes(),
         )
     }
 }
@@ -420,9 +420,9 @@ const WORKSPACE: &str = "workspace";
 /// Global allows for one config for every part of the code
 #[derive(Debug, Copy, Clone, Serialize, Deserialize, ValueEnum)]
 pub enum ConfigType {
-    /// Per system user configuration put in `<HOME>/.aptos`
+    /// Per system user configuration put in `<HOME>/.cedra`
     Global,
-    /// Per directory configuration put in `<CURRENT_DIR>/.aptos`
+    /// Per directory configuration put in `<CURRENT_DIR>/.cedra`
     Workspace,
 }
 

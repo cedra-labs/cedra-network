@@ -27,22 +27,22 @@ COPY --link docker/tools/boto.cfg /etc/boto.cfg
 RUN wget https://storage.googleapis.com/pub/gsutil.tar.gz -O- | tar --gzip --directory /opt --extract && ln -s /opt/gsutil/gsutil /usr/local/bin
 RUN cd /usr/local/bin && wget "https://storage.googleapis.com/kubernetes-release/release/v1.18.6/bin/linux/amd64/kubectl" -O kubectl && chmod +x kubectl
 
-COPY --link --from=tools-builder /aptos/dist/aptos-debugger /usr/local/bin/aptos-debugger
-COPY --link --from=tools-builder /aptos/dist/aptos /usr/local/bin/aptos
-COPY --link --from=tools-builder /aptos/dist/aptos-openapi-spec-generator /usr/local/bin/aptos-openapi-spec-generator
-COPY --link --from=tools-builder /aptos/dist/aptos-fn-check-client /usr/local/bin/aptos-fn-check-client
-COPY --link --from=tools-builder /aptos/dist/aptos-transaction-emitter /usr/local/bin/aptos-transaction-emitter
-COPY --link --from=tools-builder /aptos/dist/aptos-api-tester /usr/local/bin/aptos-api-tester
+COPY --link --from=tools-builder /cedra/dist/cedra-debugger /usr/local/bin/cedra-debugger
+COPY --link --from=tools-builder /cedra/dist/cedra /usr/local/bin/cedra
+COPY --link --from=tools-builder /cedra/dist/cedra-openapi-spec-generator /usr/local/bin/cedra-openapi-spec-generator
+COPY --link --from=tools-builder /cedra/dist/cedra-fn-check-client /usr/local/bin/cedra-fn-check-client
+COPY --link --from=tools-builder /cedra/dist/cedra-transaction-emitter /usr/local/bin/cedra-transaction-emitter
+COPY --link --from=tools-builder /cedra/dist/cedra-api-tester /usr/local/bin/cedra-api-tester
 
 # Copy the example module to publish for api-tester
-COPY --link --from=tools-builder /aptos/aptos-move/framework/aptos-framework /aptos-move/framework/aptos-framework
-COPY --link --from=tools-builder /aptos/aptos-move/framework/aptos-stdlib /aptos-move/framework/aptos-stdlib
-COPY --link --from=tools-builder /aptos/aptos-move/framework/move-stdlib /aptos-move/framework/move-stdlib
-COPY --link --from=tools-builder /aptos/aptos-move/move-examples/hello_blockchain /aptos-move/move-examples/hello_blockchain
+COPY --link --from=tools-builder /cedra/cedra-move/framework/cedra-framework /cedra-move/framework/cedra-framework
+COPY --link --from=tools-builder /cedra/cedra-move/framework/cedra-stdlib /cedra-move/framework/cedra-stdlib
+COPY --link --from=tools-builder /cedra/cedra-move/framework/move-stdlib /cedra-move/framework/move-stdlib
+COPY --link --from=tools-builder /cedra/cedra-move/move-examples/hello_blockchain /cedra-move/move-examples/hello_blockchain
 
-### Get Aptos Move releases for genesis ceremony
-RUN mkdir -p /aptos-framework/move
-COPY --link --from=tools-builder /aptos/dist/head.mrb /aptos-framework/move/head.mrb
+### Get Cedra Move releases for genesis ceremony
+RUN mkdir -p /cedra-framework/move
+COPY --link --from=tools-builder /cedra/dist/head.mrb /cedra-framework/move/head.mrb
 
 # add build info
 ARG BUILD_DATE

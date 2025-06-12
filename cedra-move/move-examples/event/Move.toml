@@ -1,0 +1,11 @@
+[package]
+name = "Event example"
+version = "0.0.1"
+
+[addresses]
+std = "0x1"
+cedra_framework = "0x1"
+event = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

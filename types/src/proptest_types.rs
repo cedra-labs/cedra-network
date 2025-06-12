@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -38,7 +38,7 @@ use crate::{
     write_set::{WriteOp, WriteSet, WriteSetMut},
     CedraCoinType,
 };
-use aptos_crypto::{
+use cedra_crypto::{
     bls12381::{self, bls12381_keys},
     ed25519::{self, Ed25519PrivateKey, Ed25519PublicKey},
     test_utils::KeyPair,

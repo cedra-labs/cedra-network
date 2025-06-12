@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,8 +9,8 @@ use crate::{
     },
     testutils::fake_socket::ReadOnlyTestSocketVec,
 };
-use aptos_config::network_id::NetworkId;
-use aptos_types::chain_id::ChainId;
+use cedra_config::network_id::NetworkId;
+use cedra_types::chain_id::ChainId;
 use futures::executor::block_on;
 use proptest::{collection::btree_map, prelude::*};
 

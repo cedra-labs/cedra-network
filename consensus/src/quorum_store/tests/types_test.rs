@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     quorum_store::types::{Batch, BatchRequest},
     test_utils::create_vec_signed_transactions,
 };
-use aptos_consensus_types::{common::BatchPayload, proof_of_store::BatchId};
-use aptos_crypto::{hash::CryptoHash, HashValue};
-use aptos_types::account_address::AccountAddress;
+use cedra_consensus_types::{common::BatchPayload, proof_of_store::BatchId};
+use cedra_crypto::{hash::CryptoHash, HashValue};
+use cedra_types::account_address::AccountAddress;
 use claims::{assert_err, assert_ok};
 
 #[test]

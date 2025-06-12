@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -8,10 +8,10 @@ use crate::{
     quorum_cert::QuorumCert,
 };
 use anyhow::{bail, ensure, format_err};
-use aptos_bitvec::BitVec;
-use aptos_crypto::{bls12381, hash::CryptoHash, HashValue};
-use aptos_infallible::duration_since_epoch;
-use aptos_types::{
+use cedra_bitvec::BitVec;
+use cedra_crypto::{bls12381, hash::CryptoHash, HashValue};
+use cedra_infallible::duration_since_epoch;
+use cedra_types::{
     account_address::AccountAddress,
     block_info::BlockInfo,
     block_metadata::BlockMetadata,

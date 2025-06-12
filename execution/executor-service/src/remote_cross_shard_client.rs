@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
-use aptos_secure_net::network_controller::{Message, NetworkController};
-use aptos_types::block_executor::partitioner::{RoundId, ShardId, MAX_ALLOWED_PARTITIONING_ROUNDS};
-use aptos_vm::sharded_block_executor::{
+use cedra_secure_net::network_controller::{Message, NetworkController};
+use cedra_types::block_executor::partitioner::{RoundId, ShardId, MAX_ALLOWED_PARTITIONING_ROUNDS};
+use cedra_vm::sharded_block_executor::{
     cross_shard_client::CrossShardClient, messages::CrossShardMsg,
 };
 use crossbeam_channel::{Receiver, Sender};

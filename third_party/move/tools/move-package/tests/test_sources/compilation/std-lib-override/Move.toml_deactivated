@@ -8,10 +8,10 @@ A = "0x42"
 
 [dev-addresses]
 
-[dependencies.AptosFramework]
-git = "https://github.com/cedra-labs/cedra.git"
+[dependencies.CedraFramework]
+git = "https://github.com/cedra-labs/cedra-network.git"
 rev = "devnet"
-subdir = "aptos-move/framework/aptos-framework"
+subdir = "cedra-move/framework/cedra-framework"
 
 [dependencies.B]
 local = "./deps_only"

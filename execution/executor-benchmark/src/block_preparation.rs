@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     metrics::{NUM_TXNS, TIMER},
     pipeline::ExecuteBlockMessage,
 };
-use aptos_block_partitioner::{BlockPartitioner, PartitionerConfig};
-use aptos_crypto::HashValue;
-use aptos_experimental_runtimes::thread_manager::optimal_min_len;
-use aptos_logger::info;
-use aptos_types::{
+use cedra_block_partitioner::{BlockPartitioner, PartitionerConfig};
+use cedra_crypto::HashValue;
+use cedra_experimental_runtimes::thread_manager::optimal_min_len;
+use cedra_logger::info;
+use cedra_types::{
     block_executor::partitioner::{ExecutableBlock, ExecutableTransactions},
     transaction::{signature_verified_transaction::SignatureVerifiedTransaction, Transaction},
 };

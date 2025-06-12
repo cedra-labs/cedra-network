@@ -1,9 +1,9 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::DbReader;
-use aptos_crypto::HashValue;
-use aptos_types::{
+use cedra_crypto::HashValue;
+use cedra_types::{
     ledger_info::LedgerInfo,
     state_store::{
         errors::StateViewError, state_key::StateKey, state_storage_usage::StateStorageUsage,

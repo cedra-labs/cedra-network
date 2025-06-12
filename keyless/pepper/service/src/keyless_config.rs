@@ -1,10 +1,10 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::watcher::{unhexlify_api_bytes, ExternalResource};
 use anyhow::{anyhow, Result};
-use aptos_infallible::RwLock;
-use aptos_types::keyless::Configuration;
+use cedra_infallible::RwLock;
+use cedra_types::keyless::Configuration;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -22,7 +22,7 @@ pub struct OnChainKeylessConfiguration {
 }
 
 impl OnChainKeylessConfiguration {
-    pub fn to_rust_repr(&self) -> Result<aptos_types::keyless::Configuration> {
+    pub fn to_rust_repr(&self) -> Result<cedra_types::keyless::Configuration> {
         let training_wheels_pubkey = self
             .data
             .training_wheels_pubkey

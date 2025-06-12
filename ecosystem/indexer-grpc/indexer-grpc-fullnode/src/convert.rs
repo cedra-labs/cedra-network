@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_api_types::{
+use cedra_api_types::{
     transaction::ValidatorTransaction as ApiValidatorTransactionEnum, AccountSignature,
     DeleteModule, DeleteResource, Ed25519Signature, EntryFunctionId, EntryFunctionPayload, Event,
     GenesisPayload, MoveAbility, MoveFunction, MoveFunctionGenericTypeParam,
@@ -11,9 +11,9 @@ use aptos_api_types::{
     SingleKeySignature, Transaction, TransactionInfo, TransactionPayload, TransactionSignature,
     WriteSet, WriteSetChange,
 };
-use aptos_bitvec::BitVec;
-use aptos_logger::warn;
-use aptos_protos::{
+use cedra_bitvec::BitVec;
+use cedra_logger::warn;
+use cedra_protos::{
     transaction::v1::{
         self as transaction, any_signature,
         validator_transaction::{
@@ -27,7 +27,7 @@ use aptos_protos::{
     },
     util::timestamp,
 };
-use aptos_types::jwks::jwk::JWK;
+use cedra_types::jwks::jwk::JWK;
 use hex;
 use move_core_types::ability::Ability;
 use std::time::Duration;
@@ -525,7 +525,7 @@ pub fn convert_multisig_payload(
 }
 
 pub fn convert_event(event: &Event) -> transaction::Event {
-    let event_key: aptos_types::event::EventKey = event.guid.into();
+    let event_key: cedra_types::event::EventKey = event.guid.into();
     transaction::Event {
         key: Some(transaction::EventKey {
             creation_number: event_key.get_creation_number(),
@@ -921,7 +921,7 @@ pub fn convert_transaction(
 }
 
 fn convert_validator_transaction(
-    api_validator_txn: &aptos_api_types::transaction::ValidatorTransaction,
+    api_validator_txn: &cedra_api_types::transaction::ValidatorTransaction,
 ) -> transaction::transaction::TxnData {
     transaction::transaction::TxnData::Validator(transaction::ValidatorTransaction {
         validator_transaction_type: match api_validator_txn {
@@ -981,7 +981,7 @@ fn convert_validator_transaction(
                                             }).collect(),
                                         }
                                     ),
-                                    multi_sig: Some(aptos_protos::transaction::v1::validator_transaction::observed_jwk_update::ExportedAggregateSignature {
+                                    multi_sig: Some(cedra_protos::transaction::v1::validator_transaction::observed_jwk_update::ExportedAggregateSignature {
                                         signer_indices: observed_jwk_update.quorum_certified_update.multi_sig.signer_indices.clone().into_iter().map(|i| i as u64).collect(),
                                         sig: match &observed_jwk_update.quorum_certified_update.multi_sig.sig {
                                             Some(sig) =>  sig.0.clone(),

@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::U64;
-use aptos_types::{chain_id::ChainId, ledger_info::LedgerInfoWithSignatures};
+use cedra_types::{chain_id::ChainId, ledger_info::LedgerInfoWithSignatures};
 use poem_openapi::Object as PoemObject;
 use serde::{Deserialize, Serialize};
 

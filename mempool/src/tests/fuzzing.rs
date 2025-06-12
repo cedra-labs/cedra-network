@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -7,18 +7,18 @@ use crate::{
     network::{BroadcastPeerPriority, MempoolSyncMsg},
     shared_mempool::{tasks, types::SharedMempool},
 };
-use aptos_config::{
+use cedra_config::{
     config::{NodeConfig, NodeType},
     network_id::NetworkId,
 };
-use aptos_infallible::{Mutex, RwLock};
-use aptos_network::{
+use cedra_infallible::{Mutex, RwLock};
+use cedra_network::{
     application::{interface::NetworkClient, storage::PeersAndMetadata},
     protocols::wire::handshake::v1::ProtocolId::MempoolDirectSend,
 };
-use aptos_storage_interface::mock::MockDbReaderWriter;
-use aptos_types::transaction::SignedTransaction;
-use aptos_vm_validator::mocks::mock_vm_validator::MockVMValidator;
+use cedra_storage_interface::mock::MockDbReaderWriter;
+use cedra_types::transaction::SignedTransaction;
+use cedra_vm_validator::mocks::mock_vm_validator::MockVMValidator;
 use proptest::{
     arbitrary::any,
     prelude::*,

@@ -172,10 +172,10 @@ impl Options {
                     .help("prints the effective toml configuration, then exits")
             )
             .arg(
-                Arg::new("aptos")
-                    .long("aptos")
+                Arg::new("cedra")
+                    .long("cedra")
                     .action(SetTrue)
-                    .help("configures the prover to use Aptos natives")
+                    .help("configures the prover to use Cedra natives")
             )
             .arg(
                 Arg::new("compiler-v2")
@@ -732,10 +732,10 @@ impl Options {
             options.prover.ban_int_2_bv = true;
         }
 
-        if matches.get_flag("aptos") {
+        if matches.get_flag("cedra") {
             options.backend.custom_natives = Some(CustomNativeOptions {
                 template_bytes: include_bytes!(
-                    "../../../../aptos-move/framework/src/aptos-natives.bpl"
+                    "../../../../cedra-move/framework/src/cedra-natives.bpl"
                 )
                 .to_vec(),
                 module_instance_names: options::custom_native_options(),

@@ -19,15 +19,15 @@ Cedra blockchain automated genesis ceremony for testnets
 | chain.epoch_duration_secs | int | `7200` | Length of each epoch in seconds. Defaults to 2 hours |
 | chain.era | int | `1` | Internal: Bump this number to wipe the underlying storage |
 | chain.is_test | bool | `true` | If true, genesis will create a resources account that can mint coins. |
-| chain.max_stake | int | `100000000000000000` | Maximum stake. Defaults to 1B APTOS coins with 8 decimals |
+| chain.max_stake | int | `100000000000000000` | Maximum stake. Defaults to 1B CEDRA coins with 8 decimals |
 | chain.min_price_per_gas_unit | int | `1` | Minimum price per gas unit |
-| chain.min_stake | int | `100000000000000` | Minimum stake. Defaults to 1M APTOS coins with 8 decimals |
-| chain.min_voting_threshold | int | `100000000000000` | Mininum voting threshold. Defaults to 1M APTOS coins with 8 decimals |
+| chain.min_stake | int | `100000000000000` | Minimum stake. Defaults to 1M CEDRA coins with 8 decimals |
+| chain.min_voting_threshold | int | `100000000000000` | Mininum voting threshold. Defaults to 1M CEDRA coins with 8 decimals |
 | chain.name | string | `"testnet"` | Internal: name of the testnet to connect to |
 | chain.on_chain_consensus_config | string | `nil` | Onchain Consensus Config |
 | chain.on_chain_execution_config | string | `nil` | Onchain Execution Config |
 | chain.recurring_lockup_duration_secs | int | `86400` | Recurring lockup duration in seconds. Defaults to 1 day |
-| chain.required_proposer_stake | int | `100000000000000` | Required stake to be a proposer. 1M APTOS coins with 8 decimals |
+| chain.required_proposer_stake | int | `100000000000000` | Required stake to be a proposer. 1M CEDRA coins with 8 decimals |
 | chain.rewards_apy_percentage | int | `10` | Rewards APY percentage |
 | chain.root_key | string | `"0x5243ca72b0766d9e9cbf2debf6153443b01a1e0e6d086c7ea206eaf6f8043956"` | If specified, the key for the minting capability in testnet |
 | chain.voting_duration_secs | int | `43200` | Voting duration in seconds. Defaults to 12 hours |
@@ -48,9 +48,9 @@ Cedra blockchain automated genesis ceremony for testnets
 | genesis.validator.enable_onchain_discovery | bool | `false` | Use External DNS as created by cedra-node helm chart for validator host in genesis |
 | genesis.validator.internal_host_suffix | string | `"validator-lb"` | If `enable_onchain_discovery` is false, use this host suffix for internal kubernetes service name |
 | genesis.validator.key_seed | string | `nil` | Random seed to generate validator keys in order to make the key generation deterministic |
-| genesis.validator.larger_stake_amount | string | `"1000000000000000"` | Stake amount for nodes we are giving larger state to. Defaults to 10M APTOS coins with 8 decimals |
+| genesis.validator.larger_stake_amount | string | `"1000000000000000"` | Stake amount for nodes we are giving larger state to. Defaults to 10M CEDRA coins with 8 decimals |
 | genesis.validator.num_validators_with_larger_stake | int | `0` | Number of validators to give larger stake in genesis to. |
-| genesis.validator.stake_amount | string | `"100000000000000"` | Stake amount for each validator in this testnet. Defaults to 1M APTOS coins with 8 decimals |
+| genesis.validator.stake_amount | string | `"100000000000000"` | Stake amount for each validator in this testnet. Defaults to 1M CEDRA coins with 8 decimals |
 | imageTag | string | `"testnet"` | Default image tag to use for all tools images |
 | labels | string | `nil` |  |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |

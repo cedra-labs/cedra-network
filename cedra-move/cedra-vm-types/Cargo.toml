@@ -1,0 +1,38 @@
+[package]
+name = "cedra-vm-types"
+description = "Cedra VM types"
+version = "0.0.1"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+ambassador = { workspace = true }
+anyhow = { workspace = true }
+cedra-aggregator = { workspace = true }
+cedra-gas-algebra = { workspace = true }
+cedra-gas-schedule = { workspace = true }
+cedra-types = { workspace = true }
+bcs = { workspace = true }
+bytes = { workspace = true }
+claims = { workspace = true }
+either = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }
+move-vm-runtime = { workspace = true }
+move-vm-types = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]
+cedra-aggregator = { workspace = true, features = ["testing"] }
+cedra-gas-schedule = { workspace = true, features = ["testing"] }
+cedra-transaction-simulation = { workspace = true }
+cedra-vm = { workspace = true }
+test-case = { workspace = true }

@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,29 +6,29 @@ use crate::{
     metrics::{EXECUTOR_ERRORS, OTHER_TIMERS},
 };
 use anyhow::{anyhow, Result};
-use aptos_block_executor::txn_provider::default::DefaultTxnProvider;
+use cedra_block_executor::txn_provider::default::DefaultTxnProvider;
 #[cfg(feature = "consensus-only-perf-test")]
-use aptos_block_executor::txn_provider::TxnProvider;
-use aptos_crypto::HashValue;
-use aptos_executor_service::{
+use cedra_block_executor::txn_provider::TxnProvider;
+use cedra_crypto::HashValue;
+use cedra_executor_service::{
     local_executor_helper::SHARDED_BLOCK_EXECUTOR,
     remote_executor_client::{get_remote_addresses, REMOTE_SHARDED_BLOCK_EXECUTOR},
 };
-use aptos_executor_types::{
+use cedra_executor_types::{
     execution_output::ExecutionOutput,
     planned::Planned,
     should_forward_to_subscription_service,
     transactions_with_output::{TransactionsToKeep, TransactionsWithOutput},
 };
-use aptos_experimental_runtimes::thread_manager::THREAD_MANAGER;
-use aptos_logger::prelude::*;
-use aptos_metrics_core::TimerHelper;
-use aptos_storage_interface::state_store::{
+use cedra_experimental_runtimes::thread_manager::THREAD_MANAGER;
+use cedra_logger::prelude::*;
+use cedra_metrics_core::TimerHelper;
+use cedra_storage_interface::state_store::{
     state::LedgerState, state_view::cached_state_view::CachedStateView,
 };
 #[cfg(feature = "consensus-only-perf-test")]
-use aptos_types::transaction::ExecutionStatus;
-use aptos_types::{
+use cedra_types::transaction::ExecutionStatus;
+use cedra_types::{
     block_executor::{
         config::BlockExecutorConfigFromOnchain,
         partitioner::{ExecutableTransactions, PartitionedTransactions},
@@ -47,7 +47,7 @@ use aptos_types::{
     },
     write_set::{TransactionWrite, WriteSet},
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use itertools::Itertools;
 use std::sync::Arc;
 
@@ -250,7 +250,7 @@ impl DoGetExecutionOutput {
         onchain_config: BlockExecutorConfigFromOnchain,
         transaction_slice_metadata: TransactionSliceMetadata,
     ) -> Result<BlockOutput<TransactionOutput>> {
-        use aptos_types::{
+        use cedra_types::{
             state_store::{StateViewId, TStateView},
             transaction::TransactionAuxiliaryData,
             write_set::WriteSet,
@@ -506,24 +506,24 @@ impl<'a> TStateView for WriteSetStateView<'a> {
     fn get_state_value(
         &self,
         state_key: &Self::Key,
-    ) -> aptos_types::state_store::StateViewResult<Option<StateValue>> {
+    ) -> cedra_types::state_store::StateViewResult<Option<StateValue>> {
         Ok(self
             .write_set
             .get(state_key)
             .and_then(|write_op| write_op.as_state_value()))
     }
 
-    fn get_usage(&self) -> aptos_types::state_store::StateViewResult<StateStorageUsage> {
+    fn get_usage(&self) -> cedra_types::state_store::StateViewResult<StateStorageUsage> {
         unreachable!("Not supposed to be called on WriteSetStateView.")
     }
 }
 #[cfg(test)]
 mod tests {
     use super::Parser;
-    use aptos_storage_interface::state_store::{
+    use cedra_storage_interface::state_store::{
         state::LedgerState, state_view::cached_state_view::CachedStateView,
     };
-    use aptos_types::{
+    use cedra_types::{
         contract_event::ContractEvent,
         transaction::{
             ExecutionStatus, Transaction, TransactionAuxiliaryData, TransactionOutput,

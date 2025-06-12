@@ -106,4 +106,4 @@ It is important that the project history is bisect-able so that when regressions
 
 ## Issues
 
-Cedra Core uses [GitHub issues](https://github.com/cedra-labs/cedra/issues) to track bugs. Please include necessary information and instructions to reproduce your issue.
+Cedra Core uses [GitHub issues](https://github.com/cedra-labs/cedra-network/issues) to track bugs. Please include necessary information and instructions to reproduce your issue.

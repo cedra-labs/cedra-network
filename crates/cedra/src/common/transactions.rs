@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::{
@@ -10,15 +10,15 @@ use crate::common::{
     },
     utils::{get_account_with_state, get_sequence_number},
 };
-use aptos_api_types::ViewFunction;
-use aptos_crypto::{
+use cedra_api_types::ViewFunction;
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey},
     hash::CryptoHash,
 };
-use aptos_move_debugger::aptos_debugger::AptosDebugger;
-use aptos_rest_client::Client;
-use aptos_sdk::{transaction_builder::TransactionFactory, types::LocalAccount};
-use aptos_types::{
+use cedra_move_debugger::cedra_debugger::CedraDebugger;
+use cedra_rest_client::Client;
+use cedra_sdk::{transaction_builder::TransactionFactory, types::LocalAccount};
+use cedra_types::{
     account_address::AccountAddress,
     chain_id::ChainId,
     transaction::{
@@ -26,7 +26,7 @@ use aptos_types::{
         SignedTransaction, TransactionPayload, TransactionStatus,
     },
 };
-use aptos_vm_types::output::VMOutput;
+use cedra_vm_types::output::VMOutput;
 use clap::Parser;
 use move_core_types::vm_status::VMStatus;
 pub use move_package::*;
@@ -216,10 +216,10 @@ impl TxnOptions {
     ) -> CliTypedResult<TransactionSummary>
     where
         F: FnOnce(
-            &AptosDebugger,
+            &CedraDebugger,
             u64,
             SignedTransaction,
-            aptos_crypto::HashValue,
+            cedra_crypto::HashValue,
         ) -> CliTypedResult<(VMStatus, VMOutput)>,
     {
         let client = self.rest_client()?;
@@ -262,7 +262,7 @@ impl TxnOptions {
             sender_account.sign_with_transaction_builder(transaction_factory.payload(payload));
         let hash = transaction.committed_hash();
 
-        let debugger = AptosDebugger::rest_client(client)?;
+        let debugger = CedraDebugger::rest_client(client)?;
         let (vm_status, vm_output) = execute(&debugger, version, transaction, hash)?;
 
         let success = match vm_output.status() {

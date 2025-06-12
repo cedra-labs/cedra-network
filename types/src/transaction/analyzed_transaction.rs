@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -12,7 +12,7 @@ use crate::{
     },
     CedraCoinType, CoinType,
 };
-use aptos_crypto::HashValue;
+use cedra_crypto::HashValue;
 pub use move_core_types::abi::{
     ArgumentABI, ScriptFunctionABI as EntryFunctionABI, TransactionScriptABI, TypeArgumentABI,
 };
@@ -255,11 +255,11 @@ impl AnalyzedTransactionProvider for Transaction {
                     let receiver_address = bcs::from_bytes(&func.args()[0]).unwrap();
                     rw_set_for_coin_transfer(sender_address, receiver_address, true)
                 },
-                (AccountAddress::ONE, "aptos_account", "transfer") => {
+                (AccountAddress::ONE, "cedra_account", "transfer") => {
                     let receiver_address = bcs::from_bytes(&func.args()[0]).unwrap();
                     rw_set_for_coin_transfer(sender_address, receiver_address, false)
                 },
-                (AccountAddress::ONE, "aptos_account", "create_account") => {
+                (AccountAddress::ONE, "cedra_account", "create_account") => {
                     let receiver_address = bcs::from_bytes(&func.args()[0]).unwrap();
                     rw_set_for_create_account(sender_address, receiver_address)
                 },

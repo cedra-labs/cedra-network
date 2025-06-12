@@ -1,6 +1,6 @@
 [package]
-name = "aptos-consensus-types"
-description = "Aptos consensus types"
+name = "cedra-consensus-types"
+description = "Cedra consensus types"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,14 +14,14 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-bitvec = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-crypto-derive = { workspace = true }
-aptos-executor-types = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-short-hex-str = { workspace = true }
-aptos-types = { workspace = true }
+cedra-bitvec = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-crypto-derive = { workspace = true }
+cedra-executor-types = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-short-hex-str = { workspace = true }
+cedra-types = { workspace = true }
 bcs = { workspace = true }
 derivative = { workspace = true }
 fail = { workspace = true }
@@ -37,11 +37,11 @@ serde = { workspace = true }
 tokio = { workspace = true }
 
 [dev-dependencies]
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 proptest = { workspace = true }
 serde_json = { workspace = true }
 
 [features]
 default = []
 failpoints = ["fail/failpoints"]
-fuzzing = ["proptest", "aptos-types/fuzzing", "aptos-crypto/fuzzing"]
+fuzzing = ["proptest", "cedra-types/fuzzing", "cedra-crypto/fuzzing"]

@@ -43,8 +43,8 @@ pub fn has_errors_then_report(model: &GlobalEnv) -> bool {
         |d| {
             let include = d.labels.iter().all(|l| {
                 let fname = model.get_file(l.file_id).to_string_lossy();
-                !fname.contains("aptos-framework/sources")
-                    && !fname.contains("aptos-stdlib/sources")
+                !fname.contains("cedra-framework/sources")
+                    && !fname.contains("cedra-stdlib/sources")
             });
             if include && d.severity == codespan_reporting::diagnostic::Severity::Error {
                 has_errors = true;

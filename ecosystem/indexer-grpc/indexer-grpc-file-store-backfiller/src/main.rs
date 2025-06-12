@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use aptos_indexer_grpc_file_store_backfiller::IndexerGrpcFileStoreBackfillerConfig;
-use aptos_indexer_grpc_server_framework::ServerArgs;
+use cedra_indexer_grpc_file_store_backfiller::IndexerGrpcFileStoreBackfillerConfig;
+use cedra_indexer_grpc_server_framework::ServerArgs;
 use clap::Parser;
 
 #[cfg(unix)]

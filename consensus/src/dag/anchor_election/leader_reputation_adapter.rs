@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -13,12 +13,12 @@ use crate::{
         proposer_election::ProposerElection,
     },
 };
-use aptos_bitvec::BitVec;
-use aptos_collections::BoundedVecDeque;
-use aptos_consensus_types::common::{Author, Round};
-use aptos_crypto::HashValue;
-use aptos_infallible::Mutex;
-use aptos_types::account_config::NewBlockEvent;
+use cedra_bitvec::BitVec;
+use cedra_collections::BoundedVecDeque;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_crypto::HashValue;
+use cedra_infallible::Mutex;
+use cedra_types::account_config::NewBlockEvent;
 use move_core_types::account_address::AccountAddress;
 use std::{collections::HashMap, sync::Arc};
 

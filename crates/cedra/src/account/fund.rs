@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     account::create::DEFAULT_FUNDED_COINS,
     common::types::{CliCommand, CliTypedResult, FaucetOptions, ProfileOptions, RestOptions},
 };
-use aptos_types::account_address::AccountAddress;
+use cedra_types::account_address::AccountAddress;
 use async_trait::async_trait;
 use clap::Parser;
 

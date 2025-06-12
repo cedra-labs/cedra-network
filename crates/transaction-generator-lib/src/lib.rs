@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
 use anyhow::Result;
-use aptos_infallible::{RwLock, RwLockWriteGuard};
-use aptos_logger::{sample, sample::SampleRate};
-use aptos_sdk::{
+use cedra_infallible::{RwLock, RwLockWriteGuard};
+use cedra_logger::{sample, sample::SampleRate};
+use cedra_sdk::{
     move_types::account_address::AccountAddress,
-    transaction_builder::{aptos_stdlib, TransactionFactory},
+    transaction_builder::{cedra_stdlib, TransactionFactory},
     types::{transaction::SignedTransaction, LocalAccount},
 };
 use async_trait::async_trait;
@@ -551,9 +551,9 @@ pub fn create_account_transaction(
 ) -> SignedTransaction {
     from.sign_with_transaction_builder(txn_factory.payload(
         if creation_balance > 0 {
-            aptos_stdlib::aptos_account_transfer(to, creation_balance)
+            cedra_stdlib::cedra_account_transfer(to, creation_balance)
         } else {
-            aptos_stdlib::aptos_account_create_account(to)
+            cedra_stdlib::cedra_account_create_account(to)
         },
     ))
 }

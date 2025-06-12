@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -7,17 +7,17 @@ use crate::tests::{
     new_test_context_with_config, new_test_context_with_db_sharding_and_internal_indexer,
     new_test_context_with_sharding_and_delayed_internal_indexer,
 };
-use aptos_api_test_context::{assert_json, current_function_name, pretty, TestContext};
-use aptos_config::config::{GasEstimationStaticOverride, NodeConfig};
-use aptos_crypto::{
+use cedra_api_test_context::{assert_json, current_function_name, pretty, TestContext};
+use cedra_config::config::{GasEstimationStaticOverride, NodeConfig};
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519Signature},
     multi_ed25519::{MultiEd25519PrivateKey, MultiEd25519PublicKey},
     PrivateKey, SigningKey, Uniform,
 };
-use aptos_sdk::types::{AccountKey, LocalAccount};
-use aptos_types::{
+use cedra_sdk::types::{AccountKey, LocalAccount};
+use cedra_types::{
     account_address::AccountAddress,
-    account_config::aptos_test_root_address,
+    account_config::cedra_test_root_address,
     transaction::{
         authenticator::{AuthenticationKey, TransactionAuthenticator},
         EntryFunction, Script, SignedTransaction,
@@ -40,7 +40,7 @@ async fn test_deserialize_genesis_transaction() {
     let resp = context.get("/transactions/by_version/0").await;
     // TODO: serde_json::from_value doesn't work here, either make it work
     // or remove the ability to do that.
-    aptos_api_types::Transaction::parse_from_json(Some(resp)).unwrap();
+    cedra_api_types::Transaction::parse_from_json(Some(resp)).unwrap();
 }
 
 // Unstable due to framework changes
@@ -705,7 +705,7 @@ async fn test_signing_message_with_entry_function_payload() {
     let txn = context.create_user_account(&account).await;
     let payload = json!({
         "type": "entry_function_payload",
-        "function": "0x1::aptos_account::create_account",
+        "function": "0x1::cedra_account::create_account",
         "type_arguments": [],
         "arguments": [
             account.address().to_hex_literal(), // new_account_address
@@ -1555,7 +1555,7 @@ async fn test_simulation_failure_with_move_abort_error_rendering() {
         .entry_function(EntryFunction::new(
             ModuleId::new(
                 AccountAddress::from_hex_literal("0x1").unwrap(),
-                Identifier::new("aptos_account").unwrap(),
+                Identifier::new("cedra_account").unwrap(),
             ),
             Identifier::new("transfer").unwrap(),
             vec![],
@@ -1691,7 +1691,7 @@ async fn test_simulation_filter_allow_sender() {
 
     // Allow the root sender only.
     let mut filter = node_config.api.simulation_filter.clone();
-    filter = filter.add_allow_sender(aptos_test_root_address());
+    filter = filter.add_allow_sender(cedra_test_root_address());
     filter = filter.add_deny_all();
     node_config.api.simulation_filter = filter;
 

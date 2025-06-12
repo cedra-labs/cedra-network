@@ -1,6 +1,6 @@
 [package]
-name = "aptos-memsocket"
-description = "Aptos memsocket"
+name = "cedra-memsocket"
+description = "Cedra memsocket"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -13,7 +13,7 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-infallible = { workspace = true }
+cedra-infallible = { workspace = true }
 bytes = { workspace = true }
 futures = { workspace = true }
 once_cell = { workspace = true }

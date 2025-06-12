@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 pub mod metrics;
 pub mod worker;
 
 use anyhow::{Context, Result};
-use aptos_indexer_grpc_server_framework::RunnableConfig;
-use aptos_indexer_grpc_utils::{config::IndexerGrpcFileStoreConfig, types::RedisUrl};
+use cedra_indexer_grpc_server_framework::RunnableConfig;
+use cedra_indexer_grpc_utils::{config::IndexerGrpcFileStoreConfig, types::RedisUrl};
 use serde::{Deserialize, Serialize};
 use url::Url;
 use worker::Worker;

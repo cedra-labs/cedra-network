@@ -1,0 +1,11 @@
+[package]
+name = "swap"
+version = "0.0.0"
+
+[addresses]
+cedra_framework = "0x1"
+deployer = "_"
+swap = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -9,8 +9,8 @@ use crate::{
     },
 };
 use anyhow::Result;
-use aptos_crypto::{hash::CryptoHasher, HashValue};
-use aptos_infallible::RwLock;
+use cedra_crypto::{hash::CryptoHasher, HashValue};
+use cedra_infallible::RwLock;
 use bytes::Bytes;
 use hashbrown::HashMap;
 use move_core_types::{

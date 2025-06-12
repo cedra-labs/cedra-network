@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::common::NAMESPACE;
 use crate::collectors::common::MeasureLatency;
-use aptos_logger::warn;
-use aptos_metrics_core::const_metric::ConstMetric;
+use cedra_logger::warn;
+use cedra_metrics_core::const_metric::ConstMetric;
 use procfs::{DiskStat, KernelStats};
 use prometheus::{
     core::{Collector, Desc, Describer},

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,12 +10,12 @@ use crate::{
     },
     test_utils::{create_vec_signed_transactions, mock_quorum_store_sender::MockQuorumStoreSender},
 };
-use aptos_consensus_types::proof_of_store::{
+use cedra_consensus_types::proof_of_store::{
     BatchId, BatchInfo, SignedBatchInfo, SignedBatchInfoMsg,
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::ExecutorResult;
-use aptos_types::{
+use cedra_crypto::HashValue;
+use cedra_executor_types::ExecutorResult;
+use cedra_types::{
     transaction::SignedTransaction, validator_verifier::random_validator_verifier, PeerId,
 };
 use futures::future::Shared;
@@ -47,7 +47,7 @@ impl BatchReader for MockBatchReader {
 
 #[tokio::test(flavor = "multi_thread")]
 async fn test_proof_coordinator_basic() {
-    aptos_logger::Logger::init_for_testing();
+    cedra_logger::Logger::init_for_testing();
     let (signers, verifier) = random_validator_verifier(4, None, true);
     let (tx, _rx) = channel(100);
     let proof_cache = Cache::builder().build();
@@ -98,7 +98,7 @@ async fn test_proof_coordinator_basic() {
 // This is testing the bad path where some of the signatures in signed batch infos are bad.
 #[tokio::test(flavor = "multi_thread")]
 async fn test_proof_coordinator_with_unverified_signatures() {
-    aptos_logger::Logger::init_for_testing();
+    cedra_logger::Logger::init_for_testing();
     let (signers, verifier) = random_validator_verifier(10, Some(4), true);
     let verifier = Arc::new(verifier);
     let (tx, _rx) = channel(100);

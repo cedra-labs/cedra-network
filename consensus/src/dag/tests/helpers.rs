@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -8,13 +8,13 @@ use crate::{
     },
     payload_manager::TPayloadManager,
 };
-use aptos_bitvec::BitVec;
-use aptos_consensus_types::{
+use cedra_bitvec::BitVec;
+use cedra_consensus_types::{
     block::Block,
     common::{Author, Payload, Round},
 };
-use aptos_executor_types::ExecutorResult;
-use aptos_types::{aggregate_signature::AggregateSignature, transaction::SignedTransaction};
+use cedra_executor_types::ExecutorResult;
+use cedra_types::{aggregate_signature::AggregateSignature, transaction::SignedTransaction};
 use async_trait::async_trait;
 
 pub(super) const TEST_DAG_WINDOW: u64 = 5;

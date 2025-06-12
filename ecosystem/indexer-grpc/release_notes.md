@@ -5,17 +5,17 @@ This file keeps track of the changes for indexer grpc.
 
 ## [1.0.0] - 2023.05.23
 
-* Remove `testing` from the protobuf package path; we're going to exit alpha testing! [PR](https://github.com/cedra-labs/cedra/pull/8277)
+* Remove `testing` from the protobuf package path; we're going to exit alpha testing! [PR](https://github.com/cedra-labs/cedra-network/pull/8277)
 
-* Improve the data fetching retry logic for data service. [PR](https://github.com/cedra-labs/cedra/pull/8169)
+* Improve the data fetching retry logic for data service. [PR](https://github.com/cedra-labs/cedra-network/pull/8169)
 
-* Reduce the dependency tree for Indexer GRPC by 60%. [PR](https://github.com/cedra-labs/cedra/pull/8139)
+* Reduce the dependency tree for Indexer GRPC by 60%. [PR](https://github.com/cedra-labs/cedra-network/pull/8139)
 
-* Introduce local file impl for `FileStoreOperator`. [PR](https://github.com/cedra-labs/cedra/pull/8117)
+* Introduce local file impl for `FileStoreOperator`. [PR](https://github.com/cedra-labs/cedra-network/pull/8117)
 
 ## [0.2.0] - 2023.04.25
 
-* Split the services into internal one. [PR](https://github.com/cedra-labs/cedra/pull/7632)
+* Split the services into internal one. [PR](https://github.com/cedra-labs/cedra-network/pull/7632)
 
   * Two namespaces are: `cedra.internal.fullnode.v1` and `cedra.indexer.v1`. 
 
@@ -23,7 +23,7 @@ This file keeps track of the changes for indexer grpc.
 
 * Changed the internal data format to raw bytes, this can save at 40% traffic cost. 
 
-* Server supports request and response compression. [PR](https://github.com/cedra-labs/cedra/pull/7907)
+* Server supports request and response compression. [PR](https://github.com/cedra-labs/cedra-network/pull/7907)
 
 
 ## [0.1.0] - 2023.03.28

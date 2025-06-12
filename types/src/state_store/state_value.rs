@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     on_chain_config::CurrentTimeMicroseconds, proof::SparseMerkleRangeProof,
     state_store::state_key::StateKey, transaction::Version,
 };
-use aptos_crypto::{hash::SPARSE_MERKLE_PLACEHOLDER_HASH, HashValue};
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher, Deref};
+use cedra_crypto::{hash::SPARSE_MERKLE_PLACEHOLDER_HASH, HashValue};
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher, Deref};
 use bytes::Bytes;
 #[cfg(any(test, feature = "fuzzing"))]
 use proptest::{arbitrary::Arbitrary, collection::vec, prelude::*};

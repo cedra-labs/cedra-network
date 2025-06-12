@@ -1,5 +1,5 @@
 module poc::aggregate_pubkeys_internal {
-    use aptos_std::bls12381::{Self, PublicKeyWithPoP, AggrPublicKeysWithPoP};
+    use cedra_std::bls12381::{Self, PublicKeyWithPoP, AggrPublicKeysWithPoP};
     use std::vector;
     use std::option::{Self};
 

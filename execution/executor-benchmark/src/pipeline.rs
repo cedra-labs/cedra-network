@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -7,16 +7,16 @@ use crate::{
     metrics::NUM_TXNS,
     OverallMeasurement, OverallMeasuring, TransactionCommitter, TransactionExecutor,
 };
-use aptos_block_partitioner::v2::config::PartitionerV2Config;
-use aptos_crypto::HashValue;
-use aptos_executor::block_executor::BlockExecutor;
-use aptos_executor_types::{state_compute_result::StateComputeResult, BlockExecutorTrait};
-use aptos_logger::info;
-use aptos_types::{
+use cedra_block_partitioner::v2::config::PartitionerV2Config;
+use cedra_crypto::HashValue;
+use cedra_executor::block_executor::BlockExecutor;
+use cedra_executor_types::{state_compute_result::StateComputeResult, BlockExecutorTrait};
+use cedra_logger::info;
+use cedra_types::{
     block_executor::partitioner::ExecutableBlock,
     transaction::{Transaction, TransactionPayload, Version},
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use derivative::Derivative;
 use std::{
     collections::HashMap,

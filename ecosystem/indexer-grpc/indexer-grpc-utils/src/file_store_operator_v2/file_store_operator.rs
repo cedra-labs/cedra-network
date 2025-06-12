@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::file_store_operator_v2::common::{BatchMetadata, FileMetadata};
 use anyhow::{ensure, Result};
-use aptos_protos::transaction::v1::Transaction;
+use cedra_protos::transaction::v1::Transaction;
 use prost::Message;
 use tokio::sync::mpsc::Sender;
 

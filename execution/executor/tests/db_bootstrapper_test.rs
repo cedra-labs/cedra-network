@@ -1,28 +1,28 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
-use aptos_cached_packages::aptos_stdlib;
-use aptos_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, Uniform};
-use aptos_db::AptosDB;
-use aptos_executor::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, Uniform};
+use cedra_db::CedraDB;
+use cedra_executor::{
     block_executor::BlockExecutor,
     db_bootstrapper::{generate_waypoint, maybe_bootstrap},
 };
-use aptos_executor_test_helpers::{
+use cedra_executor_test_helpers::{
     bootstrap_genesis, gen_ledger_info_with_sigs, get_test_signed_transaction,
 };
-use aptos_executor_types::BlockExecutorTrait;
-use aptos_storage_interface::{
+use cedra_executor_types::BlockExecutorTrait;
+use cedra_storage_interface::{
     state_store::state_view::db_state_view::LatestDbStateCheckpointView, DbReaderWriter,
 };
-use aptos_temppath::TempPath;
-use aptos_types::{
+use cedra_temppath::TempPath;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{
-        aptos_test_root_address, new_block_event_key, primary_apt_store, FungibleStoreResource,
+        cedra_test_root_address, new_block_event_key, primary_apt_store, FungibleStoreResource,
         NewBlockEvent, ObjectGroupResource, NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     },
     contract_event::ContractEvent,
@@ -35,17 +35,17 @@ use aptos_types::{
     waypoint::Waypoint,
     write_set::{WriteOp, WriteSetMut},
 };
-use aptos_vm::aptos_vm::AptosVMBlockExecutor;
+use cedra_vm::cedra_vm::CedraVMBlockExecutor;
 use move_core_types::{language_storage::TypeTag, move_resource::MoveStructType};
 use rand::SeedableRng;
 use std::sync::Arc;
 
 #[test]
 fn test_empty_db() {
-    let genesis = aptos_vm_genesis::test_genesis_change_set_and_validators(Some(1));
+    let genesis = cedra_vm_genesis::test_genesis_change_set_and_validators(Some(1));
     let genesis_txn = Transaction::GenesisTransaction(WriteSetPayload::Direct(genesis.0));
     let tmp_dir = TempPath::new();
-    let db_rw = DbReaderWriter::new(AptosDB::new_for_test(&tmp_dir));
+    let db_rw = DbReaderWriter::new(CedraDB::new_for_test(&tmp_dir));
 
     assert!(db_rw
         .reader
@@ -55,8 +55,8 @@ fn test_empty_db() {
 
     // Bootstrap empty DB.
     let waypoint =
-        generate_waypoint::<AptosVMBlockExecutor>(&db_rw, &genesis_txn).expect("Should not fail.");
-    maybe_bootstrap::<AptosVMBlockExecutor>(&db_rw, &genesis_txn, waypoint).unwrap();
+        generate_waypoint::<CedraVMBlockExecutor>(&db_rw, &genesis_txn).expect("Should not fail.");
+    maybe_bootstrap::<CedraVMBlockExecutor>(&db_rw, &genesis_txn, waypoint).unwrap();
     let ledger_info = db_rw.reader.get_latest_ledger_info().unwrap();
     assert_eq!(
         Waypoint::new_epoch_boundary(ledger_info.ledger_info()).unwrap(),
@@ -73,7 +73,7 @@ fn test_empty_db() {
 
     // `maybe_bootstrap()` does nothing on non-empty DB.
     assert!(
-        maybe_bootstrap::<AptosVMBlockExecutor>(&db_rw, &genesis_txn, waypoint)
+        maybe_bootstrap::<CedraVMBlockExecutor>(&db_rw, &genesis_txn, waypoint)
             .unwrap()
             .is_none()
     );
@@ -85,7 +85,7 @@ fn execute_and_commit(txns: Vec<Transaction>, db: &DbReaderWriter, signer: &Vali
     let version = li.ledger_info().version();
     let epoch = li.ledger_info().next_block_epoch();
     let target_version = version + txns.len() as u64 + 1; // Due to StateCheckpoint txn
-    let executor = BlockExecutor::<AptosVMBlockExecutor>::new(db.clone());
+    let executor = BlockExecutor::<CedraVMBlockExecutor>::new(db.clone());
     let output = executor
         .execute_block(
             (block_id, block(txns)).into(),
@@ -125,32 +125,32 @@ fn get_demo_accounts() -> (
 }
 
 fn get_cedra_coin_mint_transaction(
-    aptos_root_key: &Ed25519PrivateKey,
-    aptos_root_seq_num: u64,
+    cedra_root_key: &Ed25519PrivateKey,
+    cedra_root_seq_num: u64,
     account: &AccountAddress,
     amount: u64,
 ) -> Transaction {
     get_test_signed_transaction(
-        aptos_test_root_address(),
-        /* sequence_number = */ aptos_root_seq_num,
-        aptos_root_key.clone(),
-        aptos_root_key.public_key(),
-        Some(aptos_stdlib::cedra_coin_mint(*account, amount)),
+        cedra_test_root_address(),
+        /* sequence_number = */ cedra_root_seq_num,
+        cedra_root_key.clone(),
+        cedra_root_key.public_key(),
+        Some(cedra_stdlib::cedra_coin_mint(*account, amount)),
     )
 }
 
 fn get_account_transaction(
-    aptos_root_key: &Ed25519PrivateKey,
-    aptos_root_seq_num: u64,
+    cedra_root_key: &Ed25519PrivateKey,
+    cedra_root_seq_num: u64,
     account: &AccountAddress,
     _account_key: &Ed25519PrivateKey,
 ) -> Transaction {
     get_test_signed_transaction(
-        aptos_test_root_address(),
-        /* sequence_number = */ aptos_root_seq_num,
-        aptos_root_key.clone(),
-        aptos_root_key.public_key(),
-        Some(aptos_stdlib::aptos_account_create_account(*account)),
+        cedra_test_root_address(),
+        /* sequence_number = */ cedra_root_seq_num,
+        cedra_root_key.clone(),
+        cedra_root_key.public_key(),
+        Some(cedra_stdlib::cedra_account_create_account(*account)),
     )
 }
 
@@ -166,7 +166,7 @@ fn get_cedra_coin_transfer_transaction(
         sender_seq_number,
         sender_key.clone(),
         sender_key.public_key(),
-        Some(aptos_stdlib::cedra_coin_transfer(recipient, amount)),
+        Some(cedra_stdlib::cedra_coin_transfer(recipient, amount)),
     )
 }
 
@@ -190,13 +190,13 @@ fn get_configuration(db: &DbReaderWriter) -> ConfigurationResource {
 #[test]
 #[cfg_attr(feature = "consensus-only-perf-test", ignore)]
 fn test_new_genesis() {
-    let genesis = aptos_vm_genesis::test_genesis_change_set_and_validators(Some(1));
-    let genesis_key = &aptos_vm_genesis::GENESIS_KEYPAIR.0;
+    let genesis = cedra_vm_genesis::test_genesis_change_set_and_validators(Some(1));
+    let genesis_key = &cedra_vm_genesis::GENESIS_KEYPAIR.0;
     let genesis_txn = Transaction::GenesisTransaction(WriteSetPayload::Direct(genesis.0));
     // Create bootstrapped DB.
     let tmp_dir = TempPath::new();
-    let db = DbReaderWriter::new(AptosDB::new_for_test(&tmp_dir));
-    let waypoint = bootstrap_genesis::<AptosVMBlockExecutor>(&db, &genesis_txn).unwrap();
+    let db = DbReaderWriter::new(CedraDB::new_for_test(&tmp_dir));
+    let waypoint = bootstrap_genesis::<CedraVMBlockExecutor>(&db, &genesis_txn).unwrap();
     let signer = ValidatorSigner::new(
         genesis.1[0].data.owner_address,
         Arc::new(genesis.1[0].consensus_key.clone()),
@@ -241,7 +241,7 @@ fn test_new_genesis() {
                     &ObjectGroupResource::struct_tag(),
                 ),
                 WriteOp::legacy_modification(
-                    aptos_transaction_simulation::FungibleStore::new(
+                    cedra_transaction_simulation::FungibleStore::new(
                         account1,
                         AccountAddress::TEN,
                         100_000_000,
@@ -267,9 +267,9 @@ fn test_new_genesis() {
     )));
 
     // Bootstrap DB into new genesis.
-    let waypoint = generate_waypoint::<AptosVMBlockExecutor>(&db, &genesis_txn).unwrap();
+    let waypoint = generate_waypoint::<CedraVMBlockExecutor>(&db, &genesis_txn).unwrap();
     assert!(
-        maybe_bootstrap::<AptosVMBlockExecutor>(&db, &genesis_txn, waypoint)
+        maybe_bootstrap::<CedraVMBlockExecutor>(&db, &genesis_txn, waypoint)
             .unwrap()
             .is_some()
     );

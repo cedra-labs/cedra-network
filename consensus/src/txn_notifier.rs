@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{error::MempoolError, monitor};
 use anyhow::{format_err, Result};
-use aptos_consensus_types::common::RejectedTransactionSummary;
-use aptos_mempool::QuorumStoreRequest;
-use aptos_types::transaction::{SignedTransaction, TransactionStatus};
+use cedra_consensus_types::common::RejectedTransactionSummary;
+use cedra_mempool::QuorumStoreRequest;
+use cedra_types::transaction::{SignedTransaction, TransactionStatus};
 use futures::channel::{mpsc, oneshot};
 use itertools::Itertools;
 use std::time::Duration;

@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::pipeline::pipeline_phase::StatelessPipeline;
-use aptos_consensus_types::pipelined_block::PipelinedBlock;
-use aptos_crypto::bls12381;
-use aptos_safety_rules::Error;
-use aptos_types::ledger_info::{LedgerInfo, LedgerInfoWithSignatures};
+use cedra_consensus_types::pipelined_block::PipelinedBlock;
+use cedra_crypto::bls12381;
+use cedra_safety_rules::Error;
+use cedra_types::ledger_info::{LedgerInfo, LedgerInfoWithSignatures};
 use async_trait::async_trait;
 use std::{
     fmt::{Debug, Display, Formatter},

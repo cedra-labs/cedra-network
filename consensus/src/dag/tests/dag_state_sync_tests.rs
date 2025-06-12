@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::helpers::TEST_DAG_WINDOW;
@@ -19,11 +19,11 @@ use crate::{
     },
     pipeline::execution_client::DummyExecutionClient,
 };
-use aptos_consensus_types::common::{Author, Round};
-use aptos_crypto::HashValue;
-use aptos_reliable_broadcast::RBNetworkSender;
-use aptos_time_service::TimeService;
-use aptos_types::{
+use cedra_consensus_types::common::{Author, Round};
+use cedra_crypto::HashValue;
+use cedra_reliable_broadcast::RBNetworkSender;
+use cedra_time_service::TimeService;
+use cedra_types::{
     aggregate_signature::AggregateSignature,
     block_info::BlockInfo,
     epoch_state::EpochState,

@@ -1,6 +1,6 @@
 {
   "name": "@cedra-labs/cedra-protos",
-  "description": "Code generated from protobuf definitions for the Aptos tech stack",
+  "description": "Code generated from protobuf definitions for the Cedra tech stack",
   "version": "1.1.3",
   "packageManager": "pnpm@8.6.2",
   "license": "Apache-2.0",

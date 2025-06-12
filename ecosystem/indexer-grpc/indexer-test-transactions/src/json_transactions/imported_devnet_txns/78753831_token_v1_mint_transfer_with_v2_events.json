@@ -88,7 +88,7 @@
           "data": {
             "key": "{\"collection\":\"An NFT Collection Name\",\"creator\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"name\":\"NFT Collectible #13360\"}",
             "keyType": "0x3::token::TokenDataId",
-            "value": "{\"default_properties\":{\"map\":{\"data\":[]}},\"description\":\"\",\"largest_property_version\":\"0\",\"maximum\":\"1\",\"mutability_config\":{\"description\":true,\"maximum\":true,\"properties\":true,\"royalty\":true,\"uri\":true},\"name\":\"NFT Collectible #13360\",\"royalty\":{\"payee_address\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"royalty_points_denominator\":\"100\",\"royalty_points_numerator\":\"0\"},\"supply\":\"1\",\"uri\":\"https://aptos.dev\"}",
+            "value": "{\"default_properties\":{\"map\":{\"data\":[]}},\"description\":\"\",\"largest_property_version\":\"0\",\"maximum\":\"1\",\"mutability_config\":{\"description\":true,\"maximum\":true,\"properties\":true,\"royalty\":true,\"uri\":true},\"name\":\"NFT Collectible #13360\",\"royalty\":{\"payee_address\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"royalty_points_denominator\":\"100\",\"royalty_points_numerator\":\"0\"},\"supply\":\"1\",\"uri\":\"https://cedra.dev\"}",
             "valueType": "0x3::token::TokenData"
           }
         }
@@ -214,7 +214,7 @@
           }
         },
         "typeStr": "0x3::token::TokenDataCreation",
-        "data": "{\"creator\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"description\":\"\",\"id\":{\"collection\":\"An NFT Collection Name\",\"creator\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"name\":\"NFT Collectible #13360\"},\"maximum\":\"1\",\"mutability_config\":{\"description\":true,\"maximum\":true,\"properties\":true,\"royalty\":true,\"uri\":true},\"name\":\"NFT Collectible #13360\",\"property_keys\":[],\"property_types\":[],\"property_values\":[],\"royalty_payee_address\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"royalty_points_denominator\":\"100\",\"royalty_points_numerator\":\"0\",\"uri\":\"https://aptos.dev\"}"
+        "data": "{\"creator\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"description\":\"\",\"id\":{\"collection\":\"An NFT Collection Name\",\"creator\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"name\":\"NFT Collectible #13360\"},\"maximum\":\"1\",\"mutability_config\":{\"description\":true,\"maximum\":true,\"properties\":true,\"royalty\":true,\"uri\":true},\"name\":\"NFT Collectible #13360\",\"property_keys\":[],\"property_types\":[],\"property_values\":[],\"royalty_payee_address\":\"0xcdc14b3f3edbbb739a0a7168661ae562449dd88ede045f4a310a4cf41489001a\",\"royalty_points_denominator\":\"100\",\"royalty_points_numerator\":\"0\",\"uri\":\"https://cedra.dev\"}"
       },
       {
         "key": {

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,17 +10,17 @@ use crate::{
     payload_manager::TPayloadManager,
     quorum_store::{batch_store::BatchReader, quorum_store_coordinator::CoordinatorCommand},
 };
-use aptos_bitvec::BitVec;
-use aptos_consensus_types::{
+use cedra_bitvec::BitVec;
+use cedra_consensus_types::{
     block::Block,
     common::{Author, Payload, ProofWithData},
     payload::{BatchPointer, TDataInfo},
     proof_of_store::BatchInfo,
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::*;
-use aptos_logger::prelude::*;
-use aptos_types::{transaction::SignedTransaction, PeerId};
+use cedra_crypto::HashValue;
+use cedra_executor_types::*;
+use cedra_logger::prelude::*;
+use cedra_types::{transaction::SignedTransaction, PeerId};
 use async_trait::async_trait;
 use futures::{channel::mpsc::Sender, future::Shared};
 use itertools::Itertools;

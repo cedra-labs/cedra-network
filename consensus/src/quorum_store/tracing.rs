@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::quorum_store::counters;
-use aptos_consensus_types::common::Author;
-use aptos_infallible::duration_since_epoch;
-use aptos_short_hex_str::AsShortHexStr;
+use cedra_consensus_types::common::Author;
+use cedra_infallible::duration_since_epoch;
+use cedra_short_hex_str::AsShortHexStr;
 use std::time::Duration;
 
 pub struct BatchStage;

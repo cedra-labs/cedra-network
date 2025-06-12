@@ -1,0 +1,10 @@
+[package]
+name = "Aggregator examples"
+version = "0.0.0"
+
+[addresses]
+aggregator_examples = "0xCAFE"
+
+[dependencies]
+CedraStdlib = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-stdlib", rev = "mainnet" }
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

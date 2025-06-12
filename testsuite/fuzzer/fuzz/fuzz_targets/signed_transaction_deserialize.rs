@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![no_main]
-use aptos_types::transaction::SignedTransaction;
+use cedra_types::transaction::SignedTransaction;
 use arbitrary::Arbitrary;
 use libfuzzer_sys::fuzz_target;
 

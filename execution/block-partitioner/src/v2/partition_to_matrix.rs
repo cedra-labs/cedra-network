@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::v2::{
@@ -8,8 +8,8 @@ use crate::v2::{
     types::{PrePartitionedTxnIdx, SenderIdx},
     PartitionerV2,
 };
-use aptos_logger::trace;
-use aptos_types::block_executor::partitioner::{RoundId, TxnIndex};
+use cedra_logger::trace;
+use cedra_types::block_executor::partitioner::{RoundId, TxnIndex};
 use dashmap::DashMap;
 use rayon::{
     iter::ParallelIterator,

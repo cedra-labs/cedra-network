@@ -1,4 +1,4 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import json
@@ -21,7 +21,7 @@ def test_move_publish(run_helper: RunHelper, test_name=None):
     run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "publish",
             "--assume-yes",
@@ -36,7 +36,7 @@ def test_move_publish(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "account",
             "list",
             "--account",
@@ -70,7 +70,7 @@ def test_move_compile(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "compile",
             "--package-dir",
@@ -93,7 +93,7 @@ def test_move_compile_dev_mode(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "compile",
             "--dev",
@@ -115,7 +115,7 @@ def test_move_compile_fetch_deps_only(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "compile",
             "--package-dir",
@@ -137,7 +137,7 @@ def test_move_compile_script(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "compile-script",
             "--package-dir",
@@ -159,7 +159,7 @@ def test_move_run(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "run",
             "--assume-yes",
@@ -181,7 +181,7 @@ def test_move_run(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "view",
             "--assume-yes",
@@ -206,7 +206,7 @@ def test_move_run(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "run",
             "--assume-yes",
@@ -237,7 +237,7 @@ def test_move_view(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "view",
             "--function-id",
@@ -260,7 +260,7 @@ def test_move_view(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "view",
             "--assume-yes",
@@ -289,7 +289,7 @@ def test_move_view(run_helper: RunHelper, test_name=None):
     response = run_helper.run_command(
         test_name,
         [
-            "aptos",
+            "cedra",
             "move",
             "view",
             "--assume-yes",

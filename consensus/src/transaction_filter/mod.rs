@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_config::config::transaction_filter_type::Filter;
-use aptos_crypto::HashValue;
-use aptos_types::transaction::SignedTransaction;
+use cedra_config::config::transaction_filter_type::Filter;
+use cedra_crypto::HashValue;
+use cedra_types::transaction::SignedTransaction;
 
 pub struct TransactionFilter {
     filter: Filter,
@@ -33,9 +33,9 @@ impl TransactionFilter {
 #[cfg(test)]
 mod test {
     use crate::transaction_filter::TransactionFilter;
-    use aptos_config::config::transaction_filter_type::Filter;
-    use aptos_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
-    use aptos_types::{
+    use cedra_config::config::transaction_filter_type::Filter;
+    use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
+    use cedra_types::{
         chain_id::ChainId,
         move_utils::MemberId,
         transaction::{

@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::{Author, Round};
 use anyhow::{ensure, Context};
-use aptos_crypto::{bls12381, CryptoMaterialError};
-use aptos_short_hex_str::AsShortHexStr;
-use aptos_types::{
+use cedra_crypto::{bls12381, CryptoMaterialError};
+use cedra_short_hex_str::AsShortHexStr;
+use cedra_types::{
     block_info::BlockInfo,
     ledger_info::{LedgerInfo, SignatureWithStatus},
     validator_signer::ValidatorSigner,

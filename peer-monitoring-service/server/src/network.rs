@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_config::network_id::{NetworkId, PeerNetworkId};
-use aptos_network::{
+use cedra_config::network_id::{NetworkId, PeerNetworkId};
+use cedra_network::{
     application::interface::NetworkServiceEvents,
     protocols::network::{Event, RpcError},
     ProtocolId,
 };
-use aptos_peer_monitoring_service_types::{
+use cedra_peer_monitoring_service_types::{
     request::PeerMonitoringServiceRequest, response::PeerMonitoringServiceResponse,
     PeerMonitoringServiceMessage, Result,
 };

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -34,9 +34,9 @@ use crate::{
     util::is_vtxn_expected,
 };
 use anyhow::{bail, ensure, Context};
-use aptos_channels::aptos_channel;
-use aptos_config::config::ConsensusConfig;
-use aptos_consensus_types::{
+use cedra_channels::cedra_channel;
+use cedra_config::config::ConsensusConfig;
+use cedra_consensus_types::{
     block::Block,
     block_data::BlockType,
     common::{Author, Round},
@@ -54,14 +54,14 @@ use aptos_consensus_types::{
     vote_msg::VoteMsg,
     wrapped_ledger_info::WrappedLedgerInfo,
 };
-use aptos_crypto::{hash::CryptoHash, HashValue};
-use aptos_infallible::{checked, Mutex};
-use aptos_logger::prelude::*;
+use cedra_crypto::{hash::CryptoHash, HashValue};
+use cedra_infallible::{checked, Mutex};
+use cedra_logger::prelude::*;
 #[cfg(test)]
-use aptos_safety_rules::ConsensusState;
-use aptos_safety_rules::TSafetyRules;
-use aptos_short_hex_str::AsShortHexStr;
-use aptos_types::{
+use cedra_safety_rules::ConsensusState;
+use cedra_safety_rules::TSafetyRules;
+use cedra_short_hex_str::AsShortHexStr;
+use cedra_types::{
     block_info::BlockInfo,
     epoch_state::EpochState,
     on_chain_config::{
@@ -255,7 +255,7 @@ pub struct RoundManager {
     storage: Arc<dyn PersistentLivenessStorage>,
     onchain_config: OnChainConsensusConfig,
     vtxn_config: ValidatorTxnConfig,
-    buffered_proposal_tx: aptos_channel::Sender<Author, VerifiedEvent>,
+    buffered_proposal_tx: cedra_channel::Sender<Author, VerifiedEvent>,
     local_config: ConsensusConfig,
     randomness_config: OnChainRandomnessConfig,
     jwk_consensus_config: OnChainJWKConsensusConfig,
@@ -284,7 +284,7 @@ impl RoundManager {
         network: Arc<NetworkSender>,
         storage: Arc<dyn PersistentLivenessStorage>,
         onchain_config: OnChainConsensusConfig,
-        buffered_proposal_tx: aptos_channel::Sender<Author, VerifiedEvent>,
+        buffered_proposal_tx: cedra_channel::Sender<Author, VerifiedEvent>,
         local_config: ConsensusConfig,
         randomness_config: OnChainRandomnessConfig,
         jwk_consensus_config: OnChainJWKConsensusConfig,
@@ -1069,7 +1069,7 @@ impl RoundManager {
 
     async fn resend_verified_proposal_to_self(
         block_store: Arc<BlockStore>,
-        self_sender: aptos_channel::Sender<Author, VerifiedEvent>,
+        self_sender: cedra_channel::Sender<Author, VerifiedEvent>,
         proposal: Block,
         author: Author,
         polling_interval_ms: u64,
@@ -1121,7 +1121,7 @@ impl RoundManager {
             .context("[RoundManager] Process proposal")?;
 
         fail_point!("consensus::create_invalid_vote", |_| {
-            use aptos_crypto::bls12381;
+            use cedra_crypto::bls12381;
             let faulty_vote = Vote::new_with_signature(
                 vote.vote_data().clone(),
                 vote.author(),
@@ -1310,7 +1310,7 @@ impl RoundManager {
         ))?;
 
         fail_point!("consensus::create_invalid_order_vote", |_| {
-            use aptos_crypto::bls12381;
+            use cedra_crypto::bls12381;
             let faulty_order_vote = OrderVote::new_with_signature(
                 order_vote.author(),
                 order_vote.ledger_info().clone(),
@@ -1720,11 +1720,11 @@ impl RoundManager {
     #[allow(clippy::unwrap_used)]
     pub async fn start(
         mut self,
-        mut event_rx: aptos_channel::Receiver<
+        mut event_rx: cedra_channel::Receiver<
             (Author, Discriminant<VerifiedEvent>),
             (Author, VerifiedEvent),
         >,
-        mut buffered_proposal_rx: aptos_channel::Receiver<Author, VerifiedEvent>,
+        mut buffered_proposal_rx: cedra_channel::Receiver<Author, VerifiedEvent>,
         close_rx: oneshot::Receiver<oneshot::Sender<()>>,
     ) {
         info!(epoch = self.epoch_state.epoch, "RoundManager started");
