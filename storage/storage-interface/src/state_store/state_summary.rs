@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,10 +10,10 @@ use crate::{
     DbReader,
 };
 use anyhow::Result;
-use aptos_crypto::{hash::CORRUPTION_SENTINEL, HashValue};
-use aptos_metrics_core::TimerHelper;
-use aptos_scratchpad::{ProofRead, SparseMerkleTree};
-use aptos_types::{proof::SparseMerkleProofExt, transaction::Version};
+use cedra_crypto::{hash::CORRUPTION_SENTINEL, HashValue};
+use cedra_metrics_core::TimerHelper;
+use cedra_scratchpad::{ProofRead, SparseMerkleTree};
+use cedra_types::{proof::SparseMerkleProofExt, transaction::Version};
 use derive_more::Deref;
 use itertools::Itertools;
 use rayon::prelude::*;

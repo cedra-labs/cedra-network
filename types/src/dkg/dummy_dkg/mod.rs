@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::dkg::{DKGSessionMetadata, DKGTrait};
 use anyhow::{anyhow, ensure};
-use aptos_crypto::{bls12381, Uniform};
+use cedra_crypto::{bls12381, Uniform};
 use rand::{CryptoRng, Rng, RngCore};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};

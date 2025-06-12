@@ -41,9 +41,9 @@
       "icon": "external link",
       "includeVars": true,
       "keepTime": true,
-      "tags": ["aptos-core"],
+      "tags": ["cedra-core"],
       "targetBlank": true,
-      "title": "aptos core ",
+      "title": "cedra core ",
       "type": "dashboards"
     }
   ],
@@ -691,7 +691,7 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["aptos-core"],
+  "tags": ["cedra-core"],
   "templating": {
     "list": [
       {

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![allow(unused_variables)]
@@ -14,7 +14,7 @@ use crate::{
     },
     Sender,
 };
-use aptos_types::{
+use cedra_types::{
     block_executor::partitioner::{
         CrossShardDependencies, RoundId, ShardId, ShardedTxnIndex, SubBlock,
         TransactionWithDependencies,

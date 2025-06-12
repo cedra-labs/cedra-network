@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::native_transaction::compute_deltas_for_batch;
@@ -8,10 +8,10 @@ use crate::{
     native::{native_config::NATIVE_EXECUTOR_POOL, native_transaction::NativeTransaction},
 };
 use anyhow::{bail, Result};
-use aptos_block_executor::{
+use cedra_block_executor::{
     counters::BLOCK_EXECUTOR_INNER_EXECUTE_BLOCK, txn_provider::default::DefaultTxnProvider,
 };
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{
         primary_apt_store, AccountResource, CoinInfoResource, CoinRegister, CoinStoreResource,
@@ -35,7 +35,7 @@ use aptos_types::{
     write_set::{WriteOp, WriteSetMut},
     CedraCoinType,
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use dashmap::{
     mapref::one::{Ref, RefMut},
     DashMap,
@@ -279,9 +279,9 @@ impl<T: CommonNativeRawTransactionExecutor> RawTransactionExecutor for T {
     fn init_block_state(&self, state_view: &(impl StateView + Sync)) -> bool {
         let features = Features::fetch_config(&state_view).unwrap_or_default();
         let fa_migration_complete =
-            features.is_enabled(FeatureFlag::OPERATIONS_DEFAULT_TO_FA_APT_STORE);
+            features.is_enabled(FeatureFlag::OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE);
         let new_accounts_default_to_fa =
-            features.is_enabled(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_APT_STORE);
+            features.is_enabled(FeatureFlag::NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE);
         assert_eq!(
             fa_migration_complete, new_accounts_default_to_fa,
             "native code only works with both flags either enabled or disabled"

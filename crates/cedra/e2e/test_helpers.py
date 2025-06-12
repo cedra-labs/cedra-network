@@ -1,4 +1,4 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import json
@@ -10,9 +10,9 @@ import subprocess
 import traceback
 from dataclasses import dataclass
 
-from aptos_sdk.async_client import RestClient
+from cedra_sdk.async_client import RestClient
 from common import METRICS_PORT, NODE_PORT, AccountInfo, Network, build_image_name
-from aptos_sdk.account_address import AccountAddress
+from cedra_sdk.account_address import AccountAddress
 
 LOG = logging.getLogger(__name__)
 
@@ -159,7 +159,7 @@ class RunHelper:
     # Move any Move files into the working directory.
     def prepare_move(self):
         shutil.copytree(
-            "../../../aptos-move/move-examples/cli-e2e-tests",
+            "../../../cedra-move/move-examples/cli-e2e-tests",
             os.path.join(self.host_working_directory, "move/cli-e2e-tests"),
             ignore=shutil.ignore_patterns("build"),
         )

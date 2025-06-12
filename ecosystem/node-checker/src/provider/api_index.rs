@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{
@@ -7,7 +7,7 @@ use super::{
     CommonProviderConfig,
 };
 use anyhow::Result;
-use aptos_rest_client::{aptos_api_types::IndexResponse, Client};
+use cedra_rest_client::{cedra_api_types::IndexResponse, Client};
 use async_trait::async_trait;
 use futures::TryFutureExt;
 use serde::{Deserialize, Serialize};

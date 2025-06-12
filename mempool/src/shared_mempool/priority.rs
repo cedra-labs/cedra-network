@@ -1,16 +1,16 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::types::MempoolSenderBucket;
 use crate::{counters, network::BroadcastPeerPriority};
-use aptos_config::{
+use cedra_config::{
     config::{MempoolConfig, NodeType},
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_infallible::RwLock;
-use aptos_logger::prelude::*;
-use aptos_peer_monitoring_service_types::PeerMonitoringMetadata;
-use aptos_time_service::{TimeService, TimeServiceTrait};
+use cedra_infallible::RwLock;
+use cedra_logger::prelude::*;
+use cedra_peer_monitoring_service_types::PeerMonitoringMetadata;
+use cedra_time_service::{TimeService, TimeServiceTrait};
 use itertools::Itertools;
 use std::{
     cmp::{max, min, Ordering},
@@ -560,14 +560,14 @@ fn compare_validator_distance(
 #[cfg(test)]
 mod test {
     use super::*;
-    use aptos_config::{
+    use cedra_config::{
         config::{MempoolConfig, NodeType},
         network_id::{NetworkId, PeerNetworkId},
     };
-    use aptos_peer_monitoring_service_types::{
+    use cedra_peer_monitoring_service_types::{
         response::NetworkInformationResponse, PeerMonitoringMetadata,
     };
-    use aptos_types::PeerId;
+    use cedra_types::PeerId;
     use core::cmp::Ordering;
     use std::collections::BTreeMap;
 

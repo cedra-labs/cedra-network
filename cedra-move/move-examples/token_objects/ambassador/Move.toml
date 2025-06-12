@@ -1,0 +1,11 @@
+[package]
+name = 'ambassador'
+version = '1.0.0'
+
+# do not change to "_", concrete address needed for module-publish testing framework
+[addresses]
+ambassador = "0xCAFE"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+CedraTokenObjects = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-token-objects", rev = "mainnet" }

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! This module defines physical storage schema mapping table handles to its metadata including
@@ -11,11 +11,11 @@
 
 use crate::schema::TABLE_INFO_CF_NAME;
 use anyhow::Result;
-use aptos_schemadb::{
+use cedra_schemadb::{
     define_pub_schema,
     schema::{KeyCodec, ValueCodec},
 };
-use aptos_types::state_store::table::{TableHandle, TableInfo};
+use cedra_types::state_store::table::{TableHandle, TableInfo};
 
 define_pub_schema!(TableInfoSchema, TableHandle, TableInfo, TABLE_INFO_CF_NAME);
 

@@ -1,0 +1,19 @@
+[package]
+name = "cli_e2e_tests"
+version = "0.0.1"
+
+[addresses]
+addr = "_"
+
+[dev-addresses]
+addr = "0x12345"
+
+[dependencies.CedraFramework]
+git = "https://github.com/cedra-labs/cedra-framework.git"
+rev = "mainnet"
+subdir = "cedra-framework"
+
+[dependencies.CedraTokenObjects]
+git = "https://github.com/cedra-labs/cedra-framework.git"
+rev = "mainnet"
+subdir = "cedra-token-objects"

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -6,18 +6,18 @@ use crate::{
     account_generator::{AccountCache, AccountGenerator},
     metrics::{NUM_TXNS, TIMER},
 };
-use aptos_crypto::ed25519::Ed25519PrivateKey;
-use aptos_logger::info;
-use aptos_sdk::{
-    transaction_builder::{aptos_stdlib, TransactionFactory},
+use cedra_crypto::ed25519::Ed25519PrivateKey;
+use cedra_logger::info;
+use cedra_sdk::{
+    transaction_builder::{cedra_stdlib, TransactionFactory},
     types::LocalAccount,
 };
-use aptos_storage_interface::{
+use cedra_storage_interface::{
     state_store::state_view::db_state_view::LatestDbStateCheckpointView, DbReader, DbReaderWriter,
 };
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
-    account_config::{aptos_test_root_address, AccountResource},
+    account_config::{cedra_test_root_address, AccountResource},
     chain_id::ChainId,
     state_store::MoveResourceExt,
     transaction::{EntryFunction, Transaction, TransactionPayload},
@@ -251,9 +251,9 @@ impl TransactionGenerator {
 
     pub fn read_root_account(genesis_key: Ed25519PrivateKey, db: &DbReaderWriter) -> LocalAccount {
         LocalAccount::new(
-            aptos_test_root_address(),
+            cedra_test_root_address(),
             genesis_key,
-            get_sequence_number(aptos_test_root_address(), db.reader.clone()),
+            get_sequence_number(cedra_test_root_address(), db.reader.clone()),
         )
     }
 
@@ -314,7 +314,7 @@ impl TransactionGenerator {
         &mut self,
         block_size: usize,
         num_blocks: usize,
-        transaction_generators: Vec<Box<dyn aptos_transaction_generator_lib::TransactionGenerator>>,
+        transaction_generators: Vec<Box<dyn cedra_transaction_generator_lib::TransactionGenerator>>,
         phase: Arc<AtomicUsize>,
         transactions_per_sender: usize,
     ) -> usize {
@@ -391,7 +391,7 @@ impl TransactionGenerator {
             let transactions: Vec<_> = chunk
                 .iter()
                 .map(|new_account| {
-                    let payload = aptos_stdlib::aptos_account_transfer(
+                    let payload = cedra_stdlib::cedra_account_transfer(
                         new_account.authentication_key().account_address(),
                         seed_account_balance,
                     );

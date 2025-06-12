@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -15,13 +15,13 @@ use crate::{
     },
     state_replication::StateComputerCommitCallBackType,
 };
-use aptos_config::config::NodeConfig;
-use aptos_consensus_types::wrapped_ledger_info::WrappedLedgerInfo;
-use aptos_event_notifications::{DbBackedOnChainConfig, ReconfigNotificationListener};
-use aptos_infallible::Mutex;
-use aptos_logger::{error, info, warn};
-use aptos_storage_interface::DbReader;
-use aptos_types::{
+use cedra_config::config::NodeConfig;
+use cedra_consensus_types::wrapped_ledger_info::WrappedLedgerInfo;
+use cedra_event_notifications::{DbBackedOnChainConfig, ReconfigNotificationListener};
+use cedra_infallible::Mutex;
+use cedra_logger::{error, info, warn};
+use cedra_storage_interface::DbReader;
+use cedra_types::{
     block_info::Round,
     epoch_state::EpochState,
     ledger_info::LedgerInfoWithSignatures,
@@ -171,7 +171,7 @@ impl ActiveObserverState {
     pub async fn wait_for_epoch_start(
         &mut self,
         block_payloads: Arc<
-            Mutex<BTreeMap<(u64, aptos_consensus_types::common::Round), BlockPayloadStatus>>,
+            Mutex<BTreeMap<(u64, cedra_consensus_types::common::Round), BlockPayloadStatus>>,
         >,
     ) -> (
         Arc<dyn TPayloadManager>,
@@ -365,16 +365,16 @@ mod test {
         network::observer_message::{BlockPayload, BlockTransactionPayload, OrderedBlock},
         observer::execution_pool::ObservedOrderedBlock,
     };
-    use aptos_channels::{aptos_channel, message_queues::QueueStyle};
-    use aptos_consensus_types::{
+    use cedra_channels::{cedra_channel, message_queues::QueueStyle};
+    use cedra_consensus_types::{
         block::Block,
         block_data::{BlockData, BlockType},
         pipelined_block::{OrderedBlockWindow, PipelinedBlock},
         quorum_cert::QuorumCert,
     };
-    use aptos_crypto::HashValue;
-    use aptos_event_notifications::ReconfigNotification;
-    use aptos_types::{
+    use cedra_crypto::HashValue;
+    use cedra_event_notifications::ReconfigNotification;
+    use cedra_types::{
         aggregate_signature::AggregateSignature, block_info::BlockInfo, ledger_info::LedgerInfo,
         transaction::Version,
     };
@@ -582,7 +582,7 @@ mod test {
             // Create an ordered block
             let blocks = vec![pipelined_block];
             let ordered_proof =
-                create_ledger_info(epoch, i as aptos_consensus_types::common::Round);
+                create_ledger_info(epoch, i as cedra_consensus_types::common::Round);
             let ordered_block = OrderedBlock::new(blocks, ordered_proof);
 
             // Create an observed ordered block
@@ -618,7 +618,7 @@ mod test {
     /// Creates and returns a new ledger info with the specified epoch and round
     fn create_ledger_info(
         epoch: u64,
-        round: aptos_consensus_types::common::Round,
+        round: cedra_consensus_types::common::Round,
     ) -> LedgerInfoWithSignatures {
         LedgerInfoWithSignatures::new(
             LedgerInfo::new(
@@ -647,11 +647,11 @@ mod test {
 
     /// Creates and returns a reconfig notifier and listener
     fn create_reconfig_notifier_and_listener() -> (
-        aptos_channel::Sender<(), ReconfigNotification<DbBackedOnChainConfig>>,
+        cedra_channel::Sender<(), ReconfigNotification<DbBackedOnChainConfig>>,
         ReconfigNotificationListener<DbBackedOnChainConfig>,
     ) {
         let (notification_sender, notification_receiver) =
-            aptos_channel::new(QueueStyle::LIFO, 1, None);
+            cedra_channel::new(QueueStyle::LIFO, 1, None);
         let reconfig_notification_listener = ReconfigNotificationListener {
             notification_receiver,
         };

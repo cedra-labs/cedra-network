@@ -1,10 +1,10 @@
 ---
 id: generate-format
 title: Generate Format
-custom_edit_url: https://github.com/cedra-labs/cedra/edit/main/testsuite/generate-format/README.md
+custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/testsuite/generate-format/README.md
 ---
 
-`generate-format` hosts the Aptos core type checker to ensure compatibility and uses 
+`generate-format` hosts the Cedra core type checker to ensure compatibility and uses 
 [`serde-reflection`](https://github.com/cedra-labs/serde-reflection) to properly track type changes over time. 
 
 ## How to make a change
@@ -21,7 +21,7 @@ as well as
 
 ## Example
 As an example, we will walk through a real-life example to demonstrate how to make the appropriate changes.
-Feel free to follow along here: https://github.com/cedra-labs/cedra/pull/10755/files
+Feel free to follow along here: https://github.com/cedra-labs/cedra-network/pull/10755/files
 
 Suppose you're adding a new `secp256r1_ecdsa` crypto library with new structs for the following keys and signatures:
 - `PublicKey` 

@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 #![allow(dead_code)]
 #![allow(unused_variables)]
@@ -144,10 +144,10 @@ pub const IMPORTED_MAINNET_TXNS_152449628_COIN_INFO_WRITE: &[u8] = include_bytes
     "/src/json_transactions/imported_mainnet_txns/152449628_coin_info_write.json"
 ));
 
-pub const IMPORTED_MAINNET_TXNS_602320562_TOKEN_V2_APTOS_TOKEN_MINT: &[u8] =
+pub const IMPORTED_MAINNET_TXNS_602320562_TOKEN_V2_CEDRA_TOKEN_MINT: &[u8] =
     include_bytes!(concat!(
         env!("CARGO_MANIFEST_DIR"),
-        "/src/json_transactions/imported_mainnet_txns/602320562_token_v2_aptos_token_mint.json"
+        "/src/json_transactions/imported_mainnet_txns/602320562_token_v2_cedra_token_mint.json"
     ));
 
 pub const IMPORTED_MAINNET_TXNS_1830706009_STAKER_GOVERNANCE_RECORD: &[u8] =
@@ -330,7 +330,7 @@ pub const ALL_IMPORTED_MAINNET_TXNS: &[&[u8]] = &[
     IMPORTED_MAINNET_TXNS_144201980_MULTIPLE_TRANSFER_EVENT,
     IMPORTED_MAINNET_TXNS_97963136_TOKEN_V2_CANCEL_OFFER,
     IMPORTED_MAINNET_TXNS_152449628_COIN_INFO_WRITE,
-    IMPORTED_MAINNET_TXNS_602320562_TOKEN_V2_APTOS_TOKEN_MINT,
+    IMPORTED_MAINNET_TXNS_602320562_TOKEN_V2_CEDRA_TOKEN_MINT,
     IMPORTED_MAINNET_TXNS_1830706009_STAKER_GOVERNANCE_RECORD,
     IMPORTED_MAINNET_TXNS_423176063_ACCOUNT_TRANSACTION_DELETE,
     IMPORTED_MAINNET_TXNS_303690531_ANS_LOOKUP_V2,

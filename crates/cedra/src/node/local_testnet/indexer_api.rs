@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{
@@ -11,7 +11,7 @@ use super::{
     RunLocalnet,
 };
 use anyhow::{anyhow, Context, Result};
-pub use aptos_localnet::indexer_api::{
+pub use cedra_localnet::indexer_api::{
     make_hasura_metadata_request, post_metadata, HASURA_IMAGE, HASURA_METADATA,
 };
 use async_trait::async_trait;

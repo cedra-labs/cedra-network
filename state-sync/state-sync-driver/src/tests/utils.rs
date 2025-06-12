@@ -1,22 +1,22 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::driver::DriverConfiguration;
-use aptos_config::config::{ConsensusObserverConfig, RoleType, StateSyncDriverConfig};
-use aptos_crypto::{
+use cedra_config::config::{ConsensusObserverConfig, RoleType, StateSyncDriverConfig};
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519Signature},
     HashValue, PrivateKey, Uniform,
 };
-use aptos_data_client::global_summary::GlobalDataSummary;
-use aptos_data_streaming_service::{
+use cedra_data_client::global_summary::GlobalDataSummary;
+use cedra_data_streaming_service::{
     data_notification::DataNotification, data_stream::DataStreamListener, streaming_client::Epoch,
 };
-use aptos_event_notifications::EventNotificationListener;
-use aptos_mempool_notifications::{CommittedTransaction, MempoolNotificationListener};
-use aptos_storage_service_notifications::StorageServiceNotificationListener;
-use aptos_storage_service_types::responses::CompleteDataRange;
-use aptos_types::{
+use cedra_event_notifications::EventNotificationListener;
+use cedra_mempool_notifications::{CommittedTransaction, MempoolNotificationListener};
+use cedra_storage_service_notifications::StorageServiceNotificationListener;
+use cedra_storage_service_types::responses::CompleteDataRange;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     aggregate_signature::AggregateSignature,

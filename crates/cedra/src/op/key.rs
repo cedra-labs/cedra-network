@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -14,13 +14,13 @@ use crate::{
     },
     CliCommand, CliResult,
 };
-use aptos_config::config::{Peer, PeerRole};
-use aptos_crypto::{
+use cedra_config::config::{Peer, PeerRole};
+use cedra_crypto::{
     bls12381, ed25519, ed25519::Ed25519PrivateKey, encoding_type::EncodingType, x25519, PrivateKey,
     ValidCryptoMaterial,
 };
-use aptos_genesis::config::HostAndPort;
-use aptos_types::account_address::{
+use cedra_genesis::config::HostAndPort;
+use cedra_types::account_address::{
     create_multisig_account_address, from_identity_public_key, AccountAddress,
 };
 use async_trait::async_trait;
@@ -35,7 +35,7 @@ pub const PUBLIC_KEY_EXTENSION: &str = "pub";
 /// Tool for generating, inspecting, and interacting with keys
 ///
 /// This tool allows users to generate and extract related information
-/// with all key types used on the Aptos blockchain.
+/// with all key types used on the Cedra blockchain.
 #[derive(Debug, Subcommand)]
 pub enum KeyTool {
     Generate(GenerateKey),
@@ -316,7 +316,7 @@ impl GenerateKey {
 /// You can simply run this by using the same kinds of inputs as Generate
 ///
 /// ```bash
-/// aptos key extract-public-key --private-key-file ./path-to-key --output-file ./path-to-output --key-type bls12381
+/// cedra key extract-public-key --private-key-file ./path-to-key --output-file ./path-to-output --key-type bls12381
 /// ```
 #[derive(Debug, Parser)]
 pub struct ExtractPublicKey {

@@ -1,0 +1,6 @@
+[package]
+name = "SplitTransfer"
+version = "0.0.0"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

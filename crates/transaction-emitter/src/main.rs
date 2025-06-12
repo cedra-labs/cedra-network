@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 mod diag;
 
 use anyhow::{Context, Result};
-use aptos_logger::{Level, Logger};
-use aptos_transaction_emitter_lib::{
+use cedra_logger::{Level, Logger};
+use cedra_transaction_emitter_lib::{
     create_accounts_command, emit_transactions, Cluster, ClusterArgs, CreateAccountsArgs, EmitArgs,
 };
-use aptos_transaction_workloads_lib::args::EmitWorkloadArgs;
+use cedra_transaction_workloads_lib::args::EmitWorkloadArgs;
 use clap::{Parser, Subcommand};
 use diag::diag;
 

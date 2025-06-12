@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -54,11 +54,11 @@ impl From<serde_json::Error> for Error {
     }
 }
 
-impl From<aptos_vault_client::Error> for Error {
-    fn from(error: aptos_vault_client::Error) -> Self {
+impl From<cedra_vault_client::Error> for Error {
+    fn from(error: cedra_vault_client::Error) -> Self {
         match error {
-            aptos_vault_client::Error::NotFound(_, key) => Self::KeyNotSet(key),
-            aptos_vault_client::Error::HttpError(403, _, _) => Self::PermissionDenied,
+            cedra_vault_client::Error::NotFound(_, key) => Self::KeyNotSet(key),
+            cedra_vault_client::Error::HttpError(403, _, _) => Self::PermissionDenied,
             _ => Self::InternalError(format!("{}", error)),
         }
     }

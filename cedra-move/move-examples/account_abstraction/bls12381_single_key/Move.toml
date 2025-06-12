@@ -1,0 +1,10 @@
+[package]
+name = "AA"
+version = "0.0.0"
+
+[addresses]
+aa = "_"
+
+[dependencies]
+CedraFramework = { local = "../../../framework/cedra-framework" }
+CedraStdlib = { local = "../../../framework/cedra-stdlib" }

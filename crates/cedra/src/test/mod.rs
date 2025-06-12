@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -47,23 +47,23 @@ use crate::{
     },
     CliCommand,
 };
-use aptos_config::config::Peer;
-use aptos_crypto::{
+use cedra_config::config::Peer;
+use cedra_crypto::{
     bls12381,
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey},
     x25519, PrivateKey,
 };
-use aptos_framework::chunked_publish::{CHUNK_SIZE_IN_BYTES, LARGE_PACKAGES_MODULE_ADDRESS};
-use aptos_genesis::config::HostAndPort;
-use aptos_keygen::KeyGen;
-use aptos_logger::warn;
-use aptos_rest_client::{
-    aptos_api_types::{MoveStructTag, MoveType},
+use cedra_framework::chunked_publish::{CHUNK_SIZE_IN_BYTES, LARGE_PACKAGES_MODULE_ADDRESS};
+use cedra_genesis::config::HostAndPort;
+use cedra_keygen::KeyGen;
+use cedra_logger::warn;
+use cedra_rest_client::{
+    cedra_api_types::{MoveStructTag, MoveType},
     Transaction,
 };
-use aptos_sdk::move_types::{account_address::AccountAddress, language_storage::ModuleId};
-use aptos_temppath::TempPath;
-use aptos_types::on_chain_config::ValidatorSet;
+use cedra_sdk::move_types::{account_address::AccountAddress, language_storage::ModuleId};
+use cedra_temppath::TempPath;
+use cedra_types::on_chain_config::ValidatorSet;
 use move_core_types::ident_str;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
@@ -87,7 +87,7 @@ pub const INVALID_ACCOUNT: &str = "0xDEADBEEFCAFEBABE";
 pub const FIRST_MOVE_FILE: &str = "
 module NamedAddress0::store {
     use std::string;
-    use aptos_framework::coin::{Self};
+    use cedra_framework::coin::{Self};
 
     struct CoolCoin has key {}
 
@@ -690,7 +690,7 @@ impl CliTestFramework {
     }
 
     async fn last_n_transactions_details(&self, count: u16) -> String {
-        let result = aptos_rest_client::Client::new(self.endpoint.clone())
+        let result = cedra_rest_client::Client::new(self.endpoint.clone())
             .get_transactions(None, Some(count))
             .await;
         if let Err(e) = result {
@@ -779,7 +779,7 @@ impl CliTestFramework {
         let sources_dir = move_dir.join("sources");
 
         let hello_blockchain_contents = include_str!(
-            "../../../../aptos-move/move-examples/hello_blockchain/sources/hello_blockchain.move"
+            "../../../../cedra-move/move-examples/hello_blockchain/sources/hello_blockchain.move"
         );
         let source_path = sources_dir.join("hello_blockchain.move");
         write_to_file(
@@ -789,7 +789,7 @@ impl CliTestFramework {
         )
         .unwrap();
 
-        let hello_blockchain_test_contents = include_str!("../../../../aptos-move/move-examples/hello_blockchain/sources/hello_blockchain_test.move");
+        let hello_blockchain_test_contents = include_str!("../../../../cedra-move/move-examples/hello_blockchain/sources/hello_blockchain_test.move");
         let test_path = sources_dir.join("hello_blockchain_test.move");
         write_to_file(
             test_path.as_path(),
@@ -950,7 +950,7 @@ impl CliTestFramework {
         .await
     }
 
-    /// Runs the given script contents using the local aptos_framework directory.
+    /// Runs the given script contents using the local cedra_framework directory.
     pub async fn run_script(
         &self,
         index: usize,
@@ -958,7 +958,7 @@ impl CliTestFramework {
     ) -> CliTypedResult<TransactionSummary> {
         self.run_script_with_framework_package(index, script_contents, FrameworkPackageArgs {
             framework_git_rev: None,
-            framework_local_dir: Some(Self::aptos_framework_dir()),
+            framework_local_dir: Some(Self::cedra_framework_dir()),
             skip_fetch_latest_git_deps: false,
         })
         .await
@@ -975,7 +975,7 @@ impl CliTestFramework {
             script_contents,
             FrameworkPackageArgs {
                 framework_git_rev: None,
-                framework_local_dir: Some(Self::aptos_framework_dir()),
+                framework_local_dir: Some(Self::cedra_framework_dir()),
                 skip_fetch_latest_git_deps: false,
             },
             gas_options,
@@ -983,7 +983,7 @@ impl CliTestFramework {
         .await
     }
 
-    /// Runs the given script contents using the aptos_framework from aptos-core git repository.
+    /// Runs the given script contents using the cedra_framework from cedra-core git repository.
     pub async fn run_script_with_default_framework(
         &self,
         index: usize,
@@ -1064,7 +1064,7 @@ impl CliTestFramework {
                 script_path: Some(script_path.parse().unwrap()),
                 framework_package_args: FrameworkPackageArgs {
                     framework_git_rev: None,
-                    framework_local_dir: Some(Self::aptos_framework_dir()),
+                    framework_local_dir: Some(Self::cedra_framework_dir()),
                     skip_fetch_latest_git_deps: false,
                 },
                 ..CompileScriptFunction::default()
@@ -1079,13 +1079,13 @@ impl CliTestFramework {
         .await
     }
 
-    pub fn aptos_framework_dir() -> PathBuf {
+    pub fn cedra_framework_dir() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("..")
             .join("..")
-            .join("aptos-move")
+            .join("cedra-move")
             .join("framework")
-            .join("aptos-framework")
+            .join("cedra-framework")
     }
 
     pub fn move_options(&self, account_strs: BTreeMap<&str, &str>) -> MovePackageOptions {
@@ -1194,7 +1194,7 @@ impl CliTestFramework {
                     script_path: Some(script_path),
                     framework_package_args: FrameworkPackageArgs {
                         framework_git_rev: None,
-                        framework_local_dir: Some(Self::aptos_framework_dir()),
+                        framework_local_dir: Some(Self::cedra_framework_dir()),
                         skip_fetch_latest_git_deps: false,
                     },
                     ..CompileScriptFunction::default()
@@ -1239,7 +1239,7 @@ impl CliTestFramework {
                 script_path: Some(script_path.parse().unwrap()),
                 framework_package_args: FrameworkPackageArgs {
                     framework_git_rev: None,
-                    framework_local_dir: Some(Self::aptos_framework_dir()),
+                    framework_local_dir: Some(Self::cedra_framework_dir()),
                     skip_fetch_latest_git_deps: false,
                 },
                 ..CompileScriptFunction::default()

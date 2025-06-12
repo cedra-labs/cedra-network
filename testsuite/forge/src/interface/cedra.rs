@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::Test;
 use crate::{CoreContext, Result, TestReport};
 use anyhow::anyhow;
-use aptos_cached_packages::aptos_stdlib;
-use aptos_logger::info;
-use aptos_rest_client::{Client as RestClient, PendingTransaction, State, Transaction};
-use aptos_sdk::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_logger::info;
+use cedra_rest_client::{Client as RestClient, PendingTransaction, State, Transaction};
+use cedra_sdk::{
     crypto::ed25519::Ed25519PublicKey,
     transaction_builder::TransactionFactory,
     types::{
@@ -27,21 +27,21 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
 #[async_trait::async_trait]
-pub trait AptosTest: Test {
+pub trait CedraTest: Test {
     /// Executes the test against the given context.
-    async fn run<'t>(&self, ctx: &mut AptosContext<'t>) -> Result<()>;
+    async fn run<'t>(&self, ctx: &mut CedraContext<'t>) -> Result<()>;
 }
 
-pub struct AptosContext<'t> {
+pub struct CedraContext<'t> {
     core: CoreContext,
-    public_info: AptosPublicInfo,
+    public_info: CedraPublicInfo,
     pub report: &'t mut TestReport,
 }
 
-impl<'t> AptosContext<'t> {
+impl<'t> CedraContext<'t> {
     pub fn new(
         core: CoreContext,
-        public_info: AptosPublicInfo,
+        public_info: CedraPublicInfo,
         report: &'t mut TestReport,
     ) -> Self {
         Self {
@@ -76,11 +76,11 @@ impl<'t> AptosContext<'t> {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        let unit_price = std::cmp::max(aptos_global_constants::GAS_UNIT_PRICE, 1);
+        let unit_price = std::cmp::max(cedra_global_constants::GAS_UNIT_PRICE, 1);
         TransactionFactory::new(self.chain_id()).with_gas_unit_price(unit_price)
     }
 
-    pub fn aptos_transaction_factory(&self) -> TransactionFactory {
+    pub fn cedra_transaction_factory(&self) -> TransactionFactory {
         self.public_info.transaction_factory()
     }
 
@@ -113,7 +113,7 @@ impl<'t> AptosContext<'t> {
 }
 
 #[derive(Clone)]
-pub struct AptosPublicInfo {
+pub struct CedraPublicInfo {
     chain_id: ChainId,
     inspection_service_url: Url,
     rest_api_url: Url,
@@ -122,7 +122,7 @@ pub struct AptosPublicInfo {
     rng: ::rand::rngs::StdRng,
 }
 
-impl AptosPublicInfo {
+impl CedraPublicInfo {
     pub fn new(
         chain_id: ChainId,
         inspection_service_url_str: String,
@@ -162,7 +162,7 @@ impl AptosPublicInfo {
         let create_account_txn =
             self.root_account
                 .sign_with_transaction_builder(self.transaction_factory().payload(
-                    aptos_stdlib::aptos_account_create_account(auth_key.account_address()),
+                    cedra_stdlib::cedra_account_create_account(auth_key.account_address()),
                 ));
         self.rest_client
             .submit_and_wait(&create_account_txn)
@@ -178,7 +178,7 @@ impl AptosPublicInfo {
         let create_account_txn =
             self.root_account
                 .sign_with_transaction_builder(self.transaction_factory().payload(
-                    aptos_stdlib::aptos_account_create_account(auth_key.account_address()),
+                    cedra_stdlib::cedra_account_create_account(auth_key.account_address()),
                 ));
         self.rest_client
             .submit_and_wait(&create_account_txn)
@@ -189,7 +189,7 @@ impl AptosPublicInfo {
     pub async fn mint(&mut self, addr: AccountAddress, amount: u64) -> Result<()> {
         let mint_txn = self.root_account.sign_with_transaction_builder(
             self.transaction_factory()
-                .payload(aptos_stdlib::cedra_coin_mint(addr, amount)),
+                .payload(cedra_stdlib::cedra_coin_mint(addr, amount)),
         );
         self.rest_client.submit_and_wait(&mint_txn).await?;
         Ok(())
@@ -202,7 +202,7 @@ impl AptosPublicInfo {
         amount: u64,
     ) -> Result<PendingTransaction> {
         let tx = from_account.sign_with_transaction_builder(self.transaction_factory().payload(
-            aptos_stdlib::cedra_coin_transfer(to_account.address(), amount),
+            cedra_stdlib::cedra_coin_transfer(to_account.address(), amount),
         ));
         let pending_txn = self.rest_client.submit(&tx).await?.into_inner();
         Ok(pending_txn)
@@ -222,11 +222,11 @@ impl AptosPublicInfo {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        let unit_price = std::cmp::max(aptos_global_constants::GAS_UNIT_PRICE, 1);
+        let unit_price = std::cmp::max(cedra_global_constants::GAS_UNIT_PRICE, 1);
         TransactionFactory::new(self.chain_id).with_gas_unit_price(unit_price)
     }
 
-    pub async fn get_approved_execution_hash_at_aptos_governance(
+    pub async fn get_approved_execution_hash_at_cedra_governance(
         &self,
         proposal_id: u64,
     ) -> Vec<u8> {
@@ -234,7 +234,7 @@ impl AptosPublicInfo {
             .rest_client
             .get_account_resource_bcs::<SimpleMap<u64, Vec<u8>>>(
                 CORE_CODE_ADDRESS,
-                "0x1::aptos_governance::ApprovedExecutionHashes",
+                "0x1::cedra_governance::ApprovedExecutionHashes",
             )
             .await;
         let hashes = approved_execution_hashes.unwrap().into_inner().data;
@@ -322,7 +322,7 @@ pub async fn reconfig(
         vec![root_account.sign_with_transaction_builder(
             transaction_factory
                 .clone()
-                .payload(aptos_stdlib::aptos_governance_force_end_epoch_test_only()),
+                .payload(cedra_stdlib::cedra_governance_force_end_epoch_test_only()),
         )]
     };
 

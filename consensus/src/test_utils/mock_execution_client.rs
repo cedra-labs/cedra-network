@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -15,17 +15,17 @@ use crate::{
     test_utils::mock_storage::MockStorage,
 };
 use anyhow::{anyhow, format_err, Result};
-use aptos_channels::aptos_channel;
-use aptos_consensus_types::{
+use cedra_channels::cedra_channel;
+use cedra_consensus_types::{
     common::{Payload, Round},
     pipelined_block::PipelinedBlock,
     wrapped_ledger_info::WrappedLedgerInfo,
 };
-use aptos_crypto::{bls12381::PrivateKey, HashValue};
-use aptos_executor_types::ExecutorResult;
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_types::{
+use cedra_crypto::{bls12381::PrivateKey, HashValue};
+use cedra_executor_types::ExecutorResult;
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_types::{
     epoch_state::EpochState,
     ledger_info::LedgerInfoWithSignatures,
     on_chain_config::{OnChainConsensusConfig, OnChainExecutionConfig, OnChainRandomnessConfig},
@@ -107,7 +107,7 @@ impl TExecutionClient for MockExecutionClient {
         _onchain_randomness_config: &OnChainRandomnessConfig,
         _rand_config: Option<RandConfig>,
         _fast_rand_config: Option<RandConfig>,
-        _rand_msg_rx: aptos_channel::Receiver<AccountAddress, IncomingRandGenRequest>,
+        _rand_msg_rx: cedra_channel::Receiver<AccountAddress, IncomingRandGenRequest>,
         _highest_committed_round: Round,
         _new_pipeline_enabled: bool,
     ) {

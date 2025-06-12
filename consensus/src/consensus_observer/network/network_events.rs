@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::network::observer_message::{
     ConsensusObserverMessage, ConsensusObserverResponse,
 };
-use aptos_config::network_id::{NetworkId, PeerNetworkId};
-use aptos_network::{
+use cedra_config::network_id::{NetworkId, PeerNetworkId};
+use cedra_network::{
     application::interface::NetworkServiceEvents,
     protocols::{
         network::{Event, RpcError},

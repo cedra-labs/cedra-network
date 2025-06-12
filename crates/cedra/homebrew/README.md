@@ -1,17 +1,17 @@
-# Homebrew Aptos
+# Homebrew Cedra
 
 Homebrew is a package manager that works for MacOS Silicon and Intel chips as well as Linux distributions like Debian
 and Ubuntu.
 
-The [Aptos command line interface (CLI)](https://cedra.dev/tools/cedra-cli/install-cli/) may be installed
-via [Homebrew](https://brew.sh/) for simplicity. This is an in-depth overview of Homebrew and the Aptos formula. In this
+The [Cedra command line interface (CLI)](https://cedra.dev/tools/cedra-cli/install-cli/) may be installed
+via [Homebrew](https://brew.sh/) for simplicity. This is an in-depth overview of Homebrew and the Cedra formula. In this
 guide, we go over each section of the Homebrew formula and steps to implement changes in the future.
 
 ## Quick guide
 
 - [Formula in Homebrew GitHub](https://github.com/Homebrew/homebrew-core/blob/master/Formula/cedra.rb)
-- [Aptos 1.0.3 New Formula PR for GitHub](https://github.com/Homebrew/homebrew-core/pull/119832)
-- [Aptos Formula Fix PR to use build_cli_release.sh](https://github.com/Homebrew/homebrew-core/pull/120051)
+- [Cedra 1.0.3 New Formula PR for GitHub](https://github.com/Homebrew/homebrew-core/pull/119832)
+- [Cedra Formula Fix PR to use build_cli_release.sh](https://github.com/Homebrew/homebrew-core/pull/120051)
 
 ## Getting started
 
@@ -39,13 +39,13 @@ cedra --help
 
 # cedra 1.0.5
 # Cedra Labs <opensource@cedra.network>
-# Command Line Interface (CLI) for developing and interacting with the Aptos blockchain
+# Command Line Interface (CLI) for developing and interacting with the Cedra blockchain
 # ...
 ```
 
 ## Change guide
 
-Note: This guide is for developers who are trying to update the Aptos homebrew formula.
+Note: This guide is for developers who are trying to update the Cedra homebrew formula.
 
 You can get the latest formula here: https://github.com/Homebrew/homebrew-core/blob/master/Formula/a/cedra.rb
 
@@ -87,15 +87,15 @@ Once you have audited and tested your brew formula using the commands above, mak
    per [How to Open a Homebrew Pull Request](https://docs.brew.sh/How-To-Open-a-Homebrew-Pull-Request#formulae-related-pull-request).
 3. Create a PR on the [Homebrew Core](https://github.com/Homebrew/homebrew-core/pulls) repo with your changes.
 
-## Aptos.rb structure overview
+## Cedra.rb structure overview
 
 ### Header
 
 ```ruby
-class Aptos < Formula
+class Cedra < Formula
   desc "Layer 1 blockchain built to support fair access to decentralized assets for all"
   homepage "https://cedra.network/"
-  url "https://github.com/cedra-labs/cedra/archive/refs/tags/cedra-cli-v1.0.3.tar.gz"
+  url "https://github.com/cedra-labs/cedra-network/archive/refs/tags/cedra-cli-v1.0.3.tar.gz"
   sha256 "670bb6cb841cb8a65294878af9a4f03d4cba2a598ab4550061fed3a4b1fe4e98"
   license "Apache-2.0"
   ...
@@ -164,7 +164,7 @@ brew livecheck --debug cedra
   going forward, we would modify the formula slightly. See the comments below for more details.
 
 ```ruby
-  # Installs listed homebrew dependencies before Aptos installation
+  # Installs listed homebrew dependencies before Cedra installation
   # Dependencies needed: https://cedra.dev/cli-tools/build-cedra-cli
   # See scripts/dev_setup.sh in cedra-core for more info
   depends_on "cmake" => :build
@@ -206,7 +206,7 @@ To conduct tests, run:
 brew test cedra
 ```
 
-The current test generates a new key via the Aptos CLI and ensures the shell output matches the filename(s) for that
+The current test generates a new key via the Cedra CLI and ensures the shell output matches the filename(s) for that
 key.
 
 ```ruby

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::quorum_store::{
@@ -6,10 +6,10 @@ use crate::quorum_store::{
     quorum_store_db::QuorumStoreDB,
     types::{PersistedValue, StorageMode},
 };
-use aptos_consensus_types::proof_of_store::{BatchId, BatchInfo};
-use aptos_crypto::HashValue;
-use aptos_temppath::TempPath;
-use aptos_types::{
+use cedra_consensus_types::proof_of_store::{BatchId, BatchInfo};
+use cedra_crypto::HashValue;
+use cedra_temppath::TempPath;
+use cedra_types::{
     account_address::AccountAddress, transaction::SignedTransaction,
     validator_verifier::random_validator_verifier,
 };

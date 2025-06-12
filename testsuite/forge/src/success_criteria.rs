@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,8 +10,8 @@ use crate::{
 };
 use anyhow::{bail, Context};
 use cedra::node::analyze::{analyze_validators::AnalyzeValidators, fetch_metadata::FetchMetadata};
-use aptos_logger::info as aptos_logger_info;
-use aptos_transaction_emitter_lib::{TxnStats, TxnStatsRate};
+use cedra_logger::info as cedra_logger_info;
+use cedra_transaction_emitter_lib::{TxnStats, TxnStatsRate};
 use log::info;
 use prometheus_http_query::response::Sample;
 use std::{collections::BTreeMap, sync::Arc, time::Duration};
@@ -410,7 +410,7 @@ impl SuccessCriteriaChecker {
             chain_progress_threshold.max_epoch_no_progress_secs,
         );
 
-        aptos_logger_info!(
+        cedra_logger_info!(
             max_non_epoch_round_gap = gap_info.non_epoch_round_gap.max_gap,
             max_epoch_round_gap = gap_info.epoch_round_gap.max_gap,
             max_non_epoch_time_gap = gap_info.non_epoch_time_gap.max_gap,

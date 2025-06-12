@@ -1,0 +1,11 @@
+[package]
+name = "Marketplace"
+version = "0.0.0"
+
+[addresses]
+marketplace = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+CedraToken = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-token", rev = "mainnet" }
+CedraTokenObjects = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-token-objects", rev = "mainnet" }

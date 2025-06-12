@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-//! This module defines the AptosNet v1 message types, how they are
+//! This module defines the CedraNet v1 message types, how they are
 //! serialized/deserialized, and provides a `Sink` and `Stream` implementation
 //! for sending `NetworkMessage`s over an abstract IO object (presumably a socket).
 //!
-//! The [AptosNet Specification](https://github.com/cedra-labs/cedra/blob/main/documentation/specifications/network/messaging-v1.md)
+//! The [CedraNet Specification](https://github.com/cedra-labs/cedra-network/blob/main/documentation/specifications/network/messaging-v1.md)
 //! describes in greater detail how these messages are sent and received
 //! over-the-wire.
 

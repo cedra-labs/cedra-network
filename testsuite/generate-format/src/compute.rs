@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -8,11 +8,11 @@ use std::{fs::File, io::Write};
 
 #[derive(Debug, Parser)]
 #[clap(
-    name = "Aptos format generator",
-    about = "Trace serde (de)serialization to generate format descriptions for Aptos types"
+    name = "Cedra format generator",
+    about = "Trace serde (de)serialization to generate format descriptions for Cedra types"
 )]
 struct Options {
-    #[clap(long, value_enum, default_value_t = Corpus::Aptos, ignore_case = true)]
+    #[clap(long, value_enum, default_value_t = Corpus::Cedra, ignore_case = true)]
     corpus: Corpus,
 
     #[clap(long)]

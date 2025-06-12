@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -7,10 +7,10 @@ use crate::{
     map::{DefaultHashBuilder, LayeredMap},
     metrics::LAYER,
 };
-use aptos_crypto::HashValue;
-use aptos_drop_helper::ArcAsyncDrop;
-use aptos_infallible::Mutex;
-use aptos_metrics_core::IntGaugeHelper;
+use cedra_crypto::HashValue;
+use cedra_drop_helper::ArcAsyncDrop;
+use cedra_infallible::Mutex;
+use cedra_metrics_core::IntGaugeHelper;
 use std::{marker::PhantomData, sync::Arc};
 
 #[derive(Debug)]

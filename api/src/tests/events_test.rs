@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use super::new_test_context;
 use crate::tests::new_test_context_with_db_sharding_and_internal_indexer;
-use aptos_api_test_context::{current_function_name, TestContext};
+use cedra_api_test_context::{current_function_name, TestContext};
 use percent_encoding::{utf8_percent_encode, NON_ALPHANUMERIC};
 use serde_json::json;
 use std::path::PathBuf;
@@ -172,7 +172,7 @@ async fn test_module_events() {
     let named_addresses = vec![("event".to_string(), user_addr)];
     let txn = futures::executor::block_on(async move {
         let path = PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
-            .join("../aptos-move/move-examples/event");
+            .join("../cedra-move/move-examples/event");
         TestContext::build_package(path, named_addresses)
     });
     context.publish_package(&mut user, txn).await;

@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::proposer_election::ProposerElection;
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     block::Block,
     common::{Author, Round},
 };
-use aptos_crypto::HashValue;
-use aptos_infallible::Mutex;
-use aptos_logger::{error, warn, SecurityEvent};
+use cedra_crypto::HashValue;
+use cedra_infallible::Mutex;
+use cedra_logger::{error, warn, SecurityEvent};
 use std::{cmp::Ordering, sync::Arc};
 
 // Wrapper around ProposerElection.

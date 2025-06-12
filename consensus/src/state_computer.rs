@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -18,19 +18,19 @@ use crate::{
     txn_notifier::TxnNotifier,
 };
 use anyhow::Result;
-use aptos_consensus_notifications::ConsensusNotificationSender;
-use aptos_consensus_types::{
+use cedra_consensus_notifications::ConsensusNotificationSender;
+use cedra_consensus_types::{
     block::Block, common::Round, pipeline_execution_result::PipelineExecutionResult,
     pipelined_block::PipelinedBlock, quorum_cert::QuorumCert,
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::{
+use cedra_crypto::HashValue;
+use cedra_executor_types::{
     state_compute_result::StateComputeResult, BlockExecutorTrait, ExecutorResult,
 };
-use aptos_infallible::RwLock;
-use aptos_logger::prelude::*;
-use aptos_metrics_core::IntGauge;
-use aptos_types::{
+use cedra_infallible::RwLock;
+use cedra_logger::prelude::*;
+use cedra_metrics_core::IntGauge;
+use cedra_types::{
     account_address::AccountAddress, block_executor::config::BlockExecutorConfigFromOnchain,
     epoch_state::EpochState, ledger_info::LedgerInfoWithSignatures, randomness::Randomness,
     validator_signer::ValidatorSigner,
@@ -77,8 +77,8 @@ pub struct ExecutionProxy {
     executor: Arc<dyn BlockExecutorTrait>,
     txn_notifier: Arc<dyn TxnNotifier>,
     state_sync_notifier: Arc<dyn ConsensusNotificationSender>,
-    pre_commit_notifier: aptos_channels::Sender<NotificationType>,
-    commit_notifier: aptos_channels::Sender<NotificationType>,
+    pre_commit_notifier: cedra_channels::Sender<NotificationType>,
+    commit_notifier: cedra_channels::Sender<NotificationType>,
     write_mutex: AsyncMutex<LogicalTime>,
     transaction_filter: Arc<TransactionFilter>,
     execution_pipeline: ExecutionPipeline,
@@ -123,8 +123,8 @@ impl ExecutionProxy {
         handle: &tokio::runtime::Handle,
         name: &'static str,
         pending_notifications_gauge: &IntGauge,
-    ) -> aptos_channels::Sender<NotificationType> {
-        let (tx, mut rx) = aptos_channels::new::<NotificationType>(10, pending_notifications_gauge);
+    ) -> cedra_channels::Sender<NotificationType> {
+        let (tx, mut rx) = cedra_channels::new::<NotificationType>(10, pending_notifications_gauge);
         let _join_handle = handle.spawn(async move {
             while let Some(fut) = rx.next().await {
                 fut.await
@@ -522,10 +522,10 @@ async fn test_commit_sync_race() {
         transaction_deduper::create_transaction_deduper,
         transaction_shuffler::create_transaction_shuffler,
     };
-    use aptos_config::config::transaction_filter_type::Filter;
-    use aptos_consensus_notifications::Error;
-    use aptos_infallible::Mutex;
-    use aptos_types::{
+    use cedra_config::config::transaction_filter_type::Filter;
+    use cedra_consensus_notifications::Error;
+    use cedra_infallible::Mutex;
+    use cedra_types::{
         aggregate_signature::AggregateSignature,
         block_executor::partitioner::ExecutableBlock,
         block_info::BlockInfo,

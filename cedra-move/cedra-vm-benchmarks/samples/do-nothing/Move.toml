@@ -1,0 +1,6 @@
+[package]
+name = 'do-nothing'
+version = '1.0.0'
+[dependencies]
+CedraFramework = { local = "../../../framework/cedra-framework" }
+CedraStdlib = { local = "../../../framework/cedra-stdlib" }

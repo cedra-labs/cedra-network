@@ -1,17 +1,17 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{anyhow, bail, ensure};
-use aptos_consensus_types::common::{Author, Round};
-use aptos_crypto::bls12381::Signature;
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher};
-use aptos_dkg::{
+use cedra_consensus_types::common::{Author, Round};
+use cedra_crypto::bls12381::Signature;
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
+use cedra_dkg::{
     pvss::{Player, WeightedConfig},
     weighted_vuf::traits::WeightedVUF,
 };
-use aptos_experimental_runtimes::thread_manager::THREAD_MANAGER;
-use aptos_logger::debug;
-use aptos_types::{
+use cedra_experimental_runtimes::thread_manager::THREAD_MANAGER;
+use cedra_logger::debug;
+use cedra_types::{
     aggregate_signature::AggregateSignature,
     randomness::{
         Delta, PKShare, ProofShare, RandKeys, RandMetadata, Randomness, WvufPP, APK, WVUF,

@@ -1,4 +1,4 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 import os
@@ -27,7 +27,7 @@ def test_init(run_helper: RunHelper, test_name=None):
     )
     if not os.path.exists(config_path):
         raise TestError(
-            f"{config_path} not found (in host working dir) after running aptos init"
+            f"{config_path} not found (in host working dir) after running cedra init"
         )
 
     # Assert that it contains info for the account that was created.
@@ -54,9 +54,9 @@ def test_metrics_accessible(run_helper: RunHelper, test_name=None):
 
 
 @test_case
-def test_aptos_header_included(run_helper: RunHelper, test_name=None):
-    # Make sure the aptos-cli header is included on the original request
+def test_cedra_header_included(run_helper: RunHelper, test_name=None):
+    # Make sure the cedra-cli header is included on the original request
     response = requests.get(run_helper.get_metrics_url())
 
-    if 'request_source_client="aptos-cli' not in response.text:
-        raise TestError("Request should contain the correct aptos header: aptos-cli")
+    if 'request_source_client="cedra-cli' not in response.text:
+        raise TestError("Request should contain the correct cedra header: cedra-cli")

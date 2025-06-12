@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::compression_util::{CacheEntry, StorageFormat};
 use anyhow::Context;
-use aptos_protos::transaction::v1::Transaction;
+use cedra_protos::transaction::v1::Transaction;
 use dashmap::DashMap;
 use itertools::Itertools;
 use prost::Message;

@@ -1,7 +1,7 @@
 ---
 id: secure_storage
 title: Secure Storage
-custom_edit_url: https://github.com/cedra-labs/cedra/edit/main/secure/storage/README.md
+custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/secure/storage/README.md
 ---
 # Secure Storage
 

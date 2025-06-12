@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
-use aptos_infallible::duration_since_epoch;
-use aptos_keyless_pepper_common::{
+use cedra_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
+use cedra_infallible::duration_since_epoch;
+use cedra_keyless_pepper_common::{
     account_recovery_db::AccountRecoveryDbEntry,
     jwt,
     vuf::{self, VUF},
     PepperInput, PepperRequest, PepperResponse, PepperV0VufPubKey, SignatureResponse,
 };
-use aptos_types::{
+use cedra_types::{
     keyless::{Configuration, OpenIdSig},
     transaction::authenticator::EphemeralPublicKey,
 };
@@ -70,7 +70,7 @@ async fn main() {
     //     test_v0_verify();
     // }
     println!();
-    println!("Starting an interaction with aptos-oidb-pepper-service.");
+    println!("Starting an interaction with cedra-oidb-pepper-service.");
     let url = get_pepper_service_url();
     println!();
     let vuf_pub_key_url = format!("{url}/v0/vuf-pub-key");

@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
-    IntoDbResult, KeyCodec, Schema, SeekKeyCodec, ValueCodec, APTOS_SCHEMADB_ITER_BYTES,
-    APTOS_SCHEMADB_ITER_LATENCY_SECONDS, APTOS_SCHEMADB_SEEK_LATENCY_SECONDS,
+    IntoDbResult, KeyCodec, Schema, SeekKeyCodec, ValueCodec, CEDRA_SCHEMADB_ITER_BYTES,
+    CEDRA_SCHEMADB_ITER_LATENCY_SECONDS, CEDRA_SCHEMADB_SEEK_LATENCY_SECONDS,
 };
 use std::marker::PhantomData;
 
@@ -44,7 +44,7 @@ where
 
     /// Seeks to the first key.
     pub fn seek_to_first(&mut self) {
-        let _timer = APTOS_SCHEMADB_SEEK_LATENCY_SECONDS
+        let _timer = CEDRA_SCHEMADB_SEEK_LATENCY_SECONDS
             .with_label_values(&[S::COLUMN_FAMILY_NAME, "seek_to_first"])
             .start_timer();
         self.db_iter.seek_to_first();
@@ -53,7 +53,7 @@ where
 
     /// Seeks to the last key.
     pub fn seek_to_last(&mut self) {
-        let _timer = APTOS_SCHEMADB_SEEK_LATENCY_SECONDS
+        let _timer = CEDRA_SCHEMADB_SEEK_LATENCY_SECONDS
             .with_label_values(&[S::COLUMN_FAMILY_NAME, "seek_to_last"])
             .start_timer();
         self.db_iter.seek_to_last();
@@ -62,11 +62,11 @@ where
 
     /// Seeks to the first key whose binary representation is equal to or greater than that of the
     /// `seek_key`.
-    pub fn seek<SK>(&mut self, seek_key: &SK) -> aptos_storage_interface::Result<()>
+    pub fn seek<SK>(&mut self, seek_key: &SK) -> cedra_storage_interface::Result<()>
     where
         SK: SeekKeyCodec<S>,
     {
-        let _timer = APTOS_SCHEMADB_SEEK_LATENCY_SECONDS
+        let _timer = CEDRA_SCHEMADB_SEEK_LATENCY_SECONDS
             .with_label_values(&[S::COLUMN_FAMILY_NAME, "seek"])
             .start_timer();
         let key = <SK as SeekKeyCodec<S>>::encode_seek_key(seek_key)?;
@@ -79,11 +79,11 @@ where
     /// `seek_key`.
     ///
     /// See example in [`RocksDB doc`](https://github.com/facebook/rocksdb/wiki/SeekForPrev).
-    pub fn seek_for_prev<SK>(&mut self, seek_key: &SK) -> aptos_storage_interface::Result<()>
+    pub fn seek_for_prev<SK>(&mut self, seek_key: &SK) -> cedra_storage_interface::Result<()>
     where
         SK: SeekKeyCodec<S>,
     {
-        let _timer = APTOS_SCHEMADB_SEEK_LATENCY_SECONDS
+        let _timer = CEDRA_SCHEMADB_SEEK_LATENCY_SECONDS
             .with_label_values(&[S::COLUMN_FAMILY_NAME, "seek_for_prev"])
             .start_timer();
         let key = <SK as SeekKeyCodec<S>>::encode_seek_key(seek_key)?;
@@ -92,8 +92,8 @@ where
         Ok(())
     }
 
-    fn next_impl(&mut self) -> aptos_storage_interface::Result<Option<(S::Key, S::Value)>> {
-        let _timer = APTOS_SCHEMADB_ITER_LATENCY_SECONDS
+    fn next_impl(&mut self) -> cedra_storage_interface::Result<Option<(S::Key, S::Value)>> {
+        let _timer = CEDRA_SCHEMADB_ITER_LATENCY_SECONDS
             .with_label_values(&[S::COLUMN_FAMILY_NAME])
             .start_timer();
 
@@ -115,7 +115,7 @@ where
 
         let raw_key = self.db_iter.key().expect("db_iter.key() failed.");
         let raw_value = self.db_iter.value().expect("db_iter.value(0 failed.");
-        APTOS_SCHEMADB_ITER_BYTES
+        CEDRA_SCHEMADB_ITER_BYTES
             .with_label_values(&[S::COLUMN_FAMILY_NAME])
             .observe((raw_key.len() + raw_value.len()) as f64);
 
@@ -130,7 +130,7 @@ impl<'a, S> Iterator for SchemaIterator<'a, S>
 where
     S: Schema,
 {
-    type Item = aptos_storage_interface::Result<(S::Key, S::Value)>;
+    type Item = cedra_storage_interface::Result<(S::Key, S::Value)>;
 
     fn next(&mut self) -> Option<Self::Item> {
         self.next_impl().transpose()

@@ -1,0 +1,63 @@
+[package]
+name = "cedra-release-builder"
+description = "Tooling for building the governance proposal script used for the network"
+version = "0.1.0"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra = { workspace = true, features = [ "no-upload-proposal" ] }
+cedra-build-info = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-gas-profiling = { workspace = true }
+cedra-gas-schedule = { workspace = true }
+cedra-gas-schedule-updator = { workspace = true }
+cedra-genesis = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-keygen = { workspace = true }
+cedra-language-e2e-tests = { workspace = true }
+cedra-move-debugger = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-transaction-simulation = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-environment = { workspace = true }
+cedra-vm-logging = { workspace = true }
+cedra-vm-types = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+futures = { workspace = true }
+git2 = { workspace = true }
+handlebars = { workspace = true }
+hex = { workspace = true }
+move-binary-format = { workspace = true }
+move-bytecode-verifier = { workspace = true }
+move-core-types = { workspace = true }
+move-model = { workspace = true }
+move-vm-runtime = { workspace = true }
+move-vm-types = { workspace = true }
+once_cell = { workspace = true }
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+sha3 = { workspace = true }
+strum = { workspace = true }
+strum_macros = { workspace = true }
+tokio = { workspace = true }
+url = { workspace = true }
+walkdir = { workspace = true }
+
+[[bin]]
+name = "cedra-release-builder"
+path = "src/main.rs"

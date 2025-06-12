@@ -34,8 +34,8 @@ def add_RawDataServicer_to_server(servicer, server):
     rpc_method_handlers = {
         "GetTransactions": grpc.unary_stream_rpc_method_handler(
             servicer.GetTransactions,
-            request_deserializer=aptos_dot_indexer_dot_v1_dot_raw__data__pb2.GetTransactionsRequest.FromString,
-            response_serializer=aptos_dot_indexer_dot_v1_dot_raw__data__pb2.TransactionsResponse.SerializeToString,
+            request_deserializer=cedra_dot_indexer_dot_v1_dot_raw__data__pb2.GetTransactionsRequest.FromString,
+            response_serializer=cedra_dot_indexer_dot_v1_dot_raw__data__pb2.TransactionsResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -65,8 +65,8 @@ class RawData(object):
             request,
             target,
             "/cedra.indexer.v1.RawData/GetTransactions",
-            aptos_dot_indexer_dot_v1_dot_raw__data__pb2.GetTransactionsRequest.SerializeToString,
-            aptos_dot_indexer_dot_v1_dot_raw__data__pb2.TransactionsResponse.FromString,
+            cedra_dot_indexer_dot_v1_dot_raw__data__pb2.GetTransactionsRequest.SerializeToString,
+            cedra_dot_indexer_dot_v1_dot_raw__data__pb2.TransactionsResponse.FromString,
             options,
             channel_credentials,
             insecure,

@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_types::transaction;
+use cedra_types::transaction;
 use move_core_types::language_storage;
 use serde_reflection::{Registry, Result, Samples, Tracer, TracerConfig};
 

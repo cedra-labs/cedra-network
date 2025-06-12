@@ -1,6 +1,6 @@
 [package]
-name = "aptos-scratchpad"
-description = "Aptos scratchpad"
+name = "cedra-scratchpad"
+description = "Cedra scratchpad"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -13,12 +13,12 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-crypto = { workspace = true }
-aptos-drop-helper = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-types = { workspace = true }
-aptos-vm = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-drop-helper = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
 bitvec = { workspace = true }
 criterion = { workspace = true, optional = true }
 dashmap = { workspace = true }
@@ -29,7 +29,7 @@ rayon = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 bitvec = { workspace = true }
 once_cell = { workspace = true }
 proptest = { workspace = true }
@@ -42,7 +42,7 @@ jemallocator = { version = "0.5.0", features = [
 ] }
 
 [features]
-fuzzing = ["aptos-types/fuzzing", "proptest"]
+fuzzing = ["cedra-types/fuzzing", "proptest"]
 bench = ["proptest", "criterion"]
 
 [[bench]]

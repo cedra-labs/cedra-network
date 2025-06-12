@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 use crate::{
     remote_state_view_service::RemoteStateViewService, ExecuteBlockCommand, RemoteExecutionRequest,
     RemoteExecutionResult,
 };
-use aptos_logger::{info, trace};
-use aptos_secure_net::network_controller::{Message, NetworkController};
-use aptos_storage_interface::state_store::state_view::cached_state_view::CachedStateView;
-use aptos_types::{
+use cedra_logger::{info, trace};
+use cedra_secure_net::network_controller::{Message, NetworkController};
+use cedra_storage_interface::state_store::state_view::cached_state_view::CachedStateView;
+use cedra_types::{
     block_executor::{
         config::BlockExecutorConfigFromOnchain, partitioner::PartitionedTransactions,
     },
@@ -16,7 +16,7 @@ use aptos_types::{
     transaction::TransactionOutput,
     vm_status::VMStatus,
 };
-use aptos_vm::sharded_block_executor::{
+use cedra_vm::sharded_block_executor::{
     executor_client::{ExecutorClient, ShardedExecutionOutput},
     ShardedBlockExecutor,
 };
@@ -57,13 +57,13 @@ pub fn get_coordinator_address() -> SocketAddr {
 
 pub static REMOTE_SHARDED_BLOCK_EXECUTOR: Lazy<
     Arc<
-        aptos_infallible::Mutex<
+        cedra_infallible::Mutex<
             ShardedBlockExecutor<CachedStateView, RemoteExecutorClient<CachedStateView>>,
         >,
     >,
 > = Lazy::new(|| {
     info!("REMOTE_SHARDED_BLOCK_EXECUTOR created");
-    Arc::new(aptos_infallible::Mutex::new(
+    Arc::new(cedra_infallible::Mutex::new(
         RemoteExecutorClient::create_remote_sharded_block_executor(
             get_coordinator_address(),
             get_remote_addresses(),

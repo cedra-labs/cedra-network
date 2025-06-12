@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::helpers::new_node;
@@ -9,9 +9,9 @@ use crate::dag::{
         NodeMetadata, RemoteFetchRequest,
     },
 };
-use aptos_consensus_types::common::Payload;
-use aptos_crypto::HashValue;
-use aptos_types::{
+use cedra_consensus_types::common::Payload;
+use cedra_crypto::HashValue;
+use cedra_types::{
     aggregate_signature::AggregateSignature, validator_verifier::random_validator_verifier,
 };
 use claims::assert_ok;

@@ -1,22 +1,22 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
-    smoke_test_environment::{new_local_swarm_with_aptos, SwarmBuilder},
+    smoke_test_environment::{new_local_swarm_with_cedra, SwarmBuilder},
     txn_emitter::generate_traffic,
 };
-use aptos_cached_packages::aptos_stdlib;
-use aptos_config::config::GasEstimationConfig;
-use aptos_crypto::ed25519::Ed25519Signature;
-use aptos_forge::{LocalSwarm, NodeExt, Swarm, TransactionType};
-use aptos_global_constants::{DEFAULT_BUCKETS, GAS_UNIT_PRICE};
-use aptos_rest_client::{
-    aptos_api_types::{MoveModuleId, TransactionData, ViewFunction, ViewRequest},
+use cedra_cached_packages::cedra_stdlib;
+use cedra_config::config::GasEstimationConfig;
+use cedra_crypto::ed25519::Ed25519Signature;
+use cedra_forge::{LocalSwarm, NodeExt, Swarm, TransactionType};
+use cedra_global_constants::{DEFAULT_BUCKETS, GAS_UNIT_PRICE};
+use cedra_rest_client::{
+    cedra_api_types::{MoveModuleId, TransactionData, ViewFunction, ViewRequest},
     Client,
 };
-use aptos_sdk::move_types::language_storage::StructTag;
-use aptos_types::{
+use cedra_sdk::move_types::language_storage::StructTag;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{AccountResource, CORE_CODE_ADDRESS},
     on_chain_config::{ExecutionConfigV2, OnChainExecutionConfig, TransactionShufflerType},
@@ -30,8 +30,8 @@ use std::{convert::TryFrom, str::FromStr, sync::Arc, time::Duration};
 
 #[tokio::test]
 async fn test_get_index() {
-    let swarm = new_local_swarm_with_aptos(1).await;
-    let info = swarm.aptos_public_info();
+    let swarm = new_local_swarm_with_cedra(1).await;
+    let info = swarm.cedra_public_info();
 
     let resp = reqwest::get(info.url().to_owned()).await.unwrap();
     assert_eq!(reqwest::StatusCode::OK, resp.status());
@@ -39,15 +39,15 @@ async fn test_get_index() {
 
 #[tokio::test]
 async fn test_basic_client() {
-    let swarm = new_local_swarm_with_aptos(1).await;
-    let mut info = swarm.aptos_public_info();
+    let swarm = new_local_swarm_with_cedra(1).await;
+    let mut info = swarm.cedra_public_info();
 
     info.client().get_ledger_information().await.unwrap();
 
     // NOTE(Gas): For some reason, there needs to be a lot of funds in the account in order for the
     //            test to pass.
     //            Is this caused by us increasing the default max gas amount in
-    //            testsuite/forge/src/interface/aptos.rs?
+    //            testsuite/forge/src/interface/cedra.rs?
     let account1 = info
         .create_and_fund_user_account(10_000_000_000)
         .await
@@ -59,7 +59,7 @@ async fn test_basic_client() {
 
     let tx = account1.sign_with_transaction_builder(
         info.transaction_factory()
-            .payload(aptos_stdlib::cedra_coin_transfer(account2.address(), 1)),
+            .payload(cedra_stdlib::cedra_coin_transfer(account2.address(), 1)),
     );
     let pending_txn = info.client().submit(&tx).await.unwrap().into_inner();
 
@@ -246,8 +246,8 @@ async fn test_gas_estimation_gas_used_limit() {
 
 #[tokio::test]
 async fn test_bcs() {
-    let swarm = new_local_swarm_with_aptos(1).await;
-    let mut info = swarm.aptos_public_info();
+    let swarm = new_local_swarm_with_cedra(1).await;
+    let mut info = swarm.cedra_public_info();
 
     // Create accounts
     let mut local_account = info
@@ -360,7 +360,7 @@ async fn test_bcs() {
         let bcs_txn = transactions_bcs.get(i).unwrap();
         assert_eq!(bcs_txn.version, expected_transaction.version().unwrap());
         let expected_hash =
-            aptos_crypto::HashValue::from(expected_transaction.transaction_info().unwrap().hash);
+            cedra_crypto::HashValue::from(expected_transaction.transaction_info().unwrap().hash);
 
         let bcs_hash = if let Transaction::UserTransaction(ref txn) = bcs_txn.transaction {
             txn.committed_hash()
@@ -410,7 +410,7 @@ async fn test_bcs() {
 
         assert_eq!(json_txn.version().unwrap(), bcs_txn.version);
         assert_eq!(
-            aptos_crypto::HashValue::from(json_txn.transaction_info().unwrap().hash),
+            cedra_crypto::HashValue::from(json_txn.transaction_info().unwrap().hash),
             bcs_txn.info.transaction_hash()
         );
     }
@@ -433,7 +433,7 @@ async fn test_bcs() {
 
     let bcs_txn = client.simulate_bcs(&signed_txn).await.unwrap().into_inner();
     assert_eq!(
-        aptos_crypto::HashValue::from(json_txn.info.hash),
+        cedra_crypto::HashValue::from(json_txn.info.hash),
         bcs_txn.info.transaction_hash()
     );
 
@@ -469,7 +469,7 @@ async fn test_bcs() {
 
     assert_eq!(json_block.block_height.0, bcs_block.block_height);
     assert_eq!(
-        aptos_crypto::HashValue::from(json_block.block_hash),
+        cedra_crypto::HashValue::from(json_block.block_hash),
         bcs_block.block_hash
     );
 
@@ -479,7 +479,7 @@ async fn test_bcs() {
     let first_bcs_txn = bcs_txns.first().unwrap();
     assert_eq!(first_json_txn.version().unwrap(), first_bcs_txn.version);
     assert_eq!(
-        aptos_crypto::HashValue::from(first_json_txn.transaction_info().unwrap().hash),
+        cedra_crypto::HashValue::from(first_json_txn.transaction_info().unwrap().hash),
         first_bcs_txn.info.transaction_hash()
     );
 
@@ -500,7 +500,7 @@ async fn test_bcs() {
     assert_eq!(bcs_block.block_height, bcs_block_by_height.block_height);
     assert_eq!(bcs_block.block_hash, bcs_block_by_height.block_hash);
     assert_eq!(
-        aptos_crypto::HashValue::from(json_block_by_height.block_hash),
+        cedra_crypto::HashValue::from(json_block_by_height.block_hash),
         bcs_block_by_height.block_hash
     );
 
@@ -548,8 +548,8 @@ async fn test_bcs() {
 
 #[tokio::test]
 async fn test_view_function() {
-    let swarm = new_local_swarm_with_aptos(1).await;
-    let info = swarm.aptos_public_info();
+    let swarm = new_local_swarm_with_cedra(1).await;
+    let info = swarm.cedra_public_info();
     let client: &Client = info.client();
 
     let address = AccountAddress::ONE;

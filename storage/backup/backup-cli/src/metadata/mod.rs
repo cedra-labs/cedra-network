@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -7,8 +7,8 @@ pub mod view;
 
 use crate::storage::{FileHandle, ShellSafeName, TextLine};
 use anyhow::{ensure, Result};
-use aptos_crypto::HashValue;
-use aptos_types::transaction::Version;
+use cedra_crypto::HashValue;
+use cedra_types::transaction::Version;
 use serde::{Deserialize, Serialize};
 use std::{cmp::Ordering, collections::HashMap, convert::TryInto};
 

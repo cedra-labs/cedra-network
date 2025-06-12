@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{ConsensusState, Error};
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     block_data::BlockData,
     order_vote::OrderVote,
     order_vote_proposal::OrderVoteProposal,
@@ -11,8 +11,8 @@ use aptos_consensus_types::{
     vote::Vote,
     vote_proposal::VoteProposal,
 };
-use aptos_crypto::bls12381;
-use aptos_types::{
+use cedra_crypto::bls12381;
+use cedra_types::{
     epoch_change::EpochChangeProof,
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
 };

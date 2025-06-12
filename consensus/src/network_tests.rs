@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -7,9 +7,9 @@ use crate::{
     network_interface::{ConsensusMsg, ConsensusNetworkClient},
     test_utils::{self, consensus_runtime, placeholder_ledger_info, timed_block_on},
 };
-use aptos_channels::{self, aptos_channel, message_queues::QueueStyle};
-use aptos_config::network_id::{NetworkId, PeerNetworkId};
-use aptos_consensus_types::{
+use cedra_channels::{self, cedra_channel, message_queues::QueueStyle};
+use cedra_config::network_id::{NetworkId, PeerNetworkId};
+use cedra_consensus_types::{
     block::{block_test_utils::certificate_for_genesis, Block},
     common::Author,
     proposal_msg::ProposalMsg,
@@ -18,8 +18,8 @@ use aptos_consensus_types::{
     vote_data::VoteData,
     vote_msg::VoteMsg,
 };
-use aptos_infallible::{Mutex, RwLock};
-use aptos_network::{
+use cedra_infallible::{Mutex, RwLock};
+use cedra_network::{
     application::storage::PeersAndMetadata,
     peer_manager::{ConnectionRequestSender, PeerManagerRequest, PeerManagerRequestSender},
     protocols::{
@@ -31,7 +31,7 @@ use aptos_network::{
     },
     ProtocolId,
 };
-use aptos_types::{block_info::BlockInfo, PeerId};
+use cedra_types::{block_info::BlockInfo, PeerId};
 use futures::{channel::mpsc, SinkExt, StreamExt};
 use std::{
     collections::{HashMap, HashSet},
@@ -65,7 +65,7 @@ pub struct NetworkPlayground {
     /// `ConsensusNetworkImpl`.
     ///
     node_consensus_txs:
-        Arc<Mutex<HashMap<TwinId, aptos_channel::Sender<(PeerId, ProtocolId), ReceivedMessage>>>>,
+        Arc<Mutex<HashMap<TwinId, cedra_channel::Sender<(PeerId, ProtocolId), ReceivedMessage>>>>,
     /// Nodes' outbound handlers forward their outbound non-rpc messages to this
     /// queue.
     outbound_msgs_tx: mpsc::Sender<(TwinId, PeerManagerRequest)>,
@@ -124,10 +124,10 @@ impl NetworkPlayground {
         timeout_config: Arc<RwLock<TimeoutConfig>>,
         drop_config: Arc<RwLock<DropConfig>>,
         src_twin_id: TwinId,
-        mut network_reqs_rx: aptos_channel::Receiver<(PeerId, ProtocolId), PeerManagerRequest>,
+        mut network_reqs_rx: cedra_channel::Receiver<(PeerId, ProtocolId), PeerManagerRequest>,
         mut outbound_msgs_tx: mpsc::Sender<(TwinId, PeerManagerRequest)>,
         node_consensus_txs: Arc<
-            Mutex<HashMap<TwinId, aptos_channel::Sender<(PeerId, ProtocolId), ReceivedMessage>>>,
+            Mutex<HashMap<TwinId, cedra_channel::Sender<(PeerId, ProtocolId), ReceivedMessage>>>,
         >,
         author_to_twin_ids: Arc<RwLock<AuthorToTwinIds>>,
     ) {
@@ -199,9 +199,9 @@ impl NetworkPlayground {
     pub fn add_node(
         &mut self,
         twin_id: TwinId,
-        consensus_tx: aptos_channel::Sender<(PeerId, ProtocolId), ReceivedMessage>,
-        network_reqs_rx: aptos_channel::Receiver<(PeerId, ProtocolId), PeerManagerRequest>,
-        conn_mgr_reqs_rx: aptos_channels::Receiver<aptos_network::ConnectivityRequest>,
+        consensus_tx: cedra_channel::Sender<(PeerId, ProtocolId), ReceivedMessage>,
+        network_reqs_rx: cedra_channel::Receiver<(PeerId, ProtocolId), PeerManagerRequest>,
+        conn_mgr_reqs_rx: cedra_channels::Receiver<cedra_network::ConnectivityRequest>,
     ) {
         self.node_consensus_txs.lock().insert(twin_id, consensus_tx);
         self.drop_config.write().add_node(twin_id);
@@ -533,16 +533,16 @@ mod tests {
         network::{IncomingRpcRequest, NetworkTask},
         network_interface::{DIRECT_SEND, RPC},
     };
-    use aptos_config::network_id::{NetworkId, PeerNetworkId};
-    use aptos_consensus_types::{
+    use cedra_config::network_id::{NetworkId, PeerNetworkId};
+    use cedra_consensus_types::{
         block_retrieval::{
             BlockRetrievalRequest, BlockRetrievalRequestV1, BlockRetrievalResponse,
             BlockRetrievalStatus,
         },
         common::Payload,
     };
-    use aptos_crypto::HashValue;
-    use aptos_network::{
+    use cedra_crypto::HashValue;
+    use cedra_network::{
         application::{
             interface::{NetworkClient, NetworkServiceEvents},
             storage::PeersAndMetadata,
@@ -553,7 +553,7 @@ mod tests {
         },
         transport::ConnectionMetadata,
     };
-    use aptos_types::validator_verifier::random_validator_verifier;
+    use cedra_types::validator_verifier::random_validator_verifier;
     use bytes::Bytes;
     use futures::{channel::oneshot, future};
     use maplit::hashmap;
@@ -633,10 +633,10 @@ mod tests {
         let peers_and_metadata = PeersAndMetadata::new(&[NetworkId::Validator]);
 
         for (peer_id, peer) in peers.iter().enumerate() {
-            let (network_reqs_tx, network_reqs_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-            let (connection_reqs_tx, _) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-            let (consensus_tx, consensus_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-            let (_conn_mgr_reqs_tx, conn_mgr_reqs_rx) = aptos_channels::new_test(1024);
+            let (network_reqs_tx, network_reqs_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+            let (connection_reqs_tx, _) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+            let (consensus_tx, consensus_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+            let (_conn_mgr_reqs_tx, conn_mgr_reqs_rx) = cedra_channels::new_test(1024);
 
             add_peer_to_storage(&peers_and_metadata, peer, &[
                 ProtocolId::ConsensusDirectSendJson,
@@ -662,7 +662,7 @@ mod tests {
             };
             playground.add_node(twin_id, consensus_tx, network_reqs_rx, conn_mgr_reqs_rx);
 
-            let (self_sender, self_receiver) = aptos_channels::new_unbounded_test();
+            let (self_sender, self_receiver) = cedra_channels::new_unbounded_test();
             let node = NetworkSender::new(
                 *peer,
                 consensus_network_client,
@@ -750,10 +750,10 @@ mod tests {
         let peers_and_metadata = PeersAndMetadata::new(&[NetworkId::Validator]);
 
         for (peer_id, peer) in peers.iter().enumerate() {
-            let (network_reqs_tx, network_reqs_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-            let (connection_reqs_tx, _) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-            let (consensus_tx, consensus_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-            let (_conn_mgr_reqs_tx, conn_mgr_reqs_rx) = aptos_channels::new_test(1024);
+            let (network_reqs_tx, network_reqs_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+            let (connection_reqs_tx, _) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+            let (consensus_tx, consensus_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+            let (_conn_mgr_reqs_tx, conn_mgr_reqs_rx) = cedra_channels::new_test(1024);
             let network_sender = network::NetworkSender::new(
                 PeerManagerRequestSender::new(network_reqs_tx),
                 ConnectionRequestSender::new(connection_reqs_tx),
@@ -779,7 +779,7 @@ mod tests {
             };
             playground.add_node(twin_id, consensus_tx, network_reqs_rx, conn_mgr_reqs_rx);
 
-            let (self_sender, self_receiver) = aptos_channels::new_unbounded_test();
+            let (self_sender, self_receiver) = cedra_channels::new_unbounded_test();
             let node = NetworkSender::new(
                 *peer,
                 consensus_network_client.clone(),
@@ -862,11 +862,11 @@ mod tests {
         let _entered_runtime = runtime.enter();
 
         let (peer_mgr_notifs_tx, peer_mgr_notifs_rx) =
-            aptos_channel::new(QueueStyle::FIFO, 8, None);
+            cedra_channel::new(QueueStyle::FIFO, 8, None);
         let network_events = NetworkEvents::new(peer_mgr_notifs_rx, None, true);
         let network_service_events =
             NetworkServiceEvents::new(hashmap! {NetworkId::Validator => network_events});
-        let (self_sender, self_receiver) = aptos_channels::new_unbounded_test();
+        let (self_sender, self_receiver) = cedra_channels::new_unbounded_test();
 
         let (network_task, mut network_receivers) =
             NetworkTask::new(network_service_events, self_receiver);

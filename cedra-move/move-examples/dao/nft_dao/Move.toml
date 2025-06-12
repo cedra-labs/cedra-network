@@ -1,0 +1,12 @@
+[package]
+name = "NFTDAO"
+version = "0.0.0"
+upgrade_policy = "immutable"
+
+[addresses]
+dao_platform = "_"
+cedra_framework = "0x1"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+CedraToken = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-token", rev = "mainnet" }

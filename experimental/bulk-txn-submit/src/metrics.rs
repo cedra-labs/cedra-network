@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_logger::info;
+use cedra_logger::info;
 use std::{
     sync::{
         atomic::{AtomicBool, AtomicI64, AtomicU64, AtomicUsize},

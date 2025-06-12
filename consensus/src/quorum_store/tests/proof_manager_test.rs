@@ -1,17 +1,17 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::quorum_store::{
     proof_manager::ProofManager, tests::batch_store_test::batch_store_for_test,
 };
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     common::{Payload, PayloadFilter},
     proof_of_store::{BatchId, BatchInfo, ProofOfStore},
     request_response::{GetPayloadCommand, GetPayloadRequest, GetPayloadResponse},
     utils::PayloadTxnsSize,
 };
-use aptos_crypto::HashValue;
-use aptos_types::{aggregate_signature::AggregateSignature, PeerId};
+use cedra_crypto::HashValue;
+use cedra_types::{aggregate_signature::AggregateSignature, PeerId};
 use futures::channel::oneshot;
 use std::{cmp::max, collections::HashSet};
 
@@ -61,7 +61,7 @@ async fn get_proposal(
         max_inline_txns: PayloadTxnsSize::new(max(max_txns / 2, 1), 100000),
         filter: PayloadFilter::InQuorumStore(filter_set),
         callback: callback_tx,
-        block_timestamp: aptos_infallible::duration_since_epoch(),
+        block_timestamp: cedra_infallible::duration_since_epoch(),
         return_non_full: true,
         maybe_optqs_payload_pull_params: None,
     });

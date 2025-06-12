@@ -7,7 +7,7 @@ move_named_address_values = [
     "VMReserved=0x0",
 ]
 move_deps = [
-    "../../../../../../aptos-move/framework/move-stdlib/sources",
-    "../../../../../../aptos-move/framework/aptos-stdlib/sources",
-    "../../../../../../aptos-move/framework/aptos-framework/sources",
+    "../../../../../../cedra-move/framework/move-stdlib/sources",
+    "../../../../../../cedra-move/framework/cedra-stdlib/sources",
+    "../../../../../../cedra-move/framework/cedra-framework/sources",
 ]

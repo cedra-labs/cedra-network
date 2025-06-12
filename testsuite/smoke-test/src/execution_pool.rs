@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,9 +6,9 @@ use crate::{
     utils::{update_consensus_config, MAX_CATCH_UP_WAIT_SECS},
 };
 use cedra::test::CliTestFramework;
-use aptos_forge::{LocalSwarm, NodeExt, Swarm, SwarmExt};
-use aptos_rest_client::Client;
-use aptos_types::on_chain_config::{
+use cedra_forge::{LocalSwarm, NodeExt, Swarm, SwarmExt};
+use cedra_rest_client::Client;
+use cedra_types::on_chain_config::{
     ConsensusAlgorithmConfig, OnChainConsensusConfig, ValidatorTxnConfig,
 };
 use move_core_types::language_storage::CORE_CODE_ADDRESS;
@@ -68,7 +68,7 @@ async fn initialize_swarm_with_window(
                 window_size,
             };
         }))
-        .with_aptos()
+        .with_cedra()
         .build_with_cli(0)
         .await;
 

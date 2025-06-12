@@ -1,6 +1,6 @@
 env_vars:
   - key: "BUCKET"
-    value: "aptos-ait3-data/backups"
+    value: "cedra-ait3-data/backups"
   - key: "SUB_DIR"
     value: "e4"
 commands:

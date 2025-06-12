@@ -1,5 +1,5 @@
 module poc::point_compress_internal {
-    use aptos_std::ristretto255::{Self, CompressedRistretto, RistrettoPoint};
+    use cedra_std::ristretto255::{Self, CompressedRistretto, RistrettoPoint};
     use std::vector;
 
     public entry fun main(_owner: &signer) {

@@ -1,20 +1,20 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{Error, Ok, Result};
-use aptos_backup_cli::utils::{ReplayConcurrencyLevelOpt, RocksdbOpt};
-use aptos_block_executor::txn_provider::default::DefaultTxnProvider;
-use aptos_config::config::{
+use cedra_backup_cli::utils::{ReplayConcurrencyLevelOpt, RocksdbOpt};
+use cedra_block_executor::txn_provider::default::DefaultTxnProvider;
+use cedra_config::config::{
     StorageDirPaths, BUFFERED_STATE_TARGET_ITEMS, DEFAULT_MAX_NUM_NODES_PER_LRU_CACHE_SHARD,
     NO_OP_STORAGE_PRUNER_CONFIG,
 };
-use aptos_db::{backup::backup_handler::BackupHandler, AptosDB};
-use aptos_logger::prelude::*;
-use aptos_storage_interface::{
-    state_store::state_view::db_state_view::DbStateViewAtVersion, AptosDbError, DbReader,
+use cedra_db::{backup::backup_handler::BackupHandler, CedraDB};
+use cedra_logger::prelude::*;
+use cedra_storage_interface::{
+    state_store::state_view::db_state_view::DbStateViewAtVersion, CedraDbError, DbReader,
 };
-use aptos_types::{
+use cedra_types::{
     contract_event::ContractEvent,
     transaction::{
         signature_verified_transaction::SignatureVerifiedTransaction, Transaction, TransactionInfo,
@@ -22,7 +22,7 @@ use aptos_types::{
     },
     write_set::WriteSet,
 };
-use aptos_vm::{aptos_vm::AptosVMBlockExecutor, AptosVM, VMBlockExecutor};
+use cedra_vm::{cedra_vm::CedraVMBlockExecutor, CedraVM, VMBlockExecutor};
 use clap::Parser;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use std::{
@@ -134,7 +134,7 @@ struct Verifier {
 
 impl Verifier {
     pub fn new(config: &Opt) -> Result<Self> {
-        let aptos_db = AptosDB::open(
+        let cedra_db = CedraDB::open(
             StorageDirPaths::from_path(config.db_dir.as_path()),
             true,
             NO_OP_STORAGE_PRUNER_CONFIG,
@@ -145,8 +145,8 @@ impl Verifier {
             None,
         )?;
 
-        let backup_handler = aptos_db.get_backup_handler();
-        let arc_db = Arc::new(aptos_db) as Arc<dyn DbReader>;
+        let backup_handler = cedra_db.get_backup_handler();
+        let arc_db = Arc::new(cedra_db) as Arc<dyn DbReader>;
 
         // calculate a valid start and limit
         let (start, limit) =
@@ -176,7 +176,7 @@ impl Verifier {
             return Ok(vec![]);
         }
 
-        AptosVM::set_concurrency_level_once(self.replay_concurrency_level);
+        CedraVM::set_concurrency_level_once(self.replay_concurrency_level);
         let task_size = self.limit / self.concurrent_replay as u64;
         let ranges: Vec<(u64, u64)> = (0..self.concurrent_replay)
             .map(|i| {
@@ -259,20 +259,20 @@ impl Verifier {
 
     /// utility functions
     fn get_start_and_limit(
-        aptos_db: &Arc<dyn DbReader>,
+        cedra_db: &Arc<dyn DbReader>,
         start_version: Version,
         end_version: Version,
     ) -> Result<(Version, u64)> {
-        let db_start = aptos_db
+        let db_start = cedra_db
             .get_first_txn_version()?
-            .ok_or(AptosDbError::NotFound(
+            .ok_or(CedraDbError::NotFound(
                 "First txn version is None".to_string(),
             ))?;
         let start = std::cmp::max(db_start, start_version);
 
-        let db_end = aptos_db
+        let db_end = cedra_db
             .get_synced_version()?
-            .ok_or(AptosDbError::NotFound("Synced version is None".to_string()))?;
+            .ok_or(CedraDbError::NotFound("Synced version is None".to_string()))?;
         let end = std::cmp::min(end_version, db_end);
 
         let limit = if start <= end {
@@ -307,7 +307,7 @@ impl Verifier {
             .map(|txn| SignatureVerifiedTransaction::from(txn.clone()))
             .collect::<Vec<_>>();
         let txns_provider = DefaultTxnProvider::new(txns);
-        let executed_outputs = AptosVMBlockExecutor::new().execute_block_no_limit(
+        let executed_outputs = CedraVMBlockExecutor::new().execute_block_no_limit(
             &txns_provider,
             &self
                 .arc_db

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,17 +13,17 @@ use crate::{
     },
     utils,
 };
-use aptos_config::config::StateSyncDriverConfig;
-use aptos_data_streaming_service::data_notification::NotificationId;
-use aptos_event_notifications::EventSubscriptionService;
-use aptos_executor_types::{ChunkCommitNotification, ChunkExecutorTrait};
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_mempool_notifications::MempoolNotificationSender;
-use aptos_metrics_core::HistogramTimer;
-use aptos_storage_interface::{DbReader, DbReaderWriter, StateSnapshotReceiver};
-use aptos_storage_service_notifications::StorageServiceNotificationSender;
-use aptos_types::{
+use cedra_config::config::StateSyncDriverConfig;
+use cedra_data_streaming_service::data_notification::NotificationId;
+use cedra_event_notifications::EventSubscriptionService;
+use cedra_executor_types::{ChunkCommitNotification, ChunkExecutorTrait};
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_mempool_notifications::MempoolNotificationSender;
+use cedra_metrics_core::HistogramTimer;
+use cedra_storage_interface::{DbReader, DbReaderWriter, StateSnapshotReceiver};
+use cedra_storage_service_notifications::StorageServiceNotificationSender;
+use cedra_types::{
     ledger_info::LedgerInfoWithSignatures,
     state_store::{
         state_key::StateKey,

@@ -1,7 +1,7 @@
 ---
 id: executor
 title: Executor
-custom_edit_url: https://github.com/cedra-labs/cedra/edit/main/executor/README.md
+custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/executor/README.md
 ---
 
 
@@ -109,7 +109,7 @@ default by not specifying them.
 
 ```yaml
 execution:
-    # see https://github.com/cedra-labs/cedra/blob/main/config/src/config/test_data/public_full_node.yaml
+    # see https://github.com/cedra-labs/cedra-network/blob/main/config/src/config/test_data/public_full_node.yaml
     # for explanation
     genesis_file_location: ""
     # Determines how many threads the Parallel Executor spawns for transaction execution.

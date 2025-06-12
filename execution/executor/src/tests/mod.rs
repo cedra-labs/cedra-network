@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -7,16 +7,16 @@ use crate::{
     db_bootstrapper::{generate_waypoint, maybe_bootstrap},
     workflow::{do_get_execution_output::DoGetExecutionOutput, ApplyExecutionOutput},
 };
-use aptos_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
-use aptos_db::AptosDB;
-use aptos_executor_types::{
+use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
+use cedra_db::CedraDB;
+use cedra_executor_types::{
     BlockExecutorTrait, ChunkExecutorTrait, TransactionReplayer, VerifyExecutionMode,
 };
-use aptos_storage_interface::{
+use cedra_storage_interface::{
     state_store::state_view::cached_state_view::CachedStateView, DbReaderWriter, LedgerSummary,
     Result,
 };
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     aggregate_signature::AggregateSignature,
     block_executor::{
@@ -37,7 +37,7 @@ use aptos_types::{
     },
     write_set::{WriteOp, WriteSet, WriteSetMut},
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use itertools::Itertools;
 use mock_vm::{
     encode_mint_transaction, encode_reconfiguration_transaction, encode_transfer_transaction,
@@ -74,17 +74,17 @@ fn execute_and_commit_block(
 }
 
 struct TestExecutor {
-    _path: aptos_temppath::TempPath,
+    _path: cedra_temppath::TempPath,
     db: DbReaderWriter,
     executor: BlockExecutor<MockVM>,
 }
 
 impl TestExecutor {
     fn new() -> TestExecutor {
-        let path = aptos_temppath::TempPath::new();
+        let path = cedra_temppath::TempPath::new();
         path.create_as_dir().unwrap();
-        let db = DbReaderWriter::new(AptosDB::new_for_test(path.path()));
-        let genesis = aptos_vm_genesis::test_genesis_transaction();
+        let db = DbReaderWriter::new(CedraDB::new_for_test(path.path()));
+        let genesis = cedra_vm_genesis::test_genesis_transaction();
         let waypoint = generate_waypoint::<MockVM>(&db, &genesis).unwrap();
         maybe_bootstrap::<MockVM>(&db, &genesis, waypoint).unwrap();
         let executor = BlockExecutor::new(db.clone());

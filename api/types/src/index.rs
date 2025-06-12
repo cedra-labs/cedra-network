@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{LedgerInfo, U64};
-use aptos_config::config::RoleType;
+use cedra_config::config::RoleType;
 use poem_openapi::Object as PoemObject;
 use serde::{Deserialize, Serialize};
 

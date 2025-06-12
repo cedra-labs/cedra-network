@@ -1,8 +1,8 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_executor_types::{state_compute_result::StateComputeResult, ExecutorResult};
-use aptos_types::transaction::SignedTransaction;
+use cedra_executor_types::{state_compute_result::StateComputeResult, ExecutorResult};
+use cedra_types::transaction::SignedTransaction;
 use derivative::Derivative;
 use futures::future::BoxFuture;
 use std::time::Duration;

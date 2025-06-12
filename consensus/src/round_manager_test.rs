@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -28,12 +28,12 @@ use crate::{
     },
     util::time_service::{ClockTimeService, TimeService},
 };
-use aptos_channels::{self, aptos_channel, message_queues::QueueStyle};
-use aptos_config::{
+use cedra_channels::{self, cedra_channel, message_queues::QueueStyle};
+use cedra_config::{
     config::ConsensusConfig,
     network_id::{NetworkId, PeerNetworkId},
 };
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     block::{
         block_test_utils::{certificate_for_genesis, gen_test_certificate},
         Block,
@@ -49,10 +49,10 @@ use aptos_consensus_types::{
     utils::PayloadTxnsSize,
     vote_msg::VoteMsg,
 };
-use aptos_crypto::HashValue;
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::info;
-use aptos_network::{
+use cedra_crypto::HashValue;
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::info;
+use cedra_network::{
     application::interface::NetworkClient,
     peer_manager::{ConnectionRequestSender, PeerManagerRequestSender},
     protocols::{
@@ -63,9 +63,9 @@ use aptos_network::{
     transport::ConnectionMetadata,
     ProtocolId,
 };
-use aptos_safety_rules::{PersistentSafetyStorage, SafetyRulesManager};
-use aptos_secure_storage::Storage;
-use aptos_types::{
+use cedra_safety_rules::{PersistentSafetyStorage, SafetyRulesManager};
+use cedra_secure_storage::Storage;
+use cedra_types::{
     epoch_state::EpochState,
     jwks::QuorumCertifiedUpdate,
     ledger_info::LedgerInfo,
@@ -131,7 +131,7 @@ impl NodeSetup {
     fn create_round_state(time_service: Arc<dyn TimeService>) -> RoundState {
         let base_timeout = Duration::new(60, 0);
         let time_interval = Box::new(ExponentialTimeInterval::fixed(base_timeout));
-        let (round_timeout_sender, _) = aptos_channels::new_test(1_024);
+        let (round_timeout_sender, _) = cedra_channels::new_test(1_024);
         RoundState::new(time_interval, time_service, round_timeout_sender)
     }
 
@@ -200,7 +200,7 @@ impl NodeSetup {
             let (initial_data, storage) = MockStorage::start_for_testing((&validators).into());
 
             let safety_storage = PersistentSafetyStorage::initialize(
-                Storage::from(aptos_secure_storage::InMemoryStorage::new()),
+                Storage::from(cedra_secure_storage::InMemoryStorage::new()),
                 signer.author(),
                 signer.private_key().clone(),
                 waypoint,
@@ -243,10 +243,10 @@ impl NodeSetup {
         let _entered_runtime = executor.enter();
         let epoch_state = Arc::new(EpochState::new(1, storage.get_validator_set().into()));
         let validators = epoch_state.verifier.clone();
-        let (network_reqs_tx, network_reqs_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-        let (connection_reqs_tx, _) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-        let (consensus_tx, consensus_rx) = aptos_channel::new(QueueStyle::FIFO, 8, None);
-        let (_conn_mgr_reqs_tx, conn_mgr_reqs_rx) = aptos_channels::new_test(8);
+        let (network_reqs_tx, network_reqs_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+        let (connection_reqs_tx, _) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+        let (consensus_tx, consensus_rx) = cedra_channel::new(QueueStyle::FIFO, 8, None);
+        let (_conn_mgr_reqs_tx, conn_mgr_reqs_rx) = cedra_channels::new_test(8);
         let network_sender = network::NetworkSender::new(
             PeerManagerRequestSender::new(network_reqs_tx),
             ConnectionRequestSender::new(connection_reqs_tx),
@@ -265,7 +265,7 @@ impl NodeSetup {
 
         playground.add_node(twin_id, consensus_tx, network_reqs_rx, conn_mgr_reqs_rx);
 
-        let (self_sender, self_receiver) = aptos_channels::new_unbounded_test();
+        let (self_sender, self_receiver) = cedra_channels::new_unbounded_test();
         let network = Arc::new(NetworkSender::new(
             author,
             consensus_network_client,
@@ -326,7 +326,7 @@ impl NodeSetup {
             MetricsSafetyRules::new(safety_rules_manager.client(), storage.clone());
         safety_rules.perform_initialize().unwrap();
 
-        let (round_manager_tx, _) = aptos_channel::new(QueueStyle::LIFO, 1, None);
+        let (round_manager_tx, _) = cedra_channel::new(QueueStyle::LIFO, 1, None);
 
         let local_config = local_consensus_config.clone();
 
@@ -1761,7 +1761,7 @@ fn safety_rules_crash() {
 
     fn reset_safety_rules(node: &mut NodeSetup) {
         let safety_storage = PersistentSafetyStorage::initialize(
-            Storage::from(aptos_secure_storage::InMemoryStorage::new()),
+            Storage::from(cedra_secure_storage::InMemoryStorage::new()),
             node.signer.author(),
             node.signer.private_key().clone(),
             node.round_manager.consensus_state().waypoint(),

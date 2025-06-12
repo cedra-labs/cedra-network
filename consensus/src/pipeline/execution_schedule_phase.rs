@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -8,10 +8,10 @@ use crate::{
     },
     state_replication::StateComputer,
 };
-use aptos_consensus_types::pipelined_block::PipelinedBlock;
-use aptos_crypto::HashValue;
-use aptos_executor_types::ExecutorError;
-use aptos_logger::debug;
+use cedra_consensus_types::pipelined_block::PipelinedBlock;
+use cedra_crypto::HashValue;
+use cedra_executor_types::ExecutorError;
+use cedra_logger::debug;
 use async_trait::async_trait;
 use futures::{FutureExt, TryFutureExt};
 use std::{
@@ -70,7 +70,7 @@ impl StatelessPipeline for ExecutionSchedulePhase {
             None => {
                 return ExecutionWaitRequest {
                     block_id: HashValue::zero(),
-                    fut: Box::pin(async { Err(aptos_executor_types::ExecutorError::EmptyBlocks) }),
+                    fut: Box::pin(async { Err(cedra_executor_types::ExecutorError::EmptyBlocks) }),
                 }
             },
         };

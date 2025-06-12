@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -8,8 +8,8 @@ use crate::{
     test_utils::{consensus_runtime, timed_block_on},
     twins::twins_node::SMRNode,
 };
-use aptos_consensus_types::{block::Block, common::Round};
-use aptos_types::on_chain_config::ProposerElectionType::{
+use cedra_consensus_types::{block::Block, common::Round};
+use cedra_types::on_chain_config::ProposerElectionType::{
     FixedProposer, RotatingProposer, RoundProposer,
 };
 use futures::StreamExt;
@@ -76,7 +76,7 @@ fn basic_start_test() {
 ///
 /// Run the test:
 /// cargo xtest -p consensus drop_config_test -- --nocapture
-#[ignore] // TODO: https://github.com/cedra-labs/cedra/issues/8767
+#[ignore] // TODO: https://github.com/cedra-labs/cedra-network/issues/8767
 fn drop_config_test() {
     let runtime = consensus_runtime();
     let mut playground = NetworkPlayground::new(runtime.handle().clone());
@@ -258,7 +258,7 @@ fn twins_proposer_test() {
 }
 
 #[test]
-#[ignore] // TODO: https://github.com/cedra-labs/cedra/issues/6615
+#[ignore] // TODO: https://github.com/cedra-labs/cedra-network/issues/6615
 /// This test checks that when a node and its twin are both leaders
 /// for a round, only one of the two proposals gets committed
 ///

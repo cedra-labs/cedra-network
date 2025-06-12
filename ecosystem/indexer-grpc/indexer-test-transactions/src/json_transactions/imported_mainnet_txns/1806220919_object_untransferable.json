@@ -198,7 +198,7 @@
             "name": "Metadata"
           },
           "typeStr": "0x1::fungible_asset::Metadata",
-          "data": "{\"decimals\":8,\"icon_uri\":\"\",\"name\":\"aApt\",\"project_uri\":\"\",\"symbol\":\"AAPT\"}"
+          "data": "{\"decimals\":8,\"icon_uri\":\"\",\"name\":\"aApt\",\"project_uri\":\"\",\"symbol\":\"ACedra\"}"
         }
       },
       {
@@ -282,7 +282,7 @@
             "name": "Metadata"
           },
           "typeStr": "0x1::fungible_asset::Metadata",
-          "data": "{\"decimals\":8,\"icon_uri\":\"https://aptoscan.com/images/empty-coin.svg\",\"name\":\"Apt\",\"project_uri\":\"https://aptoscan.com\",\"symbol\":\"Cedra\"}"
+          "data": "{\"decimals\":8,\"icon_uri\":\"https://cedracan.com/images/empty-coin.svg\",\"name\":\"Apt\",\"project_uri\":\"https://cedracan.com\",\"symbol\":\"Cedra\"}"
         }
       },
       {

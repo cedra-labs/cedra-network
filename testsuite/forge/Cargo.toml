@@ -1,6 +1,6 @@
 [package]
-name = "aptos-forge"
-description = "Aptos end to end test framework"
+name = "cedra-forge"
+description = "Cedra end to end test framework"
 version = "0.0.0"
 
 # Workspace inherited keys
@@ -16,25 +16,25 @@ rust-version = { workspace = true }
 again = { workspace = true }
 anyhow = { workspace = true, features = ["backtrace"] }
 cedra = { workspace = true }
-aptos-cached-packages = { workspace = true }
-aptos-cli-common = { workspace = true }
-aptos-config = { workspace = true }
-aptos-db = { workspace = true }
-aptos-framework = { workspace = true }
-aptos-genesis = { workspace = true }
-aptos-global-constants = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-inspection-service = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-rest-client = { workspace = true }
-aptos-retrier = { workspace = true }
-aptos-runtimes = { workspace = true }
-aptos-sdk = { workspace = true }
-aptos-short-hex-str = { workspace = true }
-aptos-state-sync-driver = { workspace = true }
-aptos-transaction-emitter-lib = { workspace = true }
-aptos-transaction-generator-lib = { workspace = true }
-aptos-transaction-workloads-lib = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-cli-common = { workspace = true }
+cedra-config = { workspace = true }
+cedra-db = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-genesis = { workspace = true }
+cedra-global-constants = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-inspection-service = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-retrier = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-short-hex-str = { workspace = true }
+cedra-state-sync-driver = { workspace = true }
+cedra-transaction-emitter-lib = { workspace = true }
+cedra-transaction-generator-lib = { workspace = true }
+cedra-transaction-workloads-lib = { workspace = true }
 async-trait = { workspace = true }
 chrono = { workspace = true }
 clap = { workspace = true, features = ["env", "unstable-styles"] }
@@ -72,4 +72,4 @@ serde_merge = { workspace = true }
 
 [features]
 default = []
-testing = ["aptos-global-constants/testing"]
+testing = ["cedra-global-constants/testing"]

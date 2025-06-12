@@ -34,10 +34,10 @@
           "stateKeyHash": "a7wZEbghiJk3zOZPAfvB9XZzAjM78qlp14W7B+uZgZI=",
           "type": {
             "address": "0x4",
-            "module": "aptos_token",
-            "name": "AptosToken"
+            "module": "cedra_token",
+            "name": "CedraToken"
           },
-          "typeStr": "0x4::aptos_token::AptosToken",
+          "typeStr": "0x4::cedra_token::CedraToken",
           "data": "{\"burn_ref\":{\"vec\":[{\"inner\":{\"vec\":[{\"self\":\"0x2a8822cbd320abf7e363a7197626161eaf8b8de51f1da239e84255336b1e8923\"}]},\"self\":{\"vec\":[]}}]},\"mutator_ref\":{\"vec\":[{\"self\":\"0x2a8822cbd320abf7e363a7197626161eaf8b8de51f1da239e84255336b1e8923\"}]},\"property_mutator_ref\":{\"self\":\"0x2a8822cbd320abf7e363a7197626161eaf8b8de51f1da239e84255336b1e8923\"},\"transfer_ref\":{\"vec\":[]}}"
         }
       },
@@ -128,10 +128,10 @@
           "stateKeyHash": "NQF8Dy2boxUMH7MDVxaMrclAAX/M5YItxUHSr6f6IzA=",
           "type": {
             "address": "0x4",
-            "module": "aptos_token",
-            "name": "AptosToken"
+            "module": "cedra_token",
+            "name": "CedraToken"
           },
-          "typeStr": "0x4::aptos_token::AptosToken",
+          "typeStr": "0x4::cedra_token::CedraToken",
           "data": "{\"burn_ref\":{\"vec\":[{\"inner\":{\"vec\":[{\"self\":\"0x41428e9025efe2c2a97de15b25d753ebb19264e8ecee56cb3d9bdd62a19d7a51\"}]},\"self\":{\"vec\":[]}}]},\"mutator_ref\":{\"vec\":[{\"self\":\"0x41428e9025efe2c2a97de15b25d753ebb19264e8ecee56cb3d9bdd62a19d7a51\"}]},\"property_mutator_ref\":{\"self\":\"0x41428e9025efe2c2a97de15b25d753ebb19264e8ecee56cb3d9bdd62a19d7a51\"},\"transfer_ref\":{\"vec\":[]}}"
         }
       },
@@ -184,10 +184,10 @@
           "stateKeyHash": "vy4InJIoPDl34XG89cFSPrxJ7+aleZgQ8hWmqym1EVw=",
           "type": {
             "address": "0x4",
-            "module": "aptos_token",
-            "name": "AptosCollection"
+            "module": "cedra_token",
+            "name": "CedraCollection"
           },
-          "typeStr": "0x4::aptos_token::AptosCollection",
+          "typeStr": "0x4::cedra_token::CedraCollection",
           "data": "{\"mutable_description\":false,\"mutable_token_description\":true,\"mutable_token_name\":true,\"mutable_token_properties\":false,\"mutable_token_uri\":true,\"mutable_uri\":false,\"mutator_ref\":{\"vec\":[]},\"royalty_mutator_ref\":{\"vec\":[]},\"tokens_burnable_by_creator\":true,\"tokens_freezable_by_creator\":false}"
         }
       },

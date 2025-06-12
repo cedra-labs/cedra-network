@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! This module checks whether closure expressions are valid, which is done after type inference
@@ -6,7 +6,7 @@
 //!
 //! - The closure satisfies the ability requirements of it's inferred type. For the
 //!   definition of closure abilities, see
-//!   [AIP-112](https://github.com/aptos-foundation/AIPs/blob/main/aips/aip-112.md).
+//!   [AIP-112](https://github.com/cedra-foundation/AIPs/blob/main/aips/aip-112.md).
 //! - The closure does not capture references, as this is currently not allowed.
 //! ```
 

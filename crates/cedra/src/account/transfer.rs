@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::{CliCommand, CliTypedResult, TransactionOptions};
-use aptos_cached_packages::aptos_stdlib;
-use aptos_rest_client::{
-    aptos_api_types::{HashValue, WriteResource, WriteSetChange},
+use cedra_cached_packages::cedra_stdlib;
+use cedra_rest_client::{
+    cedra_api_types::{HashValue, WriteResource, WriteSetChange},
     Transaction,
 };
-use aptos_types::account_address::AccountAddress;
+use cedra_types::account_address::AccountAddress;
 use async_trait::async_trait;
 use clap::Parser;
 use serde::Serialize;
@@ -39,7 +39,7 @@ impl CliCommand<TransferSummary> for TransferCoins {
 
     async fn execute(self) -> CliTypedResult<TransferSummary> {
         self.txn_options
-            .submit_transaction(aptos_stdlib::aptos_account_transfer(
+            .submit_transaction(cedra_stdlib::cedra_account_transfer(
                 self.account,
                 self.amount,
             ))

@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::db_access::DbAccessUtil;
 use anyhow::Result;
-use aptos_storage_interface::{
+use cedra_storage_interface::{
     state_store::state_view::db_state_view::LatestDbStateCheckpointView, DbReaderWriter,
 };
-use aptos_transaction_generator_lib::{CounterState, ReliableTransactionSubmitter};
-use aptos_types::{
+use cedra_transaction_generator_lib::{CounterState, ReliableTransactionSubmitter};
+use cedra_types::{
     account_address::AccountAddress,
     account_config::AccountResource,
     state_store::MoveResourceExt,

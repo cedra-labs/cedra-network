@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::on_chain_config::OnChainConfig;
@@ -17,6 +17,6 @@ impl ApprovedExecutionHashes {
 }
 
 impl OnChainConfig for ApprovedExecutionHashes {
-    const MODULE_IDENTIFIER: &'static str = "aptos_governance";
+    const MODULE_IDENTIFIER: &'static str = "cedra_governance";
     const TYPE_IDENTIFIER: &'static str = "ApprovedExecutionHashes";
 }

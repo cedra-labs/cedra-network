@@ -34,10 +34,10 @@
           "stateKeyHash": "5CGlZgjx0ssfixwK4ZYpeV38BSAbVFz4ZYvZiV1QvcM=",
           "type": {
             "address": "0x4",
-            "module": "aptos_token",
-            "name": "AptosToken"
+            "module": "cedra_token",
+            "name": "CedraToken"
           },
-          "typeStr": "0x4::aptos_token::AptosToken",
+          "typeStr": "0x4::cedra_token::CedraToken",
           "data": "{\"burn_ref\":{\"vec\":[{\"inner\":{\"vec\":[{\"self\":\"0x57a56bff4472da6c2b28149d192ef0186ff6647bc3c2ba5c28439662fdaa284d\"}]},\"self\":{\"vec\":[]}}]},\"mutator_ref\":{\"vec\":[{\"self\":\"0x57a56bff4472da6c2b28149d192ef0186ff6647bc3c2ba5c28439662fdaa284d\"}]},\"property_mutator_ref\":{\"self\":\"0x57a56bff4472da6c2b28149d192ef0186ff6647bc3c2ba5c28439662fdaa284d\"},\"transfer_ref\":{\"vec\":[]}}"
         }
       },

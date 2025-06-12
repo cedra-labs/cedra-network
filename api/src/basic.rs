@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -9,7 +9,7 @@ use crate::{
     ApiTags,
 };
 use anyhow::Context as AnyhowContext;
-use aptos_api_types::AptosErrorCode;
+use cedra_api_types::CedraErrorCode;
 use poem_openapi::{
     param::Query,
     payload::{Html, Json},
@@ -44,7 +44,7 @@ pub struct HealthCheckSuccess {
 impl HealthCheckSuccess {
     pub fn new() -> Self {
         Self {
-            message: "aptos-node:ok".to_string(),
+            message: "cedra-node:ok".to_string(),
         }
     }
 }
@@ -151,7 +151,7 @@ impl BasicApi {
                 .map_err(|err| {
                     HealthCheckError::internal_with_code(
                         err,
-                        AptosErrorCode::InternalError,
+                        CedraErrorCode::InternalError,
                         &ledger_info,
                     )
                 })?;
@@ -159,7 +159,7 @@ impl BasicApi {
             if ledger_timestamp < skew_threshold {
                 return Err(HealthCheckError::service_unavailable_with_code(
                     format!("The latest ledger info timestamp is {:?}, which is beyond the allowed skew ({}s).", ledger_timestamp, max_skew),
-                    AptosErrorCode::HealthCheckFailed,
+                    CedraErrorCode::HealthCheckFailed,
                     &ledger_info,
                 ));
             }

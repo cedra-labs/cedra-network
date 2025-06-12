@@ -1,12 +1,12 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     metrics::TIMER,
     state_store::{versioned_state_value::StateUpdateRef, NUM_STATE_SHARDS},
 };
-use aptos_metrics_core::TimerHelper;
-use aptos_types::{
+use cedra_metrics_core::TimerHelper;
+use cedra_types::{
     state_store::{state_key::StateKey, state_value::StateValue},
     transaction::Version,
     write_set::WriteSet,

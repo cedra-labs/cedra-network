@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::quorum_store::types::PersistedValue;
 use anyhow::Result;
-use aptos_consensus_types::proof_of_store::BatchId;
-use aptos_crypto::HashValue;
-use aptos_schemadb::{
+use cedra_consensus_types::proof_of_store::BatchId;
+use cedra_crypto::HashValue;
+use cedra_schemadb::{
     schema::{KeyCodec, Schema, ValueCodec},
     ColumnFamilyName,
 };
@@ -20,7 +20,7 @@ impl Schema for BatchSchema {
     type Key = HashValue;
     type Value = PersistedValue;
 
-    const COLUMN_FAMILY_NAME: aptos_schemadb::ColumnFamilyName = BATCH_CF_NAME;
+    const COLUMN_FAMILY_NAME: cedra_schemadb::ColumnFamilyName = BATCH_CF_NAME;
 }
 
 impl KeyCodec<BatchSchema> for HashValue {
@@ -50,7 +50,7 @@ impl Schema for BatchIdSchema {
     type Key = u64;
     type Value = BatchId;
 
-    const COLUMN_FAMILY_NAME: aptos_schemadb::ColumnFamilyName = BATCH_ID_CF_NAME;
+    const COLUMN_FAMILY_NAME: cedra_schemadb::ColumnFamilyName = BATCH_ID_CF_NAME;
 }
 
 impl KeyCodec<BatchIdSchema> for u64 {

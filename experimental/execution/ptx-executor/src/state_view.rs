@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
 use crate::common::HashMap;
-use aptos_types::state_store::{
+use cedra_types::state_store::{
     state_key::StateKey, state_storage_usage::StateStorageUsage, state_value::StateValue,
     StateView, StateViewResult, TStateView,
 };

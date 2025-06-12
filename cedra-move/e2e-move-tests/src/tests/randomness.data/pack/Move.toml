@@ -1,0 +1,7 @@
+[package]
+name = "randomness_test"
+version = "0.0.0"
+
+[dependencies]
+CedraFramework = { local = "../../../../../framework/cedra-framework" }
+CedraStdlib = { local = "../../../../../framework/cedra-stdlib" }

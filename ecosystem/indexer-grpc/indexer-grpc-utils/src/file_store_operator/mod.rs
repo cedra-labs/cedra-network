@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::compression_util::{
     FileEntry, FileStoreMetadata, StorageFormat, FILE_ENTRY_TRANSACTION_COUNT,
 };
 use anyhow::{Context, Result};
-use aptos_protos::transaction::v1::Transaction;
+use cedra_protos::transaction::v1::Transaction;
 
 pub mod gcs;
 pub use gcs::*;

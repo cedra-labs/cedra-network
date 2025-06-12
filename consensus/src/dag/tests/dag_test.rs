@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::helpers::MockPayloadManager;
@@ -9,10 +9,10 @@ use crate::dag::{
     types::{CertifiedNode, DagSnapshotBitmask, Node},
     NodeId, Vote,
 };
-use aptos_consensus_types::common::Author;
-use aptos_crypto::HashValue;
-use aptos_infallible::Mutex;
-use aptos_types::{
+use cedra_consensus_types::common::Author;
+use cedra_crypto::HashValue;
+use cedra_infallible::Mutex;
+use cedra_types::{
     epoch_state::EpochState, ledger_info::LedgerInfoWithSignatures,
     validator_signer::ValidatorSigner, validator_verifier::random_validator_verifier,
 };

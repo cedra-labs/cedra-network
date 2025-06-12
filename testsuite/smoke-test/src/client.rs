@@ -1,21 +1,21 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
-    smoke_test_environment::new_local_swarm_with_aptos,
+    smoke_test_environment::new_local_swarm_with_cedra,
     utils::{
         assert_balance, check_create_mint_transfer, create_and_fund_account, transfer_coins,
         MAX_HEALTHY_WAIT_SECS,
     },
 };
-use aptos_cached_packages::aptos_stdlib;
-use aptos_forge::{NodeExt, Swarm};
+use cedra_cached_packages::cedra_stdlib;
+use cedra_forge::{NodeExt, Swarm};
 use std::time::{Duration, Instant};
 
 #[tokio::test]
 async fn test_create_mint_transfer_block_metadata() {
-    let mut swarm = new_local_swarm_with_aptos(1).await;
+    let mut swarm = new_local_swarm_with_cedra(1).await;
     // This script does 4 transactions
     check_create_mint_transfer(&mut swarm).await;
 
@@ -38,14 +38,14 @@ async fn test_create_mint_transfer_block_metadata() {
 #[tokio::test]
 async fn test_basic_fault_tolerance() {
     // A configuration with 4 validators should tolerate single node failure.
-    let mut swarm = new_local_swarm_with_aptos(4).await;
+    let mut swarm = new_local_swarm_with_cedra(4).await;
     swarm.validators_mut().nth(3).unwrap().stop();
     check_create_mint_transfer(&mut swarm).await;
 }
 
 #[tokio::test]
 async fn test_basic_restartability() {
-    let mut swarm = new_local_swarm_with_aptos(4).await;
+    let mut swarm = new_local_swarm_with_cedra(4).await;
     let client = swarm.validators().next().unwrap().rest_client();
     let transaction_factory = swarm.chain_info().transaction_factory();
 
@@ -87,7 +87,7 @@ async fn test_basic_restartability() {
 
 #[tokio::test]
 async fn test_concurrent_transfers_single_node() {
-    let mut swarm = new_local_swarm_with_aptos(1).await;
+    let mut swarm = new_local_swarm_with_cedra(1).await;
     let client = swarm.validators().next().unwrap().rest_client();
     let transaction_factory = swarm.chain_info().transaction_factory();
 
@@ -99,7 +99,7 @@ async fn test_concurrent_transfers_single_node() {
 
     for _ in 0..20 {
         let txn = account_0.sign_with_transaction_builder(
-            transaction_factory.payload(aptos_stdlib::cedra_coin_transfer(account_1.address(), 1)),
+            transaction_factory.payload(cedra_stdlib::cedra_coin_transfer(account_1.address(), 1)),
         );
         client.submit_and_wait(&txn).await.unwrap();
     }
@@ -110,7 +110,7 @@ async fn test_concurrent_transfers_single_node() {
 
 #[tokio::test]
 async fn test_latest_events_and_transactions() {
-    let mut swarm = new_local_swarm_with_aptos(1).await;
+    let mut swarm = new_local_swarm_with_cedra(1).await;
     let client = swarm.validators().next().unwrap().rest_client();
     let start_events = client
         .get_new_block_events_bcs(None, Some(2))

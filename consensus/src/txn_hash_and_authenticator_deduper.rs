@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     counters::{TXN_DEDUP_FILTERED, TXN_DEDUP_SECONDS},
     transaction_deduper::TransactionDeduper,
 };
-use aptos_experimental_runtimes::thread_manager::optimal_min_len;
-use aptos_types::transaction::SignedTransaction;
+use cedra_experimental_runtimes::thread_manager::optimal_min_len;
+use cedra_types::transaction::SignedTransaction;
 use rayon::prelude::*;
 use std::collections::{HashMap, HashSet};
 
@@ -107,9 +107,9 @@ mod tests {
         transaction_deduper::TransactionDeduper,
         txn_hash_and_authenticator_deduper::TxnHashAndAuthenticatorDeduper,
     };
-    use aptos_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
-    use aptos_keygen::KeyGen;
-    use aptos_types::{
+    use cedra_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
+    use cedra_keygen::KeyGen;
+    use cedra_types::{
         chain_id::ChainId,
         transaction::{
             EntryFunction, RawTransaction, ReplayProtector, Script, SignedTransaction,
@@ -136,7 +136,7 @@ mod tests {
         }
 
         pub fn with_keypair(privkey: Ed25519PrivateKey, pubkey: Ed25519PublicKey) -> Self {
-            let addr = aptos_types::account_address::from_public_key(&pubkey);
+            let addr = cedra_types::account_address::from_public_key(&pubkey);
             Account {
                 addr,
                 privkey,

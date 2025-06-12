@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::tests::{mock, mock::MockClient, utils};
-use aptos_config::config::StorageServiceConfig;
-use aptos_storage_service_types::{
+use cedra_config::config::StorageServiceConfig;
+use cedra_storage_service_types::{
     requests::{DataRequest, TransactionOutputsWithProofRequest},
     responses::{DataResponse, StorageServiceResponse},
     StorageServiceError,

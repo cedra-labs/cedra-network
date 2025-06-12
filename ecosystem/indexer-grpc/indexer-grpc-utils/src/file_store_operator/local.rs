@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -7,7 +7,7 @@ use crate::{
         FileStoreOperator, FILE_STORE_UPDATE_FREQUENCY_SECS, METADATA_FILE_NAME,
     },
 };
-use aptos_protos::transaction::v1::Transaction;
+use cedra_protos::transaction::v1::Transaction;
 use itertools::{any, Itertools};
 use std::path::PathBuf;
 use tracing::info;

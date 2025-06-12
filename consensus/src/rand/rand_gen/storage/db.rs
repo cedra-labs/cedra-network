@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -15,8 +15,8 @@ use crate::{
     },
 };
 use anyhow::Result;
-use aptos_logger::info;
-use aptos_schemadb::{batch::SchemaBatch, schema::Schema, Options, DB};
+use cedra_logger::info;
+use cedra_schemadb::{batch::SchemaBatch, schema::Schema, Options, DB};
 use std::{path::Path, sync::Arc, time::Instant};
 
 pub struct RandDb {

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // This is required because a diesel macro makes clippy sad
@@ -9,7 +9,7 @@ use crate::{
     util::{hash_str, truncate_str},
 };
 use anyhow::{Context, Result};
-use aptos_api_types::{deserialize_from_string, MoveType, WriteResource};
+use cedra_api_types::{deserialize_from_string, MoveType, WriteResource};
 use bigdecimal::BigDecimal;
 use serde::{Deserialize, Serialize};
 

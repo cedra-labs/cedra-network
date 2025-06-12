@@ -1,13 +1,13 @@
 module addr::exceed_limit {
     use std::option::Option;
-    use aptos_framework::account::Account;
+    use cedra_framework::account::Account;
     use std::signer;
     use std::string::{Self};
     use std::simple_map::{SimpleMap, Self};
     use std::vector;
 
-    use aptos_token::token;
-    use aptos_token::token::TokenId;
+    use cedra_token::token;
+    use cedra_token::token::TokenId;
 
     // This struct is too large and exceeds the maximum allowed number of type nodes.
     enum MyStructEnum has key, store {

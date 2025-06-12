@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // This is required because a diesel macro makes clippy sad
@@ -8,7 +8,7 @@
 use super::coin_infos::CoinInfoQuery;
 use crate::schema::coin_supply;
 use anyhow::Context;
-use aptos_api_types::WriteTableItem as APIWriteTableItem;
+use cedra_api_types::WriteTableItem as APIWriteTableItem;
 use bigdecimal::BigDecimal;
 use field_count::FieldCount;
 use serde::{Deserialize, Serialize};
@@ -26,7 +26,7 @@ pub struct CoinSupply {
 }
 
 impl CoinSupply {
-    /// Currently only supports cedra_coin. Aggregator table detail is in CoinInfo which for aptos coin appears during genesis.
+    /// Currently only supports cedra_coin. Aggregator table detail is in CoinInfo which for cedra coin appears during genesis.
     /// We query for the aggregator table details (handle and key) once upon indexer initiation and use it to fetch supply.
     pub fn from_write_table_item(
         write_table_item: &APIWriteTableItem,
@@ -36,7 +36,7 @@ impl CoinSupply {
         txn_epoch: i64,
     ) -> anyhow::Result<Option<Self>> {
         if let Some(cedra_coin_info) = maybe_cedra_coin_info {
-            // Return early if we don't have the aptos aggregator table info
+            // Return early if we don't have the cedra aggregator table info
             if cedra_coin_info.supply_aggregator_table_key.is_none()
                 || cedra_coin_info.supply_aggregator_table_handle.is_none()
             {
@@ -56,7 +56,7 @@ impl CoinSupply {
                 {
                     return Ok(None);
                 }
-                // Return early if not aptos coin aggregator key
+                // Return early if not cedra coin aggregator key
                 let table_key = data
                     .key
                     .as_str()

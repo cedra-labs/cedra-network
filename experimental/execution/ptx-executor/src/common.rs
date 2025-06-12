@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
 //! TODO(aldenhu): doc
 
-use aptos_types::state_store::state_key::StateKey;
+use cedra_types::state_store::state_key::StateKey;
 
 pub(crate) type TxnIdx = usize;
 

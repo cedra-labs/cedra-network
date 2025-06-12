@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::monitor;
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     common::{TransactionInProgress, TransactionSummary},
     proof_of_store::{BatchId, BatchInfo},
 };
-use aptos_logger::prelude::*;
-use aptos_mempool::{QuorumStoreRequest, QuorumStoreResponse};
-use aptos_types::{transaction::SignedTransaction, PeerId};
+use cedra_logger::prelude::*;
+use cedra_mempool::{QuorumStoreRequest, QuorumStoreResponse};
+use cedra_types::{transaction::SignedTransaction, PeerId};
 use chrono::Utc;
 use futures::channel::{mpsc::Sender, oneshot};
 use std::{

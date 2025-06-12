@@ -1,10 +1,10 @@
 #!/bin/bash
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # Parts of the project are originally copyright © Meta Platforms, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 
-# This script is used to set up a minimal environment for building the Aptos CLI and other tools.
+# This script is used to set up a minimal environment for building the Cedra CLI and other tools.
 # The `dev_setup.sh` script is way too complex, and too hard to figure out what is actually happening.  This script
 # simplifies the process
 if command -v wget &>/dev/null; then
@@ -73,14 +73,14 @@ case "$OS" in
 esac
 
 # TODO: Determine how best to install on it's own
-#git clone https://github.com/cedra-labs/cedra.git
-#cd aptos-core || exit 1
+#git clone https://github.com/cedra-labs/cedra-network.git
+#cd cedra-core || exit 1
 
 # If cargo is installed correctly use it, but otherwise, you may need to initialize rustup, depends on OS
 #if command -v cargo &>/dev/null; then
-#  cargo build -p aptos --profile cli
+#  cargo build -p cedra --profile cli
 #else
   # if you use rustup init, you may need to use the .cargo/bin cargo
 #  /usr/bin/rustup-init -y
-#  ~/.cargo/bin/cargo build -p aptos --profile cli
+#  ~/.cargo/bin/cargo build -p cedra --profile cli
 #fi

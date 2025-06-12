@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -12,8 +12,8 @@ use crate::{
     IntGaugeGuard,
 };
 use anyhow::anyhow;
-use aptos_consensus_notifications::ConsensusNotificationSender;
-use aptos_consensus_types::{
+use cedra_consensus_notifications::ConsensusNotificationSender;
+use cedra_consensus_types::{
     block::Block,
     common::Round,
     pipeline::commit_vote::CommitVote,
@@ -26,12 +26,12 @@ use aptos_consensus_types::{
     quorum_cert::QuorumCert,
     wrapped_ledger_info::WrappedLedgerInfo,
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::{state_compute_result::StateComputeResult, BlockExecutorTrait};
-use aptos_experimental_runtimes::thread_manager::optimal_min_len;
-use aptos_infallible::Mutex;
-use aptos_logger::{error, info, warn};
-use aptos_types::{
+use cedra_crypto::HashValue;
+use cedra_executor_types::{state_compute_result::StateComputeResult, BlockExecutorTrait};
+use cedra_experimental_runtimes::thread_manager::optimal_min_len;
+use cedra_infallible::Mutex;
+use cedra_logger::{error, info, warn};
+use cedra_types::{
     block_executor::config::BlockExecutorConfigFromOnchain,
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
     randomness::Randomness,

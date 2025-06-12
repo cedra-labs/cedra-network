@@ -1,6 +1,6 @@
 [package]
-name = "aptos-storage-service-server"
-description = "The Aptos storage service (server-side)"
+name = "cedra-storage-service-server"
+description = "The Cedra storage service (server-side)"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,17 +14,17 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-channels = { workspace = true }
-aptos-config = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-network = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-storage-service-notifications = { workspace = true }
-aptos-storage-service-types = { workspace = true }
-aptos-time-service = { workspace = true }
-aptos-types = { workspace = true }
+cedra-channels = { workspace = true }
+cedra-config = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-network = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-storage-service-notifications = { workspace = true }
+cedra-storage-service-types = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-types = { workspace = true }
 arc-swap = { workspace = true }
 bcs = { workspace = true }
 bytes = { workspace = true }
@@ -38,13 +38,13 @@ tokio = { workspace = true }
 
 [dev-dependencies]
 anyhow = { workspace = true }
-aptos-bitvec = { workspace = true }
-aptos-config = { workspace = true, features = ["fuzzing"] }
-aptos-crypto = { workspace = true }
-aptos-netcore = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-time-service = { workspace = true, features = ["async", "testing"] }
-aptos-types = { workspace = true }
+cedra-bitvec = { workspace = true }
+cedra-config = { workspace = true, features = ["fuzzing"] }
+cedra-crypto = { workspace = true }
+cedra-netcore = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-time-service = { workspace = true, features = ["async", "testing"] }
+cedra-types = { workspace = true }
 claims = { workspace = true }
 maplit = { workspace = true }
 mockall = { workspace = true }

@@ -5,7 +5,7 @@ All notable changes to the Cedra Node API will be captured in this file. This ch
 **Note**: The Cedra Node API does not follow semantic version while we are in active development. Instead, breaking changes will be announced with each devnet cut. Once we launch our mainnet, the API will follow semantic versioning closely.
 
 ## Unreleased
-- OpenAPI layout changed slightly in some enum cases, see [#13929](https://github.com/cedra-labs/cedra/pull/13929) for more information.
+- OpenAPI layout changed slightly in some enum cases, see [#13929](https://github.com/cedra-labs/cedra-network/pull/13929) for more information.
 
 ## 1.2.0 (2022-09-29)
 - **[Breaking Changes]** Following the deprecation notice from the previous release, the following breaking changes have landed in this release. Please see the notes from last release for information on the new endpoints you must migrate to:
@@ -13,7 +13,7 @@ All notable changes to the Cedra Node API will be captured in this file. This ch
     - The `key` field in the `Event` struct has been removed.
 
 ## 1.1.0 (2022-09-08)
-- A new endpoint has been added for getting events: `/accounts/{address}/events/{creation_number}`. If you would make a request to `/events/{event_key}` like in `Example A` below, you would use the new endpoint like in `Example B`. See [#4012](https://github.com/cedra-labs/cedra/pull/4012) for more information on this change.
+- A new endpoint has been added for getting events: `/accounts/{address}/events/{creation_number}`. If you would make a request to `/events/{event_key}` like in `Example A` below, you would use the new endpoint like in `Example B`. See [#4012](https://github.com/cedra-labs/cedra-network/pull/4012) for more information on this change.
 - **[Deprecated]** The `/events/{event_key}` endpoint is now deprecated. In the next release it will be removed entirely. You must migrate to the new endpoint, `/accounts/{address}/events/{creation_number}`, by then.
 - Included in the `Event` struct (which is what the events endpoints return) is a new field called `guid`. This is a more easily interpretable representation of an event identifier than the `key` field.
 - **[Deprecated]** The `key` field in the `Event` struct is now deprecated. In the next release it will be removed entirely. You must migrate to using the `guid` field by then.
@@ -104,7 +104,7 @@ This section is dedicated to the finer details of the API change, but we include
 - Per-endpoint logging is now based on path, not operation ID. We want to change this back pending changes in Poem: https://github.com/poem-web/poem/issues/351.
 - All types we use via the API must implement a Poem derive, e.g. Object, Enum, etc. This provides the framework with necessary information for the types to self describe in the spec.
 - For types with discriminators (allOf, oneOf, anyOf), to deal with the fact that none of our types explicitly state their type, Poem generates intermediate types as part of attaching `type` to them. We are looking at alternatives, because it makes the spec and its usage a bit more verbose: https://github.com/poem-web/poem/issues/329.
-- We return BCS data with the `application/x-bcs` content type. The input uses the existing mime types. We should unify them though: https://github.com/cedra-labs/cedra/issues/2275.
+- We return BCS data with the `application/x-bcs` content type. The input uses the existing mime types. We should unify them though: https://github.com/cedra-labs/cedra-network/issues/2275.
 - `submit_transaction` now actually returns a pending transaction, whereas before it was returning a transaction enum (so the spec matches now).
 - `/transactions/{hash_or_version}` is gone, there are now two endpoints, `/transactions/by_hash/{hash}` and `/transactions/by_version/{version}`.
 - Epoch is returned as a U64 (the string wrapper), not a u64. The v0 API received this change too, as the previous behavior was inconsistent and potentially incorrect.
@@ -119,10 +119,10 @@ This section is dedicated to the finer details of the API change, but we include
 - Types related to tokens are no longer part of the API spec. These were never concretely part of the API, just written there by hand. The TS SDK now defines them by hand, but these types seem to fall more into the ABI work that Jijun is doing. We could also look at adding support for including additional types to components section of the spec. That way they match the underlying code at least.
 
 ### Noteworthy PRs
-- The main original PR. Here you can see a breakdown of why we chose Poem over the alternatives (of which there were few): https://github.com/cedra-labs/cedra/pull/1906.
-- This PR focuses on response and error handling: https://github.com/cedra-labs/cedra/pull/2139
-- This PR adds the remaining endpoints and splits up the testing infrastructure: https://github.com/cedra-labs/cedra/pull/2156
-- This PR adds a standalone binary for spec generation: https://github.com/cedra-labs/cedra/pull/2317
+- The main original PR. Here you can see a breakdown of why we chose Poem over the alternatives (of which there were few): https://github.com/cedra-labs/cedra-network/pull/1906.
+- This PR focuses on response and error handling: https://github.com/cedra-labs/cedra-network/pull/2139
+- This PR adds the remaining endpoints and splits up the testing infrastructure: https://github.com/cedra-labs/cedra-network/pull/2156
+- This PR adds a standalone binary for spec generation: https://github.com/cedra-labs/cedra-network/pull/2317
 
 ## Deprecation notes
 - Currently Cedra nodes host both the v0 and v1 APIs. We will remove the v0 API by 2022-09-01. If you're a dapp developer, you should only need to update to a newer version of the SDK you use. If you're an SDK / client developer, please update your SDK / client. Reach out to the Cedra team via [Discord](https://discord.gg/cedranetwork) for assistance with this, we will be happy to help.

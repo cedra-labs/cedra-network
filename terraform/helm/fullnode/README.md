@@ -7,7 +7,7 @@
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| cedra_chains | object | `{"devnet":{"genesis_blob_url":"https://devnet.cedralabs.com/genesis.blob","waypoint_txt_url":"https://devnet.cedralabs.com/waypoint.txt"},"mainnet":{"genesis_blob_url":"https://raw.githubusercontent.com/cedra-labs/cedra-networks/main/mainnet/genesis.blob","waypoint_txt_url":"https://raw.githubusercontent.com/cedra-labs/cedra-networks/main/mainnet/waypoint.txt"},"testnet":{"genesis_blob_url":"https://raw.githubusercontent.com/cedra-labs/cedra-networks/main/testnet/genesis.blob","waypoint_txt_url":"https://raw.githubusercontent.com/cedra-labs/cedra-networks/main/testnet/genesis_waypoint.txt"}}` | For each supported chain, specify the URLs from which to download the genesis.blob and waypoint.txt |
+| cedra_chains | object | `{"devnet":{"genesis_blob_url":"https://devnet.cedralabs.com/genesis.blob","waypoint_txt_url":"https://devnet.cedralabs.com/waypoint.txt"},"mainnet":{"genesis_blob_url":"https://raw.githubusercontent.com/cedra-labs/cedra-network/main/mainnet/genesis.blob","waypoint_txt_url":"https://raw.githubusercontent.com/cedra-labs/cedra-network/main/mainnet/waypoint.txt"},"testnet":{"genesis_blob_url":"https://raw.githubusercontent.com/cedra-labs/cedra-network/main/testnet/genesis.blob","waypoint_txt_url":"https://raw.githubusercontent.com/cedra-labs/cedra-network/main/testnet/genesis_waypoint.txt"}}` | For each supported chain, specify the URLs from which to download the genesis.blob and waypoint.txt |
 | backup.affinity | object | `{}` |  |
 | backup.config.azure.account | string | `nil` |  |
 | backup.config.azure.container | string | `nil` |  |
@@ -52,7 +52,7 @@
 | chain.genesisSecret | string | `nil` | Kubernetes Secret from which to load the genesis.blob and waypoint.txt |
 | chain.label | string | `nil` | The value of the `chain_name` label. If empty, defaults to `.Values.chain.name` |
 | chain.name | string | `"devnet"` | Name of the testnet to connect to. There must be a corresponding entry in .Values.cedra_chains |
-| fullnode.config | object | `{"full_node_networks":[{"identity":{},"inbound_rate_limit_config":null,"network_id":"public","outbound_rate_limit_config":null}]}` | Fullnode configuration. See NodeConfig https://github.com/cedra-labs/cedra/blob/main/config/src/config/mod.rs |
+| fullnode.config | object | `{"full_node_networks":[{"identity":{},"inbound_rate_limit_config":null,"network_id":"public","outbound_rate_limit_config":null}]}` | Fullnode configuration. See NodeConfig https://github.com/cedra-labs/cedra-network/blob/main/config/src/config/mod.rs |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy to use for fullnode images |
 | image.repo | string | `"cedralabs/validator"` | Image repo to use for fullnode images. Fullnodes and validators use the same image |
 | image.tag | string | `nil` | Image tag to use for fullnode images. If set, overrides `imageTag` |
@@ -134,6 +134,6 @@ Deployment
 
        $ helm install fullnode --set storage.class=gp2 .
 
-[REST API]: https://github.com/cedra-labs/cedra/blob/main/api/doc/v0/openapi.yaml
+[REST API]: https://github.com/cedra-labs/cedra-network/blob/main/api/doc/v0/openapi.yaml
 [values.yaml]: values.yaml
 [Cedra dockerhub]: https://hub.docker.com/r/cedralabs/validator/tags?page=1&ordering=last_updated

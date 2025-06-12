@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
@@ -12,9 +12,9 @@ use crate::{
     metrics::TIMER,
     runner::PtxRunnerClient,
 };
-use aptos_logger::trace;
-use aptos_metrics_core::TimerHelper;
-use aptos_types::{
+use cedra_logger::trace;
+use cedra_metrics_core::TimerHelper;
+use cedra_types::{
     state_store::{state_key::StateKey, state_value::StateValue},
     transaction::signature_verified_transaction::SignatureVerifiedTransaction,
 };

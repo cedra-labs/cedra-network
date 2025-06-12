@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::timestamp_to_unixtime;
-use aptos_protos::indexer::v1::StreamProgress;
+use cedra_protos::indexer::v1::StreamProgress;
 use build_html::{Html, HtmlChild, HtmlContainer, HtmlElement, HtmlPage, HtmlTag};
 use std::time::{Duration, SystemTime};
 use warp::{

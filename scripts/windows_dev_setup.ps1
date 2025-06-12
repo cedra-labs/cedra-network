@@ -1,4 +1,4 @@
-# This script installs the necessary dependencies to build in Aptos.
+# This script installs the necessary dependencies to build in Cedra.
 
 param (
     [switch]$t,
@@ -24,9 +24,9 @@ $global:boogie_version = "BOOGIE_VERSION="
 
 
 function welcome_message {
-    $message = "`nWelcome to Aptos!
-    `nThis script will download and install the necessary dependencies for Aptos Core based on your selection:
-      * Install Aptos build tools: t
+    $message = "`nWelcome to Cedra!
+    `nThis script will download and install the necessary dependencies for Cedra Core based on your selection:
+      * Install Cedra build tools: t
       * Install Move Prover tools: y`n
       Selection"
 
@@ -35,7 +35,7 @@ function welcome_message {
 
 function build_tools_message {
     $message = "`nYou selected option 't'.
-    `nThis script will download and install the following dependencies needed to build Aptos Core if not found on your system:
+    `nThis script will download and install the following dependencies needed to build Cedra Core if not found on your system:
     * Rust (and necessary components)
       * rust-fmt
       * clippy
@@ -74,7 +74,7 @@ function move_prover_message {
 function update_versions {
   try {
     # URL of the Unix script
-    $url = "https://raw.githubusercontent.com/aptos-labs/aptos-core/main/scripts/dev_setup.sh"
+    $url = "https://raw.githubusercontent.com/cedra-labs/cedra-core/main/scripts/dev_setup.sh"
 
     # Retrieve the content of the file and store it in a variable
     $content = (Invoke-WebRequest -UseBasicParsing -Uri $url | Select-Object -ExpandProperty Content -First 50) -join "`n"

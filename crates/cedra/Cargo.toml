@@ -1,7 +1,7 @@
 [package]
 name = "cedra"
 description = "Cedra tool for management of nodes and interacting with the blockchain"
-version = "0.9.0"
+version = "1.0.0"
 
 # Workspace inherited keys
 authors = { workspace = true }
@@ -14,42 +14,42 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-api-types = { workspace = true }
-aptos-backup-cli = { workspace = true }
-aptos-bitvec = { workspace = true }
-aptos-build-info = { workspace = true }
-aptos-cached-packages = { workspace = true }
-aptos-cli-common = { workspace = true }
-aptos-config = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-faucet-core = { workspace = true }
-aptos-framework = { workspace = true }
-aptos-gas-profiling = { workspace = true }
-aptos-gas-schedule = { workspace = true }
-aptos-genesis = { workspace = true }
-aptos-github-client = { workspace = true }
-aptos-global-constants = { workspace = true }
-aptos-indexer-grpc-server-framework = { workspace = true }
+cedra-api-types = { workspace = true }
+cedra-backup-cli = { workspace = true }
+cedra-bitvec = { workspace = true }
+cedra-build-info = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-cli-common = { workspace = true }
+cedra-config = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-faucet-core = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-gas-profiling = { workspace = true }
+cedra-gas-schedule = { workspace = true }
+cedra-genesis = { workspace = true }
+cedra-github-client = { workspace = true }
+cedra-global-constants = { workspace = true }
+cedra-indexer-grpc-server-framework = { workspace = true }
 cedra-indexer-processor-sdk = { workspace = true }
-aptos-keygen = { workspace = true }
-aptos-ledger = { workspace = true }
-aptos-localnet = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-move-debugger = { workspace = true }
-aptos-network-checker = { workspace = true }
-aptos-node = { workspace = true }
-aptos-rest-client = { workspace = true }
-aptos-sdk = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-telemetry = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-types = { workspace = true }
-aptos-vm = { workspace = true, features = ["testing"] }
-aptos-vm-environment = { workspace = true }
-aptos-vm-genesis = { workspace = true }
-aptos-vm-logging = { workspace = true }
-aptos-vm-types = { workspace = true }
-aptos-workspace-server = { workspace = true }
+cedra-keygen = { workspace = true }
+cedra-ledger = { workspace = true }
+cedra-localnet = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-move-debugger = { workspace = true }
+cedra-network-checker = { workspace = true }
+cedra-node = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-telemetry = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true, features = ["testing"] }
+cedra-vm-environment = { workspace = true }
+cedra-vm-genesis = { workspace = true }
+cedra-vm-logging = { workspace = true }
+cedra-vm-types = { workspace = true }
+cedra-workspace-server = { workspace = true }
 async-trait = { workspace = true }
 backoff = { workspace = true }
 base64 = { workspace = true }
@@ -118,7 +118,7 @@ jemallocator = { version = "0.5.0", features = [
 default = []
 fuzzing = []
 no-upload-proposal = []
-indexer = ["aptos-node/indexer"]
+indexer = ["cedra-node/indexer"]
 cli-framework-test-move = []
 
 [build-dependencies]

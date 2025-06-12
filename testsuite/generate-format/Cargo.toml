@@ -1,6 +1,6 @@
 [package]
 name = "generate-format"
-description = "Aptos core type checker to ensure compatibility"
+description = "Cedra core type checker to ensure compatibility"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -13,14 +13,14 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
-aptos-api-types = { workspace = true }
-aptos-config = { workspace = true }
-aptos-consensus = { workspace = true, features = ["fuzzing"] }
-aptos-consensus-types = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-crypto-derive = { workspace = true }
-aptos-network = { workspace = true }
-aptos-types = { workspace = true, features = ["fuzzing"] }
+cedra-api-types = { workspace = true }
+cedra-config = { workspace = true }
+cedra-consensus = { workspace = true, features = ["fuzzing"] }
+cedra-consensus-types = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-crypto-derive = { workspace = true }
+cedra-network = { workspace = true }
+cedra-types = { workspace = true, features = ["fuzzing"] }
 bcs = { workspace = true }
 clap = { workspace = true }
 move-core-types = { workspace = true, features = ["fuzzing"] }

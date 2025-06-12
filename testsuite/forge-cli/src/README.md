@@ -1,13 +1,13 @@
 ---
 id: forge cli
 title: Forge CLI
-custom_edit_url: https://github.com/cedra-labs/cedra/edit/main/testsuite/forge-cli/README.md
+custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/testsuite/forge-cli/README.md
 ---
 
 # Forge CLI
 
 This crate contains the Forge command line interface (CLI) tool. This enables users to
-run local and remote Aptos swarms (i.e., networks of validators and validator fullnodes). For
+run local and remote Cedra swarms (i.e., networks of validators and validator fullnodes). For
 example, to deploy a local validator swarm, run:
 
 ```
@@ -64,10 +64,10 @@ As an alternative to using the faucet service, you may use the faucet CLI direct
 cargo run -p cedra-faucet-cli -- --amount 10 --accounts <account_address> --key <private_key>
 ```
 
-:::tip Faucet and Aptos CLI
-See more on how the faucet works in the [README](https://github.com/cedra-labs/cedra/tree/main/crates/cedra-faucet).
+:::tip Faucet and Cedra CLI
+See more on how the faucet works in the [README](https://github.com/cedra-labs/cedra-network/tree/main/crates/cedra-faucet).
 
-Also see how to use the [Aptos CLI](../cli-tools/cedra-cli/use-cli/use-cedra-cli.md#account-examples) with an existing faucet.
+Also see how to use the [Cedra CLI](../cli-tools/cedra-cli/use-cli/use-cedra-cli.md#account-examples) with an existing faucet.
 :::
 
 ## Validator fullnodes

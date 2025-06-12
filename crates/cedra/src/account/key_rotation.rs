@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::{
@@ -7,15 +7,15 @@ use crate::common::types::{
     ExtractEd25519PublicKey, HardwareWalletOptions, ParseEd25519PrivateKey, ProfileConfig,
     ProfileOptions, PublicKeyInputOptions, RestOptions, TransactionOptions, TransactionSummary,
 };
-use aptos_cached_packages::aptos_stdlib;
-use aptos_crypto::{
+use cedra_cached_packages::cedra_stdlib;
+use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey},
     encoding_type::EncodingType,
     PrivateKey, SigningKey,
 };
-use aptos_ledger;
-use aptos_rest_client::{error::RestError, Client};
-use aptos_types::{
+use cedra_ledger;
+use cedra_rest_client::{error::RestError, Client};
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{RotationProofChallenge, CORE_CODE_ADDRESS},
     transaction::authenticator::AuthenticationKey,
@@ -169,7 +169,7 @@ impl CliCommand<RotateSummary> for RotateKey {
         let (new_private_key, new_public_key) = if new_derivation_path.is_some() {
             (
                 None,
-                aptos_ledger::get_public_key(new_derivation_path.clone().unwrap().as_str(), false)?,
+                cedra_ledger::get_public_key(new_derivation_path.clone().unwrap().as_str(), false)?,
             )
         } else {
             let new_private_key = self
@@ -211,7 +211,7 @@ impl CliCommand<RotateSummary> for RotateKey {
         let rotation_proof_signed_by_current_private_key =
             if let Some(current_derivation_path) = current_derivation_path.clone() {
                 eprintln!("Sign rotation proof challenge on your Ledger device (current key)");
-                let challenge_signature = aptos_ledger::sign_message(
+                let challenge_signature = cedra_ledger::sign_message(
                     current_derivation_path.as_str(),
                     &rotation_msg.clone(),
                 )?;
@@ -228,7 +228,7 @@ impl CliCommand<RotateSummary> for RotateKey {
         let rotation_proof_signed_by_new_private_key =
             if let Some(new_derivation_path) = new_derivation_path.clone() {
                 eprintln!("Sign rotation proof challenge on your Ledger device (new key)");
-                let challenge_signature = aptos_ledger::sign_message(
+                let challenge_signature = cedra_ledger::sign_message(
                     new_derivation_path.clone().as_str(),
                     &rotation_msg.clone(),
                 )?;
@@ -250,7 +250,7 @@ impl CliCommand<RotateSummary> for RotateKey {
         };
         let txn_summary = self
             .txn_options
-            .submit_transaction(aptos_stdlib::account_rotate_authentication_key(
+            .submit_transaction(cedra_stdlib::account_rotate_authentication_key(
                 0,
                 current_public_key.to_bytes().to_vec(),
                 0,

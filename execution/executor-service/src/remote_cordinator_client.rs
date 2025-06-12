@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 use crate::{
     metrics::REMOTE_EXECUTOR_TIMER, remote_state_view::RemoteStateViewClient, ExecuteBlockCommand,
     RemoteExecutionRequest, RemoteExecutionResult,
 };
-use aptos_secure_net::network_controller::{Message, NetworkController};
-use aptos_types::{
+use cedra_secure_net::network_controller::{Message, NetworkController};
+use cedra_types::{
     block_executor::partitioner::ShardId, state_store::state_key::StateKey,
     transaction::TransactionOutput, vm_status::VMStatus,
 };
-use aptos_vm::sharded_block_executor::{
+use cedra_vm::sharded_block_executor::{
     coordinator_client::CoordinatorClient, ExecutorShardCommand,
 };
 use crossbeam_channel::{Receiver, Sender};

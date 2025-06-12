@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::types::FaucetOptions;
@@ -17,8 +17,8 @@ use crate::{
         },
     },
 };
-use aptos_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, ValidCryptoMaterialStringExt};
-use aptos_ledger;
+use cedra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, ValidCryptoMaterialStringExt};
+use cedra_ledger;
 use async_trait::async_trait;
 use clap::Parser;
 use reqwest::Url;
@@ -32,9 +32,9 @@ use std::{
 /// 1 Cedra (might not actually get that much, depending on the faucet)
 const NUM_DEFAULT_OCTAS: u64 = 100000000;
 
-/// Tool to initialize current directory for the aptos tool
+/// Tool to initialize current directory for the cedra tool
 ///
-/// Configuration will be pushed into .aptos/config.yaml
+/// Configuration will be pushed into .cedra/config.yaml
 #[derive(Debug, Parser)]
 pub struct InitTool {
     /// Network to use for default settings
@@ -56,7 +56,7 @@ pub struct InitTool {
 
     /// Whether you want to create a profile from your ledger account
     ///
-    /// Make sure that you have your Ledger device connected and unlocked, with the Aptos app installed and opened.
+    /// Make sure that you have your Ledger device connected and unlocked, with the Cedra app installed and opened.
     /// You must also enable "Blind Signing" on your device to sign transactions from the CLI.
     #[clap(long)]
     pub ledger: bool,
@@ -79,7 +79,7 @@ pub struct InitTool {
 #[async_trait]
 impl CliCommand<()> for InitTool {
     fn command_name(&self) -> &'static str {
-        "AptosInit"
+        "CedraInit"
     }
 
     async fn execute(self) -> CliTypedResult<()> {
@@ -96,7 +96,7 @@ impl CliCommand<()> for InitTool {
 
         // Select profile we're using
         let mut profile_config = if let Some(profile_config) = config.remove_profile(profile_name) {
-            prompt_yes_with_override(&format!("Aptos already initialized for profile {}, do you want to overwrite the existing config?", profile_name), self.prompt_options)?;
+            prompt_yes_with_override(&format!("Cedra already initialized for profile {}, do you want to overwrite the existing config?", profile_name), self.prompt_options)?;
             profile_config
         } else {
             ProfileConfig::default()
@@ -172,7 +172,7 @@ impl CliCommand<()> for InitTool {
             Some(deri_path)
         } else if self.ledger {
             // Fetch the top 5 (index 0-4) accounts from Ledger
-            let account_map = aptos_ledger::fetch_batch_accounts(Some(0..5))?;
+            let account_map = cedra_ledger::fetch_batch_accounts(Some(0..5))?;
             eprintln!(
                 "Please choose an index from the following {} ledger accounts, or choose an arbitrary index that you want to use:",
                 account_map.len()
@@ -187,10 +187,10 @@ impl CliCommand<()> for InitTool {
             }
             let input_index = read_line("derivation_index")?;
             let input_index = input_index.trim();
-            let path = aptos_ledger::DERIVATION_PATH.replace("{index}", input_index);
+            let path = cedra_ledger::DERIVATION_PATH.replace("{index}", input_index);
 
             // Validate the path
-            if !aptos_ledger::validate_derivation_path(&path) {
+            if !cedra_ledger::validate_derivation_path(&path) {
                 return Err(CliError::UnexpectedError(
                     "Invalid index input. Please make sure the input is a valid number index"
                         .to_owned(),
@@ -242,7 +242,7 @@ impl CliCommand<()> for InitTool {
 
         // Public key
         let public_key = if self.is_hardware_wallet() {
-            let pub_key = match aptos_ledger::get_public_key(
+            let pub_key = match cedra_ledger::get_public_key(
                 derivation_path
                     .ok_or_else(|| {
                         CliError::UnexpectedError("Invalid derivation path".to_string())
@@ -270,7 +270,7 @@ impl CliCommand<()> for InitTool {
                 .expect("Must have rest client as created above"),
         )
         .map_err(|err| CliError::UnableToParse("rest_url", err.to_string()))?;
-        let client = aptos_rest_client::Client::new(rest_url);
+        let client = cedra_rest_client::Client::new(rest_url);
 
         // lookup the address from onchain instead of deriving it
         // if this is the rotated key, deriving it will outputs an incorrect address
@@ -338,7 +338,7 @@ impl CliCommand<()> for InitTool {
             .unwrap_or(DEFAULT_PROFILE);
 
         eprintln!(
-            "\n---\nAptos CLI is now set up for account {} as profile {}!\n---\n",
+            "\n---\nCedra CLI is now set up for account {} as profile {}!\n---\n",
             address, profile_name,
         );
 

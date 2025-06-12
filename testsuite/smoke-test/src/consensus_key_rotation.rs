@@ -1,15 +1,15 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{smoke_test_environment::SwarmBuilder, utils::get_on_chain_resource};
 use anyhow::bail;
 use cedra::common::types::GasOptions;
-use aptos_config::config::{OverrideNodeConfig, PersistableConfig};
-use aptos_crypto::{bls12381, Uniform};
-use aptos_forge::{NodeExt, Swarm, SwarmExt};
-use aptos_logger::info;
-use aptos_rest_client::Client;
-use aptos_types::{
+use cedra_config::config::{OverrideNodeConfig, PersistableConfig};
+use cedra_crypto::{bls12381, Uniform};
+use cedra_forge::{NodeExt, Swarm, SwarmExt};
+use cedra_logger::info;
+use cedra_rest_client::Client;
+use cedra_types::{
     on_chain_config::{ConfigurationResource, OnChainRandomnessConfig, ValidatorSet},
     validator_verifier::ValidatorVerifier,
 };
@@ -28,7 +28,7 @@ async fn consensus_key_rotation() {
     let epoch_duration_secs = 60;
     let n = 2;
     let (mut swarm, mut cli, _faucet) = SwarmBuilder::new_local(n)
-        .with_aptos()
+        .with_cedra()
         .with_init_genesis_config(Arc::new(move |conf| {
             conf.epoch_duration_secs = epoch_duration_secs;
 
@@ -121,7 +121,7 @@ async fn consensus_key_rotation() {
     info!("Update on-chain. Retry is needed in case randomness is enabled.");
     swarm
         .chain_info()
-        .into_aptos_public_info()
+        .into_cedra_public_info()
         .mint(operator_addr, 99999999999)
         .await
         .unwrap();

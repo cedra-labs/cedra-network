@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -23,8 +23,8 @@ fn test_runner(path: &Path) -> datatest_stable::Result<()> {
         dependencies: vec!["./tests".to_string()],
         named_address_mapping: vec![
             "std=0x1".to_string(),
-            "aptos_std=0x1".to_string(),
-            "aptos_framework=0x1".to_string(),
+            "cedra_std=0x1".to_string(),
+            "cedra_framework=0x1".to_string(),
         ],
         ..Default::default()
     };

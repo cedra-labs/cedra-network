@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::{CliCommand, CliTypedResult, TransactionOptions, TransactionSummary};
-use aptos_cached_packages::aptos_stdlib;
-use aptos_types::account_address::AccountAddress;
+use cedra_cached_packages::cedra_stdlib;
+use cedra_types::account_address::AccountAddress;
 use async_trait::async_trait;
 use clap::Parser;
 
@@ -34,7 +34,7 @@ impl CliCommand<TransactionSummary> for CreateAccount {
     async fn execute(self) -> CliTypedResult<TransactionSummary> {
         let address = self.account;
         self.txn_options
-            .submit_transaction(aptos_stdlib::aptos_account_create_account(address))
+            .submit_transaction(cedra_stdlib::cedra_account_create_account(address))
             .await
             .map(TransactionSummary::from)
     }

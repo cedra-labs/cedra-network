@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::state_store::versioned_state_value::DbStateUpdate;
-use aptos_types::state_store::{state_key::StateKey, StateViewResult};
+use cedra_types::state_store::{state_key::StateKey, StateViewResult};
 
 /// A view into the hot state store, whose content overlays on top of the cold state store content.
 pub trait HotStateView: Send + Sync {

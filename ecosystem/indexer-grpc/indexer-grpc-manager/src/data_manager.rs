@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,10 +10,10 @@ use crate::{
     },
 };
 use anyhow::{bail, ensure, Result};
-use aptos_indexer_grpc_utils::{
+use cedra_indexer_grpc_utils::{
     config::IndexerGrpcFileStoreConfig, file_store_operator_v2::file_store_reader::FileStoreReader,
 };
-use aptos_protos::{
+use cedra_protos::{
     internal::fullnode::v1::{
         transactions_from_node_response::Response, GetTransactionsFromNodeRequest,
     },

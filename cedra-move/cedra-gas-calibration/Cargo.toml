@@ -1,0 +1,23 @@
+[package]
+name = "cedra-gas-calibration"
+version = "0.1.0"
+edition = "2021"
+license = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-abstract-gas-usage = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-gas-algebra = { workspace = true }
+cedra-gas-schedule = { workspace = true }
+cedra-language-e2e-tests = { workspace = true }
+cedra-types = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+float-cmp = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }
+move-ir-compiler = { workspace = true }
+nalgebra = { workspace = true }
+walkdir = { workspace = true }

@@ -1,13 +1,13 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::state_store::{
     state::{LedgerState, State},
     state_summary::{LedgerStateSummary, StateSummary},
 };
-use aptos_crypto::HashValue;
-use aptos_scratchpad::SparseMerkleTree;
-use aptos_types::{state_store::state_storage_usage::StateStorageUsage, transaction::Version};
+use cedra_crypto::HashValue;
+use cedra_scratchpad::SparseMerkleTree;
+use cedra_types::{state_store::state_storage_usage::StateStorageUsage, transaction::Version};
 use derive_more::{Deref, DerefMut};
 
 #[derive(Clone, Debug, Deref)]

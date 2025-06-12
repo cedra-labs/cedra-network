@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -22,19 +22,19 @@ use crate::{
     streaming_client::{NotificationFeedback, StreamRequest},
     streaming_service::StreamUpdateNotification,
 };
-use aptos_channels::aptos_channel;
-use aptos_config::config::{AptosDataClientConfig, DataStreamingServiceConfig};
-use aptos_data_client::{
+use cedra_channels::cedra_channel;
+use cedra_config::config::{CedraDataClientConfig, DataStreamingServiceConfig};
+use cedra_data_client::{
     global_summary::{AdvertisedData, GlobalDataSummary},
     interface::{
-        AptosDataClientInterface, Response, ResponseContext, ResponseError, ResponsePayload,
+        CedraDataClientInterface, Response, ResponseContext, ResponseError, ResponsePayload,
         SubscriptionRequestMetadata,
     },
 };
-use aptos_id_generator::{IdGenerator, U64IdGenerator};
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_time_service::{TimeService, TimeServiceTrait};
+use cedra_id_generator::{IdGenerator, U64IdGenerator};
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_time_service::{TimeService, TimeServiceTrait};
 use futures::{channel::mpsc, stream::FusedStream, SinkExt, Stream};
 use std::{
     cmp::min,
@@ -57,7 +57,7 @@ pub type PendingClientResponse = Arc<Mutex<Box<data_notification::PendingClientR
 
 /// Each data stream holds the original stream request from the client and tracks
 /// the progress of the data stream to satisfy that request (e.g., the data that
-/// has already been sent along the stream to the client and the in-flight Aptos
+/// has already been sent along the stream to the client and the in-flight Cedra
 /// data client requests that have been sent to the network).
 ///
 /// Note that it is the responsibility of the data stream to send data
@@ -66,7 +66,7 @@ pub type PendingClientResponse = Arc<Mutex<Box<data_notification::PendingClientR
 #[derive(Debug)]
 pub struct DataStream<T> {
     // The configuration for the data client
-    data_client_config: AptosDataClientConfig,
+    data_client_config: CedraDataClientConfig,
 
     // The configuration for the streaming service
     streaming_service_config: DataStreamingServiceConfig,
@@ -74,15 +74,15 @@ pub struct DataStream<T> {
     // The unique ID for this data stream. This is useful for logging.
     data_stream_id: DataStreamId,
 
-    // The data client through which to fetch data from the Aptos network
-    aptos_data_client: T,
+    // The data client through which to fetch data from the Cedra network
+    cedra_data_client: T,
 
     // The engine for this data stream
     stream_engine: StreamEngine,
 
     // The stream update notifier (to notify the streaming service that
     // the stream has been updated, e.g., data is now ready to be processed).
-    stream_update_notifier: aptos_channel::Sender<(), StreamUpdateNotification>,
+    stream_update_notifier: cedra_channel::Sender<(), StreamUpdateNotification>,
 
     // The current queue of data client requests and pending responses. When the
     // request at the head of the queue completes (i.e., we receive a response),
@@ -125,14 +125,14 @@ pub struct DataStream<T> {
     dynamic_prefetching_state: DynamicPrefetchingState,
 }
 
-impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
+impl<T: CedraDataClientInterface + Send + Clone + 'static> DataStream<T> {
     pub fn new(
-        data_client_config: AptosDataClientConfig,
+        data_client_config: CedraDataClientConfig,
         data_stream_config: DataStreamingServiceConfig,
         data_stream_id: DataStreamId,
         stream_request: &StreamRequest,
-        stream_update_notifier: aptos_channel::Sender<(), StreamUpdateNotification>,
-        aptos_data_client: T,
+        stream_update_notifier: cedra_channel::Sender<(), StreamUpdateNotification>,
+        cedra_data_client: T,
         notification_id_generator: Arc<U64IdGenerator>,
         advertised_data: &AdvertisedData,
         time_service: TimeService,
@@ -154,7 +154,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
             data_client_config,
             streaming_service_config: data_stream_config,
             data_stream_id,
-            aptos_data_client,
+            cedra_data_client,
             stream_engine,
             stream_update_notifier,
             sent_data_requests: None,
@@ -231,7 +231,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
             .contains_key(notification_id)
     }
 
-    /// Notifies the Aptos data client of a bad client response
+    /// Notifies the Cedra data client of a bad client response
     pub fn handle_notification_feedback(
         &self,
         notification_id: &NotificationId,
@@ -382,7 +382,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
         let join_handle = spawn_request_task(
             self.data_stream_id,
             data_client_request,
-            self.aptos_data_client.clone(),
+            self.cedra_data_client.clone(),
             pending_client_response.clone(),
             request_timeout_ms,
             self.stream_update_notifier.clone(),
@@ -551,7 +551,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
         &mut self,
         global_data_summary: &GlobalDataSummary,
         response_payload: &ResponsePayload,
-    ) -> Result<(), aptos_data_client::error::Error> {
+    ) -> Result<(), cedra_data_client::error::Error> {
         // Get the highest version sent in the subscription response
         let highest_response_version = match response_payload {
             ResponsePayload::NewTransactionsWithProof((transactions_with_proof, _)) => {
@@ -561,7 +561,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
                         .saturating_add(num_transactions as u64)
                         .saturating_sub(1) // first_version + num_txns - 1
                 } else {
-                    return Err(aptos_data_client::error::Error::UnexpectedErrorEncountered(
+                    return Err(cedra_data_client::error::Error::UnexpectedErrorEncountered(
                         "The first transaction version is missing from the stream response!".into(),
                     ));
                 }
@@ -573,7 +573,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
                         .saturating_add(num_outputs as u64)
                         .saturating_sub(1) // first_version + num_outputs - 1
                 } else {
-                    return Err(aptos_data_client::error::Error::UnexpectedErrorEncountered(
+                    return Err(cedra_data_client::error::Error::UnexpectedErrorEncountered(
                         "The first output version is missing from the stream response!".into(),
                     ));
                 }
@@ -589,7 +589,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
             .highest_synced_ledger_info()
             .map(|ledger_info| ledger_info.ledger_info().version())
             .ok_or_else(|| {
-                aptos_data_client::error::Error::UnexpectedErrorEncountered(
+                cedra_data_client::error::Error::UnexpectedErrorEncountered(
                     "The highest synced ledger info is missing from the global data summary!"
                         .into(),
                 )
@@ -611,7 +611,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
                 .is_beyond_recovery(self.streaming_service_config, current_stream_lag)
             {
                 return Err(
-                    aptos_data_client::error::Error::SubscriptionStreamIsLagging(format!(
+                    cedra_data_client::error::Error::SubscriptionStreamIsLagging(format!(
                         "The subscription stream is beyond recovery! Current lag: {:?}, last lag: {:?},",
                         current_stream_lag, subscription_stream_lag.version_lag
                     )),
@@ -634,7 +634,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
     fn notify_new_data_request_error(
         &mut self,
         client_request: &DataClientRequest,
-        error: aptos_data_client::error::Error,
+        error: cedra_data_client::error::Error,
     ) -> Result<(), Error> {
         // Notify the stream engine and clear the requests queue
         self.stream_engine
@@ -711,7 +711,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
     fn handle_data_client_error(
         &mut self,
         data_client_request: &DataClientRequest,
-        data_client_error: &aptos_data_client::error::Error,
+        data_client_error: &cedra_data_client::error::Error,
     ) -> Result<(), Error> {
         // Log the error
         warn!(LogSchema::new(LogEntry::ReceivedDataResponse)
@@ -743,7 +743,7 @@ impl<T: AptosDataClientInterface + Send + Clone + 'static> DataStream<T> {
         Ok(())
     }
 
-    /// Notifies the Aptos data client of a bad client response
+    /// Notifies the Cedra data client of a bad client response
     fn notify_bad_response(
         &self,
         response_context: &ResponseContext,
@@ -1094,7 +1094,7 @@ fn create_missing_epoch_ending_ledger_infos_request(
                 Ok(None) // The request was satisfied!
             }
         },
-        payload => Err(Error::AptosDataClientResponseIsInvalid(format!(
+        payload => Err(Error::CedraDataClientResponseIsInvalid(format!(
             "Invalid response payload found for epoch ending ledger info request: {:?}",
             payload
         ))),
@@ -1138,7 +1138,7 @@ fn create_missing_state_values_request(
                 Ok(None) // The request was satisfied!
             }
         },
-        payload => Err(Error::AptosDataClientResponseIsInvalid(format!(
+        payload => Err(Error::CedraDataClientResponseIsInvalid(format!(
             "Invalid response payload found for state values request: {:?}",
             payload
         ))),
@@ -1183,7 +1183,7 @@ fn create_missing_transactions_request(
                 Ok(None) // The request was satisfied!
             }
         },
-        payload => Err(Error::AptosDataClientResponseIsInvalid(format!(
+        payload => Err(Error::CedraDataClientResponseIsInvalid(format!(
             "Invalid response payload found for transactions request: {:?}",
             payload
         ))),
@@ -1229,7 +1229,7 @@ fn create_missing_transaction_outputs_request(
                 Ok(None) // The request was satisfied!
             }
         },
-        payload => Err(Error::AptosDataClientResponseIsInvalid(format!(
+        payload => Err(Error::CedraDataClientResponseIsInvalid(format!(
             "Invalid response payload found for transaction outputs request: {:?}",
             payload
         ))),
@@ -1265,7 +1265,7 @@ fn create_missing_transactions_or_outputs_request(
                 .len() as u64
         },
         payload => {
-            return Err(Error::AptosDataClientResponseIsInvalid(format!(
+            return Err(Error::CedraDataClientResponseIsInvalid(format!(
                 "Invalid response payload found for transactions or outputs request: {:?}",
                 payload
             )))
@@ -1383,7 +1383,7 @@ fn sanity_check_client_response_type(
 }
 
 /// Transforms the notification feedback into a specific response error that
-/// can be sent to the Aptos data client.
+/// can be sent to the Cedra data client.
 fn extract_response_error(
     notification_feedback: &NotificationFeedback,
 ) -> Result<ResponseError, Error> {
@@ -1398,13 +1398,13 @@ fn extract_response_error(
     }
 }
 
-fn spawn_request_task<T: AptosDataClientInterface + Send + Clone + 'static>(
+fn spawn_request_task<T: CedraDataClientInterface + Send + Clone + 'static>(
     data_stream_id: DataStreamId,
     data_client_request: DataClientRequest,
-    aptos_data_client: T,
+    cedra_data_client: T,
     pending_response: PendingClientResponse,
     request_timeout_ms: u64,
-    stream_update_notifier: aptos_channel::Sender<(), StreamUpdateNotification>,
+    stream_update_notifier: cedra_channel::Sender<(), StreamUpdateNotification>,
 ) -> JoinHandle<()> {
     // Update the requests sent counter
     increment_counter(
@@ -1423,15 +1423,15 @@ fn spawn_request_task<T: AptosDataClientInterface + Send + Clone + 'static>(
         // Fetch the client response
         let client_response = match data_client_request {
             DataClientRequest::EpochEndingLedgerInfos(request) => {
-                get_epoch_ending_ledger_infos(aptos_data_client, request, request_timeout_ms).await
+                get_epoch_ending_ledger_infos(cedra_data_client, request, request_timeout_ms).await
             },
             DataClientRequest::NewTransactionsWithProof(request) => {
-                get_new_transactions_with_proof(aptos_data_client, request, request_timeout_ms)
+                get_new_transactions_with_proof(cedra_data_client, request, request_timeout_ms)
                     .await
             },
             DataClientRequest::NewTransactionOutputsWithProof(request) => {
                 get_new_transaction_outputs_with_proof(
-                    aptos_data_client,
+                    cedra_data_client,
                     request,
                     request_timeout_ms,
                 )
@@ -1439,25 +1439,25 @@ fn spawn_request_task<T: AptosDataClientInterface + Send + Clone + 'static>(
             },
             DataClientRequest::NewTransactionsOrOutputsWithProof(request) => {
                 get_new_transactions_or_outputs_with_proof(
-                    aptos_data_client,
+                    cedra_data_client,
                     request,
                     request_timeout_ms,
                 )
                 .await
             },
             DataClientRequest::NumberOfStates(request) => {
-                get_number_of_states(aptos_data_client, request, request_timeout_ms).await
+                get_number_of_states(cedra_data_client, request, request_timeout_ms).await
             },
             DataClientRequest::StateValuesWithProof(request) => {
-                get_states_values_with_proof(aptos_data_client, request, request_timeout_ms).await
+                get_states_values_with_proof(cedra_data_client, request, request_timeout_ms).await
             },
             DataClientRequest::SubscribeTransactionsWithProof(request) => {
-                subscribe_to_transactions_with_proof(aptos_data_client, request, request_timeout_ms)
+                subscribe_to_transactions_with_proof(cedra_data_client, request, request_timeout_ms)
                     .await
             },
             DataClientRequest::SubscribeTransactionOutputsWithProof(request) => {
                 subscribe_to_transaction_outputs_with_proof(
-                    aptos_data_client,
+                    cedra_data_client,
                     request,
                     request_timeout_ms,
                 )
@@ -1465,22 +1465,22 @@ fn spawn_request_task<T: AptosDataClientInterface + Send + Clone + 'static>(
             },
             DataClientRequest::SubscribeTransactionsOrOutputsWithProof(request) => {
                 subscribe_to_transactions_or_outputs_with_proof(
-                    aptos_data_client,
+                    cedra_data_client,
                     request,
                     request_timeout_ms,
                 )
                 .await
             },
             DataClientRequest::TransactionOutputsWithProof(request) => {
-                get_transaction_outputs_with_proof(aptos_data_client, request, request_timeout_ms)
+                get_transaction_outputs_with_proof(cedra_data_client, request, request_timeout_ms)
                     .await
             },
             DataClientRequest::TransactionsWithProof(request) => {
-                get_transactions_with_proof(aptos_data_client, request, request_timeout_ms).await
+                get_transactions_with_proof(cedra_data_client, request, request_timeout_ms).await
             },
             DataClientRequest::TransactionsOrOutputsWithProof(request) => {
                 get_transactions_or_outputs_with_proof(
-                    aptos_data_client,
+                    cedra_data_client,
                     request,
                     request_timeout_ms,
                 )
@@ -1510,12 +1510,12 @@ fn spawn_request_task<T: AptosDataClientInterface + Send + Clone + 'static>(
     })
 }
 
-async fn get_states_values_with_proof<T: AptosDataClientInterface + Send + Clone + 'static>(
-    aptos_data_client: T,
+async fn get_states_values_with_proof<T: CedraDataClientInterface + Send + Clone + 'static>(
+    cedra_data_client: T,
     request: StateValuesWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_state_values_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_state_values_with_proof(
         request.version,
         request.start_index,
         request.end_index,
@@ -1526,12 +1526,12 @@ async fn get_states_values_with_proof<T: AptosDataClientInterface + Send + Clone
         .map(|response| response.map(ResponsePayload::from))
 }
 
-async fn get_epoch_ending_ledger_infos<T: AptosDataClientInterface + Send + Clone + 'static>(
-    aptos_data_client: T,
+async fn get_epoch_ending_ledger_infos<T: CedraDataClientInterface + Send + Clone + 'static>(
+    cedra_data_client: T,
     request: EpochEndingLedgerInfosRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_epoch_ending_ledger_infos(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_epoch_ending_ledger_infos(
         request.start_epoch,
         request.end_epoch,
         request_timeout_ms,
@@ -1542,13 +1542,13 @@ async fn get_epoch_ending_ledger_infos<T: AptosDataClientInterface + Send + Clon
 }
 
 async fn get_new_transaction_outputs_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: NewTransactionOutputsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_new_transaction_outputs_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_new_transaction_outputs_with_proof(
         request.known_version,
         request.known_epoch,
         request_timeout_ms,
@@ -1558,12 +1558,12 @@ async fn get_new_transaction_outputs_with_proof<
         .map(|response| response.map(ResponsePayload::from))
 }
 
-async fn get_new_transactions_with_proof<T: AptosDataClientInterface + Send + Clone + 'static>(
-    aptos_data_client: T,
+async fn get_new_transactions_with_proof<T: CedraDataClientInterface + Send + Clone + 'static>(
+    cedra_data_client: T,
     request: NewTransactionsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_new_transactions_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_new_transactions_with_proof(
         request.known_version,
         request.known_epoch,
         request.include_events,
@@ -1575,13 +1575,13 @@ async fn get_new_transactions_with_proof<T: AptosDataClientInterface + Send + Cl
 }
 
 async fn get_new_transactions_or_outputs_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: NewTransactionsOrOutputsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_new_transactions_or_outputs_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_new_transactions_or_outputs_with_proof(
         request.known_version,
         request.known_epoch,
         request.include_events,
@@ -1591,26 +1591,26 @@ async fn get_new_transactions_or_outputs_with_proof<
     Ok(Response::new(context, ResponsePayload::try_from(payload)?))
 }
 
-async fn get_number_of_states<T: AptosDataClientInterface + Send + Clone + 'static>(
-    aptos_data_client: T,
+async fn get_number_of_states<T: CedraDataClientInterface + Send + Clone + 'static>(
+    cedra_data_client: T,
     request: NumberOfStatesRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
     let client_response =
-        aptos_data_client.get_number_of_states(request.version, request_timeout_ms);
+        cedra_data_client.get_number_of_states(request.version, request_timeout_ms);
     client_response
         .await
         .map(|response| response.map(ResponsePayload::from))
 }
 
 async fn get_transaction_outputs_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: TransactionOutputsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_transaction_outputs_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_transaction_outputs_with_proof(
         request.proof_version,
         request.start_version,
         request.end_version,
@@ -1621,12 +1621,12 @@ async fn get_transaction_outputs_with_proof<
         .map(|response| response.map(ResponsePayload::from))
 }
 
-async fn get_transactions_with_proof<T: AptosDataClientInterface + Send + Clone + 'static>(
-    aptos_data_client: T,
+async fn get_transactions_with_proof<T: CedraDataClientInterface + Send + Clone + 'static>(
+    cedra_data_client: T,
     request: TransactionsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_transactions_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_transactions_with_proof(
         request.proof_version,
         request.start_version,
         request.end_version,
@@ -1639,13 +1639,13 @@ async fn get_transactions_with_proof<T: AptosDataClientInterface + Send + Clone 
 }
 
 async fn get_transactions_or_outputs_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: TransactionsOrOutputsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
-    let client_response = aptos_data_client.get_transactions_or_outputs_with_proof(
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
+    let client_response = cedra_data_client.get_transactions_or_outputs_with_proof(
         request.proof_version,
         request.start_version,
         request.end_version,
@@ -1657,19 +1657,19 @@ async fn get_transactions_or_outputs_with_proof<
 }
 
 async fn subscribe_to_transactions_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: SubscribeTransactionsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
     let subscription_request_metadata = SubscriptionRequestMetadata {
         known_version_at_stream_start: request.known_version,
         known_epoch_at_stream_start: request.known_epoch,
         subscription_stream_id: request.subscription_stream_id,
         subscription_stream_index: request.subscription_stream_index,
     };
-    let client_response = aptos_data_client.subscribe_to_transactions_with_proof(
+    let client_response = cedra_data_client.subscribe_to_transactions_with_proof(
         subscription_request_metadata,
         request.include_events,
         request_timeout_ms,
@@ -1680,19 +1680,19 @@ async fn subscribe_to_transactions_with_proof<
 }
 
 async fn subscribe_to_transaction_outputs_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: SubscribeTransactionOutputsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
     let subscription_request_metadata = SubscriptionRequestMetadata {
         known_version_at_stream_start: request.known_version,
         known_epoch_at_stream_start: request.known_epoch,
         subscription_stream_id: request.subscription_stream_id,
         subscription_stream_index: request.subscription_stream_index,
     };
-    let client_response = aptos_data_client.subscribe_to_transaction_outputs_with_proof(
+    let client_response = cedra_data_client.subscribe_to_transaction_outputs_with_proof(
         subscription_request_metadata,
         request_timeout_ms,
     );
@@ -1702,19 +1702,19 @@ async fn subscribe_to_transaction_outputs_with_proof<
 }
 
 async fn subscribe_to_transactions_or_outputs_with_proof<
-    T: AptosDataClientInterface + Send + Clone + 'static,
+    T: CedraDataClientInterface + Send + Clone + 'static,
 >(
-    aptos_data_client: T,
+    cedra_data_client: T,
     request: SubscribeTransactionsOrOutputsWithProofRequest,
     request_timeout_ms: u64,
-) -> Result<Response<ResponsePayload>, aptos_data_client::error::Error> {
+) -> Result<Response<ResponsePayload>, cedra_data_client::error::Error> {
     let subscription_request_metadata = SubscriptionRequestMetadata {
         known_version_at_stream_start: request.known_version,
         known_epoch_at_stream_start: request.known_epoch,
         subscription_stream_id: request.subscription_stream_id,
         subscription_stream_index: request.subscription_stream_index,
     };
-    let client_response = aptos_data_client.subscribe_to_transactions_or_outputs_with_proof(
+    let client_response = cedra_data_client.subscribe_to_transactions_or_outputs_with_proof(
         subscription_request_metadata,
         request.include_events,
         request_timeout_ms,
@@ -1726,8 +1726,8 @@ async fn subscribe_to_transactions_or_outputs_with_proof<
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::tests::utils::MockAptosDataClient;
-    use aptos_channels::message_queues::QueueStyle;
+    use crate::tests::utils::MockCedraDataClient;
+    use cedra_channels::message_queues::QueueStyle;
     use futures::StreamExt;
     use tokio::time::timeout;
 
@@ -1738,9 +1738,9 @@ mod test {
             DataClientRequest::NumberOfStates(NumberOfStatesRequest { version: 0 });
 
         // Create a mock data client
-        let data_client_config = AptosDataClientConfig::default();
-        let aptos_data_client =
-            MockAptosDataClient::new(data_client_config, true, false, true, true);
+        let data_client_config = CedraDataClientConfig::default();
+        let cedra_data_client =
+            MockCedraDataClient::new(data_client_config, true, false, true, true);
 
         // Create a new pending client response
         let pending_client_response = Arc::new(Mutex::new(Box::new(
@@ -1749,7 +1749,7 @@ mod test {
 
         // Create a stream update notifier and listener
         let (stream_update_notifier, mut stream_update_listener) =
-            aptos_channel::new(QueueStyle::LIFO, 1, None);
+            cedra_channel::new(QueueStyle::LIFO, 1, None);
 
         // Verify the request is still pending (the request hasn't been sent yet)
         assert!(pending_client_response.lock().client_response.is_none());
@@ -1759,7 +1759,7 @@ mod test {
         let join_handle = spawn_request_task(
             data_stream_id,
             data_client_request,
-            aptos_data_client,
+            cedra_data_client,
             pending_client_response.clone(),
             1000,
             stream_update_notifier.clone(),

@@ -1,16 +1,16 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     error::QuorumStoreError,
     payload_client::{user::UserPayloadClient, PayloadClient},
 };
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     common::Payload, payload_pull_params::PayloadPullParameters, utils::PayloadTxnsSize,
 };
-use aptos_logger::debug;
-use aptos_types::{on_chain_config::ValidatorTxnConfig, validator_txn::ValidatorTransaction};
-use aptos_validator_transaction_pool::TransactionFilter;
+use cedra_logger::debug;
+use cedra_types::{on_chain_config::ValidatorTxnConfig, validator_txn::ValidatorTransaction};
+use cedra_validator_transaction_pool::TransactionFilter;
 use fail::fail_point;
 use futures::future::BoxFuture;
 use std::{cmp::min, sync::Arc, time::Instant};
@@ -39,7 +39,7 @@ impl MixedPayloadClient {
     /// When enabled in smoke tests, generate 2 random validator transactions, 1 valid, 1 invalid.
     fn extra_test_only_vtxns(&self) -> Vec<ValidatorTransaction> {
         fail_point!("mixed_payload_client::extra_test_only_vtxns", |_| {
-            use aptos_types::dkg::{DKGTranscript, DKGTranscriptMetadata};
+            use cedra_types::dkg::{DKGTranscript, DKGTranscriptMetadata};
             use move_core_types::account_address::AccountAddress;
 
             vec![ValidatorTransaction::DKGResult(DKGTranscript {
@@ -114,12 +114,12 @@ mod tests {
     use crate::payload_client::{
         mixed::MixedPayloadClient, user, validator::DummyValidatorTxnClient, PayloadClient,
     };
-    use aptos_consensus_types::{
+    use cedra_consensus_types::{
         common::{Payload, PayloadFilter},
         payload_pull_params::PayloadPullParameters,
     };
-    use aptos_types::{on_chain_config::ValidatorTxnConfig, validator_txn::ValidatorTransaction};
-    use aptos_validator_transaction_pool as vtxn_pool;
+    use cedra_types::{on_chain_config::ValidatorTxnConfig, validator_txn::ValidatorTransaction};
+    use cedra_validator_transaction_pool as vtxn_pool;
     use std::{collections::HashSet, sync::Arc, time::Duration};
 
     #[tokio::test]
@@ -156,7 +156,7 @@ mod tests {
                     false,
                     0,
                     0.,
-                    aptos_infallible::duration_since_epoch(),
+                    cedra_infallible::duration_since_epoch(),
                 ),
                 vtxn_pool::TransactionFilter::PendingTxnHashSet(HashSet::new()),
                 Box::pin(async {}),
@@ -184,7 +184,7 @@ mod tests {
                     false,
                     0,
                     0.,
-                    aptos_infallible::duration_since_epoch(),
+                    cedra_infallible::duration_since_epoch(),
                 ),
                 vtxn_pool::TransactionFilter::PendingTxnHashSet(HashSet::new()),
                 Box::pin(async {}),
@@ -212,7 +212,7 @@ mod tests {
                     false,
                     0,
                     0.,
-                    aptos_infallible::duration_since_epoch(),
+                    cedra_infallible::duration_since_epoch(),
                 ),
                 vtxn_pool::TransactionFilter::PendingTxnHashSet(HashSet::new()),
                 Box::pin(async {}),
@@ -240,7 +240,7 @@ mod tests {
                     false,
                     0,
                     0.,
-                    aptos_infallible::duration_since_epoch(),
+                    cedra_infallible::duration_since_epoch(),
                 ),
                 vtxn_pool::TransactionFilter::PendingTxnHashSet(HashSet::new()),
                 Box::pin(async {}),
@@ -286,7 +286,7 @@ mod tests {
                     false,
                     0,
                     0.,
-                    aptos_infallible::duration_since_epoch(),
+                    cedra_infallible::duration_since_epoch(),
                 ),
                 vtxn_pool::TransactionFilter::PendingTxnHashSet(HashSet::new()),
                 Box::pin(async {}),

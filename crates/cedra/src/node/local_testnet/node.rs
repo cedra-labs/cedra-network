@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{health_checker::HealthChecker, traits::ServiceManager, RunLocalnet};
 use crate::node::local_testnet::utils::socket_addr_to_url;
 use anyhow::{anyhow, Context, Result};
-use aptos_config::config::{NodeConfig, DEFAULT_GRPC_STREAM_PORT};
-use aptos_node::{load_node_config, start_test_environment_node};
+use cedra_config::config::{NodeConfig, DEFAULT_GRPC_STREAM_PORT};
+use cedra_node::{load_node_config, start_test_environment_node};
 use async_trait::async_trait;
 use clap::Parser;
 use maplit::hashset;
@@ -46,7 +46,7 @@ pub struct NodeArgs {
     /// Random seed for key generation in test mode
     ///
     /// This allows you to have deterministic keys for testing
-    #[clap(long, value_parser = aptos_node::load_seed)]
+    #[clap(long, value_parser = cedra_node::load_seed)]
     pub seed: Option<[u8; 32]>,
 
     /// Do not run a transaction stream service alongside the node.
@@ -107,7 +107,7 @@ pub fn build_node_config(
         false,
         false,
         performance,
-        aptos_cached_packages::head_release_bundle(),
+        cedra_cached_packages::head_release_bundle(),
         rng,
     )
     .context("Failed to load / create config for node")
@@ -155,8 +155,8 @@ impl NodeManager {
 
         node_config.indexer_table_info.table_info_service_mode = match run_txn_stream {
             // Localnet should be responsible for backup or restore of table info tables.
-            true => aptos_config::config::TableInfoServiceMode::IndexingOnly,
-            false => aptos_config::config::TableInfoServiceMode::Disabled,
+            true => cedra_config::config::TableInfoServiceMode::IndexingOnly,
+            false => cedra_config::config::TableInfoServiceMode::Disabled,
         };
 
         // Bind to the requested address.

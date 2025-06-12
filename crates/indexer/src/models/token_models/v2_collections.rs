@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 // This is required because a diesel macro makes clippy sad
@@ -18,7 +18,7 @@ use crate::{
     util::standardize_address,
 };
 use anyhow::Context;
-use aptos_api_types::{WriteResource as APIWriteResource, WriteTableItem as APIWriteTableItem};
+use cedra_api_types::{WriteResource as APIWriteResource, WriteTableItem as APIWriteTableItem};
 use bigdecimal::{BigDecimal, Zero};
 use diesel::{prelude::*, sql_query, sql_types::Text};
 use field_count::FieldCount;
@@ -125,8 +125,8 @@ impl CollectionV2 {
                     );
                 }
 
-                // Getting collection mutability config from AptosCollection
-                let collection = metadata.aptos_collection.as_ref();
+                // Getting collection mutability config from CedraCollection
+                let collection = metadata.cedra_collection.as_ref();
                 if let Some(collection) = collection {
                     mutable_description = Some(collection.mutable_description);
                     mutable_uri = Some(collection.mutable_uri);
@@ -218,7 +218,7 @@ impl CollectionV2 {
                             match CollectionData::get_collection_creator(conn, &table_handle) {
                                 Ok(creator) => creator,
                                 Err(_) => {
-                                    aptos_logger::error!(
+                                    cedra_logger::error!(
                                         transaction_version = txn_version,
                                         lookup_key = &table_handle,
                                         "Failed to get collection v2 creator for table handle. You probably should backfill db."

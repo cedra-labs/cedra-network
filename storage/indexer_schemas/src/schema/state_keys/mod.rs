@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{schema::STATE_KEYS_CF_NAME, utils::ensure_slice_len_eq};
 use anyhow::Result;
-use aptos_schemadb::{
+use cedra_schemadb::{
     define_pub_schema,
     schema::{KeyCodec, SeekKeyCodec, ValueCodec},
 };
-use aptos_types::state_store::state_key::{prefix::StateKeyPrefix, StateKey};
+use cedra_types::state_store::state_key::{prefix::StateKeyPrefix, StateKey};
 
 define_pub_schema!(StateKeysSchema, StateKey, (), STATE_KEYS_CF_NAME);
 

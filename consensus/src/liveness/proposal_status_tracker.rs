@@ -1,15 +1,15 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::round_state::NewRoundReason;
 use crate::counters;
-use aptos_collections::BoundedVecDeque;
-use aptos_consensus_types::{
+use cedra_collections::BoundedVecDeque;
+use cedra_consensus_types::{
     common::Author, payload_pull_params::OptQSPayloadPullParams, round_timeout::RoundTimeoutReason,
 };
-use aptos_infallible::Mutex;
-use aptos_logger::warn;
-use aptos_short_hex_str::AsShortHexStr;
+use cedra_infallible::Mutex;
+use cedra_logger::warn;
+use cedra_short_hex_str::AsShortHexStr;
 use std::{collections::HashSet, sync::Arc};
 
 pub trait TPastProposalStatusTracker: Send + Sync {
@@ -164,9 +164,9 @@ impl TOptQSPullParamsProvider for OptQSPullParamsProvider {
 mod tests {
     use super::ExponentialWindowFailureTracker;
     use crate::liveness::round_state::NewRoundReason;
-    use aptos_bitvec::BitVec;
-    use aptos_consensus_types::round_timeout::RoundTimeoutReason;
-    use aptos_types::validator_verifier::random_validator_verifier;
+    use cedra_bitvec::BitVec;
+    use cedra_consensus_types::round_timeout::RoundTimeoutReason;
+    use cedra_types::validator_verifier::random_validator_verifier;
 
     #[test]
     fn test_exponential_window_failure_tracker() {

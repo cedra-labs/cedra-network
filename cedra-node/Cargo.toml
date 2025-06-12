@@ -1,0 +1,104 @@
+[package]
+name = "cedra-node"
+description = "Cedra node"
+version = "0.0.0-main"
+
+# Workspace inherited keys
+authors = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+rust-version = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+cedra-admin-service = { workspace = true }
+cedra-api = { workspace = true }
+cedra-backup-service = { workspace = true }
+cedra-build-info = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-channels = { workspace = true }
+cedra-config = { workspace = true }
+cedra-consensus = { workspace = true }
+cedra-consensus-notifications = { workspace = true }
+cedra-crash-handler = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-data-client = { workspace = true }
+cedra-data-streaming-service = { workspace = true }
+cedra-db = { workspace = true }
+cedra-db-indexer = { workspace = true }
+cedra-dkg-runtime = { workspace = true }
+cedra-event-notifications = { workspace = true }
+cedra-executor = { workspace = true }
+cedra-framework = { workspace = true }
+cedra-genesis = { workspace = true }
+cedra-indexer = { workspace = true, optional = true }
+cedra-indexer-grpc-fullnode = { workspace = true }
+cedra-indexer-grpc-table-info = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-inspection-service = { workspace = true }
+cedra-jwk-consensus = { workspace = true }
+cedra-logger = { workspace = true, features = ["node-identity"] }
+cedra-mempool = { workspace = true }
+cedra-mempool-notifications = { workspace = true }
+cedra-network = { workspace = true }
+cedra-network-benchmark = { workspace = true }
+cedra-network-builder = { workspace = true }
+cedra-node-identity = { workspace = true }
+cedra-peer-monitoring-service-client = { workspace = true }
+cedra-peer-monitoring-service-server = { workspace = true }
+cedra-peer-monitoring-service-types = { workspace = true }
+cedra-runtimes = { workspace = true }
+cedra-state-sync-driver = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-storage-service-client = { workspace = true }
+cedra-storage-service-notifications = { workspace = true }
+cedra-storage-service-server = { workspace = true }
+cedra-storage-service-types = { workspace = true }
+cedra-telemetry = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-time-service = { workspace = true }
+cedra-types = { workspace = true }
+cedra-validator-transaction-pool = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-vm-environment = { workspace = true }
+bcs = { workspace = true }
+clap = { workspace = true }
+either = { workspace = true }
+fail = { workspace = true }
+futures = { workspace = true }
+hex = { workspace = true }
+num_cpus = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+rlimit = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+tokio = { workspace = true }
+ureq = { workspace = true }
+url = { workspace = true }
+
+[target.'cfg(unix)'.dependencies]
+jemallocator = { version = "0.5.0", features = [
+    "profiling",
+    "unprefixed_malloc_on_supported_platforms",
+] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+rstack-self = { workspace = true }
+
+[features]
+assert-private-keys-not-cloneable = ["cedra-crypto/assert-private-keys-not-cloneable"]
+check-vm-features = []
+consensus-only-perf-test = ["cedra-executor/consensus-only-perf-test", "cedra-mempool/consensus-only-perf-test", "cedra-db/consensus-only-perf-test"]
+default = []
+failpoints = ["fail/failpoints", "cedra-consensus/failpoints", "cedra-executor/failpoints", "cedra-mempool/failpoints", "cedra-api/failpoints", "cedra-config/failpoints"]
+indexer = ["cedra-indexer"]
+tokio-console = ["cedra-logger/tokio-console", "cedra-config/tokio-console"]
+smoke-test = ["cedra-jwk-consensus/smoke-test", "cedra-dkg-runtime/smoke-test"]
+
+[package.metadata.cargo-machete]
+ignored = ["cedra-crypto"]

@@ -1,7 +1,7 @@
 module poc::inv_internal {
     use std::option::{Self};
-    use aptos_std::crypto_algebra::{Self};
-    use aptos_std::bls12381_algebra::{Fr};
+    use cedra_std::crypto_algebra::{Self};
+    use cedra_std::bls12381_algebra::{Fr};
 
     public entry fun main(_owner: &signer) {
         let one = crypto_algebra::one<Fr>();

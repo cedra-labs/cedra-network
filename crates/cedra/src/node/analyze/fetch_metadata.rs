@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{anyhow, Result};
-use aptos_rest_client::{
-    aptos_api_types::{IdentifierWrapper, MoveResource, WriteSetChange},
+use cedra_rest_client::{
+    cedra_api_types::{IdentifierWrapper, MoveResource, WriteSetChange},
     Client as RestClient, Transaction, VersionedNewBlockEvent,
 };
-use aptos_types::account_address::AccountAddress;
+use cedra_types::account_address::AccountAddress;
 use std::str::FromStr;
 
 const MAX_FETCH_BATCH_SIZE: u16 = 1000;

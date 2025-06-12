@@ -1,0 +1,9 @@
+[package]
+name = "Examples"
+version = "1.0.0"
+
+[addresses]
+rewards_pool = "_"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }

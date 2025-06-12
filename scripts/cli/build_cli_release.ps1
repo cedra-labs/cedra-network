@@ -1,11 +1,11 @@
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 ###########################################
 # Build and package a release for the CLI #
 ###########################################
 
-# Note: This must be run from the root of the aptos-core repository.
+# Note: This must be run from the root of the cedra-core repository.
 
 # Set up basic variables.
 $NAME="cedra-cli"

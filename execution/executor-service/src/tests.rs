@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     remote_executor_client::RemoteExecutorClient, test_utils,
     thread_executor_service::ThreadExecutorService,
 };
-use aptos_config::utils;
-use aptos_secure_net::network_controller::NetworkController;
-use aptos_transaction_simulation::InMemoryStateStore;
-use aptos_vm::sharded_block_executor::ShardedBlockExecutor;
+use cedra_config::utils;
+use cedra_secure_net::network_controller::NetworkController;
+use cedra_transaction_simulation::InMemoryStateStore;
+use cedra_vm::sharded_block_executor::ShardedBlockExecutor;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 pub fn create_thread_remote_executor_shards(

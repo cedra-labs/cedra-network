@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::block::Block;
-use aptos_types::randomness::FullRandMetadata;
+use cedra_types::randomness::FullRandMetadata;
 
 impl From<&Block> for FullRandMetadata {
     fn from(block: &Block) -> Self {

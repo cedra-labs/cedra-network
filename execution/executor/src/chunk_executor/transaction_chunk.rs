@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -6,20 +6,20 @@ use crate::{
     workflow::do_get_execution_output::DoGetExecutionOutput,
 };
 use anyhow::Result;
-use aptos_executor_types::execution_output::ExecutionOutput;
-use aptos_experimental_runtimes::thread_manager::optimal_min_len;
-use aptos_metrics_core::TimerHelper;
-use aptos_storage_interface::state_store::{
+use cedra_executor_types::execution_output::ExecutionOutput;
+use cedra_experimental_runtimes::thread_manager::optimal_min_len;
+use cedra_metrics_core::TimerHelper;
+use cedra_storage_interface::state_store::{
     state::LedgerState, state_view::cached_state_view::CachedStateView,
 };
-use aptos_types::{
+use cedra_types::{
     block_executor::{
         config::BlockExecutorConfigFromOnchain,
         transaction_slice_metadata::TransactionSliceMetadata,
     },
     transaction::{Transaction, TransactionOutput, Version},
 };
-use aptos_vm::VMBlockExecutor;
+use cedra_vm::VMBlockExecutor;
 use once_cell::sync::Lazy;
 use rayon::iter::{IndexedParallelIterator, IntoParallelIterator, ParallelIterator};
 use std::sync::Arc;

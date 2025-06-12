@@ -1,14 +1,14 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::FETCH_ACCOUNT_RETRY_POLICY;
 use anyhow::{Context, Result};
-use aptos_logger::{sample, sample::SampleRate};
-use aptos_rest_client::{aptos_api_types::AptosErrorCode, error::RestError, Client as RestClient};
-use aptos_sdk::{
+use cedra_logger::{sample, sample::SampleRate};
+use cedra_rest_client::{cedra_api_types::CedraErrorCode, error::RestError, Client as RestClient};
+use cedra_sdk::{
     move_types::account_address::AccountAddress, types::transaction::SignedTransaction,
 };
-use aptos_transaction_generator_lib::{CounterState, ReliableTransactionSubmitter};
+use cedra_transaction_generator_lib::{CounterState, ReliableTransactionSubmitter};
 use async_trait::async_trait;
 use futures::future::join_all;
 use log::{debug, info, warn};
@@ -75,7 +75,7 @@ impl RestApiReliableTransactionSubmitter {
                 txn.sender().to_vec(),
             ]
             .concat();
-            let mut seeded_rng = StdRng::from_seed(*aptos_crypto::HashValue::sha3_256_of(&seed));
+            let mut seeded_rng = StdRng::from_seed(*cedra_crypto::HashValue::sha3_256_of(&seed));
             let rest_client = self.random_rest_client_from_rng(&mut seeded_rng);
             let mut failed_submit = false;
             let mut failed_wait = false;
@@ -163,7 +163,7 @@ async fn warn_detailed_error(
     call_name: &str,
     rest_client: &RestClient,
     txn: &SignedTransaction,
-    err: Result<&aptos_types::transaction::TransactionInfo, &RestError>,
+    err: Result<&cedra_types::transaction::TransactionInfo, &RestError>,
 ) {
     let sender = txn.sender();
     let payload = txn.payload().payload_type();
@@ -291,7 +291,7 @@ pub async fn query_sequence_number_with_client(
 
 fn is_account_not_found(error: &RestError) -> bool {
     match error {
-        RestError::Api(error) => matches!(error.error.error_code, AptosErrorCode::AccountNotFound),
+        RestError::Api(error) => matches!(error.error.error_code, CedraErrorCode::AccountNotFound),
         _ => false,
     }
 }
@@ -308,7 +308,7 @@ impl ReliableTransactionSubmitter for RestApiReliableTransactionSubmitter {
                 |error: &RestError| match error {
                     RestError::Api(error) => !matches!(
                         error.error.error_code,
-                        AptosErrorCode::AccountNotFound | AptosErrorCode::InvalidInput
+                        CedraErrorCode::AccountNotFound | CedraErrorCode::InvalidInput
                     ),
                     RestError::Unknown(_) => false,
                     _ => true,

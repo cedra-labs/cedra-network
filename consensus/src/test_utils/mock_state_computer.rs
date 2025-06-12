@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,16 +12,16 @@ use crate::{
     transaction_shuffler::TransactionShuffler,
 };
 use anyhow::{anyhow, Result};
-use aptos_consensus_types::{
+use cedra_consensus_types::{
     block::Block, pipeline_execution_result::PipelineExecutionResult,
     pipelined_block::PipelinedBlock, quorum_cert::QuorumCert,
 };
-use aptos_crypto::HashValue;
-use aptos_executor_types::{
+use cedra_crypto::HashValue;
+use cedra_executor_types::{
     state_compute_result::StateComputeResult, ExecutorError, ExecutorResult,
 };
-use aptos_logger::debug;
-use aptos_types::{
+use cedra_logger::debug;
+use cedra_types::{
     block_executor::config::BlockExecutorConfigFromOnchain, epoch_state::EpochState,
     ledger_info::LedgerInfoWithSignatures, randomness::Randomness,
 };

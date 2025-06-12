@@ -1,18 +1,18 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 //! Integration tests for validator_network.
 
 use crate::builder::NetworkBuilder;
-use aptos_channels::aptos_channel;
-use aptos_config::{
+use cedra_channels::cedra_channel;
+use cedra_config::{
     config::{Peer, PeerRole, PeerSet, RoleType, NETWORK_CHANNEL_SIZE},
     network_id::{NetworkContext, NetworkId, PeerNetworkId},
 };
-use aptos_crypto::{test_utils::TEST_SEED, x25519, Uniform};
-use aptos_netcore::transport::ConnectionOrigin;
-use aptos_network::{
+use cedra_crypto::{test_utils::TEST_SEED, x25519, Uniform};
+use cedra_netcore::transport::ConnectionOrigin;
+use cedra_network::{
     application::{interface::NetworkClient, storage::PeersAndMetadata},
     peer_manager::{builder::AuthenticationMode, ConnectionNotification},
     protocols::network::{
@@ -20,8 +20,8 @@ use aptos_network::{
     },
     ProtocolId,
 };
-use aptos_time_service::TimeService;
-use aptos_types::{chain_id::ChainId, network_address::NetworkAddress, PeerId};
+use cedra_time_service::TimeService;
+use cedra_types::{chain_id::ChainId, network_address::NetworkAddress, PeerId};
 use futures::executor::block_on;
 use maplit::hashmap;
 use rand::{rngs::StdRng, SeedableRng};
@@ -44,7 +44,7 @@ pub fn dummy_network_config() -> NetworkApplicationConfig {
     let network_service_config = NetworkServiceConfig::new(
         direct_send_protocols,
         rpc_protocls,
-        aptos_channel::Config::new(NETWORK_CHANNEL_SIZE),
+        cedra_channel::Config::new(NETWORK_CHANNEL_SIZE),
     );
     NetworkApplicationConfig::new(network_client_config, network_service_config)
 }

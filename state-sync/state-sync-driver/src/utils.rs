@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -13,19 +13,19 @@ use crate::{
     },
     storage_synchronizer::{NotificationMetadata, StorageSynchronizerInterface},
 };
-use aptos_data_streaming_service::{
+use cedra_data_streaming_service::{
     data_notification::DataNotification,
     data_stream::{DataStreamId, DataStreamListener},
     streaming_client::{DataStreamingClient, NotificationAndFeedback},
 };
-use aptos_event_notifications::EventSubscriptionService;
-use aptos_infallible::Mutex;
-use aptos_logger::prelude::*;
-use aptos_mempool_notifications::MempoolNotificationSender;
-use aptos_storage_interface::DbReader;
-use aptos_storage_service_notifications::StorageServiceNotificationSender;
-use aptos_time_service::{TimeService, TimeServiceTrait};
-use aptos_types::{
+use cedra_event_notifications::EventSubscriptionService;
+use cedra_infallible::Mutex;
+use cedra_logger::prelude::*;
+use cedra_mempool_notifications::MempoolNotificationSender;
+use cedra_storage_interface::DbReader;
+use cedra_storage_service_notifications::StorageServiceNotificationSender;
+use cedra_time_service::{TimeService, TimeServiceTrait};
+use cedra_types::{
     epoch_change::Verifier,
     epoch_state::EpochState,
     ledger_info::LedgerInfoWithSignatures,

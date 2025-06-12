@@ -1,0 +1,10 @@
+[package]
+name = "MessageBoard"
+version = "0.0.1"
+
+[dependencies]
+CedraFramework = { git = "https://github.com/cedra-labs/cedra-framework.git", subdir = "cedra-framework", rev = "mainnet" }
+
+[addresses]
+std = "0x1"
+message_board = "_"

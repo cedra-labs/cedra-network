@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_crypto::HashValue;
-use aptos_storage_interface::AptosDbError;
-use aptos_types::{state_store::errors::StateViewError, transaction::Version};
+use cedra_crypto::HashValue;
+use cedra_storage_interface::CedraDbError;
+use cedra_types::{state_store::errors::StateViewError, transaction::Version};
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 use thiserror::Error;
@@ -51,8 +51,8 @@ impl From<anyhow::Error> for ExecutorError {
     }
 }
 
-impl From<AptosDbError> for ExecutorError {
-    fn from(error: AptosDbError) -> Self {
+impl From<CedraDbError> for ExecutorError {
+    fn from(error: CedraDbError) -> Self {
         Self::InternalError {
             error: format!("{}", error),
         }
@@ -73,8 +73,8 @@ impl From<bcs::Error> for ExecutorError {
     }
 }
 
-impl From<aptos_secure_net::Error> for ExecutorError {
-    fn from(error: aptos_secure_net::Error) -> Self {
+impl From<cedra_secure_net::Error> for ExecutorError {
+    fn from(error: cedra_secure_net::Error) -> Self {
         Self::InternalError {
             error: format!("{}", error),
         }

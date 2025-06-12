@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::metrics::TIMER;
 use anyhow::{ensure, Result};
-use aptos_metrics_core::TimerHelper;
-use aptos_storage_interface::state_store::state_update_refs::StateUpdateRefs;
-use aptos_types::transaction::{Transaction, TransactionOutput, Version};
+use cedra_metrics_core::TimerHelper;
+use cedra_storage_interface::state_store::state_update_refs::StateUpdateRefs;
+use cedra_types::transaction::{Transaction, TransactionOutput, Version};
 use itertools::izip;
 use std::{
     fmt::{Debug, Formatter},

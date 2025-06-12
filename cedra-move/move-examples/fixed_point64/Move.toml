@@ -1,0 +1,16 @@
+[package]
+name = "fixed_point64"
+version = "1.0.0"
+authors = []
+
+[addresses]
+fixed_point64 = "0xdeadbeef"
+
+[dev-addresses]
+
+[dependencies.CedraFramework]
+git = "https://github.com/cedra-labs/cedra-framework.git"
+rev = "mainnet"
+subdir = "cedra-framework"
+
+[dev-dependencies]

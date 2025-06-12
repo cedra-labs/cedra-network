@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 //! Errors that originate from the PeerManager module
 
 use crate::protocols::wire::messaging::v1 as wire;
-use aptos_types::{network_address::NetworkAddress, PeerId};
+use cedra_types::{network_address::NetworkAddress, PeerId};
 use futures::channel::{mpsc, oneshot};
 use thiserror::Error;
 

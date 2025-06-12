@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -18,16 +18,16 @@ use crate::{
         types::{FastShare, PathType, RandConfig, RequestShare, TAugmentedData, TShare},
     },
 };
-use aptos_bounded_executor::BoundedExecutor;
-use aptos_channels::aptos_channel;
-use aptos_config::config::ReliableBroadcastConfig;
-use aptos_consensus_types::common::{Author, Round};
-use aptos_infallible::Mutex;
-use aptos_logger::{error, info, spawn_named, trace, warn};
-use aptos_network::{protocols::network::RpcError, ProtocolId};
-use aptos_reliable_broadcast::{DropGuard, ReliableBroadcast};
-use aptos_time_service::TimeService;
-use aptos_types::{
+use cedra_bounded_executor::BoundedExecutor;
+use cedra_channels::cedra_channel;
+use cedra_config::config::ReliableBroadcastConfig;
+use cedra_consensus_types::common::{Author, Round};
+use cedra_infallible::Mutex;
+use cedra_logger::{error, info, spawn_named, trace, warn};
+use cedra_network::{protocols::network::RpcError, ProtocolId};
+use cedra_reliable_broadcast::{DropGuard, ReliableBroadcast};
+use cedra_time_service::TimeService;
+use cedra_types::{
     epoch_state::EpochState,
     randomness::{FullRandMetadata, RandMetadata, Randomness},
     validator_signer::ValidatorSigner,
@@ -220,7 +220,7 @@ impl<S: TShare, D: TAugmentedData> RandManager<S, D> {
 
     async fn verification_task(
         epoch_state: Arc<EpochState>,
-        mut incoming_rpc_request: aptos_channel::Receiver<Author, IncomingRandGenRequest>,
+        mut incoming_rpc_request: cedra_channel::Receiver<Author, IncomingRandGenRequest>,
         verified_msg_tx: UnboundedSender<RpcRequest<S, D>>,
         rand_config: RandConfig,
         fast_rand_config: Option<RandConfig>,
@@ -348,7 +348,7 @@ impl<S: TShare, D: TAugmentedData> RandManager<S, D> {
     pub async fn start(
         mut self,
         mut incoming_blocks: Receiver<OrderedBlocks>,
-        incoming_rpc_request: aptos_channel::Receiver<Author, IncomingRandGenRequest>,
+        incoming_rpc_request: cedra_channel::Receiver<Author, IncomingRandGenRequest>,
         mut reset_rx: Receiver<ResetRequest>,
         bounded_executor: BoundedExecutor,
         highest_known_round: Round,

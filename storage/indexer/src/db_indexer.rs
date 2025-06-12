@@ -1,12 +1,12 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     event_v2_translator::EventV2TranslationEngine, metrics::TIMER,
     utils::PrefixedStateValueIterator,
 };
-use aptos_config::config::internal_indexer_db_config::InternalIndexerDBConfig;
-use aptos_db_indexer_schemas::{
+use cedra_config::config::internal_indexer_db_config::InternalIndexerDBConfig;
+use cedra_db_indexer_schemas::{
     metadata::{MetadataKey, MetadataValue, StateSnapshotProgress},
     schema::{
         event_by_key::EventByKeySchema, event_by_version::EventByVersionSchema,
@@ -20,12 +20,12 @@ use aptos_db_indexer_schemas::{
         MAX_REQUEST_LIMIT,
     },
 };
-use aptos_logger::warn;
-use aptos_schemadb::{batch::SchemaBatch, DB};
-use aptos_storage_interface::{
-    db_ensure as ensure, db_other_bail as bail, AptosDbError, DbReader, Result,
+use cedra_logger::warn;
+use cedra_schemadb::{batch::SchemaBatch, DB};
+use cedra_storage_interface::{
+    db_ensure as ensure, db_other_bail as bail, CedraDbError, DbReader, Result,
 };
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     account_config::{BURN_TYPE, MINT_TYPE},
     contract_event::{ContractEvent, ContractEventV1, ContractEventV2, EventWithVersion},
@@ -184,7 +184,7 @@ impl InternalIndexerDB {
             address,
             min_seq_num
                 .checked_add(num_versions)
-                .ok_or(AptosDbError::TooManyRequested(min_seq_num, num_versions))?,
+                .ok_or(CedraDbError::TooManyRequested(min_seq_num, num_versions))?,
             ledger_version,
         ))
     }
@@ -297,7 +297,7 @@ impl InternalIndexerDB {
     ) -> Result<ContractEventV1> {
         self.db
             .get::<TranslatedV1EventSchema>(&(version, index))?
-            .ok_or_else(|| AptosDbError::NotFound(format!("Event {} of Txn {}", index, version)))
+            .ok_or_else(|| CedraDbError::NotFound(format!("Event {} of Txn {}", index, version)))
     }
 }
 
@@ -407,7 +407,7 @@ impl DBIndexer {
 
     /// Process a batch of transactions that is within the range of  `start_version` to `end_version`. Left inclusive, right exclusive.
     pub fn process_a_batch(&self, start_version: Version, end_version: Version) -> Result<Version> {
-        let _timer: aptos_metrics_core::HistogramTimer =
+        let _timer: cedra_metrics_core::HistogramTimer =
             TIMER.with_label_values(&["process_a_batch"]).start_timer();
         let mut version = start_version;
         let num_transactions = self.get_num_of_transactions(version, end_version)?;
@@ -482,7 +482,7 @@ impl DBIndexer {
                             }
                         }
                     }
-                    Ok::<(), AptosDbError>(())
+                    Ok::<(), CedraDbError>(())
                 })?;
             }
 
@@ -496,7 +496,7 @@ impl DBIndexer {
                 });
             }
             version += 1;
-            Ok::<(), AptosDbError>(())
+            Ok::<(), CedraDbError>(())
         })?;
         assert!(version > 0, "batch number should be greater than 0");
 
@@ -545,7 +545,7 @@ impl DBIndexer {
         )?;
         self.sender
             .send(Some(batch))
-            .map_err(|e| AptosDbError::Other(e.to_string()))?;
+            .map_err(|e| CedraDbError::Other(e.to_string()))?;
         Ok(version)
     }
 

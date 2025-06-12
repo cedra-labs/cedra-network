@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 mod logging;
@@ -37,7 +37,7 @@ use crate::{
     },
 };
 use anyhow::{Context, Result};
-use aptos_indexer_grpc_server_framework::setup_logging;
+use cedra_indexer_grpc_server_framework::setup_logging;
 use async_trait::async_trait;
 use clap::Parser;
 pub use health_checker::HealthChecker;
@@ -63,13 +63,13 @@ const TESTNET_FOLDER: &str = "testnet";
 pub struct RunLocalnet {
     /// The directory to save all files for the node
     ///
-    /// Defaults to .aptos/testnet
+    /// Defaults to .cedra/testnet
     #[clap(long, value_parser)]
     test_dir: Option<PathBuf>,
 
     /// Clean the state and start with a new chain at genesis
     ///
-    /// This will wipe the aptosdb in `--test-dir` to remove any incompatible changes, and start
+    /// This will wipe the cedradb in `--test-dir` to remove any incompatible changes, and start
     /// the chain fresh. Note, that you will need to publish the module again and distribute funds
     /// from the faucet accordingly.
     #[clap(long)]

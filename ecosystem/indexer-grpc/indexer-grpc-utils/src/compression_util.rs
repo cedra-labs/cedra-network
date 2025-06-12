@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::default_file_storage_format;
-use aptos_protos::{indexer::v1::TransactionsInStorage, transaction::v1::Transaction};
+use cedra_protos::{indexer::v1::TransactionsInStorage, transaction::v1::Transaction};
 use lz4::{Decoder, EncoderBuilder};
 use prost::Message;
 use ripemd::{Digest, Ripemd128};

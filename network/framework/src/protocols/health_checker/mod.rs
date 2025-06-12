@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -35,12 +35,12 @@ use crate::{
     },
     ProtocolId,
 };
-use aptos_channels::{aptos_channel, message_queues::QueueStyle};
-use aptos_config::network_id::{NetworkContext, PeerNetworkId};
-use aptos_logger::prelude::*;
-use aptos_short_hex_str::AsShortHexStr;
-use aptos_time_service::{TimeService, TimeServiceTrait};
-use aptos_types::PeerId;
+use cedra_channels::{cedra_channel, message_queues::QueueStyle};
+use cedra_config::network_id::{NetworkContext, PeerNetworkId};
+use cedra_logger::prelude::*;
+use cedra_short_hex_str::AsShortHexStr;
+use cedra_time_service::{TimeService, TimeServiceTrait};
+use cedra_types::PeerId;
 use bytes::Bytes;
 use futures::{
     channel::oneshot,
@@ -72,7 +72,7 @@ pub fn health_checker_network_config() -> NetworkApplicationConfig {
     let network_service_config = NetworkServiceConfig::new(
         direct_send_protocols,
         rpc_protocols,
-        aptos_channel::Config::new(NETWORK_CHANNEL_SIZE)
+        cedra_channel::Config::new(NETWORK_CHANNEL_SIZE)
             .queue_style(QueueStyle::LIFO)
             .counters(&counters::PENDING_HEALTH_CHECKER_NETWORK_EVENTS),
     );

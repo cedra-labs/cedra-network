@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use serde::{Deserialize, Serialize};
@@ -25,8 +25,8 @@ impl Error {
     }
 }
 
-impl From<aptos_network::application::error::Error> for Error {
-    fn from(error: aptos_network::application::error::Error) -> Self {
+impl From<cedra_network::application::error::Error> for Error {
+    fn from(error: cedra_network::application::error::Error) -> Self {
         Error::UnexpectedErrorEncountered(error.to_string())
     }
 }

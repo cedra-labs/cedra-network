@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #[cfg(any(test, feature = "fuzzing"))]
 use crate::dkg::DKGTranscriptMetadata;
 use crate::{dkg::DKGTranscript, jwks};
-use aptos_crypto_derive::{BCSCryptoHash, CryptoHasher};
+use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 #[cfg(any(test, feature = "fuzzing"))]
 use move_core_types::account_address::AccountAddress;
 use serde::{Deserialize, Serialize};

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use async_trait::async_trait;
@@ -73,7 +73,7 @@ where
 pub mod mocks {
     use super::ReadWrite;
     use crate::Result;
-    use aptos_infallible::Mutex;
+    use cedra_infallible::Mutex;
     use async_trait::async_trait;
     use hyper::StatusCode;
     use k8s_openapi::Metadata;

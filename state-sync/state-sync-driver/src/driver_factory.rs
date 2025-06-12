@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,18 +12,18 @@ use crate::{
     },
     storage_synchronizer::StorageSynchronizer,
 };
-use aptos_config::config::NodeConfig;
-use aptos_consensus_notifications::ConsensusNotificationListener;
-use aptos_data_client::client::AptosDataClient;
-use aptos_data_streaming_service::streaming_client::StreamingServiceClient;
-use aptos_event_notifications::{EventNotificationSender, EventSubscriptionService};
-use aptos_executor_types::ChunkExecutorTrait;
-use aptos_infallible::Mutex;
-use aptos_mempool_notifications::MempoolNotificationSender;
-use aptos_storage_interface::DbReaderWriter;
-use aptos_storage_service_notifications::StorageServiceNotificationSender;
-use aptos_time_service::TimeService;
-use aptos_types::waypoint::Waypoint;
+use cedra_config::config::NodeConfig;
+use cedra_consensus_notifications::ConsensusNotificationListener;
+use cedra_data_client::client::CedraDataClient;
+use cedra_data_streaming_service::streaming_client::StreamingServiceClient;
+use cedra_event_notifications::{EventNotificationSender, EventSubscriptionService};
+use cedra_executor_types::ChunkExecutorTrait;
+use cedra_infallible::Mutex;
+use cedra_mempool_notifications::MempoolNotificationSender;
+use cedra_storage_interface::DbReaderWriter;
+use cedra_storage_service_notifications::StorageServiceNotificationSender;
+use cedra_time_service::TimeService;
+use cedra_types::waypoint::Waypoint;
 use futures::{
     channel::{mpsc, mpsc::UnboundedSender},
     executor::block_on,
@@ -55,7 +55,7 @@ impl DriverFactory {
         metadata_storage: MetadataStorage,
         consensus_listener: ConsensusNotificationListener,
         event_subscription_service: EventSubscriptionService,
-        aptos_data_client: AptosDataClient,
+        cedra_data_client: CedraDataClient,
         streaming_service_client: StreamingServiceClient,
         time_service: TimeService,
     ) -> Self {
@@ -70,7 +70,7 @@ impl DriverFactory {
             metadata_storage,
             consensus_listener,
             event_subscription_service,
-            aptos_data_client,
+            cedra_data_client,
             streaming_service_client,
             time_service,
         );
@@ -96,7 +96,7 @@ impl DriverFactory {
         metadata_storage: MetadataStorage,
         consensus_listener: ConsensusNotificationListener,
         mut event_subscription_service: EventSubscriptionService,
-        aptos_data_client: AptosDataClient,
+        cedra_data_client: CedraDataClient,
         streaming_service_client: StreamingServiceClient,
         time_service: TimeService,
     ) -> (Self, UnboundedSender<CommitNotification>) {
@@ -135,7 +135,7 @@ impl DriverFactory {
 
         // Create a new runtime (if required)
         let driver_runtime = if create_runtime {
-            let runtime = aptos_runtimes::spawn_named_runtime("sync-driver".into(), None);
+            let runtime = cedra_runtimes::spawn_named_runtime("sync-driver".into(), None);
             Some(runtime)
         } else {
             None
@@ -176,7 +176,7 @@ impl DriverFactory {
             metadata_storage,
             storage_service_notification_handler,
             storage_synchronizer,
-            aptos_data_client,
+            cedra_data_client,
             streaming_service_client,
             storage.reader,
             time_service,
@@ -208,7 +208,7 @@ impl DriverFactory {
 /// Note: it's useful to maintain separate runtimes because the logger
 /// can prepend all logs with the runtime thread name.
 pub struct StateSyncRuntimes {
-    _aptos_data_client: Runtime,
+    _cedra_data_client: Runtime,
     state_sync: DriverFactory,
     _storage_service: Runtime,
     _streaming_service: Runtime,
@@ -216,13 +216,13 @@ pub struct StateSyncRuntimes {
 
 impl StateSyncRuntimes {
     pub fn new(
-        aptos_data_client: Runtime,
+        cedra_data_client: Runtime,
         state_sync: DriverFactory,
         storage_service: Runtime,
         streaming_service: Runtime,
     ) -> Self {
         Self {
-            _aptos_data_client: aptos_data_client,
+            _cedra_data_client: cedra_data_client,
             state_sync,
             _storage_service: storage_service,
             _streaming_service: streaming_service,

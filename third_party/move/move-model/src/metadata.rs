@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::bail;
@@ -181,7 +181,7 @@ impl CompilerVersion {
 /// however, there maybe some isolated exceptions.
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, Eq, PartialEq, PartialOrd, Ord)]
 pub enum LanguageVersion {
-    /// The version of Move at around the genesis of the Aptos network end
+    /// The version of Move at around the genesis of the Cedra network end
     /// of '22. This is the original Diem Move plus the extension of inline
     /// functions with lambda parameters, as well as a simple form of `for`
     /// loops.

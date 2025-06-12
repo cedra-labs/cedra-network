@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use super::{cedra::AptosUpdateTool, revela::RevelaUpdateTool};
+use super::{cedra::CedraUpdateTool, revela::RevelaUpdateTool};
 use crate::{
     common::types::{CliCommand, CliResult},
     update::{
@@ -14,7 +14,7 @@ use clap::Subcommand;
 /// Update the CLI or other tools it depends on.
 #[derive(Subcommand)]
 pub enum UpdateTool {
-    Aptos(AptosUpdateTool),
+    Cedra(CedraUpdateTool),
     Revela(RevelaUpdateTool),
     Movefmt(FormatterUpdateTool),
     MoveMutationTest(MutationTestUpdaterTool),
@@ -24,7 +24,7 @@ pub enum UpdateTool {
 impl UpdateTool {
     pub async fn execute(self) -> CliResult {
         match self {
-            UpdateTool::Aptos(tool) => tool.execute_serialized().await,
+            UpdateTool::Cedra(tool) => tool.execute_serialized().await,
             UpdateTool::Revela(tool) => tool.execute_serialized().await,
             UpdateTool::Movefmt(tool) => tool.execute_serialized().await,
             UpdateTool::MoveMutationTest(tool) => tool.execute_serialized().await,

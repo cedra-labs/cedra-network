@@ -1,8 +1,8 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::{Author, Payload, Round};
-use aptos_types::validator_txn::ValidatorTransaction;
+use cedra_types::validator_txn::ValidatorTransaction;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Eq)]

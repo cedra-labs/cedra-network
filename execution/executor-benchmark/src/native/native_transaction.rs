@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     transaction::signature_verified_transaction::SignatureVerifiedTransaction,
 };
@@ -40,15 +40,15 @@ pub enum NativeTransaction {
 impl NativeTransaction {
     pub fn parse(txn: &SignatureVerifiedTransaction) -> Self {
         match &txn.expect_valid() {
-            aptos_types::transaction::Transaction::UserTransaction(user_txn) => {
+            cedra_types::transaction::Transaction::UserTransaction(user_txn) => {
                 match user_txn.payload() {
-                    aptos_types::transaction::TransactionPayload::EntryFunction(f) => {
+                    cedra_types::transaction::TransactionPayload::EntryFunction(f) => {
                         match (
                             *f.module().address(),
                             f.module().name().as_str(),
                             f.function().as_str(),
                         ) {
-                            (AccountAddress::ONE, "aptos_account", "fungible_transfer_only") => {
+                            (AccountAddress::ONE, "cedra_account", "fungible_transfer_only") => {
                                 Self::FaTransfer {
                                     sender: user_txn.sender(),
                                     sequence_number: user_txn.sequence_number(),
@@ -64,7 +64,7 @@ impl NativeTransaction {
                                 fail_on_recipient_account_existing: false,
                                 fail_on_recipient_account_missing: true,
                             },
-                            (AccountAddress::ONE, "aptos_account", "transfer") => Self::Transfer {
+                            (AccountAddress::ONE, "cedra_account", "transfer") => Self::Transfer {
                                 sender: user_txn.sender(),
                                 sequence_number: user_txn.sequence_number(),
                                 recipient: bcs::from_bytes(&f.args()[0]).unwrap(),
@@ -72,7 +72,7 @@ impl NativeTransaction {
                                 fail_on_recipient_account_existing: false,
                                 fail_on_recipient_account_missing: false,
                             },
-                            (AccountAddress::ONE, "aptos_account", "create_account") => {
+                            (AccountAddress::ONE, "cedra_account", "create_account") => {
                                 Self::Transfer {
                                     sender: user_txn.sender(),
                                     sequence_number: user_txn.sequence_number(),
@@ -82,7 +82,7 @@ impl NativeTransaction {
                                     fail_on_recipient_account_missing: false,
                                 }
                             },
-                            (AccountAddress::ONE, "aptos_account", "batch_transfer") => {
+                            (AccountAddress::ONE, "cedra_account", "batch_transfer") => {
                                 Self::BatchTransfer {
                                     sender: user_txn.sender(),
                                     sequence_number: user_txn.sequence_number(),

@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::Error;
-use aptos_config::network_id::PeerNetworkId;
-use aptos_logger::Schema;
-use aptos_storage_service_types::requests::StorageServiceRequest;
+use cedra_config::network_id::PeerNetworkId;
+use cedra_logger::Schema;
+use cedra_storage_service_types::requests::StorageServiceRequest;
 use serde::Serialize;
 
 #[derive(Schema)]

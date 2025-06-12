@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::consensus_observer::{
@@ -12,10 +12,10 @@ use crate::consensus_observer::{
         ConsensusObserverResponse,
     },
 };
-use aptos_config::network_id::PeerNetworkId;
-use aptos_logger::{debug, warn};
-use aptos_network::application::{interface::NetworkClientInterface, storage::PeersAndMetadata};
-use aptos_time_service::{TimeService, TimeServiceTrait};
+use cedra_config::network_id::PeerNetworkId;
+use cedra_logger::{debug, warn};
+use cedra_network::application::{interface::NetworkClientInterface, storage::PeersAndMetadata};
+use cedra_time_service::{TimeService, TimeServiceTrait};
 use bytes::Bytes;
 use rand::Rng;
 use std::{sync::Arc, time::Duration};

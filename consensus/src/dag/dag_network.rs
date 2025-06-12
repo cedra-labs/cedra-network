@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{types::DAGMessage, DAGRpcResult};
-use aptos_consensus_types::common::Author;
-use aptos_reliable_broadcast::RBNetworkSender;
-use aptos_time_service::{Interval, TimeService, TimeServiceTrait};
+use cedra_consensus_types::common::Author;
+use cedra_reliable_broadcast::RBNetworkSender;
+use cedra_time_service::{Interval, TimeService, TimeServiceTrait};
 use async_trait::async_trait;
 use futures::{
     stream::{FusedStream, FuturesUnordered},

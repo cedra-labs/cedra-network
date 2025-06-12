@@ -1,0 +1,9 @@
+[package]
+name = 'my_todo_list'
+version = '1.0.0'
+[dependencies.CedraFramework]
+git = 'https://github.com/cedra-labs/cedra-framework.git'
+rev = 'main'
+subdir = 'cedra-framework'
+[addresses]
+todolist_addr='_'

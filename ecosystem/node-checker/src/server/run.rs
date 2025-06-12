@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{
@@ -7,7 +7,7 @@ use super::{
     common::ServerArgs,
 };
 use anyhow::{Context, Result};
-use aptos_logger::info;
+use cedra_logger::info;
 use clap::Parser;
 use poem::{http::Method, listener::TcpListener, middleware::Cors, EndpointExt, Route, Server};
 use std::path::PathBuf;

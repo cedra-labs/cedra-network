@@ -1,5 +1,5 @@
 module poc::scalar_uniform_from_64_bytes_internal {
-    use aptos_std::ristretto255::{Self};
+    use cedra_std::ristretto255::{Self};
     use std::option::{Self};
 
     public entry fun main(_owner: &signer) {

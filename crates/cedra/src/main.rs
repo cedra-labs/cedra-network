@@ -1,7 +1,7 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-//! Aptos is a one stop tool for operations, debugging, and other operations with the blockchain
+//! Cedra is a one stop tool for operations, debugging, and other operations with the blockchain
 
 #![forbid(unsafe_code)]
 

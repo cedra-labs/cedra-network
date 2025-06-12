@@ -1,4 +1,4 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // Parts of the project are originally copyright (c) Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -213,7 +213,7 @@ pub fn run_checker(options: Options) -> anyhow::Result<GlobalEnv> {
         },
         options.language_version.unwrap_or_default(),
         options.warn_deprecated,
-        options.warn_of_deprecation_use_in_aptos_libs,
+        options.warn_of_deprecation_use_in_cedra_libs,
         options.compile_test_code,
         options.compile_verify_code,
     )?;

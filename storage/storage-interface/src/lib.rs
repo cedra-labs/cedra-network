@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::state_store::state_view::hot_state_view::HotStateView;
-use aptos_crypto::HashValue;
-pub use aptos_types::indexer::indexer_db_reader::Order;
-use aptos_types::{
+use cedra_crypto::HashValue;
+pub use cedra_types::indexer::indexer_db_reader::Order;
+use cedra_types::{
     account_address::AccountAddress,
     account_config::NewBlockEvent,
     contract_event::{ContractEvent, EventWithVersion},
@@ -48,12 +48,12 @@ use crate::{
     chunk_to_commit::ChunkToCommit,
     state_store::{state::State, state_summary::StateSummary},
 };
-pub use aptos_types::block_info::BlockHeight;
-use aptos_types::state_store::state_key::prefix::StateKeyPrefix;
-pub use errors::AptosDbError;
+pub use cedra_types::block_info::BlockHeight;
+use cedra_types::state_store::state_key::prefix::StateKeyPrefix;
+pub use errors::CedraDbError;
 pub use ledger_summary::LedgerSummary;
 
-pub type Result<T, E = AptosDbError> = std::result::Result<T, E>;
+pub type Result<T, E = CedraDbError> = std::result::Result<T, E>;
 // This is last line of defense against large queries slipping through external facing interfaces,
 // like the API and State Sync, etc.
 pub const MAX_REQUEST_LIMIT: u64 = 20_000;
@@ -89,8 +89,8 @@ impl From<bcs::Error> for Error {
     }
 }
 
-impl From<aptos_secure_net::Error> for Error {
-    fn from(error: aptos_secure_net::Error) -> Self {
+impl From<cedra_secure_net::Error> for Error {
+    fn from(error: cedra_secure_net::Error) -> Self {
         Self::ServiceError {
             error: format!("{}", error),
         }
@@ -112,7 +112,7 @@ macro_rules! delegate_read {
 }
 
 /// Trait that is implemented by a DB that supports certain public (to client) read APIs
-/// expected of an Aptos DB
+/// expected of an Cedra DB
 #[allow(unused_variables)]
 pub trait DbReader: Send + Sync {
     fn get_read_delegatee(&self) -> &dyn DbReader {
@@ -120,19 +120,19 @@ pub trait DbReader: Send + Sync {
     }
 
     delegate_read!(
-        /// See [AptosDB::get_epoch_ending_ledger_infos].
+        /// See [CedraDB::get_epoch_ending_ledger_infos].
         ///
-        /// [AptosDB::get_epoch_ending_ledger_infos]:
-        /// ../aptosdb/struct.AptosDB.html#method.get_epoch_ending_ledger_infos
+        /// [CedraDB::get_epoch_ending_ledger_infos]:
+        /// ../cedradb/struct.CedraDB.html#method.get_epoch_ending_ledger_infos
         fn get_epoch_ending_ledger_infos(
             &self,
             start_epoch: u64,
             end_epoch: u64,
         ) -> Result<EpochChangeProof>;
 
-        /// See [AptosDB::get_transactions].
+        /// See [CedraDB::get_transactions].
         ///
-        /// [AptosDB::get_transactions]: ../aptosdb/struct.AptosDB.html#method.get_transactions
+        /// [CedraDB::get_transactions]: ../cedradb/struct.CedraDB.html#method.get_transactions
         fn get_transactions(
             &self,
             start_version: Version,
@@ -141,9 +141,9 @@ pub trait DbReader: Send + Sync {
             fetch_events: bool,
         ) -> Result<TransactionListWithProof>;
 
-        /// See [AptosDB::get_transaction_by_hash].
+        /// See [CedraDB::get_transaction_by_hash].
         ///
-        /// [AptosDB::get_transaction_by_hash]: ../aptosdb/struct.AptosDB.html#method.get_transaction_by_hash
+        /// [CedraDB::get_transaction_by_hash]: ../cedradb/struct.CedraDB.html#method.get_transaction_by_hash
         fn get_transaction_by_hash(
             &self,
             hash: HashValue,
@@ -151,9 +151,9 @@ pub trait DbReader: Send + Sync {
             fetch_events: bool,
         ) -> Result<Option<TransactionWithProof>>;
 
-        /// See [AptosDB::get_transaction_by_version].
+        /// See [CedraDB::get_transaction_by_version].
         ///
-        /// [AptosDB::get_transaction_by_version]: ../aptosdb/struct.AptosDB.html#method.get_transaction_by_version
+        /// [CedraDB::get_transaction_by_version]: ../cedradb/struct.CedraDB.html#method.get_transaction_by_version
         fn get_transaction_by_version(
             &self,
             version: Version,
@@ -166,24 +166,24 @@ pub trait DbReader: Send + Sync {
             version: Version,
         ) -> Result<Option<TransactionAuxiliaryData>>;
 
-        /// See [AptosDB::get_first_txn_version].
+        /// See [CedraDB::get_first_txn_version].
         ///
-        /// [AptosDB::get_first_txn_version]: ../aptosdb/struct.AptosDB.html#method.get_first_txn_version
+        /// [CedraDB::get_first_txn_version]: ../cedradb/struct.CedraDB.html#method.get_first_txn_version
         fn get_first_txn_version(&self) -> Result<Option<Version>>;
 
-        /// See [AptosDB::get_first_viable_block].
+        /// See [CedraDB::get_first_viable_block].
         ///
-        /// [AptosDB::get_first_viable_block]: ../aptosdb/struct.AptosDB.html#method.get_first_viable_block
+        /// [CedraDB::get_first_viable_block]: ../cedradb/struct.CedraDB.html#method.get_first_viable_block
         fn get_first_viable_block(&self) -> Result<(Version, BlockHeight)>;
 
-        /// See [AptosDB::get_first_write_set_version].
+        /// See [CedraDB::get_first_write_set_version].
         ///
-        /// [AptosDB::get_first_write_set_version]: ../aptosdb/struct.AptosDB.html#method.get_first_write_set_version
+        /// [CedraDB::get_first_write_set_version]: ../cedradb/struct.CedraDB.html#method.get_first_write_set_version
         fn get_first_write_set_version(&self) -> Result<Option<Version>>;
 
-        /// See [AptosDB::get_transaction_outputs].
+        /// See [CedraDB::get_transaction_outputs].
         ///
-        /// [AptosDB::get_transaction_outputs]: ../aptosdb/struct.AptosDB.html#method.get_transaction_outputs
+        /// [CedraDB::get_transaction_outputs]: ../cedradb/struct.CedraDB.html#method.get_transaction_outputs
         fn get_transaction_outputs(
             &self,
             start_version: Version,
@@ -232,13 +232,13 @@ pub trait DbReader: Send + Sync {
             ledger_version: Version,
         ) -> Result<TransactionAccumulatorRangeProof>;
 
-        /// See [AptosDB::get_block_timestamp].
+        /// See [CedraDB::get_block_timestamp].
         ///
-        /// [AptosDB::get_block_timestamp]:
-        /// ../aptosdb/struct.AptosDB.html#method.get_block_timestamp
+        /// [CedraDB::get_block_timestamp]:
+        /// ../cedradb/struct.CedraDB.html#method.get_block_timestamp
         fn get_block_timestamp(&self, version: Version) -> Result<u64>;
 
-        /// See `AptosDB::get_latest_block_events`.
+        /// See `CedraDB::get_latest_block_events`.
         fn get_latest_block_events(&self, num_events: usize) -> Result<Vec<EventWithVersion>>;
 
         /// Returns the start_version, end_version and NewBlockEvent of the block containing the input
@@ -349,10 +349,10 @@ pub trait DbReader: Send + Sync {
         fn get_state_proof(&self, known_version: u64) -> Result<StateProof>;
 
         /// Gets the state value by state key at version.
-        /// See [AptosDB::get_state_value_by_version].
+        /// See [CedraDB::get_state_value_by_version].
         ///
-        /// [AptosDB::get_state_value_by_version]:
-        /// ../aptosdb/struct.AptosDB.html#method.get_state_value_by_version
+        /// [CedraDB::get_state_value_by_version]:
+        /// ../cedradb/struct.CedraDB.html#method.get_state_value_by_version
         fn get_state_value_by_version(
             &self,
             state_key: &StateKey,
@@ -361,10 +361,10 @@ pub trait DbReader: Send + Sync {
 
         /// Get the latest state value and its corresponding version when it's of the given key up
         /// to the given version.
-        /// See [AptosDB::get_state_value_with_version_by_version].
+        /// See [CedraDB::get_state_value_with_version_by_version].
         ///
-        /// [AptosDB::get_state_value_with_version_by_version]:
-        /// ../aptosdb/struct.AptosDB.html#method.get_state_value_with_version_by_version
+        /// [CedraDB::get_state_value_with_version_by_version]:
+        /// ../cedradb/struct.CedraDB.html#method.get_state_value_with_version_by_version
         fn get_state_value_with_version_by_version(
             &self,
             state_key: &StateKey,
@@ -381,12 +381,12 @@ pub trait DbReader: Send + Sync {
 
         /// Gets a state value by state key along with the proof, out of the ledger state indicated by the state
         /// Merkle tree root with a sparse merkle proof proving state tree root.
-        /// See [AptosDB::get_account_state_with_proof_by_version].
+        /// See [CedraDB::get_account_state_with_proof_by_version].
         ///
-        /// [AptosDB::get_account_state_with_proof_by_version]:
-        /// ../aptosdb/struct.AptosDB.html#method.get_account_state_with_proof_by_version
+        /// [CedraDB::get_account_state_with_proof_by_version]:
+        /// ../cedradb/struct.CedraDB.html#method.get_account_state_with_proof_by_version
         ///
-        /// This is used by aptos core (executor) internally.
+        /// This is used by cedra core (executor) internally.
         fn get_state_value_with_proof_by_version_ext(
             &self,
             key_hash: &HashValue,
@@ -483,7 +483,7 @@ pub trait DbReader: Send + Sync {
     /// Returns the latest ledger info.
     fn get_latest_ledger_info(&self) -> Result<LedgerInfoWithSignatures> {
         self.get_latest_ledger_info_option().and_then(|opt| {
-            opt.ok_or_else(|| AptosDbError::Other("Latest LedgerInfo not found.".to_string()))
+            opt.ok_or_else(|| CedraDbError::Other("Latest LedgerInfo not found.".to_string()))
         })
     }
 
@@ -512,7 +512,7 @@ pub trait DbReader: Send + Sync {
 
     fn ensure_synced_version(&self) -> Result<Version> {
         self.get_synced_version()?
-            .ok_or_else(|| AptosDbError::NotFound("Synced version not found.".to_string()))
+            .ok_or_else(|| CedraDbError::NotFound("Synced version not found.".to_string()))
     }
 
     fn expect_synced_version(&self) -> Version {
@@ -522,12 +522,12 @@ pub trait DbReader: Send + Sync {
 
     fn ensure_pre_committed_version(&self) -> Result<Version> {
         self.get_pre_committed_version()?
-            .ok_or_else(|| AptosDbError::NotFound("Pre-committed version not found.".to_string()))
+            .ok_or_else(|| CedraDbError::NotFound("Pre-committed version not found.".to_string()))
     }
 }
 
 /// Trait that is implemented by a DB that supports certain public (to client) write APIs
-/// expected of an Aptos DB. This adds write APIs to DbReader.
+/// expected of an Cedra DB. This adds write APIs to DbReader.
 #[allow(unused_variables)]
 pub trait DbWriter: Send + Sync {
     /// Get a (stateful) state snapshot receiver.
@@ -688,21 +688,21 @@ pub fn jmt_update_refs<K>(
 #[macro_export]
 macro_rules! db_anyhow {
     ($($arg:tt)*) => {
-        AptosDbError::Other(format!($($arg)*))
+        CedraDbError::Other(format!($($arg)*))
     };
 }
 
 #[macro_export]
 macro_rules! db_not_found_bail {
     ($($arg:tt)*) => {
-        return Err(AptosDbError::NotFound(format!($($arg)*)))
+        return Err(CedraDbError::NotFound(format!($($arg)*)))
     };
 }
 
 #[macro_export]
 macro_rules! db_other_bail {
     ($($arg:tt)*) => {
-        return Err(AptosDbError::Other(format!($($arg)*)))
+        return Err(CedraDbError::Other(format!($($arg)*)))
     };
 }
 
@@ -710,7 +710,7 @@ macro_rules! db_other_bail {
 macro_rules! db_ensure {
     ($cond:expr, $($arg:tt)*) => {
         if !$cond {
-            return Err(AptosDbError::Other(format!($($arg)*)));
+            return Err(CedraDbError::Other(format!($($arg)*)));
         }
     };
 }

@@ -1,13 +1,13 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::bail;
-use aptos_framework::{
+use cedra_framework::{
     natives::code::{ModuleMetadata, PackageMetadata, PackageRegistry, UpgradePolicy},
     unzip_metadata_str,
 };
-use aptos_rest_client::Client;
-use aptos_types::account_address::AccountAddress;
+use cedra_rest_client::Client;
+use cedra_types::account_address::AccountAddress;
 use move_package::compilation::package_layout::CompiledPackageLayout;
 use reqwest::Url;
 use std::{collections::BTreeMap, fmt, fs, path::Path};

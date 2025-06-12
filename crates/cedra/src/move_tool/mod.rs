@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -28,9 +28,10 @@ use crate::{
     },
     CliCommand, CliResult,
 };
-use aptos_api_types::AptosErrorCode;
-use aptos_crypto::HashValue;
-use aptos_framework::{
+use async_trait::async_trait;
+use cedra_api_types::CedraErrorCode;
+use cedra_crypto::HashValue;
+use cedra_framework::{
     chunked_publish::{
         chunk_package_and_create_payloads, large_packages_cleanup_staging_area, PublishType,
         LARGE_PACKAGES_MODULE_ADDRESS,
@@ -41,21 +42,20 @@ use aptos_framework::{
     prover::ProverOptions,
     BuildOptions, BuiltPackage,
 };
-use aptos_gas_schedule::{MiscGasParameters, NativeGasParameters};
-use aptos_move_debugger::aptos_debugger::AptosDebugger;
-use aptos_rest_client::{
-    aptos_api_types::{EntryFunctionId, HexEncodedBytes, IdentifierWrapper, MoveModuleId},
+use cedra_gas_schedule::{MiscGasParameters, NativeGasParameters};
+use cedra_move_debugger::cedra_debugger::CedraDebugger;
+use cedra_rest_client::{
+    cedra_api_types::{EntryFunctionId, HexEncodedBytes, IdentifierWrapper, MoveModuleId},
     error::RestError,
-    AptosBaseUrl, Client,
+    CedraBaseUrl, Client,
 };
-use aptos_types::{
+use cedra_types::{
     account_address::{create_resource_address, AccountAddress},
     object_address::create_object_code_deployment_address,
-    on_chain_config::aptos_test_feature_flags_genesis,
+    on_chain_config::cedra_test_feature_flags_genesis,
     transaction::{Transaction, TransactionArgument, TransactionPayload, TransactionStatus},
 };
-use aptos_vm::data_cache::AsMoveResolver;
-use async_trait::async_trait;
+use cedra_vm::data_cache::AsMoveResolver;
 use clap::{Parser, Subcommand, ValueEnum};
 use colored::Colorize;
 use itertools::Itertools;
@@ -78,8 +78,8 @@ pub use stored_package::*;
 use tokio::task;
 use url::Url;
 
-pub mod aptos_debug_natives;
 mod bytecode;
+pub mod cedra_debug_natives;
 pub mod coverage;
 mod fmt;
 mod lint;
@@ -89,7 +89,7 @@ mod show;
 pub mod stored_package;
 
 const HELLO_BLOCKCHAIN_EXAMPLE: &str = include_str!(
-    "../../../../aptos-move/move-examples/hello_blockchain/sources/hello_blockchain.move"
+    "../../../../cedra-move/move-examples/hello_blockchain/sources/hello_blockchain.move"
 );
 
 /// Tool for Move smart contract related operations
@@ -178,13 +178,13 @@ impl MoveTool {
 
 #[derive(Default, Parser)]
 pub struct FrameworkPackageArgs {
-    /// Git revision or branch for the Aptos framework
+    /// Git revision or branch for the Cedra framework
     ///
     /// This is mutually exclusive with `--framework-local-dir`
     #[clap(long, group = "framework_package_args")]
     pub(crate) framework_git_rev: Option<String>,
 
-    /// Local framework directory for the Aptos framework
+    /// Local framework directory for the Cedra framework
     ///
     /// This is mutually exclusive with `--framework-git-rev`
     #[clap(long, value_parser, group = "framework_package_args")]
@@ -207,9 +207,9 @@ impl FrameworkPackageArgs {
         addresses: BTreeMap<String, ManifestNamedAddress>,
         prompt_options: PromptOptions,
     ) -> CliTypedResult<()> {
-        const APTOS_FRAMEWORK: &str = "AptosFramework";
-        const APTOS_GIT_PATH: &str = "https://github.com/cedra-labs/cedra-framework.git";
-        const SUBDIR_PATH: &str = "aptos-framework";
+        const CEDRA_FRAMEWORK: &str = "CedraFramework";
+        const CEDRA_GIT_PATH: &str = "https://github.com/cedra-labs/cedra-framework.git";
+        const SUBDIR_PATH: &str = "cedra-framework";
         const DEFAULT_BRANCH: &str = "mainnet";
 
         let move_toml = package_dir.join(SourcePackageLayout::Manifest.path());
@@ -233,24 +233,30 @@ impl FrameworkPackageArgs {
         // Add the framework dependency if it's provided
         let mut dependencies = BTreeMap::new();
         if let Some(ref path) = self.framework_local_dir {
-            dependencies.insert(APTOS_FRAMEWORK.to_string(), Dependency {
-                local: Some(path.display().to_string()),
-                git: None,
-                rev: None,
-                subdir: None,
-                aptos: None,
-                address: None,
-            });
+            dependencies.insert(
+                CEDRA_FRAMEWORK.to_string(),
+                Dependency {
+                    local: Some(path.display().to_string()),
+                    git: None,
+                    rev: None,
+                    subdir: None,
+                    cedra: None,
+                    address: None,
+                },
+            );
         } else {
             let git_rev = self.framework_git_rev.as_deref().unwrap_or(DEFAULT_BRANCH);
-            dependencies.insert(APTOS_FRAMEWORK.to_string(), Dependency {
-                local: None,
-                git: Some(APTOS_GIT_PATH.to_string()),
-                rev: Some(git_rev.to_string()),
-                subdir: Some(SUBDIR_PATH.to_string()),
-                aptos: None,
-                address: None,
-            });
+            dependencies.insert(
+                CEDRA_FRAMEWORK.to_string(),
+                Dependency {
+                    local: None,
+                    git: Some(CEDRA_GIT_PATH.to_string()),
+                    rev: Some(git_rev.to_string()),
+                    subdir: Some(SUBDIR_PATH.to_string()),
+                    cedra: None,
+                    address: None,
+                },
+            );
         }
 
         let manifest = MovePackageManifest {
@@ -280,7 +286,7 @@ impl FrameworkPackageArgs {
         write_to_file(
             gitignore.as_path(),
             GIT_IGNORE,
-            ".aptos/\nbuild/".as_bytes(),
+            ".cedra/\nbuild/".as_bytes(),
         )
     }
 }
@@ -439,7 +445,7 @@ impl CliCommand<Vec<String>> for CompilePackage {
 /// Compiles a Move script into bytecode
 ///
 /// Compiles a script into bytecode and provides a hash of the bytecode.
-/// This can then be run with `aptos move run-script`
+/// This can then be run with `cedra move run-script`
 #[derive(Parser)]
 pub struct CompileScript {
     #[clap(long, value_parser)]
@@ -530,7 +536,7 @@ pub struct TestPackage {
     )]
     pub instruction_execution_bound: u64,
 
-    /// Collect coverage information for later use with the various `aptos move coverage` subcommands
+    /// Collect coverage information for later use with the various `cedra move coverage` subcommands
     #[clap(long = "coverage")]
     pub compute_coverage: bool,
 
@@ -612,11 +618,11 @@ impl CliCommand<&'static str> for TestPackage {
                 ..UnitTestingConfig::default()
             },
             // TODO(Gas): we may want to switch to non-zero costs in the future
-            aptos_debug_natives::aptos_debug_natives(
+            cedra_debug_natives::cedra_debug_natives(
                 NativeGasParameters::zeros(),
                 MiscGasParameters::zeros(),
             ),
-            aptos_test_feature_flags_genesis(),
+            cedra_test_feature_flags_genesis(),
             None,
             None,
             self.compute_coverage,
@@ -636,7 +642,7 @@ impl CliCommand<&'static str> for TestPackage {
             };
             summary.coverage()?;
 
-            println!("Please use `aptos move coverage -h` for more detailed source or bytecode test coverage of this package");
+            println!("Please use `cedra move coverage -h` for more detailed source or bytecode test coverage of this package");
         }
 
         match result {
@@ -766,7 +772,7 @@ pub struct IncludedArtifactsArgs {
     pub included_artifacts: IncludedArtifacts,
 }
 
-/// Publishes the modules in a Move package to the Aptos blockchain
+/// Publishes the modules in a Move package to the Cedra blockchain
 #[derive(Parser)]
 pub struct PublishPackage {
     #[clap(flatten)]
@@ -973,19 +979,19 @@ fn create_package_publication_data(
 
     let payload = match publish_type {
         PublishType::AccountDeploy => {
-            aptos_cached_packages::aptos_stdlib::code_publish_package_txn(
+            cedra_cached_packages::cedra_stdlib::code_publish_package_txn(
                 metadata_serialized.clone(),
                 compiled_units.clone(),
             )
         },
         PublishType::ObjectDeploy => {
-            aptos_cached_packages::aptos_stdlib::object_code_deployment_publish(
+            cedra_cached_packages::cedra_stdlib::object_code_deployment_publish(
                 metadata_serialized.clone(),
                 compiled_units.clone(),
             )
         },
         PublishType::ObjectUpgrade => {
-            aptos_cached_packages::aptos_stdlib::object_code_deployment_upgrade(
+            cedra_cached_packages::cedra_stdlib::object_code_deployment_upgrade(
                 metadata_serialized.clone(),
                 compiled_units.clone(),
                 object_address.expect("Object address must be provided for upgrading object code."),
@@ -1111,7 +1117,7 @@ impl CliCommand<String> for BuildPublishPayload {
     }
 }
 
-/// Publishes the modules in a Move package to the Aptos blockchain, under an object (legacy version of `deploy-object`)
+/// Publishes the modules in a Move package to the Cedra blockchain, under an object (legacy version of `deploy-object`)
 #[derive(Parser)]
 pub struct CreateObjectAndPublishPackage {
     /// The named address for compiling and using in the contract
@@ -1345,7 +1351,7 @@ impl CliCommand<TransactionSummary> for UpgradeObjectPackage {
     }
 }
 
-/// Publishes the modules in a Move package to the Aptos blockchain, under an object.
+/// Publishes the modules in a Move package to the Cedra blockchain, under an object.
 #[derive(Parser)]
 pub struct DeployObjectCode {
     /// The named address for compiling and using in the contract
@@ -1611,7 +1617,7 @@ async fn submit_chunked_publish_transactions(
         let message = format!(
             "The resource {}::large_packages::StagingArea under account {} is not empty.\
         \nThis may cause package publishing to fail if the data is unexpected. \
-        \nUse the `aptos move clear-staging-area` command to clean up the `StagingArea` resource under the account.",
+        \nUse the `cedra move clear-staging-area` command to clean up the `StagingArea` resource under the account.",
             large_packages_module_address, account_address,
         )
             .bold();
@@ -1645,7 +1651,7 @@ async fn submit_chunked_publish_transactions(
                 println!("{}", "Caution: An error occurred while submitting chunked publish transactions. \
                 \nDue to this error, there may be incomplete data left in the `StagingArea` resource. \
                 \nThis could cause further errors if you attempt to run the chunked publish command again. \
-                \nTo avoid this, use the `aptos move clear-staging-area` command to clean up the `StagingArea` resource under your account before retrying.".bold());
+                \nTo avoid this, use the `cedra move clear-staging-area` command to clean up the `StagingArea` resource under your account before retrying.".bold());
                 return Err(e);
             },
         }
@@ -1689,8 +1695,8 @@ async fn is_staging_area_empty(
             Some(_) => Ok(false), // StagingArea is not empty
             None => Ok(true),     // TODO: determine which case this is
         },
-        Err(RestError::Api(aptos_error_response))
-            if aptos_error_response.error.error_code == AptosErrorCode::ResourceNotFound =>
+        Err(RestError::Api(cedra_error_response))
+            if cedra_error_response.error.error_code == CedraErrorCode::ResourceNotFound =>
         {
             Ok(true) // The resource doesn't exist
         },
@@ -1729,7 +1735,7 @@ impl CliCommand<TransactionSummary> for ClearStagingArea {
     }
 }
 
-/// Publishes the modules in a Move package to the Aptos blockchain under a resource account
+/// Publishes the modules in a Move package to the Cedra blockchain under a resource account
 #[derive(Parser)]
 pub struct CreateResourceAccountAndPublishPackage {
     /// The named address for compiling and using in the contract
@@ -1776,7 +1782,7 @@ impl CliCommand<TransactionSummary> for CreateResourceAccountAndPublishPackage {
             account
         } else {
             return Err(CliError::CommandArgumentError(
-                "Please provide an account using --profile or run aptos init".to_string(),
+                "Please provide an account using --profile or run cedra init".to_string(),
             ));
         };
         let seed = seed_args.seed()?;
@@ -1800,7 +1806,7 @@ impl CliCommand<TransactionSummary> for CreateResourceAccountAndPublishPackage {
         );
         prompt_yes_with_override(&message, txn_options.prompt_options)?;
 
-        let payload = aptos_cached_packages::aptos_stdlib::resource_account_create_resource_account_and_publish_package(
+        let payload = cedra_cached_packages::cedra_stdlib::resource_account_create_resource_account_and_publish_package(
             seed,
             bcs::to_bytes(&metadata).expect("PackageMetadata has BCS"),
             compiled_units,
@@ -2262,7 +2268,7 @@ impl CliCommand<TransactionSummary> for Replay {
         };
 
         // Build the client
-        let client = Client::builder(AptosBaseUrl::Custom(
+        let client = Client::builder(CedraBaseUrl::Custom(
             Url::parse(rest_endpoint)
                 .map_err(|_err| CliError::UnableToParse("url", rest_endpoint.to_string()))?,
         ));
@@ -2274,7 +2280,7 @@ impl CliCommand<TransactionSummary> for Replay {
             client.build()
         };
 
-        let debugger = AptosDebugger::rest_client(client)?;
+        let debugger = CedraDebugger::rest_client(client)?;
 
         // Fetch the transaction to replay.
         let (txn, txn_info) = debugger
@@ -2788,7 +2794,7 @@ fn txn_arg_parser<T: serde::de::DeserializeOwned>(
 }
 
 /// Identifier of a module member (function or struct).
-/// Duplicated from aptos_types, as we also need to load_account_arg from the CLI.
+/// Duplicated from cedra_types, as we also need to load_account_arg from the CLI.
 #[derive(Debug, Clone)]
 pub struct MemberId {
     pub module_id: ModuleId,

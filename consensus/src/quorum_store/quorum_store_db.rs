@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -9,10 +9,10 @@ use crate::{
     },
 };
 use anyhow::Result;
-use aptos_consensus_types::proof_of_store::BatchId;
-use aptos_crypto::HashValue;
-use aptos_logger::prelude::*;
-use aptos_schemadb::{batch::SchemaBatch, Options, DB};
+use cedra_consensus_types::proof_of_store::BatchId;
+use cedra_crypto::HashValue;
+use cedra_logger::prelude::*;
+use cedra_schemadb::{batch::SchemaBatch, Options, DB};
 use std::{collections::HashMap, path::Path, time::Instant};
 
 pub trait QuorumStoreStorage: Sync + Send {

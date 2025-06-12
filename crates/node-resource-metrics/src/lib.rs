@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::collectors::BasicNodeInfoCollector;
-use aptos_infallible::Mutex;
-use aptos_logger::warn;
+use cedra_infallible::Mutex;
+use cedra_logger::warn;
 use cfg_if::cfg_if;
 use collectors::{
     CollectorLatencyCollector, CpuMetricsCollector, DiskMetricsCollector, LoadAvgCollector,

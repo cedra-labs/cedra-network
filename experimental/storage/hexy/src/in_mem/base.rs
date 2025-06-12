@@ -1,11 +1,11 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{metrics::TIMER, NodePosition, ARITY};
 use anyhow::{ensure, Result};
-use aptos_crypto::{hash::HOT_STATE_PLACE_HOLDER_HASH, HashValue};
-use aptos_experimental_layered_map::LayeredMap;
-use aptos_metrics_core::TimerHelper;
+use cedra_crypto::{hash::HOT_STATE_PLACE_HOLDER_HASH, HashValue};
+use cedra_experimental_layered_map::LayeredMap;
+use cedra_metrics_core::TimerHelper;
 use std::{
     cell::UnsafeCell,
     sync::{atomic, atomic::Ordering},

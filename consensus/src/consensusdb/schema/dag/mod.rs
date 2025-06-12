@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! This module defines physical storage schemas for DAG.
@@ -10,8 +10,8 @@ use crate::{
     define_schema,
 };
 use anyhow::Result;
-use aptos_crypto::HashValue;
-use aptos_schemadb::{
+use cedra_crypto::HashValue;
+use cedra_schemadb::{
     schema::{KeyCodec, ValueCodec},
     ColumnFamilyName,
 };

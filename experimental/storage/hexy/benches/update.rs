@@ -1,8 +1,8 @@
-// Copyright (c) Aptos Foundation
+// Copyright (c) Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use aptos_crypto::HashValue;
-use aptos_experimental_hexy::{
+use cedra_crypto::HashValue;
+use cedra_experimental_hexy::{
     in_mem::{base::HexyBase, overlay::HexyOverlay},
     LeafIdx,
 };

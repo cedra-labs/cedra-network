@@ -1,12 +1,12 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
 use anyhow::{ensure, Result};
-use aptos_crypto::HashValue;
-use aptos_drop_helper::DropHelper;
-use aptos_types::{
+use cedra_crypto::HashValue;
+use cedra_drop_helper::DropHelper;
+use cedra_types::{
     proof::accumulator::InMemoryTransactionAccumulator,
     transaction::{TransactionInfo, Version},
 };

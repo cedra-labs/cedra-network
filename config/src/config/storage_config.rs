@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -10,8 +10,8 @@ use crate::{
     utils,
 };
 use anyhow::{bail, ensure, Result};
-use aptos_logger::warn;
-use aptos_types::chain_id::ChainId;
+use cedra_logger::warn;
+use cedra_types::chain_id::ChainId;
 use arr_macro::arr;
 use serde::{Deserialize, Serialize};
 use serde_yaml::Value;
@@ -102,7 +102,7 @@ impl ShardedDbPathConfig {
     }
 }
 
-/// Port selected RocksDB options for tuning underlying rocksdb instance of AptosDB.
+/// Port selected RocksDB options for tuning underlying rocksdb instance of CedraDB.
 /// see <https://github.com/facebook/rocksdb/blob/master/include/rocksdb/options.h>
 /// for detailed explanations.
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
@@ -181,7 +181,7 @@ pub struct StorageConfig {
     /// Subdirectory for storage in tests only
     #[serde(skip)]
     data_dir: PathBuf,
-    /// AptosDB persists the state authentication structure off the critical path
+    /// CedraDB persists the state authentication structure off the critical path
     /// of transaction execution and batch up recent changes for performance. Once
     /// the number of buffered state updates exceeds this config, a dump of all
     /// buffered values into a snapshot is triggered. (Alternatively, if too many
@@ -346,7 +346,7 @@ impl Default for StorageConfig {
             // conservatively safe minimal prune window. It'll take a few Gigabytes of disk space
             // depending on the size of an average account blob.
             storage_pruner_config: PrunerConfig::default(),
-            data_dir: PathBuf::from("/opt/aptos/data"),
+            data_dir: PathBuf::from("/opt/cedra/data"),
             rocksdb_configs: RocksdbConfigs::default(),
             enable_indexer: false,
             db_path_overrides: None,
@@ -639,7 +639,7 @@ mod test {
         config_optimizer::ConfigOptimizer, NodeConfig, NodeType, PrunerConfig, ShardPathConfig,
         ShardedDbPathConfig, StorageConfig,
     };
-    use aptos_types::chain_id::ChainId;
+    use cedra_types::chain_id::ChainId;
 
     #[test]
     pub fn test_default_prune_window() {

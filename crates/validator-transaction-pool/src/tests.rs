@@ -1,10 +1,10 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{TransactionFilter, VTxnPoolState};
-use aptos_channels::{aptos_channel, message_queues::QueueStyle};
-use aptos_crypto::hash::CryptoHash;
-use aptos_types::{
+use cedra_channels::{cedra_channel, message_queues::QueueStyle};
+use cedra_crypto::hash::CryptoHash;
+use cedra_types::{
     dkg::DKGTranscript,
     jwks::{dummy_issuer, QuorumCertifiedUpdate},
     validator_txn::{Topic, ValidatorTransaction},
@@ -92,7 +92,7 @@ async fn per_txn_pull_notification() {
     let pool = VTxnPoolState::default();
     let txn_0 = ValidatorTransaction::ObservedJWKUpdate(QuorumCertifiedUpdate::dummy());
     let txn_1 = ValidatorTransaction::DKGResult(DKGTranscript::dummy());
-    let (tx, mut rx) = aptos_channel::new(QueueStyle::KLAST, 1, None);
+    let (tx, mut rx) = cedra_channel::new(QueueStyle::KLAST, 1, None);
     let _guard_0 = pool.put(
         Topic::JWK_CONSENSUS(dummy_issuer()),
         Arc::new(txn_0.clone()),

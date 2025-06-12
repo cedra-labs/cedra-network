@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::Swarm;
@@ -67,7 +67,7 @@ impl SystemMetrics {
 pub async fn fetch_error_metrics(
     swarm: Arc<tokio::sync::RwLock<Box<dyn Swarm>>>,
 ) -> anyhow::Result<i64> {
-    let error_query = r#"aptos_error_log_count{role=~"validator"}"#;
+    let error_query = r#"cedra_error_log_count{role=~"validator"}"#;
 
     let result = swarm
         .read()
@@ -151,16 +151,16 @@ pub async fn fetch_latency_breakdown(
 ) -> anyhow::Result<LatencyBreakdown> {
     // Averaging over 1m, and skipping data points at the start that would take averages outside of the interval.
     let start_time_adjusted = start_time + 60;
-    let consensus_proposal_to_ordered_query = r#"quantile(0.67, rate(aptos_consensus_block_tracing_sum{role=~"validator", stage="ordered"}[1m]) / rate(aptos_consensus_block_tracing_count{role=~"validator", stage="ordered"}[1m]))"#;
-    let consensus_proposal_to_commit_query = r#"quantile(0.67, rate(aptos_consensus_block_tracing_sum{role=~"validator", stage="committed"}[1m]) / rate(aptos_consensus_block_tracing_count{role=~"validator", stage="committed"}[1m]))"#;
+    let consensus_proposal_to_ordered_query = r#"quantile(0.67, rate(cedra_consensus_block_tracing_sum{role=~"validator", stage="ordered"}[1m]) / rate(cedra_consensus_block_tracing_count{role=~"validator", stage="ordered"}[1m]))"#;
+    let consensus_proposal_to_commit_query = r#"quantile(0.67, rate(cedra_consensus_block_tracing_sum{role=~"validator", stage="committed"}[1m]) / rate(cedra_consensus_block_tracing_count{role=~"validator", stage="committed"}[1m]))"#;
 
     let mempool_to_block_creation_query = r#"sum(
-        rate(aptos_core_mempool_txn_commit_latency_sum{
+        rate(cedra_core_mempool_txn_commit_latency_sum{
             role=~"validator",
             stage="commit_accepted_block"
         }[1m])
     ) / sum(
-        rate(aptos_core_mempool_txn_commit_latency_count{
+        rate(cedra_core_mempool_txn_commit_latency_count{
             role=~"validator",
             stage="commit_accepted_block"
         }[1m])
@@ -238,7 +238,7 @@ pub async fn fetch_latency_breakdown(
         let indexer_processor_latency_query =
             r#"max(indexer_processor_data_processed_latency_in_secs{})"#;
         let indexer_sdk_processor_latency_query =
-            "max(aptos_procsdk_step__processed_transaction_latency_secs{})";
+            "max(cedra_procsdk_step__processed_transaction_latency_secs{})";
 
         let indexer_fullnode_processed_batch_samples = swarm
             .query_range_metrics(

@@ -1,6 +1,6 @@
 [package]
-name = "aptos-executor"
-description = "Aptos executor"
+name = "cedra-executor"
+description = "Cedra executor"
 version = "0.1.0"
 
 # Workspace inherited keys
@@ -14,21 +14,21 @@ rust-version = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aptos-block-executor = { workspace = true }
-aptos-consensus-types = { workspace = true }
-aptos-crypto = { workspace = true }
-aptos-drop-helper = { workspace = true }
-aptos-executor-service = { workspace = true }
-aptos-executor-types = { workspace = true }
-aptos-experimental-runtimes = { workspace = true }
-aptos-indexer-grpc-table-info = { workspace = true }
-aptos-infallible = { workspace = true }
-aptos-logger = { workspace = true }
-aptos-metrics-core = { workspace = true }
-aptos-sdk = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-types = { workspace = true }
-aptos-vm = { workspace = true }
+cedra-block-executor = { workspace = true }
+cedra-consensus-types = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-drop-helper = { workspace = true }
+cedra-executor-service = { workspace = true }
+cedra-executor-types = { workspace = true }
+cedra-experimental-runtimes = { workspace = true }
+cedra-indexer-grpc-table-info = { workspace = true }
+cedra-infallible = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-metrics-core = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-types = { workspace = true }
+cedra-vm = { workspace = true }
 bcs = { workspace = true }
 bytes = { workspace = true }
 fail = { workspace = true }
@@ -39,16 +39,16 @@ rayon = { workspace = true }
 serde = { workspace = true }
 
 [dev-dependencies]
-aptos-cached-packages = { workspace = true }
-aptos-config = { workspace = true }
-aptos-db = { workspace = true }
-aptos-db-indexer = { workspace = true, features = ["fuzzing"] }
-aptos-executor-test-helpers = { workspace = true }
-aptos-storage-interface = { workspace = true }
-aptos-temppath = { workspace = true }
-aptos-transaction-simulation = { workspace = true }
-aptos-types = { workspace = true, features = ["testing"] }
-aptos-vm-genesis = { workspace = true }
+cedra-cached-packages = { workspace = true }
+cedra-config = { workspace = true }
+cedra-db = { workspace = true }
+cedra-db-indexer = { workspace = true, features = ["fuzzing"] }
+cedra-executor-test-helpers = { workspace = true }
+cedra-storage-interface = { workspace = true }
+cedra-temppath = { workspace = true }
+cedra-transaction-simulation = { workspace = true }
+cedra-types = { workspace = true, features = ["testing"] }
+cedra-vm-genesis = { workspace = true }
 arr_macro = { workspace = true }
 criterion = { workspace = true }
 proptest = { workspace = true }
@@ -56,8 +56,8 @@ rand = { workspace = true }
 
 [features]
 default = []
-fuzzing = ["aptos-consensus-types/fuzzing", "aptos-crypto/fuzzing", "aptos-types/fuzzing", "aptos-storage-interface/fuzzing"]
-failpoints = ["fail/failpoints", "aptos-vm/failpoints"]
+fuzzing = ["cedra-consensus-types/fuzzing", "cedra-crypto/fuzzing", "cedra-types/fuzzing", "cedra-storage-interface/fuzzing"]
+failpoints = ["fail/failpoints", "cedra-vm/failpoints"]
 consensus-only-perf-test = []
 
 [[bench]]

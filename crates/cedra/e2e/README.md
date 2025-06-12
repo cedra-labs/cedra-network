@@ -76,7 +76,7 @@ In this directory you will find lots of useful output. For example, you can see 
 ```
 $ cat /tmp/cedra-cli-tests/out/007_test_move_compile_script.stdout
 {
-  "Error": "Move compilation failed: Unable to resolve packages for package 'TwoByTwoTransfer': While resolving dependency 'AptosFramework' in package 'TwoByTwoTransfer': While processing dependency 'AptosFramework': Unable to find package manifest for 'AptosFramework' at \"Move.toml/move/scripts/two_by_two_transfer/../../../framework/cedra-framework\""
+  "Error": "Move compilation failed: Unable to resolve packages for package 'TwoByTwoTransfer': While resolving dependency 'CedraFramework' in package 'TwoByTwoTransfer': While processing dependency 'CedraFramework': Unable to find package manifest for 'CedraFramework' at \"Move.toml/move/scripts/two_by_two_transfer/../../../framework/cedra-framework\""
 }
 ```
 

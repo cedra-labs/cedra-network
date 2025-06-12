@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
-use aptos_crypto::HashValue;
-use aptos_drop_helper::DropHelper;
-use aptos_storage_interface::state_store::state_summary::LedgerStateSummary;
+use cedra_crypto::HashValue;
+use cedra_drop_helper::DropHelper;
+use cedra_storage_interface::state_store::state_summary::LedgerStateSummary;
 use derive_more::Deref;
 use std::sync::Arc;
 

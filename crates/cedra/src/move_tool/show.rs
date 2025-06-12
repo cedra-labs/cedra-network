@@ -1,11 +1,11 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use super::IncludedArtifactsArgs;
 use crate::common::types::{CliCommand, CliError, CliResult, CliTypedResult, MovePackageOptions};
 use anyhow::Context;
-use aptos_framework::{BuildOptions, BuiltPackage};
-use aptos_types::transaction::EntryABI;
+use cedra_framework::{BuildOptions, BuiltPackage};
+use cedra_types::transaction::EntryABI;
 use async_trait::async_trait;
 use clap::{Parser, Subcommand};
 
@@ -26,7 +26,7 @@ impl ShowTool {
 ///
 /// For example, this would show the function `transfer` in the module `coin`:
 ///
-/// aptos move show abi --modules coin --names transfer
+/// cedra move show abi --modules coin --names transfer
 ///
 #[derive(Parser)]
 pub struct ShowAbi {

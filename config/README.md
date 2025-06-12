@@ -1,4 +1,4 @@
-# Aptos Configuration
+# Cedra Configuration
 
 The configuration describes the operational details for a node
 (Validator or Full node) and provides the clients' information on how to
@@ -38,7 +38,7 @@ configuration from many of the services.
 
 `config-builder` builds an entire configuration for a Validator or FullNode,
 including the genesis blob. It takes as one of its input parameters an index that
-specifies the specific node config to return. This can be used to create an Aptos
+specifies the specific node config to return. This can be used to create an Cedra
 TestNet by constructing compatible configurations for the full set of Validators.
 Similarly the tool can be used to add Fullnodes to an existing network.  Finally,
 it enables generation of a mint/faucet client capable of performing mint
@@ -160,7 +160,7 @@ The node configuration contains several modules:
   that defines the Move standard library and the initial Validator set.
 - MempoolConfig - Parameters for configuring uncommitted transaction storage
 - MetricsConfig - Local storage for metrics
-- NetworkConfig - AptosNet configuration file that specifies peers with keys,
+- NetworkConfig - CedraNet configuration file that specifies peers with keys,
   seed addresses to connect to upstream peers, the local peers network keys,
 and other network configuration parameters
 - NodeConfig - Hosts all configuration files for a node
@@ -168,7 +168,7 @@ and other network configuration parameters
   Rules
 - StateSyncConfig - Specifies parameters around state sycnhronization and the
   set of peers that provide the data
-- StorageConfig - Where the AptosDB is stored and its gRPC service endpoints
+- StorageConfig - Where the CedraDB is stored and its gRPC service endpoints
 
 ### External Component Configurations
 Outside of each node, external components can also be configured:

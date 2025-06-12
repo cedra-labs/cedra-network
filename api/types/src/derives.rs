@@ -1,9 +1,9 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 //! This file is where we apply a number of traits that allow us to use these
 //! traits with Poem. For more information on how these macros work, see the
-//! documentation within `crates/aptos-openapi`.
+//! documentation within `crates/cedra-openapi`.
 //!
 //! In some cases we use these derives because the underlying types are not
 //! expressible via OpenAPI, e.g. Address. In other cases, we use them because
@@ -11,19 +11,19 @@
 //! serialize them as strings, e.g. EntryFunctionId.
 //!
 //! For potential future improvements here, see:
-//! <https://github.com/cedra-labs/cedra/issues/2319>
+//! <https://github.com/cedra-labs/cedra-network/issues/2319>
 
 // READ ME: You'll see that some of the examples (specifically those for hex
 // strings) have a space at the end. This is necessary to make sure the UI
 // displays the example value correctly. See more here:
-// https://github.com/cedra-labs/cedra/pull/2703
+// https://github.com/cedra-labs/cedra-network/pull/2703
 
 use crate::{
     move_types::{MoveAbility, MoveStructValue},
     Address, AssetType, EntryFunctionId, HashValue, HexEncodedBytes, IdentifierWrapper,
     MoveModuleId, MoveStructTag, MoveType, StateKeyWrapper, U128, U256, U64,
 };
-use aptos_openapi::{impl_poem_parameter, impl_poem_type};
+use cedra_openapi::{impl_poem_parameter, impl_poem_type};
 use indoc::indoc;
 use serde_json::json;
 
@@ -36,7 +36,7 @@ impl_poem_type!(
         )),
         format = Some("hex"),
         description = Some(indoc! {"
-            A hex encoded 32 byte Aptos account address.
+            A hex encoded 32 byte Cedra account address.
 
             This is represented in a string as a 64 character hex string, sometimes
             shortened by stripping leading 0s, and adding a 0x.
@@ -55,7 +55,7 @@ impl_poem_type!(
         )),
         format = Some("hex"),
         description = Some(indoc! {"
-            A hex encoded 32 byte Aptos account address or a struct tag.
+            A hex encoded 32 byte Cedra account address or a struct tag.
 
             This is represented in a string as a 64 character hex string, sometimes
             shortened by stripping leading 0s, and adding a 0x or
@@ -145,7 +145,7 @@ impl_poem_type!(
           1. Empty chars should be ignored when comparing 2 struct tag ids.
           2. When used in an URL path, should be encoded by url-encoding (AKA percent-encoding).
 
-        See [doc](https://aptos.dev/concepts/accounts) for more details.
+        See [doc](https://cedra.dev/concepts/accounts) for more details.
       "})
     )
 );
@@ -181,7 +181,7 @@ impl_poem_type!(
 
             Move `u64`, `u128` and `u256` type value is serialized into `string`.
 
-            Move `address` type value (32 byte Aptos account address) is serialized into a HexEncodedBytes string.
+            Move `address` type value (32 byte Cedra account address) is serialized into a HexEncodedBytes string.
             For example:
               - `0x1`
               - `0x1668f6be25668c1a17cd8caf6b8d2f25`
@@ -205,7 +205,7 @@ impl_poem_type!(
               `{ \"created\": \"0xa550c18\", \"role_id\": \"0\" }`
 
             **Special serialization for Move stdlib types**:
-              - [0x1::string::String](https://github.com/cedra-labs/cedra/blob/main/third_party/move/move-stdlib/docs/ascii.md)
+              - [0x1::string::String](https://github.com/cedra-labs/cedra-network/blob/main/third_party/move/move-stdlib/docs/ascii.md)
                 is serialized into `string`. For example, struct value `0x1::string::String{bytes: b\"Hello World!\"}`
                 is serialized as `\"Hello World!\"` in JSON.
         "})

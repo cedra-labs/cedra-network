@@ -1,16 +1,16 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
     account::derive_resource_account::ResourceAccountSeed,
     common::types::{CliCommand, CliTypedResult, TransactionOptions, TransactionSummary},
 };
-use aptos_cached_packages::aptos_stdlib::resource_account_create_resource_account;
-use aptos_rest_client::{
-    aptos_api_types::{WriteResource, WriteSetChange},
+use cedra_cached_packages::cedra_stdlib::resource_account_create_resource_account;
+use cedra_rest_client::{
+    cedra_api_types::{WriteResource, WriteSetChange},
     Transaction,
 };
-use aptos_types::{account_address::AccountAddress, transaction::authenticator::AuthenticationKey};
+use cedra_types::{account_address::AccountAddress, transaction::authenticator::AuthenticationKey};
 use async_trait::async_trait;
 use clap::Parser;
 use serde::Serialize;

@@ -2,7 +2,7 @@
 forge:
   helmBucket:
   image:
-    repo: aptos/forge
+    repo: cedra/forge
     tag:
     pullPolicy: IfNotPresent
   resources:

@@ -1,4 +1,4 @@
-// Copyright © Aptos Foundation
+// Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -13,11 +13,11 @@ use crate::{
     governance::CompileScriptFunction,
     CliCommand,
 };
-use aptos_genesis::{
+use cedra_genesis::{
     config::{HostAndPort, Layout, OperatorConfiguration, OwnerConfiguration},
     keys::{generate_key_objects, PublicIdentity},
 };
-use aptos_types::{
+use cedra_types::{
     account_address::AccountAddress,
     transaction::{Script, Transaction, WriteSetPayload},
 };
@@ -114,11 +114,11 @@ pub struct SetValidatorConfiguration {
     #[clap(long)]
     pub(crate) username: String,
 
-    /// Host and port pair for the validator e.g. 127.0.0.1:6180 or aptoslabs.com:6180
+    /// Host and port pair for the validator e.g. 127.0.0.1:6180 or cedralabs.com:6180
     #[clap(long)]
     pub(crate) validator_host: HostAndPort,
 
-    /// Host and port pair for the fullnode e.g. 127.0.0.1:6180 or aptoslabs.com:6180
+    /// Host and port pair for the fullnode e.g. 127.0.0.1:6180 or cedralabs.com:6180
     #[clap(long)]
     pub(crate) full_node_host: Option<HostAndPort>,
 
