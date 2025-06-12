@@ -1,0 +1,59 @@
+---
+compiled_package_info:
+  package_name: Minter
+  address_alias_instantiation:
+    Extensions: "0000000000000000000000000000000000000000000000000000000000000001"
+    cedra_framework: "0000000000000000000000000000000000000000000000000000000000000001"
+    cedra_fungible_asset: 000000000000000000000000000000000000000000000000000000000000000a
+    cedra_std: "0000000000000000000000000000000000000000000000000000000000000001"
+    cedra_token: "0000000000000000000000000000000000000000000000000000000000000003"
+    core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
+    std: "0000000000000000000000000000000000000000000000000000000000000001"
+    vm: "0000000000000000000000000000000000000000000000000000000000000000"
+    vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
+  source_digest: F8579EE5E49F2F574ABEA90179AADE65D8BE0F883E74096AE64D2B2E8E8E5491
+  build_flags:
+    dev_mode: false
+    test_mode: false
+    override_std: ~
+    generate_docs: false
+    generate_abis: false
+    generate_move_model: true
+    full_model_generation: true
+    install_dir: ~
+    force_recompilation: false
+    additional_named_addresses: {}
+    fetch_deps_only: false
+    skip_fetch_latest_git_deps: false
+    compiler_config:
+      bytecode_version: 7
+      known_attributes:
+        - bytecode_instruction
+        - deprecated
+        - event
+        - expected_failure
+        - "fmt::skip"
+        - legacy_entry_fun
+        - "lint::allow_unsafe_randomness"
+        - "lint::skip"
+        - module_lock
+        - "mutation::skip"
+        - native_interface
+        - persistent
+        - randomness
+        - resource_group
+        - resource_group_member
+        - test
+        - test_only
+        - verify_only
+        - view
+      skip_attribute_checks: false
+      compiler_version: V2_0
+      language_version: V2_1
+      experiments:
+        - optimize=on
+dependencies:
+  - CedraFramework
+  - CedraStdlib
+  - MoveStdlib
+bytecode_deps: []

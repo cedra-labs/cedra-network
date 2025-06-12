@@ -1,0 +1,58 @@
+---
+compiled_package_info:
+  package_name: CedraFramework
+  address_alias_instantiation:
+    Extensions: "0000000000000000000000000000000000000000000000000000000000000001"
+    cedra_framework: "0000000000000000000000000000000000000000000000000000000000000001"
+    cedra_fungible_asset: 000000000000000000000000000000000000000000000000000000000000000a
+    cedra_std: "0000000000000000000000000000000000000000000000000000000000000001"
+    cedra_token: "0000000000000000000000000000000000000000000000000000000000000003"
+    core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
+    std: "0000000000000000000000000000000000000000000000000000000000000001"
+    vm: "0000000000000000000000000000000000000000000000000000000000000000"
+    vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
+  source_digest: 6C575CF67BD2BB5F6D948DBAEA6D5C2024205900AA31ADDC9BD41602AD64C770
+  build_flags:
+    dev_mode: false
+    test_mode: false
+    override_std: ~
+    generate_docs: false
+    generate_abis: false
+    generate_move_model: true
+    full_model_generation: true
+    install_dir: ~
+    force_recompilation: false
+    additional_named_addresses: {}
+    fetch_deps_only: false
+    skip_fetch_latest_git_deps: false
+    compiler_config:
+      bytecode_version: 7
+      known_attributes:
+        - bytecode_instruction
+        - deprecated
+        - event
+        - expected_failure
+        - "fmt::skip"
+        - legacy_entry_fun
+        - "lint::allow_unsafe_randomness"
+        - "lint::skip"
+        - module_lock
+        - "mutation::skip"
+        - native_interface
+        - persistent
+        - randomness
+        - resource_group
+        - resource_group_member
+        - test
+        - test_only
+        - verify_only
+        - view
+      skip_attribute_checks: false
+      compiler_version: V2_0
+      language_version: V2_1
+      experiments:
+        - optimize=on
+dependencies:
+  - CedraStdlib
+  - MoveStdlib
+bytecode_deps: []
