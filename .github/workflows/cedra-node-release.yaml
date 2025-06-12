@@ -1,11 +1,11 @@
-name: "Release aptos-node"
+name: "Release cedra-node"
 on:
   workflow_dispatch:
     inputs:
       release_tag:
         type: string
         required: true
-        description: "The release tag to create. E.g. `aptos-node-v0.2.3`:"
+        description: "The release tag to create. E.g. `cedra-node-v0.2.3`:"
       branch:
         type: string
         required: true
@@ -13,10 +13,10 @@ on:
       release_title:
         type: string
         required: false
-        description: 'Name of the release, e.g. "Aptos Node Release v1.2.3":'
+        description: 'Name of the release, e.g. "Cedra Node Release v1.2.3":'
 
 jobs:
-  release-aptos-node:
+  release-cedra-node:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,18 +25,18 @@ jobs:
 
       - uses: actions/setup-python@v4
 
-      - name: Bump aptos-node version
-        uses: aptos-labs/aptos-core/.github/actions/release-aptos-node@main
+      - name: Bump cedra-node version
+        uses: cedra-labs/cedra-network/.github/actions/release-cedra-node@main
         with:
           release_tag: ${{ inputs.release_tag }}
-          aptos_node_cargo_toml: aptos-node/Cargo.toml
+          cedra_node_cargo_toml: cedra-node/Cargo.toml
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc # pin@v6.0.1
         with:
-          add-paths: aptos-node
-          title: "[aptos-node] update release version"
+          add-paths: cedra-node
+          title: "[cedra-node] update release version"
           body: Automated release bump for ${{ inputs.release_tag }}. Change the PR base accordingly
-          commit-message: "[aptos-node] update release version"
+          commit-message: "[cedra-node] update release version"
           branch: auto-release-${{ inputs.release_tag }}
           delete-branch: true
