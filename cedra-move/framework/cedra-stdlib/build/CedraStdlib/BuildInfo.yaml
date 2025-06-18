@@ -13,14 +13,14 @@ compiled_package_info:
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: true
+    generate_abis: false
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: true
+    skip_fetch_latest_git_deps: false
     compiler_config:
       bytecode_version: 7
       known_attributes:
@@ -44,9 +44,10 @@ compiled_package_info:
         - verify_only
         - view
       skip_attribute_checks: false
-      compiler_version: ~
-      language_version: ~
-      experiments: []
+      compiler_version: V2_0
+      language_version: V2_1
+      experiments:
+        - optimize=on
 dependencies:
   - MoveStdlib
 bytecode_deps: []
