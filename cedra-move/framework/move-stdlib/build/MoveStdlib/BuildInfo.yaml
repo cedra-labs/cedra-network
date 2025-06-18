@@ -44,6 +44,6 @@ compiled_package_info:
       compiler_version: V2_0
       language_version: V2_1
       experiments:
-         - optimize=on
+        - optimize=on
 dependencies: []
 bytecode_deps: []
