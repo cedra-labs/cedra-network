@@ -459,6 +459,8 @@ impl CedraVM {
             u64::from(gas_meter.io_gas_used()),
             u64::from(gas_meter.storage_fee_used()),
             storage_fee_refund,
+            txn_data.sender,
+            [0u8; 25],
         )
     }
 
