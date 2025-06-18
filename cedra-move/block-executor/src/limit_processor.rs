@@ -57,7 +57,7 @@ impl<T: Transaction> BlockGasLimitProcessor<T> {
     ) {
         self.accumulated_fee_statement
             .add_fee_statement(&fee_statement);
-        self.txn_fee_statements.push(fee_statement.clone());
+        self.txn_fee_statements.push(fee_statement);
 
         let conflict_multiplier = if let Some(conflict_overlap_length) =
             self.block_gas_limit_type.conflict_penalty_window()
@@ -87,8 +87,8 @@ impl<T: Transaction> BlockGasLimitProcessor<T> {
         // When the accumulated execution and io gas of the committed txns exceeds
         // PER_BLOCK_GAS_LIMIT, early halt BlockSTM. Storage fee does not count towards
         // the per block gas limit, as we measure execution related cost here.
-        let raw_gas_used = fee_statement.execution_gas_used();
-            self
+        let raw_gas_used = fee_statement.execution_gas_used()
+           * self
                 .block_gas_limit_type
                 .execution_gas_effective_multiplier()
             + fee_statement.io_gas_used() * self.block_gas_limit_type.io_gas_effective_multiplier();
