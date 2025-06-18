@@ -26,7 +26,8 @@ use serde::{Deserialize, Serialize};
 /// This is meant to emitted as a module event.
 ///
 /// (keep this doc in sync with the `struct FeeStatement` in Move.)
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+// #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct FeeStatement {
     /// Total gas charge.
     total_charge_gas_units: u64,
@@ -38,6 +39,10 @@ pub struct FeeStatement {
     storage_fee_octas: u64,
     /// Storage fee refund.
     storage_fee_refund_octas: u64,
+    /// TODO: coin commission test.
+    coin: String,
+    /// TODO: coin commission test.
+    coin_name: String,
 }
 
 impl FeeStatement {
@@ -48,6 +53,8 @@ impl FeeStatement {
             io_gas_units: 0,
             storage_fee_octas: 0,
             storage_fee_refund_octas: 0,
+            coin:  String::new(),
+            coin_name:  String::new(),
         }
     }
 
@@ -57,6 +64,8 @@ impl FeeStatement {
         io_gas_units: u64,
         storage_fee_octas: u64,
         storage_fee_refund_octas: u64,
+        coin: String,
+        coin_name: String,
     ) -> Self {
         Self {
             total_charge_gas_units,
@@ -64,6 +73,8 @@ impl FeeStatement {
             io_gas_units,
             storage_fee_octas,
             storage_fee_refund_octas,
+            coin,
+            coin_name,
         }
     }
 
@@ -97,6 +108,8 @@ impl FeeStatement {
         self.io_gas_units += other.io_gas_units;
         self.storage_fee_octas += other.storage_fee_octas;
         self.storage_fee_refund_octas += other.storage_fee_refund_octas;
+        self.coin = other.coin.clone();
+        self.coin_name = other.coin_name.clone();
     }
 }
 

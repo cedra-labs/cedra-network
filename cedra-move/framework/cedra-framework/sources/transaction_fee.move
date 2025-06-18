@@ -74,6 +74,10 @@ module cedra_framework::transaction_fee {
         storage_fee_octas: u64,
         /// Storage fee refund.
         storage_fee_refund_octas: u64,
+        // TODO: coin commission test.
+        coin: address,
+        // TODO: coin commission test.
+        coin_name: String,
     }
 
     /// Burn transaction fees in epilogue.
