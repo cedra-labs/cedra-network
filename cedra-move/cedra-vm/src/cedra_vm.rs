@@ -687,7 +687,7 @@ impl CedraVM {
                 module_storage,
                 serialized_signers,
                 gas_meter.balance(),
-                fee_statement.clone(),
+                fee_statement,
                 self.features(),
                 txn_data,
                 log_context,
