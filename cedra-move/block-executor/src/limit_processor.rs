@@ -88,7 +88,7 @@ impl<T: Transaction> BlockGasLimitProcessor<T> {
         // PER_BLOCK_GAS_LIMIT, early halt BlockSTM. Storage fee does not count towards
         // the per block gas limit, as we measure execution related cost here.
         let raw_gas_used = fee_statement.execution_gas_used()
-           * self
+            * self
                 .block_gas_limit_type
                 .execution_gas_effective_multiplier()
             + fee_statement.io_gas_used() * self.block_gas_limit_type.io_gas_effective_multiplier();
