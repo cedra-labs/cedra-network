@@ -5,6 +5,7 @@ use crate::{counters, types::ReadWriteSummary};
 use cedra_logger::info;
 use cedra_types::{
     fee_statement::FeeStatement,
+    account_address::AccountAddress,
     on_chain_config::BlockGasLimitType,
     transaction::{block_epilogue::BlockEndInfo, BlockExecutableTransaction as Transaction},
 };
@@ -314,7 +315,7 @@ mod test {
     }
 
     fn execution_fee(execution_gas: u64) -> FeeStatement {
-        FeeStatement::new(execution_gas, execution_gas, 0, 0, 0, String::new(),  String::new())
+        FeeStatement::new(execution_gas, execution_gas, 0, 0, 0, AccountAddress::new([0u8; AccountAddress::LENGTH]),  [0u8; 25])
     }
 
     #[test]
