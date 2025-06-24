@@ -1,7 +1,7 @@
 [package]
 name = "cedra"
 description = "Cedra tool for management of nodes and interacting with the blockchain"
-version = "0.9.0"
+version = "1.0.0"
 
 # Workspace inherited keys
 authors = { workspace = true }
