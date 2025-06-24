@@ -1,6 +1,6 @@
 ---
 name: "\U0001F41B Bug report"
-about: Create a bug report to help improve Aptos Core
+about: Create a bug report to help improve Cedra Core
 title: "[Bug]"
 labels: bug
 assignees: ''
@@ -32,7 +32,7 @@ A clear and concise description of what you expected to happen.
 ## System information
 
 **Please complete the following information:**
-- Aptos Core Version
+- Cedra Core Version
 - Rust Version
 - Computer OS
 

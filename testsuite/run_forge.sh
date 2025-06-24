@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright © Aptos Foundation
+# Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
 # A light wrapper for the new forge python script
