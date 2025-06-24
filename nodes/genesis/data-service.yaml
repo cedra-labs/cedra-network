@@ -1,0 +1,17 @@
+health_check_port: 8084 
+server_config:
+  chain_id: 1
+  self_advertised_address: 127.0.0.1:50053
+  grpc_manager_addresses: # All GrpcManager addresses in the stack, need to point to the server_config.self_advertised_address in GrpcManager config.
+    - grpc://127.0.0.1:50052
+  service_config:
+    listen_address: 127.0.0.1:50053
+  live_data_service_config: # For live data service.
+    enabled: true
+    num_slots: 5000000 # Max number of transactions to cache.
+    size_limit_bytes: 10000000000 # Cache size in bytes.
+  historical_data_service_config: # For historical data service.
+    enabled: true
+    file_store_config:
+      file_store_type: LocalFileStore
+      local_file_store_path: grpc_filestore  # If not using GCS

@@ -1,0 +1,14 @@
+health_check_port: 8083
+server_config:
+  chain_id: 1
+  is_master: true
+  service_config:
+    listen_address: 127.0.0.1:50052
+  self_advertised_address: grpc://127.0.0.1:50052
+  grpc_manager_addresses:
+    - grpc://127.0.0.1:50052
+  fullnode_addresses:
+    - grpc://127.0.0.1:50051  # or container address
+  file_store_config:
+    file_store_type: LocalFileStore
+    local_file_store_path: grpc_filestore  # If not using GCS
