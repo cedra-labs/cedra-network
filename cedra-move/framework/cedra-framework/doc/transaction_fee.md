@@ -197,6 +197,12 @@ This is meant to emitted as a module event.
 <dd>
  Storage fee refund.
 </dd>
+<dt>
+<code><a href="coin.md#0x1_coin">coin</a>: <b>address</b></code>
+</dt>
+<dd>
+
+</dd>
 </dl>
 
 

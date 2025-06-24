@@ -40,8 +40,7 @@ use cedra_types::{
     on_chain_config::FeatureFlag,
     state_store::{state_key::StateKey, state_value::StateValueMetadata, StateView},
     transaction::{
-        signature_verified_transaction::SignatureVerifiedTransaction, BlockOutput, Transaction,
-        TransactionOutput, TransactionStatus, WriteSetPayload,
+        signature_verified_transaction::SignatureVerifiedTransaction, use_case::UseCaseAwareTransaction, BlockOutput, Transaction, TransactionOutput, TransactionStatus, WriteSetPayload
     },
     write_set::WriteOp,
     CedraCoinType,
@@ -160,7 +159,7 @@ impl ExecutorTask for NativeVMExecutorTask {
             Ok(change_set) => ExecutionStatus::Success(CedraTransactionOutput::new(VMOutput::new(
                 change_set,
                 ModuleWriteSet::empty(),
-                FeeStatement::new(gas_units, gas_units, 0, 0, 0),
+                FeeStatement::new(gas_units, gas_units, 0, 0, 0, txn.parse_sender()),
                 TransactionStatus::Keep(cedra_types::transaction::ExecutionStatus::Success),
             ))),
             Err(_) => ExecutionStatus::SpeculativeExecutionAbortError("something".to_string()),
@@ -355,7 +354,7 @@ impl NativeVMExecutorTask {
         };
 
         events.push((
-            FeeStatement::new(gas_units, gas_units, 0, 0, 0).create_event_v2(),
+            FeeStatement::new(gas_units, gas_units, 0, 0, 0, txn.parse_sender()).create_event_v2(), // TODO: set coin!!!
             None,
         ));
 

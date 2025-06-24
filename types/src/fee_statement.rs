@@ -1,8 +1,8 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use crate::move_utils::move_event_v2::MoveEventV2Type;
-use move_core_types::{ident_str, identifier::IdentStr, move_resource::MoveStructType};
+use crate::{move_utils::move_event_v2::MoveEventV2Type};
+use move_core_types::{ident_str, identifier::IdentStr, move_resource::MoveStructType, account_address::AccountAddress};
 use serde::{Deserialize, Serialize};
 
 /// Breakdown of fee charge and refund for a transaction.
@@ -38,6 +38,8 @@ pub struct FeeStatement {
     storage_fee_octas: u64,
     /// Storage fee refund.
     storage_fee_refund_octas: u64,
+    /// TODO: coin commission test.
+    coin: AccountAddress,
 }
 
 impl FeeStatement {
@@ -48,6 +50,7 @@ impl FeeStatement {
             io_gas_units: 0,
             storage_fee_octas: 0,
             storage_fee_refund_octas: 0,
+            coin: AccountAddress::new([0u8; 32]),
         }
     }
 
@@ -57,6 +60,7 @@ impl FeeStatement {
         io_gas_units: u64,
         storage_fee_octas: u64,
         storage_fee_refund_octas: u64,
+        coin: AccountAddress,
     ) -> Self {
         Self {
             total_charge_gas_units,
@@ -64,6 +68,7 @@ impl FeeStatement {
             io_gas_units,
             storage_fee_octas,
             storage_fee_refund_octas,
+            coin,
         }
     }
 
@@ -97,6 +102,7 @@ impl FeeStatement {
         self.io_gas_units += other.io_gas_units;
         self.storage_fee_octas += other.storage_fee_octas;
         self.storage_fee_refund_octas += other.storage_fee_refund_octas;
+        self.coin = other.coin;
     }
 }
 
