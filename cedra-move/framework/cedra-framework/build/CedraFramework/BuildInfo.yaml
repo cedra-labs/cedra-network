@@ -11,20 +11,20 @@ compiled_package_info:
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: 6C575CF67BD2BB5F6D948DBAEA6D5C2024205900AA31ADDC9BD41602AD64C770
+  source_digest: 13C3C131F6626BE951EAC6B018519AD5408B690FFE1C6EB7467F8AFA575B50ED
   build_flags:
     dev_mode: false
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: false
+    generate_abis: true
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: false
+    skip_fetch_latest_git_deps: true
     compiler_config:
       bytecode_version: 7
       known_attributes:
@@ -48,10 +48,9 @@ compiled_package_info:
         - verify_only
         - view
       skip_attribute_checks: false
-      compiler_version: V2_0
-      language_version: V2_1
-      experiments:
-        - optimize=on
+      compiler_version: ~
+      language_version: ~
+      experiments: []
 dependencies:
   - CedraStdlib
   - MoveStdlib
