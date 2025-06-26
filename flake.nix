@@ -18,18 +18,26 @@
     };
   in {
     devShells.default = pkgs.mkShell {
-      packages = builtins.attrValues {
-        inherit (pkgs)
-          cargo
-          rustfmt
-          rustc
-          clippy
-          rust-analyzer
-          cargo-outdated;
-      } ++ [ pkgs.llvmPackages_latest.clang pkgs.llvmPackages_latest.bintools pkgs.openssl pkgs.pkg-config pkgs.gcc13 pkgs.libudev-zero pkgs.libdwarf];
-      RUST_SRC_PATH = pkgs.rustPlatform.rustLibSrc;
-      LIBCLANG_PATH = pkgs.lib.makeLibraryPath [ pkgs.llvmPackages_latest.libclang.lib ];
-      stdenv = pkgs.llvmPackages_latest.stdenv;
+        packages = with pkgs; [
+          # Rust toolchain
+          cargo rustfmt rustc clippy rust-analyzer
+
+          # Cargo extensions
+          cargo-outdated
+
+          # Build tools
+          llvmPackages_latest.clang
+          llvmPackages_latest.bintools
+          gcc13
+
+          # System libraries
+          openssl
+          pkg-config
+          libudev-zero
+          elfutils
+        ];
+        RUST_SRC_PATH = pkgs.rustPlatform.rustLibSrc;
+        LIBCLANG_PATH = pkgs.lib.makeLibraryPath [ pkgs.llvmPackages_latest.libclang.lib ];
     };
   });
 }
