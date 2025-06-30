@@ -9,6 +9,7 @@
 -  [Resource `CedraFABurnCapabilities`](#0x1_transaction_fee_CedraFABurnCapabilities)
 -  [Resource `CedraCoinMintCapability`](#0x1_transaction_fee_CedraCoinMintCapability)
 -  [Struct `FeeStatement`](#0x1_transaction_fee_FeeStatement)
+-  [Struct `CustomFeeStatement`](#0x1_transaction_fee_CustomFeeStatement)
 -  [Resource `CollectedFeesPerBlock`](#0x1_transaction_fee_CollectedFeesPerBlock)
 -  [Constants](#@Constants_0)
 -  [Function `burn_fee`](#0x1_transaction_fee_burn_fee)
@@ -17,6 +18,7 @@
 -  [Function `convert_to_cedra_fa_burn_ref`](#0x1_transaction_fee_convert_to_cedra_fa_burn_ref)
 -  [Function `store_cedra_coin_mint_cap`](#0x1_transaction_fee_store_cedra_coin_mint_cap)
 -  [Function `emit_fee_statement`](#0x1_transaction_fee_emit_fee_statement)
+-  [Function `emit_custom_fee_statement`](#0x1_transaction_fee_emit_custom_fee_statement)
 -  [Function `initialize_fee_collection_and_distribution`](#0x1_transaction_fee_initialize_fee_collection_and_distribution)
 -  [Function `upgrade_burn_percentage`](#0x1_transaction_fee_upgrade_burn_percentage)
 -  [Function `initialize_storage_refund`](#0x1_transaction_fee_initialize_storage_refund)
@@ -197,11 +199,76 @@ This is meant to emitted as a module event.
 <dd>
  Storage fee refund.
 </dd>
+</dl>
+
+
+</details>
+
+<a id="0x1_transaction_fee_CustomFeeStatement"></a>
+
+## Struct `CustomFeeStatement`
+
+Breakdown of fee charge and refund for a transaction.
+The structure is:
+
+- Net charge or refund (not in the statement)
+- total charge: total_charge_gas_units, matches <code>gas_used</code> in the on-chain <code>TransactionInfo</code>.
+This is the sum of the sub-items below. Notice that there's potential precision loss when
+the conversion between internal and external gas units and between native token and gas
+units, so it's possible that the numbers don't add up exactly. -- This number is the final
+charge, while the break down is merely informational.
+- gas charge for execution (CPU time): <code>execution_gas_units</code>
+- gas charge for IO (storage random access): <code>io_gas_units</code>
+- storage fee charge (storage space): <code>storage_fee_octas</code>, to be included in
+<code>total_charge_gas_unit</code>, this number is converted to gas units according to the user
+specified <code>gas_unit_price</code> on the transaction.
+- storage deletion refund: <code>storage_fee_refund_octas</code>, this is not included in <code>gas_used</code> or
+<code>total_charge_gas_units</code>, the net charge / refund is calculated by
+<code>total_charge_gas_units</code> * <code>gas_unit_price</code> - <code>storage_fee_refund_octas</code>.
+
+This is meant to emitted as a module event.
+
+
+<pre><code>#[<a href="event.md#0x1_event">event</a>]
+<b>struct</b> <a href="transaction_fee.md#0x1_transaction_fee_CustomFeeStatement">CustomFeeStatement</a> <b>has</b> drop, store
+</code></pre>
+
+
+
+<details>
+<summary>Fields</summary>
+
+
+<dl>
 <dt>
-<code><a href="coin.md#0x1_coin">coin</a>: <b>address</b></code>
+<code>total_charge_gas_units: u64</code>
 </dt>
 <dd>
-
+ Total gas charge.
+</dd>
+<dt>
+<code>execution_gas_units: u64</code>
+</dt>
+<dd>
+ Execution gas charge.
+</dd>
+<dt>
+<code>io_gas_units: u64</code>
+</dt>
+<dd>
+ IO gas charge.
+</dd>
+<dt>
+<code>storage_fee_octas: u64</code>
+</dt>
+<dd>
+ Storage fee charge.
+</dd>
+<dt>
+<code>storage_fee_refund_octas: u64</code>
+</dt>
+<dd>
+ Storage fee refund.
 </dd>
 </dl>
 
@@ -468,6 +535,30 @@ Only called during genesis.
 
 <pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_emit_fee_statement">emit_fee_statement</a>(fee_statement: <a href="transaction_fee.md#0x1_transaction_fee_FeeStatement">FeeStatement</a>) {
     <a href="event.md#0x1_event_emit">event::emit</a>(fee_statement)
+}
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_transaction_fee_emit_custom_fee_statement"></a>
+
+## Function `emit_custom_fee_statement`
+
+
+
+<pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_emit_custom_fee_statement">emit_custom_fee_statement</a>(custom_fee_statement: <a href="transaction_fee.md#0x1_transaction_fee_CustomFeeStatement">transaction_fee::CustomFeeStatement</a>)
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_emit_custom_fee_statement">emit_custom_fee_statement</a>(custom_fee_statement: <a href="transaction_fee.md#0x1_transaction_fee_CustomFeeStatement">CustomFeeStatement</a>) {
+    <a href="event.md#0x1_event_emit">event::emit</a>(custom_fee_statement)
 }
 </code></pre>
 

@@ -138,6 +138,7 @@ pub enum FeatureFlag {
     JWK_CONSENSUS_PER_KEY_MODE = 92,
     TRANSACTION_PAYLOAD_V2 = 93,
     ORDERLESS_TRANSACTIONS = 94,
+    EMIT_CUSTOM_FEE_STATEMENT = 95,
 }
 
 impl FeatureFlag {
@@ -172,6 +173,7 @@ impl FeatureFlag {
             FeatureFlag::SIGNER_NATIVE_FORMAT_FIX,
             FeatureFlag::MODULE_EVENT,
             FeatureFlag::EMIT_FEE_STATEMENT,
+            FeatureFlag::EMIT_CUSTOM_FEE_STATEMENT,
             FeatureFlag::STORAGE_DELETION_REFUND,
             FeatureFlag::SIGNATURE_CHECKER_V2_SCRIPT_FIX,
             FeatureFlag::AGGREGATOR_V2_API,
@@ -323,6 +325,11 @@ impl Features {
     pub fn is_emit_fee_statement_enabled(&self) -> bool {
         // requires module events
         self.is_module_event_enabled() && self.is_enabled(FeatureFlag::EMIT_FEE_STATEMENT)
+    }
+
+    pub fn is_emit_custom_fee_statement_enabled(&self) -> bool {
+        // requires module events
+        self.is_module_event_enabled() && self.is_enabled(FeatureFlag::EMIT_CUSTOM_FEE_STATEMENT)
     }
 
     pub fn is_storage_deletion_refund_enabled(&self) -> bool {
