@@ -67,7 +67,7 @@
       }
     }
     */
-/// - 4.b Check out the transaction on https://explorer.cedra.dev/ by searching for the transaction hash.
+/// - 4.b Check out the transaction on https://cedrascan.com/ by searching for the transaction hash.
 module mint_nft::create_nft_with_resource_account {
     use std::string;
     use std::vector;
