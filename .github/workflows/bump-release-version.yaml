@@ -66,7 +66,7 @@ jobs:
               console.log(`Version suffix extracted from branch: ${versionSuffix}`);           
 
               if (currentVersion === "0.0.0-main") {
-                newVersion = `${versionSuffix}.0`; // Use the branch suffix for the new version
+                newVersion = `${versionSuffix}`; // Use the branch suffix for the new version
               } else {
                 const [major, minor, patch] = currentVersion.split(".").map(Number);
                 newVersion = `${major}.${minor}.${patch + 1}`;
