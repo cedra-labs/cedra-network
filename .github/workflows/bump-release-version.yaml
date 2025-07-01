@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.branch }}
 
@@ -96,7 +96,7 @@ jobs:
         id: create-pr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
           branch: update-version-${{ github.run_id }}
           base: ${{ github.event.inputs.branch }}
           title: "[${{ steps.determine-version.outputs.releaseBranch }}] Bump version to ${{ steps.determine-version.outputs.newVersion }}"
