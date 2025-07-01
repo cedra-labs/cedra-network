@@ -55,11 +55,11 @@ impl Command {
             .unwrap();
         println!("Version: {:?}", version);
         println!(
-            "Overview: https://explorer.cedra.dev/txn/{:?}/userTxnOverview?network={}",
+            "Overview: https://cedrascan.com/txn/{:?}/userTxnOverview?network={}",
             version, network
         );
         println!(
-            "Payload: https://explorer.cedra.dev/txn/{:?}/payload?network={}",
+            "Payload: https://cedrascan.com/txn/{:?}/payload?network={}",
             version, network
         );
 
