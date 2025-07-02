@@ -32,7 +32,7 @@ jobs:
           ref: ${{ github.event.inputs.source_git_ref_override }}
       - uses: cedra-labs/cedra-network/.github/actions/node-rust-setup@main
       - name: Build Node
-        run: scripts/noce/build_nocde_release.sh "Ubuntu-22.04" "${{inputs.release_version}}" "false"
+        run: scripts/node/build_nocde_release.sh "Ubuntu-22.04" "${{inputs.release_version}}" "false"
       - name: Upload Binary
         uses: actions/upload-artifact@v4
         with:
