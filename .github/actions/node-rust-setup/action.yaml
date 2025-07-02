@@ -22,9 +22,9 @@ runs:
     - name: Install build tools
       shell: bash
       run: |
+        chmod +x scripts/node/minimal_node_build.sh
         chmod +x scripts/node/build_node_release.sh
-        ls -l scripts/node
-        bash scripts/node/build_node_release.sh
+        bash scripts/node/minimal_node_build.sh
     - run: echo "/home/runner/.cargo/bin" | tee -a $GITHUB_PATH
       shell: bash
     - name: Setup git credentials
