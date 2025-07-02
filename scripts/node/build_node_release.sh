@@ -42,8 +42,6 @@ if [[ "$VERSION" == "0.0.0" || "$VERSION" == "0.0.0-main" ]]; then
     VERSION=$EXPECTED_VERSION
 fi
 
-echo "$VERSION vesion"
-
 if [[ "$EXPECTED_VERSION" != "$VERSION" ]]; then
     echo "Wanted to release for $EXPECTED_VERSION, but Cargo.toml says the version is $VERSION"
     exit 2
