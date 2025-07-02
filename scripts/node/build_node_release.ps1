@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ###########################################
-# Build and package a release for the CLI #
+# Build and package a release for the Node #
 ###########################################
 
-# Note: This must be run from the root of the cedra-core repository.
+# Note: This must be run from the root of the network repository.
 
 param (
     [string]$VERSION_ARG=""
@@ -18,7 +18,7 @@ $Env:VCPKG_ROOT = 'D:\vcpkg\'
 
 
 
-# Get the version of the CLI from its Cargo.toml.
+# Get the version of the Node from its Cargo.toml.
 $VERSION = Get-Content $CARGO_PATH | Select-String -Pattern '^\w*version = "(\d*\.\d*.\d*)(-main)?"' | % {"$($_.matches.groups[1])"}
 if ( $VERSION -eq "0.0.0" -or $VERSION -eq "0.0.0-main") {
     if  ( $VERSION_ARG -eq "" ) {
@@ -40,12 +40,12 @@ PowerShell -ExecutionPolicy Bypass -File scripts/windows_dev_setup.ps1
 echo "Installing OpenSSL"
 vcpkg install openssl:x64-windows-static-md --clean-after-build
 
-# Build the CLI.
+# Build the Node.
 echo "Building release $VERSION of $NAME for Windows"
 cargo build -p $NAME --profile node
 
-# Compress the CLI.
+# Compress the Node.
 $ZIP_NAME="$NAME-$VERSION-Windows-x86_64.zip"
-echo "Compressing CLI to $ZIP_NAME"
+echo "Compressing Node to $ZIP_NAME"
 Compress-Archive -Path target\node\$NAME.exe -DestinationPath $ZIP_NAME
 

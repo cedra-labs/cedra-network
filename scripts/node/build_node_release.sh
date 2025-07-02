@@ -3,22 +3,21 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ###########################################
-# Build and package a release for the CLI #
+# Build and package a release for the Node #
 ###########################################
 # Example:
-# build_cli_release.sh macOS 1.0.0
+# build_node_release.sh macOS 1.0.0
 #
 # To skip checks:
-# build_cli_release.sh macOS 1.0.0 true
+# build_node_release.sh macOS 1.0.0 true
 #
 
 # Note: This must be run from the root of the cedra-network repository
 
 set -e
 
-NAME='cedra-cli'
-CRATE_NAME='cedra'
-CARGO_PATH="crates/$CRATE_NAME/Cargo.toml"
+NAME='cedra-node'
+CARGO_PATH="$NAME/Cargo.toml"
 PLATFORM_NAME="$1"
 EXPECTED_VERSION="$2"
 SKIP_CHECKS="$3"
@@ -43,7 +42,7 @@ if [[ "$SKIP_CHECKS" != "true" ]]; then
   fi
 
   # Check that the release doesn't already exist
-  if curl -s --stderr /dev/null --output /dev/null --head -f "https://github.com/cedra-labs/cedra-network/releases/download/cedra-cli-v$EXPECTED_VERSION/cedra-cli-$EXPECTED_VERSION-Ubuntu-22.04-x86_64.zip"; then
+  if curl -s --stderr /dev/null --output /dev/null --head -f "https://github.com/cedra-labs/cedra-network/releases/download/cedra-node-v$EXPECTED_VERSION/cedra-node-$EXPECTED_VERSION-Ubuntu-22.04-x86_64.zip"; then
     echo "$EXPECTED_VERSION already released"
     exit 3
   fi
@@ -53,15 +52,15 @@ fi
 
 echo "Building release $VERSION of $NAME for $OS-$PLATFORM_NAME on $ARCH"
 if [[ "$COMPATIBILITY_MODE" == "true" ]]; then
-  RUSTFLAGS="-C target-cpu=generic --cfg tokio_unstable -C target-feature=-sse4.2,-avx" cargo build -p "$CRATE_NAME" --profile cli
+  RUSTFLAGS="-C target-cpu=generic --cfg tokio_unstable -C target-feature=-sse4.2,-avx" cargo build -p "$NAME" --profile node
 else
-  cargo build -p "$CRATE_NAME" --profile cli
+  cargo build -p "$NAME" --profile node
 fi
-cd target/cli/
+cd target/node/
 
-# Compress the CLI
+# Compress the Node
 ZIP_NAME="$NAME-$VERSION-$PLATFORM_NAME-$ARCH.zip"
 
 echo "Zipping release: $ZIP_NAME"
-zip "$ZIP_NAME" "$CRATE_NAME"
+zip "$ZIP_NAME" "$NAME"
 mv "$ZIP_NAME" ../..
