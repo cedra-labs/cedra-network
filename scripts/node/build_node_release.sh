@@ -38,10 +38,8 @@ if [[ "$EXPECTED_VERSION" != "$VERSION" ]]; then
     echo "Wanted to release for $EXPECTED_VERSION, but Cargo.toml says the version is $VERSION"
 fi
 
-echo "$VERSION vesion"
-
-if [[ "$VERSION" == "0.0.0" ] || [ "$VERSION" == "0.0.0-main" ]]; then
-    $VERSION=$EXPECTED_VERSION
+if [[ "$VERSION" == "0.0.0" || "$VERSION" == "0.0.0-main" ]]; then
+    VERSION=$EXPECTED_VERSION
 fi
 
 echo "$VERSION vesion"
@@ -50,8 +48,6 @@ if [[ "$EXPECTED_VERSION" != "$VERSION" ]]; then
     echo "Wanted to release for $EXPECTED_VERSION, but Cargo.toml says the version is $VERSION"
     exit 2
 fi
-
-exit 0
 
 # Check that the release doesn't already exist
 if curl -s --stderr /dev/null --output /dev/null --head -f "https://github.com/cedra-labs/cedra-network/releases/download/cedra-node-v$EXPECTED_VERSION/cedra-node-$EXPECTED_VERSION-Ubuntu-22.04-x86_64.zip"; then
