@@ -12,7 +12,7 @@
 # build_cli_release.sh macOS 1.0.0 true
 #
 
-# Note: This must be run from the root of the cedra-core repository
+# Note: This must be run from the root of the cedra-network repository
 
 set -e
 
