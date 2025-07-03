@@ -599,6 +599,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
+            Some(false),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

@@ -159,7 +159,7 @@ async fn transfer_coins(
 ) -> Result<u64, TestFailure> {
     // create transaction
     let pending_txn = match coin_client
-        .transfer(account, receiver, TRANSFER_AMOUNT, None)
+        .transfer(account, receiver, TRANSFER_AMOUNT, None, Some(false)) // TODO: recheck!!
         .await
     {
         Ok(pending_txn) => pending_txn,

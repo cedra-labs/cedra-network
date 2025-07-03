@@ -195,6 +195,9 @@ pub struct RawTransaction {
 
     /// Chain ID of the Cedra network this transaction is intended for.
     chain_id: ChainId,
+
+    // bool flag for transaction fee v2 event.
+    v2_fee_event: Option<bool>,
 }
 
 impl RawTransaction {
@@ -210,6 +213,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        v2_fee_event: Option<bool>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -219,6 +223,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            v2_fee_event,
         }
     }
 
@@ -234,6 +239,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        v2_fee_event: Option<bool>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -243,6 +249,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            v2_fee_event,
         }
     }
 
@@ -256,6 +263,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        v2_fee_event: Option<bool>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -265,6 +273,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            v2_fee_event,
         }
     }
 
@@ -278,6 +287,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        v2_fee_event: Option<bool>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -287,6 +297,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            v2_fee_event,
         }
     }
 
@@ -302,6 +313,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        v2_fee_event: Option<bool>,
     ) -> Self {
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
@@ -318,6 +330,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
+                v2_fee_event,
             },
             ReplayProtector::Nonce(nonce) => RawTransaction {
                 sender,
@@ -333,6 +346,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
+                v2_fee_event,
             },
         }
     }
@@ -1137,6 +1151,10 @@ impl SignedTransaction {
 
     pub fn raw_transaction_ref(&self) -> &RawTransaction {
         &self.raw_txn
+    }
+
+    pub fn use_v2_fee_evnet(&self) -> bool {
+        self.raw_txn.v2_fee_event.is_some()
     }
 
     pub fn sequence_number(&self) -> u64 {

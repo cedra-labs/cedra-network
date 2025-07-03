@@ -59,6 +59,8 @@ impl TransferFunderConfig {
         // Build local representation of account.
         let faucet_account = LocalAccount::new(account_address, key, 0);
 
+        let v2_fee_event = Some(false); // TODO: recheck
+
         let funder = TransferFunder::new(
             faucet_account,
             self.api_connection_config.chain_id,
@@ -74,6 +76,7 @@ impl TransferFunderConfig {
             self.transaction_submission_config
                 .wait_for_outstanding_txns_secs,
             self.transaction_submission_config.wait_for_transactions,
+            v2_fee_event,
         );
 
         Ok(funder)
@@ -125,13 +128,14 @@ impl TransferFunder {
         transaction_expiration_secs: u64,
         wait_for_outstanding_txns_secs: u64,
         wait_for_transactions: bool,
+        v2_fee_event: Option<bool>,
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), gas_unit_price_ttl_secs);
 
         Self {
             faucet_account: RwLock::new(faucet_account),
-            transaction_factory: TransactionFactory::new(chain_id)
+            transaction_factory: TransactionFactory::new(chain_id, v2_fee_event)
                 .with_max_gas_amount(max_gas_amount)
                 .with_transaction_expiration_time(transaction_expiration_secs),
             node_url,

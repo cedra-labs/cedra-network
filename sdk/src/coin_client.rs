@@ -39,9 +39,10 @@ impl<'a> CoinClient<'a> {
         to_account: AccountAddress,
         amount: u64,
         options: Option<TransferOptions<'_>>,
+        v2_fee_event: Option<bool>,
     ) -> Result<PendingTransaction> {
         let signed_txn = self
-            .get_signed_transfer_txn(from_account, to_account, amount, options)
+            .get_signed_transfer_txn(from_account, to_account, amount, options, v2_fee_event)
             .await?;
         Ok(self
             .api_client
@@ -58,6 +59,7 @@ impl<'a> CoinClient<'a> {
         to_account: AccountAddress,
         amount: u64,
         options: Option<TransferOptions<'_>>,
+        v2_fee_event: Option<bool>,
     ) -> Result<SignedTransaction> {
         let options = options.unwrap_or_default();
 
@@ -88,6 +90,7 @@ impl<'a> CoinClient<'a> {
                 .as_secs()
                 + options.timeout_secs,
             ChainId::new(chain_id),
+            v2_fee_event,
         )
         .sender(from_account.address())
         .sequence_number(from_account.sequence_number())
