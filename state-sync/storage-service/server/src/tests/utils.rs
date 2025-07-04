@@ -212,6 +212,7 @@ fn create_test_transaction(sequence_number: u64, code_bytes: Vec<u8>) -> Transac
         0,
         0,
         ChainId::new(10),
+        Some(false),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

@@ -172,6 +172,7 @@ fn create_test_transaction(sequence_number: u64) -> Transaction {
         0,
         0,
         ChainId::new(10),
+        Some(false),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

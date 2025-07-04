@@ -657,6 +657,7 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             expiration_timestamp_secs,
             payload,
             replay_protection_nonce,
+            v2_fee_event,
         } = user_transaction_request;
         Ok(RawTransaction::new(
             sender.into(),
@@ -677,6 +678,7 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             gas_unit_price.into(),
             expiration_timestamp_secs.into(),
             chain_id,
+            v2_fee_event,
         ))
     }
 

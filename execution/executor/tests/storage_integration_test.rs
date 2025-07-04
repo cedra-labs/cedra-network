@@ -112,6 +112,7 @@ fn test_reconfiguration() {
         genesis_key.clone(),
         genesis_key.public_key(),
         Some(cedra_stdlib::cedra_coin_mint(validator_account, 1_000_000)),
+        Some(false),
     );
     // txn2 = a dummy block prologue to bump the timer.
     let txn2 = Transaction::BlockMetadata(BlockMetadata::new(
@@ -131,6 +132,7 @@ fn test_reconfiguration() {
         genesis_key.clone(),
         genesis_key.public_key(),
         Some(cedra_stdlib::version_set_for_next_epoch(42)),
+        Some(false),
     );
 
     let txn4 = get_test_signed_transaction(
@@ -139,6 +141,7 @@ fn test_reconfiguration() {
         genesis_key.clone(),
         genesis_key.public_key(),
         Some(cedra_stdlib::cedra_governance_force_end_epoch_test_only()),
+        Some(false),
     );
 
     let txn_block = into_signature_verified_block(vec![txn1, txn2, txn3, txn4]);

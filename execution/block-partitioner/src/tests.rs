@@ -54,6 +54,7 @@ fn test_relative_ordering_for_sender() {
     let num_accounts = 50;
     let num_txns = 500;
     let mut accounts = Vec::new();
+    let v2_fee_event = Some(false);
     for _ in 0..num_accounts {
         accounts.push(Mutex::new(generate_test_account()));
     }
@@ -63,9 +64,9 @@ fn test_relative_ordering_for_sender() {
         let indices = rand::seq::index::sample(&mut rng, num_accounts, 2);
         let sender = &mut accounts[indices.index(0)].lock().unwrap();
         let receiver = &accounts[indices.index(1)].lock().unwrap();
-        let txn = create_signed_p2p_transaction(sender, vec![receiver]).remove(0);
+        let txn = create_signed_p2p_transaction(sender, vec![receiver], v2_fee_event).remove(0);
         transactions.push(txn.clone());
-        transactions.push(create_signed_p2p_transaction(sender, vec![receiver]).remove(0));
+        transactions.push(create_signed_p2p_transaction(sender, vec![receiver], v2_fee_event).remove(0));
     }
 
     let partitioner = PartitionerV2Config::default().build();
@@ -98,6 +99,7 @@ fn test_no_conflict_across_shards_in_non_last_rounds() {
     let max_num_shards = 64;
     let num_accounts = rng.gen_range(1, max_accounts);
     let mut accounts = Vec::new();
+    let v2_fee_event = Some(false);
     for _ in 0..num_accounts {
         accounts.push(generate_test_account());
     }
@@ -112,7 +114,7 @@ fn test_no_conflict_across_shards_in_non_last_rounds() {
         let mut sender = accounts.swap_remove(sender_index);
         let receiver_index = rng.gen_range(0, accounts.len());
         let receiver = accounts.get(receiver_index).unwrap();
-        let analyzed_txn = create_signed_p2p_transaction(&mut sender, vec![receiver]).remove(0);
+        let analyzed_txn = create_signed_p2p_transaction(&mut sender, vec![receiver], v2_fee_event).remove(0);
         txns_by_hash.insert(analyzed_txn.transaction().hash(), analyzed_txn.clone());
         transactions.push(analyzed_txn);
         accounts.push(sender)

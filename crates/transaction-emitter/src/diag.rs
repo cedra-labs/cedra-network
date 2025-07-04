@@ -15,8 +15,9 @@ use std::{
 pub async fn diag(cluster: &Cluster) -> Result<()> {
     let client = cluster.random_instance().rest_client();
     let mut coin_source_account = cluster.load_coin_source_account(&client).await?;
+    let v2_fee_event = Some(false); // TODO: recheck!!!
     let emitter = TxnEmitter::new(
-        TransactionFactory::new(cluster.chain_id)
+        TransactionFactory::new(cluster.chain_id, v2_fee_event)
             .with_gas_unit_price(cedra_global_constants::GAS_UNIT_PRICE),
         StdRng::from_entropy(),
         client,
