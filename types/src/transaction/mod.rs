@@ -1154,7 +1154,7 @@ impl SignedTransaction {
     }
 
     pub fn use_v2_fee_evnet(&self) -> bool {
-        self.raw_txn.v2_fee_event.is_some()
+        self.raw_txn.v2_fee_event.unwrap()
     }
 
     pub fn sequence_number(&self) -> u64 {
