@@ -2009,6 +2009,7 @@ mod test {
                 0,
                 0,
                 ChainId::new(10),
+                Some(0),
             );
 
             // Create the signed transaction

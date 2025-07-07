@@ -155,7 +155,7 @@ impl TestTransaction {
             self.gas_price,
             exp_timestamp_secs,
             ChainId::test(),
-            Some(false)
+            Some(0),
         );
         let mut seed: [u8; 32] = [0u8; 32];
         seed[..4].copy_from_slice(&[1, 2, 3, 4]);

@@ -352,7 +352,7 @@ impl From<(&SignedTransaction, TransactionPayload)> for UserTransactionRequest {
             signature: Some(txn.authenticator().into()),
             payload,
             replay_protection_nonce: txn.replay_protector().get_nonce().map(|nonce| nonce.into()),
-            v2_fee_event: Some(txn.use_v2_fee_evnet()),
+            v2_fee_event: txn.use_v2_fee_evnet_u8(),
         }
     }
 }
@@ -486,7 +486,7 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
-    pub v2_fee_event: Option<bool>,
+    pub v2_fee_event: Option<u8>,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -516,7 +516,7 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
-    pub v2_fee_event: Option<bool>,
+    pub v2_fee_event: Option<u8>,
 }
 
 /// Request to create signing messages

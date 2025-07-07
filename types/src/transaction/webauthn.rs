@@ -531,7 +531,7 @@ mod tests {
     fn generate_random_challenge_data(
         sender_addr: AccountAddress,
     ) -> (RawTransaction, RawTxnSigningMessage, Challenge) {
-        let raw_txn = get_test_raw_transaction(sender_addr, 0, None, None, None, None, Some(false));
+        let raw_txn = get_test_raw_transaction(sender_addr, 0, None, None, None, None, Some(0));
 
         // Generate signing message (returns the concatenation of hash prefix || BCS serialization of transaction)
         let raw_txn_signing_message =

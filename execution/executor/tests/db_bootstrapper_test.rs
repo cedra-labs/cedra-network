@@ -129,7 +129,7 @@ fn get_cedra_coin_mint_transaction(
     cedra_root_seq_num: u64,
     account: &AccountAddress,
     amount: u64,
-    v2_fee_event: Option<bool>,
+    v2_fee_event: Option<u8>,
 ) -> Transaction {
     get_test_signed_transaction(
         cedra_test_root_address(),
@@ -146,7 +146,7 @@ fn get_account_transaction(
     cedra_root_seq_num: u64,
     account: &AccountAddress,
     _account_key: &Ed25519PrivateKey,
-    v2_fee_event: Option<bool>,
+    v2_fee_event: Option<u8>,
 ) -> Transaction {
     get_test_signed_transaction(
         cedra_test_root_address(),
@@ -164,7 +164,7 @@ fn get_cedra_coin_transfer_transaction(
     sender_key: &Ed25519PrivateKey,
     recipient: AccountAddress,
     amount: u64,
-    v2_fee_event: Option<bool>,
+    v2_fee_event: Option<u8>,
 ) -> Transaction {
     get_test_signed_transaction(
         sender,
@@ -210,10 +210,10 @@ fn test_new_genesis() {
 
     // Mint for 2 demo accounts.
     let (account1, account1_key, account2, account2_key) = get_demo_accounts();
-    let txn1 = get_account_transaction(genesis_key, 0, &account1, &account1_key, Some(false));
-    let txn2 = get_account_transaction(genesis_key, 1, &account2, &account2_key, Some(false));
-    let txn3 = get_cedra_coin_mint_transaction(genesis_key, 2, &account1, 200_000_000, Some(false));
-    let txn4 = get_cedra_coin_mint_transaction(genesis_key, 3, &account2, 200_000_000, Some(false));
+    let txn1 = get_account_transaction(genesis_key, 0, &account1, &account1_key, Some(0));
+    let txn2 = get_account_transaction(genesis_key, 1, &account2, &account2_key, Some(0));
+    let txn3 = get_cedra_coin_mint_transaction(genesis_key, 2, &account1, 200_000_000, Some(0));
+    let txn4 = get_cedra_coin_mint_transaction(genesis_key, 3, &account2, 200_000_000, Some(0));
     execute_and_commit(vec![txn1, txn2, txn3, txn4], &db, &signer);
     assert_eq!(get_balance(&account1, &db), 200_000_000);
     assert_eq!(get_balance(&account2, &db), 200_000_000);
@@ -296,7 +296,7 @@ fn test_new_genesis() {
 
     println!("FINAL TRANSFER");
     // Transfer some money.
-    let txn = get_cedra_coin_transfer_transaction(account1, 0, &account1_key, account2, 50_000_000, Some(false));
+    let txn = get_cedra_coin_transfer_transaction(account1, 0, &account1_key, account2, 50_000_000, Some(0));
     execute_and_commit(vec![txn], &db, &signer);
 
     // And verify.

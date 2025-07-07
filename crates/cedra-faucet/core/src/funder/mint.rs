@@ -106,7 +106,7 @@ impl MintFunder {
         txn_config: TransactionSubmissionConfig,
         faucet_account: LocalAccount,
     ) -> Self {
-        let v2_fee_event = Some(false); // TODO: recheck!!!
+        let v2_fee_event = Some(0); // TODO: recheck!!!
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), txn_config.get_gas_unit_price_ttl_secs());
         let transaction_factory = TransactionFactory::new(chain_id, v2_fee_event)

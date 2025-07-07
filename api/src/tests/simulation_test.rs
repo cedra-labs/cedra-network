@@ -266,6 +266,7 @@ async fn bcs_simulate_fee_payer_transaction_without_gas_fee_check(context: &mut 
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        Some(0),
     );
     let txn = SignedTransaction::new_signed_transaction(
         raw_txn.clone(),
@@ -326,6 +327,7 @@ async fn test_bcs_simulate_automated_account_creation() {
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        Some(0),
     );
     // Replace the authenticator with a NoAccountAuthenticator in the transaction.
     let txn = SignedTransaction::new_signed_transaction(
@@ -418,6 +420,7 @@ async fn test_bcs_execute_fee_payer_transaction_no_authenticator_fail() {
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        Some(0),
     );
 
     let txn = SignedTransaction::new_signed_transaction(

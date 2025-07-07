@@ -269,7 +269,7 @@ pub struct TransactionBuilder {
     pub gas_unit_price: Option<u64>,
     pub chain_id: Option<ChainId>,
     pub ttl: Option<u64>,
-    pub v2_fee_event: Option<bool>,
+    pub v2_fee_event: Option<u8>,
 }
 
 impl TransactionBuilder {
@@ -284,7 +284,7 @@ impl TransactionBuilder {
             gas_unit_price: None,
             chain_id: None,
             ttl: None,
-            v2_fee_event: Some(false),
+            v2_fee_event: Some(0),
         }
     }
 

@@ -54,7 +54,7 @@ fn test_relative_ordering_for_sender() {
     let num_accounts = 50;
     let num_txns = 500;
     let mut accounts = Vec::new();
-    let v2_fee_event = Some(false);
+    let v2_fee_event = Some(0);
     for _ in 0..num_accounts {
         accounts.push(Mutex::new(generate_test_account()));
     }
@@ -99,7 +99,7 @@ fn test_no_conflict_across_shards_in_non_last_rounds() {
     let max_num_shards = 64;
     let num_accounts = rng.gen_range(1, max_accounts);
     let mut accounts = Vec::new();
-    let v2_fee_event = Some(false);
+    let v2_fee_event = Some(0);
     for _ in 0..num_accounts {
         accounts.push(generate_test_account());
     }

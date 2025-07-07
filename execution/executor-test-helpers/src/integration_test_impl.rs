@@ -88,7 +88,7 @@ pub fn test_execution_with_storage_impl_inner(
     let addr3 = account3.address();
     let addr4 = account4.address();
 
-    let txn_factory = TransactionFactory::new(ChainId::test(), Some(false));
+    let txn_factory = TransactionFactory::new(ChainId::test(), Some(0));
 
     let block1_id = gen_block_id(1);
     let block1_meta = Transaction::BlockMetadata(BlockMetadata::new(

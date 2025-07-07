@@ -169,7 +169,7 @@ impl TxnOptions {
         let chain_id = ChainId::new(state.chain_id);
 
         let transaction_factory =
-            TransactionFactory::new(chain_id, Some(false)).with_gas_unit_price(gas_unit_price);
+            TransactionFactory::new(chain_id, Some(0)).with_gas_unit_price(gas_unit_price);
 
         let unsigned_transaction = transaction_factory
             .payload(payload.clone())
@@ -253,7 +253,7 @@ impl TxnOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id,Some(false))
+        let transaction_factory = TransactionFactory::new(chain_id,Some(0))
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);

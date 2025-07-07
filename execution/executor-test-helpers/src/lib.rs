@@ -73,7 +73,7 @@ pub fn get_test_signed_transaction(
     private_key: Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     payload: Option<TransactionPayload>,
-    v2_fee_event: Option<bool>,
+    v2_fee_event: Option<u8>,
 ) -> Transaction {
     Transaction::UserTransaction(get_test_signed_txn(
         sender,

@@ -325,7 +325,7 @@ pub struct RawTransactionGen {
     max_gas_amount: u64,
     gas_unit_price: u64,
     expiration_time_secs: u64,
-    v2_fee_event: Option<bool>,
+    v2_fee_event: Option<u8>,
 }
 
 impl RawTransactionGen {
@@ -383,7 +383,7 @@ impl RawTransaction {
             any::<u64>(),
             any::<u64>(),
             any::<u64>(),
-            any::<Option<bool>>(),
+            any::<Option<u8>>(),
         )
             .prop_map(
                 |(
@@ -416,7 +416,7 @@ fn new_raw_transaction(
     max_gas_amount: u64,
     gas_unit_price: u64,
     expiration_time_secs: u64,
-    v2_fee_event: Option<bool>, 
+    v2_fee_event: Option<u8>, 
 ) -> RawTransaction {
     let chain_id = ChainId::test();
     match payload {

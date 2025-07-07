@@ -529,7 +529,7 @@ impl<'a> CedraTestAdapter<'a> {
             parameters.gas_unit_price,
             parameters.expiration_timestamp_secs,
             ChainId::test(),
-            Some(false),
+            Some(0),
         )
         .sign(&GENESIS_KEYPAIR.0, GENESIS_KEYPAIR.1.clone())
         .unwrap()
@@ -546,7 +546,7 @@ impl<'a> CedraTestAdapter<'a> {
             parameters.gas_unit_price,
             parameters.expiration_timestamp_secs,
             ChainId::test(),
-            Some(false),
+            Some(0),
         )
         .sign(&GENESIS_KEYPAIR.0, GENESIS_KEYPAIR.1.clone())
         .unwrap()
@@ -846,7 +846,7 @@ impl<'a> MoveTestAdapter<'a> for CedraTestAdapter<'a> {
             params.gas_unit_price,
             params.expiration_timestamp_secs,
             ChainId::test(),
-            Some(false),
+            Some(0),
         )
         .sign(&private_key, Ed25519PublicKey::from(&private_key))
         .unwrap()
@@ -917,7 +917,7 @@ impl<'a> MoveTestAdapter<'a> for CedraTestAdapter<'a> {
             params.gas_unit_price,
             params.expiration_timestamp_secs,
             ChainId::test(),
-            Some(false),
+            Some(0),
         );
 
         let txn = match &extra_args.secondary_signers {
