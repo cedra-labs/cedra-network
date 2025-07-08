@@ -72,13 +72,13 @@ pub fn create_non_conflicting_p2p_transaction() -> AnalyzedTransaction {
     // create unique sender and receiver accounts so that there is no conflict
     let mut sender = generate_test_account();
     let receiver = generate_test_account();
-    create_signed_p2p_transaction(&mut sender, vec![&receiver], Some(0)).remove(0)
+    create_signed_p2p_transaction(&mut sender, vec![&receiver], 0).remove(0)
 }
 
 pub fn create_signed_p2p_transaction(
     sender: &mut TestAccount,
     receivers: Vec<&TestAccount>,
-    v2_fee_event: Option<u8>,
+    v2_fee_event: u8,
 ) -> Vec<AnalyzedTransaction> {
     let mut transactions = Vec::new();
     for receiver in receivers.iter() {
@@ -138,7 +138,7 @@ impl P2PBlockGenerator {
                 let indices = rand::seq::index::sample(rng, self.accounts.len(), 2);
                 let receiver = self.accounts[indices.index(1)].lock().unwrap();
                 let mut sender = self.accounts[indices.index(0)].lock().unwrap();
-                create_signed_p2p_transaction(&mut sender, vec![&receiver], Some(0)).remove(0)
+                create_signed_p2p_transaction(&mut sender, vec![&receiver], 0).remove(0)
             })
             .collect()
     }

@@ -197,7 +197,7 @@ pub struct RawTransaction {
     chain_id: ChainId,
 
     // bool flag for transaction fee v2 event.
-    v2_fee_event: Option<u8>,
+    v2_fee_event: u8,
 }
 
 impl RawTransaction {
@@ -213,7 +213,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Self {
         RawTransaction {
             sender,
@@ -239,7 +239,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Self {
         RawTransaction {
             sender,
@@ -263,7 +263,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Self {
         RawTransaction {
             sender,
@@ -287,7 +287,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Self {
         RawTransaction {
             sender,
@@ -313,7 +313,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Self {
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
@@ -1154,14 +1154,10 @@ impl SignedTransaction {
     }
 
     pub fn use_v2_fee_evnet(&self) -> bool {
-        if ! self.raw_txn.v2_fee_event.is_none() {
-            return self.raw_txn.v2_fee_event.unwrap() == 1
-        }
-        
-        return false
+         self.raw_txn.v2_fee_event == 1
     }
 
-    pub fn use_v2_fee_evnet_u8(&self) -> Option<u8> {
+    pub fn use_v2_fee_evnet_u8(&self) -> u8 {
         self.raw_txn.v2_fee_event
     }
 

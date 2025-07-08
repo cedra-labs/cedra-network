@@ -63,7 +63,7 @@ mod test {
             vec![],
         ));
         let raw_transaction =
-            RawTransaction::new(sender, sequence_number, payload, 0, 0, 0, ChainId::new(10),Some(0));
+            RawTransaction::new(sender, sequence_number, payload, 0, 0, 0, ChainId::new(10), 0);
 
         SignedTransaction::new(
             raw_transaction.clone(),

@@ -151,7 +151,7 @@ mod tests {
             1,
             10,
             ChainId::test(),
-            Some(0),
+            0,
         );
 
         let mut rng = StdRng::from_seed([0; 32]);

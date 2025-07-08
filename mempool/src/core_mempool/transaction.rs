@@ -205,7 +205,7 @@ mod test {
             0,
             u64::MAX,
             ChainId::new(10),
-            Some(0),
+            0,
         );
         SignedTransaction::new(
             raw_transaction.clone(),

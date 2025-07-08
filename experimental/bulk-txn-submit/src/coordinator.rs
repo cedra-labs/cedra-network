@@ -146,7 +146,7 @@ pub async fn execute_submit<T: Clone, B: SignedTransactionBuilder<T>>(
         .all_instances()
         .map(|i| i.rest_client())
         .collect::<Vec<_>>();
-    let v2_fee_event = Some(0);// TODO: recheck
+    let v2_fee_event = 0;// TODO: recheck
     let txn_factory = TransactionFactory::new(cluster.chain_id, v2_fee_event);
 
     let needed_balance_per_account = get_needed_balance_per_account(
@@ -213,7 +213,7 @@ pub async fn execute_return_worker_funds(
         .map(|i| i.rest_client())
         .collect::<Vec<_>>();
 
-    let v2_fee_event = Some(0);// TODO: recheck
+    let v2_fee_event = 0;// TODO: recheck
     let txn_factory =
         transaction_factory_args.with_params(TransactionFactory::new(cluster.chain_id,v2_fee_event));
 

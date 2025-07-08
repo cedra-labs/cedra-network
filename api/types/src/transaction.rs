@@ -486,7 +486,7 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
-    pub v2_fee_event: Option<u8>,
+    pub v2_fee_event: u8,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -516,7 +516,7 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
-    pub v2_fee_event: Option<u8>,
+    pub v2_fee_event: u8,
 }
 
 /// Request to create signing messages

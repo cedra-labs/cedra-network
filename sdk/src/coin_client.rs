@@ -39,7 +39,7 @@ impl<'a> CoinClient<'a> {
         to_account: AccountAddress,
         amount: u64,
         options: Option<TransferOptions<'_>>,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Result<PendingTransaction> {
         let signed_txn = self
             .get_signed_transfer_txn(from_account, to_account, amount, options, v2_fee_event)
@@ -59,7 +59,7 @@ impl<'a> CoinClient<'a> {
         to_account: AccountAddress,
         amount: u64,
         options: Option<TransferOptions<'_>>,
-        v2_fee_event: Option<u8>,
+        v2_fee_event: u8,
     ) -> Result<SignedTransaction> {
         let options = options.unwrap_or_default();
 
