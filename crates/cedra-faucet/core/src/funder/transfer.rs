@@ -13,6 +13,7 @@ use crate::{
     middleware::TRANSFER_FUNDER_ACCOUNT_BALANCE,
 };
 use anyhow::{Context, Result};
+use async_trait::async_trait;
 use cedra_logger::info;
 use cedra_sdk::{
     crypto::{ed25519::Ed25519PrivateKey, PrivateKey},
@@ -25,7 +26,6 @@ use cedra_sdk::{
         LocalAccount,
     },
 };
-use async_trait::async_trait;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use std::{str::FromStr, time::Duration};
@@ -59,7 +59,7 @@ impl TransferFunderConfig {
         // Build local representation of account.
         let faucet_account = LocalAccount::new(account_address, key, 0);
 
-        let v2_fee_event = 0; // TODO: recheck
+        let fee_v2 = Some(false); // TODO: recheck
 
         let funder = TransferFunder::new(
             faucet_account,
@@ -76,7 +76,7 @@ impl TransferFunderConfig {
             self.transaction_submission_config
                 .wait_for_outstanding_txns_secs,
             self.transaction_submission_config.wait_for_transactions,
-            v2_fee_event,
+            fee_v2,
         );
 
         Ok(funder)
@@ -128,14 +128,14 @@ impl TransferFunder {
         transaction_expiration_secs: u64,
         wait_for_outstanding_txns_secs: u64,
         wait_for_transactions: bool,
-        v2_fee_event: u8,
+        fee_v2: Option<bool>,
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), gas_unit_price_ttl_secs);
 
         Self {
             faucet_account: RwLock::new(faucet_account),
-            transaction_factory: TransactionFactory::new(chain_id, v2_fee_event)
+            transaction_factory: TransactionFactory::new(chain_id, fee_v2)
                 .with_max_gas_amount(max_gas_amount)
                 .with_transaction_expiration_time(transaction_expiration_secs),
             node_url,

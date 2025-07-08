@@ -76,7 +76,7 @@ pub async fn main() -> Result<()> {
     Logger::builder().level(Level::Info).build();
 
     let args = Args::parse();
-    let v2_fee_event = 0; // TODO: recheck!!!
+    let fee_v2 = Some(false);
 
     // TODO: Check if I need DisplayChain here in the error case.
     match args.command {
@@ -85,7 +85,7 @@ pub async fn main() -> Result<()> {
                 &args.cluster_args,
                 &args.emit_args,
                 args.emit_workload_args.args_to_transaction_mix_per_phase(),
-                v2_fee_event,
+                fee_v2,
             )
             .await
             .map_err(|e| panic!("Emit transactions failed {:?}", e))
@@ -95,7 +95,7 @@ pub async fn main() -> Result<()> {
             Ok(())
         },
         TxnEmitterCommand::CreateAccounts(args) => {
-            create_accounts_command(&args.cluster_args, &args.create_accounts_args, v2_fee_event)
+            create_accounts_command(&args.cluster_args, &args.create_accounts_args, fee_v2)
                 .await
                 .map_err(|e| panic!("Create accounts failed {:?}", e))
                 .unwrap();

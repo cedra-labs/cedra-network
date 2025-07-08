@@ -252,7 +252,7 @@ members = [
     "tools/calc-dep-sizes",
     "tools/compute-module-expansion-size",
     "types",
-    "vm-validator",
+    "vm-validator", "cedra-move/cedra-whitelist",
 ]
 
 # NOTE: default-members is the complete list of binaries that form the "production Cedra codebase". These members should

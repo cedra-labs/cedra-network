@@ -34,8 +34,8 @@ pub use headers::*;
 pub use index::{IndexResponse, IndexResponseBcs};
 pub use ledger_info::LedgerInfo;
 pub use move_types::{
-    verify_field_identifier, verify_function_identifier, verify_module_identifier, EntryFunctionId,
-    HexEncodedBytes, MoveAbility, MoveFunction, MoveFunctionGenericTypeParam,
+    verify_field_identifier, verify_function_identifier, verify_module_identifier, Bool,
+    EntryFunctionId, HexEncodedBytes, MoveAbility, MoveFunction, MoveFunctionGenericTypeParam,
     MoveFunctionVisibility, MoveModule, MoveModuleBytecode, MoveModuleId, MoveResource,
     MoveScriptBytecode, MoveStruct, MoveStructField, MoveStructTag, MoveType, MoveValue,
     ResourceGroup, MAX_RECURSIVE_TYPES_ALLOWED, U128, U256, U64,

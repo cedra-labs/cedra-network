@@ -647,15 +647,18 @@ impl CedraVM {
                 let mut custom_fee_statement = CustomFeeStatement::zero();
                 let mut fee_statement = FeeStatement::zero();
 
-                if txn_data.v2_fee_event {
-                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                if txn_data.fee_v2 {
+                    custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
                         gas_meter,
-                    ZERO_STORAGE_REFUND,
+                        ZERO_STORAGE_REFUND,
                     );
                 } else {
-                    fee_statement =
-                        CedraVM::fee_statement_from_gas_meter(txn_data, gas_meter, ZERO_STORAGE_REFUND);
+                    fee_statement = CedraVM::fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
                 }
 
                 // Verify we charged sufficiently for creating an account slot
@@ -694,15 +697,18 @@ impl CedraVM {
                 let mut custom_fee_statement = CustomFeeStatement::zero();
                 let mut fee_statement = FeeStatement::zero();
 
-                if txn_data.v2_fee_event {
-                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                if txn_data.fee_v2 {
+                    custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
                         gas_meter,
-                    ZERO_STORAGE_REFUND,
+                        ZERO_STORAGE_REFUND,
                     );
                 } else {
-                    fee_statement =
-                        CedraVM::fee_statement_from_gas_meter(txn_data, gas_meter, ZERO_STORAGE_REFUND);
+                    fee_statement = CedraVM::fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
                 }
                 (
                     prologue_session_change_set,
@@ -774,7 +780,7 @@ impl CedraVM {
         let mut custom_fee_statement = CustomFeeStatement::zero();
         let mut fee_statement = FeeStatement::zero();
 
-        if txn_data.v2_fee_event {
+        if txn_data.fee_v2 {
             custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                 txn_data,
                 gas_meter,

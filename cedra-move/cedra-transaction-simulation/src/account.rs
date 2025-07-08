@@ -269,7 +269,7 @@ pub struct TransactionBuilder {
     pub gas_unit_price: Option<u64>,
     pub chain_id: Option<ChainId>,
     pub ttl: Option<u64>,
-    pub v2_fee_event: u8,
+    pub fee_v2: Option<bool>,
 }
 
 impl TransactionBuilder {
@@ -284,7 +284,7 @@ impl TransactionBuilder {
             gas_unit_price: None,
             chain_id: None,
             ttl: None,
-            v2_fee_event: 0,
+            fee_v2: Some(false),
         }
     }
 
@@ -347,7 +347,7 @@ impl TransactionBuilder {
             self.gas_unit_price.unwrap_or(0),
             self.ttl.unwrap_or(DEFAULT_EXPIRATION_TIME),
             self.chain_id.unwrap_or_else(ChainId::test), //ChainId::test(),
-            self.v2_fee_event,
+            self.fee_v2,
         )
     }
 
