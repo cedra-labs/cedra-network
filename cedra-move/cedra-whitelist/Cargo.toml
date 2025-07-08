@@ -10,3 +10,7 @@ repository.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+
+
+[lib]
+path = "src/lib.rs"
