@@ -160,7 +160,7 @@ mod tests {
             gas_unit_price,
             0,
             ChainId::new(10),
-            0,
+            Some(false),
         )
     }
 

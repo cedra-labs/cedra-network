@@ -30,7 +30,7 @@ fn test_invalid_signature() {
             0,
             0,
             ChainId::test(),
-            0,
+            Some(false),
         ),
         Ed25519PrivateKey::generate_for_testing().public_key(),
         Ed25519Signature::try_from(&[1u8; 64][..]).unwrap(),

@@ -327,7 +327,7 @@ pub(crate) fn create_signed_transaction(gas_unit_price: u64) -> SignedTransactio
         gas_unit_price,
         0,
         ChainId::new(10),
-        0,
+        Some(false),
     );
     SignedTransaction::new(
         raw_transaction,
