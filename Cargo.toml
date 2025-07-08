@@ -46,6 +46,7 @@ members = [
     "cedra-move/replay-benchmark",
     "cedra-move/script-composer",
     "cedra-move/vm-genesis",
+    "cedra-move/cedra-whitelist",
     "cedra-node",
     "config",
     "config/global-constants",
@@ -252,7 +253,7 @@ members = [
     "tools/calc-dep-sizes",
     "tools/compute-module-expansion-size",
     "types",
-    "vm-validator", "cedra-move/cedra-whitelist",
+    "vm-validator",
 ]
 
 # NOTE: default-members is the complete list of binaries that form the "production Cedra codebase". These members should
