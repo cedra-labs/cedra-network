@@ -598,6 +598,7 @@ Only called during genesis to initialize system resources for this module.
             ),
             <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT">PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT</a>)
         );
+        /// TODO: make custom sufficient gas check ( not only for CedraCoin & <a href="cedra_account.md#0x1_cedra_account">cedra_account</a> fa)
         <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
             <b>assert</b>!(
                 <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer_address, max_transaction_fee),

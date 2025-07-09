@@ -1,0 +1,15 @@
+[package]
+name = "whitelist"
+version = "1.0.0"
+authors = []
+
+[addresses]
+
+[dev-addresses]
+
+[dependencies.CedraFramework]
+git = "https://github.com/cedra-labs/cedra-framework.git"
+rev = "mainnet"
+subdir = "cedra-framework"
+
+[dev-dependencies]

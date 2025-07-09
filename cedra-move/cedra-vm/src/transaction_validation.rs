@@ -6,8 +6,8 @@ use crate::{
     errors::{convert_epilogue_error, convert_prologue_error, expect_only_successful_execution},
     move_vm_ext::{CedraMoveResolver, SessionExt},
     system_module_names::{
-        EMIT_CUSTOM_FEE_STATEMENT, EMIT_FEE_STATEMENT, MULTISIG_ACCOUNT_MODULE,
-        TRANSACTION_FEE_MODULE, VALIDATE_MULTISIG_TRANSACTION,
+        EMIT_FEE_STATEMENT, MULTISIG_ACCOUNT_MODULE, TRANSACTION_FEE_MODULE,
+        VALIDATE_MULTISIG_TRANSACTION,
     },
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
@@ -15,7 +15,7 @@ use crate::{
 use cedra_gas_algebra::Gas;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
-    fee_statement::{CustomFeeStatement, FeeStatement},
+    fee_statement::FeeStatement,
     move_utils::as_move_value::AsMoveValue,
     on_chain_config::Features,
     transaction::{MultisigTransactionPayload, ReplayProtector, TransactionExecutableRef},
@@ -453,7 +453,6 @@ fn run_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
-    custom_fee_statement: CustomFeeStatement,
     txn_data: &TransactionMetadata,
     features: &Features,
     traversal_context: &mut TraversalContext,
@@ -591,13 +590,6 @@ fn run_epilogue(
     // Emit the FeeStatement event
     if features.is_emit_fee_statement_enabled() {
         emit_fee_statement(session, module_storage, fee_statement, traversal_context)?;
-    } else if features.is_emit_custom_fee_statement_enabled() {
-        emit_custom_fee_statement(
-            session,
-            module_storage,
-            custom_fee_statement,
-            traversal_context,
-        )?;
     }
 
     maybe_raise_injected_error(InjectedError::EndOfRunEpilogue)?;
@@ -623,24 +615,6 @@ fn emit_fee_statement(
     Ok(())
 }
 
-fn emit_custom_fee_statement(
-    session: &mut SessionExt<impl CedraMoveResolver>,
-    module_storage: &impl ModuleStorage,
-    custom_fee_statement: CustomFeeStatement,
-    traversal_context: &mut TraversalContext,
-) -> VMResult<()> {
-    session.execute_function_bypass_visibility(
-        &TRANSACTION_FEE_MODULE,
-        EMIT_CUSTOM_FEE_STATEMENT,
-        vec![],
-        vec![bcs::to_bytes(&custom_fee_statement).expect("Failed to serialize fee statement")],
-        &mut UnmeteredGasMeter,
-        traversal_context,
-        module_storage,
-    )?;
-    Ok(())
-}
-
 /// Run the epilogue of a transaction by calling into `EPILOGUE_NAME` function stored
 /// in the `ACCOUNT_MODULE` on chain.
 pub(crate) fn run_success_epilogue(
@@ -649,7 +623,6 @@ pub(crate) fn run_success_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
-    custom_fee_statement: CustomFeeStatement,
     features: &Features,
     txn_data: &TransactionMetadata,
     log_context: &AdapterLogSchema,
@@ -669,7 +642,6 @@ pub(crate) fn run_success_epilogue(
         serialized_signers,
         gas_remaining,
         fee_statement,
-        custom_fee_statement,
         txn_data,
         features,
         traversal_context,
@@ -686,7 +658,6 @@ pub(crate) fn run_failure_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
-    custom_fee_statement: CustomFeeStatement,
     features: &Features,
     txn_data: &TransactionMetadata,
     log_context: &AdapterLogSchema,
@@ -699,7 +670,6 @@ pub(crate) fn run_failure_epilogue(
         serialized_signers,
         gas_remaining,
         fee_statement,
-        custom_fee_statement,
         txn_data,
         features,
         traversal_context,

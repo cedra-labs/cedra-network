@@ -7,7 +7,7 @@ use move_core_types::{account_address::AccountAddress, ident_str, language_stora
 /// The default address where the `large_packages.move` module is deployed.
 /// This address is used on both mainnet and testnet.
 pub const LARGE_PACKAGES_MODULE_ADDRESS: &str =
-    "0x0e1ca3011bdd07246d4d16d909dbb2d6953a86c4735d5acf5865d962c630cce7";
+    "0xc7d8de66f1304a54a337fe5b91113dfcb702d35551a1a5c76a50eb9d2fe14c3c";
 
 /// The default chunk size for splitting code and metadata to fit within the transaction size limits.
 pub const CHUNK_SIZE_IN_BYTES: usize = 55_000;
