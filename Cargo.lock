@@ -6424,6 +6424,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "cedra-whitelist"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-sdk",
+ "hex",
+ "move-vm-runtime",
+ "once_cell",
+ "rand 0.7.3",
+ "serde",
+ "tokio",
+ "url",
+]
+
+[[package]]
 name = "cedra-workspace-server"
 version = "0.1.0"
 dependencies = [

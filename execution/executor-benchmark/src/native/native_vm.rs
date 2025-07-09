@@ -9,6 +9,7 @@ use crate::{
         native_transaction::{compute_deltas_for_batch, NativeTransaction},
     },
 };
+use bytes::Bytes;
 use cedra_aggregator::{
     bounded_math::SignedU128,
     delayed_change::{DelayedApplyChange, DelayedChange},
@@ -40,7 +41,9 @@ use cedra_types::{
     on_chain_config::FeatureFlag,
     state_store::{state_key::StateKey, state_value::StateValueMetadata, StateView},
     transaction::{
-        signature_verified_transaction::SignatureVerifiedTransaction, use_case::UseCaseAwareTransaction, BlockOutput, Transaction, TransactionOutput, TransactionStatus, WriteSetPayload
+        signature_verified_transaction::SignatureVerifiedTransaction,
+        use_case::UseCaseAwareTransaction, BlockOutput, Transaction, TransactionOutput,
+        TransactionStatus, WriteSetPayload,
     },
     write_set::WriteOp,
     CedraCoinType,
@@ -60,7 +63,6 @@ use cedra_vm_types::{
     resolver::{ExecutorView, ResourceGroupView},
     resource_group_adapter::group_size_as_sum,
 };
-use bytes::Bytes;
 use move_core_types::{
     language_storage::StructTag,
     value::{IdentifierMappingKind, MoveStructLayout, MoveTypeLayout},
@@ -159,7 +161,7 @@ impl ExecutorTask for NativeVMExecutorTask {
             Ok(change_set) => ExecutionStatus::Success(CedraTransactionOutput::new(VMOutput::new(
                 change_set,
                 ModuleWriteSet::empty(),
-                FeeStatement::new(gas_units, gas_units, 0, 0, 0, txn.parse_sender()),
+                FeeStatement::new(gas_units, gas_units, 0, 0, 0),
                 TransactionStatus::Keep(cedra_types::transaction::ExecutionStatus::Success),
             ))),
             Err(_) => ExecutionStatus::SpeculativeExecutionAbortError("something".to_string()),
@@ -354,7 +356,7 @@ impl NativeVMExecutorTask {
         };
 
         events.push((
-            FeeStatement::new(gas_units, gas_units, 0, 0, 0, txn.parse_sender()).create_event_v2(), // TODO: set coin!!!
+            FeeStatement::new(gas_units, gas_units, 0, 0, 0).create_event_v2(),
             None,
         ));
 
@@ -576,12 +578,16 @@ impl NativeVMExecutorTask {
         )?
         .ok_or(())?;
 
-        let delta_op = DeltaOp::new(SignedU128::Negative(gas as u128), u128::MAX, DeltaHistory {
-            max_achieved_positive_delta: 0,
-            min_achieved_negative_delta: gas as u128,
-            min_overflow_positive_delta: None,
-            max_underflow_negative_delta: None,
-        });
+        let delta_op = DeltaOp::new(
+            SignedU128::Negative(gas as u128),
+            u128::MAX,
+            DeltaHistory {
+                max_achieved_positive_delta: 0,
+                min_achieved_negative_delta: gas as u128,
+                min_overflow_positive_delta: None,
+                max_underflow_negative_delta: None,
+            },
+        );
         aggregator_v1_delta_set.insert(sender_coin_store.supply_aggregator_state_key(), delta_op);
         Ok(())
     }

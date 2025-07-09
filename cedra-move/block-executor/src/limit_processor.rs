@@ -314,14 +314,7 @@ mod test {
     }
 
     fn execution_fee(execution_gas: u64) -> FeeStatement {
-        FeeStatement::new(
-            execution_gas,
-            execution_gas,
-            0,
-            0,
-            0,
-            AccountAddress::new([0u8; 32]),
-        )
+        FeeStatement::new(execution_gas, execution_gas, 0, 0, 0)
     }
 
     #[test]

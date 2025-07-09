@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::task::{ExecutionStatus, ExecutorTask, TransactionOutput};
+use bytes::Bytes;
 use cedra_aggregator::{
     delayed_change::DelayedChange,
     delta_change_set::{delta_add, delta_sub, serialize, DeltaOp},
@@ -36,7 +37,6 @@ use cedra_vm_types::{
         decrement_size_for_remove_tag, group_tagged_resource_size, increment_size_for_add_tag,
     },
 };
-use bytes::Bytes;
 use claims::{assert_ge, assert_le, assert_ok};
 use move_core_types::{
     ident_str, identifier::IdentStr, language_storage::ModuleId, value::MoveTypeLayout,
@@ -1250,7 +1250,6 @@ where
             (self.total_gas + 1) / 2,
             0,
             0,
-            AccountAddress::new([0u8; 32]) // TODO: set coin!!!
         )
     }
 

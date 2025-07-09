@@ -78,4 +78,3 @@ pub static TRANSACTION_FEE_MODULE: Lazy<ModuleId> = Lazy::new(|| {
 });
 
 pub const EMIT_FEE_STATEMENT: &IdentStr = ident_str!("emit_fee_statement");
-pub const EMIT_CUSTOM_FEE_STATEMENT: &IdentStr = ident_str!("emit_custom_fee_statement");
