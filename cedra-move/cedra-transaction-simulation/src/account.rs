@@ -347,7 +347,7 @@ impl TransactionBuilder {
             self.gas_unit_price.unwrap_or(0),
             self.ttl.unwrap_or(DEFAULT_EXPIRATION_TIME),
             self.chain_id.unwrap_or_else(ChainId::test), //ChainId::test(),
-            self.fee_v2,
+            if self.fee_v2.is_none() { false } else { self.fee_v2.unwrap() },
         )
     }
 

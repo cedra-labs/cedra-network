@@ -108,7 +108,7 @@ impl MintFunder {
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), txn_config.get_gas_unit_price_ttl_secs());
-        let transaction_factory = TransactionFactory::new(chain_id, Some(false))
+        let transaction_factory = TransactionFactory::new(chain_id, false)
             .with_max_gas_amount(txn_config.max_gas_amount)
             .with_transaction_expiration_time(txn_config.transaction_expiration_secs);
         Self {

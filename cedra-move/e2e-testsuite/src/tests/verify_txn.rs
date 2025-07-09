@@ -172,7 +172,7 @@ fn verify_reserved_sender() {
         &private_key,
         private_key.public_key(),
         Some(program),
-        0,
+        false,
     );
 
     assert_prologue_parity!(

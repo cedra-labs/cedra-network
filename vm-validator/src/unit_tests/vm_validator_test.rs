@@ -89,7 +89,7 @@ fn test_validate_transaction() {
         &cedra_vm_genesis::GENESIS_KEYPAIR.0,
         cedra_vm_genesis::GENESIS_KEYPAIR.1.clone(),
         Some(program),
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status(), None);
@@ -301,7 +301,7 @@ fn test_validate_invalid_auth_key() {
         &other_private_key,
         other_private_key.public_key(),
         Some(program),
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status().unwrap(), StatusCode::INVALID_AUTH_KEY);
@@ -341,7 +341,7 @@ fn test_validate_sequence_number_too_new() {
         &cedra_vm_genesis::GENESIS_KEYPAIR.0,
         cedra_vm_genesis::GENESIS_KEYPAIR.1.clone(),
         Some(program),
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status(), None);
@@ -359,7 +359,7 @@ fn test_validate_invalid_arguments() {
         &cedra_vm_genesis::GENESIS_KEYPAIR.0,
         cedra_vm_genesis::GENESIS_KEYPAIR.1.clone(),
         Some(program),
-        0,
+        false,
     );
     let _ret = vm_validator.validate_transaction(transaction).unwrap();
     // TODO: Script arguement types are now checked at execution time. Is this an idea behavior?

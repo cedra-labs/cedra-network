@@ -1749,7 +1749,7 @@ fn override_gas_parameters(
         gas_unit_price.unwrap_or_else(|| signed_txn.gas_unit_price()),
         signed_txn.expiration_timestamp_secs(),
         signed_txn.chain_id(),
-        Some(signed_txn.use_fee_v2()),
+        signed_txn.use_fee_v2(),
     );
 
     // TODO: Check that signature is null, this would just be helpful for downstream use

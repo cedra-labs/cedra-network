@@ -197,7 +197,7 @@ pub struct RawTransaction {
     chain_id: ChainId,
 
     // bool flag for transaction fee v2 event.
-    fee_v2: Option<bool>,
+    fee_v2: bool,
 }
 
 impl RawTransaction {
@@ -213,7 +213,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: Option<bool>,
+        fee_v2: bool,
     ) -> Self {
         RawTransaction {
             sender,
@@ -239,7 +239,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: Option<bool>,
+        fee_v2: bool,
     ) -> Self {
         RawTransaction {
             sender,
@@ -263,7 +263,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: Option<bool>,
+        fee_v2: bool,
     ) -> Self {
         RawTransaction {
             sender,
@@ -287,7 +287,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: Option<bool>,
+        fee_v2: bool,
     ) -> Self {
         RawTransaction {
             sender,
@@ -313,7 +313,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: Option<bool>,
+        fee_v2: bool,
     ) -> Self {
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
@@ -1154,7 +1154,7 @@ impl SignedTransaction {
     }
 
     pub fn use_fee_v2(&self) -> bool {
-        self.raw_txn.fee_v2.unwrap()
+        return self.raw_txn.fee_v2
     }
 
     pub fn sequence_number(&self) -> u64 {

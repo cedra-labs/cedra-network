@@ -678,7 +678,7 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             gas_unit_price.into(),
             expiration_timestamp_secs.into(),
             chain_id,
-            fee_v2.map(|v| v.0),
+            if fee_v2.is_none() { false } else { fee_v2.unwrap().0 },
         ))
     }
 

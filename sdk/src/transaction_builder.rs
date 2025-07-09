@@ -25,7 +25,7 @@ pub struct TransactionBuilder {
     gas_unit_price: u64,
     expiration_timestamp_secs: u64,
     chain_id: ChainId,
-    fee_v2: Option<bool>,
+    fee_v2: bool,
 }
 
 impl TransactionBuilder {
@@ -33,7 +33,7 @@ impl TransactionBuilder {
         payload: TransactionPayload,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: Option<bool>,
+        fee_v2: bool,
     ) -> Self {
         Self {
             payload,
@@ -123,11 +123,11 @@ pub struct TransactionFactory {
     gas_unit_price: u64,
     transaction_expiration_time: u64,
     chain_id: ChainId,
-    fee_v2: Option<bool>,
+    fee_v2: bool,
 }
 
 impl TransactionFactory {
-    pub fn new(chain_id: ChainId, fee_v2: Option<bool>) -> Self {
+    pub fn new(chain_id: ChainId, fee_v2: bool) -> Self {
         Self {
             // TODO(Gas): double check if this right
             max_gas_amount: MAX_GAS_AMOUNT,
