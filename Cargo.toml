@@ -46,6 +46,7 @@ members = [
     "cedra-move/replay-benchmark",
     "cedra-move/script-composer",
     "cedra-move/vm-genesis",
+    "cedra-move/cedra-whitelist",
     "cedra-node",
     "config",
     "config/global-constants",

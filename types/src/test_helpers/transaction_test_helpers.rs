@@ -45,6 +45,7 @@ pub fn get_test_signed_transaction(
     expiration_timestamp_secs: u64,
     gas_unit_price: u64,
     max_gas_amount: Option<u64>,
+    fee_v2: bool,
 ) -> SignedTransaction {
     let raw_txn = RawTransaction::new(
         sender,
@@ -56,6 +57,7 @@ pub fn get_test_signed_transaction(
         gas_unit_price,
         expiration_timestamp_secs,
         ChainId::test(),
+        fee_v2,
     );
 
     let signature = private_key.sign(&raw_txn).unwrap();
@@ -73,6 +75,7 @@ pub fn get_test_unchecked_transaction(
     expiration_time: u64,
     gas_unit_price: u64,
     max_gas_amount: Option<u64>,
+    fee_v2: bool,
 ) -> SignedTransaction {
     get_test_unchecked_transaction_(
         sender,
@@ -84,6 +87,7 @@ pub fn get_test_unchecked_transaction(
         gas_unit_price,
         max_gas_amount,
         ChainId::test(),
+        fee_v2,
     )
 }
 
@@ -98,6 +102,7 @@ fn get_test_unchecked_transaction_(
     gas_unit_price: u64,
     max_gas_amount: Option<u64>,
     chain_id: ChainId,
+    fee_v2: bool,
 ) -> SignedTransaction {
     let raw_txn = RawTransaction::new(
         sender,
@@ -107,6 +112,7 @@ fn get_test_unchecked_transaction_(
         gas_unit_price,
         expiration_timestamp_secs,
         chain_id,
+        fee_v2,
     );
 
     let signature = private_key.sign(&raw_txn).unwrap();
@@ -122,6 +128,7 @@ pub fn get_test_signed_txn(
     private_key: &Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     payload: Option<TransactionPayload>,
+    fee_v2: bool,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     get_test_signed_transaction(
@@ -133,6 +140,7 @@ pub fn get_test_signed_txn(
         expiration_time,
         TEST_GAS_PRICE,
         None,
+        fee_v2,
     )
 }
 
@@ -142,6 +150,7 @@ pub fn get_test_unchecked_txn(
     private_key: &Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     payload: TransactionPayload,
+    fee_v2: bool,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     get_test_unchecked_transaction(
@@ -153,6 +162,7 @@ pub fn get_test_unchecked_txn(
         expiration_time,
         TEST_GAS_PRICE,
         None,
+        fee_v2,
     )
 }
 
@@ -165,6 +175,7 @@ pub fn get_test_unchecked_multi_agent_txn(
     secondary_private_keys: Vec<&Ed25519PrivateKey>,
     secondary_public_keys: Vec<Ed25519PublicKey>,
     script: Option<Script>,
+    fee_v2: bool,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     let raw_txn = RawTransaction::new(
@@ -177,6 +188,7 @@ pub fn get_test_unchecked_multi_agent_txn(
         TEST_GAS_PRICE,
         expiration_time,
         ChainId::test(),
+        fee_v2,
     );
     let message =
         RawTransactionWithData::new_multi_agent(raw_txn.clone(), secondary_signers.clone());
@@ -207,6 +219,7 @@ pub fn get_test_txn_with_chain_id(
     private_key: &Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     chain_id: ChainId,
+    fee_v2: bool,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     let raw_txn = RawTransaction::new_script(
@@ -217,6 +230,7 @@ pub fn get_test_txn_with_chain_id(
         TEST_GAS_PRICE,
         expiration_time,
         chain_id,
+        fee_v2,
     );
 
     let signature = private_key.sign(&raw_txn).unwrap();
@@ -235,6 +249,7 @@ pub fn get_test_raw_transaction(
     expiration_timestamp_secs: Option<u64>,
     gas_unit_price: Option<u64>,
     max_gas_amount: Option<u64>,
+    fee_v2: bool,
 ) -> RawTransaction {
     RawTransaction::new(
         sender,
@@ -246,5 +261,6 @@ pub fn get_test_raw_transaction(
         gas_unit_price.unwrap_or(TEST_GAS_PRICE),
         expiration_timestamp_secs.unwrap_or(expiration_time(10)),
         ChainId::test(),
+        fee_v2,
     )
 }

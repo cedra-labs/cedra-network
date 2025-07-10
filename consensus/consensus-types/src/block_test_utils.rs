@@ -263,7 +263,7 @@ pub fn random_payload(count: usize) -> Payload {
     let public_key = private_key.public_key();
     Payload::DirectMempool(
         (0..count)
-            .map(|i| get_test_signed_txn(address, i as u64, &private_key, public_key.clone(), None))
+            .map(|i| get_test_signed_txn(address, i as u64, &private_key, public_key.clone(), None, false))
             .collect(),
     )
 }

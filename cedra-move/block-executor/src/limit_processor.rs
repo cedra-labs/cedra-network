@@ -320,7 +320,6 @@ mod test {
             0,
             0,
             0,
-            AccountAddress::new([0u8; 32]),
         )
     }
 

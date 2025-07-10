@@ -71,6 +71,7 @@ fn test_transaction(
                     None,      // Expiration timestamp
                     Some(101), // Gas unit price, specifically make it different than 100 to check calculations
                     None,      // Max gas amount
+                    false,
                 ),
                 // Dummy keys and signatures
                 private_key.public_key(),
