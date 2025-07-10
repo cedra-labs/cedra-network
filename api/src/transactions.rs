@@ -35,7 +35,7 @@ use cedra_types::{
     mempool_status::MempoolStatusCode,
     transaction::{
         EntryFunction, ExecutionStatus, MultisigTransactionPayload, RawTransaction,
-        RawTransactionWithData, Script, SignedTransaction, TransactionExecutable,
+        RawTransactionWithData, Script, SignedTransaction, SignedTransactionOld, TransactionExecutable,
         TransactionPayload, TransactionPayloadInner,
     },
     vm_status::StatusCode,
@@ -458,6 +458,56 @@ impl TransactionsApi {
             .check_api_output_enabled("Submit transaction", &accept_type)?;
         let ledger_info = self.context.get_latest_ledger_info()?;
         let signed_transaction = self.get_signed_transaction(&ledger_info, data)?;
+        self.create(&accept_type, &ledger_info, signed_transaction)
+            .await
+    }
+
+    /// Submit transaction V2
+    ///
+    /// This endpoint accepts transaction submissions in two formats.
+    ///
+    /// To submit a transaction as JSON, you must submit a SubmitTransactionRequest.
+    /// To build this request, do the following:
+    ///
+    ///   1. Encode the transaction as BCS. If you are using a language that has
+    ///      native BCS support, make sure of that library. If not, you may take
+    ///      advantage of /transactions_v2/encode_submission. When using this
+    ///      endpoint, make sure you trust the node you're talking to, as it is
+    ///      possible they could manipulate your request.
+    ///   2. Sign the encoded transaction and use it to create a TransactionSignature.
+    ///   3. Submit the request. Make sure to use the "application/json" Content-Type.
+    ///
+    /// To submit a transaction as BCS, you must submit a SignedTransaction
+    /// encoded as BCS. See SignedTransaction in types/src/transaction/mod.rs.
+    /// Make sure to use the `application/x.cedra.signed_transaction+bcs` Content-Type.
+    // TODO: Point to examples of both of these flows, in multiple languages.
+    #[oai(
+        path = "/transactions_v2",
+        method = "post",
+        operation_id = "submit_transaction_v2",
+        tag = "ApiTags::Transactions"
+    )]
+    async fn submit_transaction_v2(
+        &self,
+        accept_type: AcceptType,
+        data: SubmitTransactionPost,
+    ) -> SubmitTransactionResult<PendingTransaction> {
+        data.verify()
+            .context("Submitted transaction invalid'")
+            .map_err(|err| {
+                SubmitTransactionError::bad_request_with_code_no_info(
+                    err,
+                    CedraErrorCode::InvalidInput,
+                )
+            })?;
+        fail_point_poem("endpoint_submit_transaction")?;
+        if !self.context.node_config.api.transaction_submission_enabled {
+            return Err(api_disabled("Submit transaction"));
+        }
+        self.context
+            .check_api_output_enabled("Submit transaction", &accept_type)?;
+        let ledger_info = self.context.get_latest_ledger_info()?;
+        let signed_transaction = self.get_signed_transaction_v2(&ledger_info, data)?;
         self.create(&accept_type, &ledger_info, signed_transaction)
             .await
     }
@@ -1173,6 +1223,110 @@ impl TransactionsApi {
 
     /// Parses a single signed transaction
     fn get_signed_transaction(
+        &self,
+        ledger_info: &LedgerInfo,
+        data: SubmitTransactionPost,
+    ) -> Result<SignedTransaction, SubmitTransactionError> {
+        pub const MAX_SIGNED_TRANSACTION_DEPTH: usize = 16;
+
+        match data {
+            SubmitTransactionPost::Bcs(data) => {
+                let signed_transaction_old: SignedTransactionOld =
+                    bcs::from_bytes_with_limit(&data.0, MAX_SIGNED_TRANSACTION_DEPTH)
+                        .context("Failed to deserialize input into SignedTransactionOld")
+                        .map_err(|err| {
+                            SubmitTransactionError::bad_request_with_code(
+                                err,
+                                CedraErrorCode::InvalidInput,
+                                ledger_info,
+                            )
+                        })?;
+                let signed_transaction : SignedTransaction = signed_transaction_old.into();
+                // Verify the signed transaction
+                match signed_transaction.payload() {
+                    TransactionPayload::EntryFunction(entry_function) => {
+                        TransactionsApi::validate_entry_function_payload_format(
+                            ledger_info,
+                            entry_function,
+                        )?;
+                    },
+                    TransactionPayload::Script(script) => {
+                        TransactionsApi::validate_script(ledger_info, script)?;
+                    },
+                    TransactionPayload::Multisig(multisig) => {
+                        if let Some(payload) = &multisig.transaction_payload {
+                            match payload {
+                                MultisigTransactionPayload::EntryFunction(entry_function) => {
+                                    TransactionsApi::validate_entry_function_payload_format(
+                                        ledger_info,
+                                        entry_function,
+                                    )?;
+                                },
+                            }
+                        }
+                    },
+
+                    // Deprecated. To avoid panics when malicios users submit this
+                    // payload, return an error.
+                    TransactionPayload::ModuleBundle(_) => {
+                        return Err(SubmitTransactionError::bad_request_with_code(
+                            "Module bundle payload has been removed",
+                            CedraErrorCode::InvalidInput,
+                            ledger_info,
+                        ))
+                    },
+                    TransactionPayload::Payload(TransactionPayloadInner::V1 {
+                        executable,
+                        extra_config,
+                    }) => match executable {
+                        TransactionExecutable::Script(script) => {
+                            TransactionsApi::validate_script(ledger_info, script)?;
+                            if extra_config.is_multisig() {
+                                return Err(SubmitTransactionError::bad_request_with_code(
+                                    "Script transaction payload must not be a multisig transaction",
+                                    CedraErrorCode::InvalidInput,
+                                    ledger_info,
+                                ));
+                            }
+                        },
+                        TransactionExecutable::EntryFunction(entry_function) => {
+                            TransactionsApi::validate_entry_function_payload_format(
+                                ledger_info,
+                                entry_function,
+                            )?;
+                        },
+                        TransactionExecutable::Empty => {
+                            if !extra_config.is_multisig() {
+                                return Err(SubmitTransactionError::bad_request_with_code(
+                                    "Empty transaction payload must be a multisig transaction",
+                                    CedraErrorCode::InvalidInput,
+                                    ledger_info,
+                                ));
+                            }
+                        },
+                    },
+                }
+                // TODO: Verify script args?
+
+                Ok(signed_transaction)
+            },
+            SubmitTransactionPost::Json(data) => self
+                .context
+                .latest_state_view_poem(ledger_info)?
+                .as_converter(self.context.db.clone(), self.context.indexer_reader.clone())
+                .try_into_signed_transaction_poem(data.0, self.context.chain_id())
+                .context("Failed to create SignedTransaction from SubmitTransactionRequest")
+                .map_err(|err| {
+                    SubmitTransactionError::bad_request_with_code(
+                        err,
+                        CedraErrorCode::InvalidInput,
+                        ledger_info,
+                    )
+                }),
+        }
+    }
+
+    fn get_signed_transaction_v2(
         &self,
         ledger_info: &LedgerInfo,
         data: SubmitTransactionPost,

@@ -165,6 +165,38 @@ mod tests {
     }
 }
 
+/// RawTransactionOld is the portion of a transaction that a client signs.
+#[derive(
+    Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize, CryptoHasher, BCSCryptoHash,
+)]
+pub struct RawTransactionOld {
+    /// Sender's address.
+    sender: AccountAddress,
+
+    /// Sequence number of this transaction. This must match the sequence number
+    /// stored in the sender's account at the time the transaction executes.
+    sequence_number: u64,
+
+    /// The transaction payload, e.g., a script to execute.
+    payload: TransactionPayload,
+
+    /// Maximal total gas to spend for this transaction.
+    max_gas_amount: u64,
+
+    /// Price to be paid per gas unit.
+    gas_unit_price: u64,
+
+    /// Expiration timestamp for this transaction, represented
+    /// as seconds from the Unix Epoch. If the current blockchain timestamp
+    /// is greater than or equal to this time, then the transaction has
+    /// expired and will be discarded. This can be set to a large value far
+    /// in the future to indicate that a transaction does not expire.
+    expiration_timestamp_secs: u64,
+
+    /// Chain ID of the Cedra network this transaction is intended for.
+    chain_id: ChainId,
+}
+
 /// RawTransaction is the portion of a transaction that a client signs.
 #[derive(
     Clone, Debug, Hash, Eq, PartialEq, Serialize, Deserialize, CryptoHasher, BCSCryptoHash,
@@ -198,6 +230,21 @@ pub struct RawTransaction {
 
     // bool flag for transaction fee v2 event.
     fee_v2: bool,
+}
+
+impl From<RawTransactionOld> for RawTransaction {
+    fn from(old: RawTransactionOld) -> Self {
+        RawTransaction {
+            sender: old.sender,
+            sequence_number: old.sequence_number,
+            payload: old.payload,
+            max_gas_amount: old.max_gas_amount,
+            gas_unit_price: old.gas_unit_price,
+            expiration_timestamp_secs: old.expiration_timestamp_secs,
+            chain_id: old.chain_id,
+            fee_v2: false,
+        }
+    }
 }
 
 impl RawTransaction {
@@ -942,6 +989,44 @@ impl WriteSetPayload {
 
 /// A transaction that has been signed.
 ///
+/// A `SignedTransactionOld` is a single transaction that can be atomically executed. Clients submit
+/// these to validator nodes, and the validator and executor submits these to the VM.
+///
+/// **IMPORTANT:** The signature of a `SignedTransactionOld` is not guaranteed to be verified. For a
+/// transaction whose signature is statically guaranteed to be verified, see
+/// [`SignatureCheckedTransaction`].
+#[derive(Clone, Eq, Serialize, Deserialize)]
+pub struct SignedTransactionOld {
+    /// The raw transaction
+    raw_txn: RawTransactionOld,
+
+    /// Public key and signature to authenticate
+    authenticator: TransactionAuthenticator,
+
+    /// A cached size of the raw transaction bytes.
+    /// Prevents serializing the same transaction multiple times to determine size.
+    #[serde(skip)]
+    raw_txn_size: OnceCell<usize>,
+
+    /// A cached size of the authenticator.
+    /// Prevents serializing the same authenticator multiple times to determine size.
+    #[serde(skip)]
+    authenticator_size: OnceCell<usize>,
+
+    /// A cached hash of the transaction.
+    #[serde(skip)]
+    committed_hash: OnceCell<HashValue>,
+}
+
+/// PartialEq ignores the cached OnceCell fields that may or may not be initialized.
+impl PartialEq for SignedTransactionOld {
+    fn eq(&self, other: &Self) -> bool {
+        self.raw_txn == other.raw_txn && self.authenticator == other.authenticator
+    }
+}
+
+/// A transaction that has been signed.
+///
 /// A `SignedTransaction` is a single transaction that can be atomically executed. Clients submit
 /// these to validator nodes, and the validator and executor submits these to the VM.
 ///
@@ -975,6 +1060,18 @@ pub struct SignedTransaction {
 impl PartialEq for SignedTransaction {
     fn eq(&self, other: &Self) -> bool {
         self.raw_txn == other.raw_txn && self.authenticator == other.authenticator
+    }
+}
+
+impl From<SignedTransactionOld> for SignedTransaction {
+    fn from(old: SignedTransactionOld) -> Self {
+        SignedTransaction {
+            raw_txn: RawTransaction::from(old.raw_txn), // You must implement this
+            authenticator: old.authenticator, // Move is okay if Copy/Clone or ownership is transferred
+            raw_txn_size: old.raw_txn_size,   // OnceCell can be moved
+            authenticator_size: old.authenticator_size,
+            committed_hash: old.committed_hash,
+        }
     }
 }
 
@@ -1015,6 +1112,10 @@ impl Debug for SignedTransaction {
             self.raw_txn, self.authenticator
         )
     }
+}
+
+impl SignedTransactionOld {
+ // TODO: implement
 }
 
 impl SignedTransaction {

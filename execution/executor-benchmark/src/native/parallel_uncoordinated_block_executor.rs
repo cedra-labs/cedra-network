@@ -130,7 +130,7 @@ impl IncrementalOutput {
 
     fn into_success_output(mut self, gas: u64) -> Result<TransactionOutput> {
         self.events
-            .push(FeeStatement::new(gas, gas, 0, 0, 0, AccountAddress::new([0u8; 32])).create_event_v2()); // TODO: set coin!!!
+            .push(FeeStatement::new(gas, gas, 0, 0, 0).create_event_v2()); // TODO: set coin!!!
 
         Ok(TransactionOutput::new(
             WriteSetMut::new(self.write_set).freeze()?,
