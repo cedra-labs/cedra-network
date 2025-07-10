@@ -190,7 +190,7 @@ impl BlockRetriever {
             return Ok(BlockInfo {
                 block_id: BlockIdentifier {
                     index: 0,
-                    hash: BlockHash::new(chain_id, Some(false)).to_string(),
+                    hash: BlockHash::new(chain_id, 0).to_string(),
                 },
                 timestamp: Y2K_MS,
                 last_version: 0,

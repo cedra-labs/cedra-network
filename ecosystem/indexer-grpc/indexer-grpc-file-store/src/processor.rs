@@ -65,7 +65,7 @@ impl Processor {
         if file_store_metadata.is_none() {
             // If metadata doesn't exist, create and upload it and init file store latest version in cache.
             while file_store_operator
-                .update_file_store_metadata_with_timeout(chain_id, Some(false))
+                .update_file_store_metadata_with_timeout(chain_id, 0)
                 .await
                 .is_err()
             {
