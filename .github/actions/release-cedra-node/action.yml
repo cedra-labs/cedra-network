@@ -1,6 +1,6 @@
 name: "Bump cedra-node cargo version"
 description: |
-  Bumps the cedra-node cargo version against the cedra-network branch name.
+  Bumps the aptos-node cargo version against the cedra-network branch name.
 inputs:
   release_tag:
     description: "The release tag which includes the version to bump"

@@ -11,7 +11,7 @@ script {
     fun main(minter: &signer, dst_addr: address, amount: u64) {
         let minter_addr = signer::address_of(minter);
 
-        // Do not mint if its would exceed U64_MAX
+        // Do not mint if it would exceed U64_MAX
         let balance = coin::balance<cedra_coin::CedraCoin>(minter_addr);
         if (balance < U64_MAX - amount - GAS_BUFFER) {
             cedra_coin::mint(minter, minter_addr, amount + GAS_BUFFER);

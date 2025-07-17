@@ -1,9 +1,9 @@
 {
-    "repoOwner": "cedra-labs",
-    "repoName": "cedra-core",
+    "repoOwner": "aptos-labs",
+    "repoName": "aptos-core",
 
     "branchLabelMapping": {
-        "^v(\\d+).(\\d+)$": "cedra-release-v$1.$2"
+        "^v(\\d+).(\\d+)$": "aptos-release-v$1.$2"
     },
     "commitConflicts": true,
     "prTitle": "[cp][{{targetBranch}}] {{sourcePullRequest.title}}",

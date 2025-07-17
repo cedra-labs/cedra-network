@@ -24,6 +24,7 @@ runs:
       run: |
         chmod +x scripts/cli/minimal_cli_build.sh
         chmod +x scripts/cli/build_cli_release.sh
+        ls -l scripts/cli
         bash scripts/cli/minimal_cli_build.sh
     - run: echo "/home/runner/.cargo/bin" | tee -a $GITHUB_PATH
       shell: bash

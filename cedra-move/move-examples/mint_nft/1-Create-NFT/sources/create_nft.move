@@ -52,7 +52,7 @@
     }
     */
 /// - 2.c Check the module we just published on the Cedra Explorer.
-/// Go to https://cedrascan.com/. At the top right of the screen, select the network you used (devnet, testnet, etc.).
+/// Go to https://explorer.cedra.dev/. At the top right of the screen, select the network you used (devnet, testnet, etc.).
 /// Search for this transaction by putting the `transaction_hash` in the search box. (You'd need to run throught the above steps
 /// yourself, and search for the transaction using your own unique transaction hash.)
 /// We can see the changes we made by publishing this module under the `Changes` tab.

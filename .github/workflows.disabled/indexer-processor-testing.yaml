@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   dispatch_event:
-    runs-on: runs-on,cpu=16,family=c7,hdd=500,image=cedra-ubuntu-x64,run-id=${{ github.run_id }}
+    runs-on: runs-on,cpu=16,family=c7,hdd=500,image=aptos-ubuntu-x64,run-id=${{ github.run_id }}
 
     steps:
       - name: Checkout the repository
@@ -25,7 +25,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up Rust
-        uses: cedra-labs/cedra-core/.github/actions/rust-setup@main
+        uses: aptos-labs/aptos-core/.github/actions/rust-setup@main
         with:
           GIT_CREDENTIALS: ${{ secrets.GIT_CREDENTIALS }}
 
@@ -50,8 +50,8 @@ jobs:
         uses: 'google-github-actions/get-secretmanager-secrets@v2'
         with:
           secrets: |-
-            testnet_api_key:cedra-ci/TESTNET_INDEXER_API_KEY
-            mainnet_api_key:cedra-ci/MAINNET_INDEXER_API_KEY
+            testnet_api_key:aptos-ci/TESTNET_INDEXER_API_KEY
+            mainnet_api_key:aptos-ci/MAINNET_INDEXER_API_KEY
 
       - name: Run CLI to Generate JSON Files
         id: api_key_update
@@ -144,7 +144,7 @@ jobs:
         uses: 'google-github-actions/get-secretmanager-secrets@v2'
         with:
           secrets: |-
-            token:cedra-ci/github-actions-repository-dispatch
+            token:aptos-ci/github-actions-repository-dispatch
 
       # Conditionally Dispatch Event to Processor Repo if Differences Found
       - name: Dispatch Event to Processor Repo

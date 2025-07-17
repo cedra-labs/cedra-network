@@ -9,10 +9,10 @@ jobs:
     outputs:
       branch_matches: ${{ steps.check-prefix.outputs.branch_matches }}
     steps:
-      - name: Check if the branch starts with 'cedra-release'
+      - name: Check if the branch starts with 'aptos-release'
         id: check-prefix
         run: |
-          if [[ "${{ github.ref }}" == refs/heads/cedra-release-* ]]; then
+          if [[ "${{ github.ref }}" == refs/heads/aptos-release-* ]]; then
             echo "branch_matches=true" >> $GITHUB_OUTPUT
           else
             echo "branch_matches=false" >> $GITHUB_OUTPUT

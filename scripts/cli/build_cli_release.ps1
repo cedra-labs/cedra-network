@@ -5,7 +5,7 @@
 # Build and package a release for the CLI #
 ###########################################
 
-# Note: This must be run from the root of the cedra-network repository.
+# Note: This must be run from the root of the cedra-core repository.
 
 # Set up basic variables.
 $NAME="cedra-cli"

@@ -17,11 +17,11 @@ permissions:
 
 jobs:
   build:
-    runs-on: runs-on,cpu=64,family=c7,hdd=500,image=cedra-ubuntu-x64,run-id=${{ github.run_id }}
+    runs-on: runs-on,cpu=64,family=c7,hdd=500,image=aptos-ubuntu-x64,run-id=${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
 
-      - uses: cedra-labs/cedra-core/.github/actions/buildx-setup@main
+      - uses: aptos-labs/aptos-core/.github/actions/buildx-setup@main
 
       - name: Build rosetta
         run: GIT_REF=main docker/rosetta/docker-build-rosetta.sh

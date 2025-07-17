@@ -5,8 +5,8 @@ updates:
     schedule:
       interval: "daily"
     reviewers:
-      - "cedra-labs/security"
-      - "cedra-labs/prod-eng"
+      - "aptos-labs/security"
+      - "aptos-labs/prod-eng"
     labels:
       - "CICD:run-e2e-tests"
       - "dependencies"

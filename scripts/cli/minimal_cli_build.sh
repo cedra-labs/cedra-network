@@ -74,7 +74,7 @@ esac
 
 # TODO: Determine how best to install on it's own
 #git clone https://github.com/cedra-labs/cedra-network.git
-#cd cedra-network || exit 1
+#cd cedra-core || exit 1
 
 # If cargo is installed correctly use it, but otherwise, you may need to initialize rustup, depends on OS
 #if command -v cargo &>/dev/null; then

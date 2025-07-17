@@ -14,13 +14,13 @@ permissions:
 
 jobs:
   update-fuzzer-data:
-    runs-on: runs-on,cpu=16,family=m6id,hdd=500,image=cedra-ubuntu-x64,run-id=${{ github.run_id }}
+    runs-on: runs-on,cpu=16,family=m6id,hdd=500,image=aptos-ubuntu-x64,run-id=${{ github.run_id }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Rust
-        uses: cedra-labs/cedra-core/.github/actions/rust-setup@main
+        uses: aptos-labs/aptos-core/.github/actions/rust-setup@main
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -34,22 +34,22 @@ jobs:
           version: '>= 418.0.0'
 
       # The fuzzers for which we have existing seed corpus are:
-      # - move_cedravm_publish_and_run
+      # - move_aptosvm_publish_and_run
       # - move_bytecode_verifier_compiled_modules
       # - move_bytecode_verifier_compiled_modules_seed_corpus
       # All of them reuse the same seed corpus, so we only need to download/upload one of them.
       - name: Download existing corpus
         run: |
-          gcloud storage cp gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus.zip
-          unzip -q move_cedravm_publish_and_run_seed_corpus.zip -d move_cedravm_publish_and_run_seed_corpus
+          gcloud storage cp gs://aptos-core-corpora/move_aptosvm_publish_and_run_seed_corpus.zip move_aptosvm_publish_and_run_seed_corpus.zip
+          unzip -q move_aptosvm_publish_and_run_seed_corpus.zip -d move_aptosvm_publish_and_run_seed_corpus
 
       - name: Generate runnable states
         run: |
           chmod +x ./fuzz.sh
-          ./fuzz.sh block-builder generate_runnable_states_recursive testsuite/fuzzer/data/0x1/ move_cedravm_publish_and_run_seed_corpus
+          ./fuzz.sh block-builder generate_runnable_states_recursive testsuite/fuzzer/data/0x1/ move_aptosvm_publish_and_run_seed_corpus
 
       - name: Create and upload new corpus
         run: |
-          zip -r move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus
-          gcloud storage cp move_cedravm_publish_and_run_seed_corpus.zip gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip
-          gcloud storage objects update gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip --add-acl=publicRead
+          zip -r move_aptosvm_publish_and_run_seed_corpus.zip move_aptosvm_publish_and_run_seed_corpus
+          gcloud storage cp move_aptosvm_publish_and_run_seed_corpus.zip gs://aptos-core-corpora/move_aptosvm_publish_and_run_seed_corpus.zip
+          gcloud storage objects update gs://aptos-core-corpora/move_aptosvm_publish_and_run_seed_corpus.zip --add-acl=publicRead

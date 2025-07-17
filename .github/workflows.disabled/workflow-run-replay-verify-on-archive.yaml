@@ -51,7 +51,7 @@ jobs:
           # we can optionally use the IMAGE_TAG to find the exact commit to checkout
           fetch-depth: 10
 
-      - uses: cedra-labs/cedra-core/.github/actions/docker-setup@main
+      - uses: aptos-labs/aptos-core/.github/actions/docker-setup@main
         id: docker-setup
         with:
           GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
@@ -60,7 +60,7 @@ jobs:
           GIT_CREDENTIALS: ${{ secrets.GIT_CREDENTIALS }}
           GCP_AUTH_DURATION: "10800"
 
-      # Authenticate to Google Cloud the project is cedra-ci with credentails files generated
+      # Authenticate to Google Cloud the project is aptos-ci with credentails files generated
       - name: Authenticate to Google Cloud
         id: auth
         uses: "google-github-actions/auth@v2"
@@ -70,7 +70,7 @@ jobs:
           export_environment_variables: false
           create_credentials_file: true
 
-      # This is required since we need to switch from cedra-ci to cedra-devinfra-0
+      # This is required since we need to switch from aptos-ci to aptos-devinfra-0
       - name: Setup credentials  
         run: |
           echo "GOOGLE_APPLICATION_CREDENTIALS=${{ steps.auth.outputs.credentials_file_path }}" >> $GITHUB_ENV
@@ -85,7 +85,7 @@ jobs:
 
       - name: "Setup GCloud project"
         shell: bash
-        run: gcloud config set project cedra-devinfra-0
+        run: gcloud config set project aptos-devinfra-0
       
       - uses: ./.github/actions/python-setup
         with:
@@ -93,7 +93,7 @@ jobs:
 
       - name: Schedule replay verify
         env:
-          GOOGLE_CLOUD_PROJECT: cedra-devinfra-0
+          GOOGLE_CLOUD_PROJECT: aptos-devinfra-0
         run: | 
           cd testsuite/replay-verify  
           CMD="poetry run python main.py --network ${{ inputs.NETWORK }}"  
@@ -113,7 +113,7 @@ jobs:
       # This is in case user manually cancel the step above, we still want to cleanup the resources
       - name: Post-run cleanup
         env:
-          GOOGLE_CLOUD_PROJECT: cedra-devinfra-0
+          GOOGLE_CLOUD_PROJECT: aptos-devinfra-0
         if: ${{ always() }}  
         run: |
           cd testsuite/replay-verify

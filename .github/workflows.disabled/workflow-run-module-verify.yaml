@@ -42,7 +42,7 @@ jobs:
         with:
           ref: ${{ inputs.GIT_SHA }}
 
-      - uses: cedra-labs/cedra-core/.github/actions/rust-setup@main
+      - uses: aptos-labs/aptos-core/.github/actions/rust-setup@main
         with:
           GIT_CREDENTIALS: ${{ secrets.GIT_CREDENTIALS }}
 
@@ -60,7 +60,7 @@ jobs:
 
       - name: Build CLI binaries in release mode
         shell: bash
-        run: cargo build --release -p cedra-debugger
+        run: cargo build --release -p aptos-debugger
 
       - name: Run module-verify in parallel
         shell: bash
