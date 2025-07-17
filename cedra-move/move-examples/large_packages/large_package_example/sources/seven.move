@@ -66,7 +66,7 @@
 ///
 /// ### Cedra Explorer
 ///
-/// - The **[Cedra Explorer](https://explorer.cedra.dev/)** is an interface that helps users examine details of the Cedra blockchain, including account information, validators, and transactions.
+/// - The **[Cedra Explorer](https://cedrascan.com/)** is an interface that helps users examine details of the Cedra blockchain, including account information, validators, and transactions.
 /// - The Cedra Explorer help users validate their work in Cedra wallets and other tools in the blockchain. Find more details at [Use the Cedra Explorer](../guides/explore-cedra.md).
 ///
 /// ### Cedra Framework
