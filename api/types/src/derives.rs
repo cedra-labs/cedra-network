@@ -20,7 +20,7 @@
 
 use crate::{
     move_types::{MoveAbility, MoveStructValue},
-    Address, AssetType, EntryFunctionId, HashValue, HexEncodedBytes, IdentifierWrapper,
+    Address, AssetType, Bool, EntryFunctionId, HashValue, HexEncodedBytes, IdentifierWrapper,
     MoveModuleId, MoveStructTag, MoveType, StateKeyWrapper, U128, U256, U64,
 };
 use cedra_openapi::{impl_poem_parameter, impl_poem_type};
@@ -309,6 +309,20 @@ impl_poem_type!(
     )
 );
 
+impl_poem_type!(
+    Bool,
+    "boolean",
+    (
+        example = Some(serde_json::Value::Bool(true)),
+        format = None,
+        description = Some(indoc::indoc! {"
+            A native boolean value (true or false).
+
+            This type wraps a Move `bool` and is serialized as a JSON boolean.
+        "})
+    )
+);
+
 impl_poem_parameter!(
     Address,
     AssetType,
@@ -318,5 +332,6 @@ impl_poem_parameter!(
     MoveStructTag,
     StateKeyWrapper,
     U64,
-    U128
+    U128,
+    Bool
 );

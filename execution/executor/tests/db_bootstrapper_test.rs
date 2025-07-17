@@ -29,7 +29,10 @@ use cedra_types::{
     on_chain_config::{ConfigurationResource, OnChainConfig, ValidatorSet},
     state_store::{state_key::StateKey, MoveResourceExt},
     test_helpers::transaction_test_helpers::{block, TEST_BLOCK_EXECUTOR_ONCHAIN_CONFIG},
-    transaction::{authenticator::AuthenticationKey, ChangeSet, Transaction, WriteSetPayload},
+    transaction::{
+        authenticator::AuthenticationKey, signature_verified_transaction::TransactionProvider,
+        ChangeSet, Transaction, WriteSetPayload,
+    },
     trusted_state::TrustedState,
     validator_signer::ValidatorSigner,
     waypoint::Waypoint,
@@ -204,10 +207,10 @@ fn test_new_genesis() {
 
     // Mint for 2 demo accounts.
     let (account1, account1_key, account2, account2_key) = get_demo_accounts();
-    let txn1 = get_account_transaction(genesis_key, 0, &account1, &account1_key);
-    let txn2 = get_account_transaction(genesis_key, 1, &account2, &account2_key);
-    let txn3 = get_cedra_coin_mint_transaction(genesis_key, 2, &account1, 200_000_000);
-    let txn4 = get_cedra_coin_mint_transaction(genesis_key, 3, &account2, 200_000_000);
+    let txn1 = get_account_transaction(genesis_key, 0, &account1, &account1_key, Some(false));
+    let txn2 = get_account_transaction(genesis_key, 1, &account2, &account2_key, Some(false));
+    let txn3 = get_cedra_coin_mint_transaction(genesis_key, 2, &account1, 200_000_000, Some(false));
+    let txn4 = get_cedra_coin_mint_transaction(genesis_key, 3, &account2, 200_000_000, Some(false));
     execute_and_commit(vec![txn1, txn2, txn3, txn4], &db, &signer);
     assert_eq!(get_balance(&account1, &db), 200_000_000);
     assert_eq!(get_balance(&account2, &db), 200_000_000);
@@ -290,7 +293,14 @@ fn test_new_genesis() {
 
     println!("FINAL TRANSFER");
     // Transfer some money.
-    let txn = get_cedra_coin_transfer_transaction(account1, 0, &account1_key, account2, 50_000_000);
+    let txn = get_cedra_coin_transfer_transaction(
+        account1,
+        0,
+        &account1_key,
+        account2,
+        50_000_000,
+        Some(false),
+    );
     execute_and_commit(vec![txn], &db, &signer);
 
     // And verify.

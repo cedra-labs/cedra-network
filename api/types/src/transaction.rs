@@ -3,11 +3,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
-    Address, CedraError, EntryFunctionId, EventGuid, HashValue, HexEncodedBytes,
+    Address, Bool, CedraError, EntryFunctionId, EventGuid, HashValue, HexEncodedBytes,
     MoveModuleBytecode, MoveModuleId, MoveResource, MoveScriptBytecode, MoveStructTag, MoveType,
     MoveValue, VerifyInput, VerifyInputWithRecursion, U64,
 };
+
 use anyhow::{bail, Context as AnyhowContext, Result};
+use bcs::to_bytes;
 use cedra_crypto::{
     ed25519::{self, Ed25519PublicKey, ED25519_PUBLIC_KEY_LENGTH, ED25519_SIGNATURE_LENGTH},
     multi_ed25519::{self, MultiEd25519PublicKey, BITMAP_NUM_OF_BYTES, MAX_NUM_OF_KEYS},
@@ -34,7 +36,6 @@ use cedra_types::{
         Script, SignedTransaction, TransactionOutput, TransactionWithProof,
     },
 };
-use bcs::to_bytes;
 use once_cell::sync::Lazy;
 use poem_openapi::{Object, Union};
 use serde::{Deserialize, Serialize};
@@ -352,6 +353,7 @@ impl From<(&SignedTransaction, TransactionPayload)> for UserTransactionRequest {
             signature: Some(txn.authenticator().into()),
             payload,
             replay_protection_nonce: txn.replay_protector().get_nonce().map(|nonce| nonce.into()),
+            fee_v2: Some(Bool(txn.use_fee_v2())),
         }
     }
 }
@@ -485,6 +487,7 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
+    pub fee_v2: Option<Bool>,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -514,6 +517,7 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
+    pub fee_v2: Option<Bool>,
 }
 
 /// Request to create signing messages

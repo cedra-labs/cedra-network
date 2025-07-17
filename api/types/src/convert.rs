@@ -17,6 +17,7 @@ use crate::{
     TransactionPayload, VersionedEvent, WriteSet, WriteSetChange, WriteSetPayload,
 };
 use anyhow::{bail, ensure, format_err, Context as AnyhowContext, Result};
+use bytes::Bytes;
 use cedra_crypto::{hash::CryptoHash, HashValue};
 use cedra_logger::{sample, sample::SampleRate};
 use cedra_resource_viewer::CedraValueAnnotator;
@@ -39,7 +40,6 @@ use cedra_types::{
     vm_status::AbortLocation,
     write_set::WriteOp,
 };
-use bytes::Bytes;
 use move_binary_format::file_format::FunctionHandleIndex;
 use move_core_types::{
     account_address::AccountAddress,
@@ -657,6 +657,7 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             expiration_timestamp_secs,
             payload,
             replay_protection_nonce,
+            fee_v2,
         } = user_transaction_request;
         Ok(RawTransaction::new(
             sender.into(),
@@ -677,6 +678,7 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             gas_unit_price.into(),
             expiration_timestamp_secs.into(),
             chain_id,
+            if fee_v2.is_none() { false } else { fee_v2.unwrap().0 },
         ))
     }
 

@@ -35,6 +35,7 @@ pub struct TransactionMetadata {
     pub is_keyless: bool,
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
+    pub fee_v2: bool,
 }
 
 impl TransactionMetadata {
@@ -107,6 +108,7 @@ impl TransactionMetadata {
                 }),
                 _ => None,
             },
+            fee_v2: txn.use_fee_v2(),
         }
     }
 

@@ -88,6 +88,7 @@ impl<'a> CoinClient<'a> {
                 .as_secs()
                 + options.timeout_secs,
             ChainId::new(chain_id),
+            options.fee_v2,
         )
         .sender(from_account.address())
         .sequence_number(from_account.sequence_number())
@@ -118,6 +119,8 @@ pub struct TransferOptions<'a> {
 
     /// This is the coin type to transfer.
     pub coin_type: &'a str,
+    /// This is the custom fee for coin usage
+    pub fee_v2: bool,
 }
 
 impl<'a> Default for TransferOptions<'a> {
@@ -127,6 +130,7 @@ impl<'a> Default for TransferOptions<'a> {
             gas_unit_price: 100,
             timeout_secs: 10,
             coin_type: "0x1::cedra_coin::CedraCoin",
+            fee_v2: false,
         }
     }
 }

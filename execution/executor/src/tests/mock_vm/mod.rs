@@ -364,7 +364,7 @@ pub fn encode_transfer_transaction(
 }
 
 fn encode_transaction(sender: AccountAddress, program: Script) -> Transaction {
-    let raw_transaction = RawTransaction::new_script(sender, 0, program, 0, 0, 0, ChainId::test());
+    let raw_transaction = RawTransaction::new_script(sender, 0, program, 0, 0, 0, ChainId::test(), false);
 
     let privkey = Ed25519PrivateKey::generate_for_testing();
     Transaction::UserTransaction(
