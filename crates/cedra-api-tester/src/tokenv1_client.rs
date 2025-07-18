@@ -36,7 +36,7 @@ pub async fn build_and_submit_transaction(
     options: TransactionOptions,
 ) -> Result<PendingTransaction> {
     // create factory
-    let factory = TransactionFactory::new(get_chain_id(client).await?, 0)
+    let factory = TransactionFactory::new(get_chain_id(client).await?, false)
         .with_gas_unit_price(options.gas_unit_price)
         .with_max_gas_amount(options.max_gas_amount)
         .with_transaction_expiration_time(options.timeout_secs);

@@ -1381,7 +1381,7 @@ async fn construction_payloads(
     let (txn_payload, sender) = operation.payload()?;
 
     // Build the transaction and make it ready for signing
-    let transaction_factory = TransactionFactory::new(server_context.chain_id, 0)
+    let transaction_factory = TransactionFactory::new(server_context.chain_id, false)
         .with_gas_unit_price(metadata.gas_price_per_unit.0)
         .with_max_gas_amount(metadata.max_gas_amount.0);
 

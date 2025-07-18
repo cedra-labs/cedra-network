@@ -144,7 +144,7 @@ impl Checker for TpsChecker {
             self.config
                 .emit_workload_configs
                 .args_to_transaction_mix_per_phase(),
-                0,
+                false,
         )
         .await
         .map_err(TpsCheckerError::TransactionEmitterError)?;

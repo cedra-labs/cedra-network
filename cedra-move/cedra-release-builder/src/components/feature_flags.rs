@@ -79,6 +79,7 @@ pub enum FeatureFlag {
     SignerNativeFormatFix,
     ModuleEvent,
     EmitFeeStatement,
+    EmitCustomFeeStatement,
     StorageDeletionRefund,
     AggregatorV2Api,
     SignatureCheckerV2ScriptFix,
@@ -270,6 +271,7 @@ impl From<FeatureFlag> for CedraFeatureFlag {
             FeatureFlag::SignerNativeFormatFix => CedraFeatureFlag::SIGNER_NATIVE_FORMAT_FIX,
             FeatureFlag::ModuleEvent => CedraFeatureFlag::MODULE_EVENT,
             FeatureFlag::EmitFeeStatement => CedraFeatureFlag::EMIT_FEE_STATEMENT,
+            FeatureFlag::EmitCustomFeeStatement => CedraFeatureFlag::EMIT_CUSTOM_FEE_STATEMENT,
             FeatureFlag::StorageDeletionRefund => CedraFeatureFlag::STORAGE_DELETION_REFUND,
             FeatureFlag::AggregatorV2Api => CedraFeatureFlag::AGGREGATOR_V2_API,
             FeatureFlag::SignatureCheckerV2ScriptFix => {
@@ -438,6 +440,7 @@ impl From<CedraFeatureFlag> for FeatureFlag {
             CedraFeatureFlag::SIGNER_NATIVE_FORMAT_FIX => FeatureFlag::SignerNativeFormatFix,
             CedraFeatureFlag::MODULE_EVENT => FeatureFlag::ModuleEvent,
             CedraFeatureFlag::EMIT_FEE_STATEMENT => FeatureFlag::EmitFeeStatement,
+            CedraFeatureFlag::EMIT_CUSTOM_FEE_STATEMENT => FeatureFlag::EmitCustomFeeStatement,
             CedraFeatureFlag::STORAGE_DELETION_REFUND => FeatureFlag::StorageDeletionRefund,
             CedraFeatureFlag::AGGREGATOR_V2_API => FeatureFlag::AggregatorV2Api,
             CedraFeatureFlag::SIGNATURE_CHECKER_V2_SCRIPT_FIX => {

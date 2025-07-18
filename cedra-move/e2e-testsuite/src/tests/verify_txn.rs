@@ -42,7 +42,7 @@ fn verify_signature() {
         &private_key,
         sender.account().pubkey.as_ed25519().unwrap(),
         program,
-        0,
+        false,
     );
 
     assert_prologue_parity!(
@@ -75,7 +75,7 @@ fn verify_multi_agent_invalid_sender_signature() {
         vec![&secondary_signer.account().privkey],
         vec![secondary_signer.account().pubkey.as_ed25519().unwrap()],
         None,
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(signed_txn.clone()).status(),
@@ -106,7 +106,7 @@ fn verify_multi_agent_invalid_secondary_signature() {
         vec![&private_key],
         vec![secondary_signer.account().pubkey.as_ed25519().unwrap()],
         None,
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(signed_txn.clone()).status(),
@@ -149,7 +149,7 @@ fn verify_multi_agent_duplicate_secondary_signer() {
             secondary_signer.account().pubkey.as_ed25519().unwrap(),
         ],
         None,
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(signed_txn.clone()).status(),
@@ -447,7 +447,7 @@ fn verify_expiration_time() {
         0,    /* expiration_time */
         0,    /* gas_unit_price */
         None, /* max_gas_amount */
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),
@@ -466,7 +466,7 @@ fn verify_expiration_time() {
         0,    /* expiration_time */
         0,    /* gas_unit_price */
         None, /* max_gas_amount */
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),
@@ -488,7 +488,7 @@ fn verify_chain_id() {
         private_key.public_key(),
         // all tests use ChainId::test() for chain_id,so pick something different
         ChainId::new(ChainId::test().id() + 1),
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),
@@ -512,7 +512,7 @@ fn verify_max_sequence_number() {
         u64::MAX, /* expiration_time */
         0,        /* gas_unit_price */
         None,     /* max_gas_amount */
-        0,
+        false,
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),

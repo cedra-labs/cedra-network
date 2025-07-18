@@ -111,7 +111,7 @@ fn test_validate_invalid_signature() {
         &other_private_key,
         cedra_vm_genesis::GENESIS_KEYPAIR.1.clone(),
         program,
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status().unwrap(), StatusCode::INVALID_SIGNATURE);
@@ -139,7 +139,7 @@ fn test_validate_known_script_too_large_args() {
         0,
         0, /* max gas price */
         None,
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(
@@ -162,7 +162,7 @@ fn test_validate_max_gas_units_above_max() {
         0,
         0,              /* max gas price */
         Some(u64::MAX), // Max gas units
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(
@@ -197,8 +197,8 @@ fn test_validate_max_gas_units_below_min() {
         ))),
         0,
         0,       /* max gas price */
-        0, // Max gas units
-        0,
+        Some(0), // Max gas units
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(
@@ -247,7 +247,7 @@ fn test_validate_max_gas_price_above_bounds() {
         0,
         u64::MAX, /* max gas price */
         None,
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(
@@ -275,7 +275,7 @@ fn test_validate_max_gas_price_below_bounds() {
         40000,
         0, /* max gas price */
         None,
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status(), None);
@@ -323,7 +323,7 @@ fn test_validate_account_doesnt_exist() {
         u64::MAX,
         1, /* max gas price */
         None,
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status().unwrap(), StatusCode::INVALID_AUTH_KEY);
@@ -380,7 +380,7 @@ fn test_validate_expiration_time() {
         0,    /* expiration_time */
         0,    /* gas_unit_price */
         None, /* max_gas_amount */
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status().unwrap(), StatusCode::TRANSACTION_EXPIRED);
@@ -398,7 +398,7 @@ fn test_validate_chain_id() {
         cedra_vm_genesis::GENESIS_KEYPAIR.1.clone(),
         // all tests use ChainId::test() for chain_id, so pick something different
         ChainId::new(ChainId::test().id() + 1),
-        0,
+        false,
     );
     let ret = vm_validator.validate_transaction(transaction).unwrap();
     assert_eq!(ret.status().unwrap(), StatusCode::BAD_CHAIN_ID);

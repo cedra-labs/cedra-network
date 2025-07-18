@@ -76,7 +76,7 @@ pub async fn main() -> Result<()> {
     Logger::builder().level(Level::Info).build();
 
     let args = Args::parse();
-    let fee_v2 = Some(false);
+    let fee_v2 = false;
 
     // TODO: Check if I need DisplayChain here in the error case.
     match args.command {
