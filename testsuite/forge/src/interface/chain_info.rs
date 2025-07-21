@@ -60,7 +60,7 @@ impl ChainInfo {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.chain_id(), AccountAddress::ZERO)
+        TransactionFactory::new(self.chain_id(), CedraCoinType::type_tag())
     }
 
     pub fn into_cedra_public_info(self) -> CedraPublicInfo {

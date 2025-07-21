@@ -211,7 +211,7 @@ pub async fn check_create_mint_transfer_node(swarm: &mut LocalSwarm, idx: usize)
     let client = swarm.validators().nth(idx).unwrap().rest_client();
 
     // Create account 0, mint 10 coins and check balance
-    let transaction_factory = TransactionFactory::new(swarm.chain_id(), AccountAddress::ZERO);
+    let transaction_factory = TransactionFactory::new(swarm.chain_id(), CedraCoinType::type_tag());
     let mut info = swarm.cedra_public_info_for_node(idx);
     let mut account_0 = info.create_and_fund_user_account(10).await.unwrap();
     assert_balance(&client, &account_0, 10).await;

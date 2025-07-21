@@ -142,7 +142,7 @@ pub async fn create_emitter_and_request(
     let client_timeout = Duration::from_secs(30);
 
     let chain_info = swarm.read().await.chain_info();
-    let transaction_factory = TransactionFactory::new(chain_info.chain_id, AccountAddress::ZERO);
+    let transaction_factory = TransactionFactory::new(chain_info.chain_id, CedraCoinType::type_tag());
     let rest_cli = swarm
         .read()
         .await

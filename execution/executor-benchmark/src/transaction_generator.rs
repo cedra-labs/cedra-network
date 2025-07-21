@@ -220,7 +220,7 @@ impl TransactionGenerator {
     }
 
     pub fn create_transaction_factory() -> TransactionFactory {
-        TransactionFactory::new(ChainId::test(), AccountAddress::ZERO)
+        TransactionFactory::new(ChainId::test(), CedraCoinType::type_tag())
             .with_transaction_expiration_time(300)
             .with_gas_unit_price(100)
     }

@@ -100,7 +100,7 @@ pub fn create_signed_p2p_transaction(
             0,
             0,
             ChainId::new(10),
-            AccountAddress::ZERO,
+            CedraCoinType::type_tag(),
         );
         sender.sequence_number += 1;
         let txn = Transaction::UserTransaction(SignedTransaction::new(

@@ -4,6 +4,7 @@
 
 use crate::{
     account_address::AccountAddress,
+    CedraCoinType, CoinType,
     function_info::FunctionInfo,
     keyless::{
         EphemeralCertificate, FederatedKeylessPublicKey, KeylessPublicKey, KeylessSignature,
@@ -1498,7 +1499,7 @@ mod tests {
             0,
             0,
             None,
-            false,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1533,7 +1534,7 @@ mod tests {
             0,
             0,
             None,
-            false,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1575,7 +1576,7 @@ mod tests {
             0,
             0,
             None,
-            false,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1686,7 +1687,7 @@ mod tests {
             0,
             0,
             None,
-            false,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1870,7 +1871,7 @@ mod tests {
             0,
             0,
             None,
-            false,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -2015,7 +2016,7 @@ mod tests {
             None,
             None,
             None,
-            false,
+            CedraCoinType::type_tag(),
         );
         sig.ephemeral_signature = EphemeralSignature::ed25519(
             esk.sign(&TransactionAndProof {
@@ -2051,7 +2052,7 @@ mod tests {
             None,
             None,
             None,
-            false,
+            CedraCoinType::type_tag(),
         );
         let mut txn_and_zkp = TransactionAndProof {
             message: raw_txn.clone(),
@@ -2091,7 +2092,7 @@ mod tests {
             None,
             None,
             None,
-            false,
+            CedraCoinType::type_tag(),
         );
         let signed_txn = maul_raw_groth16_txn(pk, sig, raw_txn);
 

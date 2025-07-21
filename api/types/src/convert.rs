@@ -49,6 +49,7 @@ use move_core_types::{
     transaction_argument::convert_txn_args,
     value::{MoveStructLayout, MoveTypeLayout},
 };
+use std::str::FromStr;
 use serde_json::Value;
 use std::{
     collections::BTreeMap,
@@ -678,7 +679,7 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             gas_unit_price.into(),
             expiration_timestamp_secs.into(),
             chain_id,
-            fee_coin.into(),
+            TypeTag::from_str(&fee_coin.to_string()).unwrap(),
         ))
     }
 

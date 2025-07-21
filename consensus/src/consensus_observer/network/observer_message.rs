@@ -2009,7 +2009,7 @@ mod test {
                 0,
                 0,
                 ChainId::new(10),
-                AccountAddress::ZERO,
+                CedraCoinType::type_tag(),
             );
 
             // Create the signed transaction

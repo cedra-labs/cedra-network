@@ -151,7 +151,7 @@ mod tests {
             1,
             10,
             ChainId::test(),
-            AccountAddress::ZERO,
+            CedraCoinType::type_tag(),
         );
 
         let mut rng = StdRng::from_seed([0; 32]);

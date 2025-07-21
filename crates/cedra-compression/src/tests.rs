@@ -4,7 +4,7 @@
 use crate::CompressionClient;
 use cedra_crypto::{ed25519::Ed25519PrivateKey, hash::HashValue, PrivateKey, SigningKey, Uniform};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     aggregate_signature::AggregateSignature,
     block_info::BlockInfo,
     chain_id::ChainId,
@@ -172,7 +172,7 @@ fn create_test_transaction(sequence_number: u64) -> Transaction {
         0,
         0,
         ChainId::new(10),
-        AccountAddress::ZERO,
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

@@ -366,7 +366,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id(), AccountAddress::ZERO)
+        TransactionFactory::new(self.context.chain_id(), CedraCoinType::type_tag())
     }
 
     pub async fn root_account(&self) -> LocalAccount {

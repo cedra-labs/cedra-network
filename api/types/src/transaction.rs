@@ -353,7 +353,7 @@ impl From<(&SignedTransaction, TransactionPayload)> for UserTransactionRequest {
             signature: Some(txn.authenticator().into()),
             payload,
             replay_protection_nonce: txn.replay_protector().get_nonce().map(|nonce| nonce.into()),
-            fee_coin: txn.fee_coin().into(),
+            fee_coin: MoveType::from(&txn.fee_coin()),
         }
     }
 }
@@ -487,7 +487,7 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
-    pub fee_coin: Address,
+    pub fee_coin: MoveType,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -517,7 +517,7 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
-    pub fee_coin: Address,
+    pub fee_coin: MoveType,
 }
 
 /// Request to create signing messages

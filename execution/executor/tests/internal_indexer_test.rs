@@ -60,7 +60,7 @@ pub fn create_test_db() -> (Arc<CedraDB>, LocalAccount) {
     let account2 = LocalAccount::generate(&mut rng);
     let account3 = LocalAccount::generate(&mut rng);
 
-    let txn_factory = TransactionFactory::new(ChainId::test(), AccountAddress::ZERO);
+    let txn_factory = TransactionFactory::new(ChainId::test(), CedraCoinType::type_tag());
 
     let block1_id = gen_block_id(1);
     let block1_meta = Transaction::BlockMetadata(BlockMetadata::new(

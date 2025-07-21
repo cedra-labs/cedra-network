@@ -1,7 +1,7 @@
 // Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
-
+use move_core_types::language_storage::TypeTag;
 use crate::{
     move_types::account_address::AccountAddress,
     types::{
@@ -25,7 +25,7 @@ pub struct TransactionBuilder {
     gas_unit_price: u64,
     expiration_timestamp_secs: u64,
     chain_id: ChainId,
-    fee_coin: AccountAddress,
+    fee_coin: TypeTag,
 }
 
 impl TransactionBuilder {
@@ -33,7 +33,7 @@ impl TransactionBuilder {
         payload: TransactionPayload,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_coin: AccountAddress,
+        fee_coin: TypeTag,
     ) -> Self {
         Self {
             payload,
@@ -123,11 +123,11 @@ pub struct TransactionFactory {
     gas_unit_price: u64,
     transaction_expiration_time: u64,
     chain_id: ChainId,
-    fee_coin: AccountAddress,
+    fee_coin: TypeTag,
 }
 
 impl TransactionFactory {
-    pub fn new(chain_id: ChainId, fee_coin: AccountAddress) -> Self {
+    pub fn new(chain_id: ChainId, fee_coin: TypeTag) -> Self {
         Self {
             // TODO(Gas): double check if this right
             max_gas_amount: MAX_GAS_AMOUNT,
@@ -330,7 +330,7 @@ impl TransactionFactory {
             gas_unit_price: self.gas_unit_price,
             expiration_timestamp_secs: self.expiration_timestamp(),
             chain_id: self.chain_id,
-            fee_coin: self.fee_coin,
+            fee_coin: self.fee_coin.clone(),
         }
     }
 

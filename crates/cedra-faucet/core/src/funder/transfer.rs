@@ -74,7 +74,7 @@ impl TransferFunderConfig {
             self.transaction_submission_config
                 .wait_for_outstanding_txns_secs,
             self.transaction_submission_config.wait_for_transactions,
-            AccountAddress::ZERO,
+            CedraCoinType::type_tag(),
         );
 
         Ok(funder)

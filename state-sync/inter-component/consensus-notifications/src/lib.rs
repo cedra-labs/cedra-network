@@ -5,7 +5,7 @@
 #![forbid(unsafe_code)]
 
 use cedra_types::{
-    contract_event::ContractEvent, ledger_info::LedgerInfoWithSignatures, transaction::Transaction,
+    contract_event::ContractEvent, ledger_info::LedgerInfoWithSignatures, transaction::Transaction, CedraCoinType, CoinType,
 };
 use async_trait::async_trait;
 use futures::{
@@ -599,7 +599,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
-            AccountAddress::ZERO,
+            CedraCoinType::type_tag(),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

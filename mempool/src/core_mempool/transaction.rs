@@ -205,7 +205,7 @@ mod test {
             0,
             u64::MAX,
             ChainId::new(10),
-            AccountAddress::ZERO,
+            CedraCoinType::type_tag(),
         );
         SignedTransaction::new(
             raw_transaction.clone(),

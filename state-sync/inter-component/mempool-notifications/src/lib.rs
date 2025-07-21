@@ -5,7 +5,7 @@
 #![forbid(unsafe_code)]
 
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType, 
     transaction::{
         use_case::{UseCaseAwareTransaction, UseCaseKey},
         ReplayProtector, Transaction,
@@ -319,7 +319,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
-             AccountAddress::ZERO,
+            CedraCoinType::type_tag(),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

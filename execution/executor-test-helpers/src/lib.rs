@@ -80,6 +80,6 @@ pub fn get_test_signed_transaction(
         &private_key,
         public_key,
         payload,
-        false,
+        CedraCoinType::type_tag(),
     ))
 }

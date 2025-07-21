@@ -17,7 +17,7 @@ use cedra_crypto::{
     PrivateKey, Uniform,
 };
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     block_info::BlockInfo,
     ledger_info::{generate_ledger_info_with_sig, LedgerInfo},
     test_helpers::transaction_test_helpers::get_test_signed_txn,
@@ -263,7 +263,7 @@ pub fn random_payload(count: usize) -> Payload {
     let public_key = private_key.public_key();
     Payload::DirectMempool(
         (0..count)
-            .map(|i| get_test_signed_txn(address, i as u64, &private_key, public_key.clone(), None, false))
+            .map(|i| get_test_signed_txn(address, i as u64, &private_key, public_key.clone(), None, CedraCoinType::type_tag()))
             .collect(),
     )
 }

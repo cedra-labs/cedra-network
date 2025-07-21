@@ -1911,7 +1911,7 @@ impl TransactionOptions {
             max_gas
         } else {
             let transaction_factory =
-                TransactionFactory::new(chain_id, AccountAddress::ZERO).with_gas_unit_price(gas_unit_price); //TODO: recheck!!!
+                TransactionFactory::new(chain_id, CedraCoinType::type_tag()).with_gas_unit_price(gas_unit_price); //TODO: recheck!!!
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1959,7 +1959,7 @@ impl TransactionOptions {
         };
 
         // Build a transaction
-        let transaction_factory = TransactionFactory::new(chain_id, AccountAddress::ZERO)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);
@@ -2075,7 +2075,7 @@ impl TransactionOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id, AccountAddress::ZERO)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);

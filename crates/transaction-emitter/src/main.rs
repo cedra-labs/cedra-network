@@ -77,7 +77,7 @@ pub async fn main() -> Result<()> {
     Logger::builder().level(Level::Info).build();
 
     let args = Args::parse();
-    let fee_coin = AccountAddress::ZERO;
+    let fee_coin = CedraCoinType::type_tag();
 
     // TODO: Check if I need DisplayChain here in the error case.
     match args.command {

@@ -207,10 +207,10 @@ fn test_new_genesis() {
 
     // Mint for 2 demo accounts.
     let (account1, account1_key, account2, account2_key) = get_demo_accounts();
-    let txn1 = get_account_transaction(genesis_key, 0, &account1, &account1_key, Some(false));
-    let txn2 = get_account_transaction(genesis_key, 1, &account2, &account2_key, Some(false));
-    let txn3 = get_cedra_coin_mint_transaction(genesis_key, 2, &account1, 200_000_000, Some(false));
-    let txn4 = get_cedra_coin_mint_transaction(genesis_key, 3, &account2, 200_000_000, Some(false));
+    let txn1 = get_account_transaction(genesis_key, 0, &account1, &account1_key);
+    let txn2 = get_account_transaction(genesis_key, 1, &account2, &account2_key);
+    let txn3 = get_cedra_coin_mint_transaction(genesis_key, 2, &account1, 200_000_000);
+    let txn4 = get_cedra_coin_mint_transaction(genesis_key, 3, &account2, 200_000_000);
     execute_and_commit(vec![txn1, txn2, txn3, txn4], &db, &signer);
     assert_eq!(get_balance(&account1, &db), 200_000_000);
     assert_eq!(get_balance(&account2, &db), 200_000_000);
@@ -299,7 +299,6 @@ fn test_new_genesis() {
         &account1_key,
         account2,
         50_000_000,
-        Some(false),
     );
     execute_and_commit(vec![txn], &db, &signer);
 

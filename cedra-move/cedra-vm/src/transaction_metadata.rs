@@ -2,10 +2,11 @@
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
+use move_core_types::language_storage::TypeTag;
 use cedra_crypto::HashValue;
 use cedra_gas_algebra::{FeePerGasUnit, Gas, NumBytes};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     chain_id::ChainId,
     transaction::{
         authenticator::AuthenticationProof, user_transaction_context::UserTransactionContext,
@@ -35,7 +36,7 @@ pub struct TransactionMetadata {
     pub is_keyless: bool,
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
-    pub fee_coin: AccountAddress,
+    pub fee_coin: TypeTag,
 }
 
 impl TransactionMetadata {
@@ -113,7 +114,7 @@ impl TransactionMetadata {
     }
 
     pub fn use_fee_v2(&self) -> bool {
-        self.fee_coin.iter().all(|&b| b == 0)
+        self.fee_coin.to_string() != "" && self.fee_coin != CedraCoinType::type_tag()
     }
 
     pub fn max_gas_amount(&self) -> Gas {

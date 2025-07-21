@@ -30,7 +30,7 @@ use cedra_storage_service_types::{
 };
 use cedra_time_service::{MockTimeService, TimeService};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     aggregate_signature::AggregateSignature,
     block_info::BlockInfo,
     chain_id::ChainId,
@@ -212,7 +212,7 @@ fn create_test_transaction(sequence_number: u64, code_bytes: Vec<u8>) -> Transac
         0,
         0,
         ChainId::new(10),
-        AccountAddress::ZERO,
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),
