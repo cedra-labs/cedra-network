@@ -647,7 +647,7 @@ impl CedraVM {
                 let mut custom_fee_statement = CustomFeeStatement::zero();
                 let mut fee_statement = FeeStatement::zero();
 
-                if txn_data.fee_v2 {
+                if txn_data.use_fee_v2() {
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
                         gas_meter,
@@ -697,7 +697,7 @@ impl CedraVM {
                 let mut custom_fee_statement = CustomFeeStatement::zero();
                 let mut fee_statement = FeeStatement::zero();
 
-                if txn_data.fee_v2 {
+                if txn_data.use_fee_v2() {
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
                         gas_meter,
@@ -780,7 +780,7 @@ impl CedraVM {
         let mut custom_fee_statement = CustomFeeStatement::zero();
         let mut fee_statement = FeeStatement::zero();
 
-        if txn_data.fee_v2 {
+        if txn_data.use_fee_v2() {
             custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                 txn_data,
                 gas_meter,

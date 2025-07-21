@@ -220,7 +220,7 @@ impl TransactionGenerator {
     }
 
     pub fn create_transaction_factory() -> TransactionFactory {
-        TransactionFactory::new(ChainId::test(), false)
+        TransactionFactory::new(ChainId::test(), AccountAddress::ZERO)
             .with_transaction_expiration_time(300)
             .with_gas_unit_price(100)
     }

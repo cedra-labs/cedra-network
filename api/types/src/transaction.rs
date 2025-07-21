@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
-    Address, Bool, CedraError, EntryFunctionId, EventGuid, HashValue, HexEncodedBytes,
+    Address, CedraError, EntryFunctionId, EventGuid, HashValue, HexEncodedBytes,
     MoveModuleBytecode, MoveModuleId, MoveResource, MoveScriptBytecode, MoveStructTag, MoveType,
     MoveValue, VerifyInput, VerifyInputWithRecursion, U64,
 };
@@ -353,7 +353,7 @@ impl From<(&SignedTransaction, TransactionPayload)> for UserTransactionRequest {
             signature: Some(txn.authenticator().into()),
             payload,
             replay_protection_nonce: txn.replay_protector().get_nonce().map(|nonce| nonce.into()),
-            fee_v2: Some(Bool(txn.use_fee_v2())),
+            fee_coin: txn.fee_coin().into(),
         }
     }
 }
@@ -487,7 +487,7 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
-    pub fee_v2: Option<Bool>,
+    pub fee_coin: Address,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -517,7 +517,7 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
-    pub fee_v2: Option<Bool>,
+    pub fee_coin: Address,
 }
 
 /// Request to create signing messages

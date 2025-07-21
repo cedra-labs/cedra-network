@@ -325,7 +325,7 @@ pub struct RawTransactionGen {
     max_gas_amount: u64,
     gas_unit_price: u64,
     expiration_time_secs: u64,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 }
 
 impl RawTransactionGen {
@@ -352,7 +352,7 @@ impl RawTransactionGen {
             self.max_gas_amount,
             self.gas_unit_price,
             self.expiration_time_secs,
-            self.fee_v2,
+            self.fee_coin,
         )
     }
 }
@@ -383,7 +383,7 @@ impl RawTransaction {
             any::<u64>(),
             any::<u64>(),
             any::<u64>(),
-            any::<bool>(),
+            any::<AccountAddress>(),
         )
             .prop_map(
                 |(
@@ -393,7 +393,7 @@ impl RawTransaction {
                     max_gas_amount,
                     gas_unit_price,
                     expiration_time_secs,
-                    fee_v2,
+                    fee_coin,
                 )| {
                     new_raw_transaction(
                         sender,
@@ -402,7 +402,7 @@ impl RawTransaction {
                         max_gas_amount,
                         gas_unit_price,
                         expiration_time_secs,
-                        fee_v2,
+                        fee_coin,
                     )
                 },
             )
@@ -416,7 +416,7 @@ fn new_raw_transaction(
     max_gas_amount: u64,
     gas_unit_price: u64,
     expiration_time_secs: u64,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 ) -> RawTransaction {
     let chain_id = ChainId::test();
     match payload {
@@ -431,7 +431,7 @@ fn new_raw_transaction(
             gas_unit_price,
             expiration_time_secs,
             chain_id,
-            fee_v2,
+            fee_coin,
         ),
     }
 }

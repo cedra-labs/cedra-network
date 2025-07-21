@@ -366,7 +366,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id(), false)
+        TransactionFactory::new(self.context.chain_id(), AccountAddress::ZERO)
     }
 
     pub async fn root_account(&self) -> LocalAccount {

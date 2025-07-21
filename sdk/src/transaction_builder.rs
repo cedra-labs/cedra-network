@@ -25,7 +25,7 @@ pub struct TransactionBuilder {
     gas_unit_price: u64,
     expiration_timestamp_secs: u64,
     chain_id: ChainId,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 }
 
 impl TransactionBuilder {
@@ -33,7 +33,7 @@ impl TransactionBuilder {
         payload: TransactionPayload,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: bool,
+        fee_coin: AccountAddress,
     ) -> Self {
         Self {
             payload,
@@ -44,7 +44,7 @@ impl TransactionBuilder {
             gas_unit_price: std::cmp::max(GAS_UNIT_PRICE, 1),
             sender: None,
             sequence_number: None,
-            fee_v2,
+            fee_coin,
         }
     }
 
@@ -112,7 +112,7 @@ impl TransactionBuilder {
             self.gas_unit_price,
             self.expiration_timestamp_secs,
             self.chain_id,
-            self.fee_v2,
+            self.fee_coin,
         )
     }
 }
@@ -123,18 +123,18 @@ pub struct TransactionFactory {
     gas_unit_price: u64,
     transaction_expiration_time: u64,
     chain_id: ChainId,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 }
 
 impl TransactionFactory {
-    pub fn new(chain_id: ChainId, fee_v2: bool) -> Self {
+    pub fn new(chain_id: ChainId, fee_coin: AccountAddress) -> Self {
         Self {
             // TODO(Gas): double check if this right
             max_gas_amount: MAX_GAS_AMOUNT,
             gas_unit_price: GAS_UNIT_PRICE,
             transaction_expiration_time: 30,
             chain_id,
-            fee_v2,
+            fee_coin,
         }
     }
 
@@ -330,7 +330,7 @@ impl TransactionFactory {
             gas_unit_price: self.gas_unit_price,
             expiration_timestamp_secs: self.expiration_timestamp(),
             chain_id: self.chain_id,
-            fee_v2: self.fee_v2,
+            fee_coin: self.fee_coin,
         }
     }
 

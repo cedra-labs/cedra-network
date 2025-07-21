@@ -196,8 +196,9 @@ pub struct RawTransaction {
     /// Chain ID of the Cedra network this transaction is intended for.
     chain_id: ChainId,
 
-    // bool flag for transaction fee v2 event.
-    fee_v2: bool,
+    /// fee_coin detects fee coin address that will used in transaction fee v2 event. 
+    /// If the field is empty, the default fee event will be used.
+    fee_coin: AccountAddress,
 }
 
 impl RawTransaction {
@@ -213,7 +214,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: bool,
+        fee_coin: AccountAddress,
     ) -> Self {
         RawTransaction {
             sender,
@@ -223,7 +224,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fee_v2,
+            fee_coin: fee_coin,
         }
     }
 
@@ -239,7 +240,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: bool,
+        fee_coin: AccountAddress,
     ) -> Self {
         RawTransaction {
             sender,
@@ -249,7 +250,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fee_v2,
+            fee_coin: fee_coin,
         }
     }
 
@@ -263,7 +264,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: bool,
+        fee_coin: AccountAddress,
     ) -> Self {
         RawTransaction {
             sender,
@@ -273,7 +274,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fee_v2,
+            fee_coin: fee_coin,
         }
     }
 
@@ -287,7 +288,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: bool,
+        fee_coin: AccountAddress,
     ) -> Self {
         RawTransaction {
             sender,
@@ -297,7 +298,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fee_v2,
+            fee_coin: fee_coin,
         }
     }
 
@@ -313,7 +314,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fee_v2: bool,
+        fee_coin: AccountAddress,
     ) -> Self {
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
@@ -330,7 +331,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
-                fee_v2,
+                fee_coin: fee_coin,
             },
             ReplayProtector::Nonce(nonce) => RawTransaction {
                 sender,
@@ -346,7 +347,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
-                fee_v2,
+                fee_coin: fee_coin,
             },
         }
     }
@@ -1154,7 +1155,11 @@ impl SignedTransaction {
     }
 
     pub fn use_fee_v2(&self) -> bool {
-        return self.raw_txn.fee_v2
+        self.raw_txn.fee_coin.iter().all(|&b| b == 0)
+    }
+
+    pub fn fee_coin(&self) -> AccountAddress {
+        return self.raw_txn.fee_coin
     }
 
     pub fn sequence_number(&self) -> u64 {

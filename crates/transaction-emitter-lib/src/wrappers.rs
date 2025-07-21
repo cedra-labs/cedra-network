@@ -30,13 +30,13 @@ pub async fn emit_transactions(
     cluster_args: &ClusterArgs,
     emit_args: &EmitArgs,
     transaction_mix_per_phase: Vec<Vec<(TransactionType, usize)>>,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 ) -> Result<TxnStats> {
     if emit_args.coordination_delay_between_instances.is_none() {
         let cluster = Cluster::try_from_cluster_args(cluster_args)
             .await
             .context("Failed to build cluster")?;
-        emit_transactions_with_cluster(&cluster, emit_args, transaction_mix_per_phase, fee_v2).await
+        emit_transactions_with_cluster(&cluster, emit_args, transaction_mix_per_phase, fee_coin).await
     } else {
         let initial_delay_after_minting = emit_args.coordination_delay_between_instances.unwrap();
         let start_time = Instant::now();
@@ -67,7 +67,7 @@ pub async fn emit_transactions(
                 &cluster,
                 &cur_emit_args,
                 transaction_mix_per_phase.clone(),
-                fee_v2,
+                fee_coin,
             )
             .await;
             match result {
@@ -85,7 +85,7 @@ pub async fn emit_transactions_with_cluster(
     cluster: &Cluster,
     args: &EmitArgs,
     transaction_mix_per_phase: Vec<Vec<(TransactionType, usize)>>,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 ) -> Result<TxnStats> {
     let emitter_mode = EmitJobMode::create(args.mempool_backlog, args.target_tps);
 
@@ -93,7 +93,7 @@ pub async fn emit_transactions_with_cluster(
     let client = cluster.random_instance().rest_client();
     let coin_source_account = cluster.load_coin_source_account(&client).await?;
     let emitter = TxnEmitter::new(
-        TransactionFactory::new(cluster.chain_id, fee_v2)
+        TransactionFactory::new(cluster.chain_id, fee_coin)
             .with_transaction_expiration_time(args.txn_expiration_time_secs)
             .with_gas_unit_price(cedra_global_constants::GAS_UNIT_PRICE),
         StdRng::from_entropy(),
@@ -205,7 +205,7 @@ pub async fn emit_transactions_with_cluster(
 pub async fn create_accounts_command(
     cluster_args: &ClusterArgs,
     create_accounts_args: &CreateAccountsArgs,
-    fee_v2: bool,
+    fee_coin: AccountAddress,
 ) -> Result<()> {
     let cluster = Cluster::try_from_cluster_args(cluster_args)
         .await
@@ -213,7 +213,7 @@ pub async fn create_accounts_command(
     let client = cluster.random_instance().rest_client();
     let coin_source_account = cluster.load_coin_source_account(&client).await?;
     let coin_source_account = Arc::new(coin_source_account);
-    let txn_factory = TransactionFactory::new(cluster.chain_id, fee_v2)
+    let txn_factory = TransactionFactory::new(cluster.chain_id, fee_coin)
         .with_transaction_expiration_time(60)
         .with_max_gas_amount(create_accounts_args.max_gas_per_txn);
     let rest_clients = cluster

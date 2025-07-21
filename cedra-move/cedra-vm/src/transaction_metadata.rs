@@ -35,7 +35,7 @@ pub struct TransactionMetadata {
     pub is_keyless: bool,
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
-    pub fee_v2: bool,
+    pub fee_coin: AccountAddress,
 }
 
 impl TransactionMetadata {
@@ -108,8 +108,12 @@ impl TransactionMetadata {
                 }),
                 _ => None,
             },
-            fee_v2: txn.use_fee_v2(),
+            fee_coin: txn.fee_coin(),
         }
+    }
+
+    pub fn use_fee_v2(&self) -> bool {
+        self.fee_coin.iter().all(|&b| b == 0)
     }
 
     pub fn max_gas_amount(&self) -> Gas {
