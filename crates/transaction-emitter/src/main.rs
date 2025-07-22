@@ -6,7 +6,7 @@ mod diag;
 
 use anyhow::{Context, Result};
 use cedra_logger::{Level, Logger};
-use cedra_sdk::types::PeerId;
+use cedra_sdk::types::{CedraCoinType, CoinType};
 use cedra_transaction_emitter_lib::{
     create_accounts_command, emit_transactions, Cluster, ClusterArgs, CreateAccountsArgs, EmitArgs,
 };

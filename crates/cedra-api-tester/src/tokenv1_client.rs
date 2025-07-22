@@ -12,7 +12,7 @@ use cedra_sdk::{
     types::LocalAccount,
 };
 use cedra_types::{
-    account_address::AccountAddress, chain_id::ChainId, transaction::TransactionPayload,
+    account_address::AccountAddress, chain_id::ChainId, transaction::TransactionPayload, CedraCoinType, CoinType,
 };
 use serde::{Deserialize, Serialize};
 

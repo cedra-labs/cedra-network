@@ -28,7 +28,7 @@ use cedra_sdk::{
     transaction_builder::TransactionFactory,
     types::{
         account_config::cedra_test_root_address, get_apt_primary_store_address,
-        transaction::SignedTransaction, AccountKey, LocalAccount,
+        transaction::SignedTransaction, AccountKey, LocalAccount, CedraCoinType, CoinType,
     },
 };
 use cedra_storage_interface::{

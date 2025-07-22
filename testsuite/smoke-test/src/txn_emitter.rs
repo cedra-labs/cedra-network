@@ -13,6 +13,7 @@ use cedra_forge::{
 };
 use cedra_sdk::{transaction_builder::TransactionFactory, types::PeerId};
 use cedra_types::keyless::test_utils::{get_sample_esk, get_sample_exp_date, get_sample_jwt_token};
+use cedra_types::{CedraCoinType, CoinType};
 use once_cell::sync::Lazy;
 use rand::{rngs::OsRng, SeedableRng};
 use std::{sync::Arc, time::Duration};

@@ -16,7 +16,7 @@ use cedra_storage_interface::{
     state_store::state_view::db_state_view::LatestDbStateCheckpointView, DbReader, DbReaderWriter,
 };
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config::{cedra_test_root_address, AccountResource},
     chain_id::ChainId,
     state_store::MoveResourceExt,

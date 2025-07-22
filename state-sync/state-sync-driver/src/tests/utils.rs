@@ -17,6 +17,7 @@ use cedra_mempool_notifications::{CommittedTransaction, MempoolNotificationListe
 use cedra_storage_service_notifications::StorageServiceNotificationListener;
 use cedra_storage_service_types::responses::CompleteDataRange;
 use cedra_types::{
+    CedraCoinType, CoinType,
     account_address::AccountAddress,
     account_config::NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     aggregate_signature::AggregateSignature,

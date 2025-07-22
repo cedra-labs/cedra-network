@@ -16,6 +16,7 @@ use cedra_sdk::{
     types::{transaction::SignedTransaction, LocalAccount},
 };
 use cedra_types::{
+    CedraCoinType, CoinType,
     network_address::{NetworkAddress, Protocol},
     on_chain_config::{OnChainConfig, OnChainConsensusConfig, OnChainExecutionConfig},
 };

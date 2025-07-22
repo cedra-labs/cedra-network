@@ -4,6 +4,7 @@
 use crate::{assert_success, build_package, tests::common, MoveHarness};
 use cedra_language_e2e_tests::account::TransactionBuilder;
 use cedra_types::{
+    CedraCoinType, CoinType,
     account_address::AccountAddress,
     on_chain_config::FeatureFlag,
     transaction::{Script, TransactionArgument, TransactionStatus},
@@ -94,7 +95,7 @@ fn test_script_with_object_parameter() {
         TransactionArgument::Serialized(bcs::to_bytes(&vec![30u64]).unwrap()),
     ]);
 
-    let txn = TransactionBuilder::new(alice.clone())
+    let txn = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .script(script.clone())
         .sequence_number(13)
         .max_gas_amount(1_000_000)
@@ -106,7 +107,7 @@ fn test_script_with_object_parameter() {
 
     h.enable_features(vec![], vec![FeatureFlag::ALLOW_SERIALIZED_SCRIPT_ARGS]);
 
-    let txn = TransactionBuilder::new(alice.clone())
+    let txn = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .script(script.clone())
         .sequence_number(14)
         .max_gas_amount(1_000_000)
@@ -131,7 +132,7 @@ fn test_script_with_type_parameter() {
 
     let code = package.extract_script_code().into_iter().next().unwrap();
 
-    let txn = TransactionBuilder::new(alice.clone())
+    let txn = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .script(Script::new(
             code,
             std::iter::repeat_with(|| TypeTag::U64).take(33).collect(),
@@ -160,7 +161,7 @@ fn test_script_with_signer_parameter() {
 
     let code = package.extract_script_code().into_iter().next().unwrap();
 
-    let txn = TransactionBuilder::new(alice.clone())
+    let txn = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .script(Script::new(code, vec![], vec![
             TransactionArgument::U64(0),
             TransactionArgument::Serialized(
@@ -227,7 +228,7 @@ fn test_two_to_two_transfer() {
         TransactionArgument::U64(amount_carol),
     ]);
 
-    let transaction = TransactionBuilder::new(alice.clone())
+    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .secondary_signers(vec![bob.clone()])
         .script(script)
         .sequence_number(h.sequence_number(alice.address()))

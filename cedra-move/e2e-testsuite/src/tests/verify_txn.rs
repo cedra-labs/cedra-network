@@ -11,7 +11,7 @@ use cedra_language_e2e_tests::{
     current_function_name, executor::FakeExecutor, transaction_status_eq,
 };
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config,
     chain_id::ChainId,
     test_helpers::transaction_test_helpers,

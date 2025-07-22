@@ -16,7 +16,7 @@ use cedra_sdk::{
 use cedra_storage_interface::DbReader;
 use cedra_temppath::TempPath;
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config::cedra_test_root_address,
     block_metadata::BlockMetadata,
     chain_id::ChainId,

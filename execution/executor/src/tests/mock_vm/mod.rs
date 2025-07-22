@@ -9,7 +9,7 @@ use anyhow::Result;
 use cedra_block_executor::txn_provider::{default::DefaultTxnProvider, TxnProvider};
 use cedra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config::NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     block_executor::{
         config::BlockExecutorConfigFromOnchain, partitioner::PartitionedTransactions,

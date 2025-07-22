@@ -5,7 +5,7 @@
 #![forbid(unsafe_code)]
 
 use cedra_types::{
-    account_address::AccountAddress, CedraCoinType, CoinType, 
+    account_address::AccountAddress,
     transaction::{
         use_case::{UseCaseAwareTransaction, UseCaseKey},
         ReplayProtector, Transaction,
@@ -185,7 +185,7 @@ mod tests {
     use crate::{CommittedTransaction, Error, MempoolNotificationSender};
     use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         block_metadata::BlockMetadata,
         chain_id::ChainId,
         transaction::{

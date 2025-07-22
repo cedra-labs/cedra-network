@@ -15,6 +15,7 @@ use cedra_crypto::{
 };
 use cedra_rest_client::cedra_api_types::{ResourceGroup, TransactionOnChainData};
 use cedra_types::{
+    CedraCoinType, CoinType,
     account_config::{
         fungible_store::FungibleStoreResource, DepositFAEvent, ObjectCoreResource, WithdrawFAEvent,
     },
@@ -71,7 +72,7 @@ fn test_transaction(
                     None,      // Expiration timestamp
                     Some(101), // Gas unit price, specifically make it different than 100 to check calculations
                     None,      // Max gas amount
-                    false,
+                    CedraCoinType::type_tag(),
                 ),
                 // Dummy keys and signatures
                 private_key.public_key(),

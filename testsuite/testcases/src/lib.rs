@@ -46,6 +46,7 @@ use std::{
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 use tokio::runtime::{Handle, Runtime};
+use cedra_sdk::types::{CedraCoinType, CoinType};
 
 pub const WARMUP_DURATION_FRACTION: f32 = 0.07;
 pub const COOLDOWN_DURATION_FRACTION: f32 = 0.04;

@@ -42,6 +42,7 @@ use std::{
     },
     time::{Duration, Instant},
 };
+use cedra_sdk::types::{CedraCoinType, CoinType};
 
 #[derive(Debug, Parser)]
 pub struct TransactionFactoryArgs {

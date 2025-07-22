@@ -20,7 +20,7 @@ use cedra_types::{
         cedra_test_root_address, primary_apt_store, AccountResource, FungibleStoreResource,
         ObjectGroupResource,
     },
-    block_metadata::BlockMetadata,
+    block_metadata::BlockMetadata, CedraCoinType, CoinType,
     chain_id::ChainId,
     contract_event::ContractEvent,
     state_store::{state_key::StateKey, table::TableHandle, MoveResourceExt, TStateView},

@@ -36,6 +36,7 @@ mod test {
     use cedra_config::config::transaction_filter_type::Filter;
     use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
+        CedraCoinType, CoinType,
         chain_id::ChainId,
         move_utils::MemberId,
         transaction::{

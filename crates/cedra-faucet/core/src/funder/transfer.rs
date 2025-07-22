@@ -1,6 +1,7 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
+use cedra_sdk::move_types::language_storage::TypeTag;
 use super::{
     common::{
         submit_transaction, ApiConnectionConfig, GasUnitPriceManager, TransactionSubmissionConfig,
@@ -20,7 +21,7 @@ use cedra_sdk::{
     rest_client::Client,
     transaction_builder::{cedra_stdlib, TransactionFactory},
     types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         chain_id::ChainId,
         transaction::{authenticator::AuthenticationKey, SignedTransaction, TransactionPayload},
         LocalAccount,
@@ -126,7 +127,7 @@ impl TransferFunder {
         transaction_expiration_secs: u64,
         wait_for_outstanding_txns_secs: u64,
         wait_for_transactions: bool,
-        fee_coin: AccountAddress,
+        fee_coin: TypeTag,
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), gas_unit_price_ttl_secs);

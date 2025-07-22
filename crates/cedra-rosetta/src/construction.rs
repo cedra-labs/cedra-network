@@ -41,7 +41,7 @@ use cedra_global_constants::adjust_gas_headroom;
 use cedra_logger::debug;
 use cedra_sdk::{move_types::language_storage::TypeTag, transaction_builder::TransactionFactory};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     chain_id::ChainId,
     transaction::{
         authenticator::AuthenticationKey, RawTransaction, SignedTransaction, TransactionPayload,

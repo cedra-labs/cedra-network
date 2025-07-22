@@ -41,7 +41,7 @@ use cedra_sdk::{
     types::{HardwareWalletAccount, HardwareWalletType, LocalAccount, TransactionSigner},
 };
 use cedra_types::{
-    chain_id::ChainId,
+    chain_id::ChainId, CedraCoinType, CoinType,
     transaction::{
         authenticator::AuthenticationKey, EntryFunction, MultisigTransactionPayload, Script,
         SignedTransaction, TransactionArgument, TransactionPayload, TransactionStatus,

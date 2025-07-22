@@ -4,6 +4,7 @@
 use crate::{assert_success, tests::common, MoveHarness};
 use cedra_language_e2e_tests::account::{Account, TransactionBuilder};
 use cedra_types::{
+    CedraCoinType, CoinType,
     move_utils::MemberId,
     on_chain_config::FeatureFlag,
     transaction::{EntryFunction, MultisigTransactionPayload, TransactionPayload},
@@ -316,7 +317,7 @@ fn test_transaction_context_gas_payer_as_separate_account() {
         ty_args,
         args,
     ));
-    let transaction = TransactionBuilder::new(alice.clone())
+    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(harness.sequence_number(alice.address()))
@@ -361,7 +362,7 @@ fn test_transaction_context_secondary_signers() {
         ty_args,
         args,
     ));
-    let transaction = TransactionBuilder::new(alice.clone())
+    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .secondary_signers(vec![bob.clone()])
         .payload(payload)
         .sequence_number(harness.sequence_number(alice.address()))

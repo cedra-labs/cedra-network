@@ -11,7 +11,7 @@ use cedra_storage_interface::{
     state_store::state_view::db_state_view::LatestDbStateCheckpointView, DbReaderWriter,
 };
 use cedra_types::{
-    account_address, account_config,
+    account_address, account_config, CedraCoinType, CoinType,
     chain_id::ChainId,
     test_helpers::transaction_test_helpers,
     transaction::{Script, TransactionPayload},

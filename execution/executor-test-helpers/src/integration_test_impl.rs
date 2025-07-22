@@ -24,7 +24,7 @@ use cedra_types::{
         cedra_test_root_address, primary_apt_store, AccountResource, FungibleStoreResource,
         ObjectGroupResource,
     },
-    block_metadata::BlockMetadata,
+    block_metadata::BlockMetadata, CedraCoinType, CoinType,
     chain_id::ChainId,
     ledger_info::LedgerInfo,
     state_store::{MoveResourceExt, StateView},

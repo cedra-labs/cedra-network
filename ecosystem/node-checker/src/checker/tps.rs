@@ -1,6 +1,7 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
+use cedra_sdk::types::{CedraCoinType, CoinType};
 use super::{CheckResult, Checker, CheckerError, CommonCheckerConfig};
 use crate::{
     get_provider,
@@ -144,7 +145,7 @@ impl Checker for TpsChecker {
             self.config
                 .emit_workload_configs
                 .args_to_transaction_mix_per_phase(),
-                false,
+                CedraCoinType::type_tag(),
         )
         .await
         .map_err(TpsCheckerError::TransactionEmitterError)?;

@@ -2,6 +2,7 @@
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
+use cedra_sdk::types::{CedraCoinType,CoinType};
 use super::{FunderHealthMessage, FunderTrait};
 use crate::endpoints::{CedraTapError, CedraTapErrorCode};
 use anyhow::{Context, Result};

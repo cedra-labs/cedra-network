@@ -11,7 +11,7 @@ use cedra_sdk::{
     crypto::ed25519::Ed25519PublicKey,
     transaction_builder::TransactionFactory,
     types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         account_config::CORE_CODE_ADDRESS,
         chain_id::ChainId,
         transaction::{

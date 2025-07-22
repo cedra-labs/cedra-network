@@ -13,7 +13,7 @@ use cedra_executor::db_bootstrapper::{generate_waypoint, maybe_bootstrap};
 use cedra_executor_types::state_compute_result::StateComputeResult;
 use cedra_storage_interface::DbReaderWriter;
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     block_info::BlockInfo,
     ledger_info::{generate_ledger_info_with_sig, LedgerInfo, LedgerInfoWithSignatures},
     test_helpers::transaction_test_helpers::get_test_signed_txn,

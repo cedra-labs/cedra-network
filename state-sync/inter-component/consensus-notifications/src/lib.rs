@@ -5,7 +5,7 @@
 #![forbid(unsafe_code)]
 
 use cedra_types::{
-    contract_event::ContractEvent, ledger_info::LedgerInfoWithSignatures, transaction::Transaction, CedraCoinType, CoinType,
+    contract_event::ContractEvent, ledger_info::LedgerInfoWithSignatures, transaction::Transaction,
 };
 use async_trait::async_trait;
 use futures::{
@@ -407,7 +407,7 @@ mod tests {
     use crate::{ConsensusNotification, ConsensusNotificationSender, Error};
     use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         aggregate_signature::AggregateSignature,
         block_info::BlockInfo,
         chain_id::ChainId,

@@ -5,6 +5,7 @@ use crate::{assert_abort, assert_success, build_package, tests::common, MoveHarn
 use cedra_framework::BuiltPackage;
 use cedra_language_e2e_tests::account::{Account, TransactionBuilder};
 use cedra_types::{
+    CedraCoinType, CoinType,
     account_address::AccountAddress,
     on_chain_config::OnChainConfig,
     randomness::PerBlockRandomness,
@@ -158,7 +159,7 @@ fn run_script(h: &mut MoveHarness, package: &BuiltPackage) -> TransactionStatus 
     let scripts = package.extract_script_code();
     let code = scripts[0].clone();
 
-    let txn = TransactionBuilder::new(alice.clone())
+    let txn = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .script(Script::new(code, vec![], vec![]))
         .sequence_number(10)
         .max_gas_amount(1_000_000)

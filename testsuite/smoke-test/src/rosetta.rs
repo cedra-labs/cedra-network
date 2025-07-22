@@ -35,7 +35,7 @@ use cedra_rosetta::{
 };
 use cedra_sdk::{transaction_builder::TransactionFactory, types::LocalAccount};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config::CORE_CODE_ADDRESS,
     chain_id::ChainId,
     on_chain_config::{GasScheduleV2, OnChainRandomnessConfig},

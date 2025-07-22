@@ -17,7 +17,7 @@ use cedra_storage_interface::{
     Result,
 };
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     aggregate_signature::AggregateSignature,
     block_executor::{
         config::BlockExecutorConfigFromOnchain,

@@ -120,6 +120,7 @@ mod tests {
         HashValue, Uniform,
     };
     use cedra_types::{
+        CedraCoinType, CoinType,
         block_metadata::BlockMetadata,
         chain_id::ChainId,
         transaction::{EntryFunction, RawTransaction, SignedTransaction},

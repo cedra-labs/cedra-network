@@ -4,7 +4,6 @@
 
 use crate::{
     account_address::AccountAddress,
-    CedraCoinType, CoinType,
     function_info::FunctionInfo,
     keyless::{
         EphemeralCertificate, FederatedKeylessPublicKey, KeylessPublicKey, KeylessSignature,
@@ -1458,6 +1457,7 @@ impl Serialize for EphemeralPublicKey {
 mod tests {
     use super::*;
     use crate::{
+        CedraCoinType, CoinType,
         keyless::test_utils::{
             get_sample_esk, get_sample_groth16_sig_and_pk, get_sample_openid_sig_and_pk,
             maul_raw_groth16_txn,

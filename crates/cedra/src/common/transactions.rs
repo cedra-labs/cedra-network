@@ -19,7 +19,7 @@ use cedra_move_debugger::cedra_debugger::CedraDebugger;
 use cedra_rest_client::Client;
 use cedra_sdk::{transaction_builder::TransactionFactory, types::LocalAccount};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     chain_id::ChainId,
     transaction::{
         authenticator::{AccountAuthenticator, TransactionAuthenticator},

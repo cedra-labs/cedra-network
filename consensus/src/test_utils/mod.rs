@@ -21,7 +21,7 @@ use cedra_consensus_types::{
 };
 use cedra_crypto::{HashValue, PrivateKey, Uniform};
 use cedra_logger::Level;
-use cedra_types::{ledger_info::LedgerInfo, validator_signer::ValidatorSigner};
+use cedra_types::{ledger_info::LedgerInfo, validator_signer::ValidatorSigner, CedraCoinType, CoinType};
 use std::{future::Future, sync::Arc, time::Duration};
 use tokio::{runtime, time::timeout};
 
