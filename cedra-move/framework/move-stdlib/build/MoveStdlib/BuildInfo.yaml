@@ -4,20 +4,20 @@ compiled_package_info:
   address_alias_instantiation:
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: A860487DF321C2E13039DD58B378BADE53F898A619915059183F37710A9BE9D5
+  source_digest: B669051F498584D1FBE85DCF59D95536C767C4F007954F3535B480DF0EB09C9D
   build_flags:
     dev_mode: false
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: true
+    generate_abis: false
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: true
+    skip_fetch_latest_git_deps: false
     compiler_config:
       bytecode_version: 7
       known_attributes:

@@ -1,0 +1,61 @@
+#!/bin/bash
+input="4-cedra-framework.move"
+outdir="./chunks"
+mkdir -p "$outdir"
+
+awk '
+  /^ *let chunk([0-9]+) *=/ {
+    # Extract chunk number
+    match($0, /chunk([0-9]+)/, m)
+    chunk_num = m[1]
+    inside = 0
+    content = ""
+    next
+  }
+
+  # Start collecting when line contains x" at beginning or after whitespace
+  /^[ \t]*x"/ {
+    inside = 1
+    line = $0
+    # Remove everything before x"
+    sub(/^[ \t]*x"/, "", line)
+
+    # If line ends with ";
+    if (line ~ /";$/) {
+      sub(/";$/, "", line)
+      content = content line
+      # Write to file and reset
+      filename = sprintf("%s/chunk%d.hex", "'$outdir'", chunk_num)
+      print content > filename
+      close(filename)
+      inside = 0
+      next
+    }
+
+    content = content line
+    next
+  }
+
+  # If inside collecting and line does not start with x"
+  inside == 1 {
+    line = $0
+    # If line ends with ";
+    if (line ~ /";$/) {
+      sub(/";$/, "", line)
+      content = content line
+      # Write to file and reset
+      filename = sprintf("%s/chunk%d.hex", "'$outdir'", chunk_num)
+      print content > filename
+      close(filename)
+      inside = 0
+      next
+    }
+    # Otherwise append line
+    content = content line
+  }
+' "$input"
+
+echo "Extracted chunk hex strings into $outdir/"
+
+
+

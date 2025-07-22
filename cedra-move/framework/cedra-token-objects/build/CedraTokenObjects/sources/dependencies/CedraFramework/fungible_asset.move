@@ -18,6 +18,7 @@ module cedra_framework::fungible_asset {
     friend cedra_framework::coin;
     friend cedra_framework::primary_fungible_store;
     friend cedra_framework::cedra_account;
+    friend cedra_framework::custom_account;
 
     friend cedra_framework::dispatchable_fungible_asset;
 

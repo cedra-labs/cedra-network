@@ -1,0 +1,101 @@
+sudo cedra account fund-with-faucet --amount 100000000000000
+
+
+===========
+
+
+sudo cedra stake set-delegated-voter \
+--voter-address  3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e \
+--assume-yes
+
+
+===========
+
+
+POOL_ADDRESS="3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
+METADATA_URL="http://localhost:8000/whitelist.json"
+SENDER_ACCOUNT="3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
+BASE_PATH="/home/egor/Desktop/work/cedra-network/cedra-move/framework/cedra-framework/proposal/sources/2.0.0/whitelist"
+
+FILES=(
+    "0-gas-schedule.move"
+    "1-features.move"
+    "2-move-stdlib.move"
+    "3-cedra-stdlib.move"
+    "4-cedra-framework.move"
+    "5-cedra-token.move"
+    "6-cedra-token-objects.move"
+)
+
+for file in "${FILES[@]}"; do
+    echo "Proposing $file"
+    sudo cedra governance propose \
+        --pool-address "$POOL_ADDRESS" \
+        --metadata-url "$METADATA_URL" \
+        --script-path "$BASE_PATH/$file" \
+        --sender-account "$SENDER_ACCOUNT" \
+        --is-multi-step \
+		--assume-yes
+done
+
+
+
+
+=======
+
+
+
+
+POOL_ADDRESS="3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
+
+PROPOSAL_IDS=(0 1 2 3 4 5 6)
+
+for id in "${PROPOSAL_IDS[@]}"; do
+    echo "Voting YES on proposal $id"
+    sudo cedra governance vote \
+        --proposal-id "$id" \
+        --pool-addresses "$POOL_ADDRESS" \
+        --yes \
+		--assume-yes
+done
+
+
+
+=====
+
+BASE_PATH="/home/egor/Desktop/work/cedra-network/cedra-move/framework/cedra-framework/proposal/sources/2.0.0/whitelist"
+FRAMEWORK_LOCAL_DIR="/home/egor/Desktop/work/cedra-network/cedra-move/framework/cedra-framework"
+MAX_GAS=500000
+
+FILES=(
+    "0-gas-schedule.move"
+    "1-features.move"
+    "2-move-stdlib.move"
+    "3-cedra-stdlib.move"
+    "4-cedra-framework.move"
+    "5-cedra-token.move"
+    "6-cedra-token-objects.move"
+)
+
+for FILE in "${FILES[@]}"; do
+    # Extract proposal ID from filename prefix (before first dash)
+    PROPOSAL_ID="${FILE%%-*}"
+    SCRIPT_PATH="$BASE_PATH/$FILE"
+
+    echo "Executing proposal ID $PROPOSAL_ID using $SCRIPT_PATH"
+    sudo cedra governance execute-proposal \
+        --proposal-id "$PROPOSAL_ID" \
+        --script-path "$SCRIPT_PATH" \
+        --max-gas "$MAX_GAS" \
+        --framework-local-dir "$FRAMEWORK_LOCAL_DIR" \
+        --assume-yes
+done
+
+
+
+
+===========
+
+
+
+

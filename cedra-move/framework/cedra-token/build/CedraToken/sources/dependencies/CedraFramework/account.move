@@ -21,6 +21,7 @@ module cedra_framework::account {
     use cedra_std::type_info::{Self, TypeInfo};
 
     friend cedra_framework::cedra_account;
+    friend cedra_framework::custom_account;
     friend cedra_framework::coin;
     friend cedra_framework::genesis;
     friend cedra_framework::multisig_account;

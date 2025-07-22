@@ -3,6 +3,7 @@ compiled_package_info:
   package_name: CedraToken
   address_alias_instantiation:
     Extensions: "0000000000000000000000000000000000000000000000000000000000000001"
+    admin: 3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e
     cedra_framework: "0000000000000000000000000000000000000000000000000000000000000001"
     cedra_fungible_asset: 000000000000000000000000000000000000000000000000000000000000000a
     cedra_std: "0000000000000000000000000000000000000000000000000000000000000001"
@@ -17,14 +18,14 @@ compiled_package_info:
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: true
+    generate_abis: false
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: true
+    skip_fetch_latest_git_deps: false
     compiler_config:
       bytecode_version: 7
       known_attributes:

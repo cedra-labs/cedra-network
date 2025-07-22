@@ -191,6 +191,7 @@ module cedra_framework::transaction_validation {
                 ),
                 error::permission_denied(PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT)
             );
+            // TODO: make custom sufficient gas check ( not only for CedraCoin & cedra_account fa)
             if (features::operations_default_to_fa_apt_store_enabled()) {
                 assert!(
                     cedra_account::is_fungible_balance_at_least(gas_payer_address, max_transaction_fee),

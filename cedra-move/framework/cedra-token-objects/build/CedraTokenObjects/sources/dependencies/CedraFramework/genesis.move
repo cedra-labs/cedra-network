@@ -86,6 +86,7 @@ module cedra_framework::genesis {
         let (cedra_framework_account, cedra_framework_signer_cap) = account::create_framework_reserved_account(@cedra_framework);
         // Initialize account configs on cedra framework account.
         account::initialize(&cedra_framework_account);
+        
 
         transaction_validation::initialize(
             &cedra_framework_account,
@@ -135,6 +136,7 @@ module cedra_framework::genesis {
 
     /// Genesis step 2: Initialize Cedra coin.
     fun initialize_cedra_coin(cedra_framework: &signer) {
+
         let (burn_cap, mint_cap) = cedra_coin::initialize(cedra_framework);
 
         coin::create_coin_conversion_map(cedra_framework);

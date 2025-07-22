@@ -1,0 +1,6 @@
+{
+  "title": "Multi-step proposal to upgrade mainnet framework, version v2.0.0",
+  "description": "This includes changes in https://github.com/aptos-labs/aptos-core/releases/tag/aptos-node-vX.YY.Z",
+  "source_code_url": "https://github.com/cedra-labs/cedra",
+  "discussion_url": "https://github.com/cedra-labs/cedra"
+}

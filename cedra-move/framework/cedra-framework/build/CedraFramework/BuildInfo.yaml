@@ -3,6 +3,7 @@ compiled_package_info:
   package_name: CedraFramework
   address_alias_instantiation:
     Extensions: "0000000000000000000000000000000000000000000000000000000000000001"
+    admin: 3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e
     cedra_framework: "0000000000000000000000000000000000000000000000000000000000000001"
     cedra_fungible_asset: 000000000000000000000000000000000000000000000000000000000000000a
     cedra_std: "0000000000000000000000000000000000000000000000000000000000000001"
@@ -11,20 +12,20 @@ compiled_package_info:
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: 19B17D5DAA8A627911F8B0A29C3AE5571F3A704D41B6288BDFA37BFF112C3517
+  source_digest: BFC2E25B6E2E1931F8A9AF4196F624D8FDFD482A0083F220267A154B71B699E3
   build_flags:
     dev_mode: false
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: true
+    generate_abis: false
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: true
+    skip_fetch_latest_git_deps: false
     compiler_config:
       bytecode_version: 7
       known_attributes:
@@ -48,9 +49,10 @@ compiled_package_info:
         - verify_only
         - view
       skip_attribute_checks: false
-      compiler_version: ~
-      language_version: ~
-      experiments: []
+      compiler_version: V2_0
+      language_version: V2_1
+      experiments:
+        - optimize=on
 dependencies:
   - CedraStdlib
   - MoveStdlib
