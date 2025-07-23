@@ -6424,10 +6424,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cedra-whitelist"
-version = "0.1.0"
-
-[[package]]
 name = "cedra-workspace-server"
 version = "0.1.0"
 dependencies = [
