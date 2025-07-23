@@ -46,6 +46,7 @@ use std::{
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 use tokio::runtime::{Handle, Runtime};
+use cedra_sdk::types::{CedraCoinType, CoinType};
 
 pub const WARMUP_DURATION_FRACTION: f32 = 0.07;
 pub const COOLDOWN_DURATION_FRACTION: f32 = 0.04;
@@ -142,7 +143,7 @@ pub async fn create_emitter_and_request(
     let client_timeout = Duration::from_secs(30);
 
     let chain_info = swarm.read().await.chain_info();
-    let transaction_factory = TransactionFactory::new(chain_info.chain_id);
+    let transaction_factory = TransactionFactory::new(chain_info.chain_id, CedraCoinType::type_tag());
     let rest_cli = swarm
         .read()
         .await

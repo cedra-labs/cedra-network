@@ -16,7 +16,7 @@ use cedra_sdk::{
 use cedra_storage_interface::DbReader;
 use cedra_temppath::TempPath;
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config::cedra_test_root_address,
     block_metadata::BlockMetadata,
     chain_id::ChainId,
@@ -60,7 +60,7 @@ pub fn create_test_db() -> (Arc<CedraDB>, LocalAccount) {
     let account2 = LocalAccount::generate(&mut rng);
     let account3 = LocalAccount::generate(&mut rng);
 
-    let txn_factory = TransactionFactory::new(ChainId::test());
+    let txn_factory = TransactionFactory::new(ChainId::test(), CedraCoinType::type_tag());
 
     let block1_id = gen_block_id(1);
     let block1_meta = Transaction::BlockMetadata(BlockMetadata::new(

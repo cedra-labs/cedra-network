@@ -1052,6 +1052,7 @@ mod test {
     };
     use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
+        CedraCoinType, CoinType,
         aggregate_signature::AggregateSignature,
         chain_id::ChainId,
         ledger_info::LedgerInfo,
@@ -2009,6 +2010,7 @@ mod test {
                 0,
                 0,
                 ChainId::new(10),
+                CedraCoinType::type_tag(),
             );
 
             // Create the signed transaction

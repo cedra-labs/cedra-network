@@ -1250,7 +1250,6 @@ where
             (self.total_gas + 1) / 2,
             0,
             0,
-            AccountAddress::new([0u8; 32]) // TODO: set coin!!!
         )
     }
 

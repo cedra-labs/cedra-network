@@ -2,9 +2,11 @@
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
+use cedra_sdk::types::{CedraCoinType,CoinType};
 use super::{FunderHealthMessage, FunderTrait};
 use crate::endpoints::{CedraTapError, CedraTapErrorCode};
 use anyhow::{Context, Result};
+use async_trait::async_trait;
 use cedra_logger::info;
 use cedra_sdk::{
     crypto::ed25519::Ed25519PublicKey,
@@ -19,7 +21,6 @@ use cedra_sdk::{
         LocalAccount,
     },
 };
-use async_trait::async_trait;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use tokio::sync::RwLock;
@@ -108,7 +109,7 @@ impl MintFunder {
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), txn_config.get_gas_unit_price_ttl_secs());
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_max_gas_amount(txn_config.max_gas_amount)
             .with_transaction_expiration_time(txn_config.transaction_expiration_secs);
         Self {
@@ -238,17 +239,18 @@ impl MintFunder {
             return Ok(vec![]);
         }
 
-        let txn =
-            {
-                let faucet_account = self.faucet_account.write().await;
-                let transaction_factory = self.get_transaction_factory().await?;
-                faucet_account.sign_with_transaction_builder(transaction_factory.script(
-                    Script::new(MINTER_SCRIPT.to_vec(), vec![], vec![
-                        TransactionArgument::Address(receiver_address),
-                        TransactionArgument::U64(amount),
-                    ]),
-                ))
-            };
+        let txn = {
+            let faucet_account = self.faucet_account.write().await;
+            let transaction_factory = self.get_transaction_factory().await?;
+            faucet_account.sign_with_transaction_builder(transaction_factory.script(Script::new(
+                MINTER_SCRIPT.to_vec(),
+                vec![],
+                vec![
+                    TransactionArgument::Address(receiver_address),
+                    TransactionArgument::U64(amount),
+                ],
+            )))
+        };
 
         Ok(vec![
             submit_transaction(

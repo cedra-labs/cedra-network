@@ -1457,6 +1457,7 @@ impl Serialize for EphemeralPublicKey {
 mod tests {
     use super::*;
     use crate::{
+        CedraCoinType, CoinType,
         keyless::test_utils::{
             get_sample_esk, get_sample_groth16_sig_and_pk, get_sample_openid_sig_and_pk,
             maul_raw_groth16_txn,
@@ -1498,6 +1499,7 @@ mod tests {
             0,
             0,
             None,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1532,6 +1534,7 @@ mod tests {
             0,
             0,
             None,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1573,6 +1576,7 @@ mod tests {
             0,
             0,
             None,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1683,6 +1687,7 @@ mod tests {
             0,
             0,
             None,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -1866,6 +1871,7 @@ mod tests {
             0,
             0,
             None,
+            CedraCoinType::type_tag(),
         )
         .into_raw_transaction();
 
@@ -2010,6 +2016,7 @@ mod tests {
             None,
             None,
             None,
+            CedraCoinType::type_tag(),
         );
         sig.ephemeral_signature = EphemeralSignature::ed25519(
             esk.sign(&TransactionAndProof {
@@ -2045,6 +2052,7 @@ mod tests {
             None,
             None,
             None,
+            CedraCoinType::type_tag(),
         );
         let mut txn_and_zkp = TransactionAndProof {
             message: raw_txn.clone(),
@@ -2084,6 +2092,7 @@ mod tests {
             None,
             None,
             None,
+            CedraCoinType::type_tag(),
         );
         let signed_txn = maul_raw_groth16_txn(pk, sig, raw_txn);
 

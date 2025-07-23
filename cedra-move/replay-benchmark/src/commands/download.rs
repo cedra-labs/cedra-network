@@ -120,6 +120,7 @@ mod tests {
         HashValue, Uniform,
     };
     use cedra_types::{
+        CedraCoinType, CoinType,
         block_metadata::BlockMetadata,
         chain_id::ChainId,
         transaction::{EntryFunction, RawTransaction, SignedTransaction},
@@ -151,6 +152,7 @@ mod tests {
             1,
             10,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         );
 
         let mut rng = StdRng::from_seed([0; 32]);

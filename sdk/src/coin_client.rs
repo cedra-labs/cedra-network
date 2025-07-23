@@ -10,7 +10,7 @@ use crate::{
     rest_client::{Client as ApiClient, PendingTransaction},
     transaction_builder::TransactionBuilder,
     types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         chain_id::ChainId,
         transaction::{EntryFunction, TransactionPayload},
         LocalAccount,
@@ -88,6 +88,7 @@ impl<'a> CoinClient<'a> {
                 .as_secs()
                 + options.timeout_secs,
             ChainId::new(chain_id),
+            options.fee_coin,
         )
         .sender(from_account.address())
         .sequence_number(from_account.sequence_number())
@@ -118,6 +119,8 @@ pub struct TransferOptions<'a> {
 
     /// This is the coin type to transfer.
     pub coin_type: &'a str,
+    /// This is the custom fee for coin usage
+    pub fee_coin: TypeTag,
 }
 
 impl<'a> Default for TransferOptions<'a> {
@@ -127,6 +130,7 @@ impl<'a> Default for TransferOptions<'a> {
             gas_unit_price: 100,
             timeout_secs: 10,
             coin_type: "0x1::cedra_coin::CedraCoin",
+            fee_coin: CedraCoinType::type_tag(),
         }
     }
 }

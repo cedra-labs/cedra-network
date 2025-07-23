@@ -159,7 +159,7 @@ impl ExecutorTask for NativeVMExecutorTask {
             Ok(change_set) => ExecutionStatus::Success(CedraTransactionOutput::new(VMOutput::new(
                 change_set,
                 ModuleWriteSet::empty(),
-                FeeStatement::new(gas_units, gas_units, 0, 0, 0, txn.parse_sender()),
+                FeeStatement::new(gas_units, gas_units, 0, 0, 0),
                 TransactionStatus::Keep(cedra_types::transaction::ExecutionStatus::Success),
             ))),
             Err(_) => ExecutionStatus::SpeculativeExecutionAbortError("something".to_string()),
@@ -354,7 +354,7 @@ impl NativeVMExecutorTask {
         };
 
         events.push((
-            FeeStatement::new(gas_units, gas_units, 0, 0, 0, txn.parse_sender()).create_event_v2(), // TODO: set coin!!!
+            FeeStatement::new(gas_units, gas_units, 0, 0, 0).create_event_v2(),
             None,
         ));
 

@@ -17,6 +17,7 @@ use cedra_mempool_notifications::{CommittedTransaction, MempoolNotificationListe
 use cedra_storage_service_notifications::StorageServiceNotificationListener;
 use cedra_storage_service_types::responses::CompleteDataRange;
 use cedra_types::{
+    CedraCoinType, CoinType,
     account_address::AccountAddress,
     account_config::NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     aggregate_signature::AggregateSignature,
@@ -221,6 +222,7 @@ pub fn create_transaction() -> Transaction {
         0,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction,

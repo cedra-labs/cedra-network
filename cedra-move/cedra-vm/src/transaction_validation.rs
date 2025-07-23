@@ -589,15 +589,10 @@ fn run_epilogue(
     .map_err(expect_no_verification_errors)?;
 
     // Emit the FeeStatement event
-    if features.is_emit_fee_statement_enabled() {
+    if txn_data.use_fee_v2() && features.is_emit_custom_fee_statement_enabled() {
+        emit_custom_fee_statement(session, module_storage, custom_fee_statement, traversal_context)?;
+    } else if features.is_emit_fee_statement_enabled() {
         emit_fee_statement(session, module_storage, fee_statement, traversal_context)?;
-    } else if features.is_emit_custom_fee_statement_enabled() {
-        emit_custom_fee_statement(
-            session,
-            module_storage,
-            custom_fee_statement,
-            traversal_context,
-        )?;
     }
 
     maybe_raise_injected_error(InjectedError::EndOfRunEpilogue)?;

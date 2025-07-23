@@ -11,7 +11,7 @@ use cedra_sdk::{
     crypto::ed25519::Ed25519PublicKey,
     transaction_builder::TransactionFactory,
     types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         account_config::CORE_CODE_ADDRESS,
         chain_id::ChainId,
         transaction::{
@@ -77,7 +77,7 @@ impl<'t> CedraContext<'t> {
 
     pub fn transaction_factory(&self) -> TransactionFactory {
         let unit_price = std::cmp::max(cedra_global_constants::GAS_UNIT_PRICE, 1);
-        TransactionFactory::new(self.chain_id()).with_gas_unit_price(unit_price)
+        TransactionFactory::new(self.chain_id(), CedraCoinType::type_tag()).with_gas_unit_price(unit_price)
     }
 
     pub fn cedra_transaction_factory(&self) -> TransactionFactory {
@@ -223,7 +223,7 @@ impl CedraPublicInfo {
 
     pub fn transaction_factory(&self) -> TransactionFactory {
         let unit_price = std::cmp::max(cedra_global_constants::GAS_UNIT_PRICE, 1);
-        TransactionFactory::new(self.chain_id).with_gas_unit_price(unit_price)
+        TransactionFactory::new(self.chain_id, CedraCoinType::type_tag()).with_gas_unit_price(unit_price)
     }
 
     pub async fn get_approved_execution_hash_at_cedra_governance(

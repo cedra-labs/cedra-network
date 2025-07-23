@@ -644,14 +644,22 @@ impl CedraVM {
                     );
                 };
 
-                let fee_statement =
-                    CedraVM::fee_statement_from_gas_meter(txn_data, gas_meter, ZERO_STORAGE_REFUND);
+                let mut custom_fee_statement = CustomFeeStatement::zero();
+                let mut fee_statement = FeeStatement::zero();
 
-                let custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
-                    txn_data,
-                    gas_meter,
-                    ZERO_STORAGE_REFUND,
-                );
+                if txn_data.use_fee_v2() {
+                    custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                } else {
+                    fee_statement = CedraVM::fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                }
 
                 // Verify we charged sufficiently for creating an account slot
                 let gas_params = self.gas_params(log_context)?;
@@ -686,14 +694,22 @@ impl CedraVM {
                     custom_fee_statement,
                 )
             } else {
-                let fee_statement =
-                    CedraVM::fee_statement_from_gas_meter(txn_data, gas_meter, ZERO_STORAGE_REFUND);
+                let mut custom_fee_statement = CustomFeeStatement::zero();
+                let mut fee_statement = FeeStatement::zero();
 
-                let custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
-                    txn_data,
-                    gas_meter,
-                    ZERO_STORAGE_REFUND,
-                );
+                if txn_data.use_fee_v2() {
+                    custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                } else {
+                    fee_statement = CedraVM::fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                }
                 (
                     prologue_session_change_set,
                     fee_statement,
@@ -761,16 +777,23 @@ impl CedraVM {
             }
         }
 
-        let fee_statement = CedraVM::fee_statement_from_gas_meter(
-            txn_data,
-            gas_meter,
-            u64::from(epilogue_session.get_storage_fee_refund()),
-        );
-        let custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
-            txn_data,
-            gas_meter,
-            u64::from(epilogue_session.get_storage_fee_refund()),
-        );
+        let mut custom_fee_statement = CustomFeeStatement::zero();
+        let mut fee_statement = FeeStatement::zero();
+
+        if txn_data.use_fee_v2() {
+            custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                txn_data,
+                gas_meter,
+                u64::from(epilogue_session.get_storage_fee_refund()),
+            );
+        } else {
+            fee_statement = CedraVM::fee_statement_from_gas_meter(
+                txn_data,
+                gas_meter,
+                u64::from(epilogue_session.get_storage_fee_refund()),
+            );
+        }
+
         epilogue_session.execute(|session| {
             transaction_validation::run_success_epilogue(
                 session,

@@ -185,7 +185,7 @@ mod tests {
     use crate::{CommittedTransaction, Error, MempoolNotificationSender};
     use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         block_metadata::BlockMetadata,
         chain_id::ChainId,
         transaction::{
@@ -319,6 +319,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
+            CedraCoinType::type_tag(),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

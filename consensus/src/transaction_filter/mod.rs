@@ -36,6 +36,7 @@ mod test {
     use cedra_config::config::transaction_filter_type::Filter;
     use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
+        CedraCoinType, CoinType,
         chain_id::ChainId,
         move_utils::MemberId,
         transaction::{
@@ -63,7 +64,7 @@ mod test {
             vec![],
         ));
         let raw_transaction =
-            RawTransaction::new(sender, sequence_number, payload, 0, 0, 0, ChainId::new(10));
+            RawTransaction::new(sender, sequence_number, payload, 0, 0, 0, ChainId::new(10), CedraCoinType::type_tag());
 
         SignedTransaction::new(
             raw_transaction.clone(),

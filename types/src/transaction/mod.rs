@@ -5,6 +5,7 @@
 #![allow(clippy::arc_with_non_send_sync)]
 
 use crate::{
+    CedraCoinType, CoinType,
     account_address::AccountAddress,
     block_metadata::BlockMetadata,
     chain_id::ChainId,
@@ -73,6 +74,7 @@ pub use move_core_types::transaction_argument::TransactionArgument;
 use move_core_types::{
     value::{MoveStruct, MoveValue},
     vm_status::AbortLocation,
+    language_storage::TypeTag,
 };
 pub use multisig::{ExecutionError, Multisig, MultisigTransactionPayload};
 use once_cell::sync::OnceCell;
@@ -195,6 +197,10 @@ pub struct RawTransaction {
 
     /// Chain ID of the Cedra network this transaction is intended for.
     chain_id: ChainId,
+
+    /// fee_coin detects fee coin address that will used in transaction fee v2 event. 
+    /// If the field is empty, the default fee event will be used.
+    fee_coin: TypeTag,
 }
 
 impl RawTransaction {
@@ -210,6 +216,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fee_coin: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -219,6 +226,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fee_coin: fee_coin,
         }
     }
 
@@ -234,6 +242,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fee_coin: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -243,6 +252,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fee_coin: fee_coin,
         }
     }
 
@@ -256,6 +266,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+       fee_coin: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -265,6 +276,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fee_coin: fee_coin,
         }
     }
 
@@ -278,6 +290,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+       fee_coin: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -287,6 +300,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fee_coin: fee_coin,
         }
     }
 
@@ -302,6 +316,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+       fee_coin: TypeTag,
     ) -> Self {
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
@@ -318,6 +333,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
+                fee_coin: fee_coin,
             },
             ReplayProtector::Nonce(nonce) => RawTransaction {
                 sender,
@@ -333,6 +349,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
+                fee_coin: fee_coin,
             },
         }
     }
@@ -1137,6 +1154,14 @@ impl SignedTransaction {
 
     pub fn raw_transaction_ref(&self) -> &RawTransaction {
         &self.raw_txn
+    }
+
+    pub fn use_fee_v2(&self) -> bool {
+        self.raw_txn.fee_coin.to_string() != "" && self.raw_txn.fee_coin != CedraCoinType::type_tag()
+    }
+
+    pub fn fee_coin(&self) -> TypeTag {
+        return self.raw_txn.fee_coin.clone()
     }
 
     pub fn sequence_number(&self) -> u64 {
