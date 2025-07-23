@@ -574,11 +574,11 @@ pub fn explorer_account_link(hash: AccountAddress, network: Option<Network>) -> 
     // For now, default to what the browser is already on, though the link could be wrong
     if let Some(network) = network {
         format!(
-            "https://explorer.cedra.dev/account/{}?network={}",
+            "https://cedrascan.com/account/{}?network={}",
             hash, network
         )
     } else {
-        format!("https://explorer.cedra.dev/account/{}", hash)
+        format!("https://cedrascan.com/account/{}", hash)
     }
 }
 
@@ -589,13 +589,13 @@ pub fn explorer_transaction_link(
     // For now, default to what the browser is already on, though the link could be wrong
     if let Some(network) = network {
         format!(
-            "https://explorer.cedra.dev/txn/{}?network={}",
+            "https://cedrascan.com/txn/{}?network={}",
             hash.to_hex_literal(),
             network
         )
     } else {
         format!(
-            "https://explorer.cedra.dev/txn/{}",
+            "https://cedrascan.com/txn/{}",
             hash.to_hex_literal()
         )
     }
