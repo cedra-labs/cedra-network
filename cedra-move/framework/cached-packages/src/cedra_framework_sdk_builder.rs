@@ -1143,40 +1143,6 @@ pub enum EntryFunctionCall {
 
     TransactionFeeConvertToCedraFaBurnRef {},
 
-    /// Burn fungible assets as the owner of metadata object.
-    UsdtCoinBurn {
-        from: AccountAddress,
-        amount: u64,
-    },
-
-    /// Freeze an account so it cannot transfer or receive fungible assets.
-    UsdtCoinFreezeAccount {
-        account: AccountAddress,
-    },
-
-    /// Mint as the owner of metadata object.
-    UsdtCoinMint {
-        to: AccountAddress,
-        amount: u64,
-    },
-
-    /// Pause or unpause the transfer of FA coin. This checks that the caller is the pauser.
-    UsdtCoinSetPause {
-        paused: bool,
-    },
-
-    /// Transfer as the owner of metadata object ignoring `frozen` field.
-    UsdtCoinTransfer {
-        from: AccountAddress,
-        to: AccountAddress,
-        amount: u64,
-    },
-
-    /// Unfreeze an account so it can transfer or receive fungible assets.
-    UsdtCoinUnfreezeAccount {
-        account: AccountAddress,
-    },
-
     /// Used in on-chain governances to update the major version for the next epoch.
     /// Example usage:
     /// - `cedra_framework::version::set_for_next_epoch(&framework_signer, new_version);`
@@ -1948,12 +1914,6 @@ impl EntryFunctionCall {
             TransactionFeeConvertToCedraFaBurnRef {} => {
                 transaction_fee_convert_to_cedra_fa_burn_ref()
             },
-            UsdtCoinBurn { from, amount } => usdt_coin_burn(from, amount),
-            UsdtCoinFreezeAccount { account } => usdt_coin_freeze_account(account),
-            UsdtCoinMint { to, amount } => usdt_coin_mint(to, amount),
-            UsdtCoinSetPause { paused } => usdt_coin_set_pause(paused),
-            UsdtCoinTransfer { from, to, amount } => usdt_coin_transfer(from, to, amount),
-            UsdtCoinUnfreezeAccount { account } => usdt_coin_unfreeze_account(account),
             VersionSetForNextEpoch { major } => version_set_for_next_epoch(major),
             VersionSetVersion { major } => version_set_version(major),
             VestingAdminWithdraw { contract_address } => vesting_admin_withdraw(contract_address),
@@ -5173,113 +5133,6 @@ pub fn transaction_fee_convert_to_cedra_fa_burn_ref() -> TransactionPayload {
     ))
 }
 
-/// Burn fungible assets as the owner of metadata object.
-pub fn usdt_coin_burn(from: AccountAddress, amount: u64) -> TransactionPayload {
-    TransactionPayload::EntryFunction(EntryFunction::new(
-        ModuleId::new(
-            AccountAddress::new([
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 1,
-            ]),
-            ident_str!("usdt_coin").to_owned(),
-        ),
-        ident_str!("burn").to_owned(),
-        vec![],
-        vec![
-            bcs::to_bytes(&from).unwrap(),
-            bcs::to_bytes(&amount).unwrap(),
-        ],
-    ))
-}
-
-/// Freeze an account so it cannot transfer or receive fungible assets.
-pub fn usdt_coin_freeze_account(account: AccountAddress) -> TransactionPayload {
-    TransactionPayload::EntryFunction(EntryFunction::new(
-        ModuleId::new(
-            AccountAddress::new([
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 1,
-            ]),
-            ident_str!("usdt_coin").to_owned(),
-        ),
-        ident_str!("freeze_account").to_owned(),
-        vec![],
-        vec![bcs::to_bytes(&account).unwrap()],
-    ))
-}
-
-/// Mint as the owner of metadata object.
-pub fn usdt_coin_mint(to: AccountAddress, amount: u64) -> TransactionPayload {
-    TransactionPayload::EntryFunction(EntryFunction::new(
-        ModuleId::new(
-            AccountAddress::new([
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 1,
-            ]),
-            ident_str!("usdt_coin").to_owned(),
-        ),
-        ident_str!("mint").to_owned(),
-        vec![],
-        vec![bcs::to_bytes(&to).unwrap(), bcs::to_bytes(&amount).unwrap()],
-    ))
-}
-
-/// Pause or unpause the transfer of FA coin. This checks that the caller is the pauser.
-pub fn usdt_coin_set_pause(paused: bool) -> TransactionPayload {
-    TransactionPayload::EntryFunction(EntryFunction::new(
-        ModuleId::new(
-            AccountAddress::new([
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 1,
-            ]),
-            ident_str!("usdt_coin").to_owned(),
-        ),
-        ident_str!("set_pause").to_owned(),
-        vec![],
-        vec![bcs::to_bytes(&paused).unwrap()],
-    ))
-}
-
-/// Transfer as the owner of metadata object ignoring `frozen` field.
-pub fn usdt_coin_transfer(
-    from: AccountAddress,
-    to: AccountAddress,
-    amount: u64,
-) -> TransactionPayload {
-    TransactionPayload::EntryFunction(EntryFunction::new(
-        ModuleId::new(
-            AccountAddress::new([
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 1,
-            ]),
-            ident_str!("usdt_coin").to_owned(),
-        ),
-        ident_str!("transfer").to_owned(),
-        vec![],
-        vec![
-            bcs::to_bytes(&from).unwrap(),
-            bcs::to_bytes(&to).unwrap(),
-            bcs::to_bytes(&amount).unwrap(),
-        ],
-    ))
-}
-
-/// Unfreeze an account so it can transfer or receive fungible assets.
-pub fn usdt_coin_unfreeze_account(account: AccountAddress) -> TransactionPayload {
-    TransactionPayload::EntryFunction(EntryFunction::new(
-        ModuleId::new(
-            AccountAddress::new([
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 1,
-            ]),
-            ident_str!("usdt_coin").to_owned(),
-        ),
-        ident_str!("unfreeze_account").to_owned(),
-        vec![],
-        vec![bcs::to_bytes(&account).unwrap()],
-    ))
-}
-
 /// Used in on-chain governances to update the major version for the next epoch.
 /// Example usage:
 /// - `cedra_framework::version::set_for_next_epoch(&framework_signer, new_version);`
@@ -7443,70 +7296,6 @@ mod decoder {
         }
     }
 
-    pub fn usdt_coin_burn(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
-        if let TransactionPayload::EntryFunction(script) = payload {
-            Some(EntryFunctionCall::UsdtCoinBurn {
-                from: bcs::from_bytes(script.args().get(0)?).ok()?,
-                amount: bcs::from_bytes(script.args().get(1)?).ok()?,
-            })
-        } else {
-            None
-        }
-    }
-
-    pub fn usdt_coin_freeze_account(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
-        if let TransactionPayload::EntryFunction(script) = payload {
-            Some(EntryFunctionCall::UsdtCoinFreezeAccount {
-                account: bcs::from_bytes(script.args().get(0)?).ok()?,
-            })
-        } else {
-            None
-        }
-    }
-
-    pub fn usdt_coin_mint(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
-        if let TransactionPayload::EntryFunction(script) = payload {
-            Some(EntryFunctionCall::UsdtCoinMint {
-                to: bcs::from_bytes(script.args().get(0)?).ok()?,
-                amount: bcs::from_bytes(script.args().get(1)?).ok()?,
-            })
-        } else {
-            None
-        }
-    }
-
-    pub fn usdt_coin_set_pause(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
-        if let TransactionPayload::EntryFunction(script) = payload {
-            Some(EntryFunctionCall::UsdtCoinSetPause {
-                paused: bcs::from_bytes(script.args().get(0)?).ok()?,
-            })
-        } else {
-            None
-        }
-    }
-
-    pub fn usdt_coin_transfer(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
-        if let TransactionPayload::EntryFunction(script) = payload {
-            Some(EntryFunctionCall::UsdtCoinTransfer {
-                from: bcs::from_bytes(script.args().get(0)?).ok()?,
-                to: bcs::from_bytes(script.args().get(1)?).ok()?,
-                amount: bcs::from_bytes(script.args().get(2)?).ok()?,
-            })
-        } else {
-            None
-        }
-    }
-
-    pub fn usdt_coin_unfreeze_account(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
-        if let TransactionPayload::EntryFunction(script) = payload {
-            Some(EntryFunctionCall::UsdtCoinUnfreezeAccount {
-                account: bcs::from_bytes(script.args().get(0)?).ok()?,
-            })
-        } else {
-            None
-        }
-    }
-
     pub fn version_set_for_next_epoch(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
         if let TransactionPayload::EntryFunction(script) = payload {
             Some(EntryFunctionCall::VersionSetForNextEpoch {
@@ -8303,30 +8092,6 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
         map.insert(
             "transaction_fee_convert_to_cedra_fa_burn_ref".to_string(),
             Box::new(decoder::transaction_fee_convert_to_cedra_fa_burn_ref),
-        );
-        map.insert(
-            "usdt_coin_burn".to_string(),
-            Box::new(decoder::usdt_coin_burn),
-        );
-        map.insert(
-            "usdt_coin_freeze_account".to_string(),
-            Box::new(decoder::usdt_coin_freeze_account),
-        );
-        map.insert(
-            "usdt_coin_mint".to_string(),
-            Box::new(decoder::usdt_coin_mint),
-        );
-        map.insert(
-            "usdt_coin_set_pause".to_string(),
-            Box::new(decoder::usdt_coin_set_pause),
-        );
-        map.insert(
-            "usdt_coin_transfer".to_string(),
-            Box::new(decoder::usdt_coin_transfer),
-        );
-        map.insert(
-            "usdt_coin_unfreeze_account".to_string(),
-            Box::new(decoder::usdt_coin_unfreeze_account),
         );
         map.insert(
             "version_set_for_next_epoch".to_string(),

@@ -61,17 +61,17 @@ build/
 
 # Do not ignore the Move build output under the releases for DPN, core, and
 # experimental -- these are the release code.
-!aptos-move/framework/DPN/releases/artifacts/**
-!aptos-move/framework/experimental/releases/artifacts/**
-!aptos-move/framework/aptos-framework/releases/artifacts/**
+!cedra-move/framework/DPN/releases/artifacts/**
+!cedra-move/framework/experimental/releases/artifacts/**
+!cedra-move/framework/cedra-framework/releases/artifacts/**
 
 # Do not ignore the Move script for the faucet.
 # https://stackoverflow.com/a/16318111/3846032
-!aptos-move/move-examples/scripts/minter/build
-aptos-move/move-examples/scripts/minter/build/*
-!aptos-move/move-examples/scripts/minter/build/Minter
-aptos-move/move-examples/scripts/minter/build/Minter/*
-!aptos-move/move-examples/scripts/minter/build/Minter/bytecode_scripts
+!cedra-move/move-examples/scripts/minter/build
+cedra-move/move-examples/scripts/minter/build/*
+!cedra-move/move-examples/scripts/minter/build/Minter
+cedra-move/move-examples/scripts/minter/build/Minter/*
+!cedra-move/move-examples/scripts/minter/build/Minter/bytecode_scripts
 
 # Docker incremental build temporary files and directories
 target-out-docker
@@ -94,7 +94,7 @@ docker/compose/indexer-grpc/data-service-grpc-server.key
 \#*\#
 
 # Aptos CLI / local testnet files
-.aptos
+.cedra
 **/*.rdb
 
 # VSCode settings
@@ -114,11 +114,11 @@ __pycache__
 **/*.mrb
 
 # Profiler outputs
-aptos-move/aptos-vm-profiling/**/*.log
-aptos-move/aptos-vm-profiling/**/*.txt
+cedra-move/cedra-vm-profiling/**/*.log
+cedra-move/cedra-vm-profiling/**/*.txt
 
 # Gas profiler outputs
-aptos-move/e2e-move-tests/gas-profiling
+cedra-move/e2e-move-tests/gas-profiling
 gas-profiling
 
 # replay-verify and module-verify script outputs
