@@ -10,6 +10,9 @@ cedra_fungible_asset = "0xA"
 cedra_token = "0x3"
 core_resources = "0xA550C18"
 vm_reserved = "0x0"
+recipient = "0xf0071743225cab7a4422afce5d728c645d3b0328d263e92cb49198ea004da12b"
+admin = "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
+
 
 [dependencies]
 CedraStdlib = { local = "../cedra-stdlib" }

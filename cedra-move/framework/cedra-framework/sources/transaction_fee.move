@@ -2,6 +2,7 @@
 module cedra_framework::transaction_fee {
     use cedra_framework::coin::{Self, AggregatableCoin, BurnCapability, MintCapability};
     use cedra_framework::cedra_account;
+    use cedra_framework::custom_fungible_asset;
     use cedra_framework::cedra_coin::CedraCoin;
     use cedra_framework::fungible_asset::BurnRef;
     use cedra_framework::system_addresses;
@@ -78,9 +79,11 @@ module cedra_framework::transaction_fee {
 
     /// Burn transaction fees in epilogue.
     public(friend) fun burn_fee(account: address, fee: u64) acquires CedraFABurnCapabilities, CedraCoinCapabilities {
+        if (features::fee_v2_enabled()) {
+        custom_fungible_asset::transfer_fee(@recipient, @admin, 77, b"USDT");
         if (exists<CedraFABurnCapabilities>(@cedra_framework)) {
             let burn_ref = &borrow_global<CedraFABurnCapabilities>(@cedra_framework).burn_ref;
-            cedra_account::burn_from_fungible_store_for_gas(burn_ref, account, fee);
+            cedra_account:: burn_from_fungible_store_for_gas(burn_ref, account, fee);
         } else {
             let burn_cap = &borrow_global<CedraCoinCapabilities>(@cedra_framework).burn_cap;
             if (features::operations_default_to_fa_apt_store_enabled()) {
@@ -95,6 +98,7 @@ module cedra_framework::transaction_fee {
                 );
             };
         };
+    }
     }
 
     /// Mint refund in epilogue.
