@@ -714,6 +714,16 @@ module std::features {
         is_enabled(ORDERLESS_TRANSACTIONS)
     }
 
+    /// Whether to use custom transaction fee.
+    /// Lifetime: permanent
+    const FEE_V2: u64 = 95;
+
+    public fun get_fee_v2(): u64 { FEE_V2 }
+
+    public fun fee_v2_enabled(): bool acquires Features {
+        is_enabled(FEE_V2)
+    }
+
     // ============================================================================================
     // Feature Flag Implementation
 

@@ -518,6 +518,7 @@ module cedra_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
+        fa_address: address,
     ) {
         let addr = signer::address_of(&account);
         epilogue_gas_payer(
@@ -526,7 +527,8 @@ module cedra_framework::transaction_validation {
             storage_fee_refunded,
             txn_gas_price,
             txn_max_gas_units,
-            gas_units_remaining
+            gas_units_remaining,
+            fa_address,
         );
     }
 
@@ -540,6 +542,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
         is_simulation: bool,
+        fa_address: address, 
     ) {
         let addr = signer::address_of(&account);
         epilogue_gas_payer_extended(
@@ -549,7 +552,8 @@ module cedra_framework::transaction_validation {
             txn_gas_price,
             txn_max_gas_units,
             gas_units_remaining,
-            is_simulation
+            is_simulation,
+            fa_address,
         );
     }
 
@@ -561,7 +565,9 @@ module cedra_framework::transaction_validation {
         storage_fee_refunded: u64,
         txn_gas_price: u64,
         txn_max_gas_units: u64,
-        gas_units_remaining: u64
+        gas_units_remaining: u64,
+        fa_address: address, 
+
     ) {
         // epilogue_gas_payer_extended with is_simulation set to false behaves identically to the original
         // epilogue_gas_payer function.
@@ -573,6 +579,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             gas_units_remaining,
             false,
+            fa_address,
         );
     }
 
@@ -587,6 +594,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
         is_simulation: bool,
+        fa_address: address,
     ) {
         assert!(txn_max_gas_units >= gas_units_remaining, error::invalid_argument(EOUT_OF_GAS));
         let gas_used = txn_max_gas_units - gas_units_remaining;
@@ -614,7 +622,7 @@ module cedra_framework::transaction_validation {
 
             if (transaction_fee_amount > storage_fee_refunded) {
                 let burn_amount = transaction_fee_amount - storage_fee_refunded;
-                transaction_fee::burn_fee(gas_payer, burn_amount);
+                transaction_fee::burn_fee(gas_payer, burn_amount, fa_address);
             } else if (transaction_fee_amount < storage_fee_refunded) {
                 let mint_amount = storage_fee_refunded - transaction_fee_amount;
                 transaction_fee::mint_and_refund(gas_payer, mint_amount);
@@ -707,6 +715,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
         is_simulation: bool,
+        fa_address: address,
     ) {
         unified_epilogue_v2(
             account,
@@ -717,6 +726,7 @@ module cedra_framework::transaction_validation {
             gas_units_remaining,
             is_simulation,
             false,
+            fa_address,
         )
     }
 
@@ -803,6 +813,7 @@ module cedra_framework::transaction_validation {
         gas_units_remaining: u64,
         is_simulation: bool,
         is_orderless_txn: bool,
+        fa_address: address, 
     ) {
         assert!(txn_max_gas_units >= gas_units_remaining, error::invalid_argument(EOUT_OF_GAS));
         let gas_used = txn_max_gas_units - gas_units_remaining;
@@ -834,7 +845,7 @@ module cedra_framework::transaction_validation {
 
             if (transaction_fee_amount > storage_fee_refunded) {
                 let burn_amount = transaction_fee_amount - storage_fee_refunded;
-                transaction_fee::burn_fee(gas_payer_address, burn_amount);
+                transaction_fee::burn_fee(gas_payer_address, burn_amount, fa_address);
                 permissioned_signer::check_permission_consume(
                     &gas_payer,
                     (burn_amount as u256),
