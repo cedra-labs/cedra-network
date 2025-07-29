@@ -1,0 +1,77 @@
+cd  propose/metadata && python3 -m http.server 8000
+
+
+sudo /home/egor/Desktop/work/cedra-network/target/debug/cedra-release-builder generate-proposals --release-config release.yaml --output-dir proposal
+
+
+sudo cedra account fund-with-faucet --amount 100000000000000
+
+
+===========
+
+
+sudo cedra stake set-delegated-voter \
+--voter-address  3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e \
+--assume-yes
+
+
+===========
+
+# === Змінні ===
+POOL_ADDRESS="3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
+METADATA_URL="http://localhost:8000/whitelist.json"
+SENDER_ACCOUNT="0x$POOL_ADDRESS"
+BASE_PATH="/home/egor/Desktop/work/cedra-network/cedra-move/framework/cedra-framework/proposal/sources/2.0.0/whitelist"
+FRAMEWORK_LOCAL_DIR="/home/egor/Desktop/work/cedra-network/cedra-move/framework/cedra-framework"
+MAX_GAS=500000
+
+FILES=(
+    "0-gas-schedule.move"
+    "1-move-stdlib.move"
+    "2-cedra-stdlib.move"
+    "3-cedra-framework.move"
+    "4-cedra-token.move"
+    "5-cedra-token-objects.move"
+)
+
+# === Крок 1: Пропонуємо кожен файл ===
+for file in "${FILES[@]}"; do
+    echo "Proposing $file"
+    sudo cedra governance propose \
+        --pool-address "$POOL_ADDRESS" \
+        --metadata-url "$METADATA_URL" \
+        --script-path "$BASE_PATH/$file" \
+        --sender-account "$SENDER_ACCOUNT" \
+        --is-multi-step \
+        --assume-yes
+done
+
+# === Крок 2: Голосуємо за всі пропозиції ===
+for id in {0..5}; do
+    echo "Voting YES on proposal $id"
+    sudo cedra governance vote \
+        --proposal-id "$id" \
+        --pool-addresses "$POOL_ADDRESS" \
+        --yes \
+        --assume-yes
+done
+
+# === Очікування перед виконанням ===
+echo "⏳ Waiting 40 seconds before executing proposals..."
+sleep 40
+
+# === Крок 3: Виконуємо кожну пропозицію ===
+for FILE in "${FILES[@]}"; do
+    PROPOSAL_ID="${FILE%%-*}"
+    SCRIPT_PATH="$BASE_PATH/$FILE"
+
+    echo "Executing proposal ID $PROPOSAL_ID using $SCRIPT_PATH"
+    sudo cedra governance execute-proposal \
+        --proposal-id "$PROPOSAL_ID" \
+        --script-path "$SCRIPT_PATH" \
+        --max-gas "$MAX_GAS" \
+        --framework-local-dir "$FRAMEWORK_LOCAL_DIR" \
+        --assume-yes
+done
+
+echo "✅ All proposals executed."

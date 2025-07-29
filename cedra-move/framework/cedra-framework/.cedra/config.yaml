@@ -1,0 +1,17 @@
+---
+profiles:
+  testnet:
+    network: Testnet
+    private_key: ed25519-priv-0xc37f370d5ef579b2bc33a41454b48c625f9c2378cc33842c2b9babae70f28881
+    public_key: ed25519-pub-0xaca10140e510abff367269eae9e232ffeef48edd4fdd38c6b1f68c9fe8b4ea1e
+    account: c7d96b57061f225bf44cb47ade622afc7eda263379fae9319b88e0052f114833
+    rest_url: "https://testnet.cedra.dev"
+    faucet_url: "https://faucet.cedra.dev"
+  default:
+    network: Custom
+    private_key: ed25519-priv-0x1b542690da83a0c3507e9e8c6ac03be689863d5241483b206a8f5ffd1fefd540
+    public_key: ed25519-pub-0xf55da5f124ff9aa25765657fd93346b3a9876387ddb0e64e71f2bc9d85fede63
+    account: 3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e
+    rest_url: "http://localhost:8080/"
+    faucet_url: "http://localhost:8011/"
+

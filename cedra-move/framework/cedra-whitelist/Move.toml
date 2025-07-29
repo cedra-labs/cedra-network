@@ -1,0 +1,18 @@
+[package]
+name = "cedra-whitelist"
+version = "1.0.0"
+authors = []
+
+[addresses]
+cedra_framework = "0x1"
+admin = "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
+
+[dev-addresses]
+
+
+[dependencies.CedraFramework]
+local = "../cedra-framework"
+
+
+
+[dev-dependencies]

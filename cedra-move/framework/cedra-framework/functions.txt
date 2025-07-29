@@ -1,0 +1,26 @@
+mint:
+cedra move run   --function-id 0x1::custom_fungible_asset::mint   --args     string:USDT address:0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e     u64:100000000 
+cedra move run   --function-id 0x1::custom_fungible_asset::mint   --args     string:USDT address:0xf0071743225cab7a4422afce5d728c645d3b0328d263e92cb49198ea004da12b      u64:100000000 
+
+init_registry:
+cedra move run   --function-id 0x1::custom_fungible_asset::init_registry
+
+init:
+cedra move run   --function-id 0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e::usdt::init
+
+
+get_assets:
+cedra move view --function-id 0x1::custom_fungible_asset::get_asset_list --args address:0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e
+
+
+get_balance:
+cedra move view   --function-id 0x1::custom_fungible_asset::get_balance --args address:0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e address:0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e string:USDT 
+cedra move view   --function-id 0x1::custom_fungible_asset::get_balance --args address:0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e address:0xf0071743225cab7a4422afce5d728c645d3b0328d263e92cb49198ea004da12b string:USDT 
+
+
+transfer_fee:
+cedra move run   --function-id 0x1::custom_fungible_asset::transfer_fee --args address:0xf0071743225cab7a4422afce5d728c645d3b0328d263e92cb49198ea004da12b address:0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e u64:77 string:USDT 
+
+
+sudo cedra move compile
+sudo cedra move publish
