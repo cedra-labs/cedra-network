@@ -138,6 +138,7 @@ pub enum FeatureFlag {
     JWK_CONSENSUS_PER_KEY_MODE = 92,
     TRANSACTION_PAYLOAD_V2 = 93,
     ORDERLESS_TRANSACTIONS = 94,
+    FEE_V2 = 97,
 }
 
 impl FeatureFlag {
@@ -233,6 +234,7 @@ impl FeatureFlag {
             FeatureFlag::DEFAULT_ACCOUNT_RESOURCE,
             FeatureFlag::TRANSACTION_PAYLOAD_V2,
             FeatureFlag::ORDERLESS_TRANSACTIONS,
+            FeatureFlag::FEE_V2,
         ]
     }
 }
@@ -306,6 +308,10 @@ impl Features {
 
     pub fn is_storage_slot_metadata_enabled(&self) -> bool {
         self.is_enabled(FeatureFlag::STORAGE_SLOT_METADATA)
+    }
+
+    pub fn is_fee_enabled(&self) -> bool {
+        self.is_enabled(FeatureFlag::FEE_V2)
     }
 
     pub fn is_account_abstraction_enabled(&self) -> bool {

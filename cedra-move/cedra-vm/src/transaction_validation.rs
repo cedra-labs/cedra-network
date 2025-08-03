@@ -57,11 +57,13 @@ pub static CEDRA_TRANSACTION_VALIDATION: Lazy<TransactionValidation> =
         unified_prologue_name: Identifier::new("unified_prologue").unwrap(),
         unified_prologue_fee_payer_name: Identifier::new("unified_prologue_fee_payer").unwrap(),
         unified_epilogue_name: Identifier::new("unified_epilogue").unwrap(),
+        unified_epilogue_fee_name: Identifier::new("unified_epilogue_fee").unwrap(),
 
         unified_prologue_v2_name: Identifier::new("unified_prologue_v2").unwrap(),
         unified_prologue_fee_payer_v2_name: Identifier::new("unified_prologue_fee_payer_v2")
             .unwrap(),
         unified_epilogue_v2_name: Identifier::new("unified_epilogue_v2").unwrap(),
+        unified_epilogue_fee_v2_name: Identifier::new("unified_epilogue_fee_v2").unwrap(),
     });
 
 /// On-chain functions used to validate transactions
@@ -82,11 +84,13 @@ pub struct TransactionValidation {
     pub unified_prologue_name: Identifier,
     pub unified_prologue_fee_payer_name: Identifier,
     pub unified_epilogue_name: Identifier,
+    pub unified_epilogue_fee_name: Identifier,
 
     // Only these v2 functions support Txn Payload V2 format and Orderless transactions
     pub unified_prologue_v2_name: Identifier,
     pub unified_prologue_fee_payer_v2_name: Identifier,
     pub unified_epilogue_v2_name: Identifier,
+    pub unified_epilogue_fee_v2_name: Identifier,
 }
 
 impl TransactionValidation {
@@ -462,6 +466,11 @@ fn run_epilogue(
     let txn_max_gas_units = txn_data.max_gas_amount();
     let is_orderless_txn = txn_data.is_orderless();
 
+    let fa_address = AccountAddress::from_hex_literal(
+        "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e",
+    )
+    .expect("Invalid FA address");
+
     if features.is_account_abstraction_enabled()
         || features.is_derivable_account_abstraction_enabled()
     {
@@ -484,6 +493,7 @@ fn run_epilogue(
                 .unwrap(),
             MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
         ];
+
         if features.is_transaction_payload_v2_enabled() {
             serialize_args.push(
                 MoveValue::Bool(is_orderless_txn)
@@ -491,13 +501,21 @@ fn run_epilogue(
                     .unwrap(),
             );
         }
+
+        let mut function_name = if features.is_transaction_payload_v2_enabled() {
+            &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
+        } else {
+            &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
+        };
+
+        if features.is_fee_enabled() {
+            function_name = &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name;
+            serialize_args.push(MoveValue::Address(fa_address).simple_serialize().unwrap());
+        }
+
         session.execute_function_bypass_visibility(
             &CEDRA_TRANSACTION_VALIDATION.module_id(),
-            if features.is_transaction_payload_v2_enabled() {
-                &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
-            } else {
-                &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
-            },
+            function_name,
             vec![],
             serialize_args,
             &mut UnmeteredGasMeter,
@@ -510,7 +528,7 @@ fn run_epilogue(
         if let Some(fee_payer) = txn_data.fee_payer() {
             let (func_name, args) = {
                 if features.is_transaction_simulation_enhancement_enabled() {
-                    let args = vec![
+                    let mut args = vec![
                         MoveValue::Signer(txn_data.sender),
                         MoveValue::Address(fee_payer),
                         MoveValue::U64(fee_statement.storage_fee_refund()),
@@ -519,12 +537,16 @@ fn run_epilogue(
                         MoveValue::U64(gas_remaining.into()),
                         MoveValue::Bool(is_simulation),
                     ];
+                    if features.is_fee_enabled() {
+                        args.push(MoveValue::Address(fa_address));
+                    }
+
                     (
                         &CEDRA_TRANSACTION_VALIDATION.user_epilogue_gas_payer_extended_name,
                         args,
                     )
                 } else {
-                    let args = vec![
+                    let mut args = vec![
                         MoveValue::Signer(txn_data.sender),
                         MoveValue::Address(fee_payer),
                         MoveValue::U64(fee_statement.storage_fee_refund()),
@@ -532,6 +554,10 @@ fn run_epilogue(
                         MoveValue::U64(txn_max_gas_units.into()),
                         MoveValue::U64(gas_remaining.into()),
                     ];
+                    if features.is_fee_enabled() {
+                        args.push(MoveValue::Address(fa_address));
+                    }
+
                     (
                         &CEDRA_TRANSACTION_VALIDATION.user_epilogue_gas_payer_name,
                         args,
@@ -551,7 +577,7 @@ fn run_epilogue(
             // Regular tx, run the normal epilogue
             let (func_name, args) = {
                 if features.is_transaction_simulation_enhancement_enabled() {
-                    let args = vec![
+                    let mut args = vec![
                         MoveValue::Signer(txn_data.sender),
                         MoveValue::U64(fee_statement.storage_fee_refund()),
                         MoveValue::U64(txn_gas_price.into()),
@@ -559,18 +585,27 @@ fn run_epilogue(
                         MoveValue::U64(gas_remaining.into()),
                         MoveValue::Bool(is_simulation),
                     ];
+
+                    if features.is_fee_enabled() {
+                        args.push(MoveValue::Address(fa_address));
+                    }
+
                     (
                         &CEDRA_TRANSACTION_VALIDATION.user_epilogue_extended_name,
                         args,
                     )
                 } else {
-                    let args = vec![
+                    let mut args = vec![
                         MoveValue::Signer(txn_data.sender),
                         MoveValue::U64(fee_statement.storage_fee_refund()),
                         MoveValue::U64(txn_gas_price.into()),
                         MoveValue::U64(txn_max_gas_units.into()),
                         MoveValue::U64(gas_remaining.into()),
                     ];
+                    if features.is_fee_enabled() {
+                        args.push(MoveValue::Address(fa_address));
+                    }
+
                     (&CEDRA_TRANSACTION_VALIDATION.user_epilogue_name, args)
                 }
             };

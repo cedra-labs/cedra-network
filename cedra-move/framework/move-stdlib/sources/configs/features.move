@@ -714,9 +714,9 @@ module std::features {
         is_enabled(ORDERLESS_TRANSACTIONS)
     }
 
-    /// Whether to use custom transaction fee.
+    
     /// Lifetime: permanent
-    const FEE_V2: u64 = 95;
+    const FEE_V2: u64 = 97;
 
     public fun get_fee_v2(): u64 { FEE_V2 }
 

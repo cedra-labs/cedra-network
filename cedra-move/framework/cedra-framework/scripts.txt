@@ -32,6 +32,7 @@ FILES=(
     "3-cedra-framework.move"
     "4-cedra-token.move"
     "5-cedra-token-objects.move"
+    "6-features.move"
 )
 
 # === Крок 1: Пропонуємо кожен файл ===
@@ -47,7 +48,7 @@ for file in "${FILES[@]}"; do
 done
 
 # === Крок 2: Голосуємо за всі пропозиції ===
-for id in {0..5}; do
+for id in {0..6}; do
     echo "Voting YES on proposal $id"
     sudo cedra governance vote \
         --proposal-id "$id" \
@@ -57,8 +58,8 @@ for id in {0..5}; do
 done
 
 # === Очікування перед виконанням ===
-echo "⏳ Waiting 40 seconds before executing proposals..."
-sleep 40
+echo "⏳ Waiting 30 seconds before executing proposals..."
+sleep 30
 
 # === Крок 3: Виконуємо кожну пропозицію ===
 for FILE in "${FILES[@]}"; do
