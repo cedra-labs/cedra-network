@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{golden_output::GoldenOutputs, pretty};
+use bytes::Bytes;
 use cedra_api::{attach_poem_to_runtime, BasicError, Context};
 use cedra_api_types::{
     mime_types, HexEncodedBytes, TransactionOnChainData, X_CEDRA_CHAIN_ID,
@@ -28,7 +29,7 @@ use cedra_sdk::{
     transaction_builder::TransactionFactory,
     types::{
         account_config::cedra_test_root_address, get_apt_primary_store_address,
-        transaction::SignedTransaction, AccountKey, LocalAccount,
+        transaction::SignedTransaction, AccountKey, CedraCoinType, CoinType, LocalAccount,
     },
 };
 use cedra_storage_interface::{
@@ -52,7 +53,6 @@ use cedra_types::{
 };
 use cedra_vm::cedra_vm::CedraVMBlockExecutor;
 use cedra_vm_validator::vm_validator::PooledVMValidator;
-use bytes::Bytes;
 use hyper::{HeaderMap, Response};
 use rand::SeedableRng;
 use serde_json::{json, Value};
@@ -366,7 +366,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id())
+        TransactionFactory::new(self.context.chain_id(), CedraCoinType::type_tag())
     }
 
     pub async fn root_account(&self) -> LocalAccount {

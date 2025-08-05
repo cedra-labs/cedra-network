@@ -16,6 +16,7 @@ use cedra_types::{
     function_info::FunctionInfo,
     transaction::{EntryFunction, Script},
 };
+use move_core_types::language_storage::TypeTag;
 
 pub struct TransactionBuilder {
     sender: Option<AccountAddress>,
@@ -25,6 +26,7 @@ pub struct TransactionBuilder {
     gas_unit_price: u64,
     expiration_timestamp_secs: u64,
     chain_id: ChainId,
+    fa_address: TypeTag,
 }
 
 impl TransactionBuilder {
@@ -32,6 +34,7 @@ impl TransactionBuilder {
         payload: TransactionPayload,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fa_address: TypeTag,
     ) -> Self {
         Self {
             payload,
@@ -42,6 +45,7 @@ impl TransactionBuilder {
             gas_unit_price: std::cmp::max(GAS_UNIT_PRICE, 1),
             sender: None,
             sequence_number: None,
+            fa_address,
         }
     }
 
@@ -109,6 +113,7 @@ impl TransactionBuilder {
             self.gas_unit_price,
             self.expiration_timestamp_secs,
             self.chain_id,
+            self.fa_address,
         )
     }
 }
@@ -119,16 +124,18 @@ pub struct TransactionFactory {
     gas_unit_price: u64,
     transaction_expiration_time: u64,
     chain_id: ChainId,
+    fa_address: TypeTag,
 }
 
 impl TransactionFactory {
-    pub fn new(chain_id: ChainId) -> Self {
+    pub fn new(chain_id: ChainId, fa_address: TypeTag) -> Self {
         Self {
             // TODO(Gas): double check if this right
             max_gas_amount: MAX_GAS_AMOUNT,
             gas_unit_price: GAS_UNIT_PRICE,
             transaction_expiration_time: 30,
             chain_id,
+            fa_address,
         }
     }
 
@@ -324,6 +331,7 @@ impl TransactionFactory {
             gas_unit_price: self.gas_unit_price,
             expiration_timestamp_secs: self.expiration_timestamp(),
             chain_id: self.chain_id,
+            fa_address: self.fa_address.clone(),
         }
     }
 
