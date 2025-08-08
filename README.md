@@ -26,15 +26,16 @@ The quickest way to get started with Cedra is by installing the CLI:
 sudo add-apt-repository ppa:cedra-network/deps
 sudo apt update
 sudo apt install cedra-cli
+
+# Verify installation
+cedra --version
 ```
 
 **Windows (Chocolatey - recommended):**
 ```bash
 choco install cedra
-```
 
-Once installed, verify:
-```bash
+# Verify installation
 cedra --version
 ```
 
@@ -42,7 +43,8 @@ cedra --version
 1. Visit the Cedra CLI v1.0.1 release page: https://github.com/cedra-labs/cedra-network/releases/tag/cedra-cli-v1.0.1.
 2. In the Assets section, choose the file that matches your platform
 3. Extract the archive
-4. Move the `cedra` (or `cedra.exe` on Windows) executable to a folder that is in your `PATH`:
+4. Move the `cedra` (or `cedra.exe` on Windows) executable to a folder that is in your `PATH`
+5. Verify installation: `cedra --version`
 
 For detailed installation instructions and troubleshooting, see the [CLI Installation Guide](https://docs.cedra.network/getting-started/cli).
 
@@ -54,9 +56,11 @@ If you prefer compiling yourself or contributing to Cedra:
 git clone https://github.com/cedra-labs/cedra-network
 cd cedra-network
 cargo build --release -p cedra
-```
 
-The compiled binary will be at `target/release/cedra` (or `.exe` on Windows). Add it to your PATH and run `cedra --version` to confirm.
+# The compiled binary will be at target/release/cedra (or .exe on Windows)
+# Add it to your PATH and verify
+cedra --version
+```
 
 For more detailed build instructions and development setup, see our [Development Setup Guide](https://docs.cedra.network/getting-started/libs)
 
