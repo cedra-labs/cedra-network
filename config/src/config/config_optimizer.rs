@@ -37,27 +37,17 @@ const MAINNET_SEED_PEERS: [(&str, &str, &str); 1] = [(
 
 // Testnet seed peers. Each seed peer entry is a tuple
 // of (account address, public key, network address).
-const TESTNET_SEED_PEERS: [(&str, &str, &str); 4] = [
+const TESTNET_SEED_PEERS: [(&str, &str, &str); 1] = [
     (
-        "31e55012a7d439dcd16fee0509cd5855c1fbdc62057ba7fac3f7c88f5453dd8e",
-        "0x87bb19b02580b7e2a91a8e9342ec77ffd8f3ad967f54e77b22aaf558c5c11755",
-        "/dns/seed0.testnet.cedralabs.com/tcp/6182/noise-ik/0x87bb19b02580b7e2a91a8e9342ec77ffd8f3ad967f54e77b22aaf558c5c11755/handshake/0",
+        "31f1ff7f7bb3761f26db76abbc80a8be42a16d2c031801b8c9704f4e7a747a24",
+        "0x2e103609b65a9369eb7c73aaf94e7f0f8da5c7883a3f0f359ef12fcf70161a30",
+        "/dns/t-seed.cedra.dev/tcp/6165/noise-ik/0x2e103609b65a9369eb7c73aaf94e7f0f8da5c7883a3f0f359ef12fcf70161a30/handshake/0",
     ),
-    (
-        "116176e2af223a8b7f8db80dc52f7a423b4d7f8c0553a1747e92ef58849aff4f",
-        "0xc2f24389f31c9c18d2ceb69d153ad9299e0ea7bbd66f457e0a28ef41c77c2b64",
-        "/dns/seed1.testnet.cedralabs.com/tcp/6182/noise-ik/0xc2f24389f31c9c18d2ceb69d153ad9299e0ea7bbd66f457e0a28ef41c77c2b64/handshake/0",
-    ),
-    (
-        "12000330d7cd8a748f46c25e6ce5d236a27e13d0b510d4516ac84ecc5fddd002",
-        "0x171c661e5b785283978a74eafc52a906e68c73ae78119737b92f93507c753933",
-        "/dns/seed2.testnet.cedralabs.com/tcp/6182/noise-ik/0x171c661e5b785283978a74eafc52a906e68c73ae78119737b92f93507c753933/handshake/0",
-    ),
-    (
-        "03c04549114877c55f45649aba48ac0a4ff086ab7bdce3b8cc8d3d9947bc0d99",
-        "0xafc38bf177bd825326a1c314748612137d2b35dae6472932806806a32c23174a",
-        "/dns/seed3.testnet.cedralabs.com/tcp/6182/noise-ik/0xafc38bf177bd825326a1c314748612137d2b35dae6472932806806a32c23174a/handshake/0",
-    ),
+    // (
+    //     "116176e2af223a8b7f8db80dc52f7a423b4d7f8c0553a1747e92ef58849aff4f",
+    //     "0xc2f24389f31c9c18d2ceb69d153ad9299e0ea7bbd66f457e0a28ef41c77c2b64",
+    //     "/dns/seed1.testnet.cedralabs.com/tcp/6182/noise-ik/0xc2f24389f31c9c18d2ceb69d153ad9299e0ea7bbd66f457e0a28ef41c77c2b64/handshake/0",
+    // ),
 ];
 
 /// A trait for optimizing node configs (and their sub-configs) by tweaking
