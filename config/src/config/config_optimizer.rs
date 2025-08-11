@@ -271,12 +271,6 @@ fn build_seed_peer(
     public_key_hex: &str,
     network_address_str: &str,
 ) -> Result<(PeerId, Peer), Error> {
-     println!("---------------");
-     println!("---------------");
-     println!("---------------");
-    println!("{:?}",account_address_hex);
-    println!("{:?}",public_key_hex);
-    println!("{:?}",network_address_str);
     // Parse the account address
     let account_address = PeerId::from_hex(account_address_hex).map_err(|error| {
         Error::Unexpected(format!(
