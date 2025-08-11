@@ -17,6 +17,7 @@ use cedra_types::{
     test_helpers::transaction_test_helpers,
     transaction::{ExecutionStatus, Script, TransactionArgument, TransactionStatus},
     vm_status::StatusCode,
+    CedraCoinType, CoinType,
 };
 use move_binary_format::file_format::CompiledModule;
 use move_core_types::{
@@ -42,6 +43,7 @@ fn verify_signature() {
         &private_key,
         sender.account().pubkey.as_ed25519().unwrap(),
         program,
+        CedraCoinType::type_tag(),
     );
 
     assert_prologue_parity!(
@@ -74,6 +76,7 @@ fn verify_multi_agent_invalid_sender_signature() {
         vec![&secondary_signer.account().privkey],
         vec![secondary_signer.account().pubkey.as_ed25519().unwrap()],
         None,
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(signed_txn.clone()).status(),
@@ -104,6 +107,7 @@ fn verify_multi_agent_invalid_secondary_signature() {
         vec![&private_key],
         vec![secondary_signer.account().pubkey.as_ed25519().unwrap()],
         None,
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(signed_txn.clone()).status(),
@@ -146,6 +150,7 @@ fn verify_multi_agent_duplicate_secondary_signer() {
             secondary_signer.account().pubkey.as_ed25519().unwrap(),
         ],
         None,
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(signed_txn.clone()).status(),
@@ -168,6 +173,7 @@ fn verify_reserved_sender() {
         &private_key,
         private_key.public_key(),
         Some(program),
+        CedraCoinType::type_tag(),
     );
 
     assert_prologue_parity!(
@@ -378,9 +384,11 @@ fn verify_simple_payment() {
     let txn = sender
         .account()
         .transaction()
-        .script(Script::new(empty_script.clone(), vec![], vec![
-            TransactionArgument::U8(42),
-        ]))
+        .script(Script::new(
+            empty_script.clone(),
+            vec![],
+            vec![TransactionArgument::U8(42)],
+        ))
         .sequence_number(10)
         .max_gas_amount(100_000)
         .gas_unit_price(1)
@@ -442,6 +450,7 @@ fn verify_expiration_time() {
         0,    /* expiration_time */
         0,    /* gas_unit_price */
         None, /* max_gas_amount */
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),
@@ -460,6 +469,7 @@ fn verify_expiration_time() {
         0,    /* expiration_time */
         0,    /* gas_unit_price */
         None, /* max_gas_amount */
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),
@@ -481,6 +491,7 @@ fn verify_chain_id() {
         private_key.public_key(),
         // all tests use ChainId::test() for chain_id,so pick something different
         ChainId::new(ChainId::test().id() + 1),
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),
@@ -504,6 +515,7 @@ fn verify_max_sequence_number() {
         u64::MAX, /* expiration_time */
         0,        /* gas_unit_price */
         None,     /* max_gas_amount */
+        CedraCoinType::type_tag(),
     );
     assert_prologue_parity!(
         executor.validate_transaction(txn.clone()).status(),

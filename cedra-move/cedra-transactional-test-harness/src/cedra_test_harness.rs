@@ -29,6 +29,7 @@ use cedra_types::{
         EntryFunction as TransactionEntryFunction, ExecutionStatus, RawTransaction,
         Script as TransactionScript, Transaction, TransactionOutput, TransactionStatus,
     },
+    CedraCoinType, CoinType,
 };
 use cedra_vm::{cedra_vm::CedraVMBlockExecutor, VMBlockExecutor};
 use cedra_vm_environment::prod_configs::set_paranoid_type_checks;
@@ -529,6 +530,7 @@ impl<'a> CedraTestAdapter<'a> {
             parameters.gas_unit_price,
             parameters.expiration_timestamp_secs,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         )
         .sign(&GENESIS_KEYPAIR.0, GENESIS_KEYPAIR.1.clone())
         .unwrap()
@@ -545,6 +547,7 @@ impl<'a> CedraTestAdapter<'a> {
             parameters.gas_unit_price,
             parameters.expiration_timestamp_secs,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         )
         .sign(&GENESIS_KEYPAIR.0, GENESIS_KEYPAIR.1.clone())
         .unwrap()
@@ -844,6 +847,7 @@ impl<'a> MoveTestAdapter<'a> for CedraTestAdapter<'a> {
             params.gas_unit_price,
             params.expiration_timestamp_secs,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         )
         .sign(&private_key, Ed25519PublicKey::from(&private_key))
         .unwrap()
@@ -914,6 +918,7 @@ impl<'a> MoveTestAdapter<'a> for CedraTestAdapter<'a> {
             params.gas_unit_price,
             params.expiration_timestamp_secs,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         );
 
         let txn = match &extra_args.secondary_signers {
@@ -1065,10 +1070,13 @@ fn precompiled_v2_stdlib() -> &'static PrecompiledFilesModules {
 }
 
 pub fn run_cedra_test(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
-    run_cedra_test_with_config(path, TestRunConfig::CompilerV2 {
-        language_version: LanguageVersion::default(),
-        experiments: vec![("attach-compiled-module".to_owned(), true)],
-    })
+    run_cedra_test_with_config(
+        path,
+        TestRunConfig::CompilerV2 {
+            language_version: LanguageVersion::default(),
+            experiments: vec![("attach-compiled-module".to_owned(), true)],
+        },
+    )
 }
 
 pub fn run_cedra_test_with_config(

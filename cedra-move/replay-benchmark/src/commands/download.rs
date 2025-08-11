@@ -6,7 +6,7 @@ use crate::{
     workload::TransactionBlock,
 };
 use anyhow::{anyhow, bail};
-use cedra_types::transaction::{Transaction, Version};
+use cedra_types::transaction::{CedraCoinType, CoinType, Transaction, Version};
 use clap::Parser;
 use std::path::PathBuf;
 use tokio::fs;
@@ -151,6 +151,7 @@ mod tests {
             1,
             10,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         );
 
         let mut rng = StdRng::from_seed([0; 32]);

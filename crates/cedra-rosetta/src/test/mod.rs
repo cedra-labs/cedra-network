@@ -27,6 +27,7 @@ use cedra_types::{
     test_helpers::transaction_test_helpers::get_test_raw_transaction,
     transaction::{ExecutionStatus, TransactionInfo, TransactionInfoV0},
     write_set::{WriteOp, WriteSet, WriteSetMut},
+    CedraCoinType, CoinType,
 };
 use move_core_types::{account_address::AccountAddress, ident_str, language_storage::StructTag};
 use once_cell::sync::Lazy;
@@ -71,6 +72,7 @@ fn test_transaction(
                     None,      // Expiration timestamp
                     Some(101), // Gas unit price, specifically make it different than 100 to check calculations
                     None,      // Max gas amount
+                    CedraCoinType::type_tag(),
                 ),
                 // Dummy keys and signatures
                 private_key.public_key(),
@@ -240,7 +242,8 @@ async fn test_fa_mint() {
     let amount = 100;
     let sender = AccountAddress::random();
     let store_address = AccountAddress::random();
-    let (mint_changes, mint_events) = mint_fa_output(sender, CEDRA_ADDRESS, store_address, 0, amount);
+    let (mint_changes, mint_events) =
+        mint_fa_output(sender, CEDRA_ADDRESS, store_address, 0, amount);
     let input = test_transaction(sender, version, mint_changes, mint_events);
 
     let result = Transaction::from_transaction(&context, input).await;

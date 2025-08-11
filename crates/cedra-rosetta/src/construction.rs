@@ -46,6 +46,7 @@ use cedra_types::{
     transaction::{
         authenticator::AuthenticationKey, RawTransaction, SignedTransaction, TransactionPayload,
     },
+    CedraCoinType, CoinType,
 };
 use serde::de::DeserializeOwned;
 use std::{
@@ -317,7 +318,7 @@ async fn simulate_transaction(
     sequence_number: u64,
 ) -> ApiResult<(Amount, u64, u64)> {
     // If we have any missing fields, let's simulate!
-    let mut transaction_factory = TransactionFactory::new(chain_id);
+    let mut transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag());
 
     // If we have a gas unit price, let's not estimate
     // TODO: Split into separate function
@@ -1381,9 +1382,10 @@ async fn construction_payloads(
     let (txn_payload, sender) = operation.payload()?;
 
     // Build the transaction and make it ready for signing
-    let transaction_factory = TransactionFactory::new(server_context.chain_id)
-        .with_gas_unit_price(metadata.gas_price_per_unit.0)
-        .with_max_gas_amount(metadata.max_gas_amount.0);
+    let transaction_factory =
+        TransactionFactory::new(server_context.chain_id, CedraCoinType::type_tag())
+            .with_gas_unit_price(metadata.gas_price_per_unit.0)
+            .with_max_gas_amount(metadata.max_gas_amount.0);
 
     let mut txn_builder = transaction_factory
         .payload(txn_payload)

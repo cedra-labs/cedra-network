@@ -6,8 +6,8 @@ use crate::{
     errors::{convert_epilogue_error, convert_prologue_error, expect_only_successful_execution},
     move_vm_ext::{CedraMoveResolver, SessionExt},
     system_module_names::{
-        EMIT_FEE_STATEMENT, MULTISIG_ACCOUNT_MODULE, TRANSACTION_FEE_MODULE,
-        VALIDATE_MULTISIG_TRANSACTION,
+        EMIT_CUSTOM_FEE_STATEMENT, EMIT_FEE_STATEMENT, MULTISIG_ACCOUNT_MODULE,
+        TRANSACTION_FEE_MODULE, VALIDATE_MULTISIG_TRANSACTION,
     },
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
@@ -15,7 +15,7 @@ use crate::{
 use cedra_gas_algebra::Gas;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
-    fee_statement::FeeStatement,
+    fee_statement::{CustomFeeStatement, FeeStatement},
     move_utils::as_move_value::AsMoveValue,
     on_chain_config::Features,
     transaction::{MultisigTransactionPayload, ReplayProtector, TransactionExecutableRef},
@@ -57,7 +57,7 @@ pub static CEDRA_TRANSACTION_VALIDATION: Lazy<TransactionValidation> =
         unified_prologue_name: Identifier::new("unified_prologue").unwrap(),
         unified_prologue_fee_payer_name: Identifier::new("unified_prologue_fee_payer").unwrap(),
         unified_epilogue_name: Identifier::new("unified_epilogue").unwrap(),
-
+        unified_epilogue_fee_name: Identifier::new("unified_epilogue_fee").unwrap(),
         unified_prologue_v2_name: Identifier::new("unified_prologue_v2").unwrap(),
         unified_prologue_fee_payer_v2_name: Identifier::new("unified_prologue_fee_payer_v2")
             .unwrap(),
@@ -82,6 +82,7 @@ pub struct TransactionValidation {
     pub unified_prologue_name: Identifier,
     pub unified_prologue_fee_payer_name: Identifier,
     pub unified_epilogue_name: Identifier,
+    pub unified_epilogue_fee_name: Identifier,
 
     // Only these v2 functions support Txn Payload V2 format and Orderless transactions
     pub unified_prologue_v2_name: Identifier,
@@ -453,6 +454,7 @@ fn run_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
+    custom_fee_statement: CustomFeeStatement,
     txn_data: &TransactionMetadata,
     features: &Features,
     traversal_context: &mut TraversalContext,
@@ -465,45 +467,113 @@ fn run_epilogue(
     if features.is_account_abstraction_enabled()
         || features.is_derivable_account_abstraction_enabled()
     {
-        let mut serialize_args = vec![
-            serialized_signers.sender(),
-            serialized_signers
-                .fee_payer()
-                .unwrap_or(serialized_signers.sender()),
-            MoveValue::U64(fee_statement.storage_fee_refund())
-                .simple_serialize()
-                .unwrap(),
-            MoveValue::U64(txn_gas_price.into())
-                .simple_serialize()
-                .unwrap(),
-            MoveValue::U64(txn_max_gas_units.into())
-                .simple_serialize()
-                .unwrap(),
-            MoveValue::U64(gas_remaining.into())
-                .simple_serialize()
-                .unwrap(),
-            MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
-        ];
-        if features.is_transaction_payload_v2_enabled() {
-            serialize_args.push(
-                MoveValue::Bool(is_orderless_txn)
+        if features.is_fee_v2_enabled() {
+            let fa_address = AccountAddress::from_hex_literal(
+                "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e",
+            )
+            .expect("Invalid FA address");
+            let serialize_args = vec![
+                MoveValue::Address(fa_address).simple_serialize().unwrap(),
+                MoveValue::vector_u8(b"usdt".to_vec())
                     .simple_serialize()
                     .unwrap(),
-            );
-        }
-        session.execute_function_bypass_visibility(
-            &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                MoveValue::vector_u8(b"USDT".to_vec())
+                    .simple_serialize()
+                    .unwrap(),
+            ];
+
+            session
+                .execute_function_bypass_visibility(
+                    &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name,
+                    vec![],
+                    serialize_args,
+                    &mut UnmeteredGasMeter,
+                    traversal_context,
+                    module_storage,
+                )
+                .unwrap();
+            let mut serialize_args = vec![
+                serialized_signers.sender(),
+                serialized_signers
+                    .fee_payer()
+                    .unwrap_or(serialized_signers.sender()),
+                MoveValue::U64(fee_statement.storage_fee_refund())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(txn_gas_price.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(txn_max_gas_units.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(gas_remaining.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
+            ];
             if features.is_transaction_payload_v2_enabled() {
-                &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
-            } else {
-                &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
-            },
-            vec![],
-            serialize_args,
-            &mut UnmeteredGasMeter,
-            traversal_context,
-            module_storage,
-        )
+                serialize_args.push(
+                    MoveValue::Bool(is_orderless_txn)
+                        .simple_serialize()
+                        .unwrap(),
+                );
+            }
+
+            session.execute_function_bypass_visibility(
+                &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                if features.is_transaction_payload_v2_enabled() {
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
+                } else {
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
+                },
+                vec![],
+                serialize_args,
+                &mut UnmeteredGasMeter,
+                traversal_context,
+                module_storage,
+            )
+        } else {
+            let mut serialize_args = vec![
+                serialized_signers.sender(),
+                serialized_signers
+                    .fee_payer()
+                    .unwrap_or(serialized_signers.sender()),
+                MoveValue::U64(fee_statement.storage_fee_refund())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(txn_gas_price.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(txn_max_gas_units.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(gas_remaining.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
+            ];
+            if features.is_transaction_payload_v2_enabled() {
+                serialize_args.push(
+                    MoveValue::Bool(is_orderless_txn)
+                        .simple_serialize()
+                        .unwrap(),
+                );
+            }
+            session.execute_function_bypass_visibility(
+                &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                if features.is_transaction_payload_v2_enabled() {
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
+                } else {
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
+                },
+                vec![],
+                serialize_args,
+                &mut UnmeteredGasMeter,
+                traversal_context,
+                module_storage,
+            )
+        }
     } else {
         // We can unconditionally do this as this condition can only be true if the prologue
         // accepted it, in which case the gas payer feature is enabled.
@@ -588,7 +658,14 @@ fn run_epilogue(
     .map_err(expect_no_verification_errors)?;
 
     // Emit the FeeStatement event
-    if features.is_emit_fee_statement_enabled() {
+    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
+        emit_custom_fee_statement(
+            session,
+            module_storage,
+            custom_fee_statement,
+            traversal_context,
+        )?;
+    } else if features.is_emit_fee_statement_enabled() {
         emit_fee_statement(session, module_storage, fee_statement, traversal_context)?;
     }
 
@@ -615,6 +692,24 @@ fn emit_fee_statement(
     Ok(())
 }
 
+fn emit_custom_fee_statement(
+    session: &mut SessionExt<impl CedraMoveResolver>,
+    module_storage: &impl ModuleStorage,
+    custom_fee_statement: CustomFeeStatement,
+    traversal_context: &mut TraversalContext,
+) -> VMResult<()> {
+    session.execute_function_bypass_visibility(
+        &TRANSACTION_FEE_MODULE,
+        EMIT_CUSTOM_FEE_STATEMENT,
+        vec![],
+        vec![bcs::to_bytes(&custom_fee_statement).expect("Failed to serialize fee statement")],
+        &mut UnmeteredGasMeter,
+        traversal_context,
+        module_storage,
+    )?;
+    Ok(())
+}
+
 /// Run the epilogue of a transaction by calling into `EPILOGUE_NAME` function stored
 /// in the `ACCOUNT_MODULE` on chain.
 pub(crate) fn run_success_epilogue(
@@ -623,6 +718,7 @@ pub(crate) fn run_success_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
+    custom_fee_statement: CustomFeeStatement,
     features: &Features,
     txn_data: &TransactionMetadata,
     log_context: &AdapterLogSchema,
@@ -642,6 +738,7 @@ pub(crate) fn run_success_epilogue(
         serialized_signers,
         gas_remaining,
         fee_statement,
+        custom_fee_statement,
         txn_data,
         features,
         traversal_context,
@@ -658,6 +755,7 @@ pub(crate) fn run_failure_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
+    custom_fee_statement: CustomFeeStatement,
     features: &Features,
     txn_data: &TransactionMetadata,
     log_context: &AdapterLogSchema,
@@ -670,6 +768,7 @@ pub(crate) fn run_failure_epilogue(
         serialized_signers,
         gas_remaining,
         fee_statement,
+        custom_fee_statement,
         txn_data,
         features,
         traversal_context,
