@@ -39,9 +39,9 @@ const MAINNET_SEED_PEERS: [(&str, &str, &str); 1] = [(
 // of (account address, public key, network address).
 const TESTNET_SEED_PEERS: [(&str, &str, &str); 1] = [
     (
-        "35270bede455566c3f1b3dc342658128a238b41a068b73e59c0052e86e71e7d4",
-        "0x2f11b7c9fd7ced95ee9328b6027677e5a21ae259efed86bb6e02f88f8b695d33",
-        "/dns/t-seed.cedra.dev/tcp/6165/noise-ik/0x2f11b7c9fd7ced95ee9328b6027677e5a21ae259efed86bb6e02f88f8b695d33/handshake/0",
+        "31f1ff7f7bb3761f26db76abbc80a8be42a16d2c031801b8c9704f4e7a747a24",
+        "0x2e103609b65a9369eb7c73aaf94e7f0f8da5c7883a3f0f359ef12fcf70161a30",
+        "/dns/t-seed.cedra.dev/tcp/6165/noise-ik/0x2e103609b65a9369eb7c73aaf94e7f0f8da5c7883a3f0f359ef12fcf70161a30/handshake/0",
     ),
     // (
     //     "116176e2af223a8b7f8db80dc52f7a423b4d7f8c0553a1747e92ef58849aff4f",
