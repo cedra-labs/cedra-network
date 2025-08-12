@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{bail, format_err, Result};
-use cedra_sdk::transaction_builder::TransactionFactory;
+use cedra_sdk::{
+    transaction_builder::TransactionFactory,
+    types::{CedraCoinType, CoinType},
+};
 use cedra_transaction_emitter_lib::{query_sequence_number, Cluster, TxnEmitter};
 use futures::future::join_all;
 use rand::{rngs::StdRng, SeedableRng};
@@ -16,7 +19,7 @@ pub async fn diag(cluster: &Cluster) -> Result<()> {
     let client = cluster.random_instance().rest_client();
     let mut coin_source_account = cluster.load_coin_source_account(&client).await?;
     let emitter = TxnEmitter::new(
-        TransactionFactory::new(cluster.chain_id)
+        TransactionFactory::new(cluster.chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(cedra_global_constants::GAS_UNIT_PRICE),
         StdRng::from_entropy(),
         client,

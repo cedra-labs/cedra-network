@@ -25,6 +25,7 @@ use cedra_types::{
         authenticator::{AccountAuthenticator, TransactionAuthenticator},
         SignedTransaction, TransactionPayload, TransactionStatus,
     },
+    CedraCoinType, CoinType,
 };
 use cedra_vm_types::output::VMOutput;
 use clap::Parser;
@@ -168,8 +169,8 @@ impl TxnOptions {
 
         let chain_id = ChainId::new(state.chain_id);
 
-        let transaction_factory =
-            TransactionFactory::new(chain_id).with_gas_unit_price(gas_unit_price);
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
+            .with_gas_unit_price(gas_unit_price);
 
         let unsigned_transaction = transaction_factory
             .payload(payload.clone())
@@ -253,7 +254,7 @@ impl TxnOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);

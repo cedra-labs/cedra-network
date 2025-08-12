@@ -40,6 +40,7 @@ use cedra_types::{
     validator_verifier::ValidatorVerifier,
     waypoint::Waypoint,
     write_set::WriteSet,
+    CedraCoinType, CoinType,
 };
 use futures::{channel::mpsc, StreamExt};
 use move_core_types::language_storage::TypeTag;
@@ -221,6 +222,7 @@ pub fn create_transaction() -> Transaction {
         0,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction,
@@ -245,9 +247,10 @@ pub fn create_transaction_info() -> TransactionInfo {
 
 /// Creates a test transaction info list with proof
 pub fn create_transaction_info_list_with_proof() -> TransactionInfoListWithProof {
-    TransactionInfoListWithProof::new(TransactionAccumulatorRangeProof::new_empty(), vec![
-        create_transaction_info(),
-    ])
+    TransactionInfoListWithProof::new(
+        TransactionAccumulatorRangeProof::new_empty(),
+        vec![create_transaction_info()],
+    )
 }
 
 /// Creates a test transaction list with proof

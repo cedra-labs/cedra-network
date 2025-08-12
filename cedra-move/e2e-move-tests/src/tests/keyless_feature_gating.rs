@@ -23,6 +23,7 @@ use cedra_types::{
         authenticator::{AnyPublicKey, AuthenticationKey, EphemeralSignature},
         EntryFunction, Script, SignedTransaction, Transaction, TransactionStatus,
     },
+    CedraCoinType, CoinType,
 };
 use move_core_types::{
     account_address::AccountAddress,
@@ -390,7 +391,7 @@ fn spend_keyless_account(
 ) -> SignedTransaction {
     let payload = cedra_stdlib::cedra_coin_transfer(recipient, 1);
     //println!("Payload: {:?}", payload);
-    let raw_txn = TransactionBuilder::new(account.clone())
+    let raw_txn = TransactionBuilder::new(account.clone(), CedraCoinType::type_tag())
         .payload(payload)
         .sequence_number(h.sequence_number(account.address()))
         .max_gas_amount(1_000_000)
@@ -482,15 +483,19 @@ fn run_jwk_and_config_script(h: &mut MoveHarness) -> Account {
     let jwk = get_sample_jwk();
     let config = Configuration::new_for_testing();
 
-    let txn = TransactionBuilder::new(core_resources.clone())
-        .script(Script::new(script, vec![], vec![
-            TransactionArgument::U8Vector(iss.into_bytes()),
-            TransactionArgument::U8Vector(jwk.kid.into_bytes()),
-            TransactionArgument::U8Vector(jwk.alg.into_bytes()),
-            TransactionArgument::U8Vector(jwk.e.into_bytes()),
-            TransactionArgument::U8Vector(jwk.n.into_bytes()),
-            TransactionArgument::U64(config.max_exp_horizon_secs),
-        ]))
+    let txn = TransactionBuilder::new(core_resources.clone(), CedraCoinType::type_tag())
+        .script(Script::new(
+            script,
+            vec![],
+            vec![
+                TransactionArgument::U8Vector(iss.into_bytes()),
+                TransactionArgument::U8Vector(jwk.kid.into_bytes()),
+                TransactionArgument::U8Vector(jwk.alg.into_bytes()),
+                TransactionArgument::U8Vector(jwk.e.into_bytes()),
+                TransactionArgument::U8Vector(jwk.n.into_bytes()),
+                TransactionArgument::U64(config.max_exp_horizon_secs),
+            ],
+        ))
         .sequence_number(h.sequence_number(core_resources.address()))
         .max_gas_amount(1_000_000)
         .gas_unit_price(1)
@@ -534,10 +539,12 @@ fn federated_keyless_init_config(h: &mut MoveHarness, core_resources: Account) {
 
     let config = Configuration::new_for_testing();
 
-    let txn = TransactionBuilder::new(core_resources.clone())
-        .script(Script::new(script, vec![], vec![TransactionArgument::U64(
-            config.max_exp_horizon_secs,
-        )]))
+    let txn = TransactionBuilder::new(core_resources.clone(), CedraCoinType::type_tag())
+        .script(Script::new(
+            script,
+            vec![],
+            vec![TransactionArgument::U64(config.max_exp_horizon_secs)],
+        ))
         .sequence_number(h.sequence_number(core_resources.address()))
         .max_gas_amount(1_000_000)
         .gas_unit_price(1)
@@ -557,7 +564,7 @@ fn federated_keyless_install_jwk(
 ) {
     let jwk_owner_account = h.new_account_at(jwk_owner);
 
-    let txn = TransactionBuilder::new(jwk_owner_account.clone())
+    let txn = TransactionBuilder::new(jwk_owner_account.clone(), CedraCoinType::type_tag())
         .entry_function(EntryFunction::new(
             ModuleId::new(CORE_CODE_ADDRESS, ident_str!("jwks").to_owned()),
             ident_str!("update_federated_jwk_set").to_owned(),
@@ -593,15 +600,19 @@ fn run_upgrade_vk_script(h: &mut MoveHarness, core_resources: Account, vk: Groth
 
     let script = package.extract_script_code()[0].clone();
 
-    let txn = TransactionBuilder::new(core_resources.clone())
-        .script(Script::new(script, vec![], vec![
-            TransactionArgument::U8Vector(vk.alpha_g1),
-            TransactionArgument::U8Vector(vk.beta_g2),
-            TransactionArgument::U8Vector(vk.gamma_g2),
-            TransactionArgument::U8Vector(vk.delta_g2),
-            TransactionArgument::U8Vector(vk.gamma_abc_g1[0].clone()),
-            TransactionArgument::U8Vector(vk.gamma_abc_g1[1].clone()),
-        ]))
+    let txn = TransactionBuilder::new(core_resources.clone(), CedraCoinType::type_tag())
+        .script(Script::new(
+            script,
+            vec![],
+            vec![
+                TransactionArgument::U8Vector(vk.alpha_g1),
+                TransactionArgument::U8Vector(vk.beta_g2),
+                TransactionArgument::U8Vector(vk.gamma_g2),
+                TransactionArgument::U8Vector(vk.delta_g2),
+                TransactionArgument::U8Vector(vk.gamma_abc_g1[0].clone()),
+                TransactionArgument::U8Vector(vk.gamma_abc_g1[1].clone()),
+            ],
+        ))
         .sequence_number(h.sequence_number(core_resources.address()))
         .max_gas_amount(1_000_000)
         .gas_unit_price(1)

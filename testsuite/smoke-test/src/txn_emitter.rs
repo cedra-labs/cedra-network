@@ -12,7 +12,10 @@ use cedra_forge::{
     EntryPoints, NodeExt, Result, Swarm, TransactionType, TxnEmitter, TxnStats, WorkflowProgress,
 };
 use cedra_sdk::{transaction_builder::TransactionFactory, types::PeerId};
-use cedra_types::keyless::test_utils::{get_sample_esk, get_sample_exp_date, get_sample_jwt_token};
+use cedra_types::{
+    keyless::test_utils::{get_sample_esk, get_sample_exp_date, get_sample_jwt_token},
+    CedraCoinType, CoinType,
+};
 use once_cell::sync::Lazy;
 use rand::{rngs::OsRng, SeedableRng};
 use std::{sync::Arc, time::Duration};
@@ -36,7 +39,8 @@ pub async fn generate_traffic(
     )
     .await?;
     let transaction_factory =
-        TransactionFactory::new(swarm.chain_info().chain_id).with_gas_unit_price(gas_price);
+        TransactionFactory::new(swarm.chain_info().chain_id, CedraCoinType::type_tag())
+            .with_gas_unit_price(gas_price);
     let rest_cli = swarm.validators().next().unwrap().rest_client();
     let emitter = TxnEmitter::new(transaction_factory, rng, rest_cli);
     emitter
@@ -68,7 +72,8 @@ pub async fn generate_keyless_traffic(
     )
     .await?;
     let transaction_factory =
-        TransactionFactory::new(swarm.chain_info().chain_id).with_gas_unit_price(gas_price);
+        TransactionFactory::new(swarm.chain_info().chain_id, CedraCoinType::type_tag())
+            .with_gas_unit_price(gas_price);
     let rest_cli = swarm.validators().next().unwrap().rest_client();
     let emitter = TxnEmitter::new(transaction_factory, rng, rest_cli);
     emitter
@@ -267,7 +272,9 @@ async fn test_txn_emmitter_low_funds() {
         .map(|n| n.rest_client())
         .collect::<Vec<_>>();
     let chain_info = swarm.chain_info();
-    let transaction_factory = TransactionFactory::new(chain_info.chain_id).with_gas_unit_price(100);
+    let transaction_factory =
+        TransactionFactory::new(chain_info.chain_id, CedraCoinType::type_tag())
+            .with_gas_unit_price(100);
     let emitter = TxnEmitter::new(transaction_factory, rng, validator_clients[0].clone());
 
     let emit_job_request = EmitJobRequest::default()
