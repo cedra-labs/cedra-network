@@ -27,7 +27,7 @@ use move_core_types::{
     account_address::AccountAddress,
     ident_str,
     identifier::Identifier,
-    language_storage::ModuleId,
+    language_storage::{ModuleId, TypeTag},
     value::{serialize_values, MoveValue},
     vm_status::{AbortLocation, StatusCode, VMStatus},
 };
@@ -468,31 +468,41 @@ fn run_epilogue(
         || features.is_derivable_account_abstraction_enabled()
     {
         if features.is_fee_v2_enabled() {
-            let fa_address = AccountAddress::from_hex_literal(
-                "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e",
-            )
-            .expect("Invalid FA address");
-            let serialize_args = vec![
-                MoveValue::Address(fa_address).simple_serialize().unwrap(),
-                MoveValue::vector_u8(b"usdt".to_vec())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::vector_u8(b"USDT".to_vec())
-                    .simple_serialize()
-                    .unwrap(),
-            ];
+            // let fa_address = AccountAddress::from_hex_literal(
+            //     "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e",
+            // )
+            // .expect("Invalid FA address");
+            //
+            if let TypeTag::Struct(s) = &txn_data.fa_address {
+                println!("Address: {}", s.address);
+                println!("Module: {}", s.module);
+                println!("Name: {}", s.name);
 
-            session
-                .execute_function_bypass_visibility(
-                    &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name,
-                    vec![],
-                    serialize_args,
-                    &mut UnmeteredGasMeter,
-                    traversal_context,
-                    module_storage,
-                )
-                .unwrap();
+                // Build args for Move function
+                let serialize_args = vec![
+                    MoveValue::Address(s.address).simple_serialize().unwrap(),
+                    MoveValue::vector_u8(s.module.as_str().as_bytes().to_vec())
+                        .simple_serialize()
+                        .unwrap(),
+                    MoveValue::vector_u8(s.name.as_str().as_bytes().to_vec())
+                        .simple_serialize()
+                        .unwrap(),
+                ];
+
+                session
+                    .execute_function_bypass_visibility(
+                        &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name,
+                        vec![],
+                        serialize_args,
+                        &mut UnmeteredGasMeter,
+                        traversal_context,
+                        module_storage,
+                    )
+                    .unwrap();
+            } else {
+                panic!("fa_address is not a struct TypeTag");
+            }
             let mut serialize_args = vec![
                 serialized_signers.sender(),
                 serialized_signers
