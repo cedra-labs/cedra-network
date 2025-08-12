@@ -21,7 +21,7 @@ use cedra_consensus_types::{
 };
 use cedra_crypto::{HashValue, PrivateKey, Uniform};
 use cedra_logger::Level;
-use cedra_types::{ledger_info::LedgerInfo, validator_signer::ValidatorSigner};
+use cedra_types::{ledger_info::LedgerInfo, validator_signer::ValidatorSigner, CedraCoinType, CoinType};
 use std::{future::Future, sync::Arc, time::Duration};
 use tokio::{runtime, time::timeout};
 
@@ -327,6 +327,7 @@ pub(crate) fn create_signed_transaction(gas_unit_price: u64) -> SignedTransactio
         gas_unit_price,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     SignedTransaction::new(
         raw_transaction,

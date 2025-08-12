@@ -17,7 +17,7 @@ use cedra_storage_interface::{
     Result,
 };
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     aggregate_signature::AggregateSignature,
     block_executor::{
         config::BlockExecutorConfigFromOnchain,
@@ -444,6 +444,7 @@ fn create_test_transaction(sequence_number: u64) -> Transaction {
         0,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

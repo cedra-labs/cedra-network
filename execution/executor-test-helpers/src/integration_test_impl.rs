@@ -24,7 +24,7 @@ use cedra_types::{
         cedra_test_root_address, primary_apt_store, AccountResource, FungibleStoreResource,
         ObjectGroupResource,
     },
-    block_metadata::BlockMetadata,
+    block_metadata::BlockMetadata, CedraCoinType, CoinType,
     chain_id::ChainId,
     ledger_info::LedgerInfo,
     state_store::{MoveResourceExt, StateView},
@@ -88,7 +88,7 @@ pub fn test_execution_with_storage_impl_inner(
     let addr3 = account3.address();
     let addr4 = account4.address();
 
-    let txn_factory = TransactionFactory::new(ChainId::test());
+    let txn_factory = TransactionFactory::new(ChainId::test(), CedraCoinType::type_tag());
 
     let block1_id = gen_block_id(1);
     let block1_meta = Transaction::BlockMetadata(BlockMetadata::new(

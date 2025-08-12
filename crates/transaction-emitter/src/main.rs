@@ -6,6 +6,7 @@ mod diag;
 
 use anyhow::{Context, Result};
 use cedra_logger::{Level, Logger};
+use cedra_sdk::types::{CedraCoinType, CoinType};
 use cedra_transaction_emitter_lib::{
     create_accounts_command, emit_transactions, Cluster, ClusterArgs, CreateAccountsArgs, EmitArgs,
 };
@@ -76,6 +77,7 @@ pub async fn main() -> Result<()> {
     Logger::builder().level(Level::Info).build();
 
     let args = Args::parse();
+    let fee_coin = CedraCoinType::type_tag();
 
     // TODO: Check if I need DisplayChain here in the error case.
     match args.command {
@@ -84,6 +86,7 @@ pub async fn main() -> Result<()> {
                 &args.cluster_args,
                 &args.emit_args,
                 args.emit_workload_args.args_to_transaction_mix_per_phase(),
+                fee_coin,
             )
             .await
             .map_err(|e| panic!("Emit transactions failed {:?}", e))
@@ -93,7 +96,7 @@ pub async fn main() -> Result<()> {
             Ok(())
         },
         TxnEmitterCommand::CreateAccounts(args) => {
-            create_accounts_command(&args.cluster_args, &args.create_accounts_args)
+            create_accounts_command(&args.cluster_args, &args.create_accounts_args, fee_coin)
                 .await
                 .map_err(|e| panic!("Create accounts failed {:?}", e))
                 .unwrap();

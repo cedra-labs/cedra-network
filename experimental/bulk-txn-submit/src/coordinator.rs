@@ -42,6 +42,7 @@ use std::{
     },
     time::{Duration, Instant},
 };
+use cedra_sdk::types::{CedraCoinType, CoinType};
 
 #[derive(Debug, Parser)]
 pub struct TransactionFactoryArgs {
@@ -146,7 +147,7 @@ pub async fn execute_submit<T: Clone, B: SignedTransactionBuilder<T>>(
         .all_instances()
         .map(|i| i.rest_client())
         .collect::<Vec<_>>();
-    let txn_factory = TransactionFactory::new(cluster.chain_id);
+    let txn_factory = TransactionFactory::new(cluster.chain_id, CedraCoinType::type_tag());
 
     let needed_balance_per_account = get_needed_balance_per_account(
         work.len() as u64,
@@ -213,7 +214,7 @@ pub async fn execute_return_worker_funds(
         .collect::<Vec<_>>();
 
     let txn_factory =
-        transaction_factory_args.with_params(TransactionFactory::new(cluster.chain_id));
+        transaction_factory_args.with_params(TransactionFactory::new(cluster.chain_id, CedraCoinType::type_tag()));
 
     let txn_executor = RestApiReliableTransactionSubmitter::new(
         clients,
