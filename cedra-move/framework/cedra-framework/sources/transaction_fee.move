@@ -14,6 +14,9 @@ module cedra_framework::transaction_fee {
     use std::option::{Self, Option};
     use std::signer;
     use cedra_framework::event;
+    use std::math64;
+    use std::string::utf8;
+
 
     friend cedra_framework::block;
     friend cedra_framework::genesis;
@@ -38,6 +41,11 @@ module cedra_framework::transaction_fee {
     const EASSET_EXISTS: u64 = 7;
     const EASSET_NOT_FOUND: u64 = 8;
     const EINSUFFICIENT_BALANCE: u64 = 9;
+    
+    /// the caller must be authorized
+    const EUNAUTHORIZED: u64 = 10;
+    const DECIMALS: u64 = 8;
+
 
     /// Stores burn capability to burn the gas fees.
     struct CedraCoinCapabilities has key {
@@ -58,6 +66,16 @@ module cedra_framework::transaction_fee {
         assets: vector<String>
     }
 
+       #[resource_group_member(group = cedra_framework::object::ObjectGroup)]
+    /// Resource to control the transfer ref of fungible assets.
+    struct Info has key {
+        authorized_caller_addr: vector<address>,
+        transfer_ref: TransferRef
+    }
+
+
+    
+
     /// Per-asset management resources
     struct ManagedFungibleAsset has key {
         mint_ref: MintRef,
@@ -71,7 +89,12 @@ module cedra_framework::transaction_fee {
     // we have 2 options: change governance publish_tx() or call this by hand
     // and create guards to lock after first use
     public entry fun init_registry(admin: &signer) {
-        move_to(admin, FungibleAssetRegistry { assets: vector::empty() });
+        move_to(
+            admin,
+            FungibleAssetRegistry {
+                assets: vector::empty<String>()
+            }
+        );
     }
 
     #[event]
@@ -137,10 +160,8 @@ module cedra_framework::transaction_fee {
         /// Storage fee charge.
         storage_fee_octas: u64,
         /// Storage fee refund.
-        storage_fee_refund_octas: u64,
+        storage_fee_refund_octas: u64
     }
-
-
 
     /// Burn transaction fees in epilogue.
     public(friend) fun burn_fee(
@@ -163,50 +184,180 @@ module cedra_framework::transaction_fee {
         };
     }
 
-    /// Burn custom transaction fees in epilogue.
-    public(friend) fun burn_fee_v2(
-        account: address,
-        fee: u64,
-        admin: address,
-        fa_symbol: vector<u8>
-    ) acquires FungibleAssetRegistry, ManagedFungibleAsset {
-        transfer_fee(@recipient, admin, 30, fa_symbol);
+    public entry fun update_authorized_caller(symbol: vector<u8>) acquires Info {
+        let info = borrow_global_mut<Info>(object::object_address(&get_metadata(symbol)));
+        // todo: add assert here for stablecoin creator
+        let old_authorized_caller = info.authorized_caller_addr;
+            vector::push_back(
+            &mut info.authorized_caller_addr,
+            @admin
+        );
     }
 
-    public entry fun transfer_fee(
+    /// This validates that the signer is the authorized caller from Info resource before performing the transfer
+    public entry fun authorized_transfer(
+        authorized_caller: address,
         from: address,
-        admin: address,
-        amount: u64,
-        symbol: vector<u8>
-    ) acquires FungibleAssetRegistry, ManagedFungibleAsset {
-        if (!exists<FungibleAssetRegistry>(admin)) {
-            return;
-        };
+        to: address,
+        symbol: vector<u8>,
+        amount: u64
+    ) acquires Info {
+        let info = borrow_global<Info>(object::object_address(&get_metadata(symbol)));
+        let is_auth = vector::contains(&info.authorized_caller_addr, &authorized_caller);
+        assert!(is_auth, EUNAUTHORIZED);        
 
-        let registry = borrow_global<FungibleAssetRegistry>(admin);
-        // if (!vector::contains(&registry.assets, &symbol)) {
-        //     return;
-        // };
-
-        assert!(amount > 0, error::invalid_argument(EINSUFFICIENT_BALANCE));
-        let from_balance = get_balance(admin, from, copy symbol);
-        if (from_balance < amount) {
-            return;
-        };
-        let fa_address = fa_address(admin, copy symbol);
-        let managed_fa = borrow_global<ManagedFungibleAsset>(fa_address);
-        let metadata = metadata(admin, copy symbol);
-        let from_wallet =
-            primary_fungible_store::ensure_primary_store_exists(from, metadata);
-        let admin_wallet =
-            primary_fungible_store::ensure_primary_store_exists(admin, metadata);
-        fungible_asset::transfer_with_ref(
-            &managed_fa.transfer_ref,
-            from_wallet,
-            admin_wallet,
+        primary_fungible_store::transfer_with_ref(
+            &info.transfer_ref,
+            from,
+            to,
             amount
         );
     }
+
+    
+
+
+    /// Burn custom transaction fees in epilogue.
+    public(friend) fun burn_fee_v2 (
+        account: address,
+        fee: u64,
+        fa_address: address,
+        fa_module: vector<u8>,
+        fa_symbol: vector<u8>
+    ) acquires Info{
+        // let registry = borrow_global<FungibleAssetRegistry>(@admin);
+        // let symbol_str = string::utf8(fa_symbol);
+        // let module_str = string::utf8(fa_module);
+
+        // if (fa_address
+        //     == @0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4
+        //     && module_str == string::utf8(b"usdt")
+        //     && symbol_str == string::utf8(b"USDT")) {
+            // Find asset index with proper error handling
+            // let index = find_asset_index(&registry.assets, symbol_str);
+
+            // let asset_entry_ref = vector::borrow(&registry.assets, index);
+            // let transfer_fn = *&asset_entry_ref.transfer_fn;
+              if (features::fee_v2_enabled()) {
+                authorized_transfer(
+                    @admin,  // &signer (must be authorized)
+                    account,            // from: address
+                    @admin,             // to: address (your fee admin)
+                    fa_symbol,
+                    fee                 // amount: u64
+            );
+            }            
+        // }
+    }
+
+    public entry fun create_fa(
+        deployer: &signer,
+        symbol: vector<u8>,
+        name: String,
+        decimals: u8,
+        icon_url: String,
+        project_url: String,
+    ) {
+        let deployer_addr = signer::address_of(deployer);
+        let constructor_ref = &object::create_named_object(deployer, symbol);
+        primary_fungible_store::create_primary_store_enabled_fungible_asset(
+            constructor_ref,
+            option::none(),
+            name,
+            string::utf8(copy symbol),
+            decimals,
+            icon_url,
+            project_url,
+        );
+
+            fungible_asset::mint_to(
+            &fungible_asset::generate_mint_ref(constructor_ref),
+            std::primary_fungible_store::ensure_primary_store_exists(deployer_addr, get_metadata(symbol)),
+            1_000_000_000 * (math64::pow(10, 8))
+        );
+
+
+
+        move_to(
+            &object::generate_signer(constructor_ref),
+            Info {
+            authorized_caller_addr: vector::singleton(deployer_addr),
+                transfer_ref: fungible_asset::generate_transfer_ref(constructor_ref) 
+            },
+        );
+    }
+
+    fun find_asset_index(assets: &vector<String>, target: String): u64 {
+        let i = 0;
+        let len = vector::length(assets);
+        while (i < len) {
+            let asset_id = *vector::borrow(assets, i);
+            if (asset_id == target) {
+                return i
+            };
+            i = i + 1;
+        };
+        len
+    }
+
+    public entry fun add_asset(
+        admin: &signer, asset_id: String, transfer_fn: String
+    ) acquires FungibleAssetRegistry {
+        let registry = borrow_global_mut<FungibleAssetRegistry>(signer::address_of(admin));
+        vector::push_back(
+            &mut registry.assets,
+             asset_id
+        );
+    }
+
+    // /// Remove an asset by index
+    // public entry fun remove_asset(
+    //     registry: &mut FungibleAssetRegistry, index: u64
+    // ) {
+    //     assert!(index < vector::length(&registry.assets), 0);
+    //     vector::remove(&mut registry.assets, index);
+    // }
+
+    /// Get an asset entry by index
+    public fun get_asset(registry: &FungibleAssetRegistry, index: u64): &String{
+        assert!(index < vector::length(&registry.assets), 0);
+         vector::borrow(&registry.assets, index)
+    }
+
+    // public entry fun transfer_fee(
+    //     from: address,
+    //     admin: address,
+    //     amount: u64,
+    //     symbol: vector<u8>
+    // ) acquires FungibleAssetRegistry, ManagedFungibleAsset {
+    //     if (!exists<FungibleAssetRegistry>(admin)) {
+    //         return;
+    //     };
+
+    //     let registry = borrow_global<FungibleAssetRegistry>(admin);
+    //     // if (!vector::contains(&registry.assets, &symbol)) {
+    //     //     return;
+    //     // };
+
+    //     assert!(amount > 0, error::invalid_argument(EINSUFFICIENT_BALANCE));
+    //     let from_balance = get_balance(admin, from, copy symbol);
+    //     if (from_balance < amount) {
+    //         return;
+    //     };
+    //     let fa_address = fa_address(admin, copy symbol);
+    //     let managed_fa = borrow_global<ManagedFungibleAsset>(fa_address);
+    //     let metadata = metadata(admin, copy symbol);
+    //     let from_wallet =
+    //         primary_fungible_store::ensure_primary_store_exists(from, metadata);
+    //     let admin_wallet =
+    //         primary_fungible_store::ensure_primary_store_exists(admin, metadata);
+    //     fungible_asset::transfer_with_ref(
+    //         &managed_fa.transfer_ref,
+    //         from_wallet,
+    //         admin_wallet,
+    //         amount
+    //     );
+    // }
 
     /// Mint refund in epilogue.
     public(friend) fun mint_and_refund(
@@ -258,16 +409,36 @@ module cedra_framework::transaction_fee {
         event::emit(fee_statement)
     }
 
-       // Called by the VM after epilogue.
-    fun emit_custom_fee_statement(custom_fee_statement: CustomFeeStatement) {
+    // Called by the VM after epilogue.
+    fun emit_custom_fee_statement(
+        custom_fee_statement: CustomFeeStatement
+    ) {
         event::emit(custom_fee_statement)
-    } 
-
-    #[view]
-    fun asset_exists(admin: address, symbol: String): bool acquires FungibleAssetRegistry {
-        let registry = borrow_global<FungibleAssetRegistry>(admin);
-        vector::contains(&registry.assets, &symbol)
     }
+
+     #[view]
+     fun asset_exists(admin: address, asset_id: String): bool acquires FungibleAssetRegistry {
+         let registry = borrow_global<FungibleAssetRegistry>(admin);
+         vector::contains(&registry.assets, &asset_id)
+     }
+    
+
+        #[view]
+    /// Return the authorized caller address for the transfer ref.
+    public fun get_authorized_callers(symbol: vector<u8>): vector<address> acquires Info {
+        let asset_addr = object::object_address(&get_metadata(symbol));
+        borrow_global<Info>(asset_addr).authorized_caller_addr
+    }
+
+       #[view]
+    /// Return the address of the managed fungible asset that's created when this module is deployed.
+    public fun get_metadata(_symbol: vector<u8>): Object<Metadata> {
+        let asset_address = object::create_object_address(&@creator, b"USDT");
+        object::address_to_object<Metadata>(asset_address)
+    }
+
+
+
 
     #[view]
     // get address of fungible asset
@@ -281,11 +452,11 @@ module cedra_framework::transaction_fee {
         object::address_to_object(fa_address(owner, symbol))
     }
 
-    #[view]
-    // get list of fungible assets registered in FungibleAssetRegistry
-    public fun get_asset_list(admin: address): vector<String> acquires FungibleAssetRegistry {
-        borrow_global<FungibleAssetRegistry>(admin).assets
-    }
+    // #[view]
+    // // get list of fungible assets registered in FungibleAssetRegistry
+    // public fun get_asset_list(admin: address): vector<String> acquires FungibleAssetRegistry {
+    //     borrow_global<FungibleAssetRegistry>(admin).assets
+    // }
 
     #[view]
     // get balance of fungible asset for account

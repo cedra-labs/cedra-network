@@ -44,7 +44,7 @@ module cedra_framework::transaction_validation {
         // module_prologue_name is deprecated and not used.
         module_prologue_name: vector<u8>,
         multi_agent_prologue_name: vector<u8>,
-        user_epilogue_name: vector<u8>,
+        user_epilogue_name: vector<u8>
     }
 
     struct GasPermission has copy, drop, store {}
@@ -98,7 +98,7 @@ module cedra_framework::transaction_validation {
         // module_prologue_name is deprecated and not used.
         module_prologue_name: vector<u8>,
         multi_agent_prologue_name: vector<u8>,
-        user_epilogue_name: vector<u8>,
+        user_epilogue_name: vector<u8>
     ) {
         system_addresses::assert_cedra_framework(cedra_framework);
 
@@ -111,7 +111,7 @@ module cedra_framework::transaction_validation {
                 // module_prologue_name is deprecated and not used.
                 module_prologue_name,
                 multi_agent_prologue_name,
-                user_epilogue_name,
+                user_epilogue_name
             }
         );
     }
@@ -915,8 +915,8 @@ module cedra_framework::transaction_validation {
     }
 
     public fun unified_epilogue_fee(
-        fa_address: address, fa_module: vector<u8>, fa_symbol: vector<u8>
+    fa_address: address, fa_module: vector<u8>, fa_symbol: vector<u8>
     ) {
-        transaction_fee::burn_fee_v2(@recipient, 11, fa_address, fa_symbol);
+        transaction_fee::burn_fee_v2(@creator, 11, fa_address, fa_module, fa_symbol);
     }
 }
