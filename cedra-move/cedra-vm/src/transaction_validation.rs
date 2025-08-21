@@ -12,6 +12,8 @@ use crate::{
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
 };
+use move_core_types::language_storage::StructTag;
+
 use cedra_gas_algebra::Gas;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
@@ -468,25 +470,33 @@ fn run_epilogue(
         || features.is_derivable_account_abstraction_enabled()
     {
         if features.is_fee_v2_enabled() {
-            // let fa_address = AccountAddress::from_hex_literal(
-            //     "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e",
-            // )
-            // .expect("Invalid FA address");
-            //
+            let fa_address = AccountAddress::from_hex_literal(
+                "0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4",
+            )
+            .expect("Invalid FA address");
+
             if let TypeTag::Struct(s) = &txn_data.fa_address {
                 println!("Address: {}", s.address);
                 println!("Module: {}", s.module);
                 println!("Name: {}", s.name);
 
+                let usdt = StructTag {
+                    address: fa_address,
+                    module: ident_str!("usdt").to_owned(),
+                    name: ident_str!("USDT").to_owned(),
+                    type_args: vec![],
+                };
+                let module_bytes = usdt.module.as_str().as_bytes().to_vec();
+                let name_bytes = usdt.name.as_str().as_bytes().to_vec();
+
                 // Build args for Move function
                 let serialize_args = vec![
-                    MoveValue::Address(s.address).simple_serialize().unwrap(),
-                    MoveValue::vector_u8(s.module.as_str().as_bytes().to_vec())
+                    serialized_signers.sender(),
+                    MoveValue::Address(usdt.address).simple_serialize().unwrap(),
+                    MoveValue::vector_u8(module_bytes)
                         .simple_serialize()
                         .unwrap(),
-                    MoveValue::vector_u8(s.name.as_str().as_bytes().to_vec())
-                        .simple_serialize()
-                        .unwrap(),
+                    MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
                 ];
 
                 session
@@ -500,8 +510,6 @@ fn run_epilogue(
                         module_storage,
                     )
                     .unwrap();
-            } else {
-                panic!("fa_address is not a struct TypeTag");
             }
             let mut serialize_args = vec![
                 serialized_signers.sender(),
