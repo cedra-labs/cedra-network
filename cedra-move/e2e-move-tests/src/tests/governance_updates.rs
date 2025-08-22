@@ -11,6 +11,7 @@ use cedra_types::{
     on_chain_config::{ApprovedExecutionHashes, OnChainConfig},
     transaction::{ExecutionStatus, Script, TransactionArgument, TransactionStatus},
     vm_status::StatusCode,
+    CedraCoinType, CoinType,
 };
 
 #[test]
@@ -167,7 +168,7 @@ fn run(
 ) -> TransactionStatus {
     let script = Script::new(code, vec![], vec![TransactionArgument::U8Vector(txn_arg)]);
 
-    let txn = TransactionBuilder::new(account.clone())
+    let txn = TransactionBuilder::new(account.clone(), CedraCoinType::type_tag())
         .script(script)
         .sequence_number(h.sequence_number(account.address()))
         .max_gas_amount(1_000_000)

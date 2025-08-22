@@ -42,6 +42,7 @@ mod test {
             EntryFunction, RawTransaction, SignedTransaction, TransactionExecutableRef,
             TransactionPayload,
         },
+        CedraCoinType, CoinType,
     };
     use move_core_types::account_address::AccountAddress;
 
@@ -62,8 +63,16 @@ mod test {
             vec![],
             vec![],
         ));
-        let raw_transaction =
-            RawTransaction::new(sender, sequence_number, payload, 0, 0, 0, ChainId::new(10));
+        let raw_transaction = RawTransaction::new(
+            sender,
+            sequence_number,
+            payload,
+            0,
+            0,
+            0,
+            ChainId::new(10),
+            CedraCoinType::type_tag(),
+        );
 
         SignedTransaction::new(
             raw_transaction.clone(),

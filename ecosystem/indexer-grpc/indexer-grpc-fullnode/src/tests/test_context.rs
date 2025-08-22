@@ -28,12 +28,12 @@ use mempool_notifications::MempoolNotificationSender;
 use storage_interface::DbReaderWriter;
 
 use crate::tests::{golden_output::GoldenOutputs, pretty};
+use bytes::Bytes;
 use cedra_api::{context::Context, index};
 use cedra_api_types::HexEncodedBytes;
 use cedra_config::keys::ConfigKey;
 use cedra_crypto::ed25519::Ed25519PrivateKey;
 use cedra_types::aggregated_signature::AggregatedSignature;
-use bytes::Bytes;
 use hyper::Response;
 use rand::SeedableRng;
 use serde_json::{json, Value};
@@ -133,7 +133,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id())
+        TransactionFactory::new(self.context.chain_id(), CedraCoinType::type_tag())
     }
 
     pub fn root_account(&self) -> LocalAccount {

@@ -22,7 +22,7 @@ use crate::{
 use anyhow::Context as AnyhowContext;
 use cedra_api_types::{
     transaction::TransactionSummary, verify_function_identifier, verify_module_identifier, Address,
-    CedraError, CedraErrorCode, AsConverter, EncodeSubmissionRequest, GasEstimation,
+    AsConverter, CedraError, CedraErrorCode, EncodeSubmissionRequest, GasEstimation,
     GasEstimationBcs, HashValue, HexEncodedBytes, LedgerInfo, MoveType, PendingTransaction,
     SubmitTransactionRequest, Transaction, TransactionData, TransactionOnChainData,
     TransactionsBatchSingleSubmissionFailure, TransactionsBatchSubmissionResult, UserTransaction,
@@ -1749,6 +1749,7 @@ fn override_gas_parameters(
         gas_unit_price.unwrap_or_else(|| signed_txn.gas_unit_price()),
         signed_txn.expiration_timestamp_secs(),
         signed_txn.chain_id(),
+        signed_txn.get_fa_address(),
     );
 
     // TODO: Check that signature is null, this would just be helpful for downstream use

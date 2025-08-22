@@ -7,7 +7,7 @@ use crate::{
     provider::{api_index::ApiIndexProvider, Provider, ProviderCollection},
 };
 use anyhow::{Context, Result};
-use cedra_sdk::types::chain_id::ChainId;
+use cedra_sdk::types::{chain_id::ChainId, CedraCoinType, CoinType};
 use cedra_transaction_emitter_lib::{
     emit_transactions_with_cluster, Cluster, ClusterArgs, CoinSourceArgs, EmitArgs,
 };
@@ -144,6 +144,7 @@ impl Checker for TpsChecker {
             self.config
                 .emit_workload_configs
                 .args_to_transaction_mix_per_phase(),
+            CedraCoinType::type_tag(),
         )
         .await
         .map_err(TpsCheckerError::TransactionEmitterError)?;
