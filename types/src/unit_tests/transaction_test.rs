@@ -1,10 +1,10 @@
 // Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
-
 use crate::{
     account_address::AccountAddress,
     chain_id::ChainId,
+    CedraCoinType, CoinType,
     transaction::{
         AccountOrderedTransactionsWithProof, RawTransaction, Script, SignedTransaction,
         Transaction, TransactionInfo, TransactionListWithProof, TransactionPayload,
@@ -30,6 +30,7 @@ fn test_invalid_signature() {
             0,
             0,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         ),
         Ed25519PrivateKey::generate_for_testing().public_key(),
         Ed25519Signature::try_from(&[1u8; 64][..]).unwrap(),

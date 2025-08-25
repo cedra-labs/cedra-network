@@ -9,7 +9,7 @@ use anyhow::Result;
 use cedra_block_executor::txn_provider::{default::DefaultTxnProvider, TxnProvider};
 use cedra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     account_config::NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     block_executor::{
         config::BlockExecutorConfigFromOnchain, partitioner::PartitionedTransactions,
@@ -364,7 +364,7 @@ pub fn encode_transfer_transaction(
 }
 
 fn encode_transaction(sender: AccountAddress, program: Script) -> Transaction {
-    let raw_transaction = RawTransaction::new_script(sender, 0, program, 0, 0, 0, ChainId::test());
+    let raw_transaction = RawTransaction::new_script(sender, 0, program, 0, 0, 0, ChainId::test(), CedraCoinType::type_tag());
 
     let privkey = Ed25519PrivateKey::generate_for_testing();
     Transaction::UserTransaction(

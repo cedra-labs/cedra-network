@@ -5,6 +5,7 @@ use super::new_test_context;
 use cedra_api_test_context::{current_function_name, pretty, TestContext};
 use cedra_crypto::ed25519::Ed25519Signature;
 use cedra_types::{
+    CedraCoinType, CoinType,
     account_address::AccountAddress,
     transaction::{
         authenticator::{AccountAuthenticator, TransactionAuthenticator},
@@ -266,6 +267,7 @@ async fn bcs_simulate_fee_payer_transaction_without_gas_fee_check(context: &mut 
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        CedraCoinType::type_tag(),
     );
     let txn = SignedTransaction::new_signed_transaction(
         raw_txn.clone(),
@@ -326,6 +328,7 @@ async fn test_bcs_simulate_automated_account_creation() {
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        CedraCoinType::type_tag(),
     );
     // Replace the authenticator with a NoAccountAuthenticator in the transaction.
     let txn = SignedTransaction::new_signed_transaction(
@@ -418,6 +421,7 @@ async fn test_bcs_execute_fee_payer_transaction_no_authenticator_fail() {
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        CedraCoinType::type_tag(),
     );
 
     let txn = SignedTransaction::new_signed_transaction(

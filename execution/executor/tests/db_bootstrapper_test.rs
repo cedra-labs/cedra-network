@@ -29,7 +29,10 @@ use cedra_types::{
     on_chain_config::{ConfigurationResource, OnChainConfig, ValidatorSet},
     state_store::{state_key::StateKey, MoveResourceExt},
     test_helpers::transaction_test_helpers::{block, TEST_BLOCK_EXECUTOR_ONCHAIN_CONFIG},
-    transaction::{authenticator::AuthenticationKey, ChangeSet, Transaction, WriteSetPayload},
+    transaction::{
+        authenticator::AuthenticationKey, signature_verified_transaction::TransactionProvider,
+        ChangeSet, Transaction, WriteSetPayload,
+    },
     trusted_state::TrustedState,
     validator_signer::ValidatorSigner,
     waypoint::Waypoint,
@@ -290,7 +293,13 @@ fn test_new_genesis() {
 
     println!("FINAL TRANSFER");
     // Transfer some money.
-    let txn = get_cedra_coin_transfer_transaction(account1, 0, &account1_key, account2, 50_000_000);
+    let txn = get_cedra_coin_transfer_transaction(
+        account1,
+        0,
+        &account1_key,
+        account2,
+        50_000_000,
+    );
     execute_and_commit(vec![txn], &db, &signer);
 
     // And verify.

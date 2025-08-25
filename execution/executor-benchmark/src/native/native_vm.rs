@@ -40,8 +40,7 @@ use cedra_types::{
     on_chain_config::FeatureFlag,
     state_store::{state_key::StateKey, state_value::StateValueMetadata, StateView},
     transaction::{
-        signature_verified_transaction::SignatureVerifiedTransaction, BlockOutput, Transaction,
-        TransactionOutput, TransactionStatus, WriteSetPayload,
+        signature_verified_transaction::SignatureVerifiedTransaction, use_case::UseCaseAwareTransaction, BlockOutput, Transaction, TransactionOutput, TransactionStatus, WriteSetPayload
     },
     write_set::WriteOp,
     CedraCoinType,

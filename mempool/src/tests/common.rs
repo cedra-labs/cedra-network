@@ -12,7 +12,7 @@ use cedra_config::config::{NodeConfig, MAX_APPLICATION_MESSAGE_SIZE};
 use cedra_consensus_types::common::{TransactionInProgress, TransactionSummary};
 use cedra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     chain_id::ChainId,
     mempool_status::MempoolStatusCode,
     transaction::{
@@ -155,6 +155,7 @@ impl TestTransaction {
             self.gas_price,
             exp_timestamp_secs,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         );
         let mut seed: [u8; 32] = [0u8; 32];
         seed[..4].copy_from_slice(&[1, 2, 3, 4]);
