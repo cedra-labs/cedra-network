@@ -13,6 +13,7 @@ module cedra_framework::whitelist {
     const EASSET_NOT_FOUND: u64 = 2;
     // FungibleAssetRegistry already initialized
     const EALREADY_INITIALIZED: u64 = 3;
+    const ENO_REGISTRY: u64 = 4;
 
     /// Stores all assets that allowed in transaction commission
     struct FungibleAssetRegistry has key {
@@ -49,14 +50,19 @@ module cedra_framework::whitelist {
         symbol: vector<u8>
     ) acquires FungibleAssetRegistry {
         let admin_address = signer::address_of(admin);
-        assert!(@admin == admin_address, EUNAUTHORIZED);
+
+        assert!(has_registry(@admin), ENO_REGISTRY);
+        assert!(
+            admin_address == @admin || admin_address == @0x1,
+            EUNAUTHORIZED
+        );
 
         assert!(
             stablecoin::asset_deployed(asset_addr, symbol),
             EASSET_NOT_FOUND
         );
 
-        let registry = borrow_global_mut<FungibleAssetRegistry>(admin_address);
+        let registry = borrow_global_mut<FungibleAssetRegistry>(@admin);
         vector::push_back(
             &mut registry.assets,
             FungibleAssetStruct { addr: asset_addr, module_name, symbol }

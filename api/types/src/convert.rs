@@ -39,7 +39,6 @@ use cedra_types::{
     vm::module_metadata::get_metadata,
     vm_status::AbortLocation,
     write_set::WriteOp,
-    CedraCoinType, CoinType,
 };
 use move_binary_format::file_format::FunctionHandleIndex;
 use move_core_types::{

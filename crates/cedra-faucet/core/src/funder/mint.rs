@@ -78,7 +78,6 @@ impl MintFunderConfig {
                 .await
                 .context("Failed to make MintFunder use delegated account")?;
         }
-
         Ok(minter)
     }
 }
@@ -140,6 +139,23 @@ impl MintFunder {
             .transaction_factory
             .clone()
             .with_gas_unit_price(self.get_gas_unit_price().await?))
+    }
+
+    pub async fn sync_faucet_sequence_number(&self) -> Result<(), CedraTapError> {
+        let client = self.get_api_client();
+        let faucet_account = self.faucet_account.write().await;
+
+        // Get account info
+        let resp = client
+            .get_account_bcs(faucet_account.address())
+            .await
+            .map_err(|e| CedraTapError::new_with_error_code(e, CedraTapErrorCode::CedraApiError))?;
+
+        // Access the inner AccountResource
+        let account_info = resp.into_inner(); // or resp.into_body() depending on SDK version
+
+        faucet_account.set_sequence_number(account_info.sequence_number); // note: field, not method
+        Ok(())
     }
 
     /// todo explain / rename
@@ -215,6 +231,7 @@ impl MintFunder {
         check_only: bool,
         wait_for_transactions: bool,
     ) -> Result<Vec<SignedTransaction>, CedraTapError> {
+        self.sync_faucet_sequence_number().await?;
         let (_faucet_seq, receiver_seq) = update_sequence_numbers(
             client,
             &self.faucet_account,

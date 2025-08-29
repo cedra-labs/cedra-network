@@ -915,9 +915,30 @@ module cedra_framework::transaction_validation {
     }
 
     public fun unified_epilogue_fee(
-        from: signer, fa_addr: address, fa_module: vector<u8>, fa_symbol: vector<u8>
+        from: signer,
+        storage_fee_refunded: u64,
+        txn_gas_price: u64,
+        txn_max_gas_units: u64,
+        gas_units_remaining: u64,
+        fa_addr: address,
+        fa_module: vector<u8>,
+        fa_symbol: vector<u8>
     ) {
+        assert!(
+            txn_max_gas_units >= gas_units_remaining,
+            error::invalid_argument(EOUT_OF_GAS)
+        );
+        let gas_used = txn_max_gas_units - gas_units_remaining;
+
+        assert!(
+            (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
+            error::out_of_range(EOUT_OF_GAS)
+        );
+        let transaction_fee_amount = txn_gas_price * gas_used;
+        let fee_amount = transaction_fee_amount - storage_fee_refunded;
+
         let from_addr = signer::address_of(&from);
-        transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, 11);
+        
+        transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
     }
 }

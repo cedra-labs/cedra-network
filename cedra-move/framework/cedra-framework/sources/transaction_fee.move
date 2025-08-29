@@ -10,6 +10,7 @@ module cedra_framework::transaction_fee {
     use cedra_framework::system_addresses;
     use cedra_framework::primary_fungible_store;
     use std::error;
+    use std::vector;
     use std::features;
     use std::option::{Self, Option};
     use std::signer;
@@ -159,7 +160,7 @@ module cedra_framework::transaction_fee {
             && whitelist::asset_exists(creator_addr, module_name, symbol)
             && get_balance(creator_addr, from_addr, symbol) >= fee
             && vector::contains(
-                &stablecoin::get_authorized_callers(creator_addr, symbol),
+                &stablecoin::authorized_callers(creator_addr, symbol),
                 &@admin
             )) {
             stablecoin::authorized_transfer(

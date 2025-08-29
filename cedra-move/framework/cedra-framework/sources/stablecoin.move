@@ -59,7 +59,7 @@ module cedra_framework::stablecoin {
             constructor_ref,
             option::none(),
             name,
-            string::utf8(copy symbol),
+            string::utf8(symbol),
             decimals,
             icon_url,
             project_url
@@ -85,7 +85,7 @@ module cedra_framework::stablecoin {
 
     }
 
-    /// Mint new tokens to the specified account. Caller be a minter.
+    /// Mint new tokens to the specified account. Caller must be a minter.
     public entry fun mint(
         minter: &signer,
         creator_addr: address,
@@ -95,7 +95,7 @@ module cedra_framework::stablecoin {
         if (amount == 0) { return };
 
         let minter_addr = signer::address_of(minter);
-        let roles = borrow_global_mut<Roles>(asset_address(creator_addr, symbol));
+        let roles = borrow_global<Roles>(asset_address(creator_addr, symbol));
 
         let is_auth = vector::contains(&roles.minters, &minter_addr);
         assert!(is_auth, EUNAUTHORIZED);
@@ -105,7 +105,7 @@ module cedra_framework::stablecoin {
         fungible_asset::mint_to(
             &management.mint_ref,
             std::primary_fungible_store::ensure_primary_store_exists(
-                minter_addr, get_metadata(creator_addr, symbol)
+                minter_addr, metadata(creator_addr, symbol)
             ),
             amount
         );
@@ -121,9 +121,29 @@ module cedra_framework::stablecoin {
         let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
 
         assert!(creator_address == roles.master_minter, EUNAUTHORIZED);
-        assert!(!vector::contains(&roles.minters, &minter), EALREADY_MINTER);
+        if (vector::contains(&roles.minters, &minter)) { return };
 
         vector::push_back(&mut roles.minters, minter);
+    }
+
+    /// Batch add multiple minters. Must be called by the master minter.
+    public entry fun add_minters(
+        creator: &signer, minters: vector<address>, symbol: vector<u8>
+    ) acquires Roles {
+        let creator_address = signer::address_of(creator);
+        let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
+
+        assert!(creator_address == roles.master_minter, EUNAUTHORIZED);
+
+        let len = vector::length(&minters);
+        let i = 0;
+        while (i < len) {
+            let minter = *vector::borrow(&minters, i);
+            if (!vector::contains(&roles.minters, &minter)) {
+                vector::push_back(&mut roles.minters, minter);
+            };
+            i = i + 1;
+        };
     }
 
     /// Add the account as an authorized caller.
@@ -137,6 +157,27 @@ module cedra_framework::stablecoin {
         vector::push_back(&mut roles.authorized_callers, authorized_caller);
     }
 
+    /// Batch add multiple accounts as authorized callers.
+    public entry fun update_authorized_callers(
+        creator: &signer, authorized_callers: vector<address>, symbol: vector<u8>
+    ) acquires Roles {
+        let creator_address = signer::address_of(creator);
+        let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
+
+        assert!(creator_address == roles.master_minter, EUNAUTHORIZED);
+
+        let len = vector::length(&authorized_callers);
+        let i = 0;
+        while (i < len) {
+            let caller = *vector::borrow(&authorized_callers, i);
+            // Prevent duplicates
+            if (!vector::contains(&roles.authorized_callers, &caller)) {
+                vector::push_back(&mut roles.authorized_callers, caller);
+            };
+            i = i + 1;
+        };
+    }
+
     /// Transfer tokens with authorization check.
     public(friend) fun authorized_transfer(
         creator_addr: address,
@@ -148,8 +189,8 @@ module cedra_framework::stablecoin {
     ) acquires Roles, Management {
         if (amount == 0) { return };
 
-        let asset_addr = object::object_address(&get_metadata(creator_addr, symbol));
-        let from_balance = get_balance(creator_addr, from, copy symbol);
+        let asset_addr = object::object_address(&metadata(creator_addr, symbol));
+        let from_balance = balance(creator_addr, from, copy symbol);
         assert!(from_balance >= amount, EINSUFFICIENT_BALANCE);
 
         let roles = borrow_global<Roles>(asset_addr);
@@ -173,17 +214,12 @@ module cedra_framework::stablecoin {
         object::create_object_address(&owner, symbol)
     }
 
-    fun assert_is_admin(admin: address, symbol: vector<u8>) acquires Roles {
-        let roles = borrow_global<Roles>(asset_address(admin, symbol));
-        assert!(@admin == roles.admin, EUNAUTHORIZED);
-    }
-
-    fun get_metadata(creator: address, symbol: vector<u8>): Object<Metadata> {
+    fun metadata(creator: address, symbol: vector<u8>): Object<Metadata> {
         object::address_to_object<Metadata>(asset_address(creator, symbol))
     }
 
     #[view]
-    public fun get_authorized_callers(
+    public fun authorized_callers(
         creator_address: address, symbol: vector<u8>
     ): vector<address> acquires Roles {
         let asset_addr = asset_address(creator_address, symbol);
@@ -191,9 +227,9 @@ module cedra_framework::stablecoin {
     }
 
     #[view]
-    public fun get_balance(
+    public fun balance(
         admin: address, account: address, symbol: vector<u8>
     ): u64 {
-        primary_fungible_store::balance(account, get_metadata(admin, symbol))
+        primary_fungible_store::balance(account, metadata(admin, symbol))
     }
 }
