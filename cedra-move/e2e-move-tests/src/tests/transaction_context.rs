@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{assert_success, tests::common, MoveHarness};
+use bcs::to_bytes;
 use cedra_language_e2e_tests::account::{Account, TransactionBuilder};
 use cedra_types::{
     move_utils::MemberId,
     on_chain_config::FeatureFlag,
     transaction::{EntryFunction, MultisigTransactionPayload, TransactionPayload},
+    CedraCoinType, CoinType,
 };
-use bcs::to_bytes;
 use move_core_types::{
     account_address::AccountAddress,
     ident_str,
@@ -316,7 +317,7 @@ fn test_transaction_context_gas_payer_as_separate_account() {
         ty_args,
         args,
     ));
-    let transaction = TransactionBuilder::new(alice.clone())
+    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(harness.sequence_number(alice.address()))
@@ -361,7 +362,7 @@ fn test_transaction_context_secondary_signers() {
         ty_args,
         args,
     ));
-    let transaction = TransactionBuilder::new(alice.clone())
+    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
         .secondary_signers(vec![bob.clone()])
         .payload(payload)
         .sequence_number(harness.sequence_number(alice.address()))
@@ -397,15 +398,21 @@ fn test_transaction_context_entry_function_payload() {
         function_name,
         "store_entry_function_payload_from_native_txn_context"
     );
-    assert_eq!(type_arg_names, vec![
-        "u64",
-        "vector<address>",
-        "0x1::transaction_fee::FeeStatement"
-    ]);
-    assert_eq!(args, vec![
-        bcs::to_bytes(&7777777u64).unwrap(),
-        bcs::to_bytes(&true).unwrap()
-    ]);
+    assert_eq!(
+        type_arg_names,
+        vec![
+            "u64",
+            "vector<address>",
+            "0x1::transaction_fee::FeeStatement"
+        ]
+    );
+    assert_eq!(
+        args,
+        vec![
+            bcs::to_bytes(&7777777u64).unwrap(),
+            bcs::to_bytes(&true).unwrap()
+        ]
+    );
 }
 
 #[test]

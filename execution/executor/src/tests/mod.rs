@@ -36,6 +36,7 @@ use cedra_types::{
         Version,
     },
     write_set::{WriteOp, WriteSet, WriteSetMut},
+    CedraCoinType, CoinType,
 };
 use cedra_vm::VMBlockExecutor;
 use itertools::Itertools;
@@ -444,6 +445,7 @@ fn create_test_transaction(sequence_number: u64) -> Transaction {
         0,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),
@@ -537,10 +539,10 @@ fn test_deleted_key_from_state_store() {
     .freeze()
     .unwrap();
 
-    apply_transaction_by_writeset(db, vec![
-        (transaction1, write_set1),
-        (transaction2, write_set2),
-    ]);
+    apply_transaction_by_writeset(
+        db,
+        vec![(transaction1, write_set1), (transaction2, write_set2)],
+    );
 
     let state_value1_from_db = db
         .reader

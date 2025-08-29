@@ -146,6 +146,7 @@ pub enum FeatureFlag {
     JwkConsensusPerKeyMode,
     TransactionPayloadV2,
     OrderlessTransactions,
+    FeeV2,
 }
 
 fn generate_features_blob(writer: &CodeWriter, data: &[u64]) {
@@ -387,6 +388,7 @@ impl From<FeatureFlag> for CedraFeatureFlag {
             FeatureFlag::JwkConsensusPerKeyMode => CedraFeatureFlag::JWK_CONSENSUS_PER_KEY_MODE,
             FeatureFlag::TransactionPayloadV2 => CedraFeatureFlag::TRANSACTION_PAYLOAD_V2,
             FeatureFlag::OrderlessTransactions => CedraFeatureFlag::ORDERLESS_TRANSACTIONS,
+            FeatureFlag::FeeV2 => CedraFeatureFlag::FEE_V2,
         }
     }
 }
@@ -555,6 +557,7 @@ impl From<CedraFeatureFlag> for FeatureFlag {
             CedraFeatureFlag::JWK_CONSENSUS_PER_KEY_MODE => FeatureFlag::JwkConsensusPerKeyMode,
             CedraFeatureFlag::TRANSACTION_PAYLOAD_V2 => FeatureFlag::TransactionPayloadV2,
             CedraFeatureFlag::ORDERLESS_TRANSACTIONS => FeatureFlag::OrderlessTransactions,
+            CedraFeatureFlag::FEE_V2 => FeatureFlag::FeeV2,
         }
     }
 }

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{data_notification::DataNotification, data_stream::DataStreamListener, error::Error};
+use async_trait::async_trait;
 use cedra_config::config::CedraDataClientConfig;
 use cedra_crypto::{ed25519::Ed25519PrivateKey, HashValue, PrivateKey, SigningKey, Uniform};
 use cedra_data_client::{
@@ -44,8 +45,8 @@ use cedra_types::{
         TransactionPayload, TransactionStatus, Version,
     },
     write_set::WriteSet,
+    CedraCoinType, CoinType,
 };
-use async_trait::async_trait;
 use futures::StreamExt;
 use rand::{rngs::OsRng, Rng};
 use std::{
@@ -984,6 +985,7 @@ fn create_transaction() -> Transaction {
         0,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     let signature = private_key.sign(&raw_transaction).unwrap();
     let signed_transaction = SignedTransaction::new(raw_transaction, public_key, signature);

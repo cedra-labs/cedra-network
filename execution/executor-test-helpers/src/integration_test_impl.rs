@@ -38,6 +38,7 @@ use cedra_types::{
     },
     trusted_state::{TrustedState, TrustedStateChange},
     waypoint::Waypoint,
+    CedraCoinType, CoinType,
 };
 use cedra_vm::cedra_vm::CedraVMBlockExecutor;
 use move_core_types::move_resource::MoveStructType;
@@ -88,7 +89,7 @@ pub fn test_execution_with_storage_impl_inner(
     let addr3 = account3.address();
     let addr4 = account4.address();
 
-    let txn_factory = TransactionFactory::new(ChainId::test());
+    let txn_factory = TransactionFactory::new(ChainId::test(), CedraCoinType::type_tag());
 
     let block1_id = gen_block_id(1);
     let block1_meta = Transaction::BlockMetadata(BlockMetadata::new(

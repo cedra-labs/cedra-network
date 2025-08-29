@@ -229,6 +229,7 @@ mod tests {
             webauthn::{AssertionSignature, PartialAuthenticatorAssertionResponse},
             RawTransaction,
         },
+        CedraCoinType, CoinType,
     };
     use anyhow::anyhow;
     use cedra_crypto::{
@@ -531,7 +532,15 @@ mod tests {
     fn generate_random_challenge_data(
         sender_addr: AccountAddress,
     ) -> (RawTransaction, RawTxnSigningMessage, Challenge) {
-        let raw_txn = get_test_raw_transaction(sender_addr, 0, None, None, None, None);
+        let raw_txn = get_test_raw_transaction(
+            sender_addr,
+            0,
+            None,
+            None,
+            None,
+            None,
+            CedraCoinType::type_tag(),
+        );
 
         // Generate signing message (returns the concatenation of hash prefix || BCS serialization of transaction)
         let raw_txn_signing_message =
@@ -908,7 +917,15 @@ mod tests {
 
         // Incorrect raw transaction
         let (.., sender_address) = generate_sender();
-        let bad_raw_txn = get_test_raw_transaction(sender_address, 0, None, None, None, None);
+        let bad_raw_txn = get_test_raw_transaction(
+            sender_address,
+            0,
+            None,
+            None,
+            None,
+            None,
+            CedraCoinType::type_tag(),
+        );
         let bad_paar = PartialAuthenticatorAssertionResponse::new(
             AssertionSignature::Secp256r1Ecdsa {
                 signature: secp256r1_signature.clone(),

@@ -20,6 +20,7 @@ use crate::{
     move_tool::{ArgWithType, FunctionArgType, MemberId},
 };
 use anyhow::{bail, Context};
+use async_trait::async_trait;
 use cedra_api_types::ViewFunction;
 use cedra_crypto::{
     ed25519::{Ed25519PrivateKey, Ed25519PublicKey, Ed25519Signature},
@@ -46,9 +47,9 @@ use cedra_types::{
         authenticator::AuthenticationKey, EntryFunction, MultisigTransactionPayload, Script,
         SignedTransaction, TransactionArgument, TransactionPayload, TransactionStatus,
     },
+    CedraCoinType, CoinType,
 };
 use cedra_vm_types::output::VMOutput;
-use async_trait::async_trait;
 use clap::{Parser, ValueEnum};
 use hex::FromHexError;
 use indoc::indoc;
@@ -1910,8 +1911,8 @@ impl TransactionOptions {
             }
             max_gas
         } else {
-            let transaction_factory =
-                TransactionFactory::new(chain_id).with_gas_unit_price(gas_unit_price);
+            let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
+                .with_gas_unit_price(gas_unit_price);
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1959,7 +1960,7 @@ impl TransactionOptions {
         };
 
         // Build a transaction
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);
@@ -2075,7 +2076,7 @@ impl TransactionOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);
@@ -2522,7 +2523,10 @@ pub struct ChunkedPublishOption {
 /// For minting testnet Cedra.
 pub fn get_mint_site_url(address: Option<AccountAddress>) -> String {
     let params = match address {
-        Some(address) => format!("?amount=100000000&auth_key={}", address.to_standard_string()),
+        Some(address) => format!(
+            "?amount=100000000&auth_key={}",
+            address.to_standard_string()
+        ),
         None => "".to_string(),
     };
     format!("https://faucet.cedra.dev{}", params)
