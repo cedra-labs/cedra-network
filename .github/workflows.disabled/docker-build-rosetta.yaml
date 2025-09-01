@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: cedra-labs/cedra-core/.github/actions/buildx-setup@main
+      - uses: cedra-labs/cedra-network/.github/actions/buildx-setup@main
 
       - name: Build rosetta
         run: GIT_REF=main docker/rosetta/docker-build-rosetta.sh

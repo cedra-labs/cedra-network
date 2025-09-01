@@ -237,8 +237,8 @@ function "generate_tags" {
       "${GCP_DOCKER_ARTIFACT_REPO}/${target}:${IMAGE_TAG_PREFIX}${GIT_SHA}",
       "${GCP_DOCKER_ARTIFACT_REPO}/${target}:${IMAGE_TAG_PREFIX}${NORMALIZED_GIT_BRANCH_OR_PR}",
       ] : [ // "local" or any other value
-      "cedra-core/${target}:${IMAGE_TAG_PREFIX}${GIT_SHA}-from-local",
-      "cedra-core/${target}:${IMAGE_TAG_PREFIX}from-local",
+      "cedra-network/${target}:${IMAGE_TAG_PREFIX}${GIT_SHA}-from-local",
+      "cedra-network/${target}:${IMAGE_TAG_PREFIX}from-local",
     ]
   )
 }

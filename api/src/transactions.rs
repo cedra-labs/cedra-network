@@ -189,7 +189,7 @@ impl TransactionsApi {
     /// looks the transaction up by hash in the mempool (pending, not yet committed).
     ///
     /// To create a transaction hash by yourself, do the following:
-    ///   1. Hash message bytes: "RawTransaction" bytes + BCS bytes of [Transaction](https://cedra-labs.github.io/cedra-core/cedra_types/transaction/enum.Transaction.html).
+    ///   1. Hash message bytes: "RawTransaction" bytes + BCS bytes of [Transaction](https://cedra-labs.github.io/cedra-network/cedra_types/transaction/enum.Transaction.html).
     ///   2. Apply hash algorithm `SHA3-256` to the hash message bytes.
     ///   3. Hex-encode the hash bytes with `0x` prefix.
     // TODO: Include a link to an example of how to do this ^

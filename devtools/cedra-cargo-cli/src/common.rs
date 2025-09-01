@@ -28,11 +28,11 @@ use url::Url;
 // The target directory for the devtool
 const DEVTOOL_TARGET_DIRECTORY: &str = "target/cedra-x-tool";
 
-// File types in `cedra-core` that are not relevant to the rust build and test process.
+// File types in `cedra-network` that are not relevant to the rust build and test process.
 // Note: this is a best effort list and will need to be updated as time goes on.
 const IGNORED_DETERMINATOR_FILE_TYPES: [&str; 1] = ["*.md"];
 
-// Paths in `cedra-core` that are not relevant to the rust build and test process.
+// Paths in `cedra-network` that are not relevant to the rust build and test process.
 // Note: this is a best effort list and will need to be updated as time goes on.
 const IGNORED_DETERMINATOR_PATHS: [&str; 8] = [
     ".assets/*",
@@ -364,7 +364,7 @@ fn read_metadata_from_gcs(
 ) -> Option<CargoMetadata> {
     // Make a request to the GCS bucket to fetch the metadata file
     let url = format!(
-        "https://storage.googleapis.com/cedra-core-cargo-metadata-public/{}",
+        "https://storage.googleapis.com/cedra-network-cargo-metadata-public/{}",
         remote_file_name
     );
     let response = match reqwest::blocking::get(url) {
@@ -412,12 +412,12 @@ fn recompute_merge_base_metadata(
     local_dir_path: &String,
     local_metadata_file_path: &String,
 ) -> Option<CargoMetadata> {
-    // Clone the cedra-core repository to the local directory
+    // Clone the cedra-network repository to the local directory
     debug!(
-        "Cloning cedra-core repository to local directory: {:?}",
+        "Cloning cedra-network repository to local directory: {:?}",
         local_dir_path
     );
-    let clone_directory = format!("{}/cedra-core", local_dir_path);
+    let clone_directory = format!("{}/cedra-network", local_dir_path);
     Command::new("git")
         .arg("clone")
         .arg("--depth")
@@ -427,9 +427,9 @@ fn recompute_merge_base_metadata(
         .output()
         .expect("failed to execute git clone");
 
-    // Check out the merge base commit for the cedra-core clone
+    // Check out the merge base commit for the cedra-network clone
     debug!(
-        "Checking out merge base commit for cedra-core clone: {:?}",
+        "Checking out merge base commit for cedra-network clone: {:?}",
         merge_base
     );
     Command::new("git")
@@ -456,11 +456,11 @@ fn recompute_merge_base_metadata(
         write_metadata_locally(local_metadata_file_path, output);
     }
 
-    // Delete the cedra-core clone
-    debug!("Deleting cedra-core clone directory: {:?}", clone_directory);
+    // Delete the cedra-network clone
+    debug!("Deleting cedra-network clone directory: {:?}", clone_directory);
     if let Err(error) = fs::remove_dir_all(clone_directory.clone()) {
         warn!(
-            "Error deleting cedra-core clone directory: {:?}. Error: {:?}",
+            "Error deleting cedra-network clone directory: {:?}. Error: {:?}",
             clone_directory, error
         );
     }

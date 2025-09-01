@@ -349,7 +349,7 @@ crate::gas_schedule::macros::define_gas_parameters!(
         // Based on SHA3-256's cost
         [object_user_derived_address_base: InternalGas, { RELEASE_V1_12.. => "object.user_derived_address.base" }, 14704],
 
-        // These are dummy value, they copied from storage gas in cedra-core/cedra-vm/src/cedra_vm_impl.rs
+        // These are dummy value, they copied from storage gas in cedra-network/cedra-vm/src/cedra_vm_impl.rs
         [object_exists_at_per_byte_loaded: InternalGasPerByte, { 7.. => "object.exists_at.per_byte_loaded" }, 183],
         [object_exists_at_per_item_loaded: InternalGas, { 7.. => "object.exists_at.per_item_loaded" }, 1470],
         [string_utils_base: InternalGas, { 8.. => "string_utils.format.base" }, 1102],

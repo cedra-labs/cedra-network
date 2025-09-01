@@ -35,7 +35,7 @@ jobs:
         with:
           ref: ${{ inputs.GIT_SHA }}
 
-      - uses: cedra-labs/cedra-core/.github/actions/docker-setup@main
+      - uses: cedra-labs/cedra-network/.github/actions/docker-setup@main
         if: ${{ !inputs.SKIP_JOB }}
         with:
           GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}

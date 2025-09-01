@@ -10,24 +10,24 @@ class SpyTests(unittest.TestCase):
             [
                 FakeCommand(
                     "git remote get-url origin",
-                    RunResult(0, b"git@github.com:banana-corp/cedra-core.git"),
+                    RunResult(0, b"git@github.com:banana-corp/cedra-network.git"),
                 )
             ]
         )
         git: Git = Git(shell)
-        self.assertEqual(git.get_repo_from_remote("origin"), "banana-corp/cedra-core")
+        self.assertEqual(git.get_repo_from_remote("origin"), "banana-corp/cedra-network")
 
     def test_get_repo_from_remote_http(self):
         shell: Shell = SpyShell(
             [
                 FakeCommand(
                     "git remote get-url origin",
-                    RunResult(0, b"https://github.com/kiwi-corp/cedra-core.git"),
+                    RunResult(0, b"https://github.com/kiwi-corp/cedra-network.git"),
                 )
             ]
         )
         git: Git = Git(shell)
-        self.assertEqual(git.get_repo_from_remote("origin"), "kiwi-corp/cedra-core")
+        self.assertEqual(git.get_repo_from_remote("origin"), "kiwi-corp/cedra-network")
 
     def test_get_remote_branches_matching_pattern(self):
         shell: Shell = SpyShell(

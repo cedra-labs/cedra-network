@@ -73,7 +73,7 @@ The script includes several functions to manage and execute fuzz tests:
 ## Writing Fuzz Targets
 
 ### Setting Up Fuzz Targets
-To set up a fuzz harness in Cedra-core using `cargo-fuzz`:
+To set up a fuzz harness in cedra-network using `cargo-fuzz`:
 #### Initialize Fuzz Target
 Run the following command to initialize the fuzzing target. This creates and edits all the necessary files.
 ```bash
@@ -155,13 +155,13 @@ Use `./fuzz.sh block-builder generate_runnable_states_recursive data/0x1/ fuzz/c
 #### Steps (internal)
 The following steps apply to wathever seed we might want to make available, remember to add the public link at the begin of `fuzz.sh`.
 1. `gcloud auth login`
-2. `gcloud storage cp gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus.zip`
+2. `gcloud storage cp gs://cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus.zip`
 3. `unzip move_cedravm_publish_and_run_seed_corpus.zip -d move_cedravm_publish_and_run_seed_corpus`
 4. `./fuzz.sh block-builder generate_runnable_states_recursive data/0x1/ move_cedravm_publish_and_run_seed_corpus`
 5. Normally we would run cmin but we assume that manually created inputs are fine and serve a specific purse.
 6. `zip -r move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus`
-7. `gsutil storage cp move_cedravm_publish_and_run_seed_corpus.zip gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip`
-8. We need to restore ACL (public URL remain the same): `gsutil storage acl ch -u AllUsers:R gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip`
+7. `gsutil storage cp move_cedravm_publish_and_run_seed_corpus.zip gs://cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip`
+8. We need to restore ACL (public URL remain the same): `gsutil storage acl ch -u AllUsers:R gs://cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip`
 
 ## Debug Crashes
 Flamegraph and GDB are integrated into fuzz.sh for advanced metrics and debugging. A more rudimentary option is also available: since we have symbolized binaries, we can directly use the stack trace produced by the fuzzer. However, for INVARIANT_VIOLATIONS, the stack trace is incorrect. To obtain the correct stack trace, you can use the following command:

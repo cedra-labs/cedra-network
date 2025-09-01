@@ -30,7 +30,7 @@ from test_framework.git import Git
 from test_framework.logging import log, init_logging
 from forge import image_exists
 
-UPSTREAM_CEDRA_CORE_REPO = "cedra-labs/cedra-core"
+UPSTREAM_CEDRA_CORE_REPO = "cedra-labs/cedra-network"
 DOCKER_RUST_BUILD_WORKFLOW_NAME = "workflow-run-docker-rust-build.yaml"
 FORGE_WORKFLOW_NAME = "adhoc-forge.yaml"
 EXP_GIT_BRANCH_PREFIX = "exp/"
@@ -299,7 +299,7 @@ def main(log_metadata: bool) -> None:
     init_logging(logger=log, print_metadata=log_metadata)
 
 
-@main.command(help="Run a workflow on the upstream cedra-core git repo")
+@main.command(help="Run a workflow on the upstream cedra-network git repo")
 @click.option(
     "--features",
     multiple=True,

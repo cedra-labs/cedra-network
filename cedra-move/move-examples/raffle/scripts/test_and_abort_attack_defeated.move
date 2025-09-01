@@ -16,12 +16,12 @@ script {
         //
         // ```
         //    error[E04001]: restricted visibility
-        //    |- /tmp/cedra-core/cedra-move/move-examples/raffle/scripts/test_and_abort_attack_defeated.move:19:9
+        //    |- /tmp/cedra-network/cedra-move/move-examples/raffle/scripts/test_and_abort_attack_defeated.move:19:9
         //    |
         //    19 |         raffle::raffle::randomly_pick_winner();
         //    |         ^^^^^^^^^^^^^^^^^^^^^^^^^ Invalid call to '(raffle=0xC3BB8488AB1A5815A9D543D7E41B0E0DF46A7396F89B22821F07A4362F75DDC5)::raffle::randomly_pick_winner'
         //    |
-        //    |- /tmp/cedra-core/cedra-move/move-examples/raffle/sources/raffle.move:122:15
+        //    |- /tmp/cedra-network/cedra-move/move-examples/raffle/sources/raffle.move:122:15
         //    |
         //    122 |     entry fun randomly_pick_winner() acquires raffle, Credentials {
         //    |               -------------- This function is internal to its module. Only 'public' and 'public(friend)' functions can be called outside of their module

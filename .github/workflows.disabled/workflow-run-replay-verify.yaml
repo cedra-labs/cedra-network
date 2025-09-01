@@ -114,7 +114,7 @@ jobs:
 
       - name: Prepare for build if not cached
         if: steps.cache-cedra-debugger-binary.outputs.cache-hit != 'true'
-        uses: cedra-labs/cedra-core/.github/actions/rust-setup@main
+        uses: cedra-labs/cedra-network/.github/actions/rust-setup@main
         with:
           GIT_CREDENTIALS: ${{ inputs.GIT_CREDENTIALS }}
 

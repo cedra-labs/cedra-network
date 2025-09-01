@@ -17,7 +17,7 @@
 ///
 /// 2. Publish the module under a resource account.
 /// - 2.a Make sure you're in the right directory.
-/// Run the following command in directory `cedra-core/cedra-move/move-examples/mint_nft/3-Adding-Admin`.
+/// Run the following command in directory `cedra-network/cedra-move/move-examples/mint_nft/3-Adding-Admin`.
 /// - 2.b Run the following CLI command to publish the module under a resource account.
 /// cedra move create-resource-account-and-publish-package --seed [seed] --address-name mint_nft --profile default --named-addresses source_addr=[default account's address]
 ///

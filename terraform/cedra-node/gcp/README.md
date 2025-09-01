@@ -47,8 +47,8 @@ Install pre-requisites if needed:
   }
 
   module "cedra-node" {
-    # download Terraform module from cedra-labs/cedra-core repo
-    source        = "github.com/cedra-labs/cedra-core.git//terraform/cedra-node/gcp?ref=testnet"
+    # download Terraform module from cedra-labs/cedra-network repo
+    source        = "github.com/cedra-labs/cedra-network.git//terraform/cedra-node/gcp?ref=testnet"
     region        = "us-central1"  # Specify the region
     zone          = "c"            # Specify the zone suffix
     project       = "<GCP Project Name>" # Specify your GCP project name

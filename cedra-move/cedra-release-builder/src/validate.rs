@@ -194,7 +194,7 @@ impl NetworkConfig {
             "--metadata-path",
             metadata_path.path().to_str().unwrap(),
             "--metadata-url",
-            "https://raw.githubusercontent.com/cedra-labs/cedra-core/b4fb9acfc297327c43d030def2b59037c4376611/testsuite/smoke-test/src/upgrade_multi_step_test_metadata.txt",
+            "https://raw.githubusercontent.com/cedra-labs/cedra-network/b4fb9acfc297327c43d030def2b59037c4376611/testsuite/smoke-test/src/upgrade_multi_step_test_metadata.txt",
             "--sender-account",
             address_string.as_str(),
             "--private-key",

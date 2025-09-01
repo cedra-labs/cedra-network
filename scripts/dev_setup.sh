@@ -36,7 +36,7 @@ cd "$SCRIPT_PATH/.." || exit
 
 function usage {
   echo "Usage:"
-  echo "Installs or updates necessary dev tools for cedralabs/cedra-core."
+  echo "Installs or updates necessary dev tools for cedralabs/cedra-network."
   echo "-b batch mode, no user interactions and minimal output"
   echo "-p update ${HOME}/.profile"
   echo "-r install protoc and related tools"
@@ -51,7 +51,7 @@ function usage {
   echo "-n will target the /opt/ dir rather than the $HOME dir.  /opt/bin/, /opt/rustup/, and /opt/dotnet/ rather than $HOME/bin/, $HOME/.rustup/, and $HOME/.dotnet/"
   echo "-k skip pre-commit"
   echo "If no toolchain component is selected with -t, -o, -y, -d, or -p, the behavior is as if -t had been provided."
-  echo "This command must be called from the root folder of the Cedra-core project."
+  echo "This command must be called from the root folder of the cedra-network project."
 }
 
 function add_to_profile {
@@ -460,7 +460,7 @@ function install_toolchain {
 function install_rustup_components_and_nightly {
   echo "Updating rustup and installing the latest rustc, rustfmt & clippy"
   rustup update
-  rustup toolchain install stable # Install the latest toolchain to ensure that dependencies can always be built (even if cedra-core is behind)
+  rustup toolchain install stable # Install the latest toolchain to ensure that dependencies can always be built (even if cedra-network is behind)
   rustup component add rustfmt
   rustup component add clippy
 
@@ -893,7 +893,7 @@ if [[ "$INSTALL_BUILD_TOOLS" == "false" ]] &&
 fi
 
 if [ ! -f rust-toolchain.toml ]; then
-  echo "Unknown location. Please run this from the cedra-core repository. Abort."
+  echo "Unknown location. Please run this from the cedra-network repository. Abort."
   exit 1
 fi
 

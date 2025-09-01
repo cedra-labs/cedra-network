@@ -123,7 +123,7 @@ fn git_is_worktree_dirty() -> Result<bool> {
 }
 
 /// Attempt to query the local git repository's remotes for the one that points to the upstream
-/// cedra-labs/cedra-core repository, falling back to "origin" if unable to locate the remote
+/// cedra-labs/cedra-network repository, falling back to "origin" if unable to locate the remote
 pub fn git_get_upstream_remote() -> Result<String> {
     let output = Command::new("sh")
         .arg("-c")

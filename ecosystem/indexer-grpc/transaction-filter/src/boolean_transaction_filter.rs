@@ -488,7 +488,7 @@ mod test {
         UserTransactionFilterBuilder, /*UserTransactionPayloadFilterBuilder,*/
     };
 
-    // Disabled for now while we investigate an issue with lz4 in cedra-core:
+    // Disabled for now while we investigate an issue with lz4 in cedra-network:
     // https://cedra-org.slack.com/archives/C04PF1X2UKY/p1718995777239809?thread_ts=1718969817.705389&cid=C04PF1X2UKY
     /*
     #[test]
