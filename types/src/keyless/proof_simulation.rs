@@ -194,7 +194,7 @@ mod tests {
     use rand::SeedableRng;
     /// Generates and verifies a simulated proof using a hardcoded simulation prover and verifier key
     /// pair and a hardcoded public input. These values were generated with the Keyless circuit at commit
-    /// `b715e935effe282bb998bb06c826b33d290d94ed` of `cedra-core`
+    /// `b715e935effe282bb998bb06c826b33d290d94ed` of `cedra-network`
     fn test_prove_and_verify(n_iters: usize, seed: u64) {
         let public_input_values: [u64; 4] = [
             3195712670376992034,

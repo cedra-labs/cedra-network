@@ -4,7 +4,7 @@ This tool is to generate transactions for testing purposes.
 
 ## Usage
 
-Under the root folder, i.e., `cedra-core`, run the follow command. This will default to importing transactions for all networks.
+Under the root folder, i.e., `cedra-network`, run the follow command. This will default to importing transactions for all networks.
 
 ```bash
 cargo run -p cedra-indexer-transaction-generator -- --testing-folder ecosystem/indexer-grpc/indexer-transaction-generator/imported_transactions --output-folder ecosystem/indexer-grpc/indexer-test-transactions/src

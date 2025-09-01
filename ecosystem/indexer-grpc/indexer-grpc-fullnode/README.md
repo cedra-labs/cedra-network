@@ -26,4 +26,4 @@ Follow instructions on how to run a fullnode against an existing network.
 
 ### 2) Test with GCURL
 * Install grpcurl (https://github.com/fullstorydev/grpcurl#installation)
-* From the cedra-core (base folder), test with grpcurl: `grpcurl  -max-msg-sz 10000000 -d '{ "starting_version": 0 }' -import-path crates/cedra-protos/proto -proto cedra/internal/fullnode/v1/fullnode_data.proto  -plaintext 127.0.0.1:50051 cedra.internal.fullnode.v1.FullnodeData/GetTransactionsFromNode`
+* From the cedra-network (base folder), test with grpcurl: `grpcurl  -max-msg-sz 10000000 -d '{ "starting_version": 0 }' -import-path crates/cedra-protos/proto -proto cedra/internal/fullnode/v1/fullnode_data.proto  -plaintext 127.0.0.1:50051 cedra.internal.fullnode.v1.FullnodeData/GetTransactionsFromNode`

@@ -8,7 +8,7 @@
 //! traits such as Object, Enum, Union, etc. However, in some cases, it is
 //! not feasible to use these derives.
 //!
-//!   - The type is outside of reach, e.g. in a crate in cedra-core that is
+//!   - The type is outside of reach, e.g. in a crate in cedra-network that is
 //!     too unrelated, or even worse, in a totally different crate (the move
 //!     types are a great example of this).
 //!   - The type is not expressible via OpenAPI. For example, an enum that

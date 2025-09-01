@@ -8,7 +8,7 @@ import * as url from "url";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const owner = "cedra-labs";
-const repo = "cedra-core";
+const repo = "cedra-network";
 
 export async function pruneGithubWorkflowRuns() {
   const githubToken = process.env.GITHUB_TOKEN;

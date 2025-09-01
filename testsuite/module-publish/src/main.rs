@@ -9,7 +9,7 @@ use clap::Parser;
 #[clap(
     name = "module-publish",
     about = "Write Move packages binaries in a Rust file (raw_module_data.rs). Defaults to \n\
-         cedra-core/crates/transaction-workloads-lib/src/raw_module_data.rs"
+         cedra-network/crates/transaction-workloads-lib/src/raw_module_data.rs"
 )]
 struct Args {
     #[clap(long, help = "Optional output directory for raw_module_data.rs")]

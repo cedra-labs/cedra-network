@@ -6,7 +6,7 @@ labels: DevEx
 assignees: ''
 ---
 
-<!-- See an example RFC here: https://github.com/cedra-labs/cedra-core/issues/6171 -->
+<!-- See an example RFC here: https://github.com/cedra-labs/cedra-network/issues/6171 -->
 
 ## Context
 

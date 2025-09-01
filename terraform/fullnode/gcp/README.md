@@ -18,11 +18,11 @@ These instructions assume that you have a functioning GCP project.  If you do no
          $ gcloud auth login --update-adc
 
 
-2. Clone the cedra-core repo and go to the terraform gcp folder.
+2. Clone the cedra-network repo and go to the terraform gcp folder.
 
          $ git clone https://github.com/cedra-labs/cedra-network.git
 
-         $ cd cedra-core/terraform/fullnode/gcp
+         $ cd cedra-network/terraform/fullnode/gcp
 
 3. Create a working directory for your configuration.  Copy the files you will change so it does not interfere with the cloned repo:
 
@@ -56,7 +56,7 @@ These instructions assume that you have a functioning GCP project.  If you do no
        $ cp terraform.tfvars ~/$WORKSPACE/terraform.tfvars
        $ vi ~/$WORKSPACE/terraform.tfvars
 
-9. Apply the configuration.  Note that you should be in the cedra-core/terraform/fullnode/gcp folder when you run this command.  It will use the  config files that you modified in the ~/$WORKSPACE folder plus the cloned terraform files.
+9. Apply the configuration.  Note that you should be in the cedra-network/terraform/fullnode/gcp folder when you run this command.  It will use the  config files that you modified in the ~/$WORKSPACE folder plus the cloned terraform files.
 
        $ terraform apply -var-file ~/$WORKSPACE/terraform.tfvars
 

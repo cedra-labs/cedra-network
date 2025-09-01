@@ -69,7 +69,7 @@ runs:
         fi
         echo "AWS args were supplied and are vaild, we will log into ECR"
 
-    - uses: cedra-labs/cedra-core/.github/actions/buildx-setup@main
+    - uses: cedra-labs/cedra-network/.github/actions/buildx-setup@main
 
     - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # pin@v0.3
       with:

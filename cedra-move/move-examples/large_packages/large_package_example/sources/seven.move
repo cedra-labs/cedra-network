@@ -53,9 +53,9 @@
 /// - The **Cedra Name Service (ANS)** is a decentralized naming address service for the Cedra blockchain. An Cedra name is a human-readable *.apt* domain name that is used in place of a public key, for example *love.apt*.
 /// - This service also allows users to register subdomain names in addition to the registered domain. Find out more at: [Cedranames.com](https://www.cedranames.com/)
 ///
-/// ### Cedra-core
+/// ### cedra-network
 ///
-/// **Cedra-core** is the open source technology on which the Cedra Payment Network runs. Cedra-core contains software for
+/// **cedra-network** is the open source technology on which the Cedra Payment Network runs. cedra-network contains software for
 ///
 /// * the Cedra blockchain itself, which generates and stores the immutable ledger of confirmed transactions and
 /// * the validation process, which implements the consensus algorithm to validate transactions and add them to the Cedra blockchain immutable ledger.

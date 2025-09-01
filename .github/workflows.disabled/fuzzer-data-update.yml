@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Rust
-        uses: cedra-labs/cedra-core/.github/actions/rust-setup@main
+        uses: cedra-labs/cedra-network/.github/actions/rust-setup@main
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -40,7 +40,7 @@ jobs:
       # All of them reuse the same seed corpus, so we only need to download/upload one of them.
       - name: Download existing corpus
         run: |
-          gcloud storage cp gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus.zip
+          gcloud storage cp gs://cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus.zip
           unzip -q move_cedravm_publish_and_run_seed_corpus.zip -d move_cedravm_publish_and_run_seed_corpus
 
       - name: Generate runnable states
@@ -51,5 +51,5 @@ jobs:
       - name: Create and upload new corpus
         run: |
           zip -r move_cedravm_publish_and_run_seed_corpus.zip move_cedravm_publish_and_run_seed_corpus
-          gcloud storage cp move_cedravm_publish_and_run_seed_corpus.zip gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip
-          gcloud storage objects update gs://cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip --add-acl=publicRead
+          gcloud storage cp move_cedravm_publish_and_run_seed_corpus.zip gs://cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip
+          gcloud storage objects update gs://cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip --add-acl=publicRead

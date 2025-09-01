@@ -63,7 +63,7 @@ impl std::ops::Deref for TestValidator {
 // errors are not exercised:
 // * SEQUENCE_NUMBER_TOO_OLD -- We can't test sequence number too old here without running execution
 //   first in order to bump the account's sequence number. This needs to (and is) tested in the
-//   language e2e tests in: cedra-core/language/e2e-testsuite/src/tests/verify_txn.rs ->
+//   language e2e tests in: cedra-network/language/e2e-testsuite/src/tests/verify_txn.rs ->
 //   verify_simple_payment.
 // * SEQUENCE_NUMBER_TOO_NEW -- This error is filtered out when running validation; it is only
 //   testable when running the executor.

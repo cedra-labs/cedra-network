@@ -25,7 +25,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up Rust
-        uses: cedra-labs/cedra-core/.github/actions/rust-setup@main
+        uses: cedra-labs/cedra-network/.github/actions/rust-setup@main
         with:
           GIT_CREDENTIALS: ${{ secrets.GIT_CREDENTIALS }}
 

@@ -27,7 +27,7 @@ spec cedra_std::math64 {
     }
 
     // The specs of `pow`, `floor_log2` and `sqrt` are validated with a smaller domain
-    // in cedra-core/third_party/move/move-prover/tests/sources/functional/math8.move
+    // in cedra-network/third_party/move/move-prover/tests/sources/functional/math8.move
 
     spec pow(n: u64, e: u64): u64 {
         pragma opaque;

@@ -41,7 +41,7 @@
       "icon": "external link",
       "includeVars": true,
       "keepTime": true,
-      "tags": ["cedra-core"],
+      "tags": ["cedra-network"],
       "targetBlank": true,
       "title": "cedra core ",
       "type": "dashboards"
@@ -691,7 +691,7 @@
   ],
   "schemaVersion": 37,
   "style": "dark",
-  "tags": ["cedra-core"],
+  "tags": ["cedra-network"],
   "templating": {
     "list": [
       {

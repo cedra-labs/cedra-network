@@ -36,7 +36,7 @@
 - [ ] Other (specify)
 
 ## Checklist
-- [ ] I have read and followed the [CONTRIBUTING](https://github.com/cedra-labs/cedra-core/blob/main/CONTRIBUTING.md) doc
+- [ ] I have read and followed the [CONTRIBUTING](https://github.com/cedra-labs/cedra-network/blob/main/CONTRIBUTING.md) doc
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I identified and added all stakeholders and component owners affected by this change as reviewers

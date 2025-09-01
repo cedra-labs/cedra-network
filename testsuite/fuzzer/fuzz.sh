@@ -7,8 +7,8 @@ export EXTRAFLAGS="-Ztarget-applies-to-host -Zhost-config"
 NIGHTLY_VERSION="nightly-2024-04-06"
 
 # GDRIVE format https://docs.google.com/uc?export=download&id=DOCID
-# "https://storage.googleapis.com/cedra-core-corpora/move_cedravm_publish_seed_corpus.zip"
-CORPUS_ZIPS=("https://storage.googleapis.com/cedra-core-corpora/move_cedravm_publish_and_run_seed_corpus.zip")
+# "https://storage.googleapis.com/cedra-network-corpora/move_cedravm_publish_seed_corpus.zip"
+CORPUS_ZIPS=("https://storage.googleapis.com/cedra-network-corpora/move_cedravm_publish_and_run_seed_corpus.zip")
 
 # This save time excluding some features needed only for specific targets
 # Downside: fuzzers which require  specific features need to recompile all dependencies
