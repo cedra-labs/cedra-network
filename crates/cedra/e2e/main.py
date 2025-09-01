@@ -13,9 +13,9 @@ Example (testing CLI in image):
   python3 main.py --base-network testnet --test-cli-tag mainnet_0431e2251d0b42920d89a52c63439f7b9eda6ac3
 
 Example (testing locally built CLI binary):
-  python3 main.py --base-network devnet --test-cli-path ~/cedra-core/target/release/cedra
+  python3 main.py --base-network devnet --test-cli-path ~/cedra-network/target/release/cedra
 
-This means, run the CLI test suite using a CLI built from mainnet_0431e2251d0b42920d89a52c63439f7b9eda6ac3 against a localnet built from the testnet branch of cedra-core.
+This means, run the CLI test suite using a CLI built from mainnet_0431e2251d0b42920d89a52c63439f7b9eda6ac3 against a localnet built from the testnet branch of cedra-network.
 
 Example (using a different image repo):
   See ~/.github/workflows/cli-e2e-tests.yaml
@@ -99,7 +99,7 @@ def parse_args():
             "By default we use Docker Hub: %(default)s (so, just cedralabs for the "
             "project since Docker Hub is the implied default repo). If you want to "
             "specify a different repo, it might look like this: "
-            "docker.pkg.github.com/cedralabs/cedra-core"
+            "docker.pkg.github.com/cedralabs/cedra-network"
         ),
     )
     parser.add_argument(
@@ -122,7 +122,7 @@ def parse_args():
     )
     test_cli_args.add_argument(
         "--test-cli-path",
-        help="Path to CLI binary we want to test, e.g. /home/dport/cedra-core/target/release/cedra",
+        help="Path to CLI binary we want to test, e.g. /home/dport/cedra-network/target/release/cedra",
     )
     parser.add_argument(
         "--working-directory",

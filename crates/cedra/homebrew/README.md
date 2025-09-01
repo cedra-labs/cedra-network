@@ -82,7 +82,7 @@ brew livecheck --debug cedra
 
 Once you have audited and tested your brew formula using the commands above, make sure you:
 
-1. Commit your changes to `cedra-core` in `crates/cedra/homebrew`.
+1. Commit your changes to `cedra-network` in `crates/cedra/homebrew`.
 2. Fork the Homebrew Core repository
    per [How to Open a Homebrew Pull Request](https://docs.brew.sh/How-To-Open-a-Homebrew-Pull-Request#formulae-related-pull-request).
 3. Create a PR on the [Homebrew Core](https://github.com/Homebrew/homebrew-core/pulls) repo with your changes.
@@ -129,7 +129,7 @@ compile from source every time.
 ### Livecheck
 
 [Brew livecheck](https://docs.brew.sh/Brew-Livecheck) uses strategies to find the newest version of a formula or cask’s
-software by checking upstream. The strategy used below checks for all `cedra-cli-v<SEMVER>` tags for `cedra-core`. The
+software by checking upstream. The strategy used below checks for all `cedra-cli-v<SEMVER>` tags for `cedra-network`. The
 regex ensures that releases for other, non-CLI builds are not factored into livecheck.
 
 Livecheck is run on a schedule with BrewTestBot and will update the bottles automatically on a schedule to ensure
@@ -166,7 +166,7 @@ brew livecheck --debug cedra
 ```ruby
   # Installs listed homebrew dependencies before Cedra installation
   # Dependencies needed: https://cedra.dev/cli-tools/build-cedra-cli
-  # See scripts/dev_setup.sh in cedra-core for more info
+  # See scripts/dev_setup.sh in cedra-network for more info
   depends_on "cmake" => :build
   depends_on "rustup-init" => :build
   uses_from_macos "llvm" => :build
@@ -179,7 +179,7 @@ brew livecheck --debug cedra
   end
 
   # Currently must compile with the same rustc version specified in the
-  # root Cargo.toml file of cedra-core (currently it is pegged to Rust 
+  # root Cargo.toml file of cedra-network (currently it is pegged to Rust 
   # v1.64). In the future if it becomes compatible with the latest Rust
   # toolchain, we can remove the use of rustup-init, replacing it with a 
   # depends_on "rust" => :build

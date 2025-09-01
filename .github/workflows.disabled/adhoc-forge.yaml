@@ -26,7 +26,7 @@ on:
         required: false
         type: string
         default: land_blocking
-        description: Test suite to run. See https://github.com/cedra-labs/cedra-core/blob/main/testsuite/forge-cli/src/main.rs
+        description: Test suite to run. See https://github.com/cedra-labs/cedra-network/blob/main/testsuite/forge-cli/src/main.rs
       FORGE_CLUSTER_NAME:
         required: false
         type: string
@@ -82,7 +82,7 @@ jobs:
       forgeRetainDebugLogs: ${{ inputs.FORGE_RETAIN_DEBUG_LOGS }}
       forgeIndexerDeployerProfile: ${{ inputs.FORGE_INDEXER_DEPLOYER_PROFILE }}
   adhoc-forge-test:
-    uses: cedra-labs/cedra-core/.github/workflows/workflow-run-forge.yaml@main
+    uses: cedra-labs/cedra-network/.github/workflows/workflow-run-forge.yaml@main
     needs: [determine-forge-run-metadata]
     secrets: inherit
     with:

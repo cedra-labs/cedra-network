@@ -53,8 +53,8 @@ Install pre-requisites if needed:
   }
 
   module "cedra-node" {
-    # download Terraform module from cedra-labs/cedra-core repo
-    source        = "github.com/cedra-labs/cedra-core.git//terraform/cedra-node/aws?ref=main"
+    # download Terraform module from cedra-labs/cedra-network repo
+    source        = "github.com/cedra-labs/cedra-network.git//terraform/cedra-node/aws?ref=main"
     region        = var.region  # Specify the region
     # zone_id     = "<Route53 zone id>"  # zone id for Route53 if you want to use DNS
     era           = 1              # bump era number to wipe the chain

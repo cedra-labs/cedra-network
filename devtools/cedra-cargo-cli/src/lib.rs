@@ -16,7 +16,7 @@ use log::{debug, trace};
 const CEDRA_CLI_PACKAGE_NAME: &str = "cedra";
 
 // Relevant file paths to monitor when deciding to run the targeted tests.
-// Note: these paths should be relative to the root of the `cedra-core` repository,
+// Note: these paths should be relative to the root of the `cedra-network` repository,
 // and will be transformed into UTF-8 paths for cross-platform compatibility.
 const RELEVANT_FILE_PATHS_FOR_COMPILER_V2: [&str; 5] = [
     "cedra-move/cedra-transactional-test-harness",
@@ -543,7 +543,7 @@ mod tests {
         // Verify that no changes are detected
         let changed_file_paths = Utf8Paths0::from_bytes(b"developer-docs-site/").unwrap();
         let affected_package_paths =
-            vec!["file:///home/cedra-core/crates/test-crate#test-crate".into()];
+            vec!["file:///home/cedra-network/crates/test-crate#test-crate".into()];
         let relevant_changes_detected = detect_relevant_changes(
             relevant_file_paths.clone(),
             relevant_package_names.clone(),
@@ -565,7 +565,7 @@ mod tests {
 
         // Verify that package changes are detected correctly
         let affected_package_paths =
-            vec!["file:///home/cedra-core/crates/cedra-node#cedra-node".into()];
+            vec!["file:///home/cedra-network/crates/cedra-node#cedra-node".into()];
         let relevant_changes_detected = detect_relevant_changes(
             relevant_file_paths.clone(),
             relevant_package_names.clone(),
@@ -577,7 +577,7 @@ mod tests {
         // Verify that both file and package changes are detected correctly
         let changed_file_path = Utf8Paths0::from_bytes(b"Cargo.lock").unwrap();
         let affected_package_paths =
-            vec!["file:///home/cedra-core/crates/e2e-move-tests#e2e-move-tests".into()];
+            vec!["file:///home/cedra-network/crates/e2e-move-tests#e2e-move-tests".into()];
         let relevant_changes_detected = detect_relevant_changes(
             relevant_file_paths.clone(),
             relevant_package_names.clone(),
@@ -642,10 +642,10 @@ mod tests {
 
         // Verify that no changes are detected
         let affected_package_paths = vec![
-            "file:///home/cedra-core/cedra-mode/tests/e2e-move-tests#test-crate",
-            "file:///home/cedra-core/crates/test-crate#other-test-crate",
-            "file:///home/cedra-core/crates/other-crate#other-crate",
-            "file:///home/cedra-core/cedra-node#other-node-crate",
+            "file:///home/cedra-network/cedra-mode/tests/e2e-move-tests#test-crate",
+            "file:///home/cedra-network/crates/test-crate#other-test-crate",
+            "file:///home/cedra-network/crates/other-crate#other-crate",
+            "file:///home/cedra-network/cedra-node#other-node-crate",
         ];
         for affected_package_path in affected_package_paths {
             // Verify that no changes are detected
@@ -660,8 +660,8 @@ mod tests {
 
         // Verify that package changes are detected correctly
         let affected_package_paths = vec![
-            "file:///home/cedra-core/crates/cedra-node#cedra-node",
-            "file:///home/cedra-core/crates/e2e-move-tests#e2e-move-tests",
+            "file:///home/cedra-network/crates/cedra-node#cedra-node",
+            "file:///home/cedra-network/crates/e2e-move-tests#e2e-move-tests",
         ];
         for affected_package_path in affected_package_paths {
             // Verify changes are detected
@@ -680,7 +680,7 @@ mod tests {
         // Create a fully qualified test package path
         let package_name = "test-package-name".to_string();
         let package_path = format!(
-            "file:///home/cedra-core/devtools/cedra-cargo-cli#{}",
+            "file:///home/cedra-network/devtools/cedra-cargo-cli#{}",
             package_name
         );
 
@@ -698,7 +698,7 @@ mod tests {
     #[should_panic(expected = "Failed to extract package name from path")]
     fn test_get_package_name_from_path_empty() {
         // Create a test package path with an empty package name
-        let package_path = "file:///home/cedra-core/devtools/cedra-cargo-cli#";
+        let package_path = "file:///home/cedra-network/devtools/cedra-cargo-cli#";
 
         // Extract the package name from the path (this should panic)
         get_package_name_from_path(package_path);
@@ -708,7 +708,7 @@ mod tests {
     #[should_panic(expected = "Package path missing delimiter")]
     fn test_get_package_name_from_path_missing_delimiter() {
         // Create a test package path without a package name
-        let package_path = "file:///home/cedra-core/devtools/cedra-cargo-cli";
+        let package_path = "file:///home/cedra-network/devtools/cedra-cargo-cli";
 
         // Extract the package name from the path (this should panic)
         get_package_name_from_path(package_path);

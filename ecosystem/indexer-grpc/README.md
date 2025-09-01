@@ -56,7 +56,7 @@ Run a single cedra-node in test mode:
 #### 2) Test with `grpcurl`
 
 * Ensure `grpcurl` installed
-* From the cedra-core (project base directory), try hitting a grpc endpoint directly on the fullnode: `grpcurl  -max-msg-sz 10000000 -d '{ "starting_version": 0 }' -import-path crates/cedra-protos/proto -proto cedra/internal/fullnode/v1/fullnode_data.proto  -plaintext 127.0.0.1:50051 cedra.internal.fullnode.v1.FullnodeData/GetTransactionsFromNode`
+* From the cedra-network (project base directory), try hitting a grpc endpoint directly on the fullnode: `grpcurl  -max-msg-sz 10000000 -d '{ "starting_version": 0 }' -import-path crates/cedra-protos/proto -proto cedra/internal/fullnode/v1/fullnode_data.proto  -plaintext 127.0.0.1:50051 cedra.internal.fullnode.v1.FullnodeData/GetTransactionsFromNode`
 
 #### 3) Run redis
 

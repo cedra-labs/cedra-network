@@ -9312,7 +9312,7 @@
           "Transactions"
         ],
         "summary": "Get transaction by hash",
-        "description": "Look up a transaction by its hash. This is the same hash that is returned\nby the API when submitting a transaction (see PendingTransaction).\n\nWhen given a transaction hash, the server first looks for the transaction\nin storage (on-chain, committed). If no on-chain transaction is found, it\nlooks the transaction up by hash in the mempool (pending, not yet committed).\n\nTo create a transaction hash by yourself, do the following:\n1. Hash message bytes: \"RawTransaction\" bytes + BCS bytes of [Transaction](https://cedra-labs.github.io/cedra-core/cedra_types/transaction/enum.Transaction.html).\n2. Apply hash algorithm `SHA3-256` to the hash message bytes.\n3. Hex-encode the hash bytes with `0x` prefix.",
+        "description": "Look up a transaction by its hash. This is the same hash that is returned\nby the API when submitting a transaction (see PendingTransaction).\n\nWhen given a transaction hash, the server first looks for the transaction\nin storage (on-chain, committed). If no on-chain transaction is found, it\nlooks the transaction up by hash in the mempool (pending, not yet committed).\n\nTo create a transaction hash by yourself, do the following:\n1. Hash message bytes: \"RawTransaction\" bytes + BCS bytes of [Transaction](https://cedra-labs.github.io/cedra-network/cedra_types/transaction/enum.Transaction.html).\n2. Apply hash algorithm `SHA3-256` to the hash message bytes.\n3. Hex-encode the hash bytes with `0x` prefix.",
         "parameters": [
           {
             "name": "txn_hash",

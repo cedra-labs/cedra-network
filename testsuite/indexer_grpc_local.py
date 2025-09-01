@@ -366,7 +366,7 @@ def check_system(context: SystemContext) -> None:
 
 
 def main() -> None:
-    # Change to the root of cedra-core.
+    # Change to the root of cedra-network.
     abspath = os.path.abspath(__file__)
     dname = os.path.dirname(abspath)
     os.chdir(dname)

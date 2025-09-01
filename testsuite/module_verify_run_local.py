@@ -4,9 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Test replay-verify by running it on a public testnet backup
-# While the replay-verify composite Github Action is meant to run with cedra-core checked out in the current
+# While the replay-verify composite Github Action is meant to run with cedra-network checked out in the current
 # working directory, this test script is meant to be run from this separate repo. The environment variable CEDRA_CORE_PATH
-# is required to be set to the path of your local checkout of cedra-core, which will be used to build and copy over test dependencies.
+# is required to be set to the path of your local checkout of cedra-network, which will be used to build and copy over test dependencies.
 
 import os
 import subprocess

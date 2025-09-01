@@ -35,7 +35,7 @@ pub struct InitializeCommand {
         value_delimiter = ' ',
         help = "List of space-separated feature flags to enable, in capital letters. For example, \
                 GAS_PAYER_ENABLED or EMIT_FEE_STATEMENT. For the full list of feature flags, see \
-                cedra-core/types/src/on_chain_config/cedra_features.rs"
+                cedra-network/types/src/on_chain_config/cedra_features.rs"
     )]
     enable_features: Vec<FeatureFlag>,
 
@@ -45,7 +45,7 @@ pub struct InitializeCommand {
         value_delimiter = ' ',
         help = "List of space-separated feature flags to disable, in capital letters. For \
                 example, GAS_PAYER_ENABLED or EMIT_FEE_STATEMENT. For the full list of feature \
-                flags, see cedra-core/types/src/on_chain_config/cedra_features.rs"
+                flags, see cedra-network/types/src/on_chain_config/cedra_features.rs"
     )]
     disable_features: Vec<FeatureFlag>,
 

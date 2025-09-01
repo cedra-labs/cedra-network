@@ -1,6 +1,6 @@
 {
     "repoOwner": "cedra-labs",
-    "repoName": "cedra-core",
+    "repoName": "cedra-network",
 
     "branchLabelMapping": {
         "^v(\\d+).(\\d+)$": "cedra-release-v$1.$2"

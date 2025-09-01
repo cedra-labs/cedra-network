@@ -69,11 +69,11 @@ CREATE OPTIONS:
 
 1. **`-pangu-node-configs-path`**:
     - The Pangu node configs (yaml)
-    - Default: The default node config in cedra-core/testsuite/pangu_lib/template_testnet_files
+    - Default: The default node config in cedra-network/testsuite/pangu_lib/template_testnet_files
     - Example: **`-pangu-node-configs-path /path/to/node/configs.yaml`**
 2. **`-layout-path`**:
     - The path to the layout file (yaml).
-    - Default: The default layout in cedra-core/testsuite/pangu_lib/template_testnet_files
+    - Default: The default layout in cedra-network/testsuite/pangu_lib/template_testnet_files
     - Example: **`-layout-path /path/to/layout.yaml`**
 3. **`-framework-path`**:
     - The compiled move framework (head.mrb, or framework.mrb) file. Defaults to the default framework in the pangu_lib.
@@ -153,7 +153,7 @@ To create a testnet with a custom topology, create a new pangu config file and p
 
 ## How to Use Pangu
 
-**1-** Have cedra-core installed locally, and navigate to the testsuite directory. 
+**1-** Have cedra-network installed locally, and navigate to the testsuite directory. 
 
 **2-** The entrypoint for all python operations is `[poetry](https://python-poetry.org/)`:
 
@@ -172,22 +172,22 @@ alias pangu="poetry run python pangu.py"
 
 ## Codebase
 
-Pangu lives in cedra-core/testsuite. Tips for navigating the codebase:
+Pangu lives in cedra-network/testsuite. Tips for navigating the codebase:
 
-- [**cedra-core/testsuite/pangu.py**](https://github.com/cedra-labs/cedra-network/blob/main/testsuite/pangu.py)
+- [**cedra-network/testsuite/pangu.py**](https://github.com/cedra-labs/cedra-network/blob/main/testsuite/pangu.py)
     - This is the entry point to the Pangu CLI. Use poetry run python pangu.py to run.
-- [**cedra-core/testsuite/test_framework**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/test_framework)
+- [**cedra-network/testsuite/test_framework**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/test_framework)
     - Includes the system abstractions for testing.
     - The Kubernetes abstraction might need to be updated to add new Kubernetes features.
-- [**cedra-core/testsuite/pangu_lib/node_commands**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/node_commands)
+- [**cedra-network/testsuite/pangu_lib/node_commands**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/node_commands)
     - Includes the commands for the pangu node {COMMAND} commands
     - Each command has its own .py file, which are then aggregated in the commands.py file to be exported to pangu.py
 - [a**ptos-core/testsuite/pangu_lib/testnet_commands**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/testnet_commands)
     - Includes the commands for the pangu testnet {COMMAND} commands
     - Each command has its own .py file, which are then aggregated in the commands.py file to be exported to pangu.py
-- [**cedra-core/testsuite/pangu_lib/tests**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/tests)
+- [**cedra-network/testsuite/pangu_lib/tests**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu_lib/tests)
     - Includes the unit tests
-- [**cedra-core/testsuite/pangu-sdk**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu-sdk)
+- [**cedra-network/testsuite/pangu-sdk**](https://github.com/cedra-labs/cedra-network/tree/main/testsuite/pangu-sdk)
     - The Pangu Rust SDK is a light Rust wrapper around the Pangu CLI. It allows rust code to be able to run Pangu commands by passing structs, without having to generate the Pangu Config Yaml files. It is not feature complete, but should be a good starting point for the Pangu-Forge integrations.
 
 ## Metrics

@@ -7,7 +7,7 @@ workspace dependencies which are also being published.
 3. Create a PR and get it merged into master.
 4. Once the PR has landed in master, check out the commit which does the versions bump.
 5. Publish to crates.io
-6. Create a git tag `git tag cedra-sdk-v0.0.X HEAD` and push that tag to the cedra-labs/cedra-core repository.
+6. Create a git tag `git tag cedra-sdk-v0.0.X HEAD` and push that tag to the cedra-labs/cedra-network repository.
 
 Here is the set of currently published packages that make up the cedra-sdk:
 * move-core-types

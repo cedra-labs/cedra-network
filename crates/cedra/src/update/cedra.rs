@@ -36,7 +36,7 @@ pub struct CedraUpdateTool {
     repo_owner: String,
 
     /// The name of the repo to download the binary from.
-    #[clap(long, default_value = "cedra-core")]
+    #[clap(long, default_value = "cedra-network")]
     repo_name: String,
 
     /// If set, it will check if there are updates for the tool, but not actually update

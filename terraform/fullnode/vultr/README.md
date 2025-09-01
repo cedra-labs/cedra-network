@@ -17,11 +17,11 @@ The default configuration will create a single node cluster with 4CPU/8GB and a 
    Configure the Access Control to whitelist the IP of the machine where you will run Terraform from.
 
 
-2. Clone the cedra-core repo and go to the terraform vultr folder.
+2. Clone the cedra-network repo and go to the terraform vultr folder.
 
          $ git clone https://github.com/cedra-labs/cedra-network.git
 
-         $ cd cedra-core/terraform/fullnode/vultr
+         $ cd cedra-network/terraform/fullnode/vultr
 
 3. Create a working directory for your configuration.  Copy the files you will change so it does not interfere with the cloned repo:
 

@@ -23,4 +23,4 @@ jobs:
       - shell: bash
         run: |
           set -ex
-          cargo metadata --all-features | gcloud storage cp - gs://cedra-core-cargo-metadata-public/metadata-${{ github.sha }}.json
+          cargo metadata --all-features | gcloud storage cp - gs://cedra-network-cargo-metadata-public/metadata-${{ github.sha }}.json

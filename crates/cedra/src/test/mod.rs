@@ -983,7 +983,7 @@ impl CliTestFramework {
         .await
     }
 
-    /// Runs the given script contents using the cedra_framework from cedra-core git repository.
+    /// Runs the given script contents using the cedra_framework from cedra-network git repository.
     pub async fn run_script_with_default_framework(
         &self,
         index: usize,

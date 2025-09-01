@@ -18,7 +18,7 @@ Once the Cedra threshold is met within the liquidity pair, the reserves are move
 * Reusing stored signer vars (w/ [objects](https://cedra.dev/move/move-on-cedra/objects/)).
 * External third party dependencies.
 * E2E testing (w/ object deployments, Cedra creation).
-* Using `rev` to specify feature branches ([Dispatchable FA](https://github.com/cedra-labs/cedra-core/commit/bbf569abd260d94bc30fe96da297d2aecb193644)).
+* Using `rev` to specify feature branches ([Dispatchable FA](https://github.com/cedra-labs/cedra-network/commit/bbf569abd260d94bc30fe96da297d2aecb193644)).
 * and more.
 
 ## In-depth info

@@ -9,7 +9,7 @@ You can run the gas profiler by appending the `--profile-gas` option to the cedr
 ```
 >> cargo run -p cedra -- move publish --profile-gas
     Finished dev [unoptimized + debuginfo] target(s) in 0.51s
-     Running `/home/vgao/cedra-core/target/debug/cedra move publish --profile-gas`
+     Running `/home/vgao/cedra-network/target/debug/cedra move publish --profile-gas`
 Compiling, may take a little while to download git dependencies...
 BUILDING empty_fun
 package size 427 bytes

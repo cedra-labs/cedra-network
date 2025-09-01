@@ -31,7 +31,7 @@
 /// There are four well-supported networks for integrating with the Cedra blockchain:
 ///
 /// 1. [Localnet](http://127.0.0.1:8080) -- our standalone tool for local development against a known version of the codebase with no external network.
-/// 1. [Devnet](https://devnet.cedra.dev/v1/spec#/) -- a shared resource for the community, data resets weekly, weekly update from cedra-core main branch.
+/// 1. [Devnet](https://devnet.cedra.dev/v1/spec#/) -- a shared resource for the community, data resets weekly, weekly update from cedra-network main branch.
 /// 1. [Testnet](https://testnet.cedra.dev/v1/spec#/) -- a shared resource for the community, data will be preserved, network configuration will mimic Mainnet.
 /// 1. [Mainnet](https://mainnet.cedra.dev/v1/spec#/) -- a production network with real assets.
 ///
@@ -40,7 +40,7 @@
 /// ### Run a localnet
 ///
 /// There are two options for running a localnet:
-/// * Directly [run a localnet](../nodes/local-testnet/run-a-local-testnet.md) using either the [Cedra-core source code](../nodes/local-testnet/run-a-local-testnet.md#using-the-cedra-core-source-code) or a [Docker image](../nodes/local-testnet/run-a-local-testnet.md#using-docker). These paths are useful for testing changes to the Cedra-core codebase or framework, or for building services on top of the Cedra blockchain, respectively.
+/// * Directly [run a localnet](../nodes/local-testnet/run-a-local-testnet.md) using either the [cedra-network source code](../nodes/local-testnet/run-a-local-testnet.md#using-the-cedra-network-source-code) or a [Docker image](../nodes/local-testnet/run-a-local-testnet.md#using-docker). These paths are useful for testing changes to the cedra-network codebase or framework, or for building services on top of the Cedra blockchain, respectively.
 /// * [Install the Cedra CLI](../tools/install-cli/index.md) and 2) start a [local node with a faucet](../nodes/local-testnet/using-cli-to-run-a-local-testnet.md#starting-a-local-testnet-with-a-faucet). This path is useful for developing on the Cedra blockchain, debugging Move contracts, and testing node operations.
 ///
 /// Either of these methods will expose a [REST API service](../integration/fullnode-rest-api.md) at `http://127.0.0.1:8080` and a Faucet API service at `http://127.0.0.1:8000` for option 1 run a localnet or `http://127.0.0.1:8081` for option 2 install the Cedra CLI. The applications will output the location of the services.
@@ -89,8 +89,8 @@
 /// ## Accounts on Cedra
 ///
 ///
-/// At creation, an [Cedra account](https://github.com/cedra-labs/cedra-core/blob/88c9aab3982c246f8aa75eb2caf8c8ab1dcab491/cedra-move/framework/cedra-framework/sources/account.move#L23) contains:
-/// * A [resource containing Cedra Coin](https://github.com/cedra-labs/cedra-core/blob/60751b5ed44984178c7163933da3d1b18ad80388/cedra-move/framework/cedra-framework/sources/coin.move#L50) and deposit and withdrawal of coins from that resource.
+/// At creation, an [Cedra account](https://github.com/cedra-labs/cedra-network/blob/88c9aab3982c246f8aa75eb2caf8c8ab1dcab491/cedra-move/framework/cedra-framework/sources/account.move#L23) contains:
+/// * A [resource containing Cedra Coin](https://github.com/cedra-labs/cedra-network/blob/60751b5ed44984178c7163933da3d1b18ad80388/cedra-move/framework/cedra-framework/sources/coin.move#L50) and deposit and withdrawal of coins from that resource.
 /// * An authentication key associated with their current public, private key(s).
 /// * A strictly increasing [sequence number](../concepts/accounts.md#account-sequence-number) that represents the account's next transaction's sequence number to prevent replay attacks.
 /// * A strictly increasing number that represents the next distinct GUID creation number.

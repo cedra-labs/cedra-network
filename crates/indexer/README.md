@@ -112,6 +112,6 @@ pg_ctl: could not start server
 then run `brew services restart postgresql`
 6. Alias for starting testnet (put this in `~/.zshrc`)
 ```bash
-alias testnet="cd ~/Desktop/cedra-core; CARGO_NET_GIT_FETCH_WITH_CLI=true cargo run -p cedra-node -- --test"
+alias testnet="cd ~/Desktop/cedra-network; CARGO_NET_GIT_FETCH_WITH_CLI=true cargo run -p cedra-node -- --test"
 ```
 Then run `source ~/.zshrc`, and start testnet by running `testnet` in your terminal

@@ -86,7 +86,7 @@ create_proposal(
     - arg_names: “dst”, “amount”
     - arg_values: bcs_serialized values, please refer to TS SDK function. You need to provide original values in TS and arg_types to get the serialized values
     
-    [cedra-core/property_map_serde.ts at main · cedra-labs/cedra-core](https://github.com/cedra-labs/cedra-network/blob/main/ecosystem/typescript/sdk/src/utils/property_map_serde.ts#L48)
+    [cedra-network/property_map_serde.ts at main · cedra-labs/cedra-network](https://github.com/cedra-labs/cedra-network/blob/main/ecosystem/typescript/sdk/src/utils/property_map_serde.ts#L48)
     
     - arg_types: “address”, “u64”
 

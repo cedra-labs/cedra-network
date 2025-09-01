@@ -20,7 +20,7 @@ use move_core_types::{ability::AbilitySet, identifier::Identifier, vm_status::St
 
 #[test]
 fn access_path_panic() {
-    // github.com/cedra-labs/cedra-core/security/advisories/GHSA-rpw2-84hq-48jj
+    // github.com/cedra-labs/cedra-network/security/advisories/GHSA-rpw2-84hq-48jj
     let mut ty = SignatureToken::Bool;
     for _ in 0..18 {
         ty = SignatureToken::StructInstantiation(StructHandleIndex(0), vec![ty]);
