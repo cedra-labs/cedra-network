@@ -15,10 +15,10 @@ With our API setup, the spec files (`api/doc/spec.yaml` / `api/doc/spec.json`) a
 This process updates the docs at:
 - https://devnet.cedra.dev/v1/spec#/ (and testnet / mainnet, based on the API rollout schedule)
 
-All commands here are relative to the root of `cedra-core`.
+All commands here are relative to the root of `cedra-network`.
 
 1. Make your changes to the API code, i.e. the code in `api/src/`.
-2. Regenerate the API spec `.yaml` and `.json` files by running these commands from the root of `cedra-core`:
+2. Regenerate the API spec `.yaml` and `.json` files by running these commands from the root of `cedra-network`:
 ```
 cargo run -p cedra-openapi-spec-generator -- -f yaml -o api/doc/spec.yaml
 cargo run -p cedra-openapi-spec-generator -- -f json -o api/doc/spec.json

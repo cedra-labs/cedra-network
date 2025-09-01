@@ -23,7 +23,7 @@ once_cell = { workspace = true }
 primitive-types = { workspace = true, features = ["impl-serde"] }
 proptest = { workspace = true, optional = true }
 proptest-derive = { workspace = true, optional = true }
-# Cannot use workspace version as cedra-core currently cannot be upgraded
+# Cannot use workspace version as cedra-network currently cannot be upgraded
 # to newer rand. See https://github.com/cedra-labs/cedra-network/issues/13031
 rand = { version = "0.8.5" }
 ref-cast = { workspace = true }

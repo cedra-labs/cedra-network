@@ -91,7 +91,7 @@ module groth16_example::groth16 {
 
     // This test gives an example of how to take a proof, verification key, and public input in the decimal string format
     // output by snarkjs and verify the proof.
-    // Documentation for the serialization formats used can be found in `cedra-core/cedra-move/framework/cedra-stdlib/sources/cryptography/X.move`,
+    // Documentation for the serialization formats used can be found in `cedra-network/cedra-move/framework/cedra-stdlib/sources/cryptography/X.move`,
     // where X is bn254_algebra for BN254 and bls12381_algebra for BLS12_381
     // The names are preserved from the snarkjs proof and verifier key JSON file format, with the
     // exception of "IC", which has been renamed to `vk_gamma_abc`

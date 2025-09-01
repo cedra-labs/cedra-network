@@ -32,7 +32,7 @@
 ///
 /// 2. Publish the module under a resource account.
 /// - 2.a Make sure you're in the right directory.
-/// Run the following command in directory `cedra-core/cedra-move/move-examples/mint_nft/4-Getting-Production-Ready`.
+/// Run the following command in directory `cedra-network/cedra-move/move-examples/mint_nft/4-Getting-Production-Ready`.
 /// - 2.b Run the following CLI command to publish the module under a resource account.
 /// cedra move create-resource-account-and-publish-package --seed [seed] --address-name mint_nft --profile default --named-addresses source_addr=[default account's address]
 ///
@@ -62,11 +62,11 @@ yes
 }
 */
 /// - 3.c Generate a valid signature.
-///  Open up file `cedra-core/cedra-move/e2e-move-tests/src/tests/mint_nft.rs`.
+///  Open up file `cedra-network/cedra-move/e2e-move-tests/src/tests/mint_nft.rs`.
 ///  In function `generate_nft_tutorial_part4_signature`, change the `resource_address`, `nft_receiver`, `admin_private_key`, and `receiver_account_sequence_number` variables to the actual values.
 ///  You can find the `admin_private_key` by running `nano output.key`, and the `receiver_account_sequence_number` by looking up the receiver's address on the Cedra Explorer under tab `Info`.
 ///  Make sure you're in the right directory.
-///  Run the following command in directory `cedra-core/cedra-move/e2e-move-tests`
+///  Run the following command in directory `cedra-network/cedra-move/e2e-move-tests`
 ///  Run `cargo test generate_nft_tutorial_part4_signature -- --nocapture` to generate a valid signature that we'll use in the next step.
 /// - 3.d Call mint_event_ticket() with the signature we generated in the last step.
 /// cedra move run --function-id [resource account's address]::create_nft_getting_production_ready::mint_event_ticket --args hex:[signature generated in last step] --profile nft-receiver

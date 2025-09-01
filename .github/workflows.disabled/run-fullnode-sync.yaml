@@ -12,7 +12,7 @@ on:
         type: string
         required: true
       GIT_REF:
-        description: "The cedra-core git ref (GIT_REF or commit hash) to switch to before running the fullnode."
+        description: "The cedra-network git ref (GIT_REF or commit hash) to switch to before running the fullnode."
         type: string
         required: true
       NETWORK:
@@ -39,7 +39,7 @@ on:
         type: string
         required: true
       GIT_REF:
-        description: "The cedra-core GIT_REF (or ref) to switch to before running the fullnode."
+        description: "The cedra-network GIT_REF (or ref) to switch to before running the fullnode."
         type: string
         required: true
       NETWORK:

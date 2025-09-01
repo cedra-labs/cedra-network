@@ -54,7 +54,7 @@ def parse_args():
             "By default we use Docker Hub: %(default)s (so, just cedralabs for the "
             "project since Docker Hub is the implied default repo). If you want to "
             "specify a different repo, it might look like this: "
-            "docker.pkg.github.com/cedralabs/cedra-core"
+            "docker.pkg.github.com/cedralabs/cedra-network"
         ),
     )
     parser.add_argument(

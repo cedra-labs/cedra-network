@@ -73,7 +73,7 @@ impl FromStr for GithubRepo {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let parts: Vec<_> = s.split('/').collect();
         if parts.len() != 2 {
-            Err(CliError::CommandArgumentError("Invalid repository must be of the form 'owner/repository` e.g. 'cedra-labs/cedra-core'".to_string()))
+            Err(CliError::CommandArgumentError("Invalid repository must be of the form 'owner/repository` e.g. 'cedra-labs/cedra-network'".to_string()))
         } else {
             Ok(GithubRepo {
                 owner: parts.first().unwrap().to_string(),
@@ -85,7 +85,7 @@ impl FromStr for GithubRepo {
 
 #[derive(Clone, Default, Parser)]
 pub struct GitOptions {
-    /// Github repository e.g. 'cedra-labs/cedra-core'
+    /// Github repository e.g. 'cedra-labs/cedra-network'
     ///
     /// Mutually exclusive with `--local-repository-dir`
     #[clap(long)]

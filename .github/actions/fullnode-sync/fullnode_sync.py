@@ -7,12 +7,12 @@ import sys
 import time
 import yaml
 
-# This script runs the fullnode-sync from the root of cedra-core.
+# This script runs the fullnode-sync from the root of cedra-network.
 
 # Useful file constants
 FAST_SYNC_BOOTSTRAPPING_MODE = "DownloadLatestStates" # The bootstrapping string for fast sync
-FULLNODE_CONFIG_NAME = "public_full_node.yaml" # Relative to the cedra-core repo
-FULLNODE_CONFIG_TEMPLATE_PATH = "config/src/config/test_data/public_full_node.yaml" # Relative to the cedra-core repo
+FULLNODE_CONFIG_NAME = "public_full_node.yaml" # Relative to the cedra-network repo
+FULLNODE_CONFIG_TEMPLATE_PATH = "config/src/config/test_data/public_full_node.yaml" # Relative to the cedra-network repo
 GENESIS_BLOB_PATH = "https://raw.githubusercontent.com/cedra-labs/cedra-networks/main/{network}/genesis.blob" # Location inside the cedra-networks repo
 LOCAL_METRICS_ENDPOINT = "http://127.0.0.1:9101/json_metrics" # The json metrics endpoint running on the local host
 LOCAL_METRICS_ENDPOINT_TEXT = "http://127.0.0.1:9101/metrics" # The text metrics endpoint running on the local host
@@ -267,7 +267,7 @@ def get_genesis_and_waypoint(network):
 
 
 def checkout_git_ref(git_ref):
-  """Checkout the specified git ref. This assumes the working directory is cedra-core"""
+  """Checkout the specified git ref. This assumes the working directory is cedra-network"""
   subprocess.run(["git", "fetch"])
   subprocess.run(["git", "checkout", git_ref])
   subprocess.run(["git", "log", "-1"]) # Display the git commit we're running on

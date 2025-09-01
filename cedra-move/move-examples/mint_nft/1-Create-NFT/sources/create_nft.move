@@ -20,7 +20,7 @@
 ///
 /// 2. Publish the module.
 /// - 2.a Make sure you're in the right directory.
-/// Run the following command in directory `cedra-core/cedra-move/move-examples/mint_nft/1-Create-NFT`.
+/// Run the following command in directory `cedra-network/cedra-move/move-examples/mint_nft/1-Create-NFT`.
 /// - 2.b Run the following CLI command to publish the module.
 /// cedra move publish --named-addresses mint_nft=[default account's address]
 /// (If you don't know the default account's address, run `nano ~/.cedra/config.yaml` to see all addresses.)

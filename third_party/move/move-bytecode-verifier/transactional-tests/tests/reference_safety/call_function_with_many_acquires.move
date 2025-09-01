@@ -1,4 +1,4 @@
-// See also: github.com/cedra-labs/cedra-core/security/advisories/GHSA-7v29-m9hj-jxjf
+// See also: github.com/cedra-labs/cedra-network/security/advisories/GHSA-7v29-m9hj-jxjf
 //# publish
 module 0x42::pwn {
     struct R1 has key {f:u8}

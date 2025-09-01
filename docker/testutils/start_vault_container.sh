@@ -2,7 +2,7 @@
 # Copyright © Cedra Foundation
 # SPDX-License-Identifier: Apache-2.0
 
-# This script is a utility script used by some rust tests such as cedra-core/secure/storage/src/tests/vault.rs .
+# This script is a utility script used by some rust tests such as cedra-network/secure/storage/src/tests/vault.rs .
 # If this is not directly referenced anywhere in the codebase anymore you can delete it.
 
 set -ex

@@ -74,7 +74,7 @@ function move_prover_message {
 function update_versions {
   try {
     # URL of the Unix script
-    $url = "https://raw.githubusercontent.com/cedra-labs/cedra-core/main/scripts/dev_setup.sh"
+    $url = "https://raw.githubusercontent.com/cedra-labs/cedra-network/main/scripts/dev_setup.sh"
 
     # Retrieve the content of the file and store it in a variable
     $content = (Invoke-WebRequest -UseBasicParsing -Uri $url | Select-Object -ExpandProperty Content -First 50) -join "`n"
