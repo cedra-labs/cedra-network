@@ -492,6 +492,18 @@ fn run_epilogue(
                 // Build args for Move function
                 let serialize_args = vec![
                     serialized_signers.sender(),
+                    MoveValue::U64(fee_statement.storage_fee_refund())
+                        .simple_serialize()
+                        .unwrap(),
+                    MoveValue::U64(txn_gas_price.into())
+                        .simple_serialize()
+                        .unwrap(),
+                    MoveValue::U64(txn_max_gas_units.into())
+                        .simple_serialize()
+                        .unwrap(),
+                    MoveValue::U64(gas_remaining.into())
+                        .simple_serialize()
+                        .unwrap(),
                     MoveValue::Address(usdt.address).simple_serialize().unwrap(),
                     MoveValue::vector_u8(module_bytes)
                         .simple_serialize()
