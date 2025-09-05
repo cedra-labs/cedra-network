@@ -18,6 +18,7 @@ use crate::{
     },
     vm_status::{DiscardedVMStatus, KeptVMStatus, StatusCode, StatusType, VMStatus},
     write_set::WriteSet,
+    CedraCoinType, CoinType,
 };
 use anyhow::{ensure, format_err, Context, Error, Result};
 use cedra_crypto::{
@@ -71,6 +72,7 @@ pub use change_set::ChangeSet;
 pub use module::{Module, ModuleBundle};
 pub use move_core_types::transaction_argument::TransactionArgument;
 use move_core_types::{
+    language_storage::TypeTag,
     value::{MoveStruct, MoveValue},
     vm_status::AbortLocation,
 };
@@ -195,6 +197,10 @@ pub struct RawTransaction {
 
     /// Chain ID of the Cedra network this transaction is intended for.
     chain_id: ChainId,
+
+    /// fee_coin detects fee coin address that will used in transaction fee v2 event.
+    /// If the field is empty, the default fee event will be used.
+    fa_address: TypeTag,
 }
 
 impl RawTransaction {
@@ -210,6 +216,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fa_address: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -219,6 +226,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fa_address,
         }
     }
 
@@ -234,6 +242,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fa_address: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -243,6 +252,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fa_address,
         }
     }
 
@@ -256,6 +266,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fa_address: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -265,6 +276,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fa_address,
         }
     }
 
@@ -278,6 +290,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fa_address: TypeTag,
     ) -> Self {
         RawTransaction {
             sender,
@@ -287,6 +300,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
+            fa_address,
         }
     }
 
@@ -302,6 +316,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
+        fa_address: TypeTag,
     ) -> Self {
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
@@ -318,6 +333,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
+                fa_address,
             },
             ReplayProtector::Nonce(nonce) => RawTransaction {
                 sender,
@@ -333,6 +349,7 @@ impl RawTransaction {
                 gas_unit_price,
                 expiration_timestamp_secs,
                 chain_id,
+                fa_address,
             },
         }
     }
@@ -1145,6 +1162,15 @@ impl SignedTransaction {
 
     pub fn chain_id(&self) -> ChainId {
         self.raw_txn.chain_id
+    }
+
+    pub fn use_fee_v2(&self) -> bool {
+        self.raw_txn.fa_address.to_string() != ""
+            && self.raw_txn.fa_address != CedraCoinType::type_tag()
+    }
+
+    pub fn get_fa_address(&self) -> TypeTag {
+        return self.raw_txn.fa_address.clone();
     }
 
     pub fn payload(&self) -> &TransactionPayload {

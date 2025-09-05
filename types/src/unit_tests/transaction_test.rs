@@ -10,12 +10,13 @@ use crate::{
         Transaction, TransactionInfo, TransactionListWithProof, TransactionPayload,
         TransactionWithProof,
     },
+    CedraCoinType, CoinType,
 };
+use bcs::test_helpers::assert_canonical_encode_decode;
 use cedra_crypto::{
     ed25519::{self, Ed25519PrivateKey, Ed25519Signature},
     PrivateKey, Uniform,
 };
-use bcs::test_helpers::assert_canonical_encode_decode;
 use proptest::prelude::*;
 use std::convert::TryFrom;
 
@@ -30,6 +31,7 @@ fn test_invalid_signature() {
             0,
             0,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         ),
         Ed25519PrivateKey::generate_for_testing().public_key(),
         Ed25519Signature::try_from(&[1u8; 64][..]).unwrap(),

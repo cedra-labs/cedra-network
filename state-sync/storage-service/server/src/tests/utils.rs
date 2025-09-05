@@ -8,6 +8,8 @@ use crate::{
     tests::mock::{MockClient, MockDatabaseReader},
     StorageServiceServer,
 };
+use arc_swap::ArcSwap;
+use bytes::Bytes;
 use cedra_config::{
     config::StorageServiceConfig,
     network_id::{NetworkId, PeerNetworkId},
@@ -45,9 +47,8 @@ use cedra_types::{
     },
     validator_verifier::ValidatorVerifier,
     write_set::WriteSet,
+    CedraCoinType, CoinType,
 };
-use arc_swap::ArcSwap;
-use bytes::Bytes;
 use claims::assert_none;
 use dashmap::DashMap;
 use futures::channel::oneshot::Receiver;
@@ -212,6 +213,7 @@ fn create_test_transaction(sequence_number: u64, code_bytes: Vec<u8>) -> Transac
         0,
         0,
         ChainId::new(10),
+        CedraCoinType::type_tag(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),
