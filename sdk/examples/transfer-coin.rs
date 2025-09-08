@@ -27,7 +27,7 @@ static FAUCET_URL: Lazy<Url> = Lazy::new(|| {
         std::env::var("CEDRA_FAUCET_URL")
             .as_ref()
             .map(|s| s.as_str())
-            .unwrap_or("https://faucet-api.cedra.dev"),
+            .unwrap_or("https://devfaucet-api.cedra.dev"),
     )
     .unwrap()
 });

@@ -152,11 +152,11 @@ impl CliCommand<()> for InitTool {
                 // there is no auth token set, we don't set the faucet URL. If the user
                 // is confident they want to use the testnet faucet without a token
                 // they can set it manually with `--network custom` and `--faucet-url`.
-                profile_config.faucet_url = None;
+                profile_config.faucet_url = Some("https://faucet-api.cedra.dev".to_string());
             },
             Network::Devnet => {
                 profile_config.rest_url = Some("https://devnet.cedra.dev".to_string());
-                profile_config.faucet_url = Some("https://faucet-api.cedra.dev".to_string());
+                profile_config.faucet_url = Some("https://devfaucet-api.cedra.dev".to_string());
             },
             Network::Local => {
                 profile_config.rest_url = Some("http://localhost:8080".to_string());
