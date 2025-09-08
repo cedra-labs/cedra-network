@@ -23,9 +23,9 @@ pub enum CedraBaseUrl {
 impl CedraBaseUrl {
     pub fn to_url(&self) -> Url {
         match self {
-            CedraBaseUrl::Mainnet => Url::from_str("https://api.mainnet.cedralabs.com").unwrap(),
-            CedraBaseUrl::Devnet => Url::from_str("https://api.devnet.cedralabs.com").unwrap(),
-            CedraBaseUrl::Testnet => Url::from_str("https://testnet.cedralabs.com").unwrap(),
+            CedraBaseUrl::Mainnet => Url::from_str("https://mainnet.cedra.dev").unwrap(),
+            CedraBaseUrl::Devnet => Url::from_str("https://devnet.cedra.dev").unwrap(),
+            CedraBaseUrl::Testnet => Url::from_str("https://testnet.cedra.dev").unwrap(),
             CedraBaseUrl::Custom(url) => url.to_owned(),
         }
     }

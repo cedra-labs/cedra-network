@@ -479,7 +479,7 @@ mod tests {
                   seeds:
                       bb14af025d226288a3488b4433cf5cb54d6a710365a2d95ac6ffbd9b9198a86a:
                           addresses:
-                              - "/dns4/pfn0.node.devnet.cedralabs.com/tcp/6182/noise-ik/bb14af025d226288a3488b4433cf5cb54d6a710365a2d95ac6ffbd9b9198a86a/handshake/0"
+                              - "/dns4/devnet.cedra.dev/tcp/6182/noise-ik/bb14af025d226288a3488b4433cf5cb54d6a710365a2d95ac6ffbd9b9198a86a/handshake/0"
                           role: "Upstream"
             "#,
         )

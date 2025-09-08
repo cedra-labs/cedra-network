@@ -707,7 +707,7 @@ mod test {
             AuthenticationKey::ed25519(&private_key.public_key()).account_address();
         unwrap_reqwest_result(
             reqwest::Client::new()
-                .post("https://faucet-api.cedra.dev/fund")
+                .post("https://devfaucet-api.cedra.dev/fund")
                 .body(
                     FundRequest {
                         amount: Some(10_000_000),
