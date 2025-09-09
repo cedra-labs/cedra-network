@@ -12,13 +12,13 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: "devnet"
-        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-key: ${{ secrets.SSH_DEVNET_PRIVATE_KEY }}
 
     - name: Add SSH host key to known_hosts
       run: |
         mkdir -p ~/.ssh
-        ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        echo "${{ secrets.SSH_DEVNET_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -p ${{ secrets.DEVNET_SSH_PORT }} ${{ secrets.DEVNET_SSH_HOST }} >> ~/.ssh/known_hosts
+        echo "${{ secrets.DEVNET_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
     
@@ -29,15 +29,15 @@ jobs:
         
     - name: Deploy and run devnet
       run: |
-        ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-        cd ${{ secrets.SSH_DEVNET_SCRIPTS_PATH }}
+        ssh -p ${{ secrets.DEVNET_SSH_PORT }} ${{ secrets.DEVNET_SSH_USER }}@${{ secrets.DEVNET_SSH_HOST }} "
+        cd ${{ secrets.DEVNET_SSH_SCRIPTS_PATH }}
         chmod +x stop_devnet.sh
         chmod +x build_devnet.sh
         chmod +x clean_devnet.sh
         chmod +x run_devnet.sh
-        sudo -u ${{ secrets.SSH_USER }} bash ./stop_devnet.sh
-        sudo -u ${{ secrets.SSH_USER }} bash ./build_devnet.sh
-        sudo -u ${{ secrets.SSH_USER }} bash ./clean_devnet.sh
-        sudo -u ${{ secrets.SSH_USER }} bash ./run_devnet.sh
+        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./stop_devnet.sh
+        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh
+        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh
+        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./run_devnet.sh
         
         echo "devnet is runnig on the server"
