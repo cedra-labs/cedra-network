@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{error::FaucetClientError, Client, Result};
-use cedra_types::transaction::SignedTransaction;
+use cedra_crypto::HashValue;
 use move_core_types::account_address::AccountAddress;
 use reqwest::{Client as ReqwestClient, Response, Url};
-use std::time::Duration;
+use std::time::{SystemTime, Duration};
+use std::str::FromStr;
 
 pub struct FaucetClient {
     faucet_url: Url,
@@ -64,19 +65,27 @@ impl FaucetClient {
 
         let response = self.build_and_submit_request(url).await?;
         let status_code = response.status();
-        let body = response.text().await.map_err(FaucetClientError::decode)?;
+        let transactions = response.json::<Vec<String>>().await.map_err(FaucetClientError::decode)?;
         if !status_code.is_success() {
-            return Err(anyhow::anyhow!("body: {}", body));
+            return Err(anyhow::anyhow!("body: {:?}", transactions));
         }
 
-        let bytes = hex::decode(body).map_err(FaucetClientError::decode)?;
-        let txns: Vec<SignedTransaction> =
-            bcs::from_bytes(&bytes).map_err(FaucetClientError::decode)?;
+        let sys_time = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+            + 30;
 
-        self.rest_client
-            .wait_for_signed_transaction(&txns[0])
-            .await
-            .map_err(FaucetClientError::unknown)?;
+        for id in transactions {
+            self.rest_client
+                .wait_for_transaction_by_hash(
+                    HashValue::from_str(&id).unwrap(),
+                    sys_time,
+                    Some(Duration::from_secs(60)),
+                    None,
+                )
+                .await?;
+        }
 
         Ok(())
     }
@@ -92,19 +101,27 @@ impl FaucetClient {
         // returning.
         let response = self.build_and_submit_request(url).await?;
         let status_code = response.status();
-        let body = response.text().await.map_err(FaucetClientError::decode)?;
+        let transactions = response.json::<Vec<String>>().await.map_err(FaucetClientError::decode)?;
         if !status_code.is_success() {
-            return Err(FaucetClientError::status(status_code.as_u16()).into());
+            return Err(anyhow::anyhow!("body: {:?}", transactions));
         }
 
-        let bytes = hex::decode(body).map_err(FaucetClientError::decode)?;
-        let txns: Vec<SignedTransaction> =
-            bcs::from_bytes(&bytes).map_err(FaucetClientError::decode)?;
+        let sys_time = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+            + 30;
 
-        self.rest_client
-            .wait_for_signed_transaction(&txns[0])
-            .await
-            .map_err(FaucetClientError::unknown)?;
+        for id in transactions {
+            self.rest_client
+                .wait_for_transaction_by_hash(
+                    HashValue::from_str(&id).unwrap(),
+                    sys_time,
+                    Some(Duration::from_secs(60)),
+                    None,
+                )
+                .await?;
+        }
 
         Ok(())
     }
