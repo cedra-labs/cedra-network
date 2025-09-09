@@ -30,14 +30,13 @@ jobs:
     - name: Deploy and run devnet
       run: |
         ssh -p ${{ secrets.DEVNET_SSH_PORT }} ${{ secrets.DEVNET_SSH_USER }}@${{ secrets.DEVNET_SSH_HOST }} "
-        cd ${{ secrets.DEVNET_SSH_SCRIPTS_PATH }}
-        chmod +x stop_devnet.sh
-        chmod +x build_devnet.sh
-        chmod +x clean_devnet.sh
-        chmod +x run_devnet.sh
-        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./stop_devnet.sh
-        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh
-        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh
-        sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./run_devnet.sh
-        "
+          cd ${{ secrets.DEVNET_SSH_SCRIPTS_PATH }}
+          chmod +x stop_devnet.sh
+          chmod +x build_devnet.sh
+          chmod +x clean_devnet.sh
+          chmod +x run_devnet.sh
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./stop_devnet.sh
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./run_devnet.sh"
         echo "devnet is runnig on the server"
