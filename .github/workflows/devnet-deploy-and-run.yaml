@@ -39,5 +39,5 @@ jobs:
         sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh
         sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh
         sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./run_devnet.sh
-        
+        "
         echo "devnet is runnig on the server"
