@@ -4,7 +4,7 @@ You can create your own file, with one address per line, or for testing, you can
 cargo run --release --package cedra-experimental-bulk-txn-submit --bin cedra-experimental-bulk-txn-submit -- create-sample-addresses --output-file experimental/airdrop/data/sample_1m.txt --num-addresses 100
 
 Then you can create and fund those accounts with 
-cargo run --release --package cedra-experimental-bulk-txn-submit --bin cedra-experimental-bulk-txn-submit -- submit -t https://devnet.cedra.dev --coin-source-key {PRIVATE_KEY_FOR_ACCOUNT_WITH_FUNDS} --chain-id testnet --octas-per-workload-transaction 72000 --num-worker-accounts 5 --output-file {output_file_name} create-and-transfer-apt --destinations-file {input_file_name}
+cargo run --release --package cedra-experimental-bulk-txn-submit --bin cedra-experimental-bulk-txn-submit -- submit -t https://devnet.cedra.dev --coin-source-key {PRIVATE_KEY_FOR_ACCOUNT_WITH_FUNDS} --chain-id testnet --octas-per-workload-transaction 72000 --num-worker-accounts 5 --output-file {output_file_name} create-and-transfer-cedra --destinations-file {input_file_name}
 
 Arguments: 
 --octas-per-workload-transaction - how much octas a single transaction will need

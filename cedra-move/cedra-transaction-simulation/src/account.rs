@@ -567,10 +567,10 @@ impl AccountData {
         account: Account,
         balance: u64,
         sequence_number: u64,
-        use_fa_apt: bool,
+        use_fa_cedra: bool,
         use_concurrent_balance: bool,
     ) -> Self {
-        if use_fa_apt {
+        if use_fa_cedra {
             Self::with_account_and_fungible_store(
                 account,
                 balance,

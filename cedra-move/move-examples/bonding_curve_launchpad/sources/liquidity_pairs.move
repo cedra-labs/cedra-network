@@ -36,20 +36,20 @@ module bonding_curve_launchpad::liquidity_pairs {
     struct LiquidityPairCreated has store, drop {
         fa_object_metadata: Object<Metadata>,
         initial_fa_reserves: u128,
-        initial_apt_reserves: u128
+        initial_cedra_reserves: u128
     }
 
     #[event]
     struct LiquidityPairReservesUpdated has store, drop {
         former_fa_reserves: u128,
-        former_apt_reserves: u128,
+        former_cedra_reserves: u128,
         new_fa_reserves: u128,
-        new_apt_reserves: u128
+        new_cedra_reserves: u128
     }
 
     #[event]
     struct LiquidityPairSwap has store, drop {
-        is_fa_else_apt: bool,
+        is_fa_else_cedra: bool,
         gained: u128,
         swapper_address: address
     }
@@ -91,10 +91,10 @@ module bonding_curve_launchpad::liquidity_pairs {
     public fun get_amount_out(
         fa_reserves: u128,
         apt_reserves: u128,
-        swap_to_apt: bool,
+        swap_to_cedra: bool,
         amount_in: u64
     ): (u64, u64, u128, u128) {
-        if (swap_to_apt) {
+        if (swap_to_cedra) {
             let divisor = fa_reserves + (amount_in as u128);
             let apt_gained = (math128::mul_div(apt_reserves, (amount_in as u128), divisor) as u64);
             let fa_updated_reserves = fa_reserves + (amount_in as u128);
@@ -199,17 +199,17 @@ module bonding_curve_launchpad::liquidity_pairs {
             LiquidityPairCreated {
                 fa_object_metadata,
                 initial_fa_reserves: fa_initial_liquidity,
-                initial_apt_reserves: INITIAL_VIRTUAL_CEDRA_LIQUIDITY
+                initial_cedra_reserves: INITIAL_VIRTUAL_CEDRA_LIQUIDITY
             }
         );
         // Optional initial swap given to the creator of the FA.
         if (apt_amount_in > 0) {
-            swap_apt_to_fa(name, symbol, transfer_ref, swapper, fa_object_metadata, apt_amount_in);
+            swap_cedra_to_fa(name, symbol, transfer_ref, swapper, fa_object_metadata, apt_amount_in);
         };
     }
 
     /// Facilitate swapping between a given FA to Cedra.
-    public(friend) fun swap_fa_to_apt(
+    public(friend) fun swap_fa_to_cedra(
         name: String,
         symbol: String,
         transfer_ref: &TransferRef,
@@ -246,20 +246,20 @@ module bonding_curve_launchpad::liquidity_pairs {
         cedra_account::transfer(&liquidity_pair_signer, swapper_address, apt_gained);
         // Record state changes to the liquidity pair's reserves, and emit changes as events.
         let former_fa_reserves = liquidity_pair.fa_reserves;
-        let former_apt_reserves = liquidity_pair.apt_reserves;
+        let former_cedra_reserves = liquidity_pair.apt_reserves;
         liquidity_pair.fa_reserves = fa_updated_reserves;
         liquidity_pair.apt_reserves = apt_updated_reserves;
         event::emit(
             LiquidityPairReservesUpdated {
                 former_fa_reserves,
-                former_apt_reserves,
+                former_cedra_reserves,
                 new_fa_reserves: fa_updated_reserves,
-                new_apt_reserves: apt_updated_reserves
+                new_cedra_reserves: apt_updated_reserves
             }
         );
         event::emit(
             LiquidityPairSwap {
-                is_fa_else_apt: false,
+                is_fa_else_cedra: false,
                 gained: (apt_gained as u128),
                 swapper_address
             }
@@ -267,7 +267,7 @@ module bonding_curve_launchpad::liquidity_pairs {
     }
 
     /// Facilitate swapping between Cedra to a given FA.
-    public(friend) fun swap_apt_to_fa(
+    public(friend) fun swap_cedra_to_fa(
         name: String,
         symbol: String,
         transfer_ref: &TransferRef,
@@ -299,20 +299,20 @@ module bonding_curve_launchpad::liquidity_pairs {
         fungible_asset::transfer_with_ref(transfer_ref, liquidity_pair.fa_store, to_swapper_store, fa_gained);
         // Record state changes to the liquidity pair's reserves, and emit changes as events.
         let former_fa_reserves = liquidity_pair.fa_reserves;
-        let former_apt_reserves = liquidity_pair.apt_reserves;
+        let former_cedra_reserves = liquidity_pair.apt_reserves;
         liquidity_pair.fa_reserves = fa_updated_reserves;
         liquidity_pair.apt_reserves = apt_updated_reserves;
         event::emit(
             LiquidityPairReservesUpdated {
                 former_fa_reserves,
-                former_apt_reserves,
+                former_cedra_reserves,
                 new_fa_reserves: fa_updated_reserves,
-                new_apt_reserves: apt_updated_reserves
+                new_cedra_reserves: apt_updated_reserves
             }
         );
         event::emit(
             LiquidityPairSwap {
-                is_fa_else_apt: true,
+                is_fa_else_cedra: true,
                 gained: (fa_gained as u128),
                 swapper_address
             }

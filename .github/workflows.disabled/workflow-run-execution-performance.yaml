@@ -27,7 +27,7 @@ on:
         default: false
         type: boolean
         description: Whether to run or skip move-only e2e tests at the beginning.
-      USE_COIN_APT:
+      USE_COIN_CEDRA:
         required: false
         default: false
         type: boolean
