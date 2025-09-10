@@ -314,7 +314,7 @@ impl FunderTrait for TransferFunder {
         let account_address = self.faucet_account.read().await.address();
         let funder_balance = match self
             .get_api_client()
-            .view_apt_account_balance(account_address)
+            .view_cedra_account_balance(account_address)
             .await
         {
             Ok(response) => response.into_inner(),

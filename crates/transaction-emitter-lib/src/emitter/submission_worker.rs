@@ -519,7 +519,7 @@ pub async fn submit_transactions(
                             None
                         };
                     let balance = client
-                        .view_apt_account_balance(sender)
+                        .view_cedra_account_balance(sender)
                         .await
                         .map_or(-1, |v| v.into_inner() as i64);
 

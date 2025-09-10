@@ -191,7 +191,7 @@ pub async fn transfer_and_maybe_reconfig(
 
 pub async fn assert_balance(client: &RestClient, account: &LocalAccount, balance: u64) {
     let on_chain_balance = client
-        .view_apt_account_balance(account.address())
+        .view_cedra_account_balance(account.address())
         .await
         .unwrap()
         .into_inner();

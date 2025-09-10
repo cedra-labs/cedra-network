@@ -30,7 +30,7 @@ module staking::oracle {
     }
 
     #[view]
-    public fun get_apt_price(): u128 acquires OracleConfig, TestPrice {
+    public fun get_cedra_price(): u128 acquires OracleConfig, TestPrice {
         if (exists<TestPrice>(@staking)) {
             return TestPrice[@staking].price;
         };

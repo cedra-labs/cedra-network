@@ -485,18 +485,18 @@ spec cedra_framework::transaction_validation {
         //   (Check the total supply aggregator when enabled.)
         let amount_to_burn = transaction_fee_amount - storage_fee_refunded;
         let apt_addr = type_info::type_of<CedraCoin>().account_address;
-        let maybe_apt_supply = global<CoinInfo<CedraCoin>>(apt_addr).supply;
-        let total_supply_enabled = option::spec_is_some(maybe_apt_supply);
-        let apt_supply = option::spec_borrow(maybe_apt_supply);
+        let maybe_cedra_supply = global<CoinInfo<CedraCoin>>(apt_addr).supply;
+        let total_supply_enabled = option::spec_is_some(maybe_cedra_supply);
+        let apt_supply = option::spec_borrow(maybe_cedra_supply);
         let apt_supply_value = optional_aggregator::optional_aggregator_value(apt_supply);
-        let post post_maybe_apt_supply = global<CoinInfo<CedraCoin>>(apt_addr).supply;
-        let post post_apt_supply = option::spec_borrow(post_maybe_apt_supply);
-        let post post_apt_supply_value = optional_aggregator::optional_aggregator_value(post_apt_supply);
+        let post post_maybe_cedra_supply = global<CoinInfo<CedraCoin>>(apt_addr).supply;
+        let post post_cedra_supply = option::spec_borrow(post_maybe_cedra_supply);
+        let post post_cedra_supply_value = optional_aggregator::optional_aggregator_value(post_cedra_supply);
 
         aborts_if amount_to_burn > 0 && !exists<CedraCoinCapabilities>(@cedra_framework);
         aborts_if amount_to_burn > 0 && !exists<CoinInfo<CedraCoin>>(apt_addr);
         aborts_if amount_to_burn > 0 && total_supply_enabled && apt_supply_value < amount_to_burn;
-        ensures total_supply_enabled ==> apt_supply_value - amount_to_burn == post_apt_supply_value;
+        ensures total_supply_enabled ==> apt_supply_value - amount_to_burn == post_cedra_supply_value;
 
         // Check minting.
         let amount_to_mint = storage_fee_refunded - transaction_fee_amount;

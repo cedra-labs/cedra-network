@@ -10,7 +10,7 @@ module 0xABCD::permissioned_transfer {
         let handle = permissioned_signer::create_permissioned_handle(source);
         let permissioned_signer = permissioned_signer::signer_from_permissioned_handle(&handle);
 
-        primary_fungible_store::grant_apt_permission(source, &permissioned_signer, amount);
+        primary_fungible_store::grant_cedra_permission(source, &permissioned_signer, amount);
         cedra_account::transfer(&permissioned_signer, to, amount);
 
         permissioned_signer::destroy_permissioned_handle(handle);

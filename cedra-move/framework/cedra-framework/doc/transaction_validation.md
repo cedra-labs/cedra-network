@@ -598,7 +598,7 @@ Only called during genesis to initialize system resources for this module.
             ),
             <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT">PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT</a>)
         );
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>assert</b>!(
                 <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer_address, max_transaction_fee),
                 <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
@@ -1252,7 +1252,7 @@ Called by the Adapter
     // it's important <b>to</b> maintain the <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">error</a> <a href="code.md#0x1_code">code</a> consistent <b>with</b> vm
     // <b>to</b> do failed transaction cleanup.
     <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(is_simulation, gas_payer)) {
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>assert</b>!(
                 <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer, transaction_fee_amount),
                 <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>),
@@ -1625,7 +1625,7 @@ If there is no fee_payer, fee_payer = sender
         is_simulation,
         gas_payer_address
     )) {
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>assert</b>!(
                 <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer_address, transaction_fee_amount),
                 <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>),
@@ -2219,17 +2219,17 @@ Skip transaction_fee::burn_fee verification.
     <b>ensures</b> <a href="account.md#0x1_account">account</a>.sequence_number == pre_account.sequence_number + 1;
     <b>let</b> amount_to_burn = transaction_fee_amount - storage_fee_refunded;
     <b>let</b> apt_addr = <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CedraCoin&gt;().account_address;
-    <b>let</b> maybe_apt_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
-    <b>let</b> total_supply_enabled = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_apt_supply);
-    <b>let</b> apt_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(maybe_apt_supply);
+    <b>let</b> maybe_cedra_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
+    <b>let</b> total_supply_enabled = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_cedra_supply);
+    <b>let</b> apt_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(maybe_cedra_supply);
     <b>let</b> apt_supply_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(apt_supply);
-    <b>let</b> <b>post</b> post_maybe_apt_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
-    <b>let</b> <b>post</b> post_apt_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(post_maybe_apt_supply);
-    <b>let</b> <b>post</b> post_apt_supply_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(post_apt_supply);
+    <b>let</b> <b>post</b> post_maybe_cedra_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
+    <b>let</b> <b>post</b> post_cedra_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(post_maybe_cedra_supply);
+    <b>let</b> <b>post</b> post_cedra_supply_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(post_cedra_supply);
     <b>aborts_if</b> amount_to_burn &gt; 0 && !<b>exists</b>&lt;CedraCoinCapabilities&gt;(@cedra_framework);
     <b>aborts_if</b> amount_to_burn &gt; 0 && !<b>exists</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr);
     <b>aborts_if</b> amount_to_burn &gt; 0 && total_supply_enabled && apt_supply_value &lt; amount_to_burn;
-    <b>ensures</b> total_supply_enabled ==&gt; apt_supply_value - amount_to_burn == post_apt_supply_value;
+    <b>ensures</b> total_supply_enabled ==&gt; apt_supply_value - amount_to_burn == post_cedra_supply_value;
     <b>let</b> amount_to_mint = storage_fee_refunded - transaction_fee_amount;
     <b>let</b> total_supply = <a href="coin.md#0x1_coin_supply">coin::supply</a>&lt;CedraCoin&gt;;
     <b>let</b> <b>post</b> post_total_supply = <a href="coin.md#0x1_coin_supply">coin::supply</a>&lt;CedraCoin&gt;;

@@ -27,7 +27,7 @@ use cedra_transaction_simulation::{
 };
 use cedra_types::{
     account_config::{
-        new_block_event_key, primary_apt_store, AccountResource, CoinInfoResource,
+        new_block_event_key, primary_cedra_store, AccountResource, CoinInfoResource,
         ConcurrentSupplyResource, FungibleStoreResource, NewBlockEvent, ObjectGroupResource,
         CORE_CODE_ADDRESS,
     },
@@ -537,7 +537,7 @@ impl FakeExecutor {
         if let Some(new_added_supply) = account_data.coin_balance() {
             if new_added_supply != 0 {
                 let coin_info_resource = self
-                    .read_apt_coin_info_resource()
+                    .read_cedra_coin_info_resource()
                     .expect("coin info must exist in data store");
                 let old_supply = self.read_coin_supply().unwrap();
                 self.state_store
@@ -656,12 +656,12 @@ impl FakeExecutor {
     }
 
     /// Reads the CoinStore resource value for an account from this executor's data store.
-    pub fn read_apt_fungible_store_resource(
+    pub fn read_cedra_fungible_store_resource(
         &self,
         account: &Account,
     ) -> Option<FungibleStoreResource> {
         self.read_resource_from_group(
-            &primary_apt_store(*account.address()),
+            &primary_cedra_store(*account.address()),
             &ObjectGroupResource::struct_tag(),
         )
     }
@@ -685,7 +685,7 @@ impl FakeExecutor {
     }
 
     /// Reads the CoinInfo resource value from this executor's data store.
-    pub fn read_apt_coin_info_resource(&self) -> Option<CoinInfoResource<CedraCoinType>> {
+    pub fn read_cedra_coin_info_resource(&self) -> Option<CoinInfoResource<CedraCoinType>> {
         self.read_resource(&CedraCoinType::coin_info_address())
     }
 

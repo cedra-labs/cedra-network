@@ -88,7 +88,7 @@ async fn test_account_abstraction_single_signer() {
             .to_vec()
     });
     account.set_abstraction_auth(func_info.clone(), sign_func);
-    let balance_start = context.get_apt_balance(other.address()).await;
+    let balance_start = context.get_cedra_balance(other.address()).await;
     let aa_txn = account.sign_aa_transaction_with_transaction_builder(
         vec![],
         None,
@@ -103,7 +103,7 @@ async fn test_account_abstraction_single_signer() {
     context.commit_mempool_txns(1).await;
     assert_eq!(
         balance_start + 4,
-        context.get_apt_balance(other.address()).await
+        context.get_cedra_balance(other.address()).await
     );
 }
 
@@ -163,7 +163,7 @@ async fn test_account_abstraction_multi_agent_with_abstracted_sender() {
     c.set_abstraction_auth(func_info, sign_func);
 
     let factory = context.transaction_factory();
-    let balance_start = context.get_apt_balance(d.address()).await;
+    let balance_start = context.get_cedra_balance(d.address()).await;
     let aa_txn = a.sign_aa_transaction_with_transaction_builder(
         vec![&b, &c],
         None,
@@ -183,6 +183,6 @@ async fn test_account_abstraction_multi_agent_with_abstracted_sender() {
     context.commit_mempool_txns(1).await;
     assert_eq!(
         balance_start + 3,
-        context.get_apt_balance(d.address()).await
+        context.get_cedra_balance(d.address()).await
     );
 }
