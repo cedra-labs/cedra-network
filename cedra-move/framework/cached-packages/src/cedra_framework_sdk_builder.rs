@@ -942,6 +942,46 @@ pub enum EntryFunctionCall {
         code: Vec<Vec<u8>>,
     },
 
+    /// Add a new minter. Must be called by the master minter.
+    StablecoinAddMinter {
+        minter: AccountAddress,
+        symbol: Vec<u8>,
+    },
+
+    /// Batch add multiple minters. Must be called by the master minter.
+    StablecoinAddMinters {
+        minters: Vec<AccountAddress>,
+        symbol: Vec<u8>,
+    },
+
+    /// Create a new fungible asset with associated roles and management.
+    StablecoinCreate {
+        symbol: Vec<u8>,
+        name: Vec<u8>,
+        decimals: u8,
+        icon_url: Vec<u8>,
+        project_url: Vec<u8>,
+    },
+
+    /// Mint new tokens to the specified account. Caller must be a minter.
+    StablecoinMint {
+        creator_addr: AccountAddress,
+        symbol: Vec<u8>,
+        amount: u64,
+    },
+
+    /// Add the account as an authorized caller.
+    StablecoinUpdateAuthorizedCaller {
+        authorized_caller: AccountAddress,
+        symbol: Vec<u8>,
+    },
+
+    /// Batch add multiple accounts as authorized callers.
+    StablecoinUpdateAuthorizedCallers {
+        authorized_callers: Vec<AccountAddress>,
+        symbol: Vec<u8>,
+    },
+
     /// Add `amount` of coins from the `account` owning the StakePool.
     StakeAddStake {
         amount: u64,
@@ -1253,6 +1293,21 @@ pub enum EntryFunctionCall {
     /// Call `vest` for many vesting contracts.
     VestingVestMany {
         contract_addresses: Vec<AccountAddress>,
+    },
+
+    WhitelistAddAsset {
+        asset_addr: AccountAddress,
+        module_name: Vec<u8>,
+        symbol: Vec<u8>,
+    },
+
+    /// Initialize an empty FungibleAssetRegistry
+    WhitelistInitRegistry {},
+
+    WhitelistRemoveAsset {
+        asset_addr: AccountAddress,
+        module_name: Vec<u8>,
+        symbol: Vec<u8>,
     },
 }
 
@@ -1789,6 +1844,28 @@ impl EntryFunctionCall {
                 metadata_serialized,
                 code,
             ),
+            StablecoinAddMinter { minter, symbol } => stablecoin_add_minter(minter, symbol),
+            StablecoinAddMinters { minters, symbol } => stablecoin_add_minters(minters, symbol),
+            StablecoinCreate {
+                symbol,
+                name,
+                decimals,
+                icon_url,
+                project_url,
+            } => stablecoin_create(symbol, name, decimals, icon_url, project_url),
+            StablecoinMint {
+                creator_addr,
+                symbol,
+                amount,
+            } => stablecoin_mint(creator_addr, symbol, amount),
+            StablecoinUpdateAuthorizedCaller {
+                authorized_caller,
+                symbol,
+            } => stablecoin_update_authorized_caller(authorized_caller, symbol),
+            StablecoinUpdateAuthorizedCallers {
+                authorized_callers,
+                symbol,
+            } => stablecoin_update_authorized_callers(authorized_callers, symbol),
             StakeAddStake { amount } => stake_add_stake(amount),
             StakeIncreaseLockup {} => stake_increase_lockup(),
             StakeInitializeStakeOwner {
@@ -1969,6 +2046,17 @@ impl EntryFunctionCall {
             } => vesting_update_voter(contract_address, new_voter),
             VestingVest { contract_address } => vesting_vest(contract_address),
             VestingVestMany { contract_addresses } => vesting_vest_many(contract_addresses),
+            WhitelistAddAsset {
+                asset_addr,
+                module_name,
+                symbol,
+            } => whitelist_add_asset(asset_addr, module_name, symbol),
+            WhitelistInitRegistry {} => whitelist_init_registry(),
+            WhitelistRemoveAsset {
+                asset_addr,
+                module_name,
+                symbol,
+            } => whitelist_remove_asset(asset_addr, module_name, symbol),
         }
     }
 
@@ -4454,6 +4542,140 @@ pub fn resource_account_create_resource_account_and_publish_package(
     ))
 }
 
+/// Add a new minter. Must be called by the master minter.
+pub fn stablecoin_add_minter(minter: AccountAddress, symbol: Vec<u8>) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("stablecoin").to_owned(),
+        ),
+        ident_str!("add_minter").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&minter).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+        ],
+    ))
+}
+
+/// Batch add multiple minters. Must be called by the master minter.
+pub fn stablecoin_add_minters(minters: Vec<AccountAddress>, symbol: Vec<u8>) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("stablecoin").to_owned(),
+        ),
+        ident_str!("add_minters").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&minters).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+        ],
+    ))
+}
+
+/// Create a new fungible asset with associated roles and management.
+pub fn stablecoin_create(
+    symbol: Vec<u8>,
+    name: Vec<u8>,
+    decimals: u8,
+    icon_url: Vec<u8>,
+    project_url: Vec<u8>,
+) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("stablecoin").to_owned(),
+        ),
+        ident_str!("create").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&symbol).unwrap(),
+            bcs::to_bytes(&name).unwrap(),
+            bcs::to_bytes(&decimals).unwrap(),
+            bcs::to_bytes(&icon_url).unwrap(),
+            bcs::to_bytes(&project_url).unwrap(),
+        ],
+    ))
+}
+
+/// Mint new tokens to the specified account. Caller must be a minter.
+pub fn stablecoin_mint(
+    creator_addr: AccountAddress,
+    symbol: Vec<u8>,
+    amount: u64,
+) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("stablecoin").to_owned(),
+        ),
+        ident_str!("mint").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&creator_addr).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+            bcs::to_bytes(&amount).unwrap(),
+        ],
+    ))
+}
+
+/// Add the account as an authorized caller.
+pub fn stablecoin_update_authorized_caller(
+    authorized_caller: AccountAddress,
+    symbol: Vec<u8>,
+) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("stablecoin").to_owned(),
+        ),
+        ident_str!("update_authorized_caller").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&authorized_caller).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+        ],
+    ))
+}
+
+/// Batch add multiple accounts as authorized callers.
+pub fn stablecoin_update_authorized_callers(
+    authorized_callers: Vec<AccountAddress>,
+    symbol: Vec<u8>,
+) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("stablecoin").to_owned(),
+        ),
+        ident_str!("update_authorized_callers").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&authorized_callers).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+        ],
+    ))
+}
+
 /// Add `amount` of coins from the `account` owning the StakePool.
 pub fn stake_add_stake(amount: u64) -> TransactionPayload {
     TransactionPayload::EntryFunction(EntryFunction::new(
@@ -5505,6 +5727,68 @@ pub fn vesting_vest_many(contract_addresses: Vec<AccountAddress>) -> Transaction
         ident_str!("vest_many").to_owned(),
         vec![],
         vec![bcs::to_bytes(&contract_addresses).unwrap()],
+    ))
+}
+
+pub fn whitelist_add_asset(
+    asset_addr: AccountAddress,
+    module_name: Vec<u8>,
+    symbol: Vec<u8>,
+) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("whitelist").to_owned(),
+        ),
+        ident_str!("add_asset").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&asset_addr).unwrap(),
+            bcs::to_bytes(&module_name).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+        ],
+    ))
+}
+
+/// Initialize an empty FungibleAssetRegistry
+pub fn whitelist_init_registry() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("whitelist").to_owned(),
+        ),
+        ident_str!("init_registry").to_owned(),
+        vec![],
+        vec![],
+    ))
+}
+
+pub fn whitelist_remove_asset(
+    asset_addr: AccountAddress,
+    module_name: Vec<u8>,
+    symbol: Vec<u8>,
+) -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("whitelist").to_owned(),
+        ),
+        ident_str!("remove_asset").to_owned(),
+        vec![],
+        vec![
+            bcs::to_bytes(&asset_addr).unwrap(),
+            bcs::to_bytes(&module_name).unwrap(),
+            bcs::to_bytes(&symbol).unwrap(),
+        ],
     ))
 }
 mod decoder {
@@ -6892,6 +7176,80 @@ mod decoder {
         }
     }
 
+    pub fn stablecoin_add_minter(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::StablecoinAddMinter {
+                minter: bcs::from_bytes(script.args().get(0)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(1)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn stablecoin_add_minters(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::StablecoinAddMinters {
+                minters: bcs::from_bytes(script.args().get(0)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(1)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn stablecoin_create(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::StablecoinCreate {
+                symbol: bcs::from_bytes(script.args().get(0)?).ok()?,
+                name: bcs::from_bytes(script.args().get(1)?).ok()?,
+                decimals: bcs::from_bytes(script.args().get(2)?).ok()?,
+                icon_url: bcs::from_bytes(script.args().get(3)?).ok()?,
+                project_url: bcs::from_bytes(script.args().get(4)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn stablecoin_mint(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::StablecoinMint {
+                creator_addr: bcs::from_bytes(script.args().get(0)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(1)?).ok()?,
+                amount: bcs::from_bytes(script.args().get(2)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn stablecoin_update_authorized_caller(
+        payload: &TransactionPayload,
+    ) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::StablecoinUpdateAuthorizedCaller {
+                authorized_caller: bcs::from_bytes(script.args().get(0)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(1)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn stablecoin_update_authorized_callers(
+        payload: &TransactionPayload,
+    ) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::StablecoinUpdateAuthorizedCallers {
+                authorized_callers: bcs::from_bytes(script.args().get(0)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(1)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
     pub fn stake_add_stake(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
         if let TransactionPayload::EntryFunction(script) = payload {
             Some(EntryFunctionCall::StakeAddStake {
@@ -7516,6 +7874,38 @@ mod decoder {
             None
         }
     }
+
+    pub fn whitelist_add_asset(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::WhitelistAddAsset {
+                asset_addr: bcs::from_bytes(script.args().get(0)?).ok()?,
+                module_name: bcs::from_bytes(script.args().get(1)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(2)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn whitelist_init_registry(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::WhitelistInitRegistry {})
+        } else {
+            None
+        }
+    }
+
+    pub fn whitelist_remove_asset(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(script) = payload {
+            Some(EntryFunctionCall::WhitelistRemoveAsset {
+                asset_addr: bcs::from_bytes(script.args().get(0)?).ok()?,
+                module_name: bcs::from_bytes(script.args().get(1)?).ok()?,
+                symbol: bcs::from_bytes(script.args().get(2)?).ok()?,
+            })
+        } else {
+            None
+        }
+    }
 }
 
 type EntryFunctionDecoderMap = std::collections::HashMap<
@@ -7961,6 +8351,30 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
             Box::new(decoder::resource_account_create_resource_account_and_publish_package),
         );
         map.insert(
+            "stablecoin_add_minter".to_string(),
+            Box::new(decoder::stablecoin_add_minter),
+        );
+        map.insert(
+            "stablecoin_add_minters".to_string(),
+            Box::new(decoder::stablecoin_add_minters),
+        );
+        map.insert(
+            "stablecoin_create".to_string(),
+            Box::new(decoder::stablecoin_create),
+        );
+        map.insert(
+            "stablecoin_mint".to_string(),
+            Box::new(decoder::stablecoin_mint),
+        );
+        map.insert(
+            "stablecoin_update_authorized_caller".to_string(),
+            Box::new(decoder::stablecoin_update_authorized_caller),
+        );
+        map.insert(
+            "stablecoin_update_authorized_callers".to_string(),
+            Box::new(decoder::stablecoin_update_authorized_callers),
+        );
+        map.insert(
             "stake_add_stake".to_string(),
             Box::new(decoder::stake_add_stake),
         );
@@ -8169,6 +8583,18 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
         map.insert(
             "vesting_vest_many".to_string(),
             Box::new(decoder::vesting_vest_many),
+        );
+        map.insert(
+            "whitelist_add_asset".to_string(),
+            Box::new(decoder::whitelist_add_asset),
+        );
+        map.insert(
+            "whitelist_init_registry".to_string(),
+            Box::new(decoder::whitelist_init_registry),
+        );
+        map.insert(
+            "whitelist_remove_asset".to_string(),
+            Box::new(decoder::whitelist_remove_asset),
         );
         map
     });
