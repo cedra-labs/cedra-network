@@ -40,6 +40,7 @@ use cedra_types::{
     chain_id::ChainId,
     on_chain_config::{GasScheduleV2, OnChainRandomnessConfig},
     transaction::SignedTransaction,
+    CedraCoinType, CoinType,
 };
 use serde_json::json;
 use std::{
@@ -623,7 +624,7 @@ async fn test_transfer() {
     .expect_err("Should fail simulation since we can't transfer more than balance coins");
 
     // Attempt to transfer more than balance to another user (should fail)
-    let transaction_factory = TransactionFactory::new(chain_id)
+    let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
         // We purposely don't set gas unit price here so the builder uses the default.
         // Note that the default is different in tests. See here:
         // config/global-constants/src/lib.rs

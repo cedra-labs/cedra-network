@@ -27,14 +27,17 @@ pub mod validator_join_leave_test;
 pub mod validator_reboot_stress_test;
 
 use anyhow::Context;
+use async_trait::async_trait;
 use cedra_forge::{
     prometheus_metrics::{fetch_latency_breakdown, LatencyBreakdown},
     EmitJob, EmitJobRequest, NetworkContext, NetworkContextSynchronizer, NetworkTest, NodeExt,
     Result, Swarm, SwarmExt, Test, TestReport, TxnEmitter, TxnStats, Version,
 };
 use cedra_rest_client::Client as RestClient;
-use cedra_sdk::{transaction_builder::TransactionFactory, types::PeerId};
-use async_trait::async_trait;
+use cedra_sdk::{
+    transaction_builder::TransactionFactory,
+    types::{CedraCoinType, CoinType, PeerId},
+};
 use futures::future::join_all;
 use log::info;
 use rand::{rngs::StdRng, SeedableRng};
@@ -142,7 +145,8 @@ pub async fn create_emitter_and_request(
     let client_timeout = Duration::from_secs(30);
 
     let chain_info = swarm.read().await.chain_info();
-    let transaction_factory = TransactionFactory::new(chain_info.chain_id);
+    let transaction_factory =
+        TransactionFactory::new(chain_info.chain_id, CedraCoinType::type_tag());
     let rest_cli = swarm
         .read()
         .await

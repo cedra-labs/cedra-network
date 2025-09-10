@@ -4,10 +4,10 @@
 
 #![forbid(unsafe_code)]
 
+use async_trait::async_trait;
 use cedra_types::{
     contract_event::ContractEvent, ledger_info::LedgerInfoWithSignatures, transaction::Transaction,
 };
-use async_trait::async_trait;
 use futures::{
     channel::{mpsc, oneshot},
     stream::FusedStream,
@@ -415,6 +415,7 @@ mod tests {
         event::EventKey,
         ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
         transaction::{RawTransaction, Script, SignedTransaction, Transaction, TransactionPayload},
+        CedraCoinType, CoinType,
     };
     use claims::{assert_err, assert_matches, assert_ok};
     use futures::{executor::block_on, FutureExt, StreamExt};
@@ -599,6 +600,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
+            CedraCoinType::type_tag(),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

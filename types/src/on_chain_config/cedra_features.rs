@@ -138,6 +138,7 @@ pub enum FeatureFlag {
     JWK_CONSENSUS_PER_KEY_MODE = 92,
     TRANSACTION_PAYLOAD_V2 = 93,
     ORDERLESS_TRANSACTIONS = 94,
+    FEE_V2 = 95,
 }
 
 impl FeatureFlag {
@@ -403,6 +404,10 @@ impl Features {
 
     pub fn is_orderless_txns_enabled(&self) -> bool {
         self.is_enabled(FeatureFlag::ORDERLESS_TRANSACTIONS)
+    }
+
+    pub fn is_fee_v2_enabled(&self) -> bool {
+        self.is_enabled(FeatureFlag::FEE_V2)
     }
 
     pub fn get_max_identifier_size(&self) -> u64 {
