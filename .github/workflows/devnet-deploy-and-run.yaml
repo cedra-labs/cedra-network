@@ -40,7 +40,7 @@ jobs:
         
     - name: Deploy and run devnet
       run: |
-        ssh -p ${{ secrets.DEVNET_SSH_PORT }} ${{ secrets.DEVNET_SSH_USER }}@${{ secrets.DEVNET_SSH_HOST }} "
+        ssh -o ServerAliveInterval=1500 -p ${{ secrets.DEVNET_SSH_PORT }} ${{ secrets.DEVNET_SSH_USER }}@${{ secrets.DEVNET_SSH_HOST }} "
           cd ${{ secrets.DEVNET_SSH_SCRIPTS_PATH }}
           chmod +x stop_devnet.sh
           chmod +x build_devnet.sh
