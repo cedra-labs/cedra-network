@@ -2,7 +2,18 @@ name: "Deploy and run DEVNET"
 
 on:
   workflow_dispatch:
-
+    inputs:
+      cleanup_databases:
+          type: boolean
+          required: true
+          default: false
+          description: "remove validator and validator full node databases"
+      rebuild_genesis:
+          type: boolean
+          required: true
+          default: false
+          description: "rebuild and change cedra framework and genesis"
+        
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -36,7 +47,7 @@ jobs:
           chmod +x clean_devnet.sh
           chmod +x run_devnet.sh
           sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./stop_devnet.sh
-          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh
-          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh ${{inputs.rebuild_genesis}}
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh ${{inputs.cleanup_databases}}
           sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./run_devnet.sh"
         echo "devnet is runnig on the server"
