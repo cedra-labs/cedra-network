@@ -154,7 +154,7 @@ module cedra_framework::transaction_fee {
         module_name: vector<u8>,
         symbol: vector<u8>,
         fee: u64
-    ) acquires CedraFABurnCapabilities, CedraCoinCapabilities {
+    ) {
         // 1000 - fee_v2 feature not enabled
         assert!(features::fee_v2_enabled(), 1000);
 
