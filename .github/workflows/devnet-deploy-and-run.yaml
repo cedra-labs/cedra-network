@@ -47,7 +47,7 @@ jobs:
           chmod +x clean_devnet.sh
           chmod +x run_devnet.sh
           sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./stop_devnet.sh
-          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh ${{inputs.rebuild_genesis}}
-          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh ${{inputs.cleanup_databases}}
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./build_devnet.sh "${{inputs.rebuild_genesis}}"
+          sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./clean_devnet.sh "${{inputs.cleanup_databases}}"
           sudo -u ${{ secrets.DEVNET_SSH_USER }} bash ./run_devnet.sh"
         echo "devnet is runnig on the server"
