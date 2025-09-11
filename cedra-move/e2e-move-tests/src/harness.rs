@@ -857,7 +857,7 @@ impl MoveHarness {
         .unwrap_or(0)
             + self
                 .read_resource_from_resource_group::<FungibleStoreResource>(
-                    &cedra_types::account_config::fungible_store::primary_apt_store(*addr),
+                    &cedra_types::account_config::fungible_store::primary_cedra_store(*addr),
                     ObjectGroupResource::struct_tag(),
                     FungibleStoreResource::struct_tag(),
                 )

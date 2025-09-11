@@ -84,9 +84,9 @@ async fn main() -> Result<()> {
     );
 
     let balance_from_old_api = client
-        .view_apt_account_balance(address)
+        .view_cedra_account_balance(address)
         .await
-        .context("Failed view_apt_account_balance")?;
+        .context("Failed view_cedra_account_balance")?;
     info!(
         "Successfully retrieved balance {}",
         balance_from_old_api.inner()

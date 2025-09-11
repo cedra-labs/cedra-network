@@ -112,17 +112,17 @@ return true.
 -  [Function `transaction_context_extension_enabled`](#0x1_features_transaction_context_extension_enabled)
 -  [Function `get_coin_to_fungible_asset_migration_feature`](#0x1_features_get_coin_to_fungible_asset_migration_feature)
 -  [Function `coin_to_fungible_asset_migration_feature_enabled`](#0x1_features_coin_to_fungible_asset_migration_feature_enabled)
--  [Function `get_primary_apt_fungible_store_at_user_address_feature`](#0x1_features_get_primary_apt_fungible_store_at_user_address_feature)
--  [Function `primary_apt_fungible_store_at_user_address_enabled`](#0x1_features_primary_apt_fungible_store_at_user_address_enabled)
+-  [Function `get_primary_cedra_fungible_store_at_user_address_feature`](#0x1_features_get_primary_cedra_fungible_store_at_user_address_feature)
+-  [Function `primary_cedra_fungible_store_at_user_address_enabled`](#0x1_features_primary_cedra_fungible_store_at_user_address_enabled)
 -  [Function `aggregator_v2_is_at_least_api_enabled`](#0x1_features_aggregator_v2_is_at_least_api_enabled)
 -  [Function `get_object_native_derived_address_feature`](#0x1_features_get_object_native_derived_address_feature)
 -  [Function `object_native_derived_address_enabled`](#0x1_features_object_native_derived_address_enabled)
 -  [Function `get_dispatchable_fungible_asset_feature`](#0x1_features_get_dispatchable_fungible_asset_feature)
 -  [Function `dispatchable_fungible_asset_enabled`](#0x1_features_dispatchable_fungible_asset_enabled)
--  [Function `get_new_accounts_default_to_fa_apt_store_feature`](#0x1_features_get_new_accounts_default_to_fa_apt_store_feature)
--  [Function `new_accounts_default_to_fa_apt_store_enabled`](#0x1_features_new_accounts_default_to_fa_apt_store_enabled)
--  [Function `get_operations_default_to_fa_apt_store_feature`](#0x1_features_get_operations_default_to_fa_apt_store_feature)
--  [Function `operations_default_to_fa_apt_store_enabled`](#0x1_features_operations_default_to_fa_apt_store_enabled)
+-  [Function `get_new_accounts_default_to_fa_cedra_store_feature`](#0x1_features_get_new_accounts_default_to_fa_cedra_store_feature)
+-  [Function `new_accounts_default_to_fa_cedra_store_enabled`](#0x1_features_new_accounts_default_to_fa_cedra_store_enabled)
+-  [Function `get_operations_default_to_fa_cedra_store_feature`](#0x1_features_get_operations_default_to_fa_cedra_store_feature)
+-  [Function `operations_default_to_fa_cedra_store_enabled`](#0x1_features_operations_default_to_fa_cedra_store_enabled)
 -  [Function `get_concurrent_fungible_balance_feature`](#0x1_features_get_concurrent_fungible_balance_feature)
 -  [Function `concurrent_fungible_balance_enabled`](#0x1_features_concurrent_fungible_balance_enabled)
 -  [Function `get_default_to_concurrent_fungible_balance_feature`](#0x1_features_get_default_to_concurrent_fungible_balance_feature)
@@ -2945,14 +2945,14 @@ Deprecated feature
 
 </details>
 
-<a id="0x1_features_get_primary_apt_fungible_store_at_user_address_feature"></a>
+<a id="0x1_features_get_primary_cedra_fungible_store_at_user_address_feature"></a>
 
-## Function `get_primary_apt_fungible_store_at_user_address_feature`
+## Function `get_primary_cedra_fungible_store_at_user_address_feature`
 
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_primary_apt_fungible_store_at_user_address_feature">get_primary_apt_fungible_store_at_user_address_feature</a>(): u64
+<b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_primary_cedra_fungible_store_at_user_address_feature">get_primary_cedra_fungible_store_at_user_address_feature</a>(): u64
 </code></pre>
 
 
@@ -2961,7 +2961,7 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_primary_apt_fungible_store_at_user_address_feature">get_primary_apt_fungible_store_at_user_address_feature</a>(
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_primary_cedra_fungible_store_at_user_address_feature">get_primary_cedra_fungible_store_at_user_address_feature</a>(
 ): u64 {
     <b>abort</b> <a href="error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="features.md#0x1_features_EINVALID_FEATURE">EINVALID_FEATURE</a>)
 }
@@ -2971,14 +2971,14 @@ Deprecated feature
 
 </details>
 
-<a id="0x1_features_primary_apt_fungible_store_at_user_address_enabled"></a>
+<a id="0x1_features_primary_cedra_fungible_store_at_user_address_enabled"></a>
 
-## Function `primary_apt_fungible_store_at_user_address_enabled`
+## Function `primary_cedra_fungible_store_at_user_address_enabled`
 
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="features.md#0x1_features_primary_apt_fungible_store_at_user_address_enabled">primary_apt_fungible_store_at_user_address_enabled</a>(): bool
+<b>public</b> <b>fun</b> <a href="features.md#0x1_features_primary_cedra_fungible_store_at_user_address_enabled">primary_cedra_fungible_store_at_user_address_enabled</a>(): bool
 </code></pre>
 
 
@@ -2987,7 +2987,7 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_primary_apt_fungible_store_at_user_address_enabled">primary_apt_fungible_store_at_user_address_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_primary_cedra_fungible_store_at_user_address_enabled">primary_cedra_fungible_store_at_user_address_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
     <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS">PRIMARY_CEDRA_FUNGIBLE_STORE_AT_USER_ADDRESS</a>)
 }
 </code></pre>
@@ -3112,13 +3112,13 @@ Deprecated feature
 
 </details>
 
-<a id="0x1_features_get_new_accounts_default_to_fa_apt_store_feature"></a>
+<a id="0x1_features_get_new_accounts_default_to_fa_cedra_store_feature"></a>
 
-## Function `get_new_accounts_default_to_fa_apt_store_feature`
+## Function `get_new_accounts_default_to_fa_cedra_store_feature`
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_new_accounts_default_to_fa_apt_store_feature">get_new_accounts_default_to_fa_apt_store_feature</a>(): u64
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_new_accounts_default_to_fa_cedra_store_feature">get_new_accounts_default_to_fa_cedra_store_feature</a>(): u64
 </code></pre>
 
 
@@ -3127,20 +3127,20 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_new_accounts_default_to_fa_apt_store_feature">get_new_accounts_default_to_fa_apt_store_feature</a>(): u64 { <a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a> }
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_new_accounts_default_to_fa_cedra_store_feature">get_new_accounts_default_to_fa_cedra_store_feature</a>(): u64 { <a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a> }
 </code></pre>
 
 
 
 </details>
 
-<a id="0x1_features_new_accounts_default_to_fa_apt_store_enabled"></a>
+<a id="0x1_features_new_accounts_default_to_fa_cedra_store_enabled"></a>
 
-## Function `new_accounts_default_to_fa_apt_store_enabled`
+## Function `new_accounts_default_to_fa_cedra_store_enabled`
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_new_accounts_default_to_fa_apt_store_enabled">new_accounts_default_to_fa_apt_store_enabled</a>(): bool
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_new_accounts_default_to_fa_cedra_store_enabled">new_accounts_default_to_fa_cedra_store_enabled</a>(): bool
 </code></pre>
 
 
@@ -3149,7 +3149,7 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_new_accounts_default_to_fa_apt_store_enabled">new_accounts_default_to_fa_apt_store_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_new_accounts_default_to_fa_cedra_store_enabled">new_accounts_default_to_fa_cedra_store_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
     <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a>)
 }
 </code></pre>
@@ -3158,13 +3158,13 @@ Deprecated feature
 
 </details>
 
-<a id="0x1_features_get_operations_default_to_fa_apt_store_feature"></a>
+<a id="0x1_features_get_operations_default_to_fa_cedra_store_feature"></a>
 
-## Function `get_operations_default_to_fa_apt_store_feature`
+## Function `get_operations_default_to_fa_cedra_store_feature`
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_operations_default_to_fa_apt_store_feature">get_operations_default_to_fa_apt_store_feature</a>(): u64
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_operations_default_to_fa_cedra_store_feature">get_operations_default_to_fa_cedra_store_feature</a>(): u64
 </code></pre>
 
 
@@ -3173,20 +3173,20 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_operations_default_to_fa_apt_store_feature">get_operations_default_to_fa_apt_store_feature</a>(): u64 { <a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE">OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE</a> }
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_operations_default_to_fa_cedra_store_feature">get_operations_default_to_fa_cedra_store_feature</a>(): u64 { <a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE">OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE</a> }
 </code></pre>
 
 
 
 </details>
 
-<a id="0x1_features_operations_default_to_fa_apt_store_enabled"></a>
+<a id="0x1_features_operations_default_to_fa_cedra_store_enabled"></a>
 
-## Function `operations_default_to_fa_apt_store_enabled`
+## Function `operations_default_to_fa_cedra_store_enabled`
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_operations_default_to_fa_apt_store_enabled">operations_default_to_fa_apt_store_enabled</a>(): bool
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">operations_default_to_fa_cedra_store_enabled</a>(): bool
 </code></pre>
 
 
@@ -3195,7 +3195,7 @@ Deprecated feature
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_operations_default_to_fa_apt_store_enabled">operations_default_to_fa_apt_store_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">operations_default_to_fa_cedra_store_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
     <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE">OPERATIONS_DEFAULT_TO_FA_CEDRA_STORE</a>)
 }
 </code></pre>
@@ -4319,10 +4319,10 @@ Helper to check whether a feature flag is enabled.
 
 
 
-<a id="0x1_features_spec_new_accounts_default_to_fa_apt_store_enabled"></a>
+<a id="0x1_features_spec_new_accounts_default_to_fa_cedra_store_enabled"></a>
 
 
-<pre><code><b>fun</b> <a href="features.md#0x1_features_spec_new_accounts_default_to_fa_apt_store_enabled">spec_new_accounts_default_to_fa_apt_store_enabled</a>(): bool {
+<pre><code><b>fun</b> <a href="features.md#0x1_features_spec_new_accounts_default_to_fa_cedra_store_enabled">spec_new_accounts_default_to_fa_cedra_store_enabled</a>(): bool {
    <a href="features.md#0x1_features_spec_is_enabled">spec_is_enabled</a>(<a href="features.md#0x1_features_NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE">NEW_ACCOUNTS_DEFAULT_TO_FA_CEDRA_STORE</a>)
 }
 </code></pre>

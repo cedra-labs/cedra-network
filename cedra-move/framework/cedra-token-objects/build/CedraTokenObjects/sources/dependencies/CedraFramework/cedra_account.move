@@ -55,7 +55,7 @@ module cedra_framework::cedra_account {
 
     public entry fun create_account(auth_key: address) {
         let account_signer = account::create_account(auth_key);
-        register_apt(&account_signer);
+        register_cedra(&account_signer);
     }
 
     /// Batch version of Cedra transfer.
@@ -79,7 +79,7 @@ module cedra_framework::cedra_account {
             create_account(to)
         };
 
-        if (features::operations_default_to_fa_apt_store_enabled()) {
+        if (features::operations_default_to_fa_cedra_store_enabled()) {
             fungible_transfer_only(source, to, amount)
         } else {
             // Resource accounts can be created without registering them to receive Cedra.
@@ -172,7 +172,7 @@ module cedra_framework::cedra_account {
         assert!(account::exists_at(addr), error::not_found(EACCOUNT_NOT_FOUND));
     }
 
-    public fun assert_account_is_registered_for_apt(addr: address) {
+    public fun assert_account_is_registered_for_cedra(addr: address) {
         assert_account_exists(addr);
         assert!(coin::is_account_registered<CedraCoin>(addr), error::not_found(EACCOUNT_NOT_REGISTERED_FOR_Cedra));
     }
@@ -222,8 +222,8 @@ module cedra_framework::cedra_account {
             borrow_global<DirectTransferConfig>(account).allow_arbitrary_coin_transfers
     }
 
-    public(friend) fun register_apt(account_signer: &signer) {
-        if (features::new_accounts_default_to_fa_apt_store_enabled()) {
+    public(friend) fun register_cedra(account_signer: &signer) {
+        if (features::new_accounts_default_to_fa_cedra_store_enabled()) {
             ensure_primary_fungible_store_exists(signer::address_of(account_signer));
         } else {
             coin::register<CedraCoin>(account_signer);
@@ -329,7 +329,7 @@ module cedra_framework::cedra_account {
 
         let perm_handle = permissioned_signer::create_permissioned_handle(alice);
         let alice_perm_signer = permissioned_signer::signer_from_permissioned_handle(&perm_handle);
-        primary_fungible_store::grant_apt_permission(alice, &alice_perm_signer, 500);
+        primary_fungible_store::grant_cedra_permission(alice, &alice_perm_signer, 500);
 
         transfer(&alice_perm_signer, bob, 500);
 
@@ -497,7 +497,7 @@ module cedra_framework::cedra_account {
         use cedra_framework::fungible_asset::Metadata;
         use cedra_framework::cedra_coin;
 
-        cedra_coin::ensure_initialized_with_apt_fa_metadata_for_test();
+        cedra_coin::ensure_initialized_with_cedra_fa_metadata_for_test();
 
         let apt_metadata = object::address_to_object<Metadata>(@cedra_fungible_asset);
         let user_addr = signer::address_of(user);

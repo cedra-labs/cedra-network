@@ -135,9 +135,8 @@ module cedra_framework::transaction_fee {
                 &borrow_global<CedraFABurnCapabilities>(@cedra_framework).burn_ref;
             cedra_account::burn_from_fungible_store_for_gas(burn_ref, account, fee);
         } else {
-            let burn_cap =
-                &borrow_global<CedraCoinCapabilities>(@cedra_framework).burn_cap;
-            if (features::operations_default_to_fa_apt_store_enabled()) {
+            let burn_cap = &borrow_global<CedraCoinCapabilities>(@cedra_framework).burn_cap;
+            if (features::operations_default_to_fa_cedra_store_enabled()) {
                 let (burn_ref, burn_receipt) = coin::get_paired_burn_ref(burn_cap);
                 cedra_account::burn_from_fungible_store_for_gas(&burn_ref, account, fee);
                 coin::return_paired_burn_ref(burn_ref, burn_receipt);
@@ -198,7 +197,7 @@ module cedra_framework::transaction_fee {
     ) {
         system_addresses::assert_cedra_framework(cedra_framework);
 
-        if (features::operations_default_to_fa_apt_store_enabled()) {
+        if (features::operations_default_to_fa_cedra_store_enabled()) {
             let burn_ref = coin::convert_and_take_paired_burn_ref(burn_cap);
             move_to(cedra_framework, CedraFABurnCapabilities { burn_ref });
         } else {
@@ -206,13 +205,8 @@ module cedra_framework::transaction_fee {
         }
     }
 
-    public entry fun convert_to_cedra_fa_burn_ref(
-        cedra_framework: &signer
-    ) acquires CedraCoinCapabilities {
-        assert!(
-            features::operations_default_to_fa_apt_store_enabled(),
-            EFA_GAS_CHARGING_NOT_ENABLED
-        );
+    public entry fun convert_to_cedra_fa_burn_ref(cedra_framework: &signer) acquires CedraCoinCapabilities {
+        assert!(features::operations_default_to_fa_cedra_store_enabled(), EFA_GAS_CHARGING_NOT_ENABLED);
         system_addresses::assert_cedra_framework(cedra_framework);
         let CedraCoinCapabilities { burn_cap } =
             move_from<CedraCoinCapabilities>(signer::address_of(cedra_framework));

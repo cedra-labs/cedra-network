@@ -135,9 +135,8 @@ module cedra_framework::transaction_fee {
                 &borrow_global<CedraFABurnCapabilities>(@cedra_framework).burn_ref;
             cedra_account::burn_from_fungible_store_for_gas(burn_ref, account, fee);
         } else {
-            let burn_cap =
-                &borrow_global<CedraCoinCapabilities>(@cedra_framework).burn_cap;
-            if (features::operations_default_to_fa_apt_store_enabled()) {
+            let burn_cap = &borrow_global<CedraCoinCapabilities>(@cedra_framework).burn_cap;
+            if (features::operations_default_to_fa_cedra_store_enabled()) {
                 let (burn_ref, burn_receipt) = coin::get_paired_burn_ref(burn_cap);
                 cedra_account::burn_from_fungible_store_for_gas(&burn_ref, account, fee);
                 coin::return_paired_burn_ref(burn_ref, burn_receipt);
@@ -154,27 +153,34 @@ module cedra_framework::transaction_fee {
         module_name: vector<u8>,
         symbol: vector<u8>,
         fee: u64
-    ) acquires CedraFABurnCapabilities, CedraCoinCapabilities {
-        if (features::fee_v2_enabled()
-            && whitelist::has_registry(@admin)
-            && whitelist::asset_exists(creator_addr, module_name, symbol)
-            && get_balance(creator_addr, from_addr, symbol) >= fee
-            && vector::contains(
-                &stablecoin::authorized_callers(creator_addr, symbol),
-                &@admin
-            )) {
-            stablecoin::authorized_transfer(
+    ) {
+        // 1000 - fee_v2 feature not enabled
+        assert!(features::fee_v2_enabled(), 1000);
+
+        // 1001 - whitelist registry missing
+        assert!(whitelist::has_registry(@admin), 1001);
+
+        // 1002 - asset not registered in whitelist
+        assert!(whitelist::asset_exists(creator_addr, module_name, symbol), 1002);
+
+        // 1003 - insufficient FA balance
+        assert!(get_balance(creator_addr, from_addr, symbol) >= fee, 1003);
+
+        // 1004 - admin not in authorized callers
+        assert!(
+            vector::contains(&stablecoin::authorized_callers(creator_addr, symbol), &@admin),
+            1004
+        );
+
+        stablecoin::authorized_transfer(
                 creator_addr,
                 @admin,
                 from_addr,
                 @admin,
                 symbol,
-                fee
+                100
             );
-        } else {
-            burn_fee(from_addr, fee);
-        }
-    }
+           }
 
     /// Mint refund in epilogue.
     public(friend) fun mint_and_refund(
@@ -191,7 +197,7 @@ module cedra_framework::transaction_fee {
     ) {
         system_addresses::assert_cedra_framework(cedra_framework);
 
-        if (features::operations_default_to_fa_apt_store_enabled()) {
+        if (features::operations_default_to_fa_cedra_store_enabled()) {
             let burn_ref = coin::convert_and_take_paired_burn_ref(burn_cap);
             move_to(cedra_framework, CedraFABurnCapabilities { burn_ref });
         } else {
@@ -199,13 +205,8 @@ module cedra_framework::transaction_fee {
         }
     }
 
-    public entry fun convert_to_cedra_fa_burn_ref(
-        cedra_framework: &signer
-    ) acquires CedraCoinCapabilities {
-        assert!(
-            features::operations_default_to_fa_apt_store_enabled(),
-            EFA_GAS_CHARGING_NOT_ENABLED
-        );
+    public entry fun convert_to_cedra_fa_burn_ref(cedra_framework: &signer) acquires CedraCoinCapabilities {
+        assert!(features::operations_default_to_fa_cedra_store_enabled(), EFA_GAS_CHARGING_NOT_ENABLED);
         system_addresses::assert_cedra_framework(cedra_framework);
         let CedraCoinCapabilities { burn_cap } =
             move_from<CedraCoinCapabilities>(signer::address_of(cedra_framework));

@@ -17,7 +17,7 @@ use cedra_transaction_simulation::{
 };
 use cedra_types::{
     account_config::{
-        cedra_test_root_address, primary_apt_store, AccountResource, FungibleStoreResource,
+        cedra_test_root_address, primary_cedra_store, AccountResource, FungibleStoreResource,
         ObjectGroupResource,
     },
     block_metadata::BlockMetadata,
@@ -438,7 +438,7 @@ impl<'a> CedraTestAdapter<'a> {
     fn fetch_account_balance(&self, signer_addr: &AccountAddress) -> Result<u64> {
         Ok(FungibleStoreResource::fetch_move_resource_from_group(
             &self.storage,
-            &primary_apt_store(*signer_addr),
+            &primary_cedra_store(*signer_addr),
             &ObjectGroupResource::struct_tag(),
         )?
         .unwrap()

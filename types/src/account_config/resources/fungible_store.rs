@@ -13,7 +13,7 @@ use move_core_types::{
 use proptest_derive::Arbitrary;
 use serde::{Deserialize, Serialize};
 
-pub fn primary_apt_store(address: AccountAddress) -> AccountAddress {
+pub fn primary_cedra_store(address: AccountAddress) -> AccountAddress {
     create_derived_object_address(address, AccountAddress::TEN)
 }
 

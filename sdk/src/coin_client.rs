@@ -101,7 +101,7 @@ impl<'a> CoinClient<'a> {
     pub async fn get_account_balance(&self, account: &AccountAddress) -> Result<u64> {
         let response = self
             .api_client
-            .view_apt_account_balance(*account)
+            .view_cedra_account_balance(*account)
             .await
             .context("Failed to get account balance")?;
         Ok(response.into_inner())

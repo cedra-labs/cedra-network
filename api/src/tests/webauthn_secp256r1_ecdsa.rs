@@ -121,7 +121,7 @@ mod tests {
 
         // verifies transaction authenticator
         let webauthn_secp256r1_ecdsa_txn = signed_txn.check_signature().unwrap();
-        let balance_start = context.get_apt_balance(other.address()).await;
+        let balance_start = context.get_cedra_balance(other.address()).await;
         let bcs_txn = bcs::to_bytes(&webauthn_secp256r1_ecdsa_txn.into_inner()).unwrap();
 
         context
@@ -131,7 +131,7 @@ mod tests {
         context.commit_mempool_txns(1).await;
         assert_eq!(
             balance_start + 5,
-            context.get_apt_balance(other.address()).await
+            context.get_cedra_balance(other.address()).await
         );
     }
 

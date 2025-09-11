@@ -28,8 +28,8 @@ use cedra_sdk::{
     bcs,
     transaction_builder::TransactionFactory,
     types::{
-        account_config::cedra_test_root_address, get_apt_primary_store_address,
-        transaction::SignedTransaction, AccountKey, CedraCoinType, CoinType, LocalAccount,
+        account_config::cedra_test_root_address, get_cedra_primary_store_address,
+        transaction::SignedTransaction, AccountKey, LocalAccount, CedraCoinType, CoinType, LocalAccount,
     },
 };
 use cedra_storage_interface::{
@@ -879,7 +879,7 @@ impl TestContext {
             .unwrap()
     }
 
-    pub async fn get_apt_balance(&self, account: AccountAddress) -> u64 {
+    pub async fn get_cedra_balance(&self, account: AccountAddress) -> u64 {
         let coin_balance_option = self
             .try_api_get_account_resource(
                 account,
@@ -900,7 +900,7 @@ impl TestContext {
         } else {
             let fungible_store_option = self
                 .try_api_get_account_resource(
-                    get_apt_primary_store_address(account),
+                    get_cedra_primary_store_address(account),
                     "0x1",
                     "fungible_asset",
                     "FungibleStore",

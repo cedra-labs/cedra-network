@@ -11,7 +11,7 @@ use cedra_types::{
     access_path::AccessPath,
     account_address::AccountAddress,
     account_config::{
-        self, primary_apt_store, AccountResource, CoinStoreResource,
+        self, primary_cedra_store, AccountResource, CoinStoreResource,
         ConcurrentFungibleBalanceResource, FungibleStoreResource, MigrationFlag,
         ObjectCoreResource, ObjectGroupResource,
     },
@@ -481,7 +481,7 @@ impl FungibleStore {
     }
 
     pub fn to_bytes(&self) -> Vec<u8> {
-        let primary_store_object_address = primary_apt_store(self.owner);
+        let primary_store_object_address = primary_cedra_store(self.owner);
         let mut object_group = ObjectGroupResource::default();
         object_group.insert(
             ObjectCoreResource::struct_tag(),
@@ -570,10 +570,10 @@ impl AccountData {
         account: Account,
         balance: u64,
         sequence_number: u64,
-        use_fa_apt: bool,
+        use_fa_cedra: bool,
         use_concurrent_balance: bool,
     ) -> Self {
-        if use_fa_apt {
+        if use_fa_cedra {
             Self::with_account_and_fungible_store(
                 account,
                 balance,
@@ -690,7 +690,7 @@ impl AccountData {
         }
 
         if let Some(fungible_store) = &self.fungible_store {
-            let primary_store_object_address = primary_apt_store(*self.address());
+            let primary_store_object_address = primary_cedra_store(*self.address());
 
             write_set.push((
                 StateKey::resource_group(

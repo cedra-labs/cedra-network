@@ -182,7 +182,7 @@ pub async fn check_balance(
     expected: U64,
 ) -> Result<(), TestFailure> {
     // actual
-    let actual = match client.view_apt_account_balance(address).await {
+    let actual = match client.view_cedra_account_balance(address).await {
         Ok(response) => response.into_inner(),
         Err(e) => {
             error!(

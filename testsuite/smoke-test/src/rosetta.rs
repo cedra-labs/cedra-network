@@ -601,7 +601,7 @@ async fn test_transfer() {
     let receiver = AccountAddress::from_hex_literal("0xBEEF").unwrap();
     let sender_private_key = cli.private_key(0);
     let sender_balance = client
-        .view_apt_account_balance(sender)
+        .view_cedra_account_balance(sender)
         .await
         .unwrap()
         .into_inner();
@@ -668,7 +668,7 @@ async fn test_transfer() {
     // Sender balance should be 0
     assert_eq!(
         client
-            .view_apt_account_balance(sender)
+            .view_cedra_account_balance(sender)
             .await
             .unwrap()
             .into_inner(),
@@ -677,7 +677,7 @@ async fn test_transfer() {
     // Receiver should be sent coins
     assert_eq!(
         client
-            .view_apt_account_balance(receiver)
+            .view_cedra_account_balance(receiver)
             .await
             .unwrap()
             .into_inner(),

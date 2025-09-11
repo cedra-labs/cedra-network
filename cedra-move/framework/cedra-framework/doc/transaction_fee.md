@@ -433,9 +433,8 @@ Burn transaction fees in epilogue.
             &<b>borrow_global</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraFABurnCapabilities">CedraFABurnCapabilities</a>&gt;(@cedra_framework).burn_ref;
         <a href="cedra_account.md#0x1_cedra_account_burn_from_fungible_store_for_gas">cedra_account::burn_from_fungible_store_for_gas</a>(burn_ref, <a href="account.md#0x1_account">account</a>, fee);
     } <b>else</b> {
-        <b>let</b> burn_cap =
-            &<b>borrow_global</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(@cedra_framework).burn_cap;
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+        <b>let</b> burn_cap = &<b>borrow_global</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(@cedra_framework).burn_cap;
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>let</b> (burn_ref, burn_receipt) = <a href="coin.md#0x1_coin_get_paired_burn_ref">coin::get_paired_burn_ref</a>(burn_cap);
             <a href="cedra_account.md#0x1_cedra_account_burn_from_fungible_store_for_gas">cedra_account::burn_from_fungible_store_for_gas</a>(&burn_ref, <a href="account.md#0x1_account">account</a>, fee);
             <a href="coin.md#0x1_coin_return_paired_burn_ref">coin::return_paired_burn_ref</a>(burn_ref, burn_receipt);
@@ -472,27 +471,34 @@ Burn custom transaction fees in epilogue.
     module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fee: u64
-) <b>acquires</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraFABurnCapabilities">CedraFABurnCapabilities</a>, <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> {
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()
-        && <a href="whitelist.md#0x1_whitelist_has_registry">whitelist::has_registry</a>(@admin)
-        && <a href="whitelist.md#0x1_whitelist_asset_exists">whitelist::asset_exists</a>(creator_addr, module_name, symbol)
-        && <a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(creator_addr, from_addr, symbol) &gt;= fee
-        && <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_contains">vector::contains</a>(
-            &<a href="stablecoin.md#0x1_stablecoin_authorized_callers">stablecoin::authorized_callers</a>(creator_addr, symbol),
-            &@admin
-        )) {
-        <a href="stablecoin.md#0x1_stablecoin_authorized_transfer">stablecoin::authorized_transfer</a>(
+) {
+    // 1000 - fee_v2 feature not enabled
+    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>(), 1000);
+
+    // 1001 - <a href="whitelist.md#0x1_whitelist">whitelist</a> registry missing
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">whitelist::has_registry</a>(@admin), 1001);
+
+    // 1002 - asset not registered in <a href="whitelist.md#0x1_whitelist">whitelist</a>
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_asset_exists">whitelist::asset_exists</a>(creator_addr, module_name, symbol), 1002);
+
+    // 1003 - insufficient FA balance
+    <b>assert</b>!(<a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(creator_addr, from_addr, symbol) &gt;= fee, 1003);
+
+    // 1004 - admin not in authorized callers
+    <b>assert</b>!(
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_contains">vector::contains</a>(&<a href="stablecoin.md#0x1_stablecoin_authorized_callers">stablecoin::authorized_callers</a>(creator_addr, symbol), &@admin),
+        1004
+    );
+
+    <a href="stablecoin.md#0x1_stablecoin_authorized_transfer">stablecoin::authorized_transfer</a>(
             creator_addr,
             @admin,
             from_addr,
             @admin,
             symbol,
-            fee
+            100
         );
-    } <b>else</b> {
-        <a href="transaction_fee.md#0x1_transaction_fee_burn_fee">burn_fee</a>(from_addr, fee);
-    }
-}
+       }
 </code></pre>
 
 
@@ -549,7 +555,7 @@ Only called during genesis.
 ) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
 
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
         <b>let</b> burn_ref = <a href="coin.md#0x1_coin_convert_and_take_paired_burn_ref">coin::convert_and_take_paired_burn_ref</a>(burn_cap);
         <b>move_to</b>(cedra_framework, <a href="transaction_fee.md#0x1_transaction_fee_CedraFABurnCapabilities">CedraFABurnCapabilities</a> { burn_ref });
     } <b>else</b> {
@@ -577,13 +583,8 @@ Only called during genesis.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_convert_to_cedra_fa_burn_ref">convert_to_cedra_fa_burn_ref</a>(
-    cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
-) <b>acquires</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> {
-    <b>assert</b>!(
-        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>(),
-        <a href="transaction_fee.md#0x1_transaction_fee_EFA_GAS_CHARGING_NOT_ENABLED">EFA_GAS_CHARGING_NOT_ENABLED</a>
-    );
+<pre><code><b>public</b> entry <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_convert_to_cedra_fa_burn_ref">convert_to_cedra_fa_burn_ref</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> {
+    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>(), <a href="transaction_fee.md#0x1_transaction_fee_EFA_GAS_CHARGING_NOT_ENABLED">EFA_GAS_CHARGING_NOT_ENABLED</a>);
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
     <b>let</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> { burn_cap } =
         <b>move_from</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework));

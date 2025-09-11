@@ -82,7 +82,7 @@ async fn test_indexer() {
 
     client.submit_and_wait(&txn).await.unwrap();
     let balance = client
-        .view_apt_account_balance(account2.address())
+        .view_cedra_account_balance(account2.address())
         .await
         .unwrap()
         .into_inner();

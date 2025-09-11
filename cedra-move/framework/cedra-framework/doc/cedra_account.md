@@ -19,10 +19,10 @@
 -  [Function `transfer_fungible_assets`](#0x1_cedra_account_transfer_fungible_assets)
 -  [Function `deposit_fungible_assets`](#0x1_cedra_account_deposit_fungible_assets)
 -  [Function `assert_account_exists`](#0x1_cedra_account_assert_account_exists)
--  [Function `assert_account_is_registered_for_apt`](#0x1_cedra_account_assert_account_is_registered_for_apt)
+-  [Function `assert_account_is_registered_for_cedra`](#0x1_cedra_account_assert_account_is_registered_for_cedra)
 -  [Function `set_allow_direct_coin_transfers`](#0x1_cedra_account_set_allow_direct_coin_transfers)
 -  [Function `can_receive_direct_coin_transfers`](#0x1_cedra_account_can_receive_direct_coin_transfers)
--  [Function `register_apt`](#0x1_cedra_account_register_apt)
+-  [Function `register_cedra`](#0x1_cedra_account_register_cedra)
 -  [Function `fungible_transfer_only`](#0x1_cedra_account_fungible_transfer_only)
 -  [Function `is_fungible_balance_at_least`](#0x1_cedra_account_is_fungible_balance_at_least)
 -  [Function `burn_from_fungible_store_for_gas`](#0x1_cedra_account_burn_from_fungible_store_for_gas)
@@ -41,10 +41,10 @@
     -  [Function `transfer_fungible_assets`](#@Specification_1_transfer_fungible_assets)
     -  [Function `deposit_fungible_assets`](#@Specification_1_deposit_fungible_assets)
     -  [Function `assert_account_exists`](#@Specification_1_assert_account_exists)
-    -  [Function `assert_account_is_registered_for_apt`](#@Specification_1_assert_account_is_registered_for_apt)
+    -  [Function `assert_account_is_registered_for_cedra`](#@Specification_1_assert_account_is_registered_for_cedra)
     -  [Function `set_allow_direct_coin_transfers`](#@Specification_1_set_allow_direct_coin_transfers)
     -  [Function `can_receive_direct_coin_transfers`](#@Specification_1_can_receive_direct_coin_transfers)
-    -  [Function `register_apt`](#@Specification_1_register_apt)
+    -  [Function `register_cedra`](#@Specification_1_register_cedra)
     -  [Function `fungible_transfer_only`](#@Specification_1_fungible_transfer_only)
     -  [Function `is_fungible_balance_at_least`](#@Specification_1_is_fungible_balance_at_least)
     -  [Function `burn_from_fungible_store_for_gas`](#@Specification_1_burn_from_fungible_store_for_gas)
@@ -236,7 +236,7 @@ Basic account creation methods.
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_create_account">create_account</a>(auth_key: <b>address</b>) {
     <b>let</b> account_signer = <a href="account.md#0x1_account_create_account">account::create_account</a>(auth_key);
-    <a href="cedra_account.md#0x1_cedra_account_register_apt">register_apt</a>(&account_signer);
+    <a href="cedra_account.md#0x1_cedra_account_register_cedra">register_cedra</a>(&account_signer);
 }
 </code></pre>
 
@@ -300,7 +300,7 @@ This would create the recipient account first, which also registers it to receiv
         <a href="cedra_account.md#0x1_cedra_account_create_account">create_account</a>(<b>to</b>)
     };
 
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
         <a href="cedra_account.md#0x1_cedra_account_fungible_transfer_only">fungible_transfer_only</a>(source, <b>to</b>, amount)
     } <b>else</b> {
         // Resource accounts can be created without registering them <b>to</b> receive Cedra.
@@ -538,13 +538,13 @@ This would create the recipient account first to receive the fungible assets.
 
 </details>
 
-<a id="0x1_cedra_account_assert_account_is_registered_for_apt"></a>
+<a id="0x1_cedra_account_assert_account_is_registered_for_cedra"></a>
 
-## Function `assert_account_is_registered_for_apt`
+## Function `assert_account_is_registered_for_cedra`
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_apt">assert_account_is_registered_for_apt</a>(addr: <b>address</b>)
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_cedra">assert_account_is_registered_for_cedra</a>(addr: <b>address</b>)
 </code></pre>
 
 
@@ -553,7 +553,7 @@ This would create the recipient account first to receive the fungible assets.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_apt">assert_account_is_registered_for_apt</a>(addr: <b>address</b>) {
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_cedra">assert_account_is_registered_for_cedra</a>(addr: <b>address</b>) {
     <a href="cedra_account.md#0x1_cedra_account_assert_account_exists">assert_account_exists</a>(addr);
     <b>assert</b>!(<a href="coin.md#0x1_coin_is_account_registered">coin::is_account_registered</a>&lt;CedraCoin&gt;(addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_account.md#0x1_cedra_account_EACCOUNT_NOT_REGISTERED_FOR_Cedra">EACCOUNT_NOT_REGISTERED_FOR_Cedra</a>));
 }
@@ -648,13 +648,13 @@ By default, this returns true if an account has not explicitly set whether the c
 
 </details>
 
-<a id="0x1_cedra_account_register_apt"></a>
+<a id="0x1_cedra_account_register_cedra"></a>
 
-## Function `register_apt`
+## Function `register_cedra`
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_register_apt">register_apt</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_register_cedra">register_cedra</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -663,8 +663,8 @@ By default, this returns true if an account has not explicitly set whether the c
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_register_apt">register_apt</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_new_accounts_default_to_fa_apt_store_enabled">features::new_accounts_default_to_fa_apt_store_enabled</a>()) {
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_register_cedra">register_cedra</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_new_accounts_default_to_fa_cedra_store_enabled">features::new_accounts_default_to_fa_cedra_store_enabled</a>()) {
         <a href="cedra_account.md#0x1_cedra_account_ensure_primary_fungible_store_exists">ensure_primary_fungible_store_exists</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(account_signer));
     } <b>else</b> {
         <a href="coin.md#0x1_coin_register">coin::register</a>&lt;CedraCoin&gt;(account_signer);
@@ -1186,12 +1186,12 @@ Limit the address of auth_key is not @vm_reserved / @cedra_framework / @cedra_to
 
 
 
-<a id="@Specification_1_assert_account_is_registered_for_apt"></a>
+<a id="@Specification_1_assert_account_is_registered_for_cedra"></a>
 
-### Function `assert_account_is_registered_for_apt`
+### Function `assert_account_is_registered_for_cedra`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_apt">assert_account_is_registered_for_apt</a>(addr: <b>address</b>)
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_assert_account_is_registered_for_cedra">assert_account_is_registered_for_cedra</a>(addr: <b>address</b>)
 </code></pre>
 
 
@@ -1242,12 +1242,12 @@ Check if the CedraCoin under the address existed.
 
 
 
-<a id="@Specification_1_register_apt"></a>
+<a id="@Specification_1_register_cedra"></a>
 
-### Function `register_apt`
+### Function `register_cedra`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_register_apt">register_apt</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="cedra_account.md#0x1_cedra_account_register_cedra">register_cedra</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
