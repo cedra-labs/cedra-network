@@ -14,14 +14,18 @@ use crate::{
 };
 use anyhow::Context as anyhowContext;
 use cedra_api_types::{
-    CedraErrorCode, AsConverter, MoveValue, ViewFunction, ViewRequest, MAX_RECURSIVE_TYPES_ALLOWED,
-    U64,
+    Address, AsConverter, CedraErrorCode, EntryFunctionId, MoveValue, ViewFunction, ViewRequest,
+    MAX_RECURSIVE_TYPES_ALLOWED, U64,
 };
 use cedra_bcs_utils::serialize_uleb128;
 use cedra_vm::CedraVM;
 use itertools::Itertools;
-use move_core_types::language_storage::TypeTag;
-use poem_openapi::{param::Query, payload::Json, ApiRequest, OpenApi};
+use poem_openapi::{
+    param::{Path, Query},
+    payload::Json,
+    ApiRequest, OpenApi,
+};
+use std::str::FromStr;
 use std::sync::Arc;
 
 /// API for executing Move view function.
@@ -68,6 +72,33 @@ impl ViewFunctionApi {
             .check_api_output_enabled("View function", &accept_type)?;
 
         let context = self.context.clone();
+        api_spawn_blocking(move || view_request(context, accept_type, request, ledger_version))
+            .await
+    }
+
+    #[oai(
+        path = "/whitelist/:admin_address",
+        method = "get",
+        operation_id = "get_whitelist",
+        tag = "ApiTags::View"
+    )]
+    async fn get_whitelist(
+        &self,
+        accept_type: AcceptType,
+        /// Admin address whose whitelist you want to fetch
+        admin_address: Path<Address>,
+
+        /// Ledger version, optional
+        ledger_version: Query<Option<U64>>,
+    ) -> BasicResultWith404<Vec<MoveValue>> {
+        let context = self.context.clone();
+
+        let request = ViewFunctionRequest::Json(Json(ViewRequest {
+            function: EntryFunctionId::from_str("0x1::whitelist::get_asset_list").unwrap(),
+            type_arguments: vec![],
+            arguments: vec![serde_json::Value::String(admin_address.0.to_string())],
+        }));
+
         api_spawn_blocking(move || view_request(context, accept_type, request, ledger_version))
             .await
     }

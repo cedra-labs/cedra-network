@@ -12,11 +12,8 @@ use crate::{
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
 };
-use cedra_types::error::{code_invariant_error, PanicError};
+use cedra_types::error::{code_invariant_error};
 use move_binary_format::errors::VMError;
-
-use move_core_types::language_storage::StructTag;
-
 use cedra_gas_algebra::Gas;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
