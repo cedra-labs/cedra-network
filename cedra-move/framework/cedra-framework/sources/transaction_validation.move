@@ -871,7 +871,7 @@ module cedra_framework::transaction_validation {
             // it's important to maintain the error code consistent with vm
             // to do failed transaction cleanup.
             if (!skip_gas_payment(is_simulation, gas_payer_address)) {
-                if (features::operations_default_to_fa_apt_store_enabled()) {
+                if (features::operations_default_to_fa_cedra_store_enabled()) {
                     assert!(
                         cedra_account::is_fungible_balance_at_least(
                             gas_payer_address, transaction_fee_amount
