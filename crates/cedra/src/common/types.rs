@@ -55,7 +55,8 @@ use hex::FromHexError;
 use indoc::indoc;
 use move_compiler_v2::Experiment;
 use move_core_types::{
-    account_address::AccountAddress, language_storage::TypeTag, vm_status::VMStatus,
+    account_address::AccountAddress, language_storage::TypeTag, parser::parse_type_tag,
+    vm_status::VMStatus,
 };
 use move_model::metadata::{
     CompilerVersion, LanguageVersion, LATEST_STABLE_COMPILER_VERSION,
@@ -1780,6 +1781,9 @@ pub struct TransactionOptions {
     /// flamegraphs that reflect the gas usage.
     #[clap(long)]
     pub(crate) profile_gas: bool,
+
+    #[clap(long)]
+    pub(crate) fa_address: Option<String>,
 }
 
 impl TransactionOptions {
@@ -1911,8 +1915,14 @@ impl TransactionOptions {
             }
             max_gas
         } else {
-            let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
-                .with_gas_unit_price(gas_unit_price);
+            let coin_type = if let Some(fa_address) = &self.fa_address {
+                parse_type_tag(&fa_address).unwrap()
+            } else {
+                CedraCoinType::type_tag()
+            };
+
+            let transaction_factory =
+                TransactionFactory::new(chain_id, coin_type).with_gas_unit_price(gas_unit_price);
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1947,9 +1957,19 @@ impl TransactionOptions {
             let adjusted_max_gas =
                 adjust_gas_headroom(gas_used, max(simulated_txn.request.max_gas_amount.0, 530));
 
-            // Ask if you want to accept the estimate amount
-            let upper_cost_bound = adjusted_max_gas * gas_unit_price;
-            let lower_cost_bound = gas_used * gas_unit_price;
+            let (lower_cost_bound, upper_cost_bound) = if gas_used == 0 {
+                let estimated_gas = 100;
+                let lower = estimated_gas / 2 * gas_unit_price;
+                let upper = estimated_gas * 2 * gas_unit_price;
+
+                (lower, upper)
+            } else {
+                // Normal case: use actual simulation results
+                let lower = gas_used * gas_unit_price;
+                let upper = adjusted_max_gas * gas_unit_price;
+
+                (lower, upper)
+            };
             let message = format!(
                     "Do you want to submit a transaction for a range of [{} - {}] Octas at a gas unit price of {} Octas?",
                     lower_cost_bound,
@@ -1960,7 +1980,13 @@ impl TransactionOptions {
         };
 
         // Build a transaction
-        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
+        let coin_type = if let Some(fa_address) = &self.fa_address {
+            parse_type_tag(&fa_address).unwrap()
+        } else {
+            CedraCoinType::type_tag()
+        };
+
+        let transaction_factory = TransactionFactory::new(chain_id, coin_type)
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);
@@ -2076,7 +2102,13 @@ impl TransactionOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
+        let coin_type = if let Some(fa_address) = &self.fa_address {
+            parse_type_tag(&fa_address).unwrap()
+        } else {
+            CedraCoinType::type_tag()
+        };
+
+        let transaction_factory = TransactionFactory::new(chain_id, coin_type)
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);

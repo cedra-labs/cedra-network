@@ -12,6 +12,9 @@ use crate::{
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
 };
+use cedra_types::error::{code_invariant_error, PanicError};
+use move_binary_format::errors::VMError;
+
 use move_core_types::language_storage::StructTag;
 
 use cedra_gas_algebra::Gas;
@@ -465,69 +468,17 @@ fn run_epilogue(
     let txn_gas_price = txn_data.gas_unit_price();
     let txn_max_gas_units = txn_data.max_gas_amount();
     let is_orderless_txn = txn_data.is_orderless();
+    if txn_data.use_fee_v2() {
+        if let TypeTag::Struct(fa) = &txn_data.fa_address {
+            println!("Address: {}", fa.address);
+            println!("Module: {}", fa.module);
+            println!("Name: {}", fa.name);
 
-    if features.is_account_abstraction_enabled()
-        || features.is_derivable_account_abstraction_enabled()
-    {
-        if features.is_fee_v2_enabled() {
-            let fa_address = AccountAddress::from_hex_literal(
-                "0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4",
-            )
-            .expect("Invalid FA address");
+            let module_bytes = fa.module.as_str().as_bytes().to_vec();
+            let name_bytes = fa.name.as_str().as_bytes().to_vec();
 
-            if let TypeTag::Struct(s) = &txn_data.fa_address {
-                println!("Address: {}", s.address);
-                println!("Module: {}", s.module);
-                println!("Name: {}", s.name);
-
-                let usdt = StructTag {
-                    address: fa_address,
-                    module: ident_str!("usdt").to_owned(),
-                    name: ident_str!("USDT").to_owned(),
-                    type_args: vec![],
-                };
-                let module_bytes = usdt.module.as_str().as_bytes().to_vec();
-                let name_bytes = usdt.name.as_str().as_bytes().to_vec();
-
-                // Build args for Move function
-                let serialize_args = vec![
-                    serialized_signers.sender(),
-                    MoveValue::U64(fee_statement.storage_fee_refund())
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::U64(txn_gas_price.into())
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::U64(txn_max_gas_units.into())
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::U64(gas_remaining.into())
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::Address(usdt.address).simple_serialize().unwrap(),
-                    MoveValue::vector_u8(module_bytes)
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
-                ];
-
-                session
-                    .execute_function_bypass_visibility(
-                        &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name,
-                        vec![],
-                        serialize_args,
-                        &mut UnmeteredGasMeter,
-                        traversal_context,
-                        module_storage,
-                    )
-                    .unwrap();
-            }
-            let mut serialize_args = vec![
+            let serialize_args = vec![
                 serialized_signers.sender(),
-                serialized_signers
-                    .fee_payer()
-                    .unwrap_or(serialized_signers.sender()),
                 MoveValue::U64(fee_statement.storage_fee_refund())
                     .simple_serialize()
                     .unwrap(),
@@ -540,152 +491,158 @@ fn run_epilogue(
                 MoveValue::U64(gas_remaining.into())
                     .simple_serialize()
                     .unwrap(),
-                MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
+                MoveValue::Address(fa.address).simple_serialize().unwrap(),
+                MoveValue::vector_u8(module_bytes)
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
             ];
-            if features.is_transaction_payload_v2_enabled() {
-                serialize_args.push(
-                    MoveValue::Bool(is_orderless_txn)
-                        .simple_serialize()
-                        .unwrap(),
-                );
-            }
 
-            session.execute_function_bypass_visibility(
-                &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                if features.is_transaction_payload_v2_enabled() {
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
-                } else {
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
-                },
-                vec![],
-                serialize_args,
-                &mut UnmeteredGasMeter,
-                traversal_context,
-                module_storage,
-            )
+            session
+                .execute_function_bypass_visibility(
+                    &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name,
+                    vec![],
+                    serialize_args,
+                    &mut UnmeteredGasMeter,
+                    traversal_context,
+                    module_storage,
+                )
+                .map_err(|e| {
+                    println!("unified_epilogue_fee failed: {:?}", e); 
+                    e
+                })?;
         } else {
-            let mut serialize_args = vec![
-                serialized_signers.sender(),
-                serialized_signers
-                    .fee_payer()
-                    .unwrap_or(serialized_signers.sender()),
-                MoveValue::U64(fee_statement.storage_fee_refund())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::U64(txn_gas_price.into())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::U64(txn_max_gas_units.into())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::U64(gas_remaining.into())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
-            ];
-            if features.is_transaction_payload_v2_enabled() {
-                serialize_args.push(
-                    MoveValue::Bool(is_orderless_txn)
-                        .simple_serialize()
-                        .unwrap(),
-                );
-            }
-            session.execute_function_bypass_visibility(
-                &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                if features.is_transaction_payload_v2_enabled() {
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
-                } else {
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
-                },
-                vec![],
-                serialize_args,
-                &mut UnmeteredGasMeter,
-                traversal_context,
-                module_storage,
-            )
+            return Err(VMError::from(code_invariant_error(
+                "fa_address missing or not a Struct",
+            )));
         }
     } else {
-        // We can unconditionally do this as this condition can only be true if the prologue
-        // accepted it, in which case the gas payer feature is enabled.
-        if let Some(fee_payer) = txn_data.fee_payer() {
-            let (func_name, args) = {
-                if features.is_transaction_simulation_enhancement_enabled() {
-                    let args = vec![
-                        MoveValue::Signer(txn_data.sender),
-                        MoveValue::Address(fee_payer),
-                        MoveValue::U64(fee_statement.storage_fee_refund()),
-                        MoveValue::U64(txn_gas_price.into()),
-                        MoveValue::U64(txn_max_gas_units.into()),
-                        MoveValue::U64(gas_remaining.into()),
-                        MoveValue::Bool(is_simulation),
-                    ];
-                    (
-                        &CEDRA_TRANSACTION_VALIDATION.user_epilogue_gas_payer_extended_name,
-                        args,
-                    )
-                } else {
-                    let args = vec![
-                        MoveValue::Signer(txn_data.sender),
-                        MoveValue::Address(fee_payer),
-                        MoveValue::U64(fee_statement.storage_fee_refund()),
-                        MoveValue::U64(txn_gas_price.into()),
-                        MoveValue::U64(txn_max_gas_units.into()),
-                        MoveValue::U64(gas_remaining.into()),
-                    ];
-                    (
-                        &CEDRA_TRANSACTION_VALIDATION.user_epilogue_gas_payer_name,
-                        args,
-                    )
-                }
-            };
+        if features.is_account_abstraction_enabled()
+            || features.is_derivable_account_abstraction_enabled()
+        {
+            let mut serialize_args = vec![
+                serialized_signers.sender(),
+                serialized_signers
+                    .fee_payer()
+                    .unwrap_or(serialized_signers.sender()),
+                MoveValue::U64(fee_statement.storage_fee_refund())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(txn_gas_price.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(txn_max_gas_units.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::U64(gas_remaining.into())
+                    .simple_serialize()
+                    .unwrap(),
+                MoveValue::Bool(is_simulation).simple_serialize().unwrap(),
+            ];
+            if features.is_transaction_payload_v2_enabled() {
+                serialize_args.push(
+                    MoveValue::Bool(is_orderless_txn)
+                        .simple_serialize()
+                        .unwrap(),
+                );
+            }
             session.execute_function_bypass_visibility(
                 &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                func_name,
+                if features.is_transaction_payload_v2_enabled() {
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_v2_name
+                } else {
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_name
+                },
                 vec![],
-                serialize_values(&args),
+                serialize_args,
                 &mut UnmeteredGasMeter,
                 traversal_context,
                 module_storage,
             )
         } else {
-            // Regular tx, run the normal epilogue
-            let (func_name, args) = {
-                if features.is_transaction_simulation_enhancement_enabled() {
-                    let args = vec![
-                        MoveValue::Signer(txn_data.sender),
-                        MoveValue::U64(fee_statement.storage_fee_refund()),
-                        MoveValue::U64(txn_gas_price.into()),
-                        MoveValue::U64(txn_max_gas_units.into()),
-                        MoveValue::U64(gas_remaining.into()),
-                        MoveValue::Bool(is_simulation),
-                    ];
-                    (
-                        &CEDRA_TRANSACTION_VALIDATION.user_epilogue_extended_name,
-                        args,
-                    )
-                } else {
-                    let args = vec![
-                        MoveValue::Signer(txn_data.sender),
-                        MoveValue::U64(fee_statement.storage_fee_refund()),
-                        MoveValue::U64(txn_gas_price.into()),
-                        MoveValue::U64(txn_max_gas_units.into()),
-                        MoveValue::U64(gas_remaining.into()),
-                    ];
-                    (&CEDRA_TRANSACTION_VALIDATION.user_epilogue_name, args)
-                }
-            };
-            session.execute_function_bypass_visibility(
-                &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                func_name,
-                vec![],
-                serialize_values(&args),
-                &mut UnmeteredGasMeter,
-                traversal_context,
-                module_storage,
-            )
+            // We can unconditionally do this as this condition can only be true if the prologue
+            // accepted it, in which case the gas payer feature is enabled.
+            if let Some(fee_payer) = txn_data.fee_payer() {
+                let (func_name, args) = {
+                    if features.is_transaction_simulation_enhancement_enabled() {
+                        let args = vec![
+                            MoveValue::Signer(txn_data.sender),
+                            MoveValue::Address(fee_payer),
+                            MoveValue::U64(fee_statement.storage_fee_refund()),
+                            MoveValue::U64(txn_gas_price.into()),
+                            MoveValue::U64(txn_max_gas_units.into()),
+                            MoveValue::U64(gas_remaining.into()),
+                            MoveValue::Bool(is_simulation),
+                        ];
+                        (
+                            &CEDRA_TRANSACTION_VALIDATION.user_epilogue_gas_payer_extended_name,
+                            args,
+                        )
+                    } else {
+                        let args = vec![
+                            MoveValue::Signer(txn_data.sender),
+                            MoveValue::Address(fee_payer),
+                            MoveValue::U64(fee_statement.storage_fee_refund()),
+                            MoveValue::U64(txn_gas_price.into()),
+                            MoveValue::U64(txn_max_gas_units.into()),
+                            MoveValue::U64(gas_remaining.into()),
+                        ];
+                        (
+                            &CEDRA_TRANSACTION_VALIDATION.user_epilogue_gas_payer_name,
+                            args,
+                        )
+                    }
+                };
+                session.execute_function_bypass_visibility(
+                    &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                    func_name,
+                    vec![],
+                    serialize_values(&args),
+                    &mut UnmeteredGasMeter,
+                    traversal_context,
+                    module_storage,
+                )
+            } else {
+                // Regular tx, run the normal epilogue
+                let (func_name, args) = {
+                    if features.is_transaction_simulation_enhancement_enabled() {
+                        let args = vec![
+                            MoveValue::Signer(txn_data.sender),
+                            MoveValue::U64(fee_statement.storage_fee_refund()),
+                            MoveValue::U64(txn_gas_price.into()),
+                            MoveValue::U64(txn_max_gas_units.into()),
+                            MoveValue::U64(gas_remaining.into()),
+                            MoveValue::Bool(is_simulation),
+                        ];
+                        (
+                            &CEDRA_TRANSACTION_VALIDATION.user_epilogue_extended_name,
+                            args,
+                        )
+                    } else {
+                        let args = vec![
+                            MoveValue::Signer(txn_data.sender),
+                            MoveValue::U64(fee_statement.storage_fee_refund()),
+                            MoveValue::U64(txn_gas_price.into()),
+                            MoveValue::U64(txn_max_gas_units.into()),
+                            MoveValue::U64(gas_remaining.into()),
+                        ];
+                        (&CEDRA_TRANSACTION_VALIDATION.user_epilogue_name, args)
+                    }
+                };
+                session.execute_function_bypass_visibility(
+                    &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                    func_name,
+                    vec![],
+                    serialize_values(&args),
+                    &mut UnmeteredGasMeter,
+                    traversal_context,
+                    module_storage,
+                )
+            }
         }
+        .map_err(expect_no_verification_errors)?;
     }
-    .map_err(expect_no_verification_errors)?;
 
     // Emit the FeeStatement event
     if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {

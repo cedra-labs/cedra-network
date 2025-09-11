@@ -151,6 +151,8 @@ return true.
 -  [Function `is_jwk_consensus_per_key_mode_enabled`](#0x1_features_is_jwk_consensus_per_key_mode_enabled)
 -  [Function `get_orderless_transactions_feature`](#0x1_features_get_orderless_transactions_feature)
 -  [Function `orderless_transactions_enabled`](#0x1_features_orderless_transactions_enabled)
+-  [Function `get_fee_v2_feature`](#0x1_features_get_fee_v2_feature)
+-  [Function `fee_v2_enabled`](#0x1_features_fee_v2_enabled)
 -  [Function `change_feature_flags`](#0x1_features_change_feature_flags)
 -  [Function `change_feature_flags_internal`](#0x1_features_change_feature_flags_internal)
 -  [Function `change_feature_flags_for_next_epoch`](#0x1_features_change_feature_flags_for_next_epoch)
@@ -620,6 +622,17 @@ Lifetime: transient
 
 
 <pre><code><b>const</b> <a href="features.md#0x1_features_FEE_PAYER_ENABLED">FEE_PAYER_ENABLED</a>: u64 = 22;
+</code></pre>
+
+
+
+<a id="0x1_features_FEE_V2"></a>
+
+Whether fee_v2 are enabled.
+Lifetime: transient
+
+
+<pre><code><b>const</b> <a href="features.md#0x1_features_FEE_V2">FEE_V2</a>: u64 = 95;
 </code></pre>
 
 
@@ -3831,6 +3844,52 @@ Deprecated feature
 
 <pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_orderless_transactions_enabled">orderless_transactions_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
     <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_ORDERLESS_TRANSACTIONS">ORDERLESS_TRANSACTIONS</a>)
+}
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_features_get_fee_v2_feature"></a>
+
+## Function `get_fee_v2_feature`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_fee_v2_feature">get_fee_v2_feature</a>(): u64
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_get_fee_v2_feature">get_fee_v2_feature</a>(): u64 { <a href="features.md#0x1_features_FEE_V2">FEE_V2</a> }
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_features_fee_v2_enabled"></a>
+
+## Function `fee_v2_enabled`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_fee_v2_enabled">fee_v2_enabled</a>(): bool
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="features.md#0x1_features_fee_v2_enabled">fee_v2_enabled</a>(): bool <b>acquires</b> <a href="features.md#0x1_features_Features">Features</a> {
+    <a href="features.md#0x1_features_is_enabled">is_enabled</a>(<a href="features.md#0x1_features_FEE_V2">FEE_V2</a>)
 }
 </code></pre>
 

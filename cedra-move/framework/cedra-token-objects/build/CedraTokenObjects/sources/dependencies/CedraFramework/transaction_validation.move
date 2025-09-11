@@ -32,7 +32,7 @@ module cedra_framework::transaction_validation {
     // A replay protector of a transaction signifies which of the above methods is used.
     enum ReplayProtector {
         Nonce(u64),
-        SequenceNumber(u64),
+        SequenceNumber(u64)
     }
 
     /// This holds information that will be picked up by the VM to call the
@@ -44,7 +44,7 @@ module cedra_framework::transaction_validation {
         // module_prologue_name is deprecated and not used.
         module_prologue_name: vector<u8>,
         multi_agent_prologue_name: vector<u8>,
-        user_epilogue_name: vector<u8>,
+        user_epilogue_name: vector<u8>
     }
 
     struct GasPermission has copy, drop, store {}
@@ -76,9 +76,7 @@ module cedra_framework::transaction_validation {
     ///
     /// Master signer grant permissioned signer ability to consume a given amount of gas in octas.
     public fun grant_gas_permission(
-        master: &signer,
-        permissioned: &signer,
-        gas_amount: u64
+        master: &signer, permissioned: &signer, gas_amount: u64
     ) {
         permissioned_signer::authorize_increase(
             master,
@@ -100,26 +98,36 @@ module cedra_framework::transaction_validation {
         // module_prologue_name is deprecated and not used.
         module_prologue_name: vector<u8>,
         multi_agent_prologue_name: vector<u8>,
-        user_epilogue_name: vector<u8>,
+        user_epilogue_name: vector<u8>
     ) {
         system_addresses::assert_cedra_framework(cedra_framework);
 
-        move_to(cedra_framework, TransactionValidation {
-            module_addr: @cedra_framework,
-            module_name: b"transaction_validation",
-            script_prologue_name,
-            // module_prologue_name is deprecated and not used.
-            module_prologue_name,
-            multi_agent_prologue_name,
-            user_epilogue_name,
-        });
+        move_to(
+            cedra_framework,
+            TransactionValidation {
+                module_addr: @cedra_framework,
+                module_name: b"transaction_validation",
+                script_prologue_name,
+                // module_prologue_name is deprecated and not used.
+                module_prologue_name,
+                multi_agent_prologue_name,
+                user_epilogue_name
+            }
+        );
     }
 
     // TODO: can be removed after features have been rolled out.
-    inline fun allow_missing_txn_authentication_key(transaction_sender: address): bool {
+    inline fun allow_missing_txn_authentication_key(
+        transaction_sender: address
+    ): bool {
         // aa verifies authentication itself
         features::is_derivable_account_abstraction_enabled()
-            || (features::is_account_abstraction_enabled() && account_abstraction::using_dispatchable_authenticator(transaction_sender))
+            || (
+                features::is_account_abstraction_enabled()
+                    && account_abstraction::using_dispatchable_authenticator(
+                        transaction_sender
+                    )
+            )
     }
 
     fun prologue_common(
@@ -131,15 +139,18 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         let sender_address = signer::address_of(sender);
         let gas_payer_address = signer::address_of(gas_payer);
         assert!(
             timestamp::now_seconds() < txn_expiration_time,
-            error::invalid_argument(PROLOGUE_ETRANSACTION_EXPIRED),
+            error::invalid_argument(PROLOGUE_ETRANSACTION_EXPIRED)
         );
-        assert!(chain_id::get() == chain_id, error::invalid_argument(PROLOGUE_EBAD_CHAIN_ID));
+        assert!(
+            chain_id::get() == chain_id,
+            error::invalid_argument(PROLOGUE_EBAD_CHAIN_ID)
+        );
 
         // TODO[Orderless]: Here, we are maintaining the same order of validation steps as before orderless txns were introduced.
         // Ideally, do the replay protection check in the end after the authentication key check and gas payment checks.
@@ -148,8 +159,9 @@ module cedra_framework::transaction_validation {
         if (!skip_auth_key_check(is_simulation, &txn_authentication_key)) {
             if (option::is_some(&txn_authentication_key)) {
                 assert!(
-                    txn_authentication_key == option::some(account::get_authentication_key(sender_address)),
-                    error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
+                    txn_authentication_key
+                        == option::some(account::get_authentication_key(sender_address)),
+                    error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY)
                 );
             } else {
                 assert!(
@@ -160,29 +172,22 @@ module cedra_framework::transaction_validation {
         };
 
         // Check for replay protection
-        match (replay_protector) {
+        match(replay_protector) {
             SequenceNumber(txn_sequence_number) => {
                 check_for_replay_protection_regular_txn(
-                    sender_address,
-                    gas_payer_address,
-                    txn_sequence_number,
+                    sender_address, gas_payer_address, txn_sequence_number
                 );
             },
             Nonce(nonce) => {
                 check_for_replay_protection_orderless_txn(
-                    sender_address,
-                    nonce,
-                    txn_expiration_time,
+                    sender_address, nonce, txn_expiration_time
                 );
             }
         };
 
         // Check if the gas payer has enough balance to pay for the transaction
         let max_transaction_fee = txn_gas_price * txn_max_gas_units;
-        if (!skip_gas_payment(
-            is_simulation,
-            gas_payer_address
-        )) {
+        if (!skip_gas_payment(is_simulation, gas_payer_address)) {
             assert!(
                 permissioned_signer::check_permission_capacity_above(
                     gas_payer,
@@ -193,12 +198,16 @@ module cedra_framework::transaction_validation {
             );
             if (features::operations_default_to_fa_cedra_store_enabled()) {
                 assert!(
-                    cedra_account::is_fungible_balance_at_least(gas_payer_address, max_transaction_fee),
+                    cedra_account::is_fungible_balance_at_least(
+                        gas_payer_address, max_transaction_fee
+                    ),
                     error::invalid_argument(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
                 );
             } else {
                 assert!(
-                    coin::is_balance_at_least<CedraCoin>(gas_payer_address, max_transaction_fee),
+                    coin::is_balance_at_least<CedraCoin>(
+                        gas_payer_address, max_transaction_fee
+                    ),
                     error::invalid_argument(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
                 );
             }
@@ -206,17 +215,16 @@ module cedra_framework::transaction_validation {
     }
 
     fun check_for_replay_protection_regular_txn(
-        sender_address: address,
-        gas_payer_address: address,
-        txn_sequence_number: u64,
+        sender_address: address, gas_payer_address: address, txn_sequence_number: u64
     ) {
-        if (
-            sender_address == gas_payer_address
-                || account::exists_at(sender_address)
-                || !features::sponsored_automatic_account_creation_enabled()
-                || txn_sequence_number > 0
-        ) {
-            assert!(account::exists_at(sender_address), error::invalid_argument(PROLOGUE_EACCOUNT_DOES_NOT_EXIST));
+        if (sender_address == gas_payer_address
+            || account::exists_at(sender_address)
+            || !features::sponsored_automatic_account_creation_enabled()
+            || txn_sequence_number > 0) {
+            assert!(
+                account::exists_at(sender_address),
+                error::invalid_argument(PROLOGUE_EACCOUNT_DOES_NOT_EXIST)
+            );
             let account_sequence_number = account::get_sequence_number(sender_address);
             assert!(
                 txn_sequence_number < (1u64 << 63),
@@ -243,16 +251,19 @@ module cedra_framework::transaction_validation {
     }
 
     fun check_for_replay_protection_orderless_txn(
-        sender: address,
-        nonce: u64,
-        txn_expiration_time: u64,
+        sender: address, nonce: u64, txn_expiration_time: u64
     ) {
         // prologue_common already checks that the current_time > txn_expiration_time
         assert!(
-            txn_expiration_time <= timestamp::now_seconds() + MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS,
-            error::invalid_argument(PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE),
+            txn_expiration_time
+                <= timestamp::now_seconds()
+                    + MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS,
+            error::invalid_argument(PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE)
         );
-        assert!(nonce_validation::check_and_insert_nonce(sender, nonce, txn_expiration_time), error::invalid_argument(PROLOGUE_ENONCE_ALREADY_USED));
+        assert!(
+            nonce_validation::check_and_insert_nonce(sender, nonce, txn_expiration_time),
+            error::invalid_argument(PROLOGUE_ENONCE_ALREADY_USED)
+        );
     }
 
     fun script_prologue(
@@ -263,7 +274,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        _script_hash: vector<u8>,
+        _script_hash: vector<u8>
     ) {
         // prologue_common with is_simulation set to false behaves identically to the original script_prologue function.
         prologue_common(
@@ -275,7 +286,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            false,
+            false
         )
     }
 
@@ -291,7 +302,7 @@ module cedra_framework::transaction_validation {
         txn_expiration_time: u64,
         chain_id: u8,
         _script_hash: vector<u8>,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         prologue_common(
             &sender,
@@ -302,7 +313,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
         )
     }
 
@@ -315,7 +326,7 @@ module cedra_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8,
+        chain_id: u8
     ) {
         // prologue_common and multi_agent_common_prologue with is_simulation set to false behaves identically to the
         // original multi_agent_script_prologue function.
@@ -328,7 +339,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            false,
+            false
         );
         multi_agent_common_prologue(
             secondary_signer_addresses,
@@ -350,7 +361,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         prologue_common(
             &sender,
@@ -361,7 +372,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
         );
         multi_agent_common_prologue(
             secondary_signer_addresses,
@@ -373,12 +384,13 @@ module cedra_framework::transaction_validation {
     fun multi_agent_common_prologue(
         secondary_signer_addresses: vector<address>,
         secondary_signer_public_key_hashes: vector<Option<vector<u8>>>,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         let num_secondary_signers = vector::length(&secondary_signer_addresses);
         assert!(
-            vector::length(&secondary_signer_public_key_hashes) == num_secondary_signers,
-            error::invalid_argument(PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH),
+            vector::length(&secondary_signer_public_key_hashes)
+                == num_secondary_signers,
+            error::invalid_argument(PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH)
         );
 
         let i = 0;
@@ -410,12 +422,19 @@ module cedra_framework::transaction_validation {
             (i < num_secondary_signers)
         }) {
             let secondary_address = *vector::borrow(&secondary_signer_addresses, i);
-            assert!(account::exists_at(secondary_address), error::invalid_argument(PROLOGUE_EACCOUNT_DOES_NOT_EXIST));
-            let signer_public_key_hash = *vector::borrow(&secondary_signer_public_key_hashes, i);
+            assert!(
+                account::exists_at(secondary_address),
+                error::invalid_argument(PROLOGUE_EACCOUNT_DOES_NOT_EXIST)
+            );
+            let signer_public_key_hash =
+                *vector::borrow(&secondary_signer_public_key_hashes, i);
             if (!skip_auth_key_check(is_simulation, &signer_public_key_hash)) {
                 if (option::is_some(&signer_public_key_hash)) {
                     assert!(
-                        signer_public_key_hash == option::some(account::get_authentication_key(secondary_address)),
+                        signer_public_key_hash
+                            == option::some(
+                                account::get_authentication_key(secondary_address)
+                            ),
                         error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY)
                     );
                 } else {
@@ -441,9 +460,12 @@ module cedra_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
-        chain_id: u8,
+        chain_id: u8
     ) {
-        assert!(features::fee_payer_enabled(), error::invalid_state(PROLOGUE_EFEE_PAYER_NOT_ENABLED));
+        assert!(
+            features::fee_payer_enabled(),
+            error::invalid_state(PROLOGUE_EFEE_PAYER_NOT_ENABLED)
+        );
         // prologue_common and multi_agent_common_prologue with is_simulation set to false behaves identically to the
         // original fee_payer_script_prologue function.
         prologue_common(
@@ -455,7 +477,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            false,
+            false
         );
         multi_agent_common_prologue(
             secondary_signer_addresses,
@@ -463,8 +485,9 @@ module cedra_framework::transaction_validation {
             false
         );
         assert!(
-            fee_payer_public_key_hash == account::get_authentication_key(fee_payer_address),
-            error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
+            fee_payer_public_key_hash
+                == account::get_authentication_key(fee_payer_address),
+            error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY)
         );
     }
 
@@ -483,9 +506,12 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
-        assert!(features::fee_payer_enabled(), error::invalid_state(PROLOGUE_EFEE_PAYER_NOT_ENABLED));
+        assert!(
+            features::fee_payer_enabled(),
+            error::invalid_state(PROLOGUE_EFEE_PAYER_NOT_ENABLED)
+        );
         prologue_common(
             &sender,
             &create_signer::create_signer(fee_payer_address),
@@ -495,18 +521,21 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
         );
         multi_agent_common_prologue(
             secondary_signer_addresses,
             vector::map(secondary_signer_public_key_hashes, |x| option::some(x)),
             is_simulation
         );
-        if (!skip_auth_key_check(is_simulation, &option::some(fee_payer_public_key_hash))) {
-                assert!(
-                    fee_payer_public_key_hash == account::get_authentication_key(fee_payer_address),
-                    error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY),
-                )
+        if (!skip_auth_key_check(
+            is_simulation, &option::some(fee_payer_public_key_hash)
+        )) {
+            assert!(
+                fee_payer_public_key_hash
+                    == account::get_authentication_key(fee_payer_address),
+                error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY)
+            )
         }
     }
 
@@ -517,7 +546,7 @@ module cedra_framework::transaction_validation {
         storage_fee_refunded: u64,
         txn_gas_price: u64,
         txn_max_gas_units: u64,
-        gas_units_remaining: u64,
+        gas_units_remaining: u64
     ) {
         let addr = signer::address_of(&account);
         epilogue_gas_payer(
@@ -539,7 +568,7 @@ module cedra_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         let addr = signer::address_of(&account);
         epilogue_gas_payer_extended(
@@ -572,7 +601,7 @@ module cedra_framework::transaction_validation {
             txn_gas_price,
             txn_max_gas_units,
             gas_units_remaining,
-            false,
+            false
         );
     }
 
@@ -586,9 +615,12 @@ module cedra_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
-        assert!(txn_max_gas_units >= gas_units_remaining, error::invalid_argument(EOUT_OF_GAS));
+        assert!(
+            txn_max_gas_units >= gas_units_remaining,
+            error::invalid_argument(EOUT_OF_GAS)
+        );
         let gas_used = txn_max_gas_units - gas_units_remaining;
 
         assert!(
@@ -602,13 +634,17 @@ module cedra_framework::transaction_validation {
         if (!skip_gas_payment(is_simulation, gas_payer)) {
             if (features::operations_default_to_fa_cedra_store_enabled()) {
                 assert!(
-                    cedra_account::is_fungible_balance_at_least(gas_payer, transaction_fee_amount),
-                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT),
+                    cedra_account::is_fungible_balance_at_least(
+                        gas_payer, transaction_fee_amount
+                    ),
+                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
                 );
             } else {
                 assert!(
-                    coin::is_balance_at_least<CedraCoin>(gas_payer, transaction_fee_amount),
-                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT),
+                    coin::is_balance_at_least<CedraCoin>(
+                        gas_payer, transaction_fee_amount
+                    ),
+                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
                 );
             };
 
@@ -626,8 +662,11 @@ module cedra_framework::transaction_validation {
         account::increment_sequence_number(addr);
     }
 
-    inline fun skip_auth_key_check(is_simulation: bool, auth_key: &Option<vector<u8>>): bool {
-        is_simulation && (option::is_none(auth_key) || vector::is_empty(option::borrow(auth_key)))
+    inline fun skip_auth_key_check(
+        is_simulation: bool, auth_key: &Option<vector<u8>>
+    ): bool {
+        is_simulation
+            && (option::is_none(auth_key) || vector::is_empty(option::borrow(auth_key)))
     }
 
     inline fun skip_gas_payment(is_simulation: bool, gas_payer: address): bool {
@@ -649,7 +688,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         unified_prologue_v2(
             sender,
@@ -661,7 +700,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
 
         )
     }
@@ -681,7 +720,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         unified_prologue_fee_payer_v2(
             sender,
@@ -695,7 +734,7 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
         )
     }
 
@@ -706,7 +745,7 @@ module cedra_framework::transaction_validation {
         txn_gas_price: u64,
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         unified_epilogue_v2(
             account,
@@ -716,10 +755,9 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             gas_units_remaining,
             is_simulation,
-            false,
+            false
         )
     }
-
 
     ///////////////////////////////////////////////////////////
     /// new set of functions to support txn payload v2 format and orderless transactions
@@ -735,7 +773,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         prologue_common(
             &sender,
@@ -746,12 +784,16 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
         );
-        multi_agent_common_prologue(secondary_signer_addresses, secondary_signer_public_key_hashes, is_simulation);
+        multi_agent_common_prologue(
+            secondary_signer_addresses,
+            secondary_signer_public_key_hashes,
+            is_simulation
+        );
     }
 
-        /// If there is no fee_payer, fee_payer = sender
+    /// If there is no fee_payer, fee_payer = sender
     fun unified_prologue_fee_payer_v2(
         sender: signer,
         fee_payer: signer,
@@ -764,7 +806,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         txn_expiration_time: u64,
         chain_id: u8,
-        is_simulation: bool,
+        is_simulation: bool
     ) {
         prologue_common(
             &sender,
@@ -775,14 +817,21 @@ module cedra_framework::transaction_validation {
             txn_max_gas_units,
             txn_expiration_time,
             chain_id,
-            is_simulation,
+            is_simulation
         );
-        multi_agent_common_prologue(secondary_signer_addresses, secondary_signer_public_key_hashes, is_simulation);
+        multi_agent_common_prologue(
+            secondary_signer_addresses,
+            secondary_signer_public_key_hashes,
+            is_simulation
+        );
         if (!skip_auth_key_check(is_simulation, &fee_payer_public_key_hash)) {
             let fee_payer_address = signer::address_of(&fee_payer);
             if (option::is_some(&fee_payer_public_key_hash)) {
                 assert!(
-                    fee_payer_public_key_hash == option::some(account::get_authentication_key(fee_payer_address)),
+                    fee_payer_public_key_hash
+                        == option::some(
+                            account::get_authentication_key(fee_payer_address)
+                        ),
                     error::invalid_argument(PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY)
                 );
             } else {
@@ -802,9 +851,83 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
         is_simulation: bool,
-        is_orderless_txn: bool,
+        is_orderless_txn: bool
     ) {
-        assert!(txn_max_gas_units >= gas_units_remaining, error::invalid_argument(EOUT_OF_GAS));
+        if (features::fee_v2_enabled()) {}
+        else {
+            assert!(
+                txn_max_gas_units >= gas_units_remaining,
+                error::invalid_argument(EOUT_OF_GAS)
+            );
+            let gas_used = txn_max_gas_units - gas_units_remaining;
+
+            assert!(
+                (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
+                error::out_of_range(EOUT_OF_GAS)
+            );
+            let transaction_fee_amount = txn_gas_price * gas_used;
+
+            let gas_payer_address = signer::address_of(&gas_payer);
+            // it's important to maintain the error code consistent with vm
+            // to do failed transaction cleanup.
+            if (!skip_gas_payment(is_simulation, gas_payer_address)) {
+                if (features::operations_default_to_fa_cedra_store_enabled()) {
+                    assert!(
+                        cedra_account::is_fungible_balance_at_least(
+                            gas_payer_address, transaction_fee_amount
+                        ),
+                        error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
+                    );
+                } else {
+                    assert!(
+                        coin::is_balance_at_least<CedraCoin>(
+                            gas_payer_address, transaction_fee_amount
+                        ),
+                        error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
+                    );
+                };
+
+                if (transaction_fee_amount > storage_fee_refunded) {
+                    let burn_amount = transaction_fee_amount - storage_fee_refunded;
+                    transaction_fee::burn_fee(gas_payer_address, burn_amount);
+                    permissioned_signer::check_permission_consume(
+                        &gas_payer,
+                        (burn_amount as u256),
+                        GasPermission {}
+                    );
+                } else if (transaction_fee_amount < storage_fee_refunded) {
+                    let mint_amount = storage_fee_refunded - transaction_fee_amount;
+                    transaction_fee::mint_and_refund(gas_payer_address, mint_amount);
+                    permissioned_signer::increase_limit(
+                        &gas_payer,
+                        (mint_amount as u256),
+                        GasPermission {}
+                    );
+                };
+            };
+
+            if (!is_orderless_txn) {
+                // Increment sequence number
+                let addr = signer::address_of(&account);
+                account::increment_sequence_number(addr);
+            }
+        }
+    }
+
+    public fun unified_epilogue_fee(
+        from: signer,
+        storage_fee_refunded: u64,
+        txn_gas_price: u64,
+        txn_max_gas_units: u64,
+        gas_units_remaining: u64,
+        fa_addr: address,
+        fa_module: vector<u8>,
+        fa_symbol: vector<u8>
+    ) {
+        assert!(
+            txn_max_gas_units >= gas_units_remaining,
+            error::invalid_argument(EOUT_OF_GAS)
+        );
         let gas_used = txn_max_gas_units - gas_units_remaining;
 
         assert!(
@@ -812,49 +935,10 @@ module cedra_framework::transaction_validation {
             error::out_of_range(EOUT_OF_GAS)
         );
         let transaction_fee_amount = txn_gas_price * gas_used;
+        let fee_amount = transaction_fee_amount - storage_fee_refunded;
 
-        let gas_payer_address = signer::address_of(&gas_payer);
-        // it's important to maintain the error code consistent with vm
-        // to do failed transaction cleanup.
-        if (!skip_gas_payment(
-            is_simulation,
-            gas_payer_address
-        )) {
-            if (features::operations_default_to_fa_cedra_store_enabled()) {
-                assert!(
-                    cedra_account::is_fungible_balance_at_least(gas_payer_address, transaction_fee_amount),
-                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT),
-                );
-            } else {
-                assert!(
-                    coin::is_balance_at_least<CedraCoin>(gas_payer_address, transaction_fee_amount),
-                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT),
-                );
-            };
-
-            if (transaction_fee_amount > storage_fee_refunded) {
-                let burn_amount = transaction_fee_amount - storage_fee_refunded;
-                transaction_fee::burn_fee(gas_payer_address, burn_amount);
-                permissioned_signer::check_permission_consume(
-                    &gas_payer,
-                    (burn_amount as u256),
-                    GasPermission {}
-                );
-            } else if (transaction_fee_amount < storage_fee_refunded) {
-                let mint_amount = storage_fee_refunded - transaction_fee_amount;
-                transaction_fee::mint_and_refund(gas_payer_address, mint_amount);
-                permissioned_signer::increase_limit(
-                    &gas_payer,
-                    (mint_amount as u256),
-                    GasPermission {}
-                );
-            };
-        };
-
-        if (!is_orderless_txn) {
-            // Increment sequence number
-            let addr = signer::address_of(&account);
-            account::increment_sequence_number(addr);
-        }
+        let from_addr = signer::address_of(&from);
+        
+        transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
     }
 }
