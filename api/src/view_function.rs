@@ -14,18 +14,14 @@ use crate::{
 };
 use anyhow::Context as anyhowContext;
 use cedra_api_types::{
-    Address, AsConverter, CedraErrorCode, EntryFunctionId, MoveValue, ViewFunction, ViewRequest,
+    AsConverter, CedraErrorCode, EntryFunctionId, MoveValue, ViewFunction, ViewRequest,
     MAX_RECURSIVE_TYPES_ALLOWED, U64,
 };
 use cedra_bcs_utils::serialize_uleb128;
 use cedra_vm::CedraVM;
 use itertools::Itertools;
 use move_core_types::language_storage::TypeTag;
-use poem_openapi::{
-    param::{Path, Query},
-    payload::Json,
-    ApiRequest, OpenApi,
-};
+use poem_openapi::{param::Query, payload::Json, ApiRequest, OpenApi};
 use std::str::FromStr;
 use std::sync::Arc;
 
@@ -86,8 +82,6 @@ impl ViewFunctionApi {
     async fn get_whitelist(
         &self,
         accept_type: AcceptType,
-        /// Admin address whose whitelist you want to fetch
-        admin_address: Path<Address>,
 
         /// Ledger version, optional
         ledger_version: Query<Option<U64>>,
