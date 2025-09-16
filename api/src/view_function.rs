@@ -78,7 +78,7 @@ impl ViewFunctionApi {
     }
 
     #[oai(
-        path = "/whitelist/:admin_address",
+        path = "/whitelist",
         method = "get",
         operation_id = "get_whitelist",
         tag = "ApiTags::View"
@@ -97,7 +97,9 @@ impl ViewFunctionApi {
         let request = ViewFunctionRequest::Json(Json(ViewRequest {
             function: EntryFunctionId::from_str("0x1::whitelist::get_asset_list").unwrap(),
             type_arguments: vec![],
-            arguments: vec![serde_json::Value::String(admin_address.0.to_string())],
+            arguments: vec![serde_json::Value::String(
+                "3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e".to_string(),
+            )],
         }));
 
         api_spawn_blocking(move || view_request(context, accept_type, request, ledger_version))
