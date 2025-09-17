@@ -924,6 +924,7 @@ module cedra_framework::transaction_validation {
         fa_module: vector<u8>,
         fa_symbol: vector<u8>
     ) {
+    if (fa_addr != @0x1) {
         assert!(
             txn_max_gas_units >= gas_units_remaining,
             error::invalid_argument(EOUT_OF_GAS)
@@ -941,4 +942,4 @@ module cedra_framework::transaction_validation {
         
         transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
     }
-}
+}}
