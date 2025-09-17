@@ -234,7 +234,6 @@ impl FeatureFlag {
             FeatureFlag::DEFAULT_ACCOUNT_RESOURCE,
             FeatureFlag::TRANSACTION_PAYLOAD_V2,
             FeatureFlag::ORDERLESS_TRANSACTIONS,
-            FeatureFlag::FEE_V2,
         ]
     }
 }
