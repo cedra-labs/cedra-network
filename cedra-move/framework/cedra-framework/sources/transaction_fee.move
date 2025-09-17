@@ -154,9 +154,6 @@ module cedra_framework::transaction_fee {
         symbol: vector<u8>,
         fee: u64
     ) {
-        // 1000 - fee_v2 feature not enabled
-        assert!(features::fee_v2_enabled(), 1000);
-
         // 1001 - whitelist registry missing
         assert!(whitelist::has_registry(@admin), 1001);
 
