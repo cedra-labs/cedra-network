@@ -96,13 +96,8 @@ impl ViewFunctionApi {
             )],
         }));
 
-        let raw_result =
-            api_spawn_blocking(move || view_request(context, accept_type, request, ledger_version))
-                .await;
-
-        let string_result = raw_result.into_iter().map(|mv| mv.to_string()).collect();
-
-        Ok(string_result)
+        api_spawn_blocking(move || view_request(context, accept_type, request, ledger_version))
+            .await
     }
 }
 

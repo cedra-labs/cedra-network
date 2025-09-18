@@ -2,6 +2,7 @@
 module cedra_framework::whitelist {
     use std::vector;
     use std::signer;
+    use std::string::String;
 
     use cedra_framework::stablecoin;
 
@@ -23,8 +24,8 @@ module cedra_framework::whitelist {
     /// Stores Asset values
     struct FungibleAssetStruct has copy, drop, store {
         addr: address,
-        module_name: vector<u8>,
-        symbol: vector<u8>
+        module_name: String,
+        symbol: String
     }
 
     /// Initialize an empty FungibleAssetRegistry
@@ -46,8 +47,8 @@ module cedra_framework::whitelist {
     public entry fun add_asset(
         admin: &signer,
         asset_addr: address,
-        module_name: vector<u8>,
-        symbol: vector<u8>
+        module_name: String,
+        symbol: String
     ) acquires FungibleAssetRegistry {
         let admin_address = signer::address_of(admin);
 
@@ -73,8 +74,8 @@ module cedra_framework::whitelist {
     public entry fun remove_asset(
         admin: &signer,
         asset_addr: address,
-        module_name: vector<u8>,
-        symbol: vector<u8>
+        module_name: String,
+        symbol: String
     ) acquires FungibleAssetRegistry {
         let admin_address = signer::address_of(admin);
         assert!(@admin == admin_address, EUNAUTHORIZED);
@@ -93,7 +94,7 @@ module cedra_framework::whitelist {
     }
 
     public(friend) fun asset_exists(
-        asset_addr: address, module_name: vector<u8>, symbol: vector<u8>
+        asset_addr: address, module_name: String, symbol: String
     ): bool acquires FungibleAssetRegistry {
         let registry = borrow_global<FungibleAssetRegistry>(@admin);
 

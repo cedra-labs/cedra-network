@@ -4,6 +4,7 @@ module cedra_framework::stablecoin {
     use std::signer;
     use std::option;
     use std::string::{Self, String};
+    use std::bcs::to_bytes;
 
     use cedra_framework::event;
     use cedra_framework::object::{Self, Object};
@@ -89,7 +90,7 @@ module cedra_framework::stablecoin {
     public entry fun mint(
         minter: &signer,
         creator_addr: address,
-        symbol: vector<u8>,
+        symbol: String,
         amount: u64
     ) acquires Roles, Management {
         if (amount == 0) { return };
@@ -115,7 +116,7 @@ module cedra_framework::stablecoin {
 
     /// Add a new minter. Must be called by the master minter.
     public entry fun add_minter(
-        creator: &signer, minter: address, symbol: vector<u8>
+        creator: &signer, minter: address, symbol: String
     ) acquires Roles {
         let creator_address = signer::address_of(creator);
         let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
@@ -128,7 +129,7 @@ module cedra_framework::stablecoin {
 
     /// Batch add multiple minters. Must be called by the master minter.
     public entry fun add_minters(
-        creator: &signer, minters: vector<address>, symbol: vector<u8>
+        creator: &signer, minters: vector<address>, symbol: String
     ) acquires Roles {
         let creator_address = signer::address_of(creator);
         let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
@@ -148,7 +149,7 @@ module cedra_framework::stablecoin {
 
     /// Add the account as an authorized caller.
     public entry fun update_authorized_caller(
-        creator: &signer, authorized_caller: address, symbol: vector<u8>
+        creator: &signer, authorized_caller: address, symbol: String
     ) acquires Roles {
         let creator_address = signer::address_of(creator);
         let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
@@ -159,7 +160,7 @@ module cedra_framework::stablecoin {
 
     /// Batch add multiple accounts as authorized callers.
     public entry fun update_authorized_callers(
-        creator: &signer, authorized_callers: vector<address>, symbol: vector<u8>
+        creator: &signer, authorized_callers: vector<address>, symbol: String
     ) acquires Roles {
         let creator_address = signer::address_of(creator);
         let roles = borrow_global_mut<Roles>(asset_address(creator_address, symbol));
@@ -184,7 +185,7 @@ module cedra_framework::stablecoin {
         authorized_caller: address,
         from: address,
         to: address,
-        symbol: vector<u8>,
+        symbol: String,
         amount: u64
     ) acquires Roles, Management {
         if (amount == 0) { return };
@@ -206,21 +207,21 @@ module cedra_framework::stablecoin {
         );
     }
 
-    public(friend) fun asset_deployed(owner: address, symbol: vector<u8>): bool {
+    public(friend) fun asset_deployed(owner: address, symbol: String): bool {
         exists<Roles>(asset_address(owner, symbol))
     }
 
-    fun asset_address(owner: address, symbol: vector<u8>): address {
-        object::create_object_address(&owner, symbol)
+    fun asset_address(owner: address, symbol: String): address {
+        object::create_object_address(&owner, to_bytes(&symbol))
     }
 
-    fun metadata(creator: address, symbol: vector<u8>): Object<Metadata> {
+    fun metadata(creator: address, symbol: String): Object<Metadata> {
         object::address_to_object<Metadata>(asset_address(creator, symbol))
     }
 
     #[view]
     public fun authorized_callers(
-        creator_address: address, symbol: vector<u8>
+        creator_address: address, symbol: String
     ): vector<address> acquires Roles {
         let asset_addr = asset_address(creator_address, symbol);
         borrow_global<Roles>(asset_addr).authorized_callers
@@ -228,7 +229,7 @@ module cedra_framework::stablecoin {
 
     #[view]
     public fun balance(
-        admin: address, account: address, symbol: vector<u8>
+        admin: address, account: address, symbol: String
     ): u64 {
         primary_fungible_store::balance(account, metadata(admin, symbol))
     }

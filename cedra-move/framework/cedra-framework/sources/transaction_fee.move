@@ -10,6 +10,8 @@ module cedra_framework::transaction_fee {
     use cedra_framework::system_addresses;
     use cedra_framework::primary_fungible_store;
     use std::error;
+    use std::string::String;
+    use std::bcs::to_bytes;
     use std::vector;
     use std::features;
     use std::option::{Self, Option};
@@ -150,8 +152,8 @@ module cedra_framework::transaction_fee {
     public(friend) fun burn_fee_v2(
         from_addr: address,
         creator_addr: address,
-        module_name: vector<u8>,
-        symbol: vector<u8>,
+        module_name: String,
+        symbol: String,
         fee: u64
     ) {
         // 1001 - whitelist registry missing
@@ -160,8 +162,9 @@ module cedra_framework::transaction_fee {
         // 1002 - asset not registered in whitelist
         assert!(whitelist::asset_exists(creator_addr, module_name, symbol), 1002);
 
+
         // 1003 - insufficient FA balance
-        assert!(get_balance(creator_addr, from_addr, symbol) >= fee, 1003);
+        assert!(get_balance(creator_addr, from_addr, to_bytes(&symbol)) >= fee, 1003);
 
         // 1004 - admin not in authorized callers
         assert!(
