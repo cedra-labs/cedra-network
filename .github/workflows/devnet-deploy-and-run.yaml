@@ -40,6 +40,7 @@ jobs:
         
     - name: Deploy and run devnet
       run: |
+        echo "::add-mask::${{ secrets.DEVNET_PATH }}"
         ssh -p ${{ secrets.DEVNET_SSH_PORT }} ${{ secrets.DEVNET_SSH_USER }}@${{ secrets.DEVNET_SSH_HOST }} "
           cd ${{ secrets.DEVNET_SSH_SCRIPTS_PATH }}
           chmod +x stop_devnet.sh
