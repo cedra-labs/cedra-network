@@ -10,7 +10,6 @@ module cedra_framework::transaction_fee {
     use cedra_framework::system_addresses;
     use cedra_framework::primary_fungible_store;
     use std::error;
-    use std::string::String;
     use std::bcs::to_bytes;
     use std::vector;
     use std::features;
@@ -152,8 +151,8 @@ module cedra_framework::transaction_fee {
     public(friend) fun burn_fee_v2(
         from_addr: address,
         creator_addr: address,
-        module_name: String,
-        symbol: String,
+        module_name: vector<u8>,
+        symbol: vector<u8>,
         fee: u64
     ) {
         // 1001 - whitelist registry missing

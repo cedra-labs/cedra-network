@@ -3,6 +3,7 @@ module cedra_framework::whitelist {
     use std::vector;
     use std::signer;
     use std::string::String;
+    use std::string_utils;
 
     use cedra_framework::stablecoin;
 
@@ -47,8 +48,8 @@ module cedra_framework::whitelist {
     public entry fun add_asset(
         admin: &signer,
         asset_addr: address,
-        module_name: String,
-        symbol: String
+        module_name: vector<u8>,
+        symbol: vector<u8>
     ) acquires FungibleAssetRegistry {
         let admin_address = signer::address_of(admin);
 
@@ -66,7 +67,7 @@ module cedra_framework::whitelist {
         let registry = borrow_global_mut<FungibleAssetRegistry>(@admin);
         vector::push_back(
             &mut registry.assets,
-            FungibleAssetStruct { addr: asset_addr, module_name, symbol }
+            FungibleAssetStruct { addr: asset_addr, module_name: string_utils::to_string(&module_name), symbol: string_utils::to_string(&symbol) }
         );
     }
 
@@ -74,8 +75,8 @@ module cedra_framework::whitelist {
     public entry fun remove_asset(
         admin: &signer,
         asset_addr: address,
-        module_name: String,
-        symbol: String
+        module_name: vector<u8>,
+        symbol: vector<u8>
     ) acquires FungibleAssetRegistry {
         let admin_address = signer::address_of(admin);
         assert!(@admin == admin_address, EUNAUTHORIZED);
@@ -84,7 +85,7 @@ module cedra_framework::whitelist {
 
         let (exist, index) = vector::index_of(
             &registry.assets,
-            &FungibleAssetStruct { addr: asset_addr, module_name, symbol }
+            &FungibleAssetStruct { addr: asset_addr, module_name: string_utils::to_string(&module_name), symbol: string_utils::to_string(&symbol) }
         );
         if (exist) {
             vector::remove(&mut registry.assets, index);
@@ -94,17 +95,21 @@ module cedra_framework::whitelist {
     }
 
     public(friend) fun asset_exists(
-        asset_addr: address, module_name: String, symbol: String
+        asset_addr: address, module_name: vector<u8>, symbol: vector<u8>
     ): bool acquires FungibleAssetRegistry {
         let registry = borrow_global<FungibleAssetRegistry>(@admin);
+
+            let fa_module = string_utils::to_string(&module_name);
+    let fa_symbol = string_utils::to_string(&symbol);
+
 
         let i = 0;
         let n = vector::length(&registry.assets);
         while (i < n) {
             let asset = vector::borrow(&registry.assets, i);
             if (asset.addr == asset_addr
-                && asset.module_name == module_name
-                && asset.symbol == symbol) {
+                && asset.module_name == fa_module
+                && asset.symbol == fa_symbol) {
                 return true;
             };
             i = i + 1;

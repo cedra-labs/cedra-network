@@ -5,7 +5,6 @@ module cedra_framework::transaction_validation {
     use std::option::Option;
     use std::signer;
     use std::vector;
-    use std::string_utils;
 
     use cedra_framework::account;
     use cedra_framework::cedra_account;
@@ -926,8 +925,6 @@ module cedra_framework::transaction_validation {
         fa_symbol: vector<u8>
     ) {
     if (fa_addr != @0x1) {
-    let fa_module = string_utils::to_string(&fa_module);
-    let fa_symbol = string_utils::to_string(&fa_symbol);
         assert!(
             txn_max_gas_units >= gas_units_remaining,
             error::invalid_argument(EOUT_OF_GAS)
