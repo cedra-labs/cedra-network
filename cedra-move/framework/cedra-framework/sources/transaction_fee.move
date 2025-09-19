@@ -10,7 +10,6 @@ module cedra_framework::transaction_fee {
     use cedra_framework::system_addresses;
     use cedra_framework::primary_fungible_store;
     use std::error;
-    use std::bcs::to_bytes;
     use std::vector;
     use std::features;
     use std::option::{Self, Option};
@@ -163,7 +162,7 @@ module cedra_framework::transaction_fee {
 
 
         // 1003 - insufficient FA balance
-        assert!(get_balance(creator_addr, from_addr, to_bytes(&symbol)) >= fee, 1003);
+        assert!(get_balance(creator_addr, from_addr, symbol) >= fee, 1003);
 
         // 1004 - admin not in authorized callers
         assert!(
