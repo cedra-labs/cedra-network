@@ -41,7 +41,7 @@ use cedra_sdk::{
     types::{HardwareWalletAccount, HardwareWalletType, LocalAccount, TransactionSigner},
 };
 use cedra_types::{
-    chain_id::ChainId,
+    chain_id::ChainId, CedraCoinType, CoinType,
     transaction::{
         authenticator::AuthenticationKey, EntryFunction, MultisigTransactionPayload, Script,
         SignedTransaction, TransactionArgument, TransactionPayload, TransactionStatus,
@@ -1911,7 +1911,7 @@ impl TransactionOptions {
             max_gas
         } else {
             let transaction_factory =
-                TransactionFactory::new(chain_id).with_gas_unit_price(gas_unit_price);
+                TransactionFactory::new(chain_id, CedraCoinType::type_tag()).with_gas_unit_price(gas_unit_price); //TODO: recheck!!!
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1959,7 +1959,7 @@ impl TransactionOptions {
         };
 
         // Build a transaction
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);
@@ -2075,7 +2075,7 @@ impl TransactionOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);

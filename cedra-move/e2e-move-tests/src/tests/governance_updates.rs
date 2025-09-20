@@ -7,7 +7,7 @@ use cedra_framework::{BuildOptions, BuiltPackage};
 use cedra_gas_algebra::Gas;
 use cedra_language_e2e_tests::account::{Account, TransactionBuilder};
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, CedraCoinType, CoinType,
     on_chain_config::{ApprovedExecutionHashes, OnChainConfig},
     transaction::{ExecutionStatus, Script, TransactionArgument, TransactionStatus},
     vm_status::StatusCode,
@@ -167,7 +167,7 @@ fn run(
 ) -> TransactionStatus {
     let script = Script::new(code, vec![], vec![TransactionArgument::U8Vector(txn_arg)]);
 
-    let txn = TransactionBuilder::new(account.clone())
+    let txn = TransactionBuilder::new(account.clone(), CedraCoinType::type_tag())
         .script(script)
         .sequence_number(h.sequence_number(account.address()))
         .max_gas_amount(1_000_000)

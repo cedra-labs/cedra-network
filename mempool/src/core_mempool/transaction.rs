@@ -5,7 +5,7 @@
 use crate::{core_mempool::TXN_INDEX_ESTIMATED_BYTES, counters, network::BroadcastPeerPriority};
 use cedra_crypto::HashValue;
 use cedra_types::{
-    account_address::AccountAddress,
+    account_address::AccountAddress, 
     transaction::{ReplayProtector, SignedTransaction},
 };
 use serde::{Deserialize, Serialize};
@@ -155,7 +155,7 @@ mod test {
     };
     use cedra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, SigningKey, Uniform};
     use cedra_types::{
-        account_address::AccountAddress,
+        account_address::AccountAddress, CedraCoinType, CoinType,
         chain_id::ChainId,
         transaction::{
             RawTransaction, ReplayProtector, Script, SignedTransaction, TransactionExecutable,
@@ -205,6 +205,7 @@ mod test {
             0,
             u64::MAX,
             ChainId::new(10),
+            CedraCoinType::type_tag(),
         );
         SignedTransaction::new(
             raw_transaction.clone(),
