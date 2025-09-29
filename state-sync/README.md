@@ -13,7 +13,7 @@ of the network. To achieve this, state sync identifies and fetches new
 blockchain data from peers, validates the data and persists it to local
 storage.
 
-To read more about state sync and node configurations, see the [state sync developer documentation](https://cedra.dev/guides/state-sync/).
+To read more about state sync and node configurations, see the [state sync developer documentation](https://docs.cedra.network/concepts/transactions/states).
 
 ## State sync architecture
 
