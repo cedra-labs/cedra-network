@@ -37,7 +37,7 @@ Complete OpenAPI specification is available at `/api/v1/spec`
 ## Support
 - [GitHub Issues](https://github.com/cedra-labs/cedra-network/issues)
 - [Discord](https://discord.gg/cedranetwork)
-- [Cedra Documentation](https://cedra.dev)
+- [Cedra Documentation](https://docs.cedra.network/)
 
 ## Contributing
 We welcome community contributions! Please review our [contribution guidelines](../CONTRIBUTING.md) before submitting a pull request.
