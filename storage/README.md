@@ -20,14 +20,6 @@ recover a historical state back in time. c. specifically, to do b. in order to
 create an alternative ledger and redistribute the result to overcome
 unforeseeable catastrophic situations (to hard fork)
 
-More to read:
-* To understand the authenticated blockchain data structure, see
-https://github.com/cedra-labs/cedra-network/tree/main/documentation/specifications/common
-* To know more about the state authentication data structure, see
-https://github.com/cedra-labs/cedra-network/developer-docs-site/static/papers/jellyfish-merkle-tree/2021-01-14.pdf
-* To learn more about the backup system including the backup data format, see
-https://github.com/cedra-labs/cedra-network/blob/main/documentation/specifications/db_backup/spec.md
-
 ## System Architecture
 
 Here's a sketch of how components stack on top of each other.
