@@ -748,6 +748,7 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
+        // TODO: pass custom_fee_statement to epilogue_session.finish!
         epilogue_session.finish(fee_statement, status, change_set_configs, module_storage)
     }
 
@@ -809,6 +810,7 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
+        // TODO: pass custom_fee_statement to epilogue_session.finish!
         let output = epilogue_session.finish(
             fee_statement,
             ExecutionStatus::Success,

@@ -853,8 +853,14 @@ module cedra_framework::transaction_validation {
         is_simulation: bool,
         is_orderless_txn: bool
     ) {
-        if (features::fee_v2_enabled()) {}
-        else {
+        /*
+            TODO: ???
+            1. Check fa_address
+            2. Check if (features::fee_v2_enabled()) { }
+            3. Add flow for both cases. Run spefic flow by fa_address. (if (features::fee_v2_enabled()) && fa_addres != Cedra && len(fa_address) > 0)
+        */
+        // if (features::fee_v2_enabled()) { }
+        // else {
             assert!(
                 txn_max_gas_units >= gas_units_remaining,
                 error::invalid_argument(EOUT_OF_GAS)
@@ -911,7 +917,7 @@ module cedra_framework::transaction_validation {
                 let addr = signer::address_of(&account);
                 account::increment_sequence_number(addr);
             }
-        }
+        // }
     }
 
     public fun unified_epilogue_fee(
@@ -924,6 +930,7 @@ module cedra_framework::transaction_validation {
         fa_module: vector<u8>,
         fa_symbol: vector<u8>
     ) {
+    if (fa_addr != @0x1) {
         assert!(
             txn_max_gas_units >= gas_units_remaining,
             error::invalid_argument(EOUT_OF_GAS)
@@ -941,4 +948,4 @@ module cedra_framework::transaction_validation {
         
         transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
     }
-}
+}}
