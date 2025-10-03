@@ -473,7 +473,7 @@ fn run_epilogue(
 
             let serialize_args = vec![
                 serialized_signers.sender(),
-                MoveValue::U64(fee_statement.storage_fee_refund())
+                MoveValue::U64(custom_fee_statement.storage_fee_refund())
                     .simple_serialize()
                     .unwrap(),
                 MoveValue::U64(txn_gas_price.into())

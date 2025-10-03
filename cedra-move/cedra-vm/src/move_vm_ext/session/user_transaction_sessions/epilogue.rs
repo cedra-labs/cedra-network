@@ -121,7 +121,7 @@ impl<'r> EpilogueSession<'r> {
         Ok(VMOutput::new(
             change_set,
             module_write_set,
-            fee_statement,
+            fee_statement, // TODO: add custom_fee_statement???
             TransactionStatus::Keep(execution_status),
         ))
     }

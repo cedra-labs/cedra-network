@@ -38,6 +38,7 @@ pub struct VMOutput {
 
 impl VMOutput {
     pub fn new(
+        // TODO: add custom_fee_statement???
         change_set: VMChangeSet,
         module_write_set: ModuleWriteSet,
         fee_statement: FeeStatement,
