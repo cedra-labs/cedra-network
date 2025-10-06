@@ -15,7 +15,7 @@ use cedra_types::{
     },
     CedraCoinType, CoinType,
 };
-use move_core_types::language_storage::{ModuleId, TypeTag};
+use move_core_types::language_storage::TypeTag;
 
 pub struct TransactionMetadata {
     pub sender: AccountAddress,
@@ -210,23 +210,5 @@ impl TransactionMetadata {
 
     pub fn use_fee_v2(&self) -> bool {
         self.fa_address.to_string() != "" && self.fa_address != CedraCoinType::type_tag()
-    }
-
-    pub fn use_zero_fee(&self) -> bool {
-        if self.sender != AccountAddress::ZERO {
-            return false;
-        }
-
-        if let Some(entry_fn) = &self.entry_function_payload {
-            let module_id: &ModuleId = entry_fn.module();
-
-            if module_id.address() == &AccountAddress::ONE
-                && module_id.name().as_str() == "price_list"
-            {
-                return true;
-            }
-        }
-
-        false
     }
 }
