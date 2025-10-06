@@ -4973,6 +4973,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "cedra-oracle"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "cedra-api-types",
+ "cedra-logger",
+ "cedra-rest-client",
+ "cedra-sdk",
+ "cedra-types",
+ "clap 4.5.40",
+ "move-binary-format",
+ "move-core-types",
+ "serde",
+ "serde_json",
+ "tokio",
+ "url",
+]
+
+[[package]]
 name = "cedra-package-builder"
 version = "0.1.0"
 dependencies = [
