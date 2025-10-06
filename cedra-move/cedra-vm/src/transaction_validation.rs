@@ -12,9 +12,8 @@ use crate::{
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
 };
-use cedra_types::error::{code_invariant_error};
-use move_binary_format::errors::VMError;
 use cedra_gas_algebra::Gas;
+use cedra_types::error::code_invariant_error;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
     fee_statement::{CustomFeeStatement, FeeStatement},
@@ -24,6 +23,7 @@ use cedra_types::{
 };
 use cedra_vm_logging::log_schema::AdapterLogSchema;
 use fail::fail_point;
+use move_binary_format::errors::VMError;
 use move_binary_format::errors::VMResult;
 use move_core_types::{
     account_address::AccountAddress,
@@ -467,10 +467,6 @@ fn run_epilogue(
     let is_orderless_txn = txn_data.is_orderless();
     if txn_data.use_fee_v2() {
         if let TypeTag::Struct(fa) = &txn_data.fa_address {
-            println!("Address: {}", fa.address);
-            println!("Module: {}", fa.module);
-            println!("Name: {}", fa.name);
-
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
 
@@ -506,7 +502,7 @@ fn run_epilogue(
                     module_storage,
                 )
                 .map_err(|e| {
-                    println!("unified_epilogue_fee failed: {:?}", e); 
+                    println!("unified_epilogue_fee failed: {:?}", e);
                     e
                 })?;
         } else {

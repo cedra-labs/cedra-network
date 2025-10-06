@@ -29,6 +29,7 @@ use cedra_network::{
 };
 use cedra_network_benchmark::NetbenchMessage;
 use cedra_network_builder::builder::NetworkBuilder;
+use cedra_oracles_runtime::types::OraclesMessage;
 use cedra_peer_monitoring_service_types::PeerMonitoringServiceMessage;
 use cedra_storage_service_types::StorageServiceMessage;
 use cedra_time_service::TimeService;
@@ -100,6 +101,23 @@ pub fn jwk_consensus_network_configuration(node_config: &NodeConfig) -> NetworkA
         direct_send_protocols,
         rpc_protocols,
         cedra_channel::Config::new(node_config.jwk_consensus.max_network_channel_size)
+            .queue_style(QueueStyle::FIFO),
+    );
+    NetworkApplicationConfig::new(network_client_config, network_service_config)
+}
+
+/// Returns the network application config for the Oracles client and service
+pub fn oracles_network_configuration(node_config: &NodeConfig) -> NetworkApplicationConfig {
+    let direct_send_protocols: Vec<ProtocolId> =
+        cedra_oracles_runtime::network_interface::DIRECT_SEND.into();
+    let rpc_protocols: Vec<ProtocolId> = cedra_oracles_runtime::network_interface::RPC.into();
+
+    let network_client_config =
+        NetworkClientConfig::new(direct_send_protocols.clone(), rpc_protocols.clone());
+    let network_service_config = NetworkServiceConfig::new(
+        direct_send_protocols,
+        rpc_protocols,
+        cedra_channel::Config::new(node_config.oracles.max_network_channel_size)
             .queue_style(QueueStyle::FIFO),
     );
     NetworkApplicationConfig::new(network_client_config, network_service_config)
@@ -256,6 +274,7 @@ pub fn setup_networks_and_get_interfaces(
     Option<ApplicationNetworkInterfaces<ConsensusObserverMessage>>,
     Option<ApplicationNetworkInterfaces<DKGMessage>>,
     Option<ApplicationNetworkInterfaces<JWKConsensusMsg>>,
+    Option<ApplicationNetworkInterfaces<OraclesMessage>>,
     ApplicationNetworkInterfaces<MempoolSyncMsg>,
     ApplicationNetworkInterfaces<PeerMonitoringServiceMessage>,
     ApplicationNetworkInterfaces<StorageServiceMessage>,
@@ -271,6 +290,7 @@ pub fn setup_networks_and_get_interfaces(
     > = None;
     let mut dkg_network_handle = None;
     let mut jwk_consensus_network_handle = None;
+    let mut oracles_network_handle = None;
     let mut mempool_network_handles = vec![];
     let mut peer_monitoring_service_network_handles = vec![];
     let mut storage_service_network_handles = vec![];
@@ -333,6 +353,19 @@ pub fn setup_networks_and_get_interfaces(
                     true,
                 );
                 jwk_consensus_network_handle = Some(network_handle);
+            }
+
+            if oracles_network_handle.is_some() {
+                panic!("There can be at most one validator network!");
+            } else {
+                let network_handle = register_client_and_service_with_network(
+                    &mut network_builder,
+                    network_id,
+                    &network_config,
+                    oracles_network_configuration(node_config),
+                    true,
+                );
+                oracles_network_handle = Some(network_handle);
             }
         }
 
@@ -418,6 +451,7 @@ pub fn setup_networks_and_get_interfaces(
         consensus_observer_interfaces,
         dkg_interfaces,
         jwk_consensus_interfaces,
+        oracles_interfaces,
         mempool_interfaces,
         peer_monitoring_service_interfaces,
         storage_service_interfaces,
@@ -427,6 +461,7 @@ pub fn setup_networks_and_get_interfaces(
         consensus_observer_network_handles,
         dkg_network_handle,
         jwk_consensus_network_handle,
+        oracles_network_handle,
         mempool_network_handles,
         peer_monitoring_service_network_handles,
         storage_service_network_handles,
@@ -452,6 +487,7 @@ pub fn setup_networks_and_get_interfaces(
         consensus_observer_interfaces,
         dkg_interfaces,
         jwk_consensus_interfaces,
+        oracles_interfaces,
         mempool_interfaces,
         peer_monitoring_service_interfaces,
         storage_service_interfaces,
@@ -503,6 +539,7 @@ fn transform_network_handles_into_interfaces(
     >,
     dkg_network_handle: Option<ApplicationNetworkHandle<DKGMessage>>,
     jwk_consensus_network_handle: Option<ApplicationNetworkHandle<JWKConsensusMsg>>,
+    oracles_network_handle: Option<ApplicationNetworkHandle<OraclesMessage>>,
     mempool_network_handles: Vec<ApplicationNetworkHandle<MempoolSyncMsg>>,
     peer_monitoring_service_network_handles: Vec<
         ApplicationNetworkHandle<PeerMonitoringServiceMessage>,
@@ -514,6 +551,7 @@ fn transform_network_handles_into_interfaces(
     Option<ApplicationNetworkInterfaces<ConsensusObserverMessage>>,
     Option<ApplicationNetworkInterfaces<DKGMessage>>,
     Option<ApplicationNetworkInterfaces<JWKConsensusMsg>>,
+    Option<ApplicationNetworkInterfaces<OraclesMessage>>,
     ApplicationNetworkInterfaces<MempoolSyncMsg>,
     ApplicationNetworkInterfaces<PeerMonitoringServiceMessage>,
     ApplicationNetworkInterfaces<StorageServiceMessage>,
@@ -551,6 +589,14 @@ fn transform_network_handles_into_interfaces(
         )
     });
 
+    let oracles_interfaces = oracles_network_handle.map(|handle| {
+        create_network_interfaces(
+            vec![handle],
+            oracles_network_configuration(node_config),
+            peers_and_metadata.clone(),
+        )
+    });
+
     let mempool_interfaces = create_network_interfaces(
         mempool_network_handles,
         mempool_network_configuration(node_config),
@@ -574,6 +620,7 @@ fn transform_network_handles_into_interfaces(
         consensus_observer_interfaces,
         dkg_interfaces,
         jwk_consensus_interfaces,
+        oracles_interfaces,
         mempool_interfaces,
         peer_monitoring_service_interfaces,
         storage_service_interfaces,
