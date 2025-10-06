@@ -9,6 +9,7 @@ module cedra_framework::event {
 
     friend cedra_framework::account;
     friend cedra_framework::object;
+    friend cedra_framework::bridge;
 
     /// Emit a module event with payload `msg`.
     public fun emit<T: store + drop>(msg: T) {

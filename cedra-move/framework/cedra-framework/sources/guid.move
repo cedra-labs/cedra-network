@@ -2,6 +2,7 @@
 module cedra_framework::guid {
     friend cedra_framework::account;
     friend cedra_framework::object;
+    friend cedra_framework::bridge;
 
     /// A globally unique identifier derived from the sender's address and a counter
     struct GUID has drop, store {
