@@ -62,8 +62,11 @@ impl OraclePriceList {
                 eprintln!("Failed to update stablecoin price list: {:?}", e);
             }
         };
-
-        println!("{:?}", self.price_list)
+        println!("-----------------------------------");
+        println!("-----------------------------------");
+        println!("-----------------------------------");
+        println!("-----------------------------------");
+        println!("{:?}", self.price_list);
     }
 
     // get_stablecoin_price_list calls oracle client and returns stablecons price list as a HashMap result.

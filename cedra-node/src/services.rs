@@ -64,6 +64,7 @@ pub fn bootstrap_api_and_indexer(
     Option<Runtime>,
     Option<Runtime>,
     MempoolClientSender,
+    Option<Arc<dyn IndexerReader>>,
 )> {
     // Create the mempool client and sender
     let (mempool_client_sender, mempool_client_receiver) =
@@ -116,7 +117,7 @@ pub fn bootstrap_api_and_indexer(
         chain_id,
         db_rw.reader.clone(),
         mempool_client_sender.clone(),
-        indexer_reader,
+        indexer_reader.clone(),
         indexer_grpc_port_tx,
     );
 
@@ -136,6 +137,7 @@ pub fn bootstrap_api_and_indexer(
         indexer_grpc,
         db_indexer_runtime,
         mempool_client_sender,
+        indexer_reader,
     ))
 }
 
