@@ -1,0 +1,31 @@
+[package]
+name = "cedra-oracles-runtime"
+version = "0.1.0"
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
+publish.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+cedra-runtimes = { workspace = true }
+cedra-types = { workspace = true }
+bytes = { workspace = true }
+tokio = { workspace = true }
+anyhow = { workspace = true }
+cedra-crypto = { workspace = true }
+cedra-crypto-derive = { workspace = true }
+cedra-enum-conversion-derive = { workspace = true }
+cedra-validator-transaction-pool = { workspace = true }
+move-core-types = { workspace = true }
+cedra-event-notifications = { workspace = true }
+cedra-network = { workspace = true }
+cedra-config = { workspace = true }
+tokio-retry = { workspace = true }
+cedra-reliable-broadcast = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+futures-util = { workspace = true }
+

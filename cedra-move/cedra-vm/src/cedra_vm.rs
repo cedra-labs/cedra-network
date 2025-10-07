@@ -468,7 +468,6 @@ impl CedraVM {
         storage_fee_refund: u64,
     ) -> CustomFeeStatement {
         let gas_used = Self::gas_used(txn_data.max_gas_amount(), gas_meter);
-        println!("{}", gas_used);
         CustomFeeStatement::new(
             gas_used,
             u64::from(gas_meter.execution_gas_used()),

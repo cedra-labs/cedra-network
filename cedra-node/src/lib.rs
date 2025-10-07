@@ -726,6 +726,7 @@ pub fn setup_environment_and_start_node(
         consensus_reconfig_subscription,
         dkg_subscriptions,
         jwk_consensus_subscriptions,
+        oracles_subscriptions,
     ) = state_sync::create_event_subscription_service(&node_config, &db_rw);
 
     // Set up the networks and gather the application network handles
@@ -736,6 +737,7 @@ pub fn setup_environment_and_start_node(
         consensus_observer_network_interfaces,
         dkg_network_interfaces,
         jwk_consensus_network_interfaces,
+        oracles_network_interfaces,
         mempool_network_interfaces,
         peer_monitoring_service_network_interfaces,
         storage_service_network_interfaces,
@@ -814,6 +816,12 @@ pub fn setup_environment_and_start_node(
         jwk_consensus_subscriptions,
         jwk_consensus_network_interfaces,
         &vtxn_pool,
+    );
+
+    let (vtxn_pool, oracles_runtime) = consensus::create_oracles_runtime(
+        &mut node_config,
+        oracles_subscriptions,
+        oracles_network_interfaces,
     );
 
     // Wait until state sync has been initialized

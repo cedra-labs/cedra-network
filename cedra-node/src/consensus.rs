@@ -29,6 +29,7 @@ use cedra_event_notifications::{
 use cedra_jwk_consensus::{start_jwk_consensus_runtime, types::JWKConsensusMsg};
 use cedra_mempool::QuorumStoreRequest;
 use cedra_network::application::interface::{NetworkClient, NetworkServiceEvents};
+use cedra_oracles_runtime::{start_oracles_runtime, types::OraclesMessage};
 use cedra_storage_interface::DbReaderWriter;
 use cedra_validator_transaction_pool::VTxnPoolState;
 use futures::channel::mpsc::Sender;
@@ -137,6 +138,43 @@ pub fn create_jwk_consensus_runtime(
         _ => None,
     };
     jwk_consensus_runtime
+}
+
+/// Creates and starts the DKG runtime (if enabled)
+pub fn create_oracles_runtime(
+    node_config: &mut NodeConfig,
+    dkg_subscriptions: Option<(
+        ReconfigNotificationListener<DbBackedOnChainConfig>,
+        EventNotificationListener,
+    )>,
+    dkg_network_interfaces: Option<ApplicationNetworkInterfaces<OraclesMessage>>,
+) -> (VTxnPoolState, Option<Runtime>) {
+    let vtxn_pool = VTxnPoolState::default();
+    let dkg_runtime = match dkg_network_interfaces {
+        Some(interfaces) => {
+            let ApplicationNetworkInterfaces {
+                network_client,
+                network_service_events,
+            } = interfaces;
+            let (reconfig_events, dkg_start_events) = dkg_subscriptions
+                .expect("DKG needs to listen to NewEpochEvents events and DKGStartEvents");
+            let my_addr = node_config.validator_network.as_ref().unwrap().peer_id();
+            let rb_config = node_config.consensus.rand_rb_config.clone();
+            let dkg_runtime = start_oracles_runtime(
+                my_addr,
+                &node_config.consensus.safety_rules,
+                // network_client,
+                // network_service_events,
+                reconfig_events,
+                dkg_start_events,
+                vtxn_pool.clone(),
+            );
+            Some(dkg_runtime)
+        },
+        _ => None,
+    };
+
+    (vtxn_pool, dkg_runtime)
 }
 
 /// Creates and starts the consensus observer and publisher (if enabled)
