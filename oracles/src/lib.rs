@@ -40,8 +40,6 @@ use tokio::runtime::Runtime;
 */
 
 pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) {
-    let addr = AccountAddress::from_str_strict(&"".to_string());
-
     let whitelist = Whitelist::new(db_reader, indexer_reader);
 
     let oracle = OraclePriceList::new(
