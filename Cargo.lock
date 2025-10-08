@@ -4848,7 +4848,6 @@ dependencies = [
  "cedra-network-benchmark",
  "cedra-network-builder",
  "cedra-node-identity",
- "cedra-oracle",
  "cedra-oracles-runtime",
  "cedra-peer-monitoring-service-client",
  "cedra-peer-monitoring-service-server",
@@ -4975,52 +4974,40 @@ dependencies = [
 ]
 
 [[package]]
-name = "cedra-oracle"
+name = "cedra-oracles-runtime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "bytes",
  "cedra-api-types",
+ "cedra-config",
+ "cedra-crypto",
+ "cedra-crypto-derive",
  "cedra-db",
  "cedra-db-indexer",
+ "cedra-enum-conversion-derive",
+ "cedra-event-notifications",
  "cedra-logger",
+ "cedra-network",
+ "cedra-reliable-broadcast",
  "cedra-resource-viewer",
  "cedra-rest-client",
+ "cedra-runtimes",
  "cedra-sdk",
  "cedra-storage-interface",
  "cedra-types",
+ "cedra-validator-transaction-pool",
  "cedra-vm",
- "clap 4.5.40",
+ "futures",
+ "futures-util",
  "hex",
  "move-binary-format",
  "move-core-types",
  "serde",
  "serde_json",
  "tokio",
- "url",
-]
-
-[[package]]
-name = "cedra-oracles-runtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "bytes",
- "cedra-config",
- "cedra-crypto",
- "cedra-crypto-derive",
- "cedra-enum-conversion-derive",
- "cedra-event-notifications",
- "cedra-network",
- "cedra-reliable-broadcast",
- "cedra-runtimes",
- "cedra-types",
- "cedra-validator-transaction-pool",
- "futures",
- "futures-util",
- "move-core-types",
- "serde",
- "tokio",
  "tokio-retry",
+ "url",
 ]
 
 [[package]]

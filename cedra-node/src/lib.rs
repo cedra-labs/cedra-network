@@ -46,7 +46,7 @@ use std::{
     thread,
 };
 use tokio::runtime::Runtime;
-use cedra_oracle;
+use cedra_oracles_runtime::start_oracle;
 
 const EPOCH_LENGTH_SECS: u64 = 60;
 
@@ -798,7 +798,7 @@ pub fn setup_environment_and_start_node(
     let oracle_indexer_reader = indexer_reader.clone();
     let rt = tokio::runtime::Runtime::new().unwrap();
     rt.spawn(async {
-        cedra_oracle::start_oracle(oracle_db_reader, oracle_indexer_reader).await;
+        start_oracle(oracle_db_reader, oracle_indexer_reader).await;
     });
 
     // Set mempool client sender in order to enable the Mempool API in the admin service

@@ -7,7 +7,6 @@ members = [
     "api/test-context",
     "api/types",
     "oracles",
-    "cedra-oracle",
     "cedra-move/cedra-abstract-gas-usage",
     "cedra-move/cedra-aggregator",
     "cedra-move/cedra-debugger",
@@ -291,7 +290,6 @@ rust-version = "1.86.0"
 [workspace.dependencies]
 # Internal crate dependencies.
 # Please do not add any test features here: they should be declared by the individual crate.
-cedra-oracle = { path = "cedra-oracle" }
 cedra-oracles-runtime =  { path = "oracles" }
 cedra = { path = "crates/cedra" }
 cedra-accumulator = { path = "storage/accumulator" }
