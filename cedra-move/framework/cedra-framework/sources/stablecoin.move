@@ -4,7 +4,6 @@ module cedra_framework::stablecoin {
     use std::signer;
     use std::option;
     use std::string::{Self, String};
-
     use cedra_framework::event;
     use cedra_framework::object::{Self, Object};
     use cedra_framework::fungible_asset::{Self, MintRef, TransferRef, Metadata};
@@ -41,6 +40,23 @@ module cedra_framework::stablecoin {
         minter: address,
         to: address,
         amount: u64
+    }
+
+    /// StablecoinMetadata of a Fungible asset
+    struct StablecoinMetadata has key, copy, drop {
+        /// owner_address address of fa_asset owner
+        owner_address: address,
+        /// metadata_address address of fa_asset metadata
+        metatdata_address: address,
+        /// Name of the fungible metadata, i.e., "USDT".
+        name: String,
+        /// Symbol of the fungible metadata, usually a shorter version of the name.
+        /// For example, Singapore Dollar is SGD.
+        symbol: String,
+        /// Number of decimals used for display purposes.
+        /// For example, if `decimals` equals `2`, a balance of `505` coins should
+        /// be displayed to a user as `5.05` (`505 / 10 ** 2`).
+        decimals: u8,
     }
 
     /// Create a new fungible asset with associated roles and management.
@@ -234,9 +250,17 @@ module cedra_framework::stablecoin {
     }
 
     #[view]
-    /// Return the address of the managed fungible asset that's created when this module is deployed.
-    public fun get_metadata(owner: address, symbol: vector<u8>): Object<Metadata> {
+    /// Returns stablecoin metatdata info.
+    public fun get_metadata(owner: address, symbol: vector<u8>): StablecoinMetadata {
         let asset_address = object::create_object_address(&owner, symbol);
-        object::address_to_object<Metadata>(asset_address)
+        let asset_metadata = object::address_to_object<Metadata>(asset_address);
+
+        StablecoinMetadata{
+            owner_address: owner,
+            metatdata_address: asset_address,
+            name: fungible_asset::name(asset_metadata),
+            symbol: fungible_asset::symbol(asset_metadata),
+            decimals: fungible_asset::decimals(asset_metadata),
+        }
     }
 }

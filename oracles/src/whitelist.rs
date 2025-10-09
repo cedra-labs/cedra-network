@@ -22,8 +22,14 @@ use cedra_types::{
 use serde_json::Value;
 use crate::{utils::decode_hex_string};
 
+pub struct WhitelistMetadata {
+    fa_address: TypeTag,
+    metadata_address: String,
+    decimals: u8,
+}
+
 pub struct Whitelist {
-    stablecoins: RwLock<Vec<TypeTag>>,
+    stablecoins: RwLock<Vec<TypeTag>>, // RODO RwLock<Vec<TypeTag>> -> RwLock<Vec<WhitelistMetadata>>,
     db_reader: Arc<dyn DbReader>,
     indexer_reader: Option<Arc<dyn IndexerReader>>,
 }
@@ -62,7 +68,7 @@ impl Whitelist {
         let state_view = db_reader.state_view_at_version(Some(latest_version.unwrap())).unwrap();
 
         let request = ViewRequest {
-            function: EntryFunctionId::from_str("0x1::whitelist::get_asset_list").unwrap(),
+            function: EntryFunctionId::from_str("0x1::whitelist::get_metadata_list").unwrap(),
             type_arguments: vec![],
             arguments: vec![serde_json::Value::String(
                 "3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e".to_string(),

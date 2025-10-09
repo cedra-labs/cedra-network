@@ -1,1 +1,0 @@
-// fetch stablecoin metadata

@@ -43,7 +43,7 @@ pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<A
     let whitelist = Whitelist::new(db_reader, indexer_reader);
 
     let oracle = OraclePriceList::new(
-        Url::parse("https://dev-price-seed.cedra.dev/price-feed-22").unwrap(), 
+        Url::parse("https://dev-price-seed.cedra.dev/price-feed").unwrap(), 
         whitelist,
     );
 

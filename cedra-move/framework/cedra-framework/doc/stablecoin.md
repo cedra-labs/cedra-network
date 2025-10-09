@@ -8,6 +8,7 @@
 -  [Resource `Management`](#0x1_stablecoin_Management)
 -  [Resource `Roles`](#0x1_stablecoin_Roles)
 -  [Struct `Mint`](#0x1_stablecoin_Mint)
+-  [Resource `StablecoinMetadata`](#0x1_stablecoin_StablecoinMetadata)
 -  [Constants](#@Constants_0)
 -  [Function `create`](#0x1_stablecoin_create)
 -  [Function `mint`](#0x1_stablecoin_mint)
@@ -152,6 +153,61 @@ Resource to control who can use fungible assets refs.
 </dt>
 <dd>
 
+</dd>
+</dl>
+
+
+</details>
+
+<a id="0x1_stablecoin_StablecoinMetadata"></a>
+
+## Resource `StablecoinMetadata`
+
+StablecoinMetadata of a Fungible asset
+
+
+<pre><code><b>struct</b> <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">StablecoinMetadata</a> <b>has</b> <b>copy</b>, drop, key
+</code></pre>
+
+
+
+<details>
+<summary>Fields</summary>
+
+
+<dl>
+<dt>
+<code>owner_address: <b>address</b></code>
+</dt>
+<dd>
+ owner_address address of fa_asset owner
+</dd>
+<dt>
+<code>metatdata_address: <b>address</b></code>
+</dt>
+<dd>
+ metadata_address address of fa_asset metadata
+</dd>
+<dt>
+<code>name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+</dt>
+<dd>
+ Name of the fungible metadata, i.e., "USDT".
+</dd>
+<dt>
+<code>symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+</dt>
+<dd>
+ Symbol of the fungible metadata, usually a shorter version of the name.
+ For example, Singapore Dollar is SGD.
+</dd>
+<dt>
+<code>decimals: u8</code>
+</dt>
+<dd>
+ Number of decimals used for display purposes.
+ For example, if <code>decimals</code> equals <code>2</code>, a balance of <code>505</code> coins should
+ be displayed to a user as <code>5.05</code> (<code>505 / 10 ** 2</code>).
 </dd>
 </dl>
 
@@ -626,11 +682,11 @@ Transfer tokens with authorization check.
 
 ## Function `get_metadata`
 
-Return the address of the managed fungible asset that's created when this module is deployed.
+Returns stablecoin metatdata info.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;
+<b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">stablecoin::StablecoinMetadata</a>
 </code></pre>
 
 
@@ -639,9 +695,17 @@ Return the address of the managed fungible asset that's created when this module
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Object&lt;Metadata&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">StablecoinMetadata</a> {
     <b>let</b> asset_address = <a href="object.md#0x1_object_create_object_address">object::create_object_address</a>(&owner, symbol);
-    <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;Metadata&gt;(asset_address)
+    <b>let</b> asset_metadata = <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;Metadata&gt;(asset_address);
+
+    <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">StablecoinMetadata</a>{
+        owner_address: owner,
+        metatdata_address: asset_address,
+        name: <a href="fungible_asset.md#0x1_fungible_asset_name">fungible_asset::name</a>(asset_metadata),
+        symbol: <a href="fungible_asset.md#0x1_fungible_asset_symbol">fungible_asset::symbol</a>(asset_metadata),
+        decimals: <a href="fungible_asset.md#0x1_fungible_asset_decimals">fungible_asset::decimals</a>(asset_metadata),
+    }
 }
 </code></pre>
 
