@@ -232,4 +232,11 @@ module cedra_framework::stablecoin {
     ): u64 {
         primary_fungible_store::balance(account, metadata(admin, symbol))
     }
+
+    #[view]
+    /// Return the address of the managed fungible asset that's created when this module is deployed.
+    public fun get_metadata(owner: address, symbol: vector<u8>): Object<Metadata> {
+        let asset_address = object::create_object_address(&owner, symbol);
+        object::address_to_object<Metadata>(asset_address)
+    }
 }

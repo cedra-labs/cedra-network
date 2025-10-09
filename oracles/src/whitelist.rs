@@ -86,10 +86,15 @@ impl Whitelist {
         10000,
         ); 
 
-        let values = output.values.map_err(|err| {
-            println!("fetch_whitelist err: {:?}", err);
-        });
+        let values = output.values;
 
+        if let Err(err) = values {
+            println!("fetch_whitelist err: {:?}", err);
+            // We shouldn't panic sience new storage hasn't whitelist registry.
+            let wh: Vec<TypeTag> = Vec::new();
+            return wh;
+        }
+        
         let whitelist_bytes = values.unwrap();
 
         let return_types = Self::get_return_types(state_view.clone(), db_reader.clone(), indexer_reader.clone(), view_function.clone());

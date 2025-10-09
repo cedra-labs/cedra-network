@@ -21,6 +21,7 @@
 -  [Function `metadata`](#0x1_stablecoin_metadata)
 -  [Function `authorized_callers`](#0x1_stablecoin_authorized_callers)
 -  [Function `balance`](#0x1_stablecoin_balance)
+-  [Function `get_metadata`](#0x1_stablecoin_get_metadata)
 
 
 <pre><code><b>use</b> <a href="event.md#0x1_event">0x1::event</a>;
@@ -614,6 +615,33 @@ Transfer tokens with authorization check.
     admin: <b>address</b>, <a href="account.md#0x1_account">account</a>: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ): u64 {
     <a href="primary_fungible_store.md#0x1_primary_fungible_store_balance">primary_fungible_store::balance</a>(<a href="account.md#0x1_account">account</a>, <a href="stablecoin.md#0x1_stablecoin_metadata">metadata</a>(admin, symbol))
+}
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_stablecoin_get_metadata"></a>
+
+## Function `get_metadata`
+
+Return the address of the managed fungible asset that's created when this module is deployed.
+
+
+<pre><code>#[view]
+<b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Object&lt;Metadata&gt; {
+    <b>let</b> asset_address = <a href="object.md#0x1_object_create_object_address">object::create_object_address</a>(&owner, symbol);
+    <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;Metadata&gt;(asset_address)
 }
 </code></pre>
 

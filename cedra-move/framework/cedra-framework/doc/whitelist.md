@@ -15,9 +15,12 @@
 -  [Function `has_registry`](#0x1_whitelist_has_registry)
 -  [Function `assert_registry_absent`](#0x1_whitelist_assert_registry_absent)
 -  [Function `get_asset_list`](#0x1_whitelist_get_asset_list)
+-  [Function `get_metadata_list`](#0x1_whitelist_get_metadata_list)
 
 
-<pre><code><b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<pre><code><b>use</b> <a href="fungible_asset.md#0x1_fungible_asset">0x1::fungible_asset</a>;
+<b>use</b> <a href="object.md#0x1_object">0x1::object</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="stablecoin.md#0x1_stablecoin">0x1::stablecoin</a>;
 <b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
@@ -364,6 +367,49 @@ Initialize an empty FungibleAssetRegistry
     admin: <b>address</b>
 ): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a>&gt; <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
     <b>borrow_global</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(admin).assets
+}
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_whitelist_get_metadata_list"></a>
+
+## Function `get_metadata_list`
+
+get_metadata_list returns a list of metadata objects for the existing stablecoins whitelist.
+
+
+<pre><code>#[view]
+<b>public</b> <b>fun</b> <a href="whitelist.md#0x1_whitelist_get_metadata_list">get_metadata_list</a>(): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;&gt;
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="whitelist.md#0x1_whitelist_get_metadata_list">get_metadata_list</a>(): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Object&lt;Metadata&gt;&gt; <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>{
+    <b>let</b> registry = <b>borrow_global</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(@admin);
+
+    <b>let</b> i = 0;
+    <b>let</b> n = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&registry.assets);
+    <b>let</b> metadata_list = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;Object&lt;Metadata&gt;&gt;();
+
+    <b>while</b> (i &lt; n) {
+        <b>let</b> asset = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&registry.assets, i);
+        <b>let</b> asset_address = <a href="object.md#0x1_object_create_object_address">object::create_object_address</a>(&asset.addr, asset.symbol);
+        <b>let</b> asset_metadata = <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>(asset_address);
+        ///<a href="object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;Metadata&gt;(asset_address);
+
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> metadata_list, asset_metadata);
+
+        i = i + 1;
+    };
+
+    metadata_list
 }
 </code></pre>
 

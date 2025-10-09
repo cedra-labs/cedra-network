@@ -2,7 +2,8 @@
 module cedra_framework::whitelist {
     use std::vector;
     use std::signer;
-
+    use cedra_framework::object::{Self, Object};
+    use cedra_framework::fungible_asset::{Self, Metadata};
     use cedra_framework::stablecoin;
 
     friend cedra_framework::transaction_fee;
@@ -125,4 +126,30 @@ module cedra_framework::whitelist {
     ): vector<FungibleAssetStruct> acquires FungibleAssetRegistry {
         borrow_global<FungibleAssetRegistry>(admin).assets
     }
+
+    #[view]
+    /// get_metadata_list returns a list of metadata objects for the existing stablecoins whitelist.
+    public fun get_metadata_list(): vector<Object<Metadata>> acquires FungibleAssetRegistry{
+        let registry = borrow_global<FungibleAssetRegistry>(@admin);
+
+        let i = 0;
+        let n = vector::length(&registry.assets);
+        let metadata_list = vector::empty<Object<Metadata>>();
+
+        while (i < n) {
+            let asset = vector::borrow(&registry.assets, i);
+            let asset_address = object::create_object_address(&asset.addr, asset.symbol);
+            let asset_metadata = object::address_to_object(asset_address);
+            ///object::address_to_object<Metadata>(asset_address);
+
+            vector::push_back(&mut metadata_list, asset_metadata);
+
+            i = i + 1;
+        };
+
+        metadata_list
+    }
 }
+
+///vector<object::Object<fungible_asset::Metadata>>
+///vector<object::Object<fungible_asset::Metadata>>
