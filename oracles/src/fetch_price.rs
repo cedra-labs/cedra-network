@@ -5,7 +5,7 @@ use anyhow::Result;
 use std::{
      collections::HashMap, str::FromStr, sync::RwLock
 };
-
+use tokio::time::{sleep, Duration};
 use cedra_types::{
     CedraCoinType, CoinType
 };
@@ -72,12 +72,14 @@ impl OraclePriceList {
                 eprintln!("Failed to update stablecoin price list: {:?}", e);
             }
         };
+    }
 
-        println!("-----------------------------------");
-        println!("-----------------------------------");
-        println!("{:?}", self.price_list);
-        println!("-----------------------------------");
-        println!("-----------------------------------");
+    // update_update_pricelist - update pricelist data (should be run as a background task).
+    pub async fn update_pricelist(&self) {
+        loop {
+            self.update_stablecoin_price_list().await;
+            sleep(Duration::from_secs(10)).await;
+        }
     }
 
     // get_stablecoin_price_list calls oracle client and returns stablecons price list as a HashMap result.
@@ -95,7 +97,7 @@ impl OraclePriceList {
     }
 }
 
-// StablecoinPrice represents stablecoin address, their price and number of decimals.
+// StablecoinPrice represents FA stablecoin metadata, their price and number of decimals for price scaling.
 #[derive(Debug, Clone)]
 pub struct StablecoinPrice {
     stablecoin: FAMetadata,

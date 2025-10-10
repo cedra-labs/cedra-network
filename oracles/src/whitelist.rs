@@ -21,6 +21,7 @@ use cedra_types::{
 use serde_json::Value;
 
 #[derive(Debug, Clone)]
+// FAMetadata contains FA stablecoin metadata.
 pub struct FAMetadata {
     fa_address: TypeTag,
     metadata_address: String,
@@ -45,6 +46,7 @@ impl FAMetadata {
     }
 }
 
+// Whitelist represents stablecoin whitelist that allow to get and update whitelist data.
 pub struct Whitelist {
     stablecoins: RwLock<Vec<FAMetadata>>,
     db_reader: Arc<dyn DbReader>,
@@ -82,7 +84,7 @@ impl Whitelist {
         list.iter().any(|t| t.fa_address == stablecoin)
     }
 
-    // update_whitelist - update whitlisy data (should be run as a background task).
+    // update_whitelist - update whitlist data (should be run as a background task).
     pub async fn update_whitelist(&self) {
         loop {
             let new_list = Self::fetch_whitelist(self.db_reader.clone(), self.indexer_reader.clone());
@@ -144,11 +146,6 @@ impl Whitelist {
 
 
         let whitelist = Self::parse_stablecoins(move_values.clone());
-        println!("------------------------- 111");
-        println!("------------------------- 111");
-        println!("{:?}", whitelist);
-        println!("------------------------- 111");
-        println!("------------------------- 111");
 
         whitelist
     }

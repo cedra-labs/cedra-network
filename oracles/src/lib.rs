@@ -34,11 +34,9 @@ use move_core_types::account_address::AccountAddress;
 use tokio::runtime::Runtime;
 
 /*
-    1. get whitelist coins. +
-    2. fetch stablecoins metadata. - 
-    3. fetch stablecoins price list. +
+    1. get whitelist coins with there metadata.
+    2. fetch stablecoins price list.
 */
-
 pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) {
     let whitelist = Whitelist::new(db_reader, indexer_reader);
 
@@ -49,10 +47,13 @@ pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<A
 
     
     oracle.update_stablecoin_price_list().await;
+    println!("{:?}", oracle.get_all());
 
-    // TODO: rupdate price list  in the loop, in the backgroud.
-    // TODO: run in the backgroud.
-    // whitelist.update_whitelist();
+    /* 
+        TODO: run in the backgroud.
+        1. How to correctly call and run in the backgroud oracle.update_pricelist();
+        2. How to correctly call and run in the backgroud whitelist.update_whitelist();
+    */ 
 }
 
 pub fn start_oracles_runtime(
