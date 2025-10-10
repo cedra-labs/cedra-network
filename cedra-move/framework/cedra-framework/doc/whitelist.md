@@ -127,10 +127,10 @@ WhitelistAssetMetadata of a Fungible asset
  metadata_address address of fa_asset metadata
 </dd>
 <dt>
-<code>name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
- Name of the fungible metadata, i.e., "USDT".
+ module_name of the fungible metadata, i.e., "usdt".
 </dd>
 <dt>
 <code>symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
@@ -463,8 +463,8 @@ get_metadata_list returns a list of metadata objects for the existing stablecoin
         <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> metadata_list, <a href="whitelist.md#0x1_whitelist_WhitelistAssetMetadata">WhitelistAssetMetadata</a>{
             owner_address: asset.addr,
             metadata_address: asset_address,
-            name: <a href="fungible_asset.md#0x1_fungible_asset_name">fungible_asset::name</a>(asset_metadata),
-            symbol: <a href="fungible_asset.md#0x1_fungible_asset_symbol">fungible_asset::symbol</a>(asset_metadata),
+            module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(asset.module_name),
+            symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(asset.symbol),
             decimals: <a href="fungible_asset.md#0x1_fungible_asset_decimals">fungible_asset::decimals</a>(asset_metadata),
         });
 

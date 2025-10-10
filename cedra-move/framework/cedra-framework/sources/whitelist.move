@@ -5,7 +5,8 @@ module cedra_framework::whitelist {
     use cedra_framework::object::{Self};
     use cedra_framework::fungible_asset::{Self, Metadata};
     use cedra_framework::stablecoin;
-    use std::string::{String};
+    use std::string::{String, utf8};
+    use std::string;
 
     friend cedra_framework::transaction_fee;
 
@@ -35,8 +36,8 @@ module cedra_framework::whitelist {
         owner_address: address,
         /// metadata_address address of fa_asset metadata
         metadata_address: address,
-        /// Name of the fungible metadata, i.e., "USDT".
-        name: String,
+        /// module_name of the fungible metadata, i.e., "usdt".
+        module_name: String,
         /// Symbol of the fungible metadata, usually a shorter version of the name.
         /// For example, Singapore Dollar is SGD.
         symbol: String,
@@ -162,8 +163,8 @@ module cedra_framework::whitelist {
             vector::push_back(&mut metadata_list, WhitelistAssetMetadata{
                 owner_address: asset.addr,
                 metadata_address: asset_address,
-                name: fungible_asset::name(asset_metadata),
-                symbol: fungible_asset::symbol(asset_metadata),
+                module_name: string::utf8(asset.module_name),
+                symbol: string::utf8(asset.symbol),
                 decimals: fungible_asset::decimals(asset_metadata),
             });
 

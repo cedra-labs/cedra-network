@@ -47,7 +47,12 @@ pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<A
         whitelist,
     );
 
+    
     oracle.update_stablecoin_price_list().await;
+
+    // TODO: rupdate price list  in the loop, in the backgroud.
+    // TODO: run in the backgroud.
+    // whitelist.update_whitelist();
 }
 
 pub fn start_oracles_runtime(
@@ -59,6 +64,7 @@ pub fn start_oracles_runtime(
     oracle_upddate_events: EventNotificationListener,
     vtxn_pool: VTxnPoolState,
 ) -> Runtime {
+    // TODO: fix - EventNotificationError":"Unexpected error encountered: Channel is closed"
     let runtime = cedra_runtimes::spawn_named_runtime("oracles".into(), Some(4));
     // let oracles_network_client = OraclesNetworkClient::new(network_client);
 

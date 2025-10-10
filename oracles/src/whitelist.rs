@@ -1,5 +1,4 @@
 use move_core_types::{
-    // value::{MoveValue as CoreMoveValue, MoveStructValue},
     language_storage::{TypeTag},
 };
 use cedra_vm::CedraVM;
@@ -17,19 +16,37 @@ use cedra_storage_interface::{
 };
 use std::sync::Arc;
 use cedra_types::{
-    indexer::indexer_db_reader::IndexerReader, CedraCoinType, CoinType,
+    indexer::indexer_db_reader::IndexerReader, CedraCoinType, CoinType
 };
 use serde_json::Value;
-use crate::{utils::decode_hex_string};
 
-pub struct WhitelistMetadata {
+#[derive(Debug, Clone)]
+pub struct FAMetadata {
     fa_address: TypeTag,
     metadata_address: String,
     decimals: u8,
 }
 
+impl FAMetadata {
+    pub fn cedara_coin_metadata() -> Self {
+        Self { fa_address: CedraCoinType::type_tag(), metadata_address: String::new(), decimals: 8 }
+    }
+
+    pub fn get_fa_address(&self) -> TypeTag {
+        self.fa_address.clone()
+    }
+
+    pub fn get_metadata_address(&self) -> String {
+        self.metadata_address.clone()
+    }
+
+    pub fn get_decimals(&self) -> u8 {
+        self.decimals.clone()
+    }
+}
+
 pub struct Whitelist {
-    stablecoins: RwLock<Vec<TypeTag>>, // RODO RwLock<Vec<TypeTag>> -> RwLock<Vec<WhitelistMetadata>>,
+    stablecoins: RwLock<Vec<FAMetadata>>,
     db_reader: Arc<dyn DbReader>,
     indexer_reader: Option<Arc<dyn IndexerReader>>,
 }
@@ -43,16 +60,29 @@ impl Whitelist {
         } 
     }
 
-    pub fn get_whitelist(&self) -> Vec<TypeTag>{
+    pub fn get_whitelist(&self) -> Vec<FAMetadata>{
         let list = self.stablecoins.read().unwrap();
         list.clone()
     }
 
-    pub fn exist(&self, stablecoin: TypeTag) -> bool {
+    // get_fa_address_metadata (use this method only in pare with method exist)
+    pub fn get_fa_address_metadata(&self, fa_address: TypeTag) -> FAMetadata {
+        if fa_address == CedraCoinType::type_tag(){
+            return FAMetadata::cedara_coin_metadata();
+        }
         let list = self.stablecoins.read().unwrap();
-        list.iter().any(|t| t == &stablecoin)
+        let metadata = list.iter().find(|p| p.fa_address == fa_address);
+
+        return metadata.unwrap().clone();
     }
 
+    // exist returns true if requested stablecoin exists in the whitelist.
+    pub fn exist(&self, stablecoin: TypeTag) -> bool {
+        let list = self.stablecoins.read().unwrap();
+        list.iter().any(|t| t.fa_address == stablecoin)
+    }
+
+    // update_whitelist - update whitlisy data (should be run as a background task).
     pub async fn update_whitelist(&self) {
         loop {
             let new_list = Self::fetch_whitelist(self.db_reader.clone(), self.indexer_reader.clone());
@@ -63,21 +93,22 @@ impl Whitelist {
         }
     }
 
-    fn fetch_whitelist(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) -> Vec<TypeTag> {
+    fn fetch_whitelist(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) -> Vec<FAMetadata> {
         let latest_version = db_reader.get_latest_ledger_info_version();
         let state_view = db_reader.state_view_at_version(Some(latest_version.unwrap())).unwrap();
 
+        // create view request.
         let request = ViewRequest {
             function: EntryFunctionId::from_str("0x1::whitelist::get_metadata_list").unwrap(),
             type_arguments: vec![],
-            arguments: vec![serde_json::Value::String(
-                "3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e".to_string(),
-            )],
+            arguments: vec![],
         };
 
+        // execute view request.
         let view_function_res = state_view.as_converter(db_reader.clone(), indexer_reader.clone())
             .convert_view_function(request)
             .map_err(|err| { 
+                // we should log error and not panic, since storage can be empty or not intialized at the start.
                 eprintln!("Failed to fetch whitelist: {:?}", err);
             });
         
@@ -97,7 +128,7 @@ impl Whitelist {
         if let Err(err) = values {
             println!("fetch_whitelist err: {:?}", err);
             // We shouldn't panic sience new storage hasn't whitelist registry.
-            let wh: Vec<TypeTag> = Vec::new();
+            let wh: Vec<FAMetadata> = Vec::new();
             return wh;
         }
         
@@ -112,12 +143,17 @@ impl Whitelist {
             whitelist_bytes.clone());
 
 
-        let mut whitelist = Self::parse_stablecoins(move_values.clone());
-        whitelist.push(CedraCoinType::type_tag());
+        let whitelist = Self::parse_stablecoins(move_values.clone());
+        println!("------------------------- 111");
+        println!("------------------------- 111");
+        println!("{:?}", whitelist);
+        println!("------------------------- 111");
+        println!("------------------------- 111");
 
         whitelist
     }
 
+    // get_return_types - extract response type from the ViewFunction response.
     fn get_return_types(
         state_view: DbStateView, 
         db_reader: Arc<dyn DbReader>, 
@@ -136,6 +172,7 @@ impl Whitelist {
             return_types.unwrap()
     }
 
+    // get_move_vals - extracts Vec<Vec<u8> into Vec<MoveValue> from view request response.
     fn get_move_vals(
         state_view: DbStateView, 
         db_reader: Arc<dyn DbReader>, 
@@ -156,33 +193,46 @@ impl Whitelist {
         move_vals.unwrap()        
     }
 
-    fn parse_stablecoins(vec: Vec<MoveValue>) -> Vec<TypeTag> {
+    // parse_stablecoins - decodes received move values from `0x1::whitelist::get_metadata_list` into WhitelistMetadata.
+    fn parse_stablecoins(metadata_vec: Vec<MoveValue>) -> Vec<FAMetadata> {
         let mut stablecoins = Vec::new();
 
-        for value in vec {
-            if let MoveValue::Vector(move_value) = value {
-                for value in move_value {
-                      if let MoveValue::Struct(move_struct) = value {
-                        let mut addr = String::new();
-                        let mut module_name = String::new();
-                        let mut symbol = String::new();
+        let metadata_len = metadata_vec.len();
+        
+        // exit if received value is empty.
+        if metadata_len == 0 {
+            return stablecoins;
+        }
 
-                        for (key, val) in move_struct.0 {
-                            let key_str = key.0; // Identifier
-                            match (key_str.as_str(), val) {
-                                ("addr", Value::String(s)) => addr = s,
-                                ("module_name", Value::String(s)) => module_name = decode_hex_string(&s),
-                                ("symbol", Value::String(s)) => symbol = decode_hex_string(&s),
-                                _ => {}
-                            }
+         // by default we should have only 0 index on the top level.
+        let metadata = &metadata_vec[0];
+
+        if let MoveValue::Vector(move_value) = metadata {
+            for value in move_value {
+                if let MoveValue::Struct(move_struct) = value {
+                    let mut owner_address = String::new();
+                    let mut metadata_address = String::new();
+                    let mut decimals: u8 = 0;
+                    let mut module_name = String::new();
+                    let mut symbol = String::new();
+
+                    // Can we remove this loop???
+                    for (key, val) in &move_struct.0 {
+                        let key_str = &key.0; // Identifier
+                        match (key_str.as_str(), val) {
+                            ("owner_address", Value::String(s)) => owner_address = s.to_string(),
+                            ("metadata_address", Value::String(s)) => metadata_address = s.to_string(),
+                            ("decimals", Value::Number(num)) => decimals = num.as_u64().unwrap() as u8,
+                            // ("name", Value::String(s)) => name = decode_hex_string(&s), // TODO: remove
+                            ("module_name", Value::String(s)) => module_name = s.to_string(),
+                            ("symbol", Value::String(s)) => symbol = s.to_string(),
+                            _ => {}
                         }
+                    }
 
-                        
-                        let address = addr + "::" + &module_name + "::" + &symbol;
-
-                        let fa_address = TypeTag::from_str(&address).unwrap();
-                        stablecoins.push(fa_address);
-                      }
+                    let address = owner_address + "::" + &module_name + "::" + &symbol;
+                    let fa_address = TypeTag::from_str(&address).unwrap();
+                    stablecoins.push(FAMetadata { fa_address: fa_address, metadata_address: metadata_address, decimals: decimals });
                 }
             }
         }

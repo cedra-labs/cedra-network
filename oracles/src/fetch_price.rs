@@ -6,9 +6,16 @@ use std::{
      collections::HashMap, str::FromStr, sync::RwLock
 };
 
+use cedra_types::{
+    CedraCoinType, CoinType
+};
+
+// PRICE_DECIMALS represents decimals value that helps convert price value from f64 to u64.
+const PRICE_DECIMALS: u8 = 8;
+
 use cedra_rest_client::oracle::{OracleClient};
 use url::Url;
-use crate::{utils::get_adjusted_price_u64, whitelist::Whitelist};
+use crate::{utils::get_adjusted_price_u64, whitelist::{Whitelist, FAMetadata}};
 
 // OraclePriceList contains stablecoin price list and updates coin prices.
 pub struct OraclePriceList {
@@ -35,7 +42,9 @@ impl OraclePriceList {
     // upsert_price add new or update existing stablecoin price by fa_address.
     fn upsert_price(&self, price: StablecoinPrice) {
         let mut list = self.price_list.write().unwrap();
-        if let Some(existing) = list.iter_mut().find(|p| p.fa_address == price.fa_address) {
+
+        // update existing price or add a new value.
+        if let Some(existing) = list.iter_mut().find(|p| p.stablecoin.get_fa_address() == price.stablecoin.get_fa_address()) {
             *existing = price;
         } else {
             list.push(price);
@@ -49,12 +58,13 @@ impl OraclePriceList {
                 for (address, price) in &price_feed {
                     let fa_address = TypeTag::from_str(address).unwrap();
                     // skip coin that isn't in whitelist.
-                    if !self.whitelist.exist(fa_address.clone()) {
+                    if !self.whitelist.exist(fa_address.clone()) && fa_address != CedraCoinType::type_tag() {
                         continue;
                     }                    
                    
-                    let decimals: u8 = 8; // TODO:...
-                    let coin_price = StablecoinPrice::new(fa_address, get_adjusted_price_u64(*price, decimals), decimals);
+                    let metatdata = self.whitelist.get_fa_address_metadata(fa_address);
+                    
+                    let coin_price = StablecoinPrice::new(metatdata, get_adjusted_price_u64(*price, PRICE_DECIMALS));
                     self.upsert_price(coin_price);
                 }
             }
@@ -62,11 +72,12 @@ impl OraclePriceList {
                 eprintln!("Failed to update stablecoin price list: {:?}", e);
             }
         };
-        println!("-----------------------------------");
-        println!("-----------------------------------");
+
         println!("-----------------------------------");
         println!("-----------------------------------");
         println!("{:?}", self.price_list);
+        println!("-----------------------------------");
+        println!("-----------------------------------");
     }
 
     // get_stablecoin_price_list calls oracle client and returns stablecons price list as a HashMap result.
@@ -87,17 +98,25 @@ impl OraclePriceList {
 // StablecoinPrice represents stablecoin address, their price and number of decimals.
 #[derive(Debug, Clone)]
 pub struct StablecoinPrice {
-    fa_address: TypeTag,
+    stablecoin: FAMetadata,
     price: u64,
-    decimals: u8,
+    price_decimals: u8,
 }
 
 impl StablecoinPrice {
-    pub fn new(fa_address: TypeTag, price: u64, decimals: u8) -> Self {
+    pub fn new(stablecoin: FAMetadata, price: u64) -> Self {
         Self {
-            fa_address,
+            stablecoin,
             price,
-            decimals,
+            price_decimals: PRICE_DECIMALS,
         }
+    }
+
+    pub fn get_price(&self) -> u64 {
+        self.price.clone()
+    }
+
+    pub fn get_price_decimals(&self) -> u8 {
+        self.price_decimals.clone()
     }
 }
