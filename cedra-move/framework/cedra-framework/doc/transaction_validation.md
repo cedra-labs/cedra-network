@@ -1660,8 +1660,14 @@ If there is no fee_payer, fee_payer = sender
     is_simulation: bool,
     is_orderless_txn: bool
 ) {
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) {}
-    <b>else</b> {
+    /*
+        TODO: ???
+        1. Check fa_address
+        2. Check <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) { }
+        3. Add flow for both cases. Run spefic flow by fa_address. (<b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) && fa_addres != Cedra && len(fa_address) &gt; 0)
+    */
+    // <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) { }
+    // <b>else</b> {
         <b>assert</b>!(
             txn_max_gas_units &gt;= gas_units_remaining,
             <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
@@ -1718,7 +1724,7 @@ If there is no fee_payer, fee_payer = sender
             <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
             <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
         }
-    }
+    // }
 }
 </code></pre>
 
@@ -1751,6 +1757,7 @@ If there is no fee_payer, fee_payer = sender
     fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) {
+<b>if</b> (fa_addr != @0x1) {
     <b>assert</b>!(
         txn_max_gas_units &gt;= gas_units_remaining,
         <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
@@ -1767,6 +1774,7 @@ If there is no fee_payer, fee_payer = sender
     <b>let</b> from_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
 
     <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
+}
 }
 </code></pre>
 
