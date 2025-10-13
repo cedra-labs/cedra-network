@@ -47,7 +47,7 @@ module cedra_framework::stablecoin {
         /// owner_address address of fa_asset owner
         owner_address: address,
         /// metadata_address address of fa_asset metadata
-        metatdata_address: address,
+        metadata_address: address,
         /// Name of the fungible metadata, i.e., "USDT".
         name: String,
         /// Symbol of the fungible metadata, usually a shorter version of the name.
@@ -257,7 +257,7 @@ module cedra_framework::stablecoin {
 
         StablecoinInfo{
             owner_address: owner,
-            metatdata_address: asset_address,
+            metadata_address: asset_address,
             name: fungible_asset::name(asset_metadata),
             symbol: fungible_asset::symbol(asset_metadata),
             decimals: fungible_asset::decimals(asset_metadata),

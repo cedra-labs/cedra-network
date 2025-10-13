@@ -7,11 +7,8 @@ use std::{
 };
 use tokio::time::{sleep, Duration};
 use cedra_types::{
-    CedraCoinType, CoinType
+    CedraCoinType, CoinType, oracles::{PriceInfo, DEFAULT_DECIMALS},
 };
-
-// DEFAULT_DECIMALS represents decimals value that helps convert price value from f64 to u64.
-const DEFAULT_DECIMALS: u8 = 8;
 
 use cedra_rest_client::oracle::{OracleClient};
 use url::Url;
@@ -19,7 +16,7 @@ use crate::{utils::get_adjusted_price_u64, whitelist::{Whitelist, FAMetadata}};
 
 // OraclePriceList contains stablecoin price list and updates coin prices.
 pub struct OraclePriceList {
-    price_list: RwLock<Vec<StablecoinPrice>>,
+    price_list: RwLock<Vec<PriceInfo>>,
     oracle_client: OracleClient,
     whitelist: Whitelist,
 }
@@ -34,13 +31,13 @@ impl OraclePriceList {
     }
 
     // get_all returns a list of stable coins with their prices.
-    pub fn get_all(&self) -> Vec<StablecoinPrice> {
+    pub fn get_all(&self) -> Vec<PriceInfo> {
         let list = self.price_list.read().unwrap();
         list.clone()
     }
 
     // upsert_price add new or update existing stablecoin price by fa_address.
-    fn upsert_price(&self, price: StablecoinPrice) {
+    fn upsert_price(&self, price: PriceInfo) {
         let mut list = self.price_list.write().unwrap();
 
         // update existing price or add a new value.
@@ -64,7 +61,7 @@ impl OraclePriceList {
                    
                     let metatdata = self.whitelist.get_fa_address_metadata(fa_address);
                     
-                    let coin_price = StablecoinPrice::new(metatdata, get_adjusted_price_u64(*price, DEFAULT_DECIMALS));
+                    let coin_price = PriceInfo::new(metatdata, get_adjusted_price_u64(*price, DEFAULT_DECIMALS));
                     self.upsert_price(coin_price);
                 }
             }
@@ -98,27 +95,27 @@ impl OraclePriceList {
 }
 
 // StablecoinPrice represents FA stablecoin metadata, their price and number of decimals for price scaling.
-#[derive(Debug, Clone)]
-pub struct StablecoinPrice {
-    stablecoin: FAMetadata,
-    price: u64,
-    decimals: u8,
-}
+// #[derive(Debug, Clone)]
+// pub struct StablecoinPrice {
+//     stablecoin: PriceInfo,
+//     price: u64,
+//     decimals: u8,
+// }
 
-impl StablecoinPrice {
-    pub fn new(stablecoin: FAMetadata, price: u64) -> Self {
-        Self {
-            stablecoin,
-            price,
-            decimals: DEFAULT_DECIMALS,
-        }
-    }
+// impl StablecoinPrice {
+//     pub fn new(stablecoin: PriceInf, price: u64) -> Self {
+//         Self {
+//             stablecoin,
+//             price,
+//             decimals: DEFAULT_DECIMALS,
+//         }
+//     }
 
-    pub fn get_price(&self) -> u64 {
-        self.price.clone()
-    }
+//     pub fn get_price(&self) -> u64 {
+//         self.price.clone()
+//     }
 
-    pub fn get_decimals(&self) -> u8 {
-        self.decimals.clone()
-    }
-}
+//     pub fn get_decimals(&self) -> u8 {
+//         self.decimals.clone()
+//     }
+// }
