@@ -10,8 +10,8 @@ use cedra_types::{
     CedraCoinType, CoinType
 };
 
-// PRICE_DECIMALS represents decimals value that helps convert price value from f64 to u64.
-const PRICE_DECIMALS: u8 = 8;
+// DEFAULT_DECIMALS represents decimals value that helps convert price value from f64 to u64.
+const DEFAULT_DECIMALS: u8 = 8;
 
 use cedra_rest_client::oracle::{OracleClient};
 use url::Url;
@@ -64,7 +64,7 @@ impl OraclePriceList {
                    
                     let metatdata = self.whitelist.get_fa_address_metadata(fa_address);
                     
-                    let coin_price = StablecoinPrice::new(metatdata, get_adjusted_price_u64(*price, PRICE_DECIMALS));
+                    let coin_price = StablecoinPrice::new(metatdata, get_adjusted_price_u64(*price, DEFAULT_DECIMALS));
                     self.upsert_price(coin_price);
                 }
             }
@@ -102,7 +102,7 @@ impl OraclePriceList {
 pub struct StablecoinPrice {
     stablecoin: FAMetadata,
     price: u64,
-    price_decimals: u8,
+    decimals: u8,
 }
 
 impl StablecoinPrice {
@@ -110,7 +110,7 @@ impl StablecoinPrice {
         Self {
             stablecoin,
             price,
-            price_decimals: PRICE_DECIMALS,
+            decimals: DEFAULT_DECIMALS,
         }
     }
 
@@ -118,7 +118,7 @@ impl StablecoinPrice {
         self.price.clone()
     }
 
-    pub fn get_price_decimals(&self) -> u8 {
-        self.price_decimals.clone()
+    pub fn get_decimals(&self) -> u8 {
+        self.decimals.clone()
     }
 }

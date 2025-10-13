@@ -42,8 +42,8 @@ module cedra_framework::stablecoin {
         amount: u64
     }
 
-    /// StablecoinMetadata of a Fungible asset
-    struct StablecoinMetadata has key, copy, drop {
+    /// StablecoinInfo of a Fungible asset
+    struct StablecoinInfo has key, copy, drop {
         /// owner_address address of fa_asset owner
         owner_address: address,
         /// metadata_address address of fa_asset metadata
@@ -251,11 +251,11 @@ module cedra_framework::stablecoin {
 
     #[view]
     /// Returns stablecoin metatdata info.
-    public fun get_metadata(owner: address, symbol: vector<u8>): StablecoinMetadata {
+    public fun get_metadata(owner: address, symbol: vector<u8>): StablecoinInfo {
         let asset_address = object::create_object_address(&owner, symbol);
         let asset_metadata = object::address_to_object<Metadata>(asset_address);
 
-        StablecoinMetadata{
+        StablecoinInfo{
             owner_address: owner,
             metatdata_address: asset_address,
             name: fungible_asset::name(asset_metadata),

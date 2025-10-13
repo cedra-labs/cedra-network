@@ -8,7 +8,7 @@
 -  [Resource `Management`](#0x1_stablecoin_Management)
 -  [Resource `Roles`](#0x1_stablecoin_Roles)
 -  [Struct `Mint`](#0x1_stablecoin_Mint)
--  [Resource `StablecoinMetadata`](#0x1_stablecoin_StablecoinMetadata)
+-  [Resource `StablecoinInfo`](#0x1_stablecoin_StablecoinInfo)
 -  [Constants](#@Constants_0)
 -  [Function `create`](#0x1_stablecoin_create)
 -  [Function `mint`](#0x1_stablecoin_mint)
@@ -159,14 +159,14 @@ Resource to control who can use fungible assets refs.
 
 </details>
 
-<a id="0x1_stablecoin_StablecoinMetadata"></a>
+<a id="0x1_stablecoin_StablecoinInfo"></a>
 
-## Resource `StablecoinMetadata`
+## Resource `StablecoinInfo`
 
-StablecoinMetadata of a Fungible asset
+StablecoinInfo of a Fungible asset
 
 
-<pre><code><b>struct</b> <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">StablecoinMetadata</a> <b>has</b> <b>copy</b>, drop, key
+<pre><code><b>struct</b> <a href="stablecoin.md#0x1_stablecoin_StablecoinInfo">StablecoinInfo</a> <b>has</b> <b>copy</b>, drop, key
 </code></pre>
 
 
@@ -686,7 +686,7 @@ Returns stablecoin metatdata info.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">stablecoin::StablecoinMetadata</a>
+<b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="stablecoin.md#0x1_stablecoin_StablecoinInfo">stablecoin::StablecoinInfo</a>
 </code></pre>
 
 
@@ -695,11 +695,11 @@ Returns stablecoin metatdata info.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">StablecoinMetadata</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="stablecoin.md#0x1_stablecoin_get_metadata">get_metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="stablecoin.md#0x1_stablecoin_StablecoinInfo">StablecoinInfo</a> {
     <b>let</b> asset_address = <a href="object.md#0x1_object_create_object_address">object::create_object_address</a>(&owner, symbol);
     <b>let</b> asset_metadata = <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;Metadata&gt;(asset_address);
 
-    <a href="stablecoin.md#0x1_stablecoin_StablecoinMetadata">StablecoinMetadata</a>{
+    <a href="stablecoin.md#0x1_stablecoin_StablecoinInfo">StablecoinInfo</a>{
         owner_address: owner,
         metatdata_address: asset_address,
         name: <a href="fungible_asset.md#0x1_fungible_asset_name">fungible_asset::name</a>(asset_metadata),
