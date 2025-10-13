@@ -21,24 +21,19 @@ use cedra_types::{
 use serde_json::Value;
 
 #[derive(Debug, Clone)]
-// FAMetadata contains FA stablecoin metadata.
-pub struct FAMetadata {
-    fa_address: TypeTag,
-    metadata_address: String,
+// StablecoinInfo contains FA stablecoin metadata.
+pub struct StablecoinInfo {
+    fa_address: String,
     decimals: u8,
 }
 
-impl FAMetadata {
-    pub fn cedara_coin_metadata() -> Self {
-        Self { fa_address: CedraCoinType::type_tag(), metadata_address: String::new(), decimals: 8 }
+impl StablecoinInfo {
+    pub fn cedara_coin_info() -> Self {
+        Self { fa_address: CedraCoinType::type_tag().to_string(), decimals: 8 }
     }
 
-    pub fn get_fa_address(&self) -> TypeTag {
+    pub fn get_fa_address(&self) -> String {
         self.fa_address.clone()
-    }
-
-    pub fn get_metadata_address(&self) -> String {
-        self.metadata_address.clone()
     }
 
     pub fn get_decimals(&self) -> u8 {
@@ -48,7 +43,7 @@ impl FAMetadata {
 
 // Whitelist represents stablecoin whitelist that allow to get and update whitelist data.
 pub struct Whitelist {
-    stablecoins: RwLock<Vec<FAMetadata>>,
+    stablecoins: RwLock<Vec<StablecoinInfo>>,
     db_reader: Arc<dyn DbReader>,
     indexer_reader: Option<Arc<dyn IndexerReader>>,
 }
@@ -62,15 +57,15 @@ impl Whitelist {
         } 
     }
 
-    pub fn get_whitelist(&self) -> Vec<FAMetadata>{
+    pub fn get_whitelist(&self) -> Vec<StablecoinInfo>{
         let list = self.stablecoins.read().unwrap();
         list.clone()
     }
 
-    // get_fa_address_metadata (use this method only in pare with method exist)
-    pub fn get_fa_address_metadata(&self, fa_address: TypeTag) -> FAMetadata {
-        if fa_address == CedraCoinType::type_tag(){
-            return FAMetadata::cedara_coin_metadata();
+    // get_fa_address_coin_info (use this method only in pare with method exist)
+    pub fn get_fa_address_coin_info(&self, fa_address: String) -> StablecoinInfo {
+        if fa_address == CedraCoinType::type_tag().to_string() {
+            return StablecoinInfo::cedara_coin_info();
         }
         let list = self.stablecoins.read().unwrap();
         let metadata = list.iter().find(|p| p.fa_address == fa_address);
@@ -79,7 +74,7 @@ impl Whitelist {
     }
 
     // exist returns true if requested stablecoin exists in the whitelist.
-    pub fn exist(&self, stablecoin: TypeTag) -> bool {
+    pub fn exist(&self, stablecoin: String) -> bool {
         let list = self.stablecoins.read().unwrap();
         list.iter().any(|t| t.fa_address == stablecoin)
     }
@@ -95,7 +90,7 @@ impl Whitelist {
         }
     }
 
-    fn fetch_whitelist(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) -> Vec<FAMetadata> {
+    fn fetch_whitelist(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) -> Vec<StablecoinInfo> {
         let latest_version = db_reader.get_latest_ledger_info_version();
         let state_view = db_reader.state_view_at_version(Some(latest_version.unwrap())).unwrap();
 
@@ -130,7 +125,7 @@ impl Whitelist {
         if let Err(err) = values {
             println!("fetch_whitelist err: {:?}", err);
             // We shouldn't panic sience new storage hasn't whitelist registry.
-            let wh: Vec<FAMetadata> = Vec::new();
+            let wh: Vec<StablecoinInfo> = Vec::new();
             return wh;
         }
         
@@ -191,7 +186,7 @@ impl Whitelist {
     }
 
     // parse_stablecoins - decodes received move values from `0x1::whitelist::get_metadata_list` into WhitelistMetadata.
-    fn parse_stablecoins(metadata_vec: Vec<MoveValue>) -> Vec<FAMetadata> {
+    fn parse_stablecoins(metadata_vec: Vec<MoveValue>) -> Vec<StablecoinInfo> {
         let mut stablecoins = Vec::new();
 
         let metadata_len = metadata_vec.len();
@@ -208,7 +203,6 @@ impl Whitelist {
             for value in move_value {
                 if let MoveValue::Struct(move_struct) = value {
                     let mut owner_address = String::new();
-                    let mut metadata_address = String::new();
                     let mut decimals: u8 = 0;
                     let mut module_name = String::new();
                     let mut symbol = String::new();
@@ -217,10 +211,8 @@ impl Whitelist {
                     for (key, val) in &move_struct.0 {
                         let key_str = &key.0; // Identifier
                         match (key_str.as_str(), val) {
-                            ("owner_address", Value::String(s)) => owner_address = s.to_string(),
-                            ("metadata_address", Value::String(s)) => metadata_address = s.to_string(),
+                            ("owner_address", Value::String(s)) => owner_address = s.to_string(),      
                             ("decimals", Value::Number(num)) => decimals = num.as_u64().unwrap() as u8,
-                            // ("name", Value::String(s)) => name = decode_hex_string(&s), // TODO: remove
                             ("module_name", Value::String(s)) => module_name = s.to_string(),
                             ("symbol", Value::String(s)) => symbol = s.to_string(),
                             _ => {}
@@ -228,8 +220,7 @@ impl Whitelist {
                     }
 
                     let address = owner_address + "::" + &module_name + "::" + &symbol;
-                    let fa_address = TypeTag::from_str(&address).unwrap();
-                    stablecoins.push(FAMetadata { fa_address: fa_address, metadata_address: metadata_address, decimals: decimals });
+                    stablecoins.push(StablecoinInfo { fa_address: address,  decimals: decimals });
                 }
             }
         }

@@ -1,9 +1,6 @@
-use move_core_types::{
-    language_storage::{TypeTag},
-};
 use anyhow::Result;
 use std::{
-     collections::HashMap, str::FromStr, sync::RwLock
+     collections::HashMap, sync::RwLock
 };
 use tokio::time::{sleep, Duration};
 use cedra_types::{
@@ -12,7 +9,7 @@ use cedra_types::{
 
 use cedra_rest_client::oracle::{OracleClient};
 use url::Url;
-use crate::{utils::get_adjusted_price_u64, whitelist::{Whitelist, FAMetadata}};
+use crate::{utils::get_adjusted_price_u64, whitelist::{Whitelist}};
 
 // OraclePriceList contains stablecoin price list and updates coin prices.
 pub struct OraclePriceList {
@@ -41,7 +38,7 @@ impl OraclePriceList {
         let mut list = self.price_list.write().unwrap();
 
         // update existing price or add a new value.
-        if let Some(existing) = list.iter_mut().find(|p| p.stablecoin.get_fa_address() == price.stablecoin.get_fa_address()) {
+        if let Some(existing) = list.iter_mut().find(|p| p.fa_address == price.fa_address) {
             *existing = price;
         } else {
             list.push(price);
@@ -53,15 +50,17 @@ impl OraclePriceList {
         match self.get_stablecoin_price_list().await {
             Ok(price_feed) => {
                 for (address, price) in &price_feed {
-                    let fa_address = TypeTag::from_str(address).unwrap();
                     // skip coin that isn't in whitelist.
-                    if !self.whitelist.exist(fa_address.clone()) && fa_address != CedraCoinType::type_tag() {
+                    if !self.whitelist.exist(address.clone()) && address.clone() != CedraCoinType::type_tag().to_string() {
                         continue;
                     }                    
                    
-                    let metatdata = self.whitelist.get_fa_address_metadata(fa_address);
+                    let metadata = self.whitelist.get_fa_address_coin_info(address.clone());
                     
-                    let coin_price = PriceInfo::new(metatdata, get_adjusted_price_u64(*price, DEFAULT_DECIMALS));
+                    let coin_price = PriceInfo::new(
+                        metadata.get_fa_address(), 
+                        get_adjusted_price_u64(*price, DEFAULT_DECIMALS), 
+                        metadata.get_decimals());
                     self.upsert_price(coin_price);
                 }
             }

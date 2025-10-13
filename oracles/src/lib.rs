@@ -40,6 +40,8 @@ use tokio::runtime::Runtime;
 pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<Arc<dyn IndexerReader>>) {
     let whitelist = Whitelist::new(db_reader, indexer_reader);
 
+    println!("{:?}", whitelist.get_whitelist());
+
     let oracle = OraclePriceList::new(
         Url::parse("https://dev-price-seed.cedra.dev/price-feed").unwrap(), 
         whitelist,

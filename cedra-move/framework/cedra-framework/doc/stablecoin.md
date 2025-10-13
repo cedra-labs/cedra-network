@@ -183,7 +183,7 @@ StablecoinInfo of a Fungible asset
  owner_address address of fa_asset owner
 </dd>
 <dt>
-<code>metatdata_address: <b>address</b></code>
+<code>metadata_address: <b>address</b></code>
 </dt>
 <dd>
  metadata_address address of fa_asset metadata
@@ -701,7 +701,7 @@ Returns stablecoin metatdata info.
 
     <a href="stablecoin.md#0x1_stablecoin_StablecoinInfo">StablecoinInfo</a>{
         owner_address: owner,
-        metatdata_address: asset_address,
+        metadata_address: asset_address,
         name: <a href="fungible_asset.md#0x1_fungible_asset_name">fungible_asset::name</a>(asset_metadata),
         symbol: <a href="fungible_asset.md#0x1_fungible_asset_symbol">fungible_asset::symbol</a>(asset_metadata),
         decimals: <a href="fungible_asset.md#0x1_fungible_asset_decimals">fungible_asset::decimals</a>(asset_metadata),
