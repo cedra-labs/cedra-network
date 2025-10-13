@@ -326,7 +326,6 @@ cedra-db-tool = { path = "storage/db-tool" }
 cedra-debugger = { path = "crates/cedra-debugger" }
 cedra-dkg = { path = "crates/cedra-dkg" }
 cedra-dkg-runtime = { path = "dkg" }
-cedra-oracles-runtime = { path = "oracles" }
 cedra-drop-helper = { path = "crates/cedra-drop-helper" }
 cedra-event-notifications = { path = "state-sync/inter-component/event-notifications" }
 cedra-executor = { path = "execution/executor" }
