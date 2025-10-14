@@ -28,7 +28,7 @@ use cedra_genesis::builder::GenesisConfiguration;
 use cedra_logger::{prelude::*, telemetry_log_writer::TelemetryLog, Level, LoggerFilterUpdater};
 use cedra_state_sync_driver::driver_factory::StateSyncRuntimes;
 use cedra_types::{
-    chain_id::ChainId, keyless::Groth16VerificationKey, on_chain_config::OnChainJWKConsensusConfig,
+    chain_id::ChainId, keyless::Groth16VerificationKey, on_chain_config::OnChainJWKConsensusConfig, oracles,
 };
 use clap::Parser;
 use futures::channel::{mpsc, oneshot};
@@ -46,6 +46,7 @@ use std::{
     thread,
 };
 use tokio::runtime::Runtime;
+use cedra_oracles_runtime::start_oracle;
 
 const EPOCH_LENGTH_SECS: u64 = 60;
 
@@ -781,6 +782,7 @@ pub fn setup_environment_and_start_node(
         indexer_grpc_runtime,
         internal_indexer_db_runtime,
         mempool_client_sender,
+        indexer_reader,
     ) = services::bootstrap_api_and_indexer(
         &node_config,
         db_rw.clone(),
@@ -790,6 +792,14 @@ pub fn setup_environment_and_start_node(
         api_port_tx,
         indexer_grpc_port_tx,
     )?;
+
+    // Bootstrap cedra oracle.
+    let oracle_db_reader = db_rw.clone().reader;
+    let oracle_indexer_reader = indexer_reader.clone();
+    let rt = tokio::runtime::Runtime::new().unwrap();
+    rt.spawn(async {
+        start_oracle(oracle_db_reader, oracle_indexer_reader).await;
+    });
 
     // Set mempool client sender in order to enable the Mempool API in the admin service
     admin_service.set_mempool_client_sender(mempool_client_sender);

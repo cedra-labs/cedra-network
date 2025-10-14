@@ -28,4 +28,16 @@ cedra-reliable-broadcast = { workspace = true }
 futures = { workspace = true }
 serde = { workspace = true }
 futures-util = { workspace = true }
-
+hex = "0.4"
+cedra-api-types = { workspace = true }
+cedra-logger = { workspace = true }
+cedra-rest-client = { workspace = true }
+cedra-sdk = { workspace = true }
+cedra-vm = { workspace = true }
+cedra-resource-viewer = { workspace = true }
+cedra-storage-interface = { workspace = true }
+serde_json = { workspace = true }
+url = { workspace = true }
+move-binary-format = { workspace = true }
+cedra-db = { workspace = true }
+cedra-db-indexer = { workspace = true }

@@ -12,6 +12,9 @@ use poem_openapi_derive::Object;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
+// DEFAULT_DECIMALS represents decimals value that helps convert price value from f64 to u64.
+pub const DEFAULT_DECIMALS: u8 = 8;
+
 /// Rust reflection of `0x1::price_storage::PriceInfo`.
 #[derive(Clone, Serialize, Object, Deserialize, PartialEq, Eq, CryptoHasher, BCSCryptoHash)]
 pub struct PriceInfo {
@@ -21,6 +24,18 @@ pub struct PriceInfo {
     pub price: u64,
     /// Number of decimals used for scaling.
     pub decimals: u8,
+    pub fa_address_decimals: u8,
+}
+
+impl PriceInfo {
+    pub fn new(fa_address: String, price: u64, fa_address_decimals: u8) -> Self {
+        Self {
+            fa_address,
+            price,
+            decimals: DEFAULT_DECIMALS,
+            fa_address_decimals: fa_address_decimals,
+        }
+    }
 }
 
 impl Debug for PriceInfo {
