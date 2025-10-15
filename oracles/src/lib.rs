@@ -12,7 +12,7 @@ pub mod utils;
 pub mod whitelist;
 
 use url::Url;
-use fetch_price::OraclePriceList;
+use fetch_price::{OraclePriceList};
 use whitelist::Whitelist;
 use cedra_types::{
     indexer::indexer_db_reader::IndexerReader,
@@ -32,6 +32,7 @@ use cedra_network::application::interface::{NetworkClient, NetworkServiceEvents}
 use cedra_validator_transaction_pool::VTxnPoolState;
 use move_core_types::account_address::AccountAddress;
 use tokio::runtime::Runtime;
+use cedra_types::oracles::GLOBAL_ORCLE_PRICES;
 
 /*
     1. get whitelist coins with there metadata.
@@ -50,6 +51,9 @@ pub async fn start_oracle(db_reader: Arc<dyn DbReader>, indexer_reader: Option<A
     
     oracle.update_stablecoin_price_list().await;
     println!("{:?}", oracle.get_all());
+
+    let mut prices = GLOBAL_ORCLE_PRICES.write().unwrap();
+    *prices = oracle.get_all();
 
     /* 
         TODO: run in the backgroud.

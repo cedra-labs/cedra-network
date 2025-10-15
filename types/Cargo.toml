@@ -13,6 +13,7 @@ repository = { workspace = true }
 rust-version = { workspace = true }
 
 [dependencies]
+lazy_static = "1.4"
 anyhow = { workspace = true }
 cedra-bitvec = { workspace = true }
 cedra-crypto = { workspace = true }

@@ -11,6 +11,8 @@ use once_cell::sync::Lazy;
 use poem_openapi_derive::Object;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
+use lazy_static::lazy_static;
+use std::sync::{Arc, RwLock};
 
 // DEFAULT_DECIMALS represents decimals value that helps convert price value from f64 to u64.
 pub const DEFAULT_DECIMALS: u8 = 8;
@@ -101,4 +103,8 @@ impl PriceInfo {
     pub fn to_move_address(&self) -> AccountAddress {
         AccountAddress::from_hex_literal(&self.fa_address).expect("invalid hex address")
     }
+}
+
+lazy_static! {
+    pub static ref GLOBAL_ORCLE_PRICES: Arc<RwLock<Vec<PriceInfo>>> = Arc::new(RwLock::new(Vec::<PriceInfo>::new()));
 }

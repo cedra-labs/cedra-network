@@ -84,7 +84,7 @@ impl Whitelist {
         loop {
             let new_list = Self::fetch_whitelist(self.db_reader.clone(), self.indexer_reader.clone());
             let mut list = self.stablecoins.write().unwrap();
-            *list = new_list;
+            *list = new_list;   
 
             sleep(Duration::from_secs(10)).await;
         }
