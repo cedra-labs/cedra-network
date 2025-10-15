@@ -49,29 +49,17 @@ use cedra_logger::{enabled, prelude::*, Level};
 #[cfg(any(test, feature = "testing"))]
 use cedra_types::state_store::StateViewId;
 use cedra_types::{
-    account_config::{self, new_block_event_key, AccountResource},
-    block_executor::{
+    account_config::{self, new_block_event_key, AccountResource}, block_executor::{
         config::{
             BlockExecutorConfig, BlockExecutorConfigFromOnchain, BlockExecutorLocalConfig,
             BlockExecutorModuleCacheLocalConfig,
         },
         partitioner::PartitionedTransactions,
         transaction_slice_metadata::TransactionSliceMetadata,
-    },
-    block_metadata::BlockMetadata,
-    block_metadata_ext::{BlockMetadataExt, BlockMetadataWithRandomness},
-    chain_id::ChainId,
-    contract_event::ContractEvent,
-    fee_statement::{CustomFeeStatement, FeeStatement},
-    function_info::FunctionInfo,
-    move_utils::as_move_value::AsMoveValue,
-    on_chain_config::{
+    }, block_metadata::BlockMetadata, block_metadata_ext::{BlockMetadataExt, BlockMetadataWithRandomness}, chain_id::ChainId, contract_event::ContractEvent, fee_statement::{CustomFeeStatement, FeeStatement}, function_info::FunctionInfo, move_utils::as_move_value::AsMoveValue, on_chain_config::{
         ApprovedExecutionHashes, ConfigStorage, FeatureFlag, Features, OnChainConfig,
         TimedFeatureFlag, TimedFeatures,
-    },
-    randomness::Randomness,
-    state_store::{StateView, TStateView},
-    transaction::{
+    }, oracles::{PriceInfo, DEFAULT_DECIMALS}, randomness::Randomness, state_store::{StateView, TStateView}, transaction::{
         authenticator::{AbstractionAuthData, AnySignature, AuthenticationProof},
         signature_verified_transaction::SignatureVerifiedTransaction,
         BlockOutput, EntryFunction, ExecutionError, ExecutionStatus, ModuleBundle,
@@ -79,12 +67,10 @@ use cedra_types::{
         TransactionArgument, TransactionExecutableRef, TransactionExtraConfig, TransactionOutput,
         TransactionPayload, TransactionStatus, VMValidatorResult, ViewFunctionOutput,
         WriteSetPayload,
-    },
-    vm::module_metadata::{
+    }, vm::module_metadata::{
         get_compilation_metadata, get_metadata, get_randomness_annotation_for_entry_function,
         verify_module_metadata_for_module_publishing, RuntimeModuleMetadataV1,
-    },
-    vm_status::{AbortLocation, StatusCode, VMStatus},
+    }, vm_status::{AbortLocation, StatusCode, VMStatus}, CedraCoinType, CoinType
 };
 use cedra_vm_environment::environment::CedraEnvironment;
 use cedra_vm_logging::{log_schema::AdapterLogSchema, speculative_error, speculative_log};
@@ -143,6 +129,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     marker::Sync,
     sync::Arc,
+    sync::RwLock,
 };
 
 static EXECUTION_CONCURRENCY_LEVEL: OnceCell<usize> = OnceCell::new();
@@ -173,6 +160,27 @@ macro_rules! unwrap_or_discard {
             },
         }
     };
+}
+
+pub (crate) struct CedraVMPriceList {
+    price_list: RwLock<Vec<PriceInfo>>
+} 
+
+impl CedraVMPriceList {
+    pub fn new() -> Self {
+        Self {
+            price_list: RwLock::new(Vec::new()),
+        }
+    }
+
+    pub fn update(&self, prices: Vec<PriceInfo>) {
+        let mut list = self.price_list.write().unwrap();
+        *list = prices;
+    }
+
+    pub fn get(&self) -> Vec<PriceInfo> {
+        self.price_list.read().unwrap().clone()
+    }
 }
 
 pub(crate) struct SerializedSigners {
@@ -255,6 +263,8 @@ pub struct CedraVM {
     move_vm: MoveVmExt,
     /// For a new chain, or even mainnet, the VK might not necessarily be set.
     pvk: Option<PreparedVerifyingKey<Bn254>>,
+    pub price_list: RwLock<Vec<PriceInfo>>,
+    // pub price_list: Arc<CedraVMPriceList>,
 }
 
 impl CedraVM {
@@ -276,7 +286,16 @@ impl CedraVM {
             is_simulation: false,
             move_vm: MoveVmExt::new(env),
             pvk,
+            price_list: RwLock::new(Vec::new()),
         }
+    }
+
+    // TODO: get and update price_list.
+
+    fn get_price_info(&self, stablecoin: String) -> PriceInfo{
+        let list = self.price_list.read().unwrap();
+        let price_info = list.iter().find(|p| p.fa_address == stablecoin);
+        price_info.unwrap().clone()
     }
 
     pub fn new_session<'r, R: CedraMoveResolver>(
@@ -463,18 +482,50 @@ impl CedraVM {
     }
 
     fn custom_fee_statement_from_gas_meter(
+        &self,
         txn_data: &TransactionMetadata,
         gas_meter: &impl CedraGasMeter,
         storage_fee_refund: u64,
     ) -> CustomFeeStatement {
-        let gas_used = Self::gas_used(txn_data.max_gas_amount(), gas_meter);
-        CustomFeeStatement::new(
+        // TODO: handle error (if coin doesn't exists)
+        let stablecoin: String = txn_data.fa_address.to_string();
+
+        let gas_used = Self::convert_fee_price(&self, stablecoin.clone(), Self::gas_used(txn_data.max_gas_amount(), gas_meter));
+         CustomFeeStatement::new(
             gas_used,
-            u64::from(gas_meter.execution_gas_used()),
-            u64::from(gas_meter.io_gas_used()),
-            u64::from(gas_meter.storage_fee_used()),
-            storage_fee_refund,
-        )
+            Self::convert_fee_price(&self, stablecoin.clone(), u64::from(gas_meter.execution_gas_used())),
+            Self::convert_fee_price(&self, stablecoin.clone(), u64::from(gas_meter.io_gas_used())),
+            Self::convert_fee_price(&self, stablecoin.clone(), u64::from(gas_meter.storage_fee_used())),
+            Self::convert_fee_price(&self, stablecoin.clone(), storage_fee_refund),
+         )
+
+        // let gas_used = Self::gas_used(txn_data.max_gas_amount(), gas_meter);
+        // CustomFeeStatement::new(
+        //     gas_used,
+        //     u64::from(gas_meter.execution_gas_used()),
+        //     u64::from(gas_meter.io_gas_used()),
+        //     u64::from(gas_meter.storage_fee_used()),
+        //     storage_fee_refund,
+        // )
+    }
+
+    fn convert_fee_price(&self, stablecoin: String, cedra_amount: u64) -> u64 {
+        if cedra_amount == 0 {
+            return  0
+        }
+        let cedra_price_info = self.get_price_info( CedraCoinType::type_tag().to_string());
+        let stablecoin_price_info = self.get_price_info(stablecoin);
+
+        // We don't need to scale price decimals since it has statics calse for all cases.
+        // Formula:
+        // stablecoin_amount = (cedra_amount * cedra_price * 10^stablecoin_decimals) / (stablecoin_price * 10^cedra_decimals)
+        let stablecoin_amount = (cedra_amount as u128)
+            * (cedra_price_info.price as u128)
+            * 10u128.pow(stablecoin_price_info.fa_address_decimals as u32)
+            / ((stablecoin_price_info.price as u128)
+                * 10u128.pow(cedra_price_info.fa_address_decimals as u32));
+
+        stablecoin_amount as u64
     }
 
     pub(crate) fn failed_transaction_cleanup(
@@ -648,6 +699,7 @@ impl CedraVM {
 
                 if txn_data.use_fee_v2() {
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                        &self,
                         txn_data,
                         gas_meter,
                         ZERO_STORAGE_REFUND,
@@ -706,6 +758,7 @@ impl CedraVM {
 
                 if txn_data.use_fee_v2() {
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                        &self,
                         txn_data,
                         gas_meter,
                         ZERO_STORAGE_REFUND,
@@ -794,6 +847,7 @@ impl CedraVM {
 
         if txn_data.use_fee_v2() {
             custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                &self,
                 txn_data,
                 gas_meter,
                 u64::from(epilogue_session.get_storage_fee_refund()),
