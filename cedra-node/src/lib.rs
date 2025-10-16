@@ -801,8 +801,6 @@ pub fn setup_environment_and_start_node(
         start_oracle(oracle_db_reader, oracle_indexer_reader).await;
     });
 
-    // TODO call utils -> update_vm_prices -> in utils call vm to update vm price list.
-
     // Set mempool client sender in order to enable the Mempool API in the admin service
     admin_service.set_mempool_client_sender(mempool_client_sender);
 

@@ -51,16 +51,11 @@ impl OraclePriceList {
             Ok(price_feed) => {
                 for (address, price) in &price_feed {
                     // skip coin that isn't in whitelist.
-                    // TODO: remove after test.
-                    let mut addr: String = address.clone();
-                    if addr.clone() == "0xca0746f983f7d03891c5e2dab8e321784357e687848b3840ae4cf5cc619dba7a::usdt::USDT" {
-                       addr = "0xc745ffa4f97fa9739fae0cb173996f70bb8e4b0310fa781ccca2f7dc13f7db06::usdt::USDT".to_string();
-                    }
-                    if !self.whitelist.exist(addr.clone()) && addr.clone() != CedraCoinType::type_tag().to_string() {
+                    if !self.whitelist.exist(address.clone()) && address.clone() != CedraCoinType::type_tag().to_string() {
                         continue;
                     }                    
                    
-                    let metadata = self.whitelist.get_fa_address_coin_info(addr.clone());
+                    let metadata = self.whitelist.get_fa_address_coin_info(address.clone());
                     
                     let coin_price = PriceInfo::new(
                         metadata.get_fa_address(), 
