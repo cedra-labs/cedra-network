@@ -81,8 +81,8 @@ module staking::commission {
         manager: address,
         operator: address,
         usd_price: u128,
-        commission_amount_apt: u64,
-        manager_amount_apt: u64,
+        commission_amount_cedra: u64,
+        manager_amount_cedra: u64,
         commission_debt_usd: u64
     }
 
@@ -120,8 +120,8 @@ module staking::commission {
     }
 
     #[view]
-    public fun commission_owed_in_apt(): u64 acquires CommissionConfig {
-        usd_to_apt(commission_owed())
+    public fun commission_owed_in_cedra(): u64 acquires CommissionConfig {
+        usd_to_cedra(commission_owed())
     }
 
     /// Can be called by the manager to change the yearly commission amount.
@@ -172,7 +172,7 @@ module staking::commission {
 
         // Commission owed so far plus any debt.
         // There can be a rounding error of 1 octa here when converting from USD to Cedra. This is negligible.
-        let commission_in_apt = commission_owed_in_apt();
+        let commission_in_cedra = commission_owed_in_cedra();
 
         // Only manager or operator can call this function.
         let config = &mut CommissionConfig[@staking];
@@ -183,14 +183,14 @@ module staking::commission {
         let commission_signer = &account::create_signer_with_capability(&config.signer_cap);
         // If there's not enough balance to pay the commission, either commission rate is set too high or Cedra price is low.
         // Otherwise, pay the operator the commission in Cedra and send remaining balance to the manager.
-        if (balance <= commission_in_apt) {
+        if (balance <= commission_in_cedra) {
             // If balance is exactly equal to commission in Cedra, this will set commission_debt to 0.
-            let debt_apt = commission_in_apt - balance;
+            let debt_cedra = commission_in_cedra - balance;
             // There can be rounding error here when converting from Cedra to USD. If this is of concern, the amount of
             // commission can be set higher to cover the rounding error.
-            config.commission_debt = apt_to_usd(debt_apt);
+            config.commission_debt = apt_to_usd(debt_cedra);
         } else {
-            let surplus_balance = balance - commission_in_apt;
+            let surplus_balance = balance - commission_in_cedra;
             cedra_account::transfer(commission_signer, config.manager, surplus_balance);
         };
 
@@ -200,9 +200,9 @@ module staking::commission {
         event::emit(CommissionDistributed {
             manager: config.manager,
             operator: config.operator,
-            usd_price: oracle::get_apt_price(),
-            commission_amount_apt: apt_to_usd(commission_in_apt),
-            manager_amount_apt: apt_to_usd(remaining_balance),
+            usd_price: oracle::get_cedra_price(),
+            commission_amount_cedra: apt_to_usd(commission_in_cedra),
+            manager_amount_cedra: apt_to_usd(remaining_balance),
             commission_debt_usd: config.commission_debt
         });
     }
@@ -217,14 +217,14 @@ module staking::commission {
         assert!(account_addr == config.manager || account_addr == config.operator, EUNAUTHORIZED);
     }
 
-    inline fun usd_to_apt(usd_amount: u64): u64 {
-        let apt_price = oracle::get_apt_price();
+    inline fun usd_to_cedra(usd_amount: u64): u64 {
+        let apt_price = oracle::get_cedra_price();
         // Amount in Cedra octas = amount * number of octas in one Cedra / Cedra price.
         math128::mul_div((usd_amount as u128) * OCTAS_IN_ONE_Cedra, oracle::precision(), apt_price) as u64
     }
 
     inline fun apt_to_usd(apt_amount: u64): u64 {
-        let apt_price = oracle::get_apt_price();
+        let apt_price = oracle::get_cedra_price();
         // Amount in USD = amount * Cedra price / precision / number of octas in one Cedra.
         math128::mul_div((apt_amount as u128), apt_price, oracle::precision() * OCTAS_IN_ONE_Cedra) as u64
     }

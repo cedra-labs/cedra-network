@@ -1,6 +1,5 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
-
 use super::{
     common::{
         submit_transaction, ApiConnectionConfig, GasUnitPriceManager, TransactionSubmissionConfig,
@@ -13,7 +12,9 @@ use crate::{
     middleware::TRANSFER_FUNDER_ACCOUNT_BALANCE,
 };
 use anyhow::{Context, Result};
+use async_trait::async_trait;
 use cedra_logger::info;
+use cedra_sdk::move_types::language_storage::TypeTag;
 use cedra_sdk::{
     crypto::{ed25519::Ed25519PrivateKey, PrivateKey},
     rest_client::Client,
@@ -22,10 +23,9 @@ use cedra_sdk::{
         account_address::AccountAddress,
         chain_id::ChainId,
         transaction::{authenticator::AuthenticationKey, SignedTransaction, TransactionPayload},
-        LocalAccount,
+        CedraCoinType, CoinType, LocalAccount,
     },
 };
-use async_trait::async_trait;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use std::{str::FromStr, time::Duration};
@@ -74,6 +74,7 @@ impl TransferFunderConfig {
             self.transaction_submission_config
                 .wait_for_outstanding_txns_secs,
             self.transaction_submission_config.wait_for_transactions,
+            CedraCoinType::type_tag(),
         );
 
         Ok(funder)
@@ -125,13 +126,14 @@ impl TransferFunder {
         transaction_expiration_secs: u64,
         wait_for_outstanding_txns_secs: u64,
         wait_for_transactions: bool,
+        fa_address: TypeTag,
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), gas_unit_price_ttl_secs);
 
         Self {
             faucet_account: RwLock::new(faucet_account),
-            transaction_factory: TransactionFactory::new(chain_id)
+            transaction_factory: TransactionFactory::new(chain_id, fa_address)
                 .with_max_gas_amount(max_gas_amount)
                 .with_transaction_expiration_time(transaction_expiration_secs),
             node_url,
@@ -314,7 +316,7 @@ impl FunderTrait for TransferFunder {
         let account_address = self.faucet_account.read().await.address();
         let funder_balance = match self
             .get_api_client()
-            .view_apt_account_balance(account_address)
+            .view_cedra_account_balance(account_address)
             .await
         {
             Ok(response) => response.into_inner(),

@@ -367,7 +367,7 @@ impl Client {
         })
     }
 
-    pub async fn view_apt_account_balance_at_version(
+    pub async fn view_cedra_account_balance_at_version(
         &self,
         address: AccountAddress,
         version: u64,
@@ -376,7 +376,7 @@ impl Client {
             .await
     }
 
-    pub async fn view_apt_account_balance(
+    pub async fn view_cedra_account_balance(
         &self,
         address: AccountAddress,
     ) -> CedraResult<Response<u64>> {

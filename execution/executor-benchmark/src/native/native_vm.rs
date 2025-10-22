@@ -26,7 +26,7 @@ use cedra_mvhashmap::types::TxnIndex;
 use cedra_types::{
     account_address::AccountAddress,
     account_config::{
-        primary_apt_store, AccountResource, CoinInfoResource, CoinRegister, CoinStoreResource,
+        primary_cedra_store, AccountResource, CoinInfoResource, CoinRegister, CoinStoreResource,
         ConcurrentSupplyResource, DepositEvent, DepositFAEvent, FungibleStoreResource,
         WithdrawEvent, WithdrawFAEvent,
     },
@@ -196,7 +196,7 @@ impl NativeVMExecutorTask {
         let aggregator_v1_write_set = BTreeMap::new();
         let mut aggregator_v1_delta_set = BTreeMap::new();
 
-        self.reduce_apt_supply(
+        self.reduce_cedra_supply(
             fa_migration_complete,
             gas,
             view,
@@ -217,7 +217,7 @@ impl NativeVMExecutorTask {
                     view,
                     &mut resource_write_set,
                 )?;
-                self.withdraw_apt(
+                self.withdraw_cedra(
                     fa_migration_complete,
                     sender,
                     0,
@@ -239,7 +239,7 @@ impl NativeVMExecutorTask {
                     view,
                     &mut resource_write_set,
                 )?;
-                self.withdraw_fa_apt_from_signer(
+                self.withdraw_fa_cedra_from_signer(
                     sender,
                     amount,
                     view,
@@ -248,7 +248,7 @@ impl NativeVMExecutorTask {
                     &mut events,
                 )?;
                 if amount > 0 {
-                    self.deposit_fa_apt(
+                    self.deposit_fa_cedra(
                         recipient,
                         amount,
                         view,
@@ -272,7 +272,7 @@ impl NativeVMExecutorTask {
                     &mut resource_write_set,
                 )?;
 
-                self.withdraw_apt(
+                self.withdraw_cedra(
                     fa_migration_complete,
                     sender,
                     amount,
@@ -282,7 +282,7 @@ impl NativeVMExecutorTask {
                     &mut events,
                 )?;
 
-                let exists = self.deposit_apt(
+                let exists = self.deposit_cedra(
                     fa_migration_complete,
                     recipient,
                     amount,
@@ -320,7 +320,7 @@ impl NativeVMExecutorTask {
                 let (deltas, amount_to_sender) =
                     compute_deltas_for_batch(recipients, amounts, sender);
 
-                self.withdraw_apt(
+                self.withdraw_cedra(
                     fa_migration_complete,
                     sender,
                     amount_to_sender,
@@ -331,7 +331,7 @@ impl NativeVMExecutorTask {
                 )?;
 
                 for (recipient_address, transfer_amount) in deltas.into_iter() {
-                    let existed = self.deposit_apt(
+                    let existed = self.deposit_cedra(
                         fa_migration_complete,
                         recipient_address,
                         transfer_amount as u64,
@@ -492,7 +492,7 @@ impl NativeVMExecutorTask {
         Ok(())
     }
 
-    fn reduce_apt_supply(
+    fn reduce_cedra_supply(
         &self,
         fa_migration_complete: bool,
         gas: u64,
@@ -502,13 +502,13 @@ impl NativeVMExecutorTask {
         aggregator_v1_delta_set: &mut BTreeMap<StateKey, DeltaOp>,
     ) -> Result<(), ()> {
         if fa_migration_complete {
-            self.reduce_fa_apt_supply(gas, view, resource_write_set, delayed_field_change_set)
+            self.reduce_fa_cedra_supply(gas, view, resource_write_set, delayed_field_change_set)
         } else {
-            self.reduce_coin_apt_supply(gas, view, aggregator_v1_delta_set)
+            self.reduce_coin_cedra_supply(gas, view, aggregator_v1_delta_set)
         }
     }
 
-    fn reduce_fa_apt_supply(
+    fn reduce_fa_cedra_supply(
         &self,
         gas: u64,
         view: &(impl ExecutorView + ResourceGroupView),
@@ -565,7 +565,7 @@ impl NativeVMExecutorTask {
         Ok(())
     }
 
-    fn reduce_coin_apt_supply(
+    fn reduce_coin_cedra_supply(
         &self,
         gas: u64,
         view: &(impl ExecutorView + ResourceGroupView),
@@ -587,7 +587,7 @@ impl NativeVMExecutorTask {
         Ok(())
     }
 
-    fn withdraw_apt(
+    fn withdraw_cedra(
         &self,
         fa_migration_complete: bool,
         sender: AccountAddress,
@@ -598,7 +598,7 @@ impl NativeVMExecutorTask {
         events: &mut Vec<(ContractEvent, Option<MoveTypeLayout>)>,
     ) -> Result<(), ()> {
         if fa_migration_complete {
-            self.withdraw_fa_apt_from_signer(
+            self.withdraw_fa_cedra_from_signer(
                 sender,
                 amount,
                 view,
@@ -607,7 +607,7 @@ impl NativeVMExecutorTask {
                 events,
             )?;
         } else {
-            self.withdraw_coin_apt_from_signer(
+            self.withdraw_coin_cedra_from_signer(
                 sender,
                 amount,
                 view,
@@ -619,7 +619,7 @@ impl NativeVMExecutorTask {
         Ok(())
     }
 
-    fn withdraw_fa_apt_from_signer(
+    fn withdraw_fa_cedra_from_signer(
         &self,
         sender_address: AccountAddress,
         transfer_amount: u64,
@@ -628,7 +628,7 @@ impl NativeVMExecutorTask {
         resource_write_set: &mut BTreeMap<StateKey, AbstractResourceWriteOp>,
         events: &mut Vec<(ContractEvent, Option<MoveTypeLayout>)>,
     ) -> Result<(), ()> {
-        let sender_store_address = primary_apt_store(sender_address);
+        let sender_store_address = primary_cedra_store(sender_address);
         let sender_fa_store_object_key = self
             .db_util
             .new_state_key_object_resource_group(&sender_store_address);
@@ -669,7 +669,7 @@ impl NativeVMExecutorTask {
         }
     }
 
-    fn withdraw_coin_apt_from_signer(
+    fn withdraw_coin_cedra_from_signer(
         &self,
         sender_address: AccountAddress,
         transfer_amount: u64,
@@ -685,7 +685,7 @@ impl NativeVMExecutorTask {
 
         let (mut sender_coin_store, metadata) = match sender_coin_store_opt {
             None => {
-                return self.withdraw_fa_apt_from_signer(
+                return self.withdraw_fa_cedra_from_signer(
                     sender_address,
                     transfer_amount,
                     view,
@@ -721,7 +721,7 @@ impl NativeVMExecutorTask {
     }
 
     /// Returns bool whether FungibleStore existed.
-    fn deposit_apt(
+    fn deposit_cedra(
         &self,
         fa_migration_complete: bool,
         recipient_address: AccountAddress,
@@ -731,7 +731,7 @@ impl NativeVMExecutorTask {
         events: &mut Vec<(ContractEvent, Option<MoveTypeLayout>)>,
     ) -> Result<bool, ()> {
         if fa_migration_complete {
-            self.deposit_fa_apt(
+            self.deposit_fa_cedra(
                 recipient_address,
                 transfer_amount,
                 view,
@@ -739,7 +739,7 @@ impl NativeVMExecutorTask {
                 events,
             )
         } else {
-            self.deposit_coin_apt(
+            self.deposit_coin_cedra(
                 recipient_address,
                 transfer_amount,
                 view,
@@ -750,7 +750,7 @@ impl NativeVMExecutorTask {
     }
 
     /// Returns bool whether FungibleStore existed.
-    fn deposit_fa_apt(
+    fn deposit_fa_cedra(
         &self,
         recipient_address: AccountAddress,
         transfer_amount: u64,
@@ -758,7 +758,7 @@ impl NativeVMExecutorTask {
         resource_write_set: &mut BTreeMap<StateKey, AbstractResourceWriteOp>,
         events: &mut Vec<(ContractEvent, Option<MoveTypeLayout>)>,
     ) -> Result<bool, ()> {
-        let recipient_store_address = primary_apt_store(recipient_address);
+        let recipient_store_address = primary_cedra_store(recipient_address);
         let recipient_fa_store_object_key = self
             .db_util
             .new_state_key_object_resource_group(&recipient_store_address);
@@ -814,7 +814,7 @@ impl NativeVMExecutorTask {
         Ok(existed)
     }
 
-    fn deposit_coin_apt(
+    fn deposit_coin_cedra(
         &self,
         recipient_address: AccountAddress,
         transfer_amount: u64,
@@ -842,7 +842,7 @@ impl NativeVMExecutorTask {
                         None,
                     ));
                     (
-                        DbAccessUtil::new_apt_coin_store(0, recipient_address),
+                        DbAccessUtil::new_cedra_coin_store(0, recipient_address),
                         None,
                         false,
                     )

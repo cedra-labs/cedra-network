@@ -142,7 +142,7 @@ cedra_coin::has_mint_capability                   627           ok
 cedra_account::create_account                     858           ok
 cedra_account::transfer                          1028           ok
 cedra_account::assert_account_exists              690           ok
-cedra_account::assert_account_is_registered_for_apt          781           ok
+cedra_account::assert_account_is_registered_for_cedra          781           ok
 cedra_account::batch_transfer                     413           ok
 cedra_account::batch_transfer_coins               412           ok
 cedra_account::can_receive_direct_coin_transfers          634           ok

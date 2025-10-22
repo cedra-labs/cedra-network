@@ -157,8 +157,8 @@ module cedra_framework::cedra_coin {
     use cedra_framework::fungible_asset::FungibleAsset;
 
     #[test_only]
-    public fun mint_apt_fa_for_test(amount: u64): FungibleAsset acquires MintCapStore {
-        ensure_initialized_with_apt_fa_metadata_for_test();
+    public fun mint_cedra_fa_for_test(amount: u64): FungibleAsset acquires MintCapStore {
+        ensure_initialized_with_cedra_fa_metadata_for_test();
         coin::coin_to_fungible_asset(
             coin::mint(
                 amount,
@@ -168,7 +168,7 @@ module cedra_framework::cedra_coin {
     }
 
     #[test_only]
-    public fun ensure_initialized_with_apt_fa_metadata_for_test() {
+    public fun ensure_initialized_with_cedra_fa_metadata_for_test() {
         let cedra_framework = account::create_signer_for_test(@cedra_framework);
         if (!exists<MintCapStore>(@cedra_framework)) {
             if (!aggregator_factory::aggregator_factory_exists_for_testing()) {

@@ -45,7 +45,7 @@ module cedra_framework::vesting {
     use cedra_std::simple_map::{Self, SimpleMap};
 
     use cedra_framework::account::{Self, SignerCapability, new_event_handle};
-    use cedra_framework::cedra_account::{Self, assert_account_is_registered_for_apt};
+    use cedra_framework::cedra_account::{Self, assert_account_is_registered_for_cedra};
     use cedra_framework::cedra_coin::CedraCoin;
     use cedra_framework::coin::{Self, Coin};
     use cedra_framework::event::{EventHandle, emit, emit_event};
@@ -559,7 +559,7 @@ module cedra_framework::vesting {
             !system_addresses::is_reserved_address(withdrawal_address),
             error::invalid_argument(EINVALID_WITHDRAWAL_ADDRESS),
         );
-        assert_account_is_registered_for_apt(withdrawal_address);
+        assert_account_is_registered_for_cedra(withdrawal_address);
         assert!(vector::length(shareholders) > 0, error::invalid_argument(ENO_SHAREHOLDERS));
         assert!(
             simple_map::length(&buy_ins) == vector::length(shareholders),
@@ -1028,7 +1028,7 @@ module cedra_framework::vesting {
     ) acquires VestingContract {
         // Verify that the beneficiary account is set up to receive Cedra. This is a requirement so distribute() wouldn't
         // fail and block all other accounts from receiving Cedra if one beneficiary is not registered.
-        assert_account_is_registered_for_apt(new_beneficiary);
+        assert_account_is_registered_for_cedra(new_beneficiary);
 
         let vesting_contract = borrow_global_mut<VestingContract>(contract_address);
         verify_admin(admin, vesting_contract);

@@ -40,7 +40,7 @@ use serde_json::Value;
 use std::fmt::Display;
 
 /// An enum representing the different types of outputs for APIs
-#[derive(ResponseContent)]
+#[derive(ResponseContent, Debug)]
 pub enum CedraResponseContent<T: ToJSON + Send + Sync> {
     /// When returning data as JSON, we take in T and then serialize to JSON as
     /// part of the response.
@@ -752,4 +752,37 @@ pub fn block_pruned_by_height<E: GoneError>(block_height: u64, ledger_info: &Led
         CedraErrorCode::BlockPruned,
         ledger_info,
     )
+}
+
+use std::fmt;
+
+impl<T: fmt::Debug + poem_openapi::types::ToJSON + Send + Sync> fmt::Debug for BasicResponse<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            BasicResponse::Ok(
+                content,
+                chain_id,
+                ledger_version,
+                oldest_ledger_version,
+                ledger_timestamp,
+                epoch,
+                block_height,
+                oldest_block_height,
+                gas_used,
+                cursor,
+            ) => f
+                .debug_struct("BasicResponse::Ok")
+                .field("content", content)
+                .field("chain_id", chain_id)
+                .field("ledger_version", ledger_version)
+                .field("oldest_ledger_version", oldest_ledger_version)
+                .field("ledger_timestamp", ledger_timestamp)
+                .field("epoch", epoch)
+                .field("block_height", block_height)
+                .field("oldest_block_height", oldest_block_height)
+                .field("gas_used", gas_used)
+                .field("cursor", cursor)
+                .finish(),
+        }
+    }
 }

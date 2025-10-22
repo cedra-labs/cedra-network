@@ -43,7 +43,7 @@ const TESTNET_CODE_OBJECT_ADDR: &str =
 const TESTNET_ACCOUNT_CEDRA_BALANCE: u64 = 91_8290_3550;
 
 /// Helper function to fetch the Cedra balance of the specified account.
-fn get_account_apt_balance(h: &mut MoveHarness, addr: AccountAddress) -> u64 {
+fn get_account_cedra_balance(h: &mut MoveHarness, addr: AccountAddress) -> u64 {
     let bytes = h
         .execute_view_function(
             str::parse("0x1::coin::balance").unwrap(),
@@ -77,7 +77,7 @@ async fn view_existing_account_balance() {
     let existing_account_addr = AccountAddress::from_hex_literal(TESTNET_ACCOUNT_ADDR).unwrap();
 
     assert_eq!(
-        get_account_apt_balance(&mut h, existing_account_addr),
+        get_account_cedra_balance(&mut h, existing_account_addr),
         TESTNET_ACCOUNT_CEDRA_BALANCE
     )
 }
@@ -111,7 +111,7 @@ async fn transfer_to_existing_account() {
 
     // Verify that the recipient's balance has increased by 1 Cedra.
     assert_eq!(
-        get_account_apt_balance(&mut h, existing_account_addr),
+        get_account_cedra_balance(&mut h, existing_account_addr),
         TESTNET_ACCOUNT_CEDRA_BALANCE + 1_0000_0000
     )
 }
@@ -155,7 +155,7 @@ async fn transfer_from_existing_account() {
     // Assert that the sender's balance has decreased
     // (but due to gas fees, the exact value will be slightly less).
     assert!(
-        get_account_apt_balance(&mut h, existing_account_addr)
+        get_account_cedra_balance(&mut h, existing_account_addr)
             < TESTNET_ACCOUNT_CEDRA_BALANCE - 1_0000_0000
     );
 }

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::common::types::{CliCommand, CliTypedResult, TransactionOptions};
+use async_trait::async_trait;
 use cedra_cached_packages::cedra_stdlib;
 use cedra_rest_client::{
     cedra_api_types::{HashValue, WriteResource, WriteSetChange},
     Transaction,
 };
 use cedra_types::account_address::AccountAddress;
-use async_trait::async_trait;
 use clap::Parser;
 use serde::Serialize;
 use std::collections::BTreeMap;

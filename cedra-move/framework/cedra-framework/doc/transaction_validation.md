@@ -35,6 +35,7 @@
 -  [Function `unified_prologue_v2`](#0x1_transaction_validation_unified_prologue_v2)
 -  [Function `unified_prologue_fee_payer_v2`](#0x1_transaction_validation_unified_prologue_fee_payer_v2)
 -  [Function `unified_epilogue_v2`](#0x1_transaction_validation_unified_epilogue_v2)
+-  [Function `unified_epilogue_fee`](#0x1_transaction_validation_unified_epilogue_fee)
 -  [Specification](#@Specification_1)
     -  [High-level Requirements](#high-level-req)
     -  [Module-level Specification](#module-level-spec)
@@ -404,9 +405,7 @@ Master signer grant permissioned signer ability to consume a given amount of gas
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_grant_gas_permission">grant_gas_permission</a>(
-    master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    gas_amount: u64
+    master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, gas_amount: u64
 ) {
     <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_increase">permissioned_signer::authorize_increase</a>(
         master,
@@ -468,19 +467,22 @@ Only called during genesis to initialize system resources for this module.
     // module_prologue_name is deprecated and not used.
     module_prologue_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     multi_agent_prologue_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    user_epilogue_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    user_epilogue_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
 
-    <b>move_to</b>(cedra_framework, <a href="transaction_validation.md#0x1_transaction_validation_TransactionValidation">TransactionValidation</a> {
-        module_addr: @cedra_framework,
-        module_name: b"<a href="transaction_validation.md#0x1_transaction_validation">transaction_validation</a>",
-        script_prologue_name,
-        // module_prologue_name is deprecated and not used.
-        module_prologue_name,
-        multi_agent_prologue_name,
-        user_epilogue_name,
-    });
+    <b>move_to</b>(
+        cedra_framework,
+        <a href="transaction_validation.md#0x1_transaction_validation_TransactionValidation">TransactionValidation</a> {
+            module_addr: @cedra_framework,
+            module_name: b"<a href="transaction_validation.md#0x1_transaction_validation">transaction_validation</a>",
+            script_prologue_name,
+            // module_prologue_name is deprecated and not used.
+            module_prologue_name,
+            multi_agent_prologue_name,
+            user_epilogue_name
+        }
+    );
 }
 </code></pre>
 
@@ -503,10 +505,17 @@ Only called during genesis to initialize system resources for this module.
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_allow_missing_txn_authentication_key">allow_missing_txn_authentication_key</a>(transaction_sender: <b>address</b>): bool {
+<pre><code>inline <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_allow_missing_txn_authentication_key">allow_missing_txn_authentication_key</a>(
+    transaction_sender: <b>address</b>
+): bool {
     // aa verifies authentication itself
     <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_derivable_account_abstraction_enabled">features::is_derivable_account_abstraction_enabled</a>()
-        || (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_account_abstraction_enabled">features::is_account_abstraction_enabled</a>() && <a href="account_abstraction.md#0x1_account_abstraction_using_dispatchable_authenticator">account_abstraction::using_dispatchable_authenticator</a>(transaction_sender))
+        || (
+            <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_account_abstraction_enabled">features::is_account_abstraction_enabled</a>()
+                && <a href="account_abstraction.md#0x1_account_abstraction_using_dispatchable_authenticator">account_abstraction::using_dispatchable_authenticator</a>(
+                    transaction_sender
+                )
+        )
 }
 </code></pre>
 
@@ -538,15 +547,18 @@ Only called during genesis to initialize system resources for this module.
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <b>let</b> sender_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender);
     <b>let</b> gas_payer_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(gas_payer);
     <b>assert</b>!(
         <a href="timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt; txn_expiration_time,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ETRANSACTION_EXPIRED">PROLOGUE_ETRANSACTION_EXPIRED</a>),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ETRANSACTION_EXPIRED">PROLOGUE_ETRANSACTION_EXPIRED</a>)
     );
-    <b>assert</b>!(<a href="chain_id.md#0x1_chain_id_get">chain_id::get</a>() == <a href="chain_id.md#0x1_chain_id">chain_id</a>, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EBAD_CHAIN_ID">PROLOGUE_EBAD_CHAIN_ID</a>));
+    <b>assert</b>!(
+        <a href="chain_id.md#0x1_chain_id_get">chain_id::get</a>() == <a href="chain_id.md#0x1_chain_id">chain_id</a>,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EBAD_CHAIN_ID">PROLOGUE_EBAD_CHAIN_ID</a>)
+    );
 
     // TODO[Orderless]: Here, we are maintaining the same order of validation steps <b>as</b> before orderless txns were introduced.
     // Ideally, do the replay protection check in the end after the authentication key check and gas payment checks.
@@ -555,8 +567,9 @@ Only called during genesis to initialize system resources for this module.
     <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(is_simulation, &txn_authentication_key)) {
         <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&txn_authentication_key)) {
             <b>assert</b>!(
-                txn_authentication_key == <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(sender_address)),
-                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>),
+                txn_authentication_key
+                    == <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(sender_address)),
+                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>)
             );
         } <b>else</b> {
             <b>assert</b>!(
@@ -567,29 +580,22 @@ Only called during genesis to initialize system resources for this module.
     };
 
     // Check for replay protection
-    match (replay_protector) {
+    match(replay_protector) {
         SequenceNumber(txn_sequence_number) =&gt; {
             <a href="transaction_validation.md#0x1_transaction_validation_check_for_replay_protection_regular_txn">check_for_replay_protection_regular_txn</a>(
-                sender_address,
-                gas_payer_address,
-                txn_sequence_number,
+                sender_address, gas_payer_address, txn_sequence_number
             );
         },
         Nonce(nonce) =&gt; {
             <a href="transaction_validation.md#0x1_transaction_validation_check_for_replay_protection_orderless_txn">check_for_replay_protection_orderless_txn</a>(
-                sender_address,
-                nonce,
-                txn_expiration_time,
+                sender_address, nonce, txn_expiration_time
             );
         }
     };
 
     // Check <b>if</b> the gas payer <b>has</b> enough balance <b>to</b> pay for the transaction
     <b>let</b> max_transaction_fee = txn_gas_price * txn_max_gas_units;
-    <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(
-        is_simulation,
-        gas_payer_address
-    )) {
+    <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(is_simulation, gas_payer_address)) {
         <b>assert</b>!(
             <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">permissioned_signer::check_permission_capacity_above</a>(
                 gas_payer,
@@ -598,14 +604,18 @@ Only called during genesis to initialize system resources for this module.
             ),
             <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT">PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT</a>)
         );
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>assert</b>!(
-                <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer_address, max_transaction_fee),
+                <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(
+                    gas_payer_address, max_transaction_fee
+                ),
                 <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
             );
         } <b>else</b> {
             <b>assert</b>!(
-                <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(gas_payer_address, max_transaction_fee),
+                <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(
+                    gas_payer_address, max_transaction_fee
+                ),
                 <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
             );
         }
@@ -633,17 +643,16 @@ Only called during genesis to initialize system resources for this module.
 
 
 <pre><code><b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_check_for_replay_protection_regular_txn">check_for_replay_protection_regular_txn</a>(
-    sender_address: <b>address</b>,
-    gas_payer_address: <b>address</b>,
-    txn_sequence_number: u64,
+    sender_address: <b>address</b>, gas_payer_address: <b>address</b>, txn_sequence_number: u64
 ) {
-    <b>if</b> (
-        sender_address == gas_payer_address
-            || <a href="account.md#0x1_account_exists_at">account::exists_at</a>(sender_address)
-            || !<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_sponsored_automatic_account_creation_enabled">features::sponsored_automatic_account_creation_enabled</a>()
-            || txn_sequence_number &gt; 0
-    ) {
-        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">account::exists_at</a>(sender_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EACCOUNT_DOES_NOT_EXIST">PROLOGUE_EACCOUNT_DOES_NOT_EXIST</a>));
+    <b>if</b> (sender_address == gas_payer_address
+        || <a href="account.md#0x1_account_exists_at">account::exists_at</a>(sender_address)
+        || !<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_sponsored_automatic_account_creation_enabled">features::sponsored_automatic_account_creation_enabled</a>()
+        || txn_sequence_number &gt; 0) {
+        <b>assert</b>!(
+            <a href="account.md#0x1_account_exists_at">account::exists_at</a>(sender_address),
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EACCOUNT_DOES_NOT_EXIST">PROLOGUE_EACCOUNT_DOES_NOT_EXIST</a>)
+        );
         <b>let</b> account_sequence_number = <a href="account.md#0x1_account_get_sequence_number">account::get_sequence_number</a>(sender_address);
         <b>assert</b>!(
             txn_sequence_number &lt; (1u64 &lt;&lt; 63),
@@ -690,16 +699,19 @@ Only called during genesis to initialize system resources for this module.
 
 
 <pre><code><b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_check_for_replay_protection_orderless_txn">check_for_replay_protection_orderless_txn</a>(
-    sender: <b>address</b>,
-    nonce: u64,
-    txn_expiration_time: u64,
+    sender: <b>address</b>, nonce: u64, txn_expiration_time: u64
 ) {
     // prologue_common already checks that the current_time &gt; txn_expiration_time
     <b>assert</b>!(
-        txn_expiration_time &lt;= <a href="timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() + <a href="transaction_validation.md#0x1_transaction_validation_MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS">MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS</a>,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE">PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE</a>),
+        txn_expiration_time
+            &lt;= <a href="timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>()
+                + <a href="transaction_validation.md#0x1_transaction_validation_MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS">MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS</a>,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE">PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE</a>)
     );
-    <b>assert</b>!(<a href="nonce_validation.md#0x1_nonce_validation_check_and_insert_nonce">nonce_validation::check_and_insert_nonce</a>(sender, nonce, txn_expiration_time), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ENONCE_ALREADY_USED">PROLOGUE_ENONCE_ALREADY_USED</a>));
+    <b>assert</b>!(
+        <a href="nonce_validation.md#0x1_nonce_validation_check_and_insert_nonce">nonce_validation::check_and_insert_nonce</a>(sender, nonce, txn_expiration_time),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ENONCE_ALREADY_USED">PROLOGUE_ENONCE_ALREADY_USED</a>)
+    );
 }
 </code></pre>
 
@@ -730,7 +742,7 @@ Only called during genesis to initialize system resources for this module.
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    _script_hash: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    _script_hash: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) {
     // prologue_common <b>with</b> is_simulation set <b>to</b> <b>false</b> behaves identically <b>to</b> the original script_prologue function.
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
@@ -742,7 +754,7 @@ Only called during genesis to initialize system resources for this module.
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        <b>false</b>,
+        <b>false</b>
     )
 }
 </code></pre>
@@ -775,7 +787,7 @@ Only called during genesis to initialize system resources for this module.
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
     _script_hash: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
         &sender,
@@ -786,7 +798,7 @@ Only called during genesis to initialize system resources for this module.
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
     )
 }
 </code></pre>
@@ -819,7 +831,7 @@ Only called during genesis to initialize system resources for this module.
     txn_gas_price: u64,
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
-    <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
+    <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8
 ) {
     // prologue_common and multi_agent_common_prologue <b>with</b> is_simulation set <b>to</b> <b>false</b> behaves identically <b>to</b> the
     // original multi_agent_script_prologue function.
@@ -832,7 +844,7 @@ Only called during genesis to initialize system resources for this module.
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        <b>false</b>,
+        <b>false</b>
     );
     <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
         secondary_signer_addresses,
@@ -871,7 +883,7 @@ Only called during genesis to initialize system resources for this module.
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
         &sender,
@@ -882,7 +894,7 @@ Only called during genesis to initialize system resources for this module.
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
     );
     <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
         secondary_signer_addresses,
@@ -914,12 +926,13 @@ Only called during genesis to initialize system resources for this module.
 <pre><code><b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
     secondary_signer_addresses: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<b>address</b>&gt;,
     secondary_signer_public_key_hashes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;&gt;,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <b>let</b> num_secondary_signers = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&secondary_signer_addresses);
     <b>assert</b>!(
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&secondary_signer_public_key_hashes) == num_secondary_signers,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH">PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH</a>),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&secondary_signer_public_key_hashes)
+            == num_secondary_signers,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH">PROLOGUE_ESECONDARY_KEYS_ADDRESSES_COUNT_MISMATCH</a>)
     );
 
     <b>let</b> i = 0;
@@ -951,12 +964,19 @@ Only called during genesis to initialize system resources for this module.
         (i &lt; num_secondary_signers)
     }) {
         <b>let</b> secondary_address = *<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&secondary_signer_addresses, i);
-        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">account::exists_at</a>(secondary_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EACCOUNT_DOES_NOT_EXIST">PROLOGUE_EACCOUNT_DOES_NOT_EXIST</a>));
-        <b>let</b> signer_public_key_hash = *<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&secondary_signer_public_key_hashes, i);
+        <b>assert</b>!(
+            <a href="account.md#0x1_account_exists_at">account::exists_at</a>(secondary_address),
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EACCOUNT_DOES_NOT_EXIST">PROLOGUE_EACCOUNT_DOES_NOT_EXIST</a>)
+        );
+        <b>let</b> signer_public_key_hash =
+            *<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&secondary_signer_public_key_hashes, i);
         <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(is_simulation, &signer_public_key_hash)) {
             <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&signer_public_key_hash)) {
                 <b>assert</b>!(
-                    signer_public_key_hash == <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(secondary_address)),
+                    signer_public_key_hash
+                        == <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
+                            <a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(secondary_address)
+                        ),
                     <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>)
                 );
             } <b>else</b> {
@@ -1002,9 +1022,12 @@ Only called during genesis to initialize system resources for this module.
     txn_gas_price: u64,
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
-    <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
+    <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8
 ) {
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_payer_enabled">features::fee_payer_enabled</a>(), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EFEE_PAYER_NOT_ENABLED">PROLOGUE_EFEE_PAYER_NOT_ENABLED</a>));
+    <b>assert</b>!(
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_payer_enabled">features::fee_payer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EFEE_PAYER_NOT_ENABLED">PROLOGUE_EFEE_PAYER_NOT_ENABLED</a>)
+    );
     // prologue_common and multi_agent_common_prologue <b>with</b> is_simulation set <b>to</b> <b>false</b> behaves identically <b>to</b> the
     // original fee_payer_script_prologue function.
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
@@ -1016,7 +1039,7 @@ Only called during genesis to initialize system resources for this module.
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        <b>false</b>,
+        <b>false</b>
     );
     <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
         secondary_signer_addresses,
@@ -1024,8 +1047,9 @@ Only called during genesis to initialize system resources for this module.
         <b>false</b>
     );
     <b>assert</b>!(
-        fee_payer_public_key_hash == <a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(fee_payer_address),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>),
+        fee_payer_public_key_hash
+            == <a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(fee_payer_address),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>)
     );
 }
 </code></pre>
@@ -1061,9 +1085,12 @@ Only called during genesis to initialize system resources for this module.
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_payer_enabled">features::fee_payer_enabled</a>(), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EFEE_PAYER_NOT_ENABLED">PROLOGUE_EFEE_PAYER_NOT_ENABLED</a>));
+    <b>assert</b>!(
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_payer_enabled">features::fee_payer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EFEE_PAYER_NOT_ENABLED">PROLOGUE_EFEE_PAYER_NOT_ENABLED</a>)
+    );
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
         &sender,
         &<a href="create_signer.md#0x1_create_signer_create_signer">create_signer::create_signer</a>(fee_payer_address),
@@ -1073,18 +1100,21 @@ Only called during genesis to initialize system resources for this module.
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
     );
     <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
         secondary_signer_addresses,
         <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_map">vector::map</a>(secondary_signer_public_key_hashes, |x| <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(x)),
         is_simulation
     );
-    <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(is_simulation, &<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(fee_payer_public_key_hash))) {
-            <b>assert</b>!(
-                fee_payer_public_key_hash == <a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(fee_payer_address),
-                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>),
-            )
+    <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(
+        is_simulation, &<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(fee_payer_public_key_hash)
+    )) {
+        <b>assert</b>!(
+            fee_payer_public_key_hash
+                == <a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(fee_payer_address),
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>)
+        )
     }
 }
 </code></pre>
@@ -1115,7 +1145,7 @@ Called by the Adapter
     storage_fee_refunded: u64,
     txn_gas_price: u64,
     txn_max_gas_units: u64,
-    gas_units_remaining: u64,
+    gas_units_remaining: u64
 ) {
     <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
     <a href="transaction_validation.md#0x1_transaction_validation_epilogue_gas_payer">epilogue_gas_payer</a>(
@@ -1154,7 +1184,7 @@ Called by the Adapter
     txn_gas_price: u64,
     txn_max_gas_units: u64,
     gas_units_remaining: u64,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
     <a href="transaction_validation.md#0x1_transaction_validation_epilogue_gas_payer_extended">epilogue_gas_payer_extended</a>(
@@ -1207,7 +1237,7 @@ Called by the Adapter
         txn_gas_price,
         txn_max_gas_units,
         gas_units_remaining,
-        <b>false</b>,
+        <b>false</b>
     );
 }
 </code></pre>
@@ -1238,9 +1268,12 @@ Called by the Adapter
     txn_gas_price: u64,
     txn_max_gas_units: u64,
     gas_units_remaining: u64,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
-    <b>assert</b>!(txn_max_gas_units &gt;= gas_units_remaining, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>));
+    <b>assert</b>!(
+        txn_max_gas_units &gt;= gas_units_remaining,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+    );
     <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
 
     <b>assert</b>!(
@@ -1252,15 +1285,19 @@ Called by the Adapter
     // it's important <b>to</b> maintain the <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">error</a> <a href="code.md#0x1_code">code</a> consistent <b>with</b> vm
     // <b>to</b> do failed transaction cleanup.
     <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(is_simulation, gas_payer)) {
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>assert</b>!(
-                <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer, transaction_fee_amount),
-                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>),
+                <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(
+                    gas_payer, transaction_fee_amount
+                ),
+                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
             );
         } <b>else</b> {
             <b>assert</b>!(
-                <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(gas_payer, transaction_fee_amount),
-                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>),
+                <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(
+                    gas_payer, transaction_fee_amount
+                ),
+                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
             );
         };
 
@@ -1298,8 +1335,11 @@ Called by the Adapter
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(is_simulation: bool, auth_key: &Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;): bool {
-    is_simulation && (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_none">option::is_none</a>(auth_key) || <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_is_empty">vector::is_empty</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_borrow">option::borrow</a>(auth_key)))
+<pre><code>inline <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(
+    is_simulation: bool, auth_key: &Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
+): bool {
+    is_simulation
+        && (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_none">option::is_none</a>(auth_key) || <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_is_empty">vector::is_empty</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_borrow">option::borrow</a>(auth_key)))
 }
 </code></pre>
 
@@ -1358,7 +1398,7 @@ new set of functions
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_unified_prologue_v2">unified_prologue_v2</a>(
         sender,
@@ -1370,7 +1410,7 @@ new set of functions
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
 
     )
 }
@@ -1410,7 +1450,7 @@ If there is no fee_payer, fee_payer = sender
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_unified_prologue_fee_payer_v2">unified_prologue_fee_payer_v2</a>(
         sender,
@@ -1424,7 +1464,7 @@ If there is no fee_payer, fee_payer = sender
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
     )
 }
 </code></pre>
@@ -1455,7 +1495,7 @@ If there is no fee_payer, fee_payer = sender
     txn_gas_price: u64,
     txn_max_gas_units: u64,
     gas_units_remaining: u64,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_v2">unified_epilogue_v2</a>(
         <a href="account.md#0x1_account">account</a>,
@@ -1465,7 +1505,7 @@ If there is no fee_payer, fee_payer = sender
         txn_max_gas_units,
         gas_units_remaining,
         is_simulation,
-        <b>false</b>,
+        <b>false</b>
     )
 }
 </code></pre>
@@ -1500,7 +1540,7 @@ new set of functions to support txn payload v2 format and orderless transactions
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
         &sender,
@@ -1511,9 +1551,13 @@ new set of functions to support txn payload v2 format and orderless transactions
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
     );
-    <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(secondary_signer_addresses, secondary_signer_public_key_hashes, is_simulation);
+    <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
+        secondary_signer_addresses,
+        secondary_signer_public_key_hashes,
+        is_simulation
+    );
 }
 </code></pre>
 
@@ -1549,7 +1593,7 @@ If there is no fee_payer, fee_payer = sender
     txn_max_gas_units: u64,
     txn_expiration_time: u64,
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: u8,
-    is_simulation: bool,
+    is_simulation: bool
 ) {
     <a href="transaction_validation.md#0x1_transaction_validation_prologue_common">prologue_common</a>(
         &sender,
@@ -1560,14 +1604,21 @@ If there is no fee_payer, fee_payer = sender
         txn_max_gas_units,
         txn_expiration_time,
         <a href="chain_id.md#0x1_chain_id">chain_id</a>,
-        is_simulation,
+        is_simulation
     );
-    <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(secondary_signer_addresses, secondary_signer_public_key_hashes, is_simulation);
+    <a href="transaction_validation.md#0x1_transaction_validation_multi_agent_common_prologue">multi_agent_common_prologue</a>(
+        secondary_signer_addresses,
+        secondary_signer_public_key_hashes,
+        is_simulation
+    );
     <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_auth_key_check">skip_auth_key_check</a>(is_simulation, &fee_payer_public_key_hash)) {
         <b>let</b> fee_payer_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&fee_payer);
         <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&fee_payer_public_key_hash)) {
             <b>assert</b>!(
-                fee_payer_public_key_hash == <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(fee_payer_address)),
+                fee_payer_public_key_hash
+                    == <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
+                        <a href="account.md#0x1_account_get_authentication_key">account::get_authentication_key</a>(fee_payer_address)
+                    ),
                 <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY">PROLOGUE_EINVALID_ACCOUNT_AUTH_KEY</a>)
             );
         } <b>else</b> {
@@ -1607,9 +1658,110 @@ If there is no fee_payer, fee_payer = sender
     txn_max_gas_units: u64,
     gas_units_remaining: u64,
     is_simulation: bool,
-    is_orderless_txn: bool,
+    is_orderless_txn: bool
 ) {
-    <b>assert</b>!(txn_max_gas_units &gt;= gas_units_remaining, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>));
+    /*
+        TODO: ???
+        1. Check fa_address
+        2. Check <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) { }
+        3. Add flow for both cases. Run spefic flow by fa_address. (<b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) && fa_addres != Cedra && len(fa_address) &gt; 0)
+    */
+    // <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) { }
+    // <b>else</b> {
+        <b>assert</b>!(
+            txn_max_gas_units &gt;= gas_units_remaining,
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+        );
+        <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
+
+        <b>assert</b>!(
+            (txn_gas_price <b>as</b> u128) * (gas_used <b>as</b> u128) &lt;= <a href="transaction_validation.md#0x1_transaction_validation_MAX_U64">MAX_U64</a>,
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+        );
+        <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
+
+        <b>let</b> gas_payer_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&gas_payer);
+        // it's important <b>to</b> maintain the <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">error</a> <a href="code.md#0x1_code">code</a> consistent <b>with</b> vm
+        // <b>to</b> do failed transaction cleanup.
+        <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(is_simulation, gas_payer_address)) {
+            <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
+                <b>assert</b>!(
+                    <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(
+                        gas_payer_address, transaction_fee_amount
+                    ),
+                    <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
+                );
+            } <b>else</b> {
+                <b>assert</b>!(
+                    <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(
+                        gas_payer_address, transaction_fee_amount
+                    ),
+                    <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
+                );
+            };
+
+            <b>if</b> (transaction_fee_amount &gt; storage_fee_refunded) {
+                <b>let</b> burn_amount = transaction_fee_amount - storage_fee_refunded;
+                <a href="transaction_fee.md#0x1_transaction_fee_burn_fee">transaction_fee::burn_fee</a>(gas_payer_address, burn_amount);
+                <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">permissioned_signer::check_permission_consume</a>(
+                    &gas_payer,
+                    (burn_amount <b>as</b> u256),
+                    <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
+                );
+            } <b>else</b> <b>if</b> (transaction_fee_amount &lt; storage_fee_refunded) {
+                <b>let</b> mint_amount = storage_fee_refunded - transaction_fee_amount;
+                <a href="transaction_fee.md#0x1_transaction_fee_mint_and_refund">transaction_fee::mint_and_refund</a>(gas_payer_address, mint_amount);
+                <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">permissioned_signer::increase_limit</a>(
+                    &gas_payer,
+                    (mint_amount <b>as</b> u256),
+                    <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
+                );
+            };
+        };
+
+        <b>if</b> (!is_orderless_txn) {
+            // Increment sequence number
+            <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
+            <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
+        }
+    // }
+}
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_transaction_validation_unified_epilogue_fee"></a>
+
+## Function `unified_epilogue_fee`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee">unified_epilogue_fee</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, storage_fee_refunded: u64, txn_gas_price: u64, txn_max_gas_units: u64, gas_units_remaining: u64, fa_addr: <b>address</b>, fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee">unified_epilogue_fee</a>(
+    from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    storage_fee_refunded: u64,
+    txn_gas_price: u64,
+    txn_max_gas_units: u64,
+    gas_units_remaining: u64,
+    fa_addr: <b>address</b>,
+    fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+) {
+<b>if</b> (fa_addr != @0x1) {
+    <b>assert</b>!(
+        txn_max_gas_units &gt;= gas_units_remaining,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+    );
     <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
 
     <b>assert</b>!(
@@ -1617,50 +1769,12 @@ If there is no fee_payer, fee_payer = sender
         <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
     );
     <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
+    <b>let</b> fee_amount = transaction_fee_amount - storage_fee_refunded;
 
-    <b>let</b> gas_payer_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&gas_payer);
-    // it's important <b>to</b> maintain the <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">error</a> <a href="code.md#0x1_code">code</a> consistent <b>with</b> vm
-    // <b>to</b> do failed transaction cleanup.
-    <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(
-        is_simulation,
-        gas_payer_address
-    )) {
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_apt_store_enabled">features::operations_default_to_fa_apt_store_enabled</a>()) {
-            <b>assert</b>!(
-                <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(gas_payer_address, transaction_fee_amount),
-                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>),
-            );
-        } <b>else</b> {
-            <b>assert</b>!(
-                <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(gas_payer_address, transaction_fee_amount),
-                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>),
-            );
-        };
+    <b>let</b> from_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
 
-        <b>if</b> (transaction_fee_amount &gt; storage_fee_refunded) {
-            <b>let</b> burn_amount = transaction_fee_amount - storage_fee_refunded;
-            <a href="transaction_fee.md#0x1_transaction_fee_burn_fee">transaction_fee::burn_fee</a>(gas_payer_address, burn_amount);
-            <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">permissioned_signer::check_permission_consume</a>(
-                &gas_payer,
-                (burn_amount <b>as</b> u256),
-                <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
-            );
-        } <b>else</b> <b>if</b> (transaction_fee_amount &lt; storage_fee_refunded) {
-            <b>let</b> mint_amount = storage_fee_refunded - transaction_fee_amount;
-            <a href="transaction_fee.md#0x1_transaction_fee_mint_and_refund">transaction_fee::mint_and_refund</a>(gas_payer_address, mint_amount);
-            <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">permissioned_signer::increase_limit</a>(
-                &gas_payer,
-                (mint_amount <b>as</b> u256),
-                <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
-            );
-        };
-    };
-
-    <b>if</b> (!is_orderless_txn) {
-        // Increment sequence number
-        <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
-        <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
-    }
+    <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
+}
 }
 </code></pre>
 
@@ -2219,17 +2333,17 @@ Skip transaction_fee::burn_fee verification.
     <b>ensures</b> <a href="account.md#0x1_account">account</a>.sequence_number == pre_account.sequence_number + 1;
     <b>let</b> amount_to_burn = transaction_fee_amount - storage_fee_refunded;
     <b>let</b> apt_addr = <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info_type_of">type_info::type_of</a>&lt;CedraCoin&gt;().account_address;
-    <b>let</b> maybe_apt_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
-    <b>let</b> total_supply_enabled = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_apt_supply);
-    <b>let</b> apt_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(maybe_apt_supply);
+    <b>let</b> maybe_cedra_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
+    <b>let</b> total_supply_enabled = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_cedra_supply);
+    <b>let</b> apt_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(maybe_cedra_supply);
     <b>let</b> apt_supply_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(apt_supply);
-    <b>let</b> <b>post</b> post_maybe_apt_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
-    <b>let</b> <b>post</b> post_apt_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(post_maybe_apt_supply);
-    <b>let</b> <b>post</b> post_apt_supply_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(post_apt_supply);
+    <b>let</b> <b>post</b> post_maybe_cedra_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr).supply;
+    <b>let</b> <b>post</b> post_cedra_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(post_maybe_cedra_supply);
+    <b>let</b> <b>post</b> post_cedra_supply_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(post_cedra_supply);
     <b>aborts_if</b> amount_to_burn &gt; 0 && !<b>exists</b>&lt;CedraCoinCapabilities&gt;(@cedra_framework);
     <b>aborts_if</b> amount_to_burn &gt; 0 && !<b>exists</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(apt_addr);
     <b>aborts_if</b> amount_to_burn &gt; 0 && total_supply_enabled && apt_supply_value &lt; amount_to_burn;
-    <b>ensures</b> total_supply_enabled ==&gt; apt_supply_value - amount_to_burn == post_apt_supply_value;
+    <b>ensures</b> total_supply_enabled ==&gt; apt_supply_value - amount_to_burn == post_cedra_supply_value;
     <b>let</b> amount_to_mint = storage_fee_refunded - transaction_fee_amount;
     <b>let</b> total_supply = <a href="coin.md#0x1_coin_supply">coin::supply</a>&lt;CedraCoin&gt;;
     <b>let</b> <b>post</b> post_total_supply = <a href="coin.md#0x1_coin_supply">coin::supply</a>&lt;CedraCoin&gt;;

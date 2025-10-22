@@ -10,6 +10,7 @@ use cedra_types::{
         authenticator::{AccountAuthenticator, TransactionAuthenticator},
         EntryFunction, RawTransaction, SignedTransaction, TransactionPayload,
     },
+    CedraCoinType, CoinType,
 };
 use move_core_types::{ident_str, language_storage::ModuleId};
 use serde_json::json;
@@ -266,6 +267,7 @@ async fn bcs_simulate_fee_payer_transaction_without_gas_fee_check(context: &mut 
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        CedraCoinType::type_tag(),
     );
     let txn = SignedTransaction::new_signed_transaction(
         raw_txn.clone(),
@@ -326,6 +328,7 @@ async fn test_bcs_simulate_automated_account_creation() {
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        CedraCoinType::type_tag(),
     );
     // Replace the authenticator with a NoAccountAuthenticator in the transaction.
     let txn = SignedTransaction::new_signed_transaction(
@@ -351,14 +354,16 @@ async fn test_bcs_simulate_automated_account_creation() {
         pretty(&resp)
     );
 
-    let txn =
-        SignedTransaction::new_signed_transaction(raw_txn, TransactionAuthenticator::FeePayer {
+    let txn = SignedTransaction::new_signed_transaction(
+        raw_txn,
+        TransactionAuthenticator::FeePayer {
             sender: AccountAuthenticator::NoAccountAuthenticator,
             secondary_signer_addresses: vec![],
             secondary_signers: vec![],
             fee_payer_address: AccountAddress::ZERO,
             fee_payer_signer: AccountAuthenticator::NoAccountAuthenticator,
-        });
+        },
+    );
     let body = bcs::to_bytes(&txn).unwrap();
     let resp = context
         .expect_status_code(200)
@@ -418,6 +423,7 @@ async fn test_bcs_execute_fee_payer_transaction_no_authenticator_fail() {
         100,
         txn.expiration_timestamp_secs(),
         txn.chain_id(),
+        CedraCoinType::type_tag(),
     );
 
     let txn = SignedTransaction::new_signed_transaction(

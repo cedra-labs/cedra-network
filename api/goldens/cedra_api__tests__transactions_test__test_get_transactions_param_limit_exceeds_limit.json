@@ -9665,7 +9665,7 @@
                 "return": []
               },
               {
-                "name": "assert_account_is_registered_for_apt",
+                "name": "assert_account_is_registered_for_cedra",
                 "visibility": "public",
                 "is_entry": false,
                 "generic_type_params": [],
@@ -26555,7 +26555,7 @@
                     "return": []
                   },
                   {
-                    "name": "assert_account_is_registered_for_apt",
+                    "name": "assert_account_is_registered_for_cedra",
                     "visibility": "public",
                     "is_entry": false,
                     "generic_type_params": [],
