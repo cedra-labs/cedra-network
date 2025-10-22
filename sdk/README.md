@@ -1,8 +1,5 @@
 # cedra-sdk
-
-[![cedra-sdk on crates.io](https://img.shields.io/crates/v/cedra-sdk)](https://crates.io/crates/cedra-sdk)
-[![Documentation (latest release)](https://docs.rs/cedra-sdk/badge.svg)](https://docs.rs/cedra-sdk/)
-[![Documentation (master)](https://img.shields.io/badge/docs-master-59f)](https://cedra-network.github.io/cedra/cedra_sdk/)
+[![Documentation (master)](https://img.shields.io/badge/docs-master-59f)](https://github.com/cedra-labs/docs/blob/main/docs/sdks/rust-sdk.mdx)
 [![License](https://img.shields.io/badge/license-Apache-green.svg)](https://github.com/cedra-labs/cedra-network/blob/main/LICENSE)
 
 The official Rust SDK for Cedra.
@@ -11,13 +8,13 @@ The official Rust SDK for Cedra.
 
 This SDK provides all the necessary components for building on top of the Cedra Blockchain. Some of the important modules are:
 
-* `client` - Includes a [REST client](https://cedra.dev/nodes/cedra-api-spec#/) implementation
+* `client` - Includes a implementation
 * `crypto` - Types used for signing and verifying
 * `transaction_builder` - Includes helpers for constructing transactions
 * `types` - Includes types for Cedra on-chain data structures
 
 ## Installing Rust SDK
-Please refer to [Rust SDK Doc](https://cedra.dev/sdks/rust-sdk/) for details on how to install the Rust SDK.
+Please refer to [Rust SDK Doc](https://docs.cedra.network/sdks/rust-sdk/) for details about Rust SDK.
 
 ## License
 

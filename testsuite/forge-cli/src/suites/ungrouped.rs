@@ -940,7 +940,7 @@ pub async fn check_account_balance(
     expected: u64,
 ) -> Result<()> {
     let balance = client
-        .view_apt_account_balance(account_address)
+        .view_cedra_account_balance(account_address)
         .await?
         .into_inner();
     assert_eq!(balance, expected);

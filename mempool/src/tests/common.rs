@@ -19,6 +19,7 @@ use cedra_types::{
         RawTransaction, ReplayProtector, Script, SignedTransaction, TransactionArgument,
         TransactionExecutable,
     },
+    CedraCoinType, CoinType,
 };
 use once_cell::sync::Lazy;
 use rand::{rngs::StdRng, SeedableRng};
@@ -155,6 +156,7 @@ impl TestTransaction {
             self.gas_price,
             exp_timestamp_secs,
             ChainId::test(),
+            CedraCoinType::type_tag(),
         );
         let mut seed: [u8; 32] = [0u8; 32];
         seed[..4].copy_from_slice(&[1, 2, 3, 4]);

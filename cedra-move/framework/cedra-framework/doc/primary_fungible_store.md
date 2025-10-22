@@ -29,7 +29,7 @@ fungible asset to it. This emits an deposit event.
 -  [Function `primary_store_inlined`](#0x1_primary_fungible_store_primary_store_inlined)
 -  [Function `primary_store_exists_inlined`](#0x1_primary_fungible_store_primary_store_exists_inlined)
 -  [Function `grant_permission`](#0x1_primary_fungible_store_grant_permission)
--  [Function `grant_apt_permission`](#0x1_primary_fungible_store_grant_apt_permission)
+-  [Function `grant_cedra_permission`](#0x1_primary_fungible_store_grant_cedra_permission)
 -  [Function `balance`](#0x1_primary_fungible_store_balance)
 -  [Function `is_balance_at_least`](#0x1_primary_fungible_store_is_balance_at_least)
 -  [Function `is_frozen`](#0x1_primary_fungible_store_is_frozen)
@@ -401,13 +401,13 @@ Use instead of the corresponding view functions for dispatchable hooks to avoid 
 
 </details>
 
-<a id="0x1_primary_fungible_store_grant_apt_permission"></a>
+<a id="0x1_primary_fungible_store_grant_cedra_permission"></a>
 
-## Function `grant_apt_permission`
+## Function `grant_cedra_permission`
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="primary_fungible_store.md#0x1_primary_fungible_store_grant_apt_permission">grant_apt_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="primary_fungible_store.md#0x1_primary_fungible_store_grant_cedra_permission">grant_cedra_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u64)
 </code></pre>
 
 
@@ -416,7 +416,7 @@ Use instead of the corresponding view functions for dispatchable hooks to avoid 
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="primary_fungible_store.md#0x1_primary_fungible_store_grant_apt_permission">grant_apt_permission</a>(
+<pre><code><b>public</b> <b>fun</b> <a href="primary_fungible_store.md#0x1_primary_fungible_store_grant_cedra_permission">grant_cedra_permission</a>(
     master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     amount: u64

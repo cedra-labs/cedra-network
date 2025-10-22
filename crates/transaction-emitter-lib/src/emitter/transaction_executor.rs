@@ -193,7 +193,7 @@ async fn warn_detailed_error(
             (None, None)
         };
     let balance = rest_client
-        .view_apt_account_balance(sender)
+        .view_cedra_account_balance(sender)
         .await
         .map_or(-1, |v| v.into_inner() as i128);
 
@@ -303,7 +303,7 @@ impl ReliableTransactionSubmitter for RestApiReliableTransactionSubmitter {
             .retry_if(
                 move || {
                     self.random_rest_client()
-                        .view_apt_account_balance(account_address)
+                        .view_cedra_account_balance(account_address)
                 },
                 |error: &RestError| match error {
                     RestError::Api(error) => !matches!(

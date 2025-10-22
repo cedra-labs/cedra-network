@@ -67,7 +67,7 @@ module staking::commission_tests {
         assert!(commission::commission_owed() == 0);
 
         // Mint 0.1 Cedra. Not enough to cover the min balance for distribution.
-        mint_apt(10000000);
+        mint_cedra(10000000);
         timestamp::fast_forward_seconds(ONE_YEAR_IN_SECONDS);
         commission::distribute_commission(manager);
     }
@@ -81,19 +81,19 @@ module staking::commission_tests {
 
         // Send Cedra to the commission contract.
         let expected_commission_usd = 50000;
-        let expected_apt_amount = usd_to_apt(expected_commission_usd);
-        mint_apt(expected_apt_amount * 2);
+        let expected_cedra_amount = usd_to_cedra(expected_commission_usd);
+        mint_cedra(expected_cedra_amount * 2);
 
         // Half a year has passed, so the commission owed should be 50,000 USD or ~9356 Cedra.
         timestamp::fast_forward_seconds(ONE_YEAR_IN_SECONDS / 2);
         assert!(commission::commission_owed() == expected_commission_usd);
-        assert!(commission::commission_owed_in_apt() == expected_apt_amount);
+        assert!(commission::commission_owed_in_cedra() == expected_cedra_amount);
 
         // Distribute the commission.
         commission::distribute_commission(manager);
         assert!(commission::commission_owed() == 0);
-        assert!(coin::balance<CedraCoin>(signer::address_of(manager)) == expected_apt_amount);
-        assert!(coin::balance<CedraCoin>(OPERATOR) == expected_apt_amount);
+        assert!(coin::balance<CedraCoin>(signer::address_of(manager)) == expected_cedra_amount);
+        assert!(coin::balance<CedraCoin>(OPERATOR) == expected_cedra_amount);
     }
 
     #[test(manager = @0x123)]
@@ -104,23 +104,23 @@ module staking::commission_tests {
 
         // Send Cedra to the commission contract. But not enough to cover the commission owed
         let expected_commission_usd = 50000;
-        let expected_apt_amount = usd_to_apt(expected_commission_usd);
-        mint_apt(expected_apt_amount / 2);
+        let expected_cedra_amount = usd_to_cedra(expected_commission_usd);
+        mint_cedra(expected_cedra_amount / 2);
 
         // Half a year has passed, so the commission owed should be 50,000.
         timestamp::fast_forward_seconds(ONE_YEAR_IN_SECONDS / 2);
         assert!(commission::commission_owed() == expected_commission_usd);
-        assert!(commission::commission_owed_in_apt() == expected_apt_amount);
+        assert!(commission::commission_owed_in_cedra() == expected_cedra_amount);
 
         // Distribute the commission. Only enough balance to cover half
         commission::distribute_commission(manager);
         // Off by $1 due to rounding error.
         let expected_debt = expected_commission_usd / 2 - 1;
-        let expected_debt_in_apt = usd_to_apt(expected_debt);
+        let expected_debt_in_cedra = usd_to_cedra(expected_debt);
         assert!(commission::commission_owed() == expected_debt);
-        assert!(commission::commission_owed_in_apt() == expected_debt_in_apt);
+        assert!(commission::commission_owed_in_cedra() == expected_debt_in_cedra);
         assert!(coin::balance<CedraCoin>(signer::address_of(manager)) == 0);
-        assert!(coin::balance<CedraCoin>(OPERATOR) == expected_apt_amount / 2);
+        assert!(coin::balance<CedraCoin>(OPERATOR) == expected_cedra_amount / 2);
     }
 
     #[test]
@@ -139,7 +139,7 @@ module staking::commission_tests {
         commission::set_operator(&unauthorized, OPERATOR);
     }
 
-    fun mint_apt(amount: u64) {
+    fun mint_cedra(amount: u64) {
         let (burn_cap, mint_cap) = cedra_coin::initialize_for_test(
             &account::create_signer_for_test(@cedra_framework));
         cedra_account::deposit_coins(@staking, coin::mint(amount, &mint_cap));
@@ -148,7 +148,7 @@ module staking::commission_tests {
     }
 
 
-    inline fun usd_to_apt(amount_usd: u64): u64 {
+    inline fun usd_to_cedra(amount_usd: u64): u64 {
         (math128::mul_div((amount_usd as u128) * math128::pow(10, 8), math128::pow(10, 8), CEDRA_PRICE) as u64)
     }
 }

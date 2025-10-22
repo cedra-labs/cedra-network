@@ -1,5 +1,6 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
+use serde_json::Value;
 
 use crate::{
     accept_type::AcceptType,
@@ -14,14 +15,15 @@ use crate::{
 };
 use anyhow::Context as anyhowContext;
 use cedra_api_types::{
-    CedraErrorCode, AsConverter, MoveValue, ViewFunction, ViewRequest, MAX_RECURSIVE_TYPES_ALLOWED,
-    U64,
+    AsConverter, CedraErrorCode, EntryFunctionId, MoveValue, ViewFunction, ViewRequest,
+    MAX_RECURSIVE_TYPES_ALLOWED, U64,
 };
 use cedra_bcs_utils::serialize_uleb128;
 use cedra_vm::CedraVM;
 use itertools::Itertools;
 use move_core_types::language_storage::TypeTag;
 use poem_openapi::{param::Query, payload::Json, ApiRequest, OpenApi};
+use std::str::FromStr;
 use std::sync::Arc;
 
 /// API for executing Move view function.
@@ -70,6 +72,35 @@ impl ViewFunctionApi {
         let context = self.context.clone();
         api_spawn_blocking(move || view_request(context, accept_type, request, ledger_version))
             .await
+    }
+
+    #[oai(
+        path = "/whitelist",
+        method = "get",
+        operation_id = "get_whitelist",
+        tag = "ApiTags::View"
+    )]
+    async fn get_whitelist(
+        &self,
+        accept_type: AcceptType,
+
+        /// Ledger version, optional
+        ledger_version: Query<Option<U64>>,
+    ) -> BasicResultWith404<Vec<Value>> {
+        let context = self.context.clone();
+
+        let request = ViewFunctionRequest::Json(Json(ViewRequest {
+            function: EntryFunctionId::from_str("0x1::whitelist::get_asset_list").unwrap(),
+            type_arguments: vec![],
+            arguments: vec![serde_json::Value::String(
+                "3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e".to_string(),
+            )],
+        }));
+
+        api_spawn_blocking(move || {
+            get_whitelist_request(context, accept_type, request, ledger_version)
+        })
+        .await
     }
 }
 
@@ -207,4 +238,200 @@ fn view_request(
         output.gas_used,
     );
     result.map(|r| r.with_gas_used(Some(output.gas_used)))
+}
+
+fn get_whitelist_request(
+    context: Arc<Context>,
+    accept_type: AcceptType,
+    request: ViewFunctionRequest,
+    ledger_version: Query<Option<U64>>,
+) -> BasicResultWith404<Vec<Value>> {
+    // Retrieve the current state of the chain
+    let (ledger_info, requested_version) = context
+        .get_latest_ledger_info_and_verify_lookup_version(ledger_version.map(|inner| inner.0))?;
+
+    let state_view = context
+        .state_view_at_version(requested_version)
+        .map_err(|err| {
+            BasicErrorWith404::bad_request_with_code(
+                err,
+                CedraErrorCode::InternalError,
+                &ledger_info,
+            )
+        })?;
+
+    let view_function: ViewFunction = match request {
+        ViewFunctionRequest::Json(data) => state_view
+            .as_converter(context.db.clone(), context.indexer_reader.clone())
+            .convert_view_function(data.0)
+            .map_err(|err| {
+                BasicErrorWith404::bad_request_with_code(
+                    err,
+                    CedraErrorCode::InvalidInput,
+                    &ledger_info,
+                )
+            })?,
+        ViewFunctionRequest::Bcs(data) => {
+            bcs::from_bytes_with_limit(data.0.as_slice(), MAX_RECURSIVE_TYPES_ALLOWED as usize)
+                .context("Failed to deserialize input into ViewRequest")
+                .map_err(|err| {
+                    BasicErrorWith404::bad_request_with_code(
+                        err,
+                        CedraErrorCode::InvalidInput,
+                        &ledger_info,
+                    )
+                })?
+        },
+    };
+
+    // Reject the request if it's not allowed by the filter.
+    if !context.node_config.api.view_filter.allows(
+        view_function.module.address(),
+        view_function.module.name().as_str(),
+        view_function.function.as_str(),
+    ) {
+        return Err(BasicErrorWith404::forbidden_with_code_no_info(
+            format!(
+                "Function {}::{} is not allowed",
+                view_function.module, view_function.function
+            ),
+            CedraErrorCode::InvalidInput,
+        ));
+    }
+
+    let output = CedraVM::execute_view_function(
+        &state_view,
+        view_function.module.clone(),
+        view_function.function.clone(),
+        view_function.ty_args.clone(),
+        view_function.args.clone(),
+        context.node_config.api.max_gas_view_function,
+    );
+    let values = output.values.map_err(|err| {
+        BasicErrorWith404::bad_request_with_code_no_info(err, CedraErrorCode::InvalidInput)
+    })?;
+    let result = match accept_type {
+        AcceptType::Bcs => {
+            // The return values are already BCS encoded, but we still need to encode the outside
+            // vector without re-encoding the inside values
+            let num_vals = values.len();
+
+            // Push the length of the return values
+            let mut length = vec![];
+            serialize_uleb128(&mut length, num_vals as u64).map_err(|err| {
+                BasicErrorWith404::internal_with_code(
+                    err,
+                    CedraErrorCode::InternalError,
+                    &ledger_info,
+                )
+            })?;
+
+            // Combine all of the return values
+            let values = values.into_iter().concat();
+            let ret = [length, values].concat();
+
+            BasicResponse::try_from_encoded((ret, &ledger_info, BasicResponseStatus::Ok))
+        },
+        AcceptType::Json => {
+            let return_types = state_view
+                .as_converter(context.db.clone(), context.indexer_reader.clone())
+                .function_return_types(&view_function)
+                .and_then(|tys| {
+                    tys.iter()
+                        .map(TypeTag::try_from)
+                        .collect::<anyhow::Result<Vec<_>>>()
+                })
+                .map_err(|err| {
+                    BasicErrorWith404::bad_request_with_code(
+                        err,
+                        CedraErrorCode::InternalError,
+                        &ledger_info,
+                    )
+                })?;
+
+            let move_vals = values
+                .into_iter()
+                .zip(return_types.into_iter())
+                .map(|(v, ty)| {
+                    state_view
+                        .as_converter(context.db.clone(), context.indexer_reader.clone())
+                        .try_into_move_value(&ty, &v)
+                })
+                .collect::<anyhow::Result<Vec<_>>>()
+                .map_err(|err| {
+                    BasicErrorWith404::bad_request_with_code(
+                        err,
+                        CedraErrorCode::InternalError,
+                        &ledger_info,
+                    )
+                })?;
+
+            // Convert MoveValue to JSON and decode module_name/symbol
+            let json_result = serde_json::to_value(&move_vals).map_err(|err| {
+                BasicErrorWith404::bad_request_with_code(
+                    err,
+                    CedraErrorCode::InternalError,
+                    &ledger_info,
+                )
+            })?;
+
+            // Extract plain strings
+            let formatted = json_result
+                .as_array()
+                .unwrap_or(&vec![])
+                .iter()
+                .map(|item| {
+                    if let Some(inner_array) = item.as_array() {
+                        inner_array
+                            .iter()
+                            .map(|obj| {
+                                let addr = obj.get("addr").cloned().unwrap_or(Value::Null);
+
+                                // Decode hex fields to plain UTF-8
+                                let module_name = obj
+                                    .get("module_name")
+                                    .and_then(|m| m.as_str())
+                                    .map(|hex| {
+                                        let bytes = hex::decode(&hex.trim_start_matches("0x"))
+                                            .unwrap_or_default();
+                                        String::from_utf8(bytes).unwrap_or_else(|_| "".to_string())
+                                    })
+                                    .unwrap_or_default();
+
+                                let symbol = obj
+                                    .get("symbol")
+                                    .and_then(|s| s.as_str())
+                                    .map(|hex| {
+                                        let bytes = hex::decode(&hex.trim_start_matches("0x"))
+                                            .unwrap_or_default();
+                                        String::from_utf8(bytes).unwrap_or_else(|_| "".to_string())
+                                    })
+                                    .unwrap_or_default();
+
+                                serde_json::json!({
+                                    "addr": addr,
+                                    "module_name": module_name,
+                                    "symbol": symbol
+                                })
+                            })
+                            .collect::<Vec<Value>>()
+                    } else {
+                        vec![]
+                    }
+                })
+                .flatten()
+                .collect::<Vec<_>>();
+
+            BasicResponse::try_from_json((formatted, &ledger_info, BasicResponseStatus::Ok))
+        },
+    };
+    context.view_function_stats().increment(
+        FunctionStats::function_to_key(&view_function.module, &view_function.function),
+        output.gas_used,
+    );
+
+    result.map(|r| {
+        dbg!(&r);
+        r.with_gas_used(Some(output.gas_used))
+    })
 }

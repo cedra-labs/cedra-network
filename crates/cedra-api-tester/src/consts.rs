@@ -20,7 +20,7 @@ pub static DEVNET_NODE_URL: Lazy<Url> =
     Lazy::new(|| Url::parse("https://devnet.cedra.dev/v1").unwrap());
 
 pub static DEVNET_FAUCET_URL: Lazy<Url> =
-    Lazy::new(|| Url::parse("https://faucet-api.cedra.dev").unwrap());
+    Lazy::new(|| Url::parse("https://devfaucet-api.cedra.dev").unwrap());
 
 pub static TESTNET_NODE_URL: Lazy<Url> =
     Lazy::new(|| Url::parse("https://testnet.cedra.dev").unwrap());

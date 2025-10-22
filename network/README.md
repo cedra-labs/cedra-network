@@ -6,8 +6,6 @@ custom_edit_url: https://github.com/cedra-labs/cedra-network/edit/main/network/R
 
 ## Overview
 
-For more detailed info, see the [CedraNet Specification](../documentation/specifications/network/README.md).
-
 CedraNet is the primary protocol for communication between any two nodes in the
 Cedra ecosystem. It is specifically designed to facilitate the consensus, shared
 mempool, and state sync protocols. CedraNet tries to maintain at-most one connection

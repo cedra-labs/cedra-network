@@ -9,7 +9,7 @@ use cedra_api_types::{MoveModuleBytecode, MoveResource, MoveStructTag, StateKeyW
 use cedra_cached_packages::cedra_stdlib;
 use cedra_sdk::types::CEDRA_COIN_TYPE_STR;
 use cedra_types::{
-    account_config::{primary_apt_store, ObjectCoreResource},
+    account_config::{primary_cedra_store, ObjectCoreResource},
     transaction::{EntryFunction, TransactionPayload},
     CedraCoinType, CoinType,
 };
@@ -263,7 +263,7 @@ async fn test_get_account_balance() {
             ),
             Identifier::new("upgrade_store_to_concurrent").unwrap(),
             vec![TypeTag::Struct(Box::new(ObjectCoreResource::struct_tag()))],
-            vec![bcs::to_bytes(&primary_apt_store(root_account.address())).unwrap()],
+            vec![bcs::to_bytes(&primary_cedra_store(root_account.address())).unwrap()],
         )),
     ));
     context.commit_block(&vec![txn.clone()]).await;

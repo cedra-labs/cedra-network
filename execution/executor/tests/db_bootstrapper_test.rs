@@ -22,7 +22,7 @@ use cedra_temppath::TempPath;
 use cedra_types::{
     account_address::AccountAddress,
     account_config::{
-        cedra_test_root_address, new_block_event_key, primary_apt_store, FungibleStoreResource,
+        cedra_test_root_address, new_block_event_key, primary_cedra_store, FungibleStoreResource,
         NewBlockEvent, ObjectGroupResource, NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG,
     },
     contract_event::ContractEvent,
@@ -174,7 +174,7 @@ fn get_balance(account: &AccountAddress, db: &DbReaderWriter) -> u64 {
     let db_state_view = db.reader.latest_state_checkpoint_view().unwrap();
     FungibleStoreResource::fetch_move_resource_from_group(
         &db_state_view,
-        &primary_apt_store(*account),
+        &primary_cedra_store(*account),
         &ObjectGroupResource::struct_tag(),
     )
     .unwrap()
@@ -237,7 +237,7 @@ fn test_new_genesis() {
             ),
             (
                 StateKey::resource_group(
-                    &primary_apt_store(account1),
+                    &primary_cedra_store(account1),
                     &ObjectGroupResource::struct_tag(),
                 ),
                 WriteOp::legacy_modification(

@@ -25,10 +25,11 @@ use cedra_types::{
         authenticator::{AccountAuthenticator, TransactionAuthenticator},
         SignedTransaction, TransactionPayload, TransactionStatus,
     },
+    CedraCoinType, CoinType,
 };
 use cedra_vm_types::output::VMOutput;
 use clap::Parser;
-use move_core_types::vm_status::VMStatus;
+use move_core_types::{parser::parse_type_tag, vm_status::VMStatus};
 pub use move_package::*;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -58,6 +59,8 @@ pub struct TxnOptions {
     pub(crate) gas_options: GasOptions,
     #[clap(flatten)]
     pub prompt_options: PromptOptions,
+    #[clap(long)]
+    pub(crate) fa_address: Option<String>,
 }
 
 impl TxnOptions {
@@ -168,8 +171,14 @@ impl TxnOptions {
 
         let chain_id = ChainId::new(state.chain_id);
 
+        let coin_type = if let Some(fa_address) = &self.fa_address {
+            parse_type_tag(&fa_address).unwrap()
+        } else {
+            CedraCoinType::type_tag()
+        };
+
         let transaction_factory =
-            TransactionFactory::new(chain_id).with_gas_unit_price(gas_unit_price);
+            TransactionFactory::new(chain_id, coin_type).with_gas_unit_price(gas_unit_price);
 
         let unsigned_transaction = transaction_factory
             .payload(payload.clone())
@@ -240,7 +249,7 @@ impl TxnOptions {
         let sequence_number = account.sequence_number;
 
         let balance = client
-            .view_apt_account_balance_at_version(sender_address, version)
+            .view_cedra_account_balance_at_version(sender_address, version)
             .await
             .map_err(|err| CliError::ApiError(err.to_string()))?
             .into_inner();
@@ -253,7 +262,13 @@ impl TxnOptions {
             }
         });
 
-        let transaction_factory = TransactionFactory::new(chain_id)
+        let coin_type = if let Some(fa_address) = &self.fa_address {
+            parse_type_tag(&fa_address).unwrap()
+        } else {
+            CedraCoinType::type_tag()
+        };
+
+        let transaction_factory = TransactionFactory::new(chain_id, coin_type)
             .with_gas_unit_price(gas_unit_price)
             .with_max_gas_amount(max_gas)
             .with_transaction_expiration_time(self.gas_options.expiration_secs);

@@ -689,6 +689,16 @@ Event emitted when the governance configs are updated.
 
 
 
+<a id="0x1_cedra_governance_EUNAUTHORIZED"></a>
+
+Account is not authorized to call this function.
+
+
+<pre><code><b>const</b> <a href="cedra_governance.md#0x1_cedra_governance_EUNAUTHORIZED">EUNAUTHORIZED</a>: u64 = 11;
+</code></pre>
+
+
+
 <a id="0x1_cedra_governance_PROPOSAL_STATE_SUCCEEDED"></a>
 
 This matches the same enum const in voting. We have to duplicate it as Move doesn't have support for enums yet.
@@ -825,16 +835,6 @@ The proposal has not been resolved yet
 
 
 <pre><code><b>const</b> <a href="cedra_governance.md#0x1_cedra_governance_EPROPOSAL_NOT_RESOLVED_YET">EPROPOSAL_NOT_RESOLVED_YET</a>: u64 = 8;
-</code></pre>
-
-
-
-<a id="0x1_cedra_governance_EUNAUTHORIZED"></a>
-
-Account is not authorized to call this function.
-
-
-<pre><code><b>const</b> <a href="cedra_governance.md#0x1_cedra_governance_EUNAUTHORIZED">EUNAUTHORIZED</a>: u64 = 11;
 </code></pre>
 
 

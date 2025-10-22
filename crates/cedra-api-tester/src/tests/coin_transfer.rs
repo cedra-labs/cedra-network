@@ -207,7 +207,7 @@ async fn check_account_balance(
     let expected = TRANSFER_AMOUNT;
 
     // actual
-    let actual = match client.view_apt_account_balance(address).await {
+    let actual = match client.view_cedra_account_balance(address).await {
         Ok(response) => response.into_inner(),
         Err(e) => {
             error!(
@@ -240,7 +240,7 @@ async fn check_account_balance_at_version(
 
     // actual
     let actual = match client
-        .view_apt_account_balance_at_version(address, transaction_version - 1)
+        .view_cedra_account_balance_at_version(address, transaction_version - 1)
         .await
     {
         Ok(response) => response.into_inner(),

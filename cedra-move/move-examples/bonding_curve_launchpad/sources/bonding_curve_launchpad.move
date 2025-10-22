@@ -165,7 +165,7 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
         account: &signer,
         name: String,
         symbol: String,
-        swap_to_apt: bool,
+        swap_to_cedra: bool,
         amount_in: u64
     ) acquires LaunchPad, FAController {
         // Verify the `amount_in` is valid and that the FA exists.
@@ -176,10 +176,10 @@ module bonding_curve_launchpad::bonding_curve_launchpad {
         let fa_metadata_obj = object::address_to_object(get_fa_obj_address(name, symbol));
         let transfer_ref = &borrow_global<FAController>(get_fa_obj_address(name, symbol)).transfer_ref;
         // Initiate the swap on the associated liquidity pair.
-        if (swap_to_apt) {
-            liquidity_pairs::swap_fa_to_apt(name, symbol, transfer_ref, account, fa_metadata_obj, amount_in);
+        if (swap_to_cedra) {
+            liquidity_pairs::swap_fa_to_cedra(name, symbol, transfer_ref, account, fa_metadata_obj, amount_in);
         } else {
-            liquidity_pairs::swap_apt_to_fa(name, symbol, transfer_ref, account, fa_metadata_obj, amount_in);
+            liquidity_pairs::swap_cedra_to_fa(name, symbol, transfer_ref, account, fa_metadata_obj, amount_in);
         };
     }
 

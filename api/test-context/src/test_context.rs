@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use super::{golden_output::GoldenOutputs, pretty};
+use bytes::Bytes;
 use cedra_api::{attach_poem_to_runtime, BasicError, Context};
 use cedra_api_types::{
     mime_types, HexEncodedBytes, TransactionOnChainData, X_CEDRA_CHAIN_ID,
@@ -27,8 +28,8 @@ use cedra_sdk::{
     bcs,
     transaction_builder::TransactionFactory,
     types::{
-        account_config::cedra_test_root_address, get_apt_primary_store_address,
-        transaction::SignedTransaction, AccountKey, LocalAccount,
+        account_config::cedra_test_root_address, get_cedra_primary_store_address,
+        transaction::SignedTransaction, AccountKey, LocalAccount, CedraCoinType, CoinType, LocalAccount,
     },
 };
 use cedra_storage_interface::{
@@ -52,7 +53,6 @@ use cedra_types::{
 };
 use cedra_vm::cedra_vm::CedraVMBlockExecutor;
 use cedra_vm_validator::vm_validator::PooledVMValidator;
-use bytes::Bytes;
 use hyper::{HeaderMap, Response};
 use rand::SeedableRng;
 use serde_json::{json, Value};
@@ -366,7 +366,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id())
+        TransactionFactory::new(self.context.chain_id(), CedraCoinType::type_tag())
     }
 
     pub async fn root_account(&self) -> LocalAccount {
@@ -879,7 +879,7 @@ impl TestContext {
             .unwrap()
     }
 
-    pub async fn get_apt_balance(&self, account: AccountAddress) -> u64 {
+    pub async fn get_cedra_balance(&self, account: AccountAddress) -> u64 {
         let coin_balance_option = self
             .try_api_get_account_resource(
                 account,
@@ -900,7 +900,7 @@ impl TestContext {
         } else {
             let fungible_store_option = self
                 .try_api_get_account_resource(
-                    get_apt_primary_store_address(account),
+                    get_cedra_primary_store_address(account),
                     "0x1",
                     "fungible_asset",
                     "FungibleStore",
