@@ -167,7 +167,7 @@ module cedra_framework::genesis {
 
         let core_resources = account::create_account(@core_resources);
         account::rotate_authentication_key_internal(&core_resources, core_resources_auth_key);
-        cedra_account::register_apt(&core_resources); // registers Cedra store
+        cedra_account::register_cedra(&core_resources); // registers Cedra store
         cedra_coin::configure_accounts_for_test(cedra_framework, &core_resources, mint_cap);
     }
 
@@ -533,16 +533,16 @@ module cedra_framework::genesis {
         use cedra_framework::fungible_asset::Metadata;
         use std::features;
 
-        let feature = features::get_new_accounts_default_to_fa_apt_store_feature();
+        let feature = features::get_new_accounts_default_to_fa_cedra_store_feature();
         features::change_feature_flags_for_testing(cedra_framework, vector[feature], vector[]);
 
         aggregator_factory::initialize_aggregator_factory_for_test(cedra_framework);
 
         let (burn_cap, mint_cap) = cedra_coin::initialize(cedra_framework);
-        cedra_coin::ensure_initialized_with_apt_fa_metadata_for_test();
+        cedra_coin::ensure_initialized_with_cedra_fa_metadata_for_test();
 
         let core_resources = account::create_account(@core_resources);
-        cedra_account::register_apt(&core_resources); // registers Cedra store
+        cedra_account::register_cedra(&core_resources); // registers Cedra store
 
         let apt_metadata = object::address_to_object<Metadata>(@cedra_fungible_asset);
         assert!(primary_fungible_store::primary_store_exists(@core_resources, apt_metadata), 2);

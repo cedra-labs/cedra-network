@@ -67,6 +67,7 @@ This is the reference documentation of the Cedra framework.
 -  [`0x1::reconfiguration_with_dkg`](reconfiguration_with_dkg.md#0x1_reconfiguration_with_dkg)
 -  [`0x1::resource_account`](resource_account.md#0x1_resource_account)
 -  [`0x1::solana_derivable_account`](solana_derivable_account.md#0x1_solana_derivable_account)
+-  [`0x1::stablecoin`](stablecoin.md#0x1_stablecoin)
 -  [`0x1::stake`](stake.md#0x1_stake)
 -  [`0x1::staking_config`](staking_config.md#0x1_staking_config)
 -  [`0x1::staking_contract`](staking_contract.md#0x1_staking_contract)
@@ -83,6 +84,7 @@ This is the reference documentation of the Cedra framework.
 -  [`0x1::version`](version.md#0x1_version)
 -  [`0x1::vesting`](vesting.md#0x1_vesting)
 -  [`0x1::voting`](voting.md#0x1_voting)
+-  [`0x1::whitelist`](whitelist.md#0x1_whitelist)
 
 
 [move-book]: https://cedra.dev/move/book/SUMMARY

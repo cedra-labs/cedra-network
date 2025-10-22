@@ -30,6 +30,8 @@ use crate::{
     VMBlockExecutor, VMValidator,
 };
 use anyhow::anyhow;
+use ark_bn254::Bn254;
+use ark_groth16::PreparedVerifyingKey;
 use cedra_block_executor::{
     code_cache_global_manager::CedraModuleCacheManager,
     txn_commit_hook::NoOpTransactionCommitHook,
@@ -60,7 +62,7 @@ use cedra_types::{
     block_metadata_ext::{BlockMetadataExt, BlockMetadataWithRandomness},
     chain_id::ChainId,
     contract_event::ContractEvent,
-    fee_statement::FeeStatement,
+    fee_statement::{CustomFeeStatement, FeeStatement},
     function_info::FunctionInfo,
     move_utils::as_move_value::AsMoveValue,
     on_chain_config::{
@@ -103,8 +105,6 @@ use cedra_vm_types::{
     },
     storage::{change_set_configs::ChangeSetConfigs, StorageGasParameters},
 };
-use ark_bn254::Bn254;
-use ark_groth16::PreparedVerifyingKey;
 use claims::assert_err;
 use fail::fail_point;
 use move_binary_format::{
@@ -462,6 +462,22 @@ impl CedraVM {
         )
     }
 
+    fn custom_fee_statement_from_gas_meter(
+        txn_data: &TransactionMetadata,
+        gas_meter: &impl CedraGasMeter,
+        storage_fee_refund: u64,
+    ) -> CustomFeeStatement {
+        let gas_used = Self::gas_used(txn_data.max_gas_amount(), gas_meter);
+        println!("{}", gas_used);
+        CustomFeeStatement::new(
+            gas_used,
+            u64::from(gas_meter.execution_gas_used()),
+            u64::from(gas_meter.io_gas_used()),
+            u64::from(gas_meter.storage_fee_used()),
+            storage_fee_refund,
+        )
+    }
+
     pub(crate) fn failed_transaction_cleanup(
         &self,
         prologue_session_change_set: SystemSessionChangeSet,
@@ -578,73 +594,97 @@ impl CedraVM {
         let should_create_account_resource =
             should_create_account_resource(txn_data, self.features(), resolver, module_storage)?;
 
-        let (previous_session_change_set, fee_statement) = if should_create_account_resource {
-            let mut abort_hook_session =
-                AbortHookSession::new(self, txn_data, resolver, prologue_session_change_set);
+        let (previous_session_change_set, fee_statement, custom_fee_statement) =
+            if should_create_account_resource {
+                let mut abort_hook_session =
+                    AbortHookSession::new(self, txn_data, resolver, prologue_session_change_set);
 
-            abort_hook_session.execute(|session| {
-                create_account_if_does_not_exist(
-                    session,
-                    module_storage,
-                    gas_meter,
-                    txn_data.sender(),
-                    traversal_context,
-                )
-                // If this fails, it is likely due to out of gas, so we try again without metering
-                // and then validate below that we charged sufficiently.
-                .or_else(|_err| {
+                abort_hook_session.execute(|session| {
                     create_account_if_does_not_exist(
                         session,
                         module_storage,
-                        &mut UnmeteredGasMeter,
+                        gas_meter,
                         txn_data.sender(),
                         traversal_context,
                     )
-                })
-                .map_err(expect_no_verification_errors)
-                .or_else(|err| {
-                    expect_only_successful_execution(
+                    // If this fails, it is likely due to out of gas, so we try again without metering
+                    // and then validate below that we charged sufficiently.
+                    .or_else(|_err| {
+                        create_account_if_does_not_exist(
+                            session,
+                            module_storage,
+                            &mut UnmeteredGasMeter,
+                            txn_data.sender(),
+                            traversal_context,
+                        )
+                    })
+                    .map_err(expect_no_verification_errors)
+                    .or_else(|err| {
+                        expect_only_successful_execution(
+                            err,
+                            &format!("{:?}::{}", ACCOUNT_MODULE, CREATE_ACCOUNT_IF_DOES_NOT_EXIST),
+                            log_context,
+                        )
+                    })
+                })?;
+
+                let mut abort_hook_session_change_set =
+                    abort_hook_session.finish(change_set_configs, module_storage)?;
+                if let Err(err) = self.charge_change_set(
+                    &mut abort_hook_session_change_set,
+                    gas_meter,
+                    txn_data,
+                    resolver,
+                    module_storage,
+                ) {
+                    info!(
+                        *log_context,
+                        "Failed during charge_change_set: {:?}. Most likely exceeded gas limited.",
                         err,
-                        &format!("{:?}::{}", ACCOUNT_MODULE, CREATE_ACCOUNT_IF_DOES_NOT_EXIST),
-                        log_context,
-                    )
-                })
-            })?;
+                    );
+                };
 
-            let mut abort_hook_session_change_set =
-                abort_hook_session.finish(change_set_configs, module_storage)?;
-            if let Err(err) = self.charge_change_set(
-                &mut abort_hook_session_change_set,
-                gas_meter,
-                txn_data,
-                resolver,
-                module_storage,
-            ) {
-                info!(
-                    *log_context,
-                    "Failed during charge_change_set: {:?}. Most likely exceeded gas limited.", err,
-                );
-            };
+                let mut custom_fee_statement = CustomFeeStatement::zero();
+                let mut fee_statement = FeeStatement::zero();
 
-            let fee_statement =
-                CedraVM::fee_statement_from_gas_meter(txn_data, gas_meter, ZERO_STORAGE_REFUND);
+                if txn_data.use_fee_v2() {
+                    custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                } else {
+                    fee_statement = CedraVM::fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                }
 
-            // Verify we charged sufficiently for creating an account slot
-            let gas_params = self.gas_params(log_context)?;
-            let gas_unit_price = u64::from(txn_data.gas_unit_price());
-            if gas_unit_price != 0 || !self.features().is_default_account_resource_enabled() {
-                let gas_used = fee_statement.gas_used();
-                let storage_fee = fee_statement.storage_fee_used();
-                let storage_refund = fee_statement.storage_fee_refund();
-
-                let actual = gas_used * gas_unit_price + storage_fee - storage_refund;
-                let expected = u64::from(
-                    gas_meter
-                        .disk_space_pricing()
-                        .hack_account_creation_fee_lower_bound(&gas_params.vm.txn),
-                );
-                if actual < expected {
-                    expect_only_successful_execution(
+                // Verify we charged sufficiently for creating an account slot
+                let gas_params = self.gas_params(log_context)?;
+                let gas_unit_price = u64::from(txn_data.gas_unit_price());
+                if gas_unit_price != 0 || !self.features().is_default_account_resource_enabled() {
+                    let actual : u64;
+                   
+                    if txn_data.use_fee_v2() {
+                        actual = custom_fee_statement.gas_used() * gas_unit_price + custom_fee_statement.storage_fee_used() - custom_fee_statement.storage_fee_refund();
+                    } else {
+                        actual = fee_statement.gas_used() * gas_unit_price + fee_statement.storage_fee_used() - fee_statement.storage_fee_refund();
+                    }
+                    /*
+                        gas_used = fee_statement.gas_used();
+                        storage_fee = fee_statement.storage_fee_used();
+                        storage_refund = fee_statement.storage_fee_refund();
+                        let actual = gas_used * gas_unit_price + storage_fee - storage_refund;
+                    */
+                    let expected = u64::from(
+                        gas_meter
+                            .disk_space_pricing()
+                            .hack_account_creation_fee_lower_bound(&gas_params.vm.txn),
+                    );
+                    if actual < expected {
+                        expect_only_successful_execution(
                         PartialVMError::new(StatusCode::UNKNOWN_INVARIANT_VIOLATION_ERROR)
                             .with_message(
                                 "Insufficient fee for storing account for lazy account creation"
@@ -654,14 +694,36 @@ impl CedraVM {
                         &format!("{:?}::{}", ACCOUNT_MODULE, CREATE_ACCOUNT_IF_DOES_NOT_EXIST),
                         log_context,
                     )?;
+                    }
                 }
-            }
-            (abort_hook_session_change_set, fee_statement)
-        } else {
-            let fee_statement =
-                CedraVM::fee_statement_from_gas_meter(txn_data, gas_meter, ZERO_STORAGE_REFUND);
-            (prologue_session_change_set, fee_statement)
-        };
+                (
+                    abort_hook_session_change_set,
+                    fee_statement,
+                    custom_fee_statement,
+                )
+            } else {
+                let mut custom_fee_statement = CustomFeeStatement::zero();
+                let mut fee_statement = FeeStatement::zero();
+
+                if txn_data.use_fee_v2() {
+                    custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                } else {
+                    fee_statement = CedraVM::fee_statement_from_gas_meter(
+                        txn_data,
+                        gas_meter,
+                        ZERO_STORAGE_REFUND,
+                    );
+                }
+                (
+                    prologue_session_change_set,
+                    fee_statement,
+                    custom_fee_statement,
+                )
+            };
 
         let mut epilogue_session = EpilogueSession::on_user_session_failure(
             self,
@@ -686,6 +748,7 @@ impl CedraVM {
                 serialized_signers,
                 gas_meter.balance(),
                 fee_statement,
+                custom_fee_statement,
                 self.features(),
                 txn_data,
                 log_context,
@@ -693,7 +756,12 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
-        epilogue_session.finish(fee_statement, status, change_set_configs, module_storage)
+        epilogue_session.finish(
+            if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement }, 
+            status, 
+            change_set_configs, 
+            module_storage
+        )
     }
 
     fn success_transaction_cleanup(
@@ -722,11 +790,23 @@ impl CedraVM {
             }
         }
 
-        let fee_statement = CedraVM::fee_statement_from_gas_meter(
-            txn_data,
-            gas_meter,
-            u64::from(epilogue_session.get_storage_fee_refund()),
-        );
+        let mut custom_fee_statement = CustomFeeStatement::zero();
+        let mut fee_statement = FeeStatement::zero();
+
+        if txn_data.use_fee_v2() {
+            custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                txn_data,
+                gas_meter,
+                u64::from(epilogue_session.get_storage_fee_refund()),
+            );
+        } else {
+            fee_statement = CedraVM::fee_statement_from_gas_meter(
+                txn_data,
+                gas_meter,
+                u64::from(epilogue_session.get_storage_fee_refund()),
+            );
+        }
+
         epilogue_session.execute(|session| {
             transaction_validation::run_success_epilogue(
                 session,
@@ -734,6 +814,7 @@ impl CedraVM {
                 serialized_signers,
                 gas_meter.balance(),
                 fee_statement,
+                custom_fee_statement,
                 self.features(),
                 txn_data,
                 log_context,
@@ -741,8 +822,9 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
+
         let output = epilogue_session.finish(
-            fee_statement,
+            if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement },
             ExecutionStatus::Success,
             change_set_configs,
             module_storage,
@@ -844,10 +926,12 @@ impl CedraVM {
             let module_id = traversal_context
                 .referenced_module_ids
                 .alloc(entry_fn.module().clone());
-            check_dependencies_and_charge_gas(module_storage, gas_meter, traversal_context, [(
-                module_id.address(),
-                module_id.name(),
-            )])?;
+            check_dependencies_and_charge_gas(
+                module_storage,
+                gas_meter,
+                traversal_context,
+                [(module_id.address(), module_id.name())],
+            )?;
         }
 
         if self.gas_feature_version() >= RELEASE_V1_27 {

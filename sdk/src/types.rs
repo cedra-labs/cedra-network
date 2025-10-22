@@ -133,7 +133,7 @@ pub struct LocalAccount {
     sequence_number: AtomicU64,
 }
 
-pub fn get_apt_primary_store_address(address: AccountAddress) -> AccountAddress {
+pub fn get_cedra_primary_store_address(address: AccountAddress) -> AccountAddress {
     get_paired_fa_primary_store_address(address, *CEDRA_METADATA_ADDRESS)
 }
 
@@ -1292,7 +1292,7 @@ mod tests {
             .unwrap();
         println!("Address: {}", account.address().to_hex_literal());
         let balance = cedra_rest_client
-            .view_apt_account_balance(account.address())
+            .view_cedra_account_balance(account.address())
             .await
             .unwrap()
             .into_inner();
@@ -1310,7 +1310,7 @@ mod tests {
         println!(
             "Balance: {}",
             cedra_rest_client
-                .view_apt_account_balance(account.address())
+                .view_cedra_account_balance(account.address())
                 .await
                 .unwrap()
                 .into_inner()

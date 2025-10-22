@@ -1058,7 +1058,7 @@ mod test {
         transaction::{RawTransaction, Script, TransactionPayload},
         validator_signer::ValidatorSigner,
         validator_verifier::{ValidatorConsensusInfo, ValidatorVerifier},
-        PeerId,
+        CedraCoinType, CoinType, PeerId,
     };
     use claims::{assert_matches, assert_ok};
     use move_core_types::account_address::AccountAddress;
@@ -1594,18 +1594,18 @@ mod test {
         assert_matches!(error, Error::InvalidMessageError(_));
 
         // Create a single inline batch with the correct digest
-        let inline_batch_payload = BatchPayload::new(PeerId::ZERO, vec![signed_transactions
-            .last()
-            .unwrap()
-            .clone()]);
+        let inline_batch_payload = BatchPayload::new(
+            PeerId::ZERO,
+            vec![signed_transactions.last().unwrap().clone()],
+        );
         let inline_batch_info = create_batch_info_with_digest(inline_batch_payload.hash(), 1, 1000);
         let inline_batches = vec![inline_batch_info.clone()];
 
         // Create a single opt batch with the correct digest
-        let opt_batch_payload = BatchPayload::new(PeerId::ZERO, vec![signed_transactions
-            .last()
-            .unwrap()
-            .clone()]);
+        let opt_batch_payload = BatchPayload::new(
+            PeerId::ZERO,
+            vec![signed_transactions.last().unwrap().clone()],
+        );
         let opt_batch_info = create_batch_info_with_digest(opt_batch_payload.hash(), 1, 1000);
         let opt_and_inline_batches = vec![opt_batch_info, inline_batch_info];
 
@@ -2009,6 +2009,7 @@ mod test {
                 0,
                 0,
                 ChainId::new(10),
+                CedraCoinType::type_tag(),
             );
 
             // Create the signed transaction

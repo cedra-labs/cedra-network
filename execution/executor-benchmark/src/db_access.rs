@@ -5,7 +5,7 @@ use anyhow::Result;
 use cedra_types::{
     account_address::AccountAddress,
     account_config::{
-        primary_apt_store, AccountResource, CoinInfoResource, CoinStoreResource,
+        primary_cedra_store, AccountResource, CoinInfoResource, CoinStoreResource,
         ConcurrentSupplyResource, FungibleStoreResource, ObjectCoreResource, ObjectGroupResource,
         TypeInfoResource,
     },
@@ -117,7 +117,7 @@ impl DbAccessUtil {
     ) -> Result<FungibleStoreResource> {
         let rg: Option<ObjectGroupResource> = Self::get_value(
             &StateKey::resource_group(
-                &primary_apt_store(*account),
+                &primary_cedra_store(*account),
                 &ObjectGroupResource::struct_tag(),
             ),
             state_view,
@@ -132,7 +132,7 @@ impl DbAccessUtil {
         })
     }
 
-    pub fn get_apt_coin_store(
+    pub fn get_cedra_coin_store(
         coin_store_key: &StateKey,
         state_view: &impl StateView,
     ) -> Result<Option<CoinStoreResource<CedraCoinType>>> {
@@ -169,7 +169,7 @@ impl DbAccessUtil {
         )
     }
 
-    pub fn new_apt_coin_store(
+    pub fn new_cedra_coin_store(
         balance: u64,
         address: AccountAddress,
     ) -> CoinStoreResource<CedraCoinType> {

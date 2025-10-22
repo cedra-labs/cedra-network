@@ -21,6 +21,7 @@ use cedra_types::{
     chain_id::ChainId,
     state_store::MoveResourceExt,
     transaction::{EntryFunction, Transaction, TransactionPayload},
+    CedraCoinType, CoinType,
 };
 use chrono::Local;
 use indicatif::{ProgressBar, ProgressStyle};
@@ -220,7 +221,7 @@ impl TransactionGenerator {
     }
 
     pub fn create_transaction_factory() -> TransactionFactory {
-        TransactionFactory::new(ChainId::test())
+        TransactionFactory::new(ChainId::test(), CedraCoinType::type_tag())
             .with_transaction_expiration_time(300)
             .with_gas_unit_price(100)
     }

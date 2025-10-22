@@ -83,7 +83,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         test_setup_initialize_contracts(swap_dex_signer, bcl_owner_signer);
         // Create FA and LiquidityPair, w.o Initial Swap.
         let user_address = signer::address_of(bonding_curve_creator);
-        let starting_apt_balance = coin::balance<CedraCoin>(user_address);
+        let starting_cedra_balance = coin::balance<CedraCoin>(user_address);
         let name = string::utf8(b"SheepyCoin");
         let symbol = string::utf8(b"SHEEP");
         bonding_curve_launchpad::create_fa_pair(
@@ -100,7 +100,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
                 b"https://t4.ftcdn.net/jpg/03/12/95/13/360_F_312951336_8LxW7gBLHslTnpbOAwxFo5FpD2R5vGxu.jpg"
             )
         );
-        assert!(coin::balance<CedraCoin>(user_address) == starting_apt_balance, EUSER_CEDRA_BALANCE_INCORRECT);
+        assert!(coin::balance<CedraCoin>(user_address) == starting_cedra_balance, EUSER_CEDRA_BALANCE_INCORRECT);
         assert!(bonding_curve_launchpad::get_balance(name, symbol, user_address) == 0, EUSER_FA_BALANCE_INCORRECT);
     }
 
@@ -120,7 +120,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         test_setup_initialize_contracts(swap_dex_signer, bcl_owner_signer);
         // Create FA and LiquidityPair, w/ Initial Swap.
         let user_address = signer::address_of(bonding_curve_creator);
-        let starting_apt_balance = coin::balance<CedraCoin>(user_address);
+        let starting_cedra_balance = coin::balance<CedraCoin>(user_address);
         let name = string::utf8(b"SheepyCoin");
         let symbol = string::utf8(b"SHEEP");
         bonding_curve_launchpad::create_fa_pair(
@@ -137,7 +137,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
                 b"https://t4.ftcdn.net/jpg/03/12/95/13/360_F_312951336_8LxW7gBLHslTnpbOAwxFo5FpD2R5vGxu.jpg"
             )
         );
-        assert!(coin::balance<CedraCoin>(user_address) == starting_apt_balance - 1000, EUSER_CEDRA_BALANCE_INCORRECT);
+        assert!(coin::balance<CedraCoin>(user_address) == starting_cedra_balance - 1000, EUSER_CEDRA_BALANCE_INCORRECT);
         assert!(bonding_curve_launchpad::get_balance(name, symbol, user_address) == 16, EUSER_FA_BALANCE_INCORRECT);
     }
 
@@ -206,11 +206,11 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         let user_address = signer::address_of(bonding_curve_creator);
         let name = string::utf8(b"SheepyCoin");
         let symbol = string::utf8(b"SHEEP");
-        let starting_apt_balance = coin::balance<CedraCoin>(user_address);
+        let starting_cedra_balance = coin::balance<CedraCoin>(user_address);
         // Cedra -> FA
         bonding_curve_launchpad::swap(bonding_curve_creator, name, symbol, false, 100_000_000);
         assert!(
-            coin::balance<CedraCoin>(user_address) == starting_apt_balance - 100_000_000,
+            coin::balance<CedraCoin>(user_address) == starting_cedra_balance - 100_000_000,
             EUSER_CEDRA_BALANCE_INCORRECT
         );
         assert!(
@@ -220,7 +220,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         // FA -> Cedra
         bonding_curve_launchpad::swap(bonding_curve_creator, name, symbol, true, 1_602_794);
         assert!(
-            coin::balance<CedraCoin>(user_address) == starting_apt_balance - 26,
+            coin::balance<CedraCoin>(user_address) == starting_cedra_balance - 26,
             EUSER_CEDRA_BALANCE_INCORRECT
         ); // u256/u64 precision loss.
         assert!(
@@ -242,7 +242,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator: &signer
     ) {
         test_e2e_bonding_curve_creation(cedra_framework, swap_dex_signer, bcl_owner_signer, bonding_curve_creator);
-        let grad_apt: u64 = 6_000 * math64::pow(10, (8 as u64));
+        let grad_cedra: u64 = 6_000 * math64::pow(10, (8 as u64));
         let name = string::utf8(b"SheepyCoin");
         let symbol = string::utf8(b"SHEEP");
         assert!(bonding_curve_launchpad::get_is_frozen(name, symbol) == true, EINCORRECT_FROZEN_STATUS);
@@ -251,7 +251,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
             name,
             symbol,
             false,
-            grad_apt
+            grad_cedra
         ); // Over-threshold Swap. Cedra -> FA
         assert!(bonding_curve_launchpad::get_is_frozen(name, symbol) == false, EINCORRECT_FROZEN_STATUS);
     }
@@ -316,7 +316,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator = @0x803
     )]
     #[expected_failure(abort_code = liquidity_pairs::ELIQUIDITY_PAIR_DISABLED, location = liquidity_pairs)]
-    fun test_e2e_failing_apt_swap_after_graduation(
+    fun test_e2e_failing_cedra_swap_after_graduation(
         cedra_framework: &signer,
         swap_dex_signer: &signer,
         bcl_owner_signer: &signer,
@@ -412,7 +412,7 @@ module bonding_curve_launchpad::test_bonding_curve_launchpad {
         bonding_curve_creator = @0x803
     )]
     #[expected_failure(abort_code = bonding_curve_launchpad::bonding_curve_launchpad::ELIQUIDITY_PAIR_SWAP_AMOUNTIN_INVALID, location = bonding_curve_launchpad)]
-    fun test_e2e_failing_swap_of_zero_input_apt(
+    fun test_e2e_failing_swap_of_zero_input_cedra(
         cedra_framework: &signer,
         swap_dex_signer: &signer,
         bcl_owner_signer: &signer,

@@ -20,6 +20,7 @@ use cedra_types::{
     transaction::{Transaction, TransactionPayload},
     validator_signer::ValidatorSigner,
     waypoint::Waypoint,
+    CedraCoinType, CoinType,
 };
 use cedra_vm::VMBlockExecutor;
 use std::sync::Arc;
@@ -80,5 +81,6 @@ pub fn get_test_signed_transaction(
         &private_key,
         public_key,
         payload,
+        CedraCoinType::type_tag(),
     ))
 }

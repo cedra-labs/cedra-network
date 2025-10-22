@@ -107,7 +107,7 @@ spec cedra_framework::cedra_account {
 
     /// Check if the address existed.
     /// Check if the CedraCoin under the address existed.
-    spec assert_account_is_registered_for_apt(addr: address) {
+    spec assert_account_is_registered_for_cedra(addr: address) {
         pragma aborts_if_is_partial;
         // aborts_if !account::spec_exists_at(addr);
         // TODO(fa_migration)
@@ -269,7 +269,7 @@ spec cedra_framework::cedra_account {
         ensures exists<cedra_framework::coin::CoinStore<CoinType>>(to);
     }
 
-    spec register_apt(account_signer: &signer) {
+    spec register_cedra(account_signer: &signer) {
         // TODO: temporary mockup.
         pragma verify = false;
     }

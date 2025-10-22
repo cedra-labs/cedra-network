@@ -11,7 +11,7 @@ use cedra_types::{
     access_path::AccessPath,
     account_address::AccountAddress,
     account_config::{
-        self, primary_apt_store, AccountResource, CoinStoreResource,
+        self, primary_cedra_store, AccountResource, CoinStoreResource,
         ConcurrentFungibleBalanceResource, FungibleStoreResource, MigrationFlag,
         ObjectCoreResource, ObjectGroupResource,
     },
@@ -24,10 +24,10 @@ use cedra_types::{
         EntryFunction, RawTransaction, Script, SignedTransaction, TransactionPayload,
     },
     write_set::{WriteOp, WriteSet, WriteSetMut},
-    CedraCoinType,
+    CedraCoinType, CoinType,
 };
 use cedra_vm_genesis::GENESIS_KEYPAIR;
-use move_core_types::move_resource::MoveStructType;
+use move_core_types::{language_storage::TypeTag, move_resource::MoveStructType};
 use proptest::prelude::*;
 
 // TTL is 86400s. Initial time was set to 0.
@@ -234,7 +234,7 @@ impl Account {
     }
 
     pub fn transaction(&self) -> TransactionBuilder {
-        TransactionBuilder::new(self.clone())
+        TransactionBuilder::new(self.clone(), CedraCoinType::type_tag())
     }
 }
 
@@ -269,10 +269,11 @@ pub struct TransactionBuilder {
     pub gas_unit_price: Option<u64>,
     pub chain_id: Option<ChainId>,
     pub ttl: Option<u64>,
+    fa_address: TypeTag,
 }
 
 impl TransactionBuilder {
-    pub fn new(sender: Account) -> Self {
+    pub fn new(sender: Account, fa_address: TypeTag) -> Self {
         Self {
             sender,
             secondary_signers: Vec::new(),
@@ -283,6 +284,7 @@ impl TransactionBuilder {
             gas_unit_price: None,
             chain_id: None,
             ttl: None,
+            fa_address,
         }
     }
 
@@ -345,6 +347,7 @@ impl TransactionBuilder {
             self.gas_unit_price.unwrap_or(0),
             self.ttl.unwrap_or(DEFAULT_EXPIRATION_TIME),
             self.chain_id.unwrap_or_else(ChainId::test), //ChainId::test(),
+            self.fa_address.clone(),
         )
     }
 
@@ -478,7 +481,7 @@ impl FungibleStore {
     }
 
     pub fn to_bytes(&self) -> Vec<u8> {
-        let primary_store_object_address = primary_apt_store(self.owner);
+        let primary_store_object_address = primary_cedra_store(self.owner);
         let mut object_group = ObjectGroupResource::default();
         object_group.insert(
             ObjectCoreResource::struct_tag(),
@@ -567,10 +570,10 @@ impl AccountData {
         account: Account,
         balance: u64,
         sequence_number: u64,
-        use_fa_apt: bool,
+        use_fa_cedra: bool,
         use_concurrent_balance: bool,
     ) -> Self {
-        if use_fa_apt {
+        if use_fa_cedra {
             Self::with_account_and_fungible_store(
                 account,
                 balance,
@@ -687,7 +690,7 @@ impl AccountData {
         }
 
         if let Some(fungible_store) = &self.fungible_store {
-            let primary_store_object_address = primary_apt_store(*self.address());
+            let primary_store_object_address = primary_cedra_store(*self.address());
 
             write_set.push((
                 StateKey::resource_group(

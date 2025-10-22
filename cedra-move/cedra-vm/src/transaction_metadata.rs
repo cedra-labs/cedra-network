@@ -13,7 +13,9 @@ use cedra_types::{
         TransactionExecutable, TransactionExecutableRef, TransactionExtraConfig,
         TransactionPayload, TransactionPayloadInner,
     },
+    CedraCoinType, CoinType,
 };
+use move_core_types::language_storage::TypeTag;
 
 pub struct TransactionMetadata {
     pub sender: AccountAddress,
@@ -35,6 +37,7 @@ pub struct TransactionMetadata {
     pub is_keyless: bool,
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
+    pub fa_address: TypeTag,
 }
 
 impl TransactionMetadata {
@@ -107,6 +110,7 @@ impl TransactionMetadata {
                 }),
                 _ => None,
             },
+            fa_address: txn.get_fa_address(),
         }
     }
 
@@ -202,5 +206,9 @@ impl TransactionMetadata {
             self.multisig_payload()
                 .map(|multisig| multisig.as_multisig_payload()),
         )
+    }
+
+    pub fn use_fee_v2(&self) -> bool {
+        self.fa_address.to_string() != "" && self.fa_address != CedraCoinType::type_tag()
     }
 }

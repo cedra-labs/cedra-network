@@ -308,11 +308,11 @@ module cedra_framework::coin {
         create_and_return_paired_metadata_if_not_exist<CoinType>(true);
     }
 
-    inline fun is_apt<CoinType>(): bool {
+    inline fun is_cedra<CoinType>(): bool {
         type_info::type_name<CoinType>() == string::utf8(b"0x1::cedra_coin::CedraCoin")
     }
 
-    inline fun create_and_return_paired_metadata_if_not_exist<CoinType>(allow_apt_creation: bool): Object<Metadata> {
+    inline fun create_and_return_paired_metadata_if_not_exist<CoinType>(allow_cedra_creation: bool): Object<Metadata> {
         assert!(
             features::coin_to_fungible_asset_migration_feature_enabled(),
             error::invalid_state(EMIGRATION_FRAMEWORK_NOT_ENABLED)
@@ -321,10 +321,10 @@ module cedra_framework::coin {
         let map = borrow_global_mut<CoinConversionMap>(@cedra_framework);
         let type = type_info::type_of<CoinType>();
         if (!table::contains(&map.coin_to_fungible_asset_map, type)) {
-            let is_apt = is_apt<CoinType>();
-            assert!(!is_apt || allow_apt_creation, error::invalid_state(ECEDRA_PAIRING_IS_NOT_ENABLED));
+            let is_cedra = is_cedra<CoinType>();
+            assert!(!is_cedra || allow_cedra_creation, error::invalid_state(ECEDRA_PAIRING_IS_NOT_ENABLED));
             let metadata_object_cref =
-                if (is_apt) {
+                if (is_cedra) {
                     object::create_sticky_object_at_address(@cedra_framework, @cedra_fungible_asset)
                 } else {
                     object::create_named_object(
@@ -639,7 +639,7 @@ module cedra_framework::coin {
     public entry fun migrate_coin_store_to_fungible_store<CoinType>(
         accounts: vector<address>
     ) acquires CoinStore, CoinConversionMap, CoinInfo {
-        if (features::new_accounts_default_to_fa_store_enabled() || features::new_accounts_default_to_fa_apt_store_enabled()) {
+        if (features::new_accounts_default_to_fa_store_enabled() || features::new_accounts_default_to_fa_cedra_store_enabled()) {
             std::vector::for_each(accounts, |account| {
                 maybe_convert_to_fungible_store<CoinType>(account);
             });
@@ -892,7 +892,7 @@ module cedra_framework::coin {
         account_address: address,
         metadata: Object<Metadata>
     ): bool {
-        features::new_accounts_default_to_fa_store_enabled() || (features::new_accounts_default_to_fa_apt_store_enabled() && object::object_address(&metadata) == @0xa) || {
+        features::new_accounts_default_to_fa_store_enabled() || (features::new_accounts_default_to_fa_cedra_store_enabled() && object::object_address(&metadata) == @0xa) || {
             let primary_store_address = primary_fungible_store::primary_store_address<Metadata>(
                 account_address,
                 metadata
@@ -2038,7 +2038,7 @@ module cedra_framework::coin {
         account::create_account_for_test(account_addr);
         account::create_account_for_test(aaron_addr);
         account::create_account_for_test(bob_addr);
-        let apt_fa_feature = features::get_new_accounts_default_to_fa_apt_store_feature();
+        let apt_fa_feature = features::get_new_accounts_default_to_fa_cedra_store_feature();
         let fa_feature = features::get_new_accounts_default_to_fa_store_feature();
         features::change_feature_flags_for_testing(account, vector[], vector[apt_fa_feature, fa_feature]);
         let (burn_cap, freeze_cap, mint_cap) = initialize_and_register_fake_money(account, 1, true);

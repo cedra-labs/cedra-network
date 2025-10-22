@@ -236,7 +236,7 @@
             "name": "MintData"
           },
           "typeStr": "0x6547d9f1d481fdc21cd38c730c07974f2f61adb7063e76f9d9522ab91f090dac::candymachine::MintData",
-          "data": "{\"total_apt\":\"682451987010\",\"total_mints\":\"897223\"}"
+          "data": "{\"total_cedra\":\"682451987010\",\"total_mints\":\"897223\"}"
         }
       },
       {
