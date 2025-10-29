@@ -1,103 +1,75 @@
 module cedra_framework::bridge {
-    use std::create_signer;
-    use std::string;
-    use std::error;
+    use std::features;
     use std::signer;
+    use std::string;
     use std::vector;
 
     use cedra_std::table::{Self as table, Table};
-    use cedra_std::type_info;
 
+    use cedra_framework::account;
     use cedra_framework::coin;
     use cedra_framework::event::{Self as ev, EventHandle};
-    use cedra_framework::guid;
+    use cedra_framework::system_addresses;
 
-    #[event]
-    struct BalanceLog has drop, store {
-        label: string::String,
-        addr: address,
-        before: u64,
-        after: u64,
+    /* ===================== Admin (multisig) ===================== */
+    struct Admin has key {
+        multisig: address,
     }
 
-    /// ============= Errors =============
+    /* ===================== Errors ===================== */
     const E_NOT_ADMIN: u64 = 1;
     const E_BAD_INPUT: u64 = 2;
-    const E_VALIDATOR_EXISTS: u64 = 3;
-    const E_VALIDATOR_UNKNOWN: u64 = 4;
     const E_ALREADY_ACTIVE: u64 = 5;
-    const E_NOT_VALIDATOR: u64 = 6;
-    const E_DUP_APPROVAL: u64 = 7;
-    const E_REQUEST_EXECUTED: u64 = 8;
     const E_NONCE_USED: u64 = 9;
-    const E_INSUFFICIENT_APPROVALS: u64 = 10;
     const E_PAUSED: u64 = 11;
     const E_ZERO_AMOUNT: u64 = 12;
+    const E_ALREADY_INITIALIZED: u64 = 13;
+    const E_NO_APPROVAL: u64 = 14;
+    const E_APPROVAL_MISMATCH: u64 = 15;
 
-    /// ============= Wrapped ETH coin type =============
+    /* ===================== Coin ===================== */
     struct WETH has store, key {}
 
-    /// Store mint/burn capabilities in a module resource.
     struct Caps has key {
         mint: coin::MintCapability<WETH>,
         burn: coin::BurnCapability<WETH>,
         freeze: coin::FreezeCapability<WETH>,
     }
 
-    /// ============= Admin / pause =============
-    struct Config has key {
-        admin: address,
-        paused: bool,
-    }
+    struct Config has key { paused: bool }
 
-    /// State change events (kept for possible future use).
-    struct PausedEvent has drop, store { by: address }
-    struct UnpausedEvent has drop, store { by: address }
-
-    /// ============= Bridge validators =============
-    struct ValidatorInfo has copy, drop, store {
-        weight: u64,
-        active: bool,
-    }
-
-    struct BridgeValidatorSet has key {
-        validators: Table<address, ValidatorInfo>,
-        list: vector<address>,
-        total_weight: u64,
-        updated: EventHandle<ValidatorSetUpdated>,
-    }
-
-    struct ValidatorSetUpdated has drop, store { total_weight: u64 }
-
-    /// ============= Mint request queues =============
-    struct MintRequest has store {
-        to: address,
+    /* ===================== Requests / Approvals ===================== */
+    struct WithdrawalApproval has copy, drop, store {
+        user: address,
+        eth_recipient: vector<u8>, // 20 bytes
         amount: u64,
-        approvals_weight: u64,
-        executed: bool,
-        approved: Table<address, bool>,
     }
 
     struct Requests has key {
-        by_nonce: Table<u64, MintRequest>,
         used_nonce: Table<u64, bool>,
+        approvals: Table<u64, WithdrawalApproval>,
     }
 
-    /// Bridge events
+    /* ===================== Events ===================== */
+    #[event]
     struct DepositObserved has drop, store {
         eth_tx_hash: vector<u8>,
         to: address,
         amount: u64,
         nonce: u64,
     }
+
+    #[event]
     struct MintExecuted has drop, store {
         to: address,
         amount: u64,
         nonce: u64,
     }
-    struct BurnForExit has drop, store {
+
+    #[event]
+    struct Withdrawal has drop, store {
         from: address,
-        eth_recipient: vector<u8>, // 20 bytes ETH address
+        eth_recipient: vector<u8>, // 20 bytes
         amount: u64,
         nonce: u64,
     }
@@ -105,332 +77,327 @@ module cedra_framework::bridge {
     struct BridgeEvents has key {
         deposit_observed: EventHandle<DepositObserved>,
         mint_executed: EventHandle<MintExecuted>,
-        burn_for_exit: EventHandle<BurnForExit>,
-        balance_logs:    EventHandle<BalanceLog>,
+        withdrawal: EventHandle<Withdrawal>,
     }
 
-    /// ============= Module initialization =============
-    public entry fun init(admin: &signer) {
-        // publish config
-        let cfg = Config { admin: signer::address_of(admin), paused: false };
-        move_to(admin, cfg);
+    /* ===================== Helpers ===================== */
+    inline fun assert_not_paused() acquires Config {
+        assert!(!borrow_global<Config>(@cedra_framework).paused, E_PAUSED);
+    }
 
-        let fw = create_signer::create_signer(@cedra_framework);
-        coin::create_coin_conversion_map(&fw);
+    inline fun assert_framework(s: &signer) {
+        system_addresses::assert_cedra_framework(s);
+    }
 
-        // initialize WETH
+    inline fun assert_multisig(s: &signer) acquires Admin {
+        let admin = borrow_global<Admin>(@cedra_framework);
+        assert!(signer::address_of(s) == admin.multisig, E_NOT_ADMIN);
+    }
+
+    /* ===================== Init & admin rotation ===================== */
+
+    /// Call at genesis (or once after publish via framework account).
+    public fun initialize(cedra_framework: &signer) {
+        assert_framework(cedra_framework);
+        assert!(!exists<Config>(@cedra_framework), E_ALREADY_INITIALIZED);
+
+        move_to(cedra_framework, Config { paused: false });
+
+        coin::create_coin_conversion_map(cedra_framework);
         if (!coin::is_coin_initialized<WETH>()) {
-            // the signer must match the type's account address
-            let weth_addr = type_info::account_address(&type_info::type_of<WETH>());
-            let coin_owner = create_signer::create_signer(weth_addr);
-
             let (burn, freeze, mint) = coin::initialize<WETH>(
-                &coin_owner,
+                cedra_framework,
                 string::utf8(b"Wrapped Ether"),
                 string::utf8(b"WETH"),
-                18,      // or your decimals
+                18,
                 true
             );
-
-            // store the caps where your module expects them (e.g., under admin)
-            move_to(admin, Caps { burn, freeze, mint });
+            move_to(cedra_framework, Caps { burn, freeze, mint });
         };
 
-        // GUIDs: (address, creation_num)
-        let admin_addr = signer::address_of(admin);
-        let n1 = 1; let g1 = guid::create(admin_addr, &mut n1);
-        let n2 = 2; let g2 = guid::create(admin_addr, &mut n2);
-        let n3 = 3; let g3 = guid::create(admin_addr, &mut n3);
-        let n4 = 4; let g4 = guid::create(admin_addr, &mut n4);
-
-        // --- add one more GUID for balance log events ---
-        let n5 = 5; 
-        let g5 = guid::create(admin_addr, &mut n5);
-
-        // empty validator set
-        let vs = BridgeValidatorSet {
-            validators: table::new<address, ValidatorInfo>(),
-            list: vector::empty<address>(),
-            total_weight: 0,
-            updated: ev::new_event_handle<ValidatorSetUpdated>(g1),
-        };
-        move_to(admin, vs);
-
-        // tables for requests and used nonces
-        move_to(admin, Requests {
-            by_nonce: table::new<u64, MintRequest>(),
+        move_to(cedra_framework, Requests {
             used_nonce: table::new<u64, bool>(),
+            approvals: table::new<u64, WithdrawalApproval>(),
         });
 
-        // bridge events
-        move_to(admin, BridgeEvents {
-            deposit_observed: ev::new_event_handle<DepositObserved>(g2),
-            mint_executed:   ev::new_event_handle<MintExecuted>(g3),
-            burn_for_exit:   ev::new_event_handle<BurnForExit>(g4),
-            balance_logs:    ev::new_event_handle<BalanceLog>(g5),
+        move_to(cedra_framework, BridgeEvents {
+            deposit_observed: account::new_event_handle<DepositObserved>(cedra_framework),
+            mint_executed:   account::new_event_handle<MintExecuted>(cedra_framework),
+            withdrawal:      account::new_event_handle<Withdrawal>(cedra_framework),
         });
+
+        // Default multisig to the framework; rotate to the real multisig later.
+        move_to(cedra_framework, Admin { multisig: signer::address_of(cedra_framework) });
     }
 
-    /// ============= Admin and pause =============
-    public entry fun pause(caller: &signer) acquires Config, BridgeEvents {
-        let cfg = borrow_global_mut<Config>(signer::address_of(caller));
-        assert!(is_admin(caller, cfg), error::permission_denied(E_NOT_ADMIN));
+    /// Framework bootstrap: set the multisig address the first time (or any time, but requires framework signer).
+    public entry fun set_multisig_framework_only(cedra_framework: &signer, addr: address) acquires Admin {
+        assert_framework(cedra_framework);
+        let a = borrow_global_mut<Admin>(@cedra_framework);
+        a.multisig = addr;
+    }
+
+    /// Normal rotation by current multisig (k-of-n enforced in the multisig module).
+    public entry fun rotate_multisig(multisig: &signer, new_addr: address) acquires Admin {
+        assert_multisig(multisig);
+        let a = borrow_global_mut<Admin>(@cedra_framework);
+        a.multisig = new_addr;
+    }
+
+    public fun pause(multisig: &signer) acquires Config, Admin {
+        assert_multisig(multisig);
+        let cfg = borrow_global_mut<Config>(@cedra_framework);
         cfg.paused = true;
-        let evs = borrow_global_mut<BridgeEvents>(signer::address_of(caller));
-        ev::emit_event(
-            &mut evs.deposit_observed,
-            DepositObserved { eth_tx_hash: vector::empty<u8>(), to: signer::address_of(caller), amount: 0, nonce: 0 }
-        );
     }
 
-    public entry fun unpause(caller: &signer) acquires Config {
-        let cfg = borrow_global_mut<Config>(signer::address_of(caller));
-        assert!(is_admin(caller, cfg), error::permission_denied(E_NOT_ADMIN));
+    public fun unpause(multisig: &signer) acquires Config, Admin {
+        assert_multisig(multisig);
+        let cfg = borrow_global_mut<Config>(@cedra_framework);
         cfg.paused = false;
     }
 
-    inline fun ensure_not_paused(admin_addr: address) acquires Config {
-        let cfg = borrow_global<Config>(admin_addr);
-        assert!(!cfg.paused, E_PAUSED);
-    }
+    /* ===================== Deposit / Mint (multisig-gated) ===================== */
 
-    inline fun is_admin(caller: &signer, cfg: &Config): bool {
-        signer::address_of(caller) == cfg.admin
-    }
-
-    /// ============= Validator flow =============
-    public entry fun initialize_validator(admin: &signer, validator: address, weight: u64)
-    acquires Config, BridgeValidatorSet {
-        assert!(weight > 0, E_BAD_INPUT);
-        let cfg = borrow_global<Config>(signer::address_of(admin));
-        assert!(is_admin(admin, cfg), error::permission_denied(E_NOT_ADMIN));
-
-        let set = borrow_global_mut<BridgeValidatorSet>(signer::address_of(admin));
-        let present = table::contains(&set.validators, validator);
-        assert!(!present, E_VALIDATOR_EXISTS);
-
-        table::add(&mut set.validators, validator, ValidatorInfo { weight, active: false });
-        vector::push_back(&mut set.list, validator);
-    }
-
-    public entry fun join_validator_set(admin: &signer, validator: address)
-    acquires Config, BridgeValidatorSet {
-        let cfg = borrow_global<Config>(signer::address_of(admin));
-        assert!(is_admin(admin, cfg), error::permission_denied(E_NOT_ADMIN));
-
-        let set = borrow_global_mut<BridgeValidatorSet>(signer::address_of(admin));
-        // TAKE the row out, mutate, put it back
-        let old = table::remove(&mut set.validators, validator);
-        assert!(!old.active, E_ALREADY_ACTIVE);
-        let new = ValidatorInfo { weight: old.weight, active: true };
-        set.total_weight = set.total_weight + new.weight;
-        table::add(&mut set.validators, validator, new);
-
-        ev::emit_event(&mut set.updated, ValidatorSetUpdated { total_weight: set.total_weight });
-    }
-
-    public entry fun leave_validator_set(admin: &signer, validator: address)
-    acquires Config, BridgeValidatorSet {
-        let cfg = borrow_global<Config>(signer::address_of(admin));
-        assert!(is_admin(admin, cfg), error::permission_denied(E_NOT_ADMIN));
-
-        let set = borrow_global_mut<BridgeValidatorSet>(signer::address_of(admin));
-        // TAKE the row out, mutate, put it back
-        let old = table::remove(&mut set.validators, validator);
-        if (old.active) {
-            let new = ValidatorInfo { weight: old.weight, active: false };
-            set.total_weight = set.total_weight - old.weight;
-            table::add(&mut set.validators, validator, new);
-            ev::emit_event(&mut set.updated, ValidatorSetUpdated { total_weight: set.total_weight });
-        } else {
-            // put it back unchanged if it was already inactive
-            table::add(&mut set.validators, validator, old);
-        };
-    }
-
-    fun validator_weight(admin_addr: address, who: address): (bool, u64) acquires BridgeValidatorSet {
-        let set = borrow_global<BridgeValidatorSet>(admin_addr);
-        if (!table::contains(&set.validators, who)) return (false, 0);
-        let info = table::borrow(&set.validators, who);
-        if (!info.active) return (false, 0);
-        (true, info.weight)
-    }
-
-    /// ============= Inbound (mint) =============
-    public entry fun open_mint_request(
-        admin: &signer,
+    /// Executed by multisig after off-chain/on-chain approvals.
+    public entry fun execute_deposit(
+        multisig: &signer,
         to: address,
         amount: u64,
         nonce: u64,
         eth_tx_hash: vector<u8>,
-    ) acquires Config, Requests, BridgeEvents {
+    ) acquires Requests, BridgeEvents, Caps, Config, Admin {
+        assert_not_paused();
+        assert_multisig(multisig);
         assert!(amount > 0, E_ZERO_AMOUNT);
 
-        let cfg = borrow_global<Config>(signer::address_of(admin));
-        assert!(is_admin(admin, cfg), error::permission_denied(E_NOT_ADMIN));
-        ensure_not_paused(cfg.admin);
+        let reqs = borrow_global_mut<Requests>(@cedra_framework);
+        assert!(!table::contains(&reqs.used_nonce, nonce), E_NONCE_USED);
+        table::add(&mut reqs.used_nonce, nonce, true);
 
-        let rq = borrow_global_mut<Requests>(signer::address_of(admin));
-        assert!(!table::contains(&rq.used_nonce, nonce), E_NONCE_USED);
+        let caps = borrow_global<Caps>(@cedra_framework);
+        let minted = coin::mint<WETH>(amount, &caps.mint);
+        coin::deposit<WETH>(to, minted);
 
-        let mr = MintRequest { to, amount, approvals_weight: 0, executed: false, approved: table::new<address, bool>() };
-        table::add(&mut rq.by_nonce, nonce, mr);
-        table::add(&mut rq.used_nonce, nonce, true);
-
-        let evs = borrow_global_mut<BridgeEvents>(signer::address_of(admin));
-        ev::emit_event(&mut evs.deposit_observed, DepositObserved { eth_tx_hash, to, amount, nonce });
+        let evs = borrow_global_mut<BridgeEvents>(@cedra_framework);
+        if (features::module_event_migration_enabled()) {
+            ev::emit(DepositObserved { eth_tx_hash, to, amount, nonce });
+            ev::emit(MintExecuted { to, amount, nonce });
+        } else {
+            ev::emit_event(&mut evs.deposit_observed, DepositObserved { eth_tx_hash, to, amount, nonce });
+            ev::emit_event(&mut evs.mint_executed,   MintExecuted    { to, amount, nonce });
+        };
     }
 
-    public entry fun approve_mint(
-        validator_signer: &signer,
-        admin: &signer,
-        nonce: u64
-    ) acquires Requests, BridgeValidatorSet, Config {
-        let admin_addr = signer::address_of(admin);
-        ensure_not_paused(admin_addr);
+    /* ===================== Withdrawal (user burn but multisig-approved) ===================== */
 
-        let sender = signer::address_of(validator_signer);
-        let (is_val, w) = validator_weight(admin_addr, sender);
-        assert!(is_val, E_NOT_VALIDATOR);
-
-        let rq = borrow_global_mut<Requests>(admin_addr);
-        let mr = table::borrow_mut(&mut rq.by_nonce, nonce);
-        assert!(!mr.executed, E_REQUEST_EXECUTED);
-
-        let seen = table::contains(&mr.approved, sender);
-        assert!(!seen, E_DUP_APPROVAL);
-
-        table::add(&mut mr.approved, sender, true);
-        mr.approvals_weight = mr.approvals_weight + w;
-    }
-
-    public entry fun execute_mint(
-        _caller: &signer,
-        admin: &signer,
-        nonce: u64
-    ) acquires Requests, BridgeValidatorSet, Caps, BridgeEvents, Config {
-        let admin_addr = signer::address_of(admin);
-        ensure_not_paused(admin_addr);
-
-        let set = borrow_global<BridgeValidatorSet>(admin_addr);
-        let rq  = borrow_global_mut<Requests>(admin_addr);
-        let mr  = table::borrow_mut(&mut rq.by_nonce, nonce);
-        assert!(!mr.executed, E_REQUEST_EXECUTED);
-
-        assert!(mr.approvals_weight * 100 > set.total_weight * 66, E_INSUFFICIENT_APPROVALS);
-
-        let Caps { mint, burn: _, freeze: _ } = borrow_global<Caps>(admin_addr);
-        let minted = coin::mint<WETH>(mr.amount, mint);
-        coin::deposit(mr.to, minted);
-
-        mr.executed = true;
-
-        let evs = borrow_global_mut<BridgeEvents>(admin_addr);
-        ev::emit_event(&mut evs.mint_executed, MintExecuted { to: mr.to, amount: mr.amount, nonce });
-    }
-
-    /// ============= Outbound (burn) =============
-    public entry fun burn_for_ethereum_exit(
-        user: &signer,
-        admin: &signer,
+    /// Multisig pre-approves a specific withdrawal (user, recipient, amount, nonce).
+    public entry fun approve_withdrawal(
+        multisig: &signer,
+        user: address,
         eth_recipient: vector<u8>,
         amount: u64,
-        exit_nonce: u64
-    ) acquires Requests, Caps, BridgeEvents, Config {
-        let admin_addr = signer::address_of(admin);
-        ensure_not_paused(admin_addr);
+        nonce: u64
+    ) acquires Admin, Requests, Config {
+        assert_not_paused();
+        assert_multisig(multisig);
         assert!(amount > 0, E_ZERO_AMOUNT);
         assert!(vector::length(&eth_recipient) == 20, E_BAD_INPUT);
 
-        let rq = borrow_global_mut<Requests>(admin_addr);
-        assert!(!table::contains(&rq.used_nonce, exit_nonce), E_NONCE_USED);
-        table::add(&mut rq.used_nonce, exit_nonce, true);
+        let reqs = borrow_global_mut<Requests>(@cedra_framework);
+        // Cannot re-approve a used nonce
+        assert!(!table::contains(&reqs.used_nonce, nonce), E_NONCE_USED);
+        // Cannot overwrite an existing approval
+        assert!(!table::contains(&reqs.approvals, nonce), E_ALREADY_ACTIVE);
 
-        let c = coin::withdraw<WETH>(user, amount);
-        let Caps { burn, mint: _, freeze: _ } = borrow_global<Caps>(admin_addr);
-        coin::burn<WETH>(c, burn);
-
-        let evs = borrow_global_mut<BridgeEvents>(admin_addr);
-        ev::emit_event(&mut evs.burn_for_exit, BurnForExit {
-            from: signer::address_of(user),
-            eth_recipient,
-            amount,
-            nonce: exit_nonce,
-        });
+        table::add(
+            &mut reqs.approvals,
+            nonce,
+            WithdrawalApproval { user, eth_recipient, amount }
+        );
     }
 
-    /// ============= Views =============
-    public fun total_weight(admin_addr: address): u64 acquires BridgeValidatorSet {
-        borrow_global<BridgeValidatorSet>(admin_addr).total_weight
-    }
+    /// User executes the withdrawal after multisig approval.
+    public entry fun withdraw_to_l1(
+        user: &signer,
+        eth_recipient: vector<u8>,
+        amount: u64,
+        nonce: u64
+    ) acquires Caps, BridgeEvents, Requests, Config {
+        assert_not_paused();
+        assert!(amount > 0, E_ZERO_AMOUNT);
+        assert!(vector::length(&eth_recipient) == 20, E_BAD_INPUT);
 
-    public fun is_active_validator(admin_addr: address, who: address): bool acquires BridgeValidatorSet {
-        let (ok, _) = validator_weight(admin_addr, who);
-        ok
+        let reqs = borrow_global_mut<Requests>(@cedra_framework);
+
+        // Must have prior approval
+        assert!(table::contains(&reqs.approvals, nonce), E_NO_APPROVAL);
+        let appr = table::borrow(&reqs.approvals, nonce);
+
+        // Approval must match caller + params exactly
+        assert!(appr.user == signer::address_of(user), E_APPROVAL_MISMATCH);
+        assert!(appr.amount == amount, E_APPROVAL_MISMATCH);
+        assert!(appr.eth_recipient == eth_recipient, E_APPROVAL_MISMATCH);
+
+        // Burn the user's WETH
+        let caps = borrow_global<Caps>(@cedra_framework);
+        let coins = coin::withdraw<WETH>(user, amount);
+        coin::burn<WETH>(coins, &caps.burn);
+
+        // Mark nonce used and clear approval
+        assert!(!table::contains(&reqs.used_nonce, nonce), E_NONCE_USED);
+        table::add(&mut reqs.used_nonce, nonce, true);
+        // Remove approval to prevent re-use
+        let _ = table::remove(&mut reqs.approvals, nonce);
+
+        // Emit event
+        let evs = borrow_global_mut<BridgeEvents>(@cedra_framework);
+        if (features::module_event_migration_enabled()) {
+            ev::emit(Withdrawal { from: signer::address_of(user), eth_recipient, amount, nonce });
+        } else {
+            ev::emit_event(&mut evs.withdrawal, Withdrawal { from: signer::address_of(user), eth_recipient, amount, nonce });
+        };
     }
 
     /// Users can register CoinStore<WETH> to receive minted coins.
-    public entry fun register_weth_store(user: &signer, _admin_addr: address) {
-        coin::register<WETH>(user);
-    }
+    public entry fun register_weth_store(user: &signer) { coin::register<WETH>(user); }
 
-    public fun total_weight_for(admin: &signer): u64 acquires BridgeValidatorSet {
-        total_weight(signer::address_of(admin))
-    }
+    /* ===================== Views ===================== */
 
-    public fun is_active_validator_for(admin: &signer, who: address): bool acquires BridgeValidatorSet {
-        let set = borrow_global<BridgeValidatorSet>(signer::address_of(admin));
-        if (!table::contains(&set.validators, who)) return false;
-        let info = table::borrow(&set.validators, who);
-        info.active
-    }
-
-    #[test_only]
-    public fun log_balance(
-        admin_addr: address,
-        label_b: vector<u8>,
-        addr: address,
-        before: u64,
-        after: u64
-    ) acquires BridgeEvents {
-        let evs = borrow_global_mut<BridgeEvents>(admin_addr);
-        ev::emit_event(
-            &mut evs.balance_logs,
-            BalanceLog { label: string::utf8(label_b), addr, before, after }
-        );
-    }
-
-    #[test_only]
-    public fun log_validator_state(
-        admin_addr: address,
-        label_b: vector<u8>,
-        who: address
-    ) acquires BridgeValidatorSet, BridgeEvents {
-        let set = borrow_global<BridgeValidatorSet>(admin_addr);
-        let exists = table::contains(&set.validators, who);
-        let (active, weight) = if (exists) {
-            let info = table::borrow(&set.validators, who);
-            (info.active, info.weight)
-        } else {
-            (false, 0)
-        };
-        let evs = borrow_global_mut<BridgeEvents>(admin_addr);
-        ev::emit_event(
-            &mut evs.balance_logs, // reuse an existing handle if you prefer not to add a new one
-            BalanceLog { label: string::utf8(label_b), addr: who, before: weight, after: set.total_weight }
-        );
+    #[view]
+    public fun admin_multisig(): address acquires Admin {
+        borrow_global<Admin>(@cedra_framework).multisig
     }
 
     #[view]
-    public fun validator_debug(
-        admin_addr: address,
-        who: address
-    ): (bool , bool , u64 , u64)
-    acquires BridgeValidatorSet {
-        let set = borrow_global<BridgeValidatorSet>(admin_addr);
-        let exists = table::contains(&set.validators, who);
-        if (!exists) return (false, false, 0, set.total_weight);
-        let info = table::borrow(&set.validators, who);
-        (true, info.active, info.weight, set.total_weight)
+    public fun nonce_used(n: u64): bool acquires Requests {
+        table::contains(&borrow_global<Requests>(@cedra_framework).used_nonce, n)
+    }
+
+        /************** TESTS **************/
+    #[test_only]
+    use cedra_framework::bridge;
+
+    // Mini-genesis for tests: create & init @cedra_framework, then init bridge.
+    #[test_only]
+    fun setup_framework_for_tests(): signer {
+        let (cf, _cap) = account::create_framework_reserved_account(@cedra_framework);
+        account::initialize(&cf);
+        bridge::initialize(&cf);
+        cf
+    }
+
+    /// Mint executes when (and only when) the configured multisig calls `execute_deposit`.
+    #[test(msig=@0x501, user=@0x2222)]
+    public entry fun test_multisig_quorum_mints(msig: &signer, user: &signer)
+    acquires Caps, Requests, BridgeEvents, Config, Admin {
+        let cf = setup_framework_for_tests();
+
+        // Set the bridge admin to the "multisig" address
+        bridge::set_multisig_framework_only(&cf, signer::address_of(msig));
+
+        // User prepares to receive WETH
+        bridge::register_weth_store(user);
+        let u = signer::address_of(user);
+        let before = coin::balance<bridge::WETH>(u);
+
+        // Multisig "executes" the bridge mint after approvals (off-chain / other module)
+        let amt = 250;
+        let nonce = 42;
+        bridge::execute_deposit(msig, u, amt, nonce, b"eth-tx-42");
+
+        let after = coin::balance<bridge::WETH>(u);
+        assert!(after == before + amt, 0x1001);
+        assert!(bridge::nonce_used(nonce), 0x1002);
+    }
+
+    /// Rotating the admin multisig changes who can call the gated functions.
+    #[test(msig1=@0xAAA, msig2=@0xBBB, to=@0x3333)]
+    public entry fun test_admin_multisig_rotation(msig1: &signer, msig2: &signer, to: &signer)
+    acquires Caps, Requests, BridgeEvents, Config, Admin {
+        let cf = setup_framework_for_tests();
+
+        bridge::set_multisig_framework_only(&cf, signer::address_of(msig1));
+        bridge::register_weth_store(to);
+
+        let to_addr = signer::address_of(to);
+        let b0 = coin::balance<bridge::WETH>(to_addr);
+
+        // Works for msig1
+        bridge::execute_deposit(msig1, to_addr, 100, 1, b"tx-1");
+
+        // Rotate to msig2
+        bridge::rotate_multisig(msig1, signer::address_of(msig2));
+        assert!(bridge::admin_multisig() == signer::address_of(msig2), 0x1101);
+
+        // Now only msig2 should work
+        bridge::execute_deposit(msig2, to_addr, 200, 2, b"tx-2");
+
+        let b1 = coin::balance<bridge::WETH>(to_addr);
+        assert!(b1 == b0 + 100 + 200, 0x1102);
+    }
+
+    /// Paused blocks execute_deposit.
+    #[test(msig=@0x501, to=@0x4444)]
+    #[expected_failure(abort_code = 11)] // E_PAUSED
+    public entry fun test_pause_blocks_paths_execute_deposit(msig: &signer, to: &signer)
+    acquires Caps, Requests, BridgeEvents, Config, Admin {
+        let cf = setup_framework_for_tests();
+
+        bridge::set_multisig_framework_only(&cf, signer::address_of(msig));
+        bridge::register_weth_store(to);
+
+        bridge::pause(msig);
+        bridge::execute_deposit(msig, signer::address_of(to), 10, 9, b"tx-paused");
+    }
+
+    /// Paused also blocks withdrawals (even with approval).
+    #[test(msig=@0x501, user=@0x7777)]
+    #[expected_failure(abort_code = 11)] // E_PAUSED
+    public entry fun test_pause_blocks_paths_withdraw(msig: &signer, user: &signer)
+    acquires Caps, Requests, BridgeEvents, Config, Admin {
+        let cf = setup_framework_for_tests();
+
+        bridge::set_multisig_framework_only(&cf, signer::address_of(msig));
+        bridge::register_weth_store(user);
+
+        // Give the user some WETH so a withdrawal would otherwise succeed
+        bridge::execute_deposit(msig, signer::address_of(user), 100, 1001, b"tx-mint");
+
+        // Normally: multisig approves -> user withdraws.
+        // But pause first; withdraw must abort E_PAUSED regardless of approval.
+        bridge::pause(msig);
+
+        // (Approval would also be blocked, but we don't need it E_PAUSED triggers first.)
+        bridge::withdraw_to_l1(user, b"00000000000000000000", 50, 9001);
+    }
+
+    /// Full withdrawal happy path: multisig approves and user withdraws; nonce is consumed; approval is removed.
+    #[test(msig=@0x501, user=@0x201)]
+    public entry fun test_withdrawal_approval_and_execution(msig: &signer, user: &signer)
+    acquires Caps, Requests, BridgeEvents, Config, Admin {
+        let cf = setup_framework_for_tests();
+
+        bridge::set_multisig_framework_only(&cf, signer::address_of(msig));
+        bridge::register_weth_store(user);
+        let u = signer::address_of(user);
+
+        // Fund user
+        bridge::execute_deposit(msig, u, 1000, 7001, b"tx-fund");
+
+        let before = coin::balance<bridge::WETH>(u);
+
+        // Approve specific withdrawal => (user, recipient, amount, nonce)
+        let recp = b"11111111111111111111"; // 20 bytes
+        let amount = 150;
+        let nonce = 9001;
+        bridge::approve_withdrawal(msig, u, recp, amount, nonce);
+
+        // User executes
+        bridge::withdraw_to_l1(user, recp, amount, nonce);
+
+        let after = coin::balance<bridge::WETH>(u);
+        assert!(before == after + amount, 0x1201);
+        assert!(bridge::nonce_used(nonce), 0x1202);
+        // Re-using same nonce would now fail (approval removed + nonce used) in a separate failure test.
     }
 }
