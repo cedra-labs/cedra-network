@@ -471,7 +471,7 @@ fn run_epilogue(
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
 
-            let serialize_args = vec![
+            let mut serialize_args = vec![
                 serialized_signers.sender(),
                 MoveValue::U64(custom_fee_statement.storage_fee_refund())
                     .simple_serialize()
@@ -491,6 +491,14 @@ fn run_epilogue(
                     .unwrap(),
                 MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
             ];
+
+            if features.is_transaction_payload_v2_enabled() {
+                serialize_args.push(
+                    MoveValue::Bool(is_orderless_txn)
+                        .simple_serialize()
+                        .unwrap(),
+                );
+            }
 
             session
                 .execute_function_bypass_visibility(
