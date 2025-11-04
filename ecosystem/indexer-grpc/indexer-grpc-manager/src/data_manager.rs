@@ -17,7 +17,7 @@ use cedra_protos::{
     internal::fullnode::v1::{
         transactions_from_node_response::Response, GetTransactionsFromNodeRequest,
     },
-    transaction::v1::Transaction,
+    transaction::v1::Transaction, transaction::v1::transaction::TransactionType as TxType,
 };
 use futures::StreamExt;
 use prost::Message;
