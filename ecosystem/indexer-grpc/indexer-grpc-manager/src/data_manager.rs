@@ -117,7 +117,15 @@ impl Cache {
             .skip((start_version - self.start_version) as usize)
         {
             size_bytes += transaction.encoded_len();
-            transactions.push(transaction.clone());
+            
+            if transaction.clone().r#type() == TxType::User && transaction.clone().info.is_some(){
+                if transaction.clone().info.unwrap().success {
+                    transactions.push(transaction.clone());
+                }
+            } else {
+                transactions.push(transaction.clone());
+            }
+
             if size_bytes > max_size_bytes {
                 // Note: We choose to not pop the last transaction here, so the size could be
                 // slightly larger than the `max_size_bytes`. This is fine.
