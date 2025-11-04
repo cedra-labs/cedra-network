@@ -472,9 +472,6 @@ Burn custom transaction fees in epilogue.
     symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fee: u64
 ) {
-    // 1000 - fee_v2 feature not enabled
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>(), 1000);
-
     // 1001 - <a href="whitelist.md#0x1_whitelist">whitelist</a> registry missing
     <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">whitelist::has_registry</a>(@admin), 1001);
 
@@ -496,7 +493,7 @@ Burn custom transaction fees in epilogue.
             from_addr,
             @admin,
             symbol,
-            100
+            fee
         );
        }
 </code></pre>

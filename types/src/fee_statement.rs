@@ -187,3 +187,16 @@ impl MoveStructType for CustomFeeStatement {
     const MODULE_NAME: &'static IdentStr = ident_str!("transaction_fee");
     const STRUCT_NAME: &'static IdentStr = ident_str!("CustomFeeStatement");
 }
+
+// Implement conversion CustomFeeStatement -> FeeStatement
+impl From<CustomFeeStatement> for FeeStatement {
+    fn from(c: CustomFeeStatement) -> Self {
+        FeeStatement {
+            total_charge_gas_units: c.total_charge_gas_units,
+            execution_gas_units: c.execution_gas_units,
+            io_gas_units: c.io_gas_units,
+            storage_fee_octas: c.storage_fee_octas,
+            storage_fee_refund_octas: c.storage_fee_refund_octas,
+        }
+    }
+}

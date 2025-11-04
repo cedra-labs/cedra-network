@@ -665,11 +665,19 @@ impl CedraVM {
                 let gas_params = self.gas_params(log_context)?;
                 let gas_unit_price = u64::from(txn_data.gas_unit_price());
                 if gas_unit_price != 0 || !self.features().is_default_account_resource_enabled() {
-                    let gas_used = fee_statement.gas_used();
-                    let storage_fee = fee_statement.storage_fee_used();
-                    let storage_refund = fee_statement.storage_fee_refund();
-
-                    let actual = gas_used * gas_unit_price + storage_fee - storage_refund;
+                    let actual : u64;
+                   
+                    if txn_data.use_fee_v2() {
+                        actual = custom_fee_statement.gas_used() * gas_unit_price + custom_fee_statement.storage_fee_used() - custom_fee_statement.storage_fee_refund();
+                    } else {
+                        actual = fee_statement.gas_used() * gas_unit_price + fee_statement.storage_fee_used() - fee_statement.storage_fee_refund();
+                    }
+                    /*
+                        gas_used = fee_statement.gas_used();
+                        storage_fee = fee_statement.storage_fee_used();
+                        storage_refund = fee_statement.storage_fee_refund();
+                        let actual = gas_used * gas_unit_price + storage_fee - storage_refund;
+                    */
                     let expected = u64::from(
                         gas_meter
                             .disk_space_pricing()
@@ -748,7 +756,12 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
-        epilogue_session.finish(fee_statement, status, change_set_configs, module_storage)
+        epilogue_session.finish(
+            if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement }, 
+            status, 
+            change_set_configs, 
+            module_storage
+        )
     }
 
     fn success_transaction_cleanup(
@@ -809,8 +822,9 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
+
         let output = epilogue_session.finish(
-            fee_statement,
+            if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement },
             ExecutionStatus::Success,
             change_set_configs,
             module_storage,

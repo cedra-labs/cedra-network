@@ -465,18 +465,15 @@ fn run_epilogue(
     let txn_gas_price = txn_data.gas_unit_price();
     let txn_max_gas_units = txn_data.max_gas_amount();
     let is_orderless_txn = txn_data.is_orderless();
+    
     if txn_data.use_fee_v2() {
         if let TypeTag::Struct(fa) = &txn_data.fa_address {
-            println!("Address: {}", fa.address);
-            println!("Module: {}", fa.module);
-            println!("Name: {}", fa.name);
-
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
 
-            let serialize_args = vec![
+            let mut serialize_args = vec![
                 serialized_signers.sender(),
-                MoveValue::U64(fee_statement.storage_fee_refund())
+                MoveValue::U64(custom_fee_statement.storage_fee_refund())
                     .simple_serialize()
                     .unwrap(),
                 MoveValue::U64(txn_gas_price.into())
@@ -494,6 +491,14 @@ fn run_epilogue(
                     .unwrap(),
                 MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
             ];
+
+            if features.is_transaction_payload_v2_enabled() {
+                serialize_args.push(
+                    MoveValue::Bool(is_orderless_txn)
+                        .simple_serialize()
+                        .unwrap(),
+                );
+            }
 
             session
                 .execute_function_bypass_visibility(
@@ -642,7 +647,7 @@ fn run_epilogue(
     }
 
     // Emit the FeeStatement event
-    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
+    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() { 
         emit_custom_fee_statement(
             session,
             module_storage,

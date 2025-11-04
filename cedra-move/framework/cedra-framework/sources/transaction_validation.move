@@ -71,6 +71,7 @@ module cedra_framework::transaction_validation {
     const PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT: u64 = 1011;
     const PROLOGUE_ENONCE_ALREADY_USED: u64 = 1012;
     const PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE: u64 = 1013;
+    const FEE_V2_NOT_ENABLED: u64 = 1014;
 
     /// Permission management
     ///
@@ -853,78 +854,6 @@ module cedra_framework::transaction_validation {
         is_simulation: bool,
         is_orderless_txn: bool
     ) {
-        if (features::fee_v2_enabled()) {}
-        else {
-            assert!(
-                txn_max_gas_units >= gas_units_remaining,
-                error::invalid_argument(EOUT_OF_GAS)
-            );
-            let gas_used = txn_max_gas_units - gas_units_remaining;
-
-            assert!(
-                (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
-                error::out_of_range(EOUT_OF_GAS)
-            );
-            let transaction_fee_amount = txn_gas_price * gas_used;
-
-            let gas_payer_address = signer::address_of(&gas_payer);
-            // it's important to maintain the error code consistent with vm
-            // to do failed transaction cleanup.
-            if (!skip_gas_payment(is_simulation, gas_payer_address)) {
-                if (features::operations_default_to_fa_cedra_store_enabled()) {
-                    assert!(
-                        cedra_account::is_fungible_balance_at_least(
-                            gas_payer_address, transaction_fee_amount
-                        ),
-                        error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
-                    );
-                } else {
-                    assert!(
-                        coin::is_balance_at_least<CedraCoin>(
-                            gas_payer_address, transaction_fee_amount
-                        ),
-                        error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
-                    );
-                };
-
-                if (transaction_fee_amount > storage_fee_refunded) {
-                    let burn_amount = transaction_fee_amount - storage_fee_refunded;
-                    transaction_fee::burn_fee(gas_payer_address, burn_amount);
-                    permissioned_signer::check_permission_consume(
-                        &gas_payer,
-                        (burn_amount as u256),
-                        GasPermission {}
-                    );
-                } else if (transaction_fee_amount < storage_fee_refunded) {
-                    let mint_amount = storage_fee_refunded - transaction_fee_amount;
-                    transaction_fee::mint_and_refund(gas_payer_address, mint_amount);
-                    permissioned_signer::increase_limit(
-                        &gas_payer,
-                        (mint_amount as u256),
-                        GasPermission {}
-                    );
-                };
-            };
-
-            if (!is_orderless_txn) {
-                // Increment sequence number
-                let addr = signer::address_of(&account);
-                account::increment_sequence_number(addr);
-            }
-        }
-    }
-
-    public fun unified_epilogue_fee(
-        from: signer,
-        storage_fee_refunded: u64,
-        txn_gas_price: u64,
-        txn_max_gas_units: u64,
-        gas_units_remaining: u64,
-        fa_addr: address,
-        fa_module: vector<u8>,
-        fa_symbol: vector<u8>
-    ) {
-    if (fa_addr != @0x1) {
         assert!(
             txn_max_gas_units >= gas_units_remaining,
             error::invalid_argument(EOUT_OF_GAS)
@@ -936,10 +865,93 @@ module cedra_framework::transaction_validation {
             error::out_of_range(EOUT_OF_GAS)
         );
         let transaction_fee_amount = txn_gas_price * gas_used;
-        let fee_amount = transaction_fee_amount - storage_fee_refunded;
 
-        let from_addr = signer::address_of(&from);
-        
-        transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
+        let gas_payer_address = signer::address_of(&gas_payer);
+        // it's important to maintain the error code consistent with vm
+        // to do failed transaction cleanup.
+        if (!skip_gas_payment(is_simulation, gas_payer_address)) {
+            if (features::operations_default_to_fa_cedra_store_enabled()) {
+                assert!(
+                    cedra_account::is_fungible_balance_at_least(
+                        gas_payer_address, transaction_fee_amount
+                    ),
+                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
+                );
+            } else {
+                assert!(
+                    coin::is_balance_at_least<CedraCoin>(
+                        gas_payer_address, transaction_fee_amount
+                    ),
+                    error::out_of_range(PROLOGUE_ECANT_PAY_GAS_DEPOSIT)
+                );
+            };
+
+            if (transaction_fee_amount > storage_fee_refunded) {
+                let burn_amount = transaction_fee_amount - storage_fee_refunded;
+                transaction_fee::burn_fee(gas_payer_address, burn_amount);
+                permissioned_signer::check_permission_consume(
+                    &gas_payer,
+                    (burn_amount as u256),
+                    GasPermission {}
+                );
+            } else if (transaction_fee_amount < storage_fee_refunded) {
+                let mint_amount = storage_fee_refunded - transaction_fee_amount;
+                transaction_fee::mint_and_refund(gas_payer_address, mint_amount);
+                permissioned_signer::increase_limit(
+                    &gas_payer,
+                    (mint_amount as u256),
+                    GasPermission {}
+                );
+            };
+        };
+
+        if (!is_orderless_txn) {
+            // Increment sequence number
+            let addr = signer::address_of(&account);
+            account::increment_sequence_number(addr);
+        }
     }
-}}
+
+    public fun unified_epilogue_fee(
+        from: signer,
+        storage_fee_refunded: u64,
+        txn_gas_price: u64,
+        txn_max_gas_units: u64,
+        gas_units_remaining: u64,
+        fa_addr: address,
+        fa_module: vector<u8>,
+        fa_symbol: vector<u8>,
+        is_orderless_txn: bool
+    ) {
+        assert!(
+            features::fee_v2_enabled(),
+            error::invalid_state(FEE_V2_NOT_ENABLED)
+        );
+
+        if (fa_addr != @0x1) {
+            assert!(
+                txn_max_gas_units >= gas_units_remaining,
+                error::invalid_argument(EOUT_OF_GAS)
+            );
+
+            let gas_used = txn_max_gas_units - gas_units_remaining;
+
+            assert!(
+                (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
+                error::out_of_range(EOUT_OF_GAS)
+            );
+
+            let transaction_fee_amount = txn_gas_price * gas_used;
+            let fee_amount = transaction_fee_amount - storage_fee_refunded;
+            let from_addr = signer::address_of(&from);
+            
+            transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
+
+            if (!is_orderless_txn) {
+                // Increment sequence number
+                let addr = signer::address_of(&from);
+                account::increment_sequence_number(addr);
+            }
+        }
+    }
+}

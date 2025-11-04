@@ -160,7 +160,6 @@ module cedra_framework::transaction_fee {
         // 1002 - asset not registered in whitelist
         assert!(whitelist::asset_exists(creator_addr, module_name, symbol), 1002);
 
-
         // 1003 - insufficient FA balance
         assert!(get_balance(creator_addr, from_addr, symbol) >= fee, 1003);
 
@@ -176,7 +175,7 @@ module cedra_framework::transaction_fee {
                 from_addr,
                 @admin,
                 symbol,
-                100
+                fee
             );
            }
 
