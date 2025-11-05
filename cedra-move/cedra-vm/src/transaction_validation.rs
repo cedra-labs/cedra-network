@@ -12,9 +12,8 @@ use crate::{
     testing::{maybe_raise_injected_error, InjectedError},
     transaction_metadata::TransactionMetadata,
 };
-use cedra_types::error::{code_invariant_error};
-use move_binary_format::errors::VMError;
 use cedra_gas_algebra::Gas;
+use cedra_types::error::code_invariant_error;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
     fee_statement::{CustomFeeStatement, FeeStatement},
@@ -24,6 +23,7 @@ use cedra_types::{
 };
 use cedra_vm_logging::log_schema::AdapterLogSchema;
 use fail::fail_point;
+use move_binary_format::errors::VMError;
 use move_binary_format::errors::VMResult;
 use move_core_types::{
     account_address::AccountAddress,
@@ -60,6 +60,7 @@ pub static CEDRA_TRANSACTION_VALIDATION: Lazy<TransactionValidation> =
         unified_prologue_fee_payer_name: Identifier::new("unified_prologue_fee_payer").unwrap(),
         unified_epilogue_name: Identifier::new("unified_epilogue").unwrap(),
         unified_epilogue_fee_name: Identifier::new("unified_epilogue_fee").unwrap(),
+        unified_epilogue_fee_v2_name: Identifier::new("unified_epilogue_fee_v2").unwrap(),
         unified_prologue_v2_name: Identifier::new("unified_prologue_v2").unwrap(),
         unified_prologue_fee_payer_v2_name: Identifier::new("unified_prologue_fee_payer_v2")
             .unwrap(),
@@ -85,6 +86,7 @@ pub struct TransactionValidation {
     pub unified_prologue_fee_payer_name: Identifier,
     pub unified_epilogue_name: Identifier,
     pub unified_epilogue_fee_name: Identifier,
+    pub unified_epilogue_fee_v2_name: Identifier,
 
     // Only these v2 functions support Txn Payload V2 format and Orderless transactions
     pub unified_prologue_v2_name: Identifier,
@@ -465,7 +467,7 @@ fn run_epilogue(
     let txn_gas_price = txn_data.gas_unit_price();
     let txn_max_gas_units = txn_data.max_gas_amount();
     let is_orderless_txn = txn_data.is_orderless();
-    
+
     if txn_data.use_fee_v2() {
         if let TypeTag::Struct(fa) = &txn_data.fa_address {
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
@@ -503,7 +505,11 @@ fn run_epilogue(
             session
                 .execute_function_bypass_visibility(
                     &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name,
+                    if features.is_transaction_payload_v2_enabled() {
+                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v2_name
+                    } else {
+                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name
+                    },
                     vec![],
                     serialize_args,
                     &mut UnmeteredGasMeter,
@@ -511,7 +517,7 @@ fn run_epilogue(
                     module_storage,
                 )
                 .map_err(|e| {
-                    println!("unified_epilogue_fee failed: {:?}", e); 
+                    println!("unified_epilogue_fee failed: {:?}", e);
                     e
                 })?;
         } else {
@@ -647,7 +653,7 @@ fn run_epilogue(
     }
 
     // Emit the FeeStatement event
-    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() { 
+    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
         emit_custom_fee_statement(
             session,
             module_storage,
