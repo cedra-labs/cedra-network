@@ -257,6 +257,15 @@ Transaction exceeded its allocated max gas
 
 
 
+<a id="0x1_transaction_validation_FEE_V2_NOT_ENABLED"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_FEE_V2_NOT_ENABLED">FEE_V2_NOT_ENABLED</a>: u64 = 1014;
+</code></pre>
+
+
+
 <a id="0x1_transaction_validation_MAX_EXPIRATION_TIME_SECONDS_FOR_ORDERLESS_TXNS"></a>
 
 
@@ -1660,71 +1669,62 @@ If there is no fee_payer, fee_payer = sender
     is_simulation: bool,
     is_orderless_txn: bool
 ) {
-    /*
-        TODO: ???
-        1. Check fa_address
-        2. Check <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) { }
-        3. Add flow for both cases. Run spefic flow by fa_address. (<b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) && fa_addres != Cedra && len(fa_address) &gt; 0)
-    */
-    // <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>()) { }
-    // <b>else</b> {
-        <b>assert</b>!(
-            txn_max_gas_units &gt;= gas_units_remaining,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
-        );
-        <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
+    <b>assert</b>!(
+        txn_max_gas_units &gt;= gas_units_remaining,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+    );
+    <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
 
-        <b>assert</b>!(
-            (txn_gas_price <b>as</b> u128) * (gas_used <b>as</b> u128) &lt;= <a href="transaction_validation.md#0x1_transaction_validation_MAX_U64">MAX_U64</a>,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
-        );
-        <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
+    <b>assert</b>!(
+        (txn_gas_price <b>as</b> u128) * (gas_used <b>as</b> u128) &lt;= <a href="transaction_validation.md#0x1_transaction_validation_MAX_U64">MAX_U64</a>,
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+    );
+    <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
 
-        <b>let</b> gas_payer_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&gas_payer);
-        // it's important <b>to</b> maintain the <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">error</a> <a href="code.md#0x1_code">code</a> consistent <b>with</b> vm
-        // <b>to</b> do failed transaction cleanup.
-        <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(is_simulation, gas_payer_address)) {
-            <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
-                <b>assert</b>!(
-                    <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(
-                        gas_payer_address, transaction_fee_amount
-                    ),
-                    <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
-                );
-            } <b>else</b> {
-                <b>assert</b>!(
-                    <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(
-                        gas_payer_address, transaction_fee_amount
-                    ),
-                    <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
-                );
-            };
-
-            <b>if</b> (transaction_fee_amount &gt; storage_fee_refunded) {
-                <b>let</b> burn_amount = transaction_fee_amount - storage_fee_refunded;
-                <a href="transaction_fee.md#0x1_transaction_fee_burn_fee">transaction_fee::burn_fee</a>(gas_payer_address, burn_amount);
-                <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">permissioned_signer::check_permission_consume</a>(
-                    &gas_payer,
-                    (burn_amount <b>as</b> u256),
-                    <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
-                );
-            } <b>else</b> <b>if</b> (transaction_fee_amount &lt; storage_fee_refunded) {
-                <b>let</b> mint_amount = storage_fee_refunded - transaction_fee_amount;
-                <a href="transaction_fee.md#0x1_transaction_fee_mint_and_refund">transaction_fee::mint_and_refund</a>(gas_payer_address, mint_amount);
-                <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">permissioned_signer::increase_limit</a>(
-                    &gas_payer,
-                    (mint_amount <b>as</b> u256),
-                    <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
-                );
-            };
+    <b>let</b> gas_payer_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&gas_payer);
+    // it's important <b>to</b> maintain the <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">error</a> <a href="code.md#0x1_code">code</a> consistent <b>with</b> vm
+    // <b>to</b> do failed transaction cleanup.
+    <b>if</b> (!<a href="transaction_validation.md#0x1_transaction_validation_skip_gas_payment">skip_gas_payment</a>(is_simulation, gas_payer_address)) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
+            <b>assert</b>!(
+                <a href="cedra_account.md#0x1_cedra_account_is_fungible_balance_at_least">cedra_account::is_fungible_balance_at_least</a>(
+                    gas_payer_address, transaction_fee_amount
+                ),
+                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
+            );
+        } <b>else</b> {
+            <b>assert</b>!(
+                <a href="coin.md#0x1_coin_is_balance_at_least">coin::is_balance_at_least</a>&lt;CedraCoin&gt;(
+                    gas_payer_address, transaction_fee_amount
+                ),
+                <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_ECANT_PAY_GAS_DEPOSIT">PROLOGUE_ECANT_PAY_GAS_DEPOSIT</a>)
+            );
         };
 
-        <b>if</b> (!is_orderless_txn) {
-            // Increment sequence number
-            <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
-            <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
-        }
-    // }
+        <b>if</b> (transaction_fee_amount &gt; storage_fee_refunded) {
+            <b>let</b> burn_amount = transaction_fee_amount - storage_fee_refunded;
+            <a href="transaction_fee.md#0x1_transaction_fee_burn_fee">transaction_fee::burn_fee</a>(gas_payer_address, burn_amount);
+            <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">permissioned_signer::check_permission_consume</a>(
+                &gas_payer,
+                (burn_amount <b>as</b> u256),
+                <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
+            );
+        } <b>else</b> <b>if</b> (transaction_fee_amount &lt; storage_fee_refunded) {
+            <b>let</b> mint_amount = storage_fee_refunded - transaction_fee_amount;
+            <a href="transaction_fee.md#0x1_transaction_fee_mint_and_refund">transaction_fee::mint_and_refund</a>(gas_payer_address, mint_amount);
+            <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">permissioned_signer::increase_limit</a>(
+                &gas_payer,
+                (mint_amount <b>as</b> u256),
+                <a href="transaction_validation.md#0x1_transaction_validation_GasPermission">GasPermission</a> {}
+            );
+        };
+    };
+
+    <b>if</b> (!is_orderless_txn) {
+        // Increment sequence number
+        <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
+        <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
+    }
 }
 </code></pre>
 
@@ -1738,7 +1738,7 @@ If there is no fee_payer, fee_payer = sender
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee">unified_epilogue_fee</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, storage_fee_refunded: u64, txn_gas_price: u64, txn_max_gas_units: u64, gas_units_remaining: u64, fa_addr: <b>address</b>, fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee">unified_epilogue_fee</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, storage_fee_refunded: u64, txn_gas_price: u64, txn_max_gas_units: u64, gas_units_remaining: u64, fa_addr: <b>address</b>, fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, is_orderless_txn: bool)
 </code></pre>
 
 
@@ -1755,26 +1755,39 @@ If there is no fee_payer, fee_payer = sender
     gas_units_remaining: u64,
     fa_addr: <b>address</b>,
     fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    is_orderless_txn: bool
 ) {
-<b>if</b> (fa_addr != @0x1) {
     <b>assert</b>!(
-        txn_max_gas_units &gt;= gas_units_remaining,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_fee_v2_enabled">features::fee_v2_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_FEE_V2_NOT_ENABLED">FEE_V2_NOT_ENABLED</a>)
     );
-    <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
 
-    <b>assert</b>!(
-        (txn_gas_price <b>as</b> u128) * (gas_used <b>as</b> u128) &lt;= <a href="transaction_validation.md#0x1_transaction_validation_MAX_U64">MAX_U64</a>,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
-    );
-    <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
-    <b>let</b> fee_amount = transaction_fee_amount - storage_fee_refunded;
+    <b>if</b> (fa_addr != @0x1) {
+        <b>assert</b>!(
+            txn_max_gas_units &gt;= gas_units_remaining,
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+        );
 
-    <b>let</b> from_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
+        <b>let</b> gas_used = txn_max_gas_units - gas_units_remaining;
 
-    <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
-}
+        <b>assert</b>!(
+            (txn_gas_price <b>as</b> u128) * (gas_used <b>as</b> u128) &lt;= <a href="transaction_validation.md#0x1_transaction_validation_MAX_U64">MAX_U64</a>,
+            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
+        );
+
+        <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
+        <b>let</b> fee_amount = transaction_fee_amount - storage_fee_refunded;
+        <b>let</b> from_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
+
+        <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
+
+        <b>if</b> (!is_orderless_txn) {
+            // Increment sequence number
+            <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
+            <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
+        }
+    }
 }
 </code></pre>
 
