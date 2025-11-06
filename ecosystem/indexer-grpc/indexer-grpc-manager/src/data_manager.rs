@@ -17,7 +17,8 @@ use cedra_protos::{
     internal::fullnode::v1::{
         transactions_from_node_response::Response, GetTransactionsFromNodeRequest,
     },
-    transaction::v1::Transaction, transaction::v1::transaction::TransactionType as TxType,
+    transaction::v1::Transaction, 
+    // transaction::v1::transaction::TransactionType as TxType,
 };
 use futures::StreamExt;
 use prost::Message;
@@ -118,13 +119,15 @@ impl Cache {
         {
             size_bytes += transaction.encoded_len();
             
-            if transaction.clone().r#type() == TxType::User && transaction.clone().info.is_some(){
-                if transaction.clone().info.unwrap().success {
-                    transactions.push(transaction.clone());
-                }
-            } else {
-                transactions.push(transaction.clone());
-            }
+            // if transaction.clone().r#type() == TxType::User && transaction.clone().info.is_some(){
+            //     if transaction.clone().info.unwrap().success {
+            //         transactions.push(transaction.clone());
+            //     }
+            // } else {
+            //     transactions.push(transaction.clone());
+            // }
+
+            transactions.push(transaction.clone());
 
             if size_bytes > max_size_bytes {
                 // Note: We choose to not pop the last transaction here, so the size could be
