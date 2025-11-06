@@ -1,7 +1,7 @@
 [package]
 name = "cedra-node"
 description = "Cedra node"
-version = "0.0.0-main"
+version = "1.0.3"
 
 # Workspace inherited keys
 authors = { workspace = true }
