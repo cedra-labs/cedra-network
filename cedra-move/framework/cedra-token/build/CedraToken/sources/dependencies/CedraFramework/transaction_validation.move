@@ -912,7 +912,7 @@ module cedra_framework::transaction_validation {
         }
     }
 
-    public fun unified_epilogue_fee(
+    public fun unified_epilogue_fee_v2(
         from: signer,
         storage_fee_refunded: u64,
         txn_gas_price: u64,
@@ -944,8 +944,14 @@ module cedra_framework::transaction_validation {
             let transaction_fee_amount = txn_gas_price * gas_used;
             let fee_amount = transaction_fee_amount - storage_fee_refunded;
             let from_addr = signer::address_of(&from);
-            
-            transaction_fee::burn_fee_v2(from_addr, fa_addr, fa_module, fa_symbol, fee_amount);
+
+            transaction_fee::burn_fee_v2(
+                from_addr,
+                fa_addr,
+                fa_module,
+                fa_symbol,
+                fee_amount
+            );
 
             if (!is_orderless_txn) {
                 // Increment sequence number
@@ -953,5 +959,29 @@ module cedra_framework::transaction_validation {
                 account::increment_sequence_number(addr);
             }
         }
+    }
+
+    public fun unified_epilogue_fee(
+        from: signer,
+        storage_fee_refunded: u64,
+        txn_gas_price: u64,
+        txn_max_gas_units: u64,
+        gas_units_remaining: u64,
+        fa_addr: address,
+        fa_module: vector<u8>,
+        fa_symbol: vector<u8>
+    ) {
+        unified_epilogue_fee_v2(
+            from,
+            storage_fee_refunded,
+            txn_gas_price,
+            txn_max_gas_units,
+            gas_units_remaining,
+            fa_addr,
+            fa_module,
+            fa_symbol,
+            false
+        )
+
     }
 }
