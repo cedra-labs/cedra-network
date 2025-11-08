@@ -65,6 +65,7 @@ pub mod block_executor;
 pub mod bytes;
 pub mod delayed_fields;
 pub mod keyless;
+pub mod oracles;
 pub mod state_store;
 #[cfg(test)]
 mod unit_tests;
