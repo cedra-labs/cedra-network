@@ -26,9 +26,13 @@ use cedra_dkg_runtime::{start_dkg_runtime, DKGMessage};
 use cedra_event_notifications::{
     DbBackedOnChainConfig, EventNotificationListener, ReconfigNotificationListener,
 };
+use cedra_types::indexer::indexer_db_reader::IndexerReader;
+
 use cedra_jwk_consensus::{start_jwk_consensus_runtime, types::JWKConsensusMsg};
 use cedra_mempool::QuorumStoreRequest;
 use cedra_network::application::interface::{NetworkClient, NetworkServiceEvents};
+use cedra_oracles_runtime::start_oracles_runtime;
+use cedra_storage_interface::DbReader;
 use cedra_storage_interface::DbReaderWriter;
 use cedra_validator_transaction_pool::VTxnPoolState;
 use futures::channel::mpsc::Sender;
@@ -137,6 +141,19 @@ pub fn create_jwk_consensus_runtime(
         _ => None,
     };
     jwk_consensus_runtime
+}
+
+/// Creates and starts the DKG runtime (if enabled)
+pub fn create_oracles_runtime(
+    vtxn_pool: &VTxnPoolState,
+    db_reader: Arc<dyn DbReader>,
+    indexer_reader: Option<Arc<dyn IndexerReader>>,
+) -> Option<Runtime> {
+    Some(start_oracles_runtime(
+        vtxn_pool.clone(),
+        db_reader,
+        indexer_reader,
+    ))
 }
 
 /// Creates and starts the consensus observer and publisher (if enabled)

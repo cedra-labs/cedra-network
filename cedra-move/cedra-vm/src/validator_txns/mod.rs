@@ -32,9 +32,17 @@ impl CedraVM {
                 session_id,
                 jwk_update,
             ),
+            ValidatorTransaction::PriceUpdate(price_info) => self.process_price_update(
+                resolver,
+                module_storage,
+                log_context,
+                session_id,
+                price_info,
+            ),
         }
     }
 }
 
 mod dkg;
 mod jwk;
+mod oracles;

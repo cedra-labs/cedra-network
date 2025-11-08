@@ -26,6 +26,7 @@ use cedra_types::{
     function_info::FunctionInfo,
     jwks::{jwk::JWK, ProviderJWKs, QuorumCertifiedUpdate},
     keyless,
+    oracles::PriceInfo,
     transaction::{
         authenticator::{
             AccountAuthenticator, AnyPublicKey, AnySignature, MultiKey, MultiKeyAuthenticator,
@@ -681,6 +682,7 @@ impl BlockMetadataTransaction {
 pub enum ValidatorTransaction {
     ObservedJwkUpdate(JWKUpdateTransaction),
     DkgResult(DKGResultTransaction),
+    PriceUpdate(PriceUpdateTransaction),
 }
 
 impl ValidatorTransaction {
@@ -690,6 +692,7 @@ impl ValidatorTransaction {
                 "validator_transaction__observed_jwk_update"
             },
             ValidatorTransaction::DkgResult(_) => "validator_transaction__dkg_result",
+            ValidatorTransaction::PriceUpdate(_) => "validator_transaction__set_price",
         }
     }
 
@@ -697,6 +700,7 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &t.info,
             ValidatorTransaction::DkgResult(t) => &t.info,
+            ValidatorTransaction::PriceUpdate(t) => &t.info,
         }
     }
 
@@ -704,6 +708,7 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &mut t.info,
             ValidatorTransaction::DkgResult(t) => &mut t.info,
+            ValidatorTransaction::PriceUpdate(t) => &mut t.info,
         }
     }
 
@@ -711,6 +716,7 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => t.timestamp,
             ValidatorTransaction::DkgResult(t) => t.timestamp,
+            ValidatorTransaction::PriceUpdate(t) => t.timestamp,
         }
     }
 
@@ -718,6 +724,7 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &t.events,
             ValidatorTransaction::DkgResult(t) => &t.events,
+            ValidatorTransaction::PriceUpdate(t) => &t.events,
         }
     }
 }
@@ -755,6 +762,14 @@ impl
                 timestamp: U64::from(timestamp),
                 quorum_certified_update: quorum_certified_update.into(),
             }),
+            cedra_types::validator_txn::ValidatorTransaction::PriceUpdate(price_info) => {
+                Self::PriceUpdate(PriceUpdateTransaction {
+                    info,
+                    events,
+                    timestamp: U64::from(timestamp),
+                    price_info: price_info.into(),
+                })
+            },
         }
     }
 }
@@ -767,6 +782,16 @@ pub struct JWKUpdateTransaction {
     pub events: Vec<Event>,
     pub timestamp: U64,
     pub quorum_certified_update: ExportedQuorumCertifiedUpdate,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
+pub struct PriceUpdateTransaction {
+    #[serde(flatten)]
+    #[oai(flatten)]
+    pub info: TransactionInfo,
+    pub events: Vec<Event>,
+    pub timestamp: U64,
+    pub price_info: PriceInfo,
 }
 
 /// A more API-friendly representation of the on-chain `cedra_types::jwks::QuorumCertifiedUpdate`.
