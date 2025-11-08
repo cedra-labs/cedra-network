@@ -1,12 +1,12 @@
-use crate::{utils::get_adjusted_price_u64, whitelist::Whitelist};
+use crate::whitelist::Whitelist;
 
 use anyhow::Result;
-use std::{collections::HashMap, sync::RwLock};
+use std::collections::HashMap;
 use url::Url;
 
 use cedra_rest_client::oracle::OracleClient;
 use cedra_types::{
-    oracles::{get_global_writer, PriceInfo, PriceWriter, DEFAULT_DECIMALS},
+    oracles::{get_global_writer, PriceInfo, PriceWriter},
     CedraCoinType, CoinType,
 };
 
@@ -42,7 +42,7 @@ impl OracleObserver {
 
                     let coin_price = PriceInfo::with_decimals(
                         metadata.get_fa_address(),
-                        price,
+                        (*price as u8).into(),
                         metadata.get_decimals(),
                     );
                     prices_to_update.push(coin_price);

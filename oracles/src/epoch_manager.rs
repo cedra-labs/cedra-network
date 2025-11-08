@@ -1,10 +1,8 @@
 use anyhow::Result;
-use std::collections::HashMap;
-use std::sync::Arc;
-use tracing::info;
+use std::{collections::HashMap, sync::Arc};
 
 use cedra_types::{
-    oracles::{get_global_reader, PriceInfo, PriceReader},
+    oracles::{get_global_reader, PriceReader},
     validator_txn::{Topic, ValidatorTransaction},
 };
 use cedra_validator_transaction_pool::{TxnGuard, VTxnPoolState};

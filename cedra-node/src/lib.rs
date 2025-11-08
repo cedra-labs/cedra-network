@@ -26,19 +26,10 @@ use cedra_config::config::{merge_node_config, NodeConfig, PersistableConfig};
 use cedra_framework::ReleaseBundle;
 use cedra_genesis::builder::GenesisConfiguration;
 use cedra_logger::{prelude::*, telemetry_log_writer::TelemetryLog, Level, LoggerFilterUpdater};
-use cedra_sdk::types::oracles::PriceInfo;
 use cedra_state_sync_driver::driver_factory::StateSyncRuntimes;
 use cedra_types::{
     chain_id::ChainId, keyless::Groth16VerificationKey, on_chain_config::OnChainJWKConsensusConfig,
-    oracles,
 };
-
-use cedra_types::indexer::indexer_db_reader::IndexerReader;
-use cedra_types::validator_txn::Topic;
-use cedra_types::validator_txn::ValidatorTransaction;
-
-use cedra_oracles_runtime::start_oracles_runtime;
-use cedra_storage_interface::DbReader;
 use clap::Parser;
 use futures::channel::{mpsc, oneshot};
 use hex::{FromHex, FromHexError};

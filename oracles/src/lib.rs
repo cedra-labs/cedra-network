@@ -3,7 +3,6 @@
 
 pub mod epoch_manager;
 pub mod observer;
-pub mod utils;
 pub mod whitelist;
 
 use std::sync::Arc;
@@ -15,10 +14,7 @@ use observer::OracleObserver;
 use whitelist::Whitelist;
 
 use cedra_storage_interface::DbReader;
-use cedra_types::{
-    indexer::indexer_db_reader::IndexerReader,
-    oracles::{InMemoryPriceStorage, GLOBAL_PRICE_STORAGE},
-};
+use cedra_types::{indexer::indexer_db_reader::IndexerReader, oracles::GLOBAL_PRICE_STORAGE};
 use cedra_validator_transaction_pool::VTxnPoolState;
 
 pub fn start_oracles_runtime(
@@ -41,7 +37,7 @@ pub fn start_oracles_runtime(
         let mut epoch_manager = EpochManager::new(vtxn_pool.clone());
 
         loop {
-            observer.update_stablecoin_price_storage().await;
+            observer.update_price_storage().await;
 
             if let Err(e) = epoch_manager.fetch_and_update_txn_pool().await {
                 eprintln!("[OraclesRuntime] Failed to update txn pool: {:?}", e);
