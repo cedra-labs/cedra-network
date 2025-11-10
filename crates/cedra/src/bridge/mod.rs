@@ -1,23 +1,31 @@
 use crate::common::types::{CliCommand, CliResult};
 use clap::Subcommand;
 
-pub mod config_set;
-pub mod init;
-pub mod status;
+pub mod get_multisig_address;
+pub mod nonce_used;
+pub mod execute_deposit;
+pub mod approve_withdrawal;
+pub mod withdraw_to_l1;
+
 
 #[derive(Debug, Subcommand)]
 pub enum BridgeTool {
-    Init(init::Init),
-    Status(status::Status),
-    ConfigSet(config_set::ConfigSet),
+    ApproveWithdrawal(approve_withdrawal::ApproveWithdrawal),
+    WithdrawToL1(withdraw_to_l1::WithdrawToL1),
+    AdminMultisig(get_multisig_address::AdminMultisig),
+    NonceUsed(nonce_used::NonceUsed),
+    ExecuteDeposit(execute_deposit::ExecuteDeposit),
 }
 
 impl BridgeTool {
     pub async fn execute(self) -> CliResult {
+        use BridgeTool::*;
         match self {
-            BridgeTool::Init(tool) => tool.execute_serialized().await,
-            BridgeTool::Status(tool) => tool.execute_serialized().await,
-            BridgeTool::ConfigSet(tool) => tool.execute_serialized().await,
+            ApproveWithdrawal(t)         => t.execute_serialized().await,
+            WithdrawToL1(t)        => t.execute_serialized().await,
+            AdminMultisig(t)          => t.execute_serialized().await,
+            NonceUsed(t)         => t.execute_serialized().await,
+            ExecuteDeposit(t)   => t.execute_serialized().await,
         }
     }
 }
