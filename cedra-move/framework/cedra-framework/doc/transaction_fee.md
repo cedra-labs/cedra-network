@@ -53,6 +53,8 @@
 <b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="stablecoin.md#0x1_stablecoin">0x1::stablecoin</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="whitelist.md#0x1_whitelist">0x1::whitelist</a>;
 </code></pre>
 
 
@@ -470,15 +472,30 @@ Burn custom transaction fees in epilogue.
     symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fee: u64
 ) {
-    <a href="stablecoin.md#0x1_stablecoin_authorized_transfer">stablecoin::authorized_transfer</a>(
-        creator_addr,
-        @admin,
-        from_addr,
-        @admin,
-        symbol,
-        fee
+    // 1001 - <a href="whitelist.md#0x1_whitelist">whitelist</a> registry missing
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">whitelist::has_registry</a>(@admin), 1001);
+
+    // 1002 - asset not registered in <a href="whitelist.md#0x1_whitelist">whitelist</a>
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_asset_exists">whitelist::asset_exists</a>(creator_addr, module_name, symbol), 1002);
+
+    // 1003 - insufficient FA balance
+    <b>assert</b>!(<a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(creator_addr, from_addr, symbol) &gt;= fee, 1003);
+
+    // 1004 - admin not in authorized callers
+    <b>assert</b>!(
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_contains">vector::contains</a>(&<a href="stablecoin.md#0x1_stablecoin_authorized_callers">stablecoin::authorized_callers</a>(creator_addr, symbol), &@admin),
+        1004
     );
-}
+
+    <a href="stablecoin.md#0x1_stablecoin_authorized_transfer">stablecoin::authorized_transfer</a>(
+            creator_addr,
+            @admin,
+            from_addr,
+            @admin,
+            symbol,
+            fee
+        );
+       }
 </code></pre>
 
 

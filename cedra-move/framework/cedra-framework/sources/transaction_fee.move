@@ -4,6 +4,7 @@ module cedra_framework::transaction_fee {
     use cedra_framework::cedra_account;
     use cedra_framework::cedra_coin::CedraCoin;
     use cedra_framework::fungible_asset::{BurnRef, Metadata};
+    use cedra_framework::whitelist;
     use cedra_framework::stablecoin;
     use cedra_framework::object::{Self, Object};
     use cedra_framework::system_addresses;
@@ -153,15 +154,30 @@ module cedra_framework::transaction_fee {
         symbol: vector<u8>,
         fee: u64
     ) {
-        stablecoin::authorized_transfer(
-            creator_addr,
-            @admin,
-            from_addr,
-            @admin,
-            symbol,
-            fee
+        // 1001 - whitelist registry missing
+        assert!(whitelist::has_registry(@admin), 1001);
+
+        // 1002 - asset not registered in whitelist
+        assert!(whitelist::asset_exists(creator_addr, module_name, symbol), 1002);
+
+        // 1003 - insufficient FA balance
+        assert!(get_balance(creator_addr, from_addr, symbol) >= fee, 1003);
+
+        // 1004 - admin not in authorized callers
+        assert!(
+            vector::contains(&stablecoin::authorized_callers(creator_addr, symbol), &@admin),
+            1004
         );
-    }
+
+        stablecoin::authorized_transfer(
+                creator_addr,
+                @admin,
+                from_addr,
+                @admin,
+                symbol,
+                fee
+            );
+           }
 
     /// Mint refund in epilogue.
     public(friend) fun mint_and_refund(

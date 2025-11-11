@@ -5,8 +5,7 @@ module cedra_framework::transaction_validation {
     use std::option::Option;
     use std::signer;
     use std::vector;
-    use cedra_framework::whitelist;
-    use cedra_framework::stablecoin;
+
     use cedra_framework::account;
     use cedra_framework::cedra_account;
     use cedra_framework::account_abstraction;
@@ -73,11 +72,6 @@ module cedra_framework::transaction_validation {
     const PROLOGUE_ENONCE_ALREADY_USED: u64 = 1012;
     const PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE: u64 = 1013;
     const FEE_V2_NOT_ENABLED: u64 = 1014;
-    const WHITELIST_REGISTRY_MISSING: u64 = 1015;
-    const ASSET_NOT_REGISTERED: u64 = 1016;
-    const INSUFFICENT_FA_BALANCE: u64 = 1017;
-    const ADMIN_IS_NOT_AUTHORIZED: u64 = 1018;
-    const WRONG_UNIFIED_EPILOGUE: u64 = 1019;
 
     /// Permission management
     ///
@@ -934,19 +928,7 @@ module cedra_framework::transaction_validation {
             error::invalid_state(FEE_V2_NOT_ENABLED)
         );
 
-        // 1015 - whitelist registry missing
-        assert!(whitelist::has_registry(@admin), WHITELIST_REGISTRY_MISSING);
-
-        // 1016 - asset not registered in whitelist
-        assert!(whitelist::asset_exists(fa_addr, fa_module, fa_symbol), ASSET_NOT_REGISTERED);
-
-        // 1018 - admin not in authorized callers
-        assert!(
-            vector::contains(&stablecoin::authorized_callers(fa_addr, fa_symbol), &@admin),
-            ADMIN_IS_NOT_AUTHORIZED
-        );
-
-        if (fa_addr != @0x1) {
+        // if (fa_addr != @0x1) {
             assert!(
                 txn_max_gas_units >= gas_units_remaining,
                 error::invalid_argument(EOUT_OF_GAS)
@@ -961,10 +943,7 @@ module cedra_framework::transaction_validation {
 
             let transaction_fee_amount = txn_gas_price * gas_used;
             let fee_amount = transaction_fee_amount - storage_fee_refunded;
-            let from_addr = signer::address_of(&from);            
-
-            // 1017 - insufficient FA balance
-            assert!(transaction_fee::get_balance(fa_addr, from_addr, fa_symbol) >= fee_amount, INSUFFICENT_FA_BALANCE);
+            let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(
                 from_addr,
@@ -979,9 +958,7 @@ module cedra_framework::transaction_validation {
                 let addr = signer::address_of(&from);
                 account::increment_sequence_number(addr);
             }
-        } else {
-             assert!(false, WRONG_UNIFIED_EPILOGUE);
-        }
+        // } assert!(false, WRONG_UNIFIED_EPILOGUE);
     }
 
     public fun unified_epilogue_fee(
