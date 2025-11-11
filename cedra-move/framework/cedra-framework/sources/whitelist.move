@@ -6,6 +6,7 @@ module cedra_framework::whitelist {
     use cedra_framework::stablecoin;
 
     friend cedra_framework::transaction_fee;
+    friend cedra_framework::transaction_validation;
 
     /// Caller is not authorized to make this call
     const EUNAUTHORIZED: u64 = 1;

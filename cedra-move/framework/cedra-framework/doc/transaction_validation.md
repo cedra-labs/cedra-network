@@ -78,10 +78,12 @@
 <b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="permissioned_signer.md#0x1_permissioned_signer">0x1::permissioned_signer</a>;
 <b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="stablecoin.md#0x1_stablecoin">0x1::stablecoin</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
 <b>use</b> <a href="timestamp.md#0x1_timestamp">0x1::timestamp</a>;
 <b>use</b> <a href="transaction_fee.md#0x1_transaction_fee">0x1::transaction_fee</a>;
 <b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="whitelist.md#0x1_whitelist">0x1::whitelist</a>;
 </code></pre>
 
 
@@ -258,11 +260,38 @@ Transaction exceeded its allocated max gas
 
 
 
+<a id="0x1_transaction_validation_ADMIN_IS_NOT_AUTHORIZED"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_ADMIN_IS_NOT_AUTHORIZED">ADMIN_IS_NOT_AUTHORIZED</a>: u64 = 1018;
+</code></pre>
+
+
+
+<a id="0x1_transaction_validation_ASSET_NOT_REGISTERED"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_ASSET_NOT_REGISTERED">ASSET_NOT_REGISTERED</a>: u64 = 1016;
+</code></pre>
+
+
+
 <a id="0x1_transaction_validation_FEE_V2_NOT_ENABLED"></a>
 
 
 
 <pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_FEE_V2_NOT_ENABLED">FEE_V2_NOT_ENABLED</a>: u64 = 1014;
+</code></pre>
+
+
+
+<a id="0x1_transaction_validation_INSUFFICENT_FA_BALANCE"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_INSUFFICENT_FA_BALANCE">INSUFFICENT_FA_BALANCE</a>: u64 = 1017;
 </code></pre>
 
 
@@ -392,6 +421,24 @@ important to the semantics of the system.
 
 
 <pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT">PROLOGUE_PERMISSIONED_GAS_LIMIT_INSUFFICIENT</a>: u64 = 1011;
+</code></pre>
+
+
+
+<a id="0x1_transaction_validation_WHITELIST_REGISTRY_MISSING"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_WHITELIST_REGISTRY_MISSING">WHITELIST_REGISTRY_MISSING</a>: u64 = 1015;
+</code></pre>
+
+
+
+<a id="0x1_transaction_validation_WRONG_UNIFIED_EPILOGUE"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_WRONG_UNIFIED_EPILOGUE">WRONG_UNIFIED_EPILOGUE</a>: u64 = 1019;
 </code></pre>
 
 
@@ -1764,6 +1811,18 @@ If there is no fee_payer, fee_payer = sender
         <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_FEE_V2_NOT_ENABLED">FEE_V2_NOT_ENABLED</a>)
     );
 
+    // 1015 - <a href="whitelist.md#0x1_whitelist">whitelist</a> registry missing
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">whitelist::has_registry</a>(@admin), <a href="transaction_validation.md#0x1_transaction_validation_WHITELIST_REGISTRY_MISSING">WHITELIST_REGISTRY_MISSING</a>);
+
+    // 1016 - asset not registered in <a href="whitelist.md#0x1_whitelist">whitelist</a>
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_asset_exists">whitelist::asset_exists</a>(fa_addr, fa_module, fa_symbol), <a href="transaction_validation.md#0x1_transaction_validation_ASSET_NOT_REGISTERED">ASSET_NOT_REGISTERED</a>);
+
+    // 1018 - admin not in authorized callers
+    <b>assert</b>!(
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_contains">vector::contains</a>(&<a href="stablecoin.md#0x1_stablecoin_authorized_callers">stablecoin::authorized_callers</a>(fa_addr, fa_symbol), &@admin),
+        <a href="transaction_validation.md#0x1_transaction_validation_ADMIN_IS_NOT_AUTHORIZED">ADMIN_IS_NOT_AUTHORIZED</a>
+    );
+
     <b>if</b> (fa_addr != @0x1) {
         <b>assert</b>!(
             txn_max_gas_units &gt;= gas_units_remaining,
@@ -1781,6 +1840,9 @@ If there is no fee_payer, fee_payer = sender
         <b>let</b> fee_amount = transaction_fee_amount - storage_fee_refunded;
         <b>let</b> from_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
 
+        // 1017 - insufficient FA balance
+        <b>assert</b>!(<a href="transaction_fee.md#0x1_transaction_fee_get_balance">transaction_fee::get_balance</a>(fa_addr, from_addr, fa_symbol) &gt;= fee_amount, <a href="transaction_validation.md#0x1_transaction_validation_INSUFFICENT_FA_BALANCE">INSUFFICENT_FA_BALANCE</a>);
+
         <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(
             from_addr,
             fa_addr,
@@ -1794,6 +1856,8 @@ If there is no fee_payer, fee_payer = sender
             <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
             <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
         }
+    } <b>else</b> {
+         <b>assert</b>!(<b>false</b>, <a href="transaction_validation.md#0x1_transaction_validation_WRONG_UNIFIED_EPILOGUE">WRONG_UNIFIED_EPILOGUE</a>);
     }
 }
 </code></pre>
