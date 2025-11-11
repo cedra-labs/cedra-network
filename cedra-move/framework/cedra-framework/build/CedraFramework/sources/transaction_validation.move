@@ -5,7 +5,6 @@ module cedra_framework::transaction_validation {
     use std::option::Option;
     use std::signer;
     use std::vector;
-
     use cedra_framework::account;
     use cedra_framework::cedra_account;
     use cedra_framework::account_abstraction;
@@ -72,6 +71,7 @@ module cedra_framework::transaction_validation {
     const PROLOGUE_ENONCE_ALREADY_USED: u64 = 1012;
     const PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE: u64 = 1013;
     const FEE_V2_NOT_ENABLED: u64 = 1014;
+    const WRONG_UNIFIED_EPILOGUE: u64 = 1015;
 
     /// Permission management
     ///
@@ -928,7 +928,7 @@ module cedra_framework::transaction_validation {
             error::invalid_state(FEE_V2_NOT_ENABLED)
         );
 
-        // if (fa_addr != @0x1) {
+        if (fa_addr != @0x1) { 
             assert!(
                 txn_max_gas_units >= gas_units_remaining,
                 error::invalid_argument(EOUT_OF_GAS)
@@ -958,7 +958,9 @@ module cedra_framework::transaction_validation {
                 let addr = signer::address_of(&from);
                 account::increment_sequence_number(addr);
             }
-        // } assert!(false, WRONG_UNIFIED_EPILOGUE);
+        } else {
+            assert!(false, error::invalid_argument(WRONG_UNIFIED_EPILOGUE));
+        }
     }
 
     public fun unified_epilogue_fee(

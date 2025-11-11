@@ -396,6 +396,15 @@ important to the semantics of the system.
 
 
 
+<a id="0x1_transaction_validation_WRONG_UNIFIED_EPILOGUE"></a>
+
+
+
+<pre><code><b>const</b> <a href="transaction_validation.md#0x1_transaction_validation_WRONG_UNIFIED_EPILOGUE">WRONG_UNIFIED_EPILOGUE</a>: u64 = 1015;
+</code></pre>
+
+
+
 <a id="0x1_transaction_validation_grant_gas_permission"></a>
 
 ## Function `grant_gas_permission`
@@ -1764,7 +1773,7 @@ If there is no fee_payer, fee_payer = sender
         <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="transaction_validation.md#0x1_transaction_validation_FEE_V2_NOT_ENABLED">FEE_V2_NOT_ENABLED</a>)
     );
 
-    // <b>if</b> (fa_addr != @0x1) {
+    <b>if</b> (fa_addr != @0x1) {
         <b>assert</b>!(
             txn_max_gas_units &gt;= gas_units_remaining,
             <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_EOUT_OF_GAS">EOUT_OF_GAS</a>)
@@ -1794,7 +1803,9 @@ If there is no fee_payer, fee_payer = sender
             <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&from);
             <a href="account.md#0x1_account_increment_sequence_number">account::increment_sequence_number</a>(addr);
         }
-    // } <b>assert</b>!(<b>false</b>, WRONG_UNIFIED_EPILOGUE);
+    } <b>else</b> {
+        <b>assert</b>!(<b>false</b>, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="transaction_validation.md#0x1_transaction_validation_WRONG_UNIFIED_EPILOGUE">WRONG_UNIFIED_EPILOGUE</a>));
+    }
 }
 </code></pre>
 

@@ -928,35 +928,38 @@ module cedra_framework::transaction_validation {
             error::invalid_state(FEE_V2_NOT_ENABLED)
         );
 
-        assert!(fa_addr == @0x1, WRONG_UNIFIED_EPILOGUE);
-        assert!(
-            txn_max_gas_units >= gas_units_remaining,
-            error::invalid_argument(EOUT_OF_GAS)
-        );
+        if (fa_addr != @0x1) { 
+            assert!(
+                txn_max_gas_units >= gas_units_remaining,
+                error::invalid_argument(EOUT_OF_GAS)
+            );
 
-        let gas_used = txn_max_gas_units - gas_units_remaining;
+            let gas_used = txn_max_gas_units - gas_units_remaining;
 
-        assert!(
-            (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
-            error::out_of_range(EOUT_OF_GAS)
-        );
+            assert!(
+                (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
+                error::out_of_range(EOUT_OF_GAS)
+            );
 
-        let transaction_fee_amount = txn_gas_price * gas_used;
-        let fee_amount = transaction_fee_amount - storage_fee_refunded;
-        let from_addr = signer::address_of(&from);
+            let transaction_fee_amount = txn_gas_price * gas_used;
+            let fee_amount = transaction_fee_amount - storage_fee_refunded;
+            let from_addr = signer::address_of(&from);
 
-        transaction_fee::burn_fee_v2(
-            from_addr,
-            fa_addr,
-            fa_module,
-            fa_symbol,
-            fee_amount
-        );
+            transaction_fee::burn_fee_v2(
+                from_addr,
+                fa_addr,
+                fa_module,
+                fa_symbol,
+                fee_amount
+            );
 
-        if (!is_orderless_txn) {
-            // Increment sequence number
-            let addr = signer::address_of(&from);
-            account::increment_sequence_number(addr);
+            if (!is_orderless_txn) {
+                // Increment sequence number
+                let addr = signer::address_of(&from);
+                account::increment_sequence_number(addr);
+            }
+        } else {
+            assert!(false, error::invalid_argument(WRONG_UNIFIED_EPILOGUE));
         }
     }
 
