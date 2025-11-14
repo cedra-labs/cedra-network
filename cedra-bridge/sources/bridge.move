@@ -184,7 +184,7 @@ module bridge::bridge {
         bridge_owner: &signer,
         l1_token: vector<u8>,
         name: vector<u8>,
-        symbol: vector<u8>,
+        symbol: vector<u8>,        // display symbol (e.g., "WETH")
         decimals: u8,
         icon_uri: vector<u8>,
         project_uri: vector<u8>,
@@ -195,33 +195,26 @@ module bridge::bridge {
         let reg = get_registry();
         assert!(!table::contains(&reg.l1_to_metadata, l1_token), E_ASSET_EXISTS);
 
-        // Create a non-deletable object; we can use the symbol (or l1_token) as object name.
-        let ctor = &object::create_named_object(bridge_owner, symbol);
+        // Use L1 token bytes as unique object name seed to avoid collisions
+        let ctor = &object::create_named_object(bridge_owner, l1_token); //todo should we use create_object?
 
-        // Create FA metadata and enable primary store auto-creation
         primary_fungible_store::create_primary_store_enabled_fungible_asset(
             ctor,
             option::none<u128>(),
-            string::utf8(name),
-            string::utf8(symbol),
+            string::utf8(name),        // display name
+            string::utf8(symbol),      // display symbol ("WETH")
             decimals,
             string::utf8(icon_uri),
             string::utf8(project_uri),
         );
 
-        // Reconstruct the Metadata object for this FA
         let meta: Object<Metadata> = object::object_from_constructor_ref<Metadata>(ctor);
-
-        // Generate refs at creation time
         let mint_ref     = fa::generate_mint_ref(ctor);
         let transfer_ref = fa::generate_transfer_ref(ctor);
         let burn_ref     = fa::generate_burn_ref(ctor);
 
-        // Record in registry
         table::add(&mut reg.l1_to_metadata, l1_token, meta);
-        table::add(
-            &mut reg.caps_by_meta,
-            object::object_address(&meta),
+        table::add(&mut reg.caps_by_meta, object::object_address(&meta),
             FACaps { mint: mint_ref, burn: burn_ref, transfer: transfer_ref }
         );
     }
@@ -236,6 +229,29 @@ module bridge::bridge {
         let _ = table::remove(&mut reg.l1_to_metadata, l1_token);
         // We deliberately keep caps entry so remaining holders can still operate/burn if you want that.
         // If you want to freeze post-delist, you can use transfer_ref to freeze accounts externally.
+    }
+
+    // Bind an existing Metadata object back to an L1 address.
+    public entry fun rebind_asset(
+        bridge_owner: &signer,
+        l1_token: vector<u8>,
+        metadata_addr: address,
+    ) acquires FARegistry {
+        assert_framework(bridge_owner);
+        assert_20_bytes(&l1_token);
+
+        let reg = get_registry();
+        // Reconstruct the object handle to store in the mapping
+        let meta: Object<Metadata> = object::address_to_object<Metadata>(metadata_addr);
+
+        // If you want to ensure caps exist for this object:
+        assert!(table::contains(&reg.caps_by_meta, metadata_addr), E_ASSET_UNKNOWN);
+
+        // Rebind L1 to existing Metadata
+        if (table::contains(&reg.l1_to_metadata, l1_token)) {
+            let _ = table::remove(&mut reg.l1_to_metadata, l1_token);
+        };
+        table::add(&mut reg.l1_to_metadata, l1_token, meta);
     }
 
     /* ===================== Deposit / Mint (multisig-gated) ===================== */
@@ -275,7 +291,7 @@ module bridge::bridge {
     }
 
     /* ===================== Withdrawal (approval + user burn) ===================== */
-
+    // amount in weis
     public entry fun approve_withdrawal(
         multisig: &signer,
         user: address,
@@ -284,6 +300,7 @@ module bridge::bridge {
         amount: u64,
         nonce: u64
     ) acquires FARegistry, Admin, Requests, Config {
+        //add balance assertion
         assert_not_paused();
         assert_multisig(multisig);
         assert!(amount > 0, E_ZERO_AMOUNT);
@@ -306,6 +323,7 @@ module bridge::bridge {
         });
     }
 
+    // amount in weis
     public entry fun withdraw_to_l1(
         user: &signer,
         l1_token: vector<u8>,
@@ -342,6 +360,7 @@ module bridge::bridge {
         assert!(!table::contains(&reqs.used_nonce, nonce), E_NONCE_USED);
         table::add(&mut reqs.used_nonce, nonce, true);
         let _ = table::remove(&mut reqs.approvals, nonce);
+        //todo remove withdrawal approval in case of failure
 
         let evs = borrow_global_mut<BridgeEvents>(@bridge);
         if (features::module_event_migration_enabled()) {
