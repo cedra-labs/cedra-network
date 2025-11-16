@@ -994,6 +994,7 @@ fn convert_validator_transaction(
                     )
                 )
             },
+              &cedra_api_types::transaction::ValidatorTransaction::PriceUpdate(_) => todo!(),
         },
         events: convert_events(api_validator_txn.events()),
     })

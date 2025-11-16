@@ -16,6 +16,7 @@ rust-version = { workspace = true }
 anyhow = { workspace = true }
 cedra-admin-service = { workspace = true }
 cedra-api = { workspace = true }
+cedra-sdk = { workspace = true }
 cedra-backup-service = { workspace = true }
 cedra-build-info = { workspace = true }
 cedra-cached-packages = { workspace = true }
@@ -30,6 +31,7 @@ cedra-data-streaming-service = { workspace = true }
 cedra-db = { workspace = true }
 cedra-db-indexer = { workspace = true }
 cedra-dkg-runtime = { workspace = true }
+cedra-oracles-runtime = { workspace = true }
 cedra-event-notifications = { workspace = true }
 cedra-executor = { workspace = true }
 cedra-framework = { workspace = true }
