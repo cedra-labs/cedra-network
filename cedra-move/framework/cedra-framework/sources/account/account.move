@@ -22,6 +22,7 @@ module cedra_framework::account {
 
     friend cedra_framework::cedra_account;
     friend cedra_framework::coin;
+    friend cedra_framework::bridge;
     friend cedra_framework::genesis;
     friend cedra_framework::multisig_account;
     friend cedra_framework::resource_account;

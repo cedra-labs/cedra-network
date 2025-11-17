@@ -19,7 +19,6 @@ module cedra_framework::create_signer {
     friend cedra_framework::object;
     friend cedra_framework::permissioned_signer;
     friend cedra_framework::transaction_validation;
-    friend cedra_framework::bridge;
 
     public(friend) native fun create_signer(addr: address): signer;
 }
