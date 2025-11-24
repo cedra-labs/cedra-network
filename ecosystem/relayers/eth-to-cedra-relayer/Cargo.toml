@@ -2,6 +2,14 @@
 name = "eth-to-cedra-relayer"
 edition = "2021"
 
+[lib]
+name = "eth_to_cedra_relayer"
+path = "src/lib.rs"
+
+[[bin]]
+name = "eth-to-cedra-relayer"
+path = "src/main.rs"
+
 [dependencies]
 tokio = { version = "1", features=["macros","rt-multi-thread"] }
 anyhow = "1"
