@@ -1,6 +1,8 @@
 // Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
+use move_core_types::value::MoveStruct;
+use crate::oracles::PriceInfo;
 
 use crate::{
     account_config::{
@@ -10,6 +12,7 @@ use crate::{
     dkg::DKGStartEvent,
     event::EventKey,
     jwks::ObservedJWKsUpdated,
+    oracles::PriceUpdated,
     transaction::Version,
 };
 use anyhow::{bail, Error, Result};
@@ -368,6 +371,61 @@ impl TryFrom<&ContractEvent> for ObservedJWKsUpdated {
         }
     }
 }
+
+
+
+impl TryFrom<&ContractEvent> for PriceUpdated {
+    type Error = Error;
+
+    fn try_from(event: &ContractEvent) -> Result<Self> {
+        
+        match event {
+            ContractEvent::V1(_) => {
+                println!("[PriceUpdatedTryFrom] ❌ Got V1 event, expected V2");
+                bail!("conversion to `PriceUpdated` failed with wrong event version")
+            },
+            ContractEvent::V2(v2) => {
+               
+                // Check if the type tag matches
+                if v2.type_tag != TypeTag::Struct(Box::new(Self::struct_tag())) {
+                    println!("[PriceUpdatedTryFrom] ❌ Type tag mismatch!");
+                    bail!("conversion to `PriceUpdated` failed with wrong type tag");
+                }
+                
+                bcs::from_bytes(&v2.event_data).map_err(Into::into)
+
+                
+        },
+        }
+    }
+}
+
+// // Helper function to debug event data structure
+// fn debug_event_data_structure(event_data: &[u8]) {
+//     println!("[DebugEventData] Analyzing event data structure...");
+    
+//     // Try to deserialize as raw bytes to see the structure
+//     if let Ok((version, prices_len)) = bcs::from_bytes::<(u64, u64)>(event_data) {
+//         println!("[DebugEventData] Could be (u64, u64): version={}, prices_len={}", version, prices_len);
+//     }
+    
+//     // Try different possible structures
+//     let cursor = std::io::Cursor::new(event_data);
+//     if let Ok(mut deserializer) = bcs::Deserializer::new(cursor, bcs::MAX_CONTAINER_DEPTH) {
+//         // Try to see if we can read a u64 first (version)
+//         if let Ok(version) = u64::deserialize(&mut deserializer) {
+//             println!("[DebugEventData] First field is u64 (version): {}", version);
+            
+//             // Try to read the second field as a vector length
+//             if let Ok(vec_len) = deserializer.deserialize_len() {
+//                 println!("[DebugEventData] Second field is vector with length: {}", vec_len);
+//             }
+//         }
+//     }
+    
+//     // Print the raw bytes for manual inspection
+//     println!("[DebugEventData] Raw bytes: {:?}", event_data);
+// }
 
 impl std::fmt::Debug for ContractEvent {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

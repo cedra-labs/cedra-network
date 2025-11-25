@@ -37,15 +37,13 @@ module cedra_framework::config_buffer {
     const EDEPRECATED: u64 = 2;
 
     struct PendingConfigs has key {
-        configs: SimpleMap<String, Any>,
+        configs: SimpleMap<String, Any>
     }
 
     public fun initialize(cedra_framework: &signer) {
         system_addresses::assert_cedra_framework(cedra_framework);
         if (!exists<PendingConfigs>(@cedra_framework)) {
-            move_to(cedra_framework, PendingConfigs {
-                configs: simple_map::new(),
-            })
+            move_to(cedra_framework, PendingConfigs { configs: simple_map::new() })
         }
     }
 
@@ -54,9 +52,7 @@ module cedra_framework::config_buffer {
         if (exists<PendingConfigs>(@cedra_framework)) {
             let config = borrow_global<PendingConfigs>(@cedra_framework);
             simple_map::contains_key(&config.configs, &type_info::type_name<T>())
-        } else {
-            false
-        }
+        } else { false }
     }
 
     /// Upsert an on-chain config to the buffer for the next epoch.
@@ -88,7 +84,7 @@ module cedra_framework::config_buffer {
 
     #[test_only]
     struct DummyConfig has drop, store {
-        data: u64,
+        data: u64
     }
 
     #[test(fx = @std)]

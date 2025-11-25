@@ -15,7 +15,7 @@ use std::fmt::Debug;
 pub enum ValidatorTransaction {
     DKGResult(DKGTranscript),
     ObservedJWKUpdate(jwks::QuorumCertifiedUpdate),
-    PriceUpdate(PriceInfo),
+    PriceUpdate(Vec<PriceInfo>),
 }
 
 impl ValidatorTransaction {

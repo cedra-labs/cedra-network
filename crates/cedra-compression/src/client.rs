@@ -10,6 +10,7 @@ pub enum CompressionClient {
     ConsensusObserver,
     DKG,
     JWKConsensus,
+    Oracle,
     Mempool,
     StateSync,
 }
@@ -22,6 +23,7 @@ impl CompressionClient {
             Self::ConsensusObserver => "consensus_observer",
             Self::DKG => "dkg",
             Self::JWKConsensus => "jwk_consensus",
+            Self::Oracle => "oracle",
             Self::Mempool => "mempool",
             Self::StateSync => "state_sync",
         }

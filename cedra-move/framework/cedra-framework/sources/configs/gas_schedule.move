@@ -27,7 +27,7 @@ module cedra_framework::gas_schedule {
 
     struct GasEntry has store, copy, drop {
         key: String,
-        val: u64,
+        val: u64
     }
 
     struct GasSchedule has key, copy, drop {
@@ -36,13 +36,18 @@ module cedra_framework::gas_schedule {
 
     struct GasScheduleV2 has key, copy, drop, store {
         feature_version: u64,
-        entries: vector<GasEntry>,
+        entries: vector<GasEntry>
     }
 
     /// Only called during genesis.
-    public(friend) fun initialize(cedra_framework: &signer, gas_schedule_blob: vector<u8>) {
+    public(friend) fun initialize(
+        cedra_framework: &signer, gas_schedule_blob: vector<u8>
+    ) {
         system_addresses::assert_cedra_framework(cedra_framework);
-        assert!(!vector::is_empty(&gas_schedule_blob), error::invalid_argument(EINVALID_GAS_SCHEDULE));
+        assert!(
+            !vector::is_empty(&gas_schedule_blob),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
+        );
 
         // TODO(Gas): check if gas schedule is consistent
         let gas_schedule: GasScheduleV2 = from_bytes(gas_schedule_blob);
@@ -54,20 +59,26 @@ module cedra_framework::gas_schedule {
     /// WARNING: calling this while randomness is enabled will trigger a new epoch without randomness!
     ///
     /// TODO: update all the tests that reference this function, then disable this function.
-    public fun set_gas_schedule(cedra_framework: &signer, gas_schedule_blob: vector<u8>) acquires GasSchedule, GasScheduleV2 {
+    public fun set_gas_schedule(
+        cedra_framework: &signer, gas_schedule_blob: vector<u8>
+    ) acquires GasSchedule, GasScheduleV2 {
         system_addresses::assert_cedra_framework(cedra_framework);
-        assert!(!vector::is_empty(&gas_schedule_blob), error::invalid_argument(EINVALID_GAS_SCHEDULE));
+        assert!(
+            !vector::is_empty(&gas_schedule_blob),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
+        );
         chain_status::assert_genesis();
 
         if (exists<GasScheduleV2>(@cedra_framework)) {
             let gas_schedule = borrow_global_mut<GasScheduleV2>(@cedra_framework);
             let new_gas_schedule: GasScheduleV2 = from_bytes(gas_schedule_blob);
-            assert!(new_gas_schedule.feature_version >= gas_schedule.feature_version,
-                error::invalid_argument(EINVALID_GAS_FEATURE_VERSION));
+            assert!(
+                new_gas_schedule.feature_version >= gas_schedule.feature_version,
+                error::invalid_argument(EINVALID_GAS_FEATURE_VERSION)
+            );
             // TODO(Gas): check if gas schedule is consistent
             *gas_schedule = new_gas_schedule;
-        }
-        else {
+        } else {
             if (exists<GasSchedule>(@cedra_framework)) {
                 _ = move_from<GasSchedule>(@cedra_framework);
             };
@@ -88,9 +99,14 @@ module cedra_framework::gas_schedule {
     /// cedra_framework::gas_schedule::set_for_next_epoch(&framework_signer, some_gas_schedule_blob);
     /// cedra_framework::cedra_governance::reconfigure(&framework_signer);
     /// ```
-    public fun set_for_next_epoch(cedra_framework: &signer, gas_schedule_blob: vector<u8>) acquires GasScheduleV2 {
+    public fun set_for_next_epoch(
+        cedra_framework: &signer, gas_schedule_blob: vector<u8>
+    ) acquires GasScheduleV2 {
         system_addresses::assert_cedra_framework(cedra_framework);
-        assert!(!vector::is_empty(&gas_schedule_blob), error::invalid_argument(EINVALID_GAS_SCHEDULE));
+        assert!(
+            !vector::is_empty(&gas_schedule_blob),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
+        );
         let new_gas_schedule: GasScheduleV2 = from_bytes(gas_schedule_blob);
         if (exists<GasScheduleV2>(@cedra_framework)) {
             let cur_gas_schedule = borrow_global<GasScheduleV2>(@cedra_framework);
@@ -111,7 +127,10 @@ module cedra_framework::gas_schedule {
         new_gas_schedule_blob: vector<u8>
     ) acquires GasScheduleV2 {
         system_addresses::assert_cedra_framework(cedra_framework);
-        assert!(!vector::is_empty(&new_gas_schedule_blob), error::invalid_argument(EINVALID_GAS_SCHEDULE));
+        assert!(
+            !vector::is_empty(&new_gas_schedule_blob),
+            error::invalid_argument(EINVALID_GAS_SCHEDULE)
+        );
 
         let new_gas_schedule: GasScheduleV2 = from_bytes(new_gas_schedule_blob);
         if (exists<GasScheduleV2>(@cedra_framework)) {
@@ -144,32 +163,32 @@ module cedra_framework::gas_schedule {
         }
     }
 
-    public fun set_storage_gas_config(cedra_framework: &signer, config: StorageGasConfig) {
+    public fun set_storage_gas_config(
+        cedra_framework: &signer, config: StorageGasConfig
+    ) {
         storage_gas::set_config(cedra_framework, config);
         // Need to trigger reconfiguration so the VM is guaranteed to load the new gas fee starting from the next
         // transaction.
         reconfiguration::reconfigure();
     }
 
-    public fun set_storage_gas_config_for_next_epoch(cedra_framework: &signer, config: StorageGasConfig) {
+    public fun set_storage_gas_config_for_next_epoch(
+        cedra_framework: &signer, config: StorageGasConfig
+    ) {
         storage_gas::set_config(cedra_framework, config);
     }
 
     #[test(fx = @0x1)]
-    #[expected_failure(abort_code=0x010002, location = Self)]
-    fun set_for_next_epoch_should_abort_if_gas_version_is_too_old(fx: signer) acquires GasScheduleV2 {
+    #[expected_failure(abort_code = 0x010002, location = Self)]
+    fun set_for_next_epoch_should_abort_if_gas_version_is_too_old(
+        fx: signer
+    ) acquires GasScheduleV2 {
         // Setup.
-        let old_gas_schedule = GasScheduleV2 {
-            feature_version: 1000,
-            entries: vector[],
-        };
+        let old_gas_schedule = GasScheduleV2 { feature_version: 1000, entries: vector[] };
         move_to(&fx, old_gas_schedule);
 
         // Setting an older version should not work.
-        let new_gas_schedule = GasScheduleV2 {
-            feature_version: 999,
-            entries: vector[],
-        };
+        let new_gas_schedule = GasScheduleV2 { feature_version: 999, entries: vector[] };
         let new_bytes = to_bytes(&new_gas_schedule);
         set_for_next_epoch(&fx, new_bytes);
     }

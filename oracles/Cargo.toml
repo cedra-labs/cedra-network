@@ -10,7 +10,9 @@ repository.workspace = true
 rust-version.workspace = true
 
 [dependencies]
-hex = "0.4"
+futures-channel = { workspace  = true }
+cedra-infallible = { workspace = true }
+rand = { workspace = true }
 cedra-runtimes = { workspace = true }
 cedra-channels = { workspace = true }
 cedra-metrics-core = { workspace = true }
@@ -47,4 +49,4 @@ cedra-db-indexer = { workspace = true }
 move-vm-types = { workspace = true }
 move-vm-runtime = { workspace = true }
 async-trait = { workspace = true }
-bsc = "0.2.0"
+bcs = { workspace = true }

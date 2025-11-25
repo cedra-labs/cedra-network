@@ -25,7 +25,8 @@ spec cedra_framework::consensus_config {
         use cedra_framework::chain_status;
         pragma verify = true;
         pragma aborts_if_is_strict;
-        invariant [suspendable] chain_status::is_operating() ==> exists<ConsensusConfig>(@cedra_framework);
+        invariant [suspendable] chain_status::is_operating() ==>
+            exists<ConsensusConfig>(@cedra_framework);
     }
 
     /// Ensure caller is admin.
@@ -62,7 +63,8 @@ spec cedra_framework::consensus_config {
         aborts_if !(len(config) > 0);
 
         requires chain_status::is_genesis();
-        requires timestamp::spec_now_microseconds() >= reconfiguration::last_reconfiguration_time();
+        requires timestamp::spec_now_microseconds()
+            >= reconfiguration::last_reconfiguration_time();
         requires exists<CoinInfo<CedraCoin>>(@cedra_framework);
         ensures global<ConsensusConfig>(@cedra_framework).config == config;
     }
@@ -80,7 +82,10 @@ spec cedra_framework::consensus_config {
     spec validator_txn_enabled(): bool {
         pragma opaque;
         aborts_if !exists<ConsensusConfig>(@cedra_framework);
-        ensures [abstract] result == spec_validator_txn_enabled_internal(global<ConsensusConfig>(@cedra_framework).config);
+        ensures [abstract] result
+            == spec_validator_txn_enabled_internal(
+                global<ConsensusConfig>(@cedra_framework).config
+            );
     }
 
     spec validator_txn_enabled_internal(config_bytes: vector<u8>): bool {

@@ -73,6 +73,13 @@ pub enum ProtocolId {
     JWKConsensusRpcJson = 26,
     ConsensusObserver = 27,
     ConsensusObserverRpc = 28,
+    OracleDirectSendCompressed = 29,
+    OracleDirectSendBcs = 30,
+    OracleDirectSendJson = 31,
+    OracleRpcCompressed = 32,
+    OracleRpcBcs = 33,
+    OracleRpcJson = 34,
+
 }
 
 /// The encoding types for Protocols
@@ -115,6 +122,13 @@ impl ProtocolId {
             JWKConsensusRpcJson => "JWKConsensusRpcJson",
             ConsensusObserver => "ConsensusObserver",
             ConsensusObserverRpc => "ConsensusObserverRpc",
+            OracleDirectSendCompressed => "OracleDirectSendCompressed",
+            OracleDirectSendBcs => "OracleDirectSendBcs",
+            OracleDirectSendJson => "OracleDirectSendJson",
+            OracleRpcCompressed => "OracleRpcCompressed",
+            OracleRpcBcs => "OracleRpcBcs",
+            OracleRpcJson => "OracleRpcJson",
+
         }
     }
 
@@ -150,6 +164,13 @@ impl ProtocolId {
             ProtocolId::JWKConsensusRpcJson,
             ProtocolId::ConsensusObserver,
             ProtocolId::ConsensusObserverRpc,
+            ProtocolId::OracleDirectSendCompressed,
+            ProtocolId::OracleDirectSendBcs,
+            ProtocolId::OracleDirectSendJson,
+            ProtocolId::OracleRpcCompressed,
+            ProtocolId::OracleRpcBcs,
+            ProtocolId::OracleRpcJson,
+
         ]
     }
 
@@ -168,6 +189,9 @@ impl ProtocolId {
             | ProtocolId::JWKConsensusRpcCompressed => Encoding::CompressedBcs(RECURSION_LIMIT),
             ProtocolId::MempoolDirectSend => Encoding::CompressedBcs(USER_INPUT_RECURSION_LIMIT),
             ProtocolId::MempoolRpc => Encoding::Bcs(USER_INPUT_RECURSION_LIMIT),
+            ProtocolId::OracleDirectSendCompressed | ProtocolId::OracleRpcCompressed => {
+                Encoding::CompressedBcs(RECURSION_LIMIT)
+            },
             _ => Encoding::Bcs(RECURSION_LIMIT),
         }
     }
@@ -175,16 +199,12 @@ impl ProtocolId {
     /// Returns the compression client label based on the current protocol id
     fn get_compression_client(self) -> CompressionClient {
         match self {
-            ProtocolId::ConsensusDirectSendCompressed | ProtocolId::ConsensusRpcCompressed => {
-                CompressionClient::Consensus
-            },
+            ProtocolId::ConsensusDirectSendCompressed | ProtocolId::ConsensusRpcCompressed => CompressionClient::Consensus,
             ProtocolId::ConsensusObserver => CompressionClient::ConsensusObserver,
             ProtocolId::MempoolDirectSend => CompressionClient::Mempool,
-            ProtocolId::DKGDirectSendCompressed | ProtocolId::DKGRpcCompressed => {
-                CompressionClient::DKG
-            },
-            ProtocolId::JWKConsensusDirectSendCompressed
-            | ProtocolId::JWKConsensusRpcCompressed => CompressionClient::JWKConsensus,
+            ProtocolId::DKGDirectSendCompressed | ProtocolId::DKGRpcCompressed => CompressionClient::DKG,
+            ProtocolId::JWKConsensusDirectSendCompressed | ProtocolId::JWKConsensusRpcCompressed => CompressionClient::JWKConsensus,
+            ProtocolId::OracleDirectSendCompressed | ProtocolId::OracleRpcCompressed => CompressionClient::Oracle,
             protocol_id => unreachable!(
                 "The given protocol ({:?}) should not be using compression!",
                 protocol_id

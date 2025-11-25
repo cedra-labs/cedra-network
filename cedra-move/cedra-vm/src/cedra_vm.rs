@@ -86,7 +86,6 @@ use cedra_types::{
         verify_module_metadata_for_module_publishing, RuntimeModuleMetadataV1,
     },
     vm_status::{AbortLocation, StatusCode, VMStatus},
-    CedraCoinType, CoinType,
 };
 use cedra_vm_environment::environment::CedraEnvironment;
 use cedra_vm_logging::{log_schema::AdapterLogSchema, speculative_error, speculative_log};
@@ -493,28 +492,19 @@ impl CedraVM {
         )
     }
 
-    pub fn get_price_info(stablecoin: TypeTag) -> PriceInfo {
-        match get_price_info(stablecoin) {
-            Some(price_info) => price_info,
-            None => PriceInfo::new("".to_string(), 0),
-        }
-    }
-
     fn convert_fee_price(stablecoin_price_info: PriceInfo, cedra_amount: u64) -> u64 {
         if cedra_amount == 0 {
             return 0;
         }
 
-        let cedra_price_info = Self::get_price_info(CedraCoinType::type_tag());
-
         // We don't need to scale price decimals since it has statics calse for all cases.
         // Formula:
         // stablecoin_amount = (cedra_amount * cedra_price * 10^stablecoin_decimals) / (stablecoin_price * 10^cedra_decimals)
         let stablecoin_amount = (cedra_amount as u128)
-            * (cedra_price_info.price as u128)
+            * (stablecoin_price_info.price as u128)
             * 10u128.pow(stablecoin_price_info.decimals as u32)
             / ((stablecoin_price_info.price as u128)
-                * 10u128.pow(cedra_price_info.decimals as u32));
+                * 10u128.pow(stablecoin_price_info.decimals as u32));
 
         if stablecoin_amount as u64 == 0 {
             return STABLECOIN_DEFAULT_FEE_PRICE;
@@ -692,9 +682,9 @@ impl CedraVM {
                 let mut custom_fee_statement = CustomFeeStatement::zero();
                 let mut fee_statement = FeeStatement::zero();
 
-                if txn_data.use_fee_v2() {
+                if txn_data.use_fee_v2(){
                     let stablecoin_price_info =
-                        CedraVM::get_price_info(txn_data.fa_address.clone());
+                        get_price_info(txn_data.fa_address.clone()).unwrap();
                     if stablecoin_price_info.fa_address.len() == 0 {
                         let msg = "There is no PriceInfo for the requested stablecoin".to_string();
                         let err =
@@ -704,6 +694,8 @@ impl CedraVM {
                                 .into_vm_status();
                         return Err(err);
                     }
+
+                    dbg!(&stablecoin_price_info);
 
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
@@ -769,7 +761,7 @@ impl CedraVM {
 
                 if txn_data.use_fee_v2() {
                     let stablecoin_price_info =
-                        CedraVM::get_price_info(txn_data.fa_address.clone());
+                        get_price_info(txn_data.fa_address.clone()).unwrap();
                     if stablecoin_price_info.fa_address.len() == 0 {
                         let msg = "There is no PriceInfo for the requested stablecoin".to_string();
                         let err =
@@ -872,7 +864,7 @@ impl CedraVM {
         let mut fee_statement = FeeStatement::zero();
 
         if txn_data.use_fee_v2() {
-            let stablecoin_price_info = CedraVM::get_price_info(txn_data.fa_address.clone());
+            let stablecoin_price_info = get_price_info(txn_data.fa_address.clone()).expect("Cannot stablecoin price info");
             if stablecoin_price_info.fa_address.len() == 0 {
                 let msg = "There is no PriceInfo for the requested stablecoin".to_string();
                 let err = PartialVMError::new(StatusCode::UNKNOWN_INVARIANT_VIOLATION_ERROR)
@@ -2592,6 +2584,15 @@ impl CedraVM {
         is_approved_gov_script: bool,
         traversal_context: &mut TraversalContext,
     ) -> Result<(), VMStatus> {
+
+          transaction_validation::check_versions(
+            session,
+            module_storage,
+            self.features(),
+            log_context,
+            traversal_context,
+        )?;
+
         check_gas(
             self.gas_params(log_context)?,
             self.gas_feature_version(),

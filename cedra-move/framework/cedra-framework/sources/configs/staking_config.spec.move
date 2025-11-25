@@ -57,8 +57,10 @@ spec cedra_framework::staking_config {
     ///
     spec module {
         use cedra_framework::chain_status;
-        invariant [suspendable] chain_status::is_operating() ==> exists<StakingConfig>(@cedra_framework);
-        invariant [suspendable] chain_status::is_operating() ==> exists<StakingRewardsConfig>(@cedra_framework);
+        invariant [suspendable] chain_status::is_operating() ==>
+            exists<StakingConfig>(@cedra_framework);
+        invariant [suspendable] chain_status::is_operating() ==>
+            exists<StakingRewardsConfig>(@cedra_framework);
         pragma verify = true;
         pragma aborts_if_is_strict;
     }
@@ -81,8 +83,8 @@ spec cedra_framework::staking_config {
 
     spec StakingRewardsConfig {
         invariant fixed_point64::spec_less_or_equal(
-            rewards_rate,
-            fixed_point64::spec_create_from_u128((1u128)));
+            rewards_rate, fixed_point64::spec_create_from_u128((1u128))
+        );
         invariant fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         invariant rewards_rate_period_in_secs > 0;
         invariant fixed_point64::spec_ceil(rewards_rate_decrease_rate) <= 1;
@@ -103,7 +105,7 @@ spec cedra_framework::staking_config {
         allow_validator_set_change: bool,
         rewards_rate: u64,
         rewards_rate_denominator: u64,
-        voting_power_increase_limit: u64,
+        voting_power_increase_limit: u64
     ) {
         use std::signer;
         let addr = signer::address_of(cedra_framework);
@@ -134,7 +136,7 @@ spec cedra_framework::staking_config {
         min_rewards_rate: FixedPoint64,
         rewards_rate_period_in_secs: u64,
         last_rewards_rate_period_start_in_secs: u64,
-        rewards_rate_decrease_rate: FixedPoint64,
+        rewards_rate_decrease_rate: FixedPoint64
     ) {
         use std::signer;
         pragma verify_duration_estimate = 120;
@@ -142,7 +144,8 @@ spec cedra_framework::staking_config {
         let addr = signer::address_of(cedra_framework);
         /// [high-level-req-1.2]
         aborts_if addr != @cedra_framework;
-        aborts_if last_rewards_rate_period_start_in_secs > timestamp::spec_now_seconds();
+        aborts_if last_rewards_rate_period_start_in_secs
+            > timestamp::spec_now_seconds();
         include StakingRewardsConfigValidationAbortsIf;
         aborts_if exists<StakingRewardsConfig>(addr);
         ensures exists<StakingRewardsConfig>(addr);
@@ -154,18 +157,28 @@ spec cedra_framework::staking_config {
 
     spec get_reward_rate(config: &StakingConfig): (u64, u64) {
         include StakingRewardsConfigRequirement;
-        ensures (features::spec_periodical_reward_rate_decrease_enabled() &&
-            (global<StakingRewardsConfig>(@cedra_framework).rewards_rate.value as u64) != 0) ==>
-                result_1 <= MAX_REWARDS_RATE && result_2 <= MAX_U64;
+        ensures (
+            features::spec_periodical_reward_rate_decrease_enabled()
+                && (
+                    global<StakingRewardsConfig>(@cedra_framework).rewards_rate.value as u64
+                ) != 0
+        ) ==>
+            result_1 <= MAX_REWARDS_RATE
+                && result_2 <= MAX_U64;
     }
 
     spec reward_rate(): (u64, u64) {
         let config = global<StakingConfig>(@cedra_framework);
         aborts_if !exists<StakingConfig>(@cedra_framework);
         include StakingRewardsConfigRequirement;
-        ensures (features::spec_periodical_reward_rate_decrease_enabled() &&
-            (global<StakingRewardsConfig>(@cedra_framework).rewards_rate.value as u64) != 0) ==>
-            result_1 <= MAX_REWARDS_RATE && result_2 <= MAX_U64;
+        ensures (
+            features::spec_periodical_reward_rate_decrease_enabled()
+                && (
+                    global<StakingRewardsConfig>(@cedra_framework).rewards_rate.value as u64
+                ) != 0
+        ) ==>
+            result_1 <= MAX_REWARDS_RATE
+                && result_2 <= MAX_U64;
     }
 
     spec calculate_and_save_latest_epoch_rewards_rate(): FixedPoint64 {
@@ -186,9 +199,7 @@ spec cedra_framework::staking_config {
     /// The maximum_stake must be greater than maximum_stake in the range of Specified stake and the maximum_stake greater than zero.
     /// The StakingConfig is under @cedra_framework.
     spec update_required_stake(
-        cedra_framework: &signer,
-        minimum_stake: u64,
-        maximum_stake: u64,
+        cedra_framework: &signer, minimum_stake: u64, maximum_stake: u64
     ) {
         use std::signer;
         let addr = signer::address_of(cedra_framework);
@@ -196,16 +207,15 @@ spec cedra_framework::staking_config {
         aborts_if addr != @cedra_framework;
         aborts_if minimum_stake > maximum_stake || maximum_stake == 0;
         aborts_if !exists<StakingConfig>(@cedra_framework);
-        ensures global<StakingConfig>(@cedra_framework).minimum_stake == minimum_stake &&
-            global<StakingConfig>(@cedra_framework).maximum_stake == maximum_stake;
+        ensures global<StakingConfig>(@cedra_framework).minimum_stake == minimum_stake
+            && global<StakingConfig>(@cedra_framework).maximum_stake == maximum_stake;
     }
 
     /// Caller must be @cedra_framework.
     /// The new_recurring_lockup_duration_secs must greater than zero.
     /// The StakingConfig is under @cedra_framework.
     spec update_recurring_lockup_duration_secs(
-        cedra_framework: &signer,
-        new_recurring_lockup_duration_secs: u64,
+        cedra_framework: &signer, new_recurring_lockup_duration_secs: u64
     ) {
         use std::signer;
         let addr = signer::address_of(cedra_framework);
@@ -214,7 +224,8 @@ spec cedra_framework::staking_config {
         /// [high-level-req-3.2]
         aborts_if new_recurring_lockup_duration_secs == 0;
         aborts_if !exists<StakingConfig>(@cedra_framework);
-        ensures global<StakingConfig>(@cedra_framework).recurring_lockup_duration_secs == new_recurring_lockup_duration_secs;
+        ensures global<StakingConfig>(@cedra_framework).recurring_lockup_duration_secs
+            == new_recurring_lockup_duration_secs;
     }
 
     /// Caller must be @cedra_framework.
@@ -223,9 +234,7 @@ spec cedra_framework::staking_config {
     /// The `rewards_rate` which is the numerator is limited to be `<= MAX_REWARDS_RATE` in order to avoid the arithmetic overflow in the rewards calculation.
     /// rewards_rate/rewards_rate_denominator <= 1.
     spec update_rewards_rate(
-        cedra_framework: &signer,
-        new_rewards_rate: u64,
-        new_rewards_rate_denominator: u64,
+        cedra_framework: &signer, new_rewards_rate: u64, new_rewards_rate_denominator: u64
     ) {
         use std::signer;
         aborts_if features::spec_periodical_reward_rate_decrease_enabled();
@@ -248,7 +257,7 @@ spec cedra_framework::staking_config {
         rewards_rate: FixedPoint64,
         min_rewards_rate: FixedPoint64,
         rewards_rate_period_in_secs: u64,
-        rewards_rate_decrease_rate: FixedPoint64,
+        rewards_rate_decrease_rate: FixedPoint64
     ) {
         use std::signer;
         pragma verify_duration_estimate = 120; // verified but takes long
@@ -256,31 +265,35 @@ spec cedra_framework::staking_config {
         let addr = signer::address_of(cedra_framework);
         /// [high-level-req-1.6]
         aborts_if addr != @cedra_framework;
-        aborts_if global<StakingRewardsConfig>(@cedra_framework).rewards_rate_period_in_secs != rewards_rate_period_in_secs;
+        aborts_if global<StakingRewardsConfig>(@cedra_framework).rewards_rate_period_in_secs
+            != rewards_rate_period_in_secs;
         include StakingRewardsConfigValidationAbortsIf;
         aborts_if !exists<StakingRewardsConfig>(addr);
         let post staking_rewards_config = global<StakingRewardsConfig>(@cedra_framework);
         ensures staking_rewards_config.rewards_rate == rewards_rate;
         ensures staking_rewards_config.min_rewards_rate == min_rewards_rate;
-        ensures staking_rewards_config.rewards_rate_period_in_secs == rewards_rate_period_in_secs;
-        ensures staking_rewards_config.rewards_rate_decrease_rate == rewards_rate_decrease_rate;
+        ensures staking_rewards_config.rewards_rate_period_in_secs
+            == rewards_rate_period_in_secs;
+        ensures staking_rewards_config.rewards_rate_decrease_rate
+            == rewards_rate_decrease_rate;
     }
 
     /// Caller must be @cedra_framework.
     /// Only this %0-%50 of current total voting power is allowed to join the validator set in each epoch.
     /// The StakingConfig is under @cedra_framework.
     spec update_voting_power_increase_limit(
-        cedra_framework: &signer,
-        new_voting_power_increase_limit: u64,
+        cedra_framework: &signer, new_voting_power_increase_limit: u64
     ) {
         use std::signer;
         let addr = signer::address_of(cedra_framework);
         /// [high-level-req-1.7]
         aborts_if addr != @cedra_framework;
         /// [high-level-req-2.2]
-        aborts_if new_voting_power_increase_limit == 0 || new_voting_power_increase_limit > 50;
+        aborts_if new_voting_power_increase_limit == 0
+            || new_voting_power_increase_limit > 50;
         aborts_if !exists<StakingConfig>(@cedra_framework);
-        ensures global<StakingConfig>(@cedra_framework).voting_power_increase_limit == new_voting_power_increase_limit;
+        ensures global<StakingConfig>(@cedra_framework).voting_power_increase_limit
+            == new_voting_power_increase_limit;
     }
 
     /// The maximum_stake must be greater than maximum_stake in the range of Specified stake and the maximum_stake greater than zero.
@@ -293,7 +306,7 @@ spec cedra_framework::staking_config {
         rewards_rate: FixedPoint64,
         min_rewards_rate: FixedPoint64,
         rewards_rate_period_in_secs: u64,
-        rewards_rate_decrease_rate: FixedPoint64,
+        rewards_rate_decrease_rate: FixedPoint64
     ) {
         include StakingRewardsConfigValidationAbortsIf;
     }
@@ -309,8 +322,8 @@ spec cedra_framework::staking_config {
         rewards_rate_decrease_rate: FixedPoint64;
 
         aborts_if fixed_point64::spec_greater(
-            rewards_rate,
-            fixed_point64::spec_create_from_u128((1u128)));
+            rewards_rate, fixed_point64::spec_create_from_u128((1u128))
+        );
         aborts_if fixed_point64::spec_greater(min_rewards_rate, rewards_rate);
         aborts_if rewards_rate_period_in_secs == 0;
         aborts_if fixed_point64::spec_ceil(rewards_rate_decrease_rate) > 1;
@@ -318,7 +331,8 @@ spec cedra_framework::staking_config {
 
     spec schema StakingRewardsConfigRequirement {
         requires exists<timestamp::CurrentTimeMicroseconds>(@cedra_framework);
-        include features::spec_periodical_reward_rate_decrease_enabled() ==> StakingRewardsConfigEnabledRequirement;
+        include features::spec_periodical_reward_rate_decrease_enabled() ==>
+            StakingRewardsConfigEnabledRequirement;
     }
 
     spec schema StakingRewardsConfigEnabledRequirement {
@@ -331,12 +345,13 @@ spec cedra_framework::staking_config {
         let rewards_rate_decrease_rate = staking_rewards_config.rewards_rate_decrease_rate;
 
         requires fixed_point64::spec_less_or_equal(
-            rewards_rate,
-            fixed_point64::spec_create_from_u128((1u128)));
+            rewards_rate, fixed_point64::spec_create_from_u128((1u128))
+        );
         requires fixed_point64::spec_less_or_equal(min_rewards_rate, rewards_rate);
         requires rewards_rate_period_in_secs > 0;
         /// [high-level-req-4]
-        requires last_rewards_rate_period_start_in_secs <= timestamp::spec_now_seconds();
+        requires last_rewards_rate_period_start_in_secs
+            <= timestamp::spec_now_seconds();
         requires fixed_point64::spec_ceil(rewards_rate_decrease_rate) <= 1;
     }
 }

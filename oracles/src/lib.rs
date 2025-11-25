@@ -1,23 +1,35 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-pub mod epoch_manager;
 pub mod observer;
 pub mod whitelist;
+pub mod network;
+pub mod network_interface;
+pub mod counters;
+pub mod types;
 
 use std::sync::Arc;
-use tokio::{runtime::Runtime, time::sleep};
+use tokio::{runtime::Runtime};
 use url::Url;
 
-use epoch_manager::EpochManager;
 use observer::OracleObserver;
 use whitelist::Whitelist;
+use network_interface::OracleNetworkClient;
+use network::NetworkTask;
 
 use cedra_storage_interface::DbReader;
 use cedra_types::{indexer::indexer_db_reader::IndexerReader, oracles::GLOBAL_PRICE_STORAGE};
 use cedra_validator_transaction_pool::VTxnPoolState;
+use cedra_event_notifications::{
+     EventNotificationListener,
+};
+use cedra_network::application::interface::{NetworkClient, NetworkServiceEvents};
+pub use types::OracleMessage;
 
 pub fn start_oracles_runtime(
+    network_client: NetworkClient<OracleMessage>,
+    network_service_events: NetworkServiceEvents<OracleMessage>,
+    oracles_updated_events: EventNotificationListener,
     vtxn_pool: VTxnPoolState,
     db_reader: Arc<dyn DbReader>,
     indexer_reader: Option<Arc<dyn IndexerReader>>,
@@ -25,27 +37,24 @@ pub fn start_oracles_runtime(
     let _ = &GLOBAL_PRICE_STORAGE;
     let whitelist = Whitelist::new(db_reader, indexer_reader);
 
-    let observer = Arc::new(OracleObserver::new(
-        Url::parse("https://dev-price-seed.cedra.dev/price-feed").unwrap(),
+    let mut observer = OracleObserver::new(
         whitelist,
-    ));
+        vtxn_pool,
+        oracles_updated_events
+    );
 
     let runtime = cedra_runtimes::spawn_named_runtime("oracles".into(), Some(4));
+    let (self_sender, self_receiver) = cedra_channels::new(1_024, &counters::PENDING_SELF_MESSAGES);
+    let oracle_network_client = OracleNetworkClient::new(network_client);
+    let (network_task, network_receiver) = NetworkTask::new(network_service_events, self_receiver);
 
-    // Spawn the oracle loop in the background
+    runtime.spawn(network_task.start());
+ 
+    // Spawn the oracle in the background
     runtime.spawn(async move {
-        let mut epoch_manager = EpochManager::new(vtxn_pool.clone());
+        // observer_clone.run_price_sync_loop().await;
+        observer.run_random_price_generator().await;
 
-        loop {
-            observer.update_price_storage().await;
-
-            if let Err(e) = epoch_manager.fetch_and_update_txn_pool().await {
-                eprintln!("[OraclesRuntime] Failed to update txn pool: {:?}", e);
-            }
-
-            //todo: make sure sleep is working on this runtime
-            sleep(tokio::time::Duration::from_secs(10)).await;
-        }
     });
     runtime
 }

@@ -915,6 +915,8 @@ pub enum EntryFunctionCall {
         permissions_storage_addr: AccountAddress,
     },
 
+    PriceStorageInitPriceStorage {},
+
     /// Creates a new resource account and rotates the authentication key to either
     /// the optional auth key if it is non-empty (though auth keys are 32-bytes)
     /// or the source accounts current auth key.
@@ -1822,6 +1824,7 @@ impl EntryFunctionCall {
             PermissionedSignerRevokePermissionStorageAddress {
                 permissions_storage_addr,
             } => permissioned_signer_revoke_permission_storage_address(permissions_storage_addr),
+            PriceStorageInitPriceStorage {} => price_storage_init_price_storage(),
             ResourceAccountCreateResourceAccount {
                 seed,
                 optional_auth_key,
@@ -4462,6 +4465,21 @@ pub fn permissioned_signer_revoke_permission_storage_address(
         ident_str!("revoke_permission_storage_address").to_owned(),
         vec![],
         vec![bcs::to_bytes(&permissions_storage_addr).unwrap()],
+    ))
+}
+
+pub fn price_storage_init_price_storage() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("price_storage").to_owned(),
+        ),
+        ident_str!("init_price_storage").to_owned(),
+        vec![],
+        vec![],
     ))
 }
 
@@ -7131,6 +7149,16 @@ mod decoder {
         }
     }
 
+    pub fn price_storage_init_price_storage(
+        payload: &TransactionPayload,
+    ) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::PriceStorageInitPriceStorage {})
+        } else {
+            None
+        }
+    }
+
     pub fn resource_account_create_resource_account(
         payload: &TransactionPayload,
     ) -> Option<EntryFunctionCall> {
@@ -8337,6 +8365,10 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
         map.insert(
             "permissioned_signer_revoke_permission_storage_address".to_string(),
             Box::new(decoder::permissioned_signer_revoke_permission_storage_address),
+        );
+        map.insert(
+            "price_storage_init_price_storage".to_string(),
+            Box::new(decoder::price_storage_init_price_storage),
         );
         map.insert(
             "resource_account_create_resource_account".to_string(),

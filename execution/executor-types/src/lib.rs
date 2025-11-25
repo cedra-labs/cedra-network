@@ -11,6 +11,7 @@ use cedra_types::{
     block_executor::{config::BlockExecutorConfigFromOnchain, partitioner::ExecutableBlock},
     contract_event::ContractEvent,
     dkg::DKG_START_EVENT_MOVE_TYPE_TAG,
+    oracles::PRICE_UPDATED_MOVE_TYPE_TAG,
     jwks::OBSERVED_JWK_UPDATED_MOVE_TYPE_TAG,
     ledger_info::LedgerInfoWithSignatures,
     state_store::state_key::StateKey,
@@ -270,6 +271,7 @@ pub fn should_forward_to_subscription_service(event: &ContractEvent) -> bool {
     let type_tag = event.type_tag();
     type_tag == OBSERVED_JWK_UPDATED_MOVE_TYPE_TAG.deref()
         || type_tag == DKG_START_EVENT_MOVE_TYPE_TAG.deref()
+        || type_tag == PRICE_UPDATED_MOVE_TYPE_TAG.deref()
         || type_tag == NEW_EPOCH_EVENT_MOVE_TYPE_TAG.deref()
         || type_tag == NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG.deref()
 }
@@ -279,6 +281,7 @@ pub fn should_forward_to_subscription_service_old(event: &ContractEvent) -> bool
     matches!(
         event.type_tag().to_string().as_str(),
         "0x1::reconfiguration::NewEpochEvent"
+            | "0x1::price_storage::PriceUpdated"
             | "0x1::dkg::DKGStartEvent"
             | "\
             0x1::jwks::ObservedJWKsUpdated"

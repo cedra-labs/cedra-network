@@ -606,7 +606,7 @@ pub enum StatusCode {
     RESERVED_VALIDATION_ERROR_13 = 48,
     RESERVED_VALIDATION_ERROR_14 = 49,
     RESERVED_VALIDATION_ERROR_15 = 50,
-
+BAD_PRICE_STORAGE_VERSION = 51,
 
     // When a code module/script is published it is verified. These are the
     // possible errors that can arise from the verification process.

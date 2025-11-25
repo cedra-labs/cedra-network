@@ -17,7 +17,7 @@ module cedra_framework::randomness_config {
         /// Currently the variant type is one of the following.
         /// - `ConfigOff`
         /// - `ConfigV1`
-        variant: Any,
+        variant: Any
     }
 
     /// A randomness config variant indicating the feature is disabled.
@@ -28,7 +28,7 @@ module cedra_framework::randomness_config {
         /// Any validator subset should not be able to reconstruct randomness if `subset_power / total_power <= secrecy_threshold`,
         secrecy_threshold: FixedPoint64,
         /// Any validator subset should be able to reconstruct randomness if `subset_power / total_power > reconstruction_threshold`.
-        reconstruction_threshold: FixedPoint64,
+        reconstruction_threshold: FixedPoint64
     }
 
     /// A randomness config variant indicating the feature is enabled with fast path.
@@ -38,7 +38,7 @@ module cedra_framework::randomness_config {
         /// Any validator subset should be able to reconstruct randomness if `subset_power / total_power > reconstruction_threshold`.
         reconstruction_threshold: FixedPoint64,
         /// Any validator subset should not be able to reconstruct randomness via the fast path if `subset_power / total_power <= fast_path_secrecy_threshold`,
-        fast_path_secrecy_threshold: FixedPoint64,
+        fast_path_secrecy_threshold: FixedPoint64
     }
 
     /// Initialize the configuration. Used in genesis or governance.
@@ -50,7 +50,9 @@ module cedra_framework::randomness_config {
     }
 
     /// This can be called by on-chain governance to update on-chain consensus configs for the next epoch.
-    public fun set_for_next_epoch(framework: &signer, new_config: RandomnessConfig) {
+    public fun set_for_next_epoch(
+        framework: &signer, new_config: RandomnessConfig
+    ) {
         system_addresses::assert_cedra_framework(framework);
         config_buffer::upsert(new_config);
     }
@@ -75,27 +77,27 @@ module cedra_framework::randomness_config {
     public fun enabled(): bool acquires RandomnessConfig {
         if (exists<RandomnessConfig>(@cedra_framework)) {
             let config = borrow_global<RandomnessConfig>(@cedra_framework);
-            let variant_type_name = *string::bytes(copyable_any::type_name(&config.variant));
+            let variant_type_name =
+                *string::bytes(copyable_any::type_name(&config.variant));
             variant_type_name != b"0x1::randomness_config::ConfigOff"
-        } else {
-            false
-        }
+        } else { false }
     }
 
     /// Create a `ConfigOff` variant.
     public fun new_off(): RandomnessConfig {
         RandomnessConfig {
-            variant: copyable_any::pack( ConfigOff {} )
+            variant: copyable_any::pack(ConfigOff {})
         }
     }
 
     /// Create a `ConfigV1` variant.
-    public fun new_v1(secrecy_threshold: FixedPoint64, reconstruction_threshold: FixedPoint64): RandomnessConfig {
+    public fun new_v1(
+        secrecy_threshold: FixedPoint64, reconstruction_threshold: FixedPoint64
+    ): RandomnessConfig {
         RandomnessConfig {
-            variant: copyable_any::pack( ConfigV1 {
-                secrecy_threshold,
-                reconstruction_threshold
-            } )
+            variant: copyable_any::pack(
+                ConfigV1 { secrecy_threshold, reconstruction_threshold }
+            )
         }
     }
 
@@ -103,14 +105,16 @@ module cedra_framework::randomness_config {
     public fun new_v2(
         secrecy_threshold: FixedPoint64,
         reconstruction_threshold: FixedPoint64,
-        fast_path_secrecy_threshold: FixedPoint64,
+        fast_path_secrecy_threshold: FixedPoint64
     ): RandomnessConfig {
         RandomnessConfig {
-            variant: copyable_any::pack( ConfigV2 {
-                secrecy_threshold,
-                reconstruction_threshold,
-                fast_path_secrecy_threshold,
-            } )
+            variant: copyable_any::pack(
+                ConfigV2 {
+                    secrecy_threshold,
+                    reconstruction_threshold,
+                    fast_path_secrecy_threshold
+                }
+            )
         }
     }
 
@@ -137,10 +141,11 @@ module cedra_framework::randomness_config {
         initialize_for_testing(&framework);
 
         // Enabling.
-        let config = new_v1(
-            fixed_point64::create_from_rational(1, 2),
-            fixed_point64::create_from_rational(2, 3)
-        );
+        let config =
+            new_v1(
+                fixed_point64::create_from_rational(1, 2),
+                fixed_point64::create_from_rational(2, 3)
+            );
         set_for_next_epoch(&framework, config);
         on_new_epoch(&framework);
         assert!(enabled(), 1);

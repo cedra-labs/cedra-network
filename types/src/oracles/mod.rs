@@ -1,16 +1,17 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
+
+use crate::{move_utils::as_move_value::AsMoveValue};
 use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
-use move_core_types::{
+use move_core_types::{value::{MoveStruct, MoveValue},
     ident_str, identifier::IdentStr, language_storage::TypeTag, move_resource::MoveStructType,
 };
 use poem_openapi_derive::Object;
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::HashMap,
     fmt::{self, Debug},
-    sync::{Arc, LazyLock, RwLock},
+    sync::{RwLock, LazyLock, atomic::{AtomicU64, Ordering}},
 };
 
 pub const DEFAULT_DECIMALS: u8 = 8;
@@ -73,58 +74,30 @@ impl MoveStructType for PriceInfo {
 
 /// Read-only interface for price queries
 pub trait PriceReader: Send + Sync {
-    fn get_price(&self, fa_address: &[u8]) -> Option<PriceInfo>;
+    fn get_price(&self, fa_address: String) -> Option<PriceInfo>;
     fn get_price_by_type(&self, stablecoin: TypeTag) -> Option<PriceInfo>;
     fn get_all_prices(&self) -> Vec<PriceInfo>;
+    fn get_version(&self) -> u64;
 }
 
 /// Write-only interface for price updates
 pub trait PriceWriter: Send + Sync {
-    fn update_price(&self, price: PriceInfo);
-    fn update_prices(&self, prices: Vec<PriceInfo>);
-    fn remove_price(&self, fa_address: &[u8]) -> bool;
+    fn update_prices(&mut self, update_event_data: PriceUpdated);
 }
 
 /// Rust implememntation of `0x1::price_storage::PriceStorage` target logic
 /// Combined storage that implements both Reader and Writer interfaces
+#[derive(Serialize, Deserialize)]
 pub struct InMemoryPriceStorage {
-    prices: Arc<RwLock<HashMap<Vec<u8>, PriceInfo>>>,
+    pub prices: RwLock<Vec<PriceInfo>>,
+    pub version: AtomicU64,
 }
 
 impl InMemoryPriceStorage {
     pub fn new() -> Self {
         Self {
-            prices: Arc::new(RwLock::new(HashMap::new())),
-        }
-    }
-
-    pub fn with_default_prices() -> Self {
-        let default_prices = vec![
-            PriceInfo::new("0x1::cedra_coin::CedraCoin".to_string(), 100000000),
-            PriceInfo::new(
-                "0xc745ffa4f97fa9739fae0cb173996f70bb8e4b0310fa781ccca2f7dc13f7db06::usdct::USDCT"
-                    .to_string(),
-                100000000,
-            ),
-            PriceInfo::new(
-                "0xca0746f983f7d03891c5e2dab8e321784357e687848b3840ae4cf5cc619dba7a::usdt::USDT"
-                    .to_string(),
-                100000000,
-            ),
-            PriceInfo::new("0x1::example_coin::ExampleCoin".to_string(), 150000000),
-        ];
-
-        Self::with_initial_prices(default_prices)
-    }
-
-    pub fn with_initial_prices(prices: Vec<PriceInfo>) -> Self {
-        let mut map = HashMap::new();
-        for price in prices {
-            map.insert(price.fa_address.clone(), price);
-        }
-        Self {
-            prices: Arc::new(RwLock::new(map)),
-        }
+  prices: RwLock::new(Vec::new()),
+  version: AtomicU64::new(0),        }
     }
 
     /// Create a read-only view of this storage
@@ -137,10 +110,6 @@ impl InMemoryPriceStorage {
         PriceStorageWriter { storage: self }
     }
 
-    /// Get both reader and writer interfaces
-    pub fn interfaces(&self) -> (impl PriceReader + '_, impl PriceWriter + '_) {
-        (self.reader(), self.writer())
-    }
 }
 
 struct PriceStorageReader<'a> {
@@ -148,26 +117,41 @@ struct PriceStorageReader<'a> {
 }
 
 impl<'a> PriceReader for PriceStorageReader<'a> {
-    fn get_price(&self, fa_address: &[u8]) -> Option<PriceInfo> {
-        self.storage
-            .prices
-            .read()
-            .ok()
-            .and_then(|prices| prices.get(fa_address).cloned())
+    fn get_price(&self, fa_address: String) -> Option<PriceInfo> {
+
+            let reader = get_global_reader();
+    
+    let prices = reader.get_all_prices();
+let stablecoin_str = fa_address.to_string();
+
+        println!("ROBERTO3: {:?}", prices);
+        println!("ROBERTO4: {:?}", fa_address);
+
+        prices
+            .iter()
+            .find(|p| {
+        let fa_str = String::from_utf8(p.fa_address.clone()).unwrap_or_default();
+                println!("ROBERTO5: {:?}", fa_str);
+
+             fa_str == fa_address})
+            .cloned()
     }
 
     fn get_price_by_type(&self, stablecoin: TypeTag) -> Option<PriceInfo> {
-        let stablecoin_bytes = bcs::to_bytes(&stablecoin).ok()?;
-        self.get_price(&stablecoin_bytes)
+let stablecoin_str = stablecoin.to_string();
+        println!("ROBERTO: {}", stablecoin);
+        println!("ROBERTO2: {:?}", stablecoin_str);
+        self.get_price(stablecoin_str)
     }
 
     fn get_all_prices(&self) -> Vec<PriceInfo> {
-        self.storage
-            .prices
-            .read()
-            .map(|prices| prices.values().cloned().collect())
-            .unwrap_or_default()
+        let prices = self.storage.prices.read().unwrap();
+        prices.clone()
     }
+
+      fn get_version(&self) -> u64 {
+
+        self.storage.version.load(Ordering::SeqCst)    }
 }
 
 struct PriceStorageWriter<'a> {
@@ -175,32 +159,20 @@ struct PriceStorageWriter<'a> {
 }
 
 impl<'a> PriceWriter for PriceStorageWriter<'a> {
-    fn update_price(&self, price: PriceInfo) {
-        if let Ok(mut prices) = self.storage.prices.write() {
-            prices.insert(price.fa_address.clone(), price);
-        }
-    }
-
-    fn update_prices(&self, prices: Vec<PriceInfo>) {
-        if let Ok(mut price_map) = self.storage.prices.write() {
-            for price in prices {
-                price_map.insert(price.fa_address.clone(), price);
-            }
-        }
-    }
-
-    fn remove_price(&self, fa_address: &[u8]) -> bool {
-        if let Ok(mut prices) = self.storage.prices.write() {
-            prices.remove(fa_address).is_some()
-        } else {
-            false
-        }
-    }
+    fn update_prices(&mut self, update_event_data: PriceUpdated) {
+let PriceUpdated { prices, version } = update_event_data;
+    
+    {
+        let mut prices_guard = self.storage.prices.write().unwrap();
+        *prices_guard = prices.clone(); // Clone if needed, or move if you don't need prices after
+        self.storage.version.store(version, Ordering::SeqCst);
+    } // Write lock released here
+    
+}
 }
 
-//todo: change to ::new on devnet after ocalnet tests
-pub static GLOBAL_PRICE_STORAGE: LazyLock<Arc<InMemoryPriceStorage>> =
-    LazyLock::new(|| Arc::new(InMemoryPriceStorage::with_default_prices()));
+pub static GLOBAL_PRICE_STORAGE: LazyLock<InMemoryPriceStorage> =
+ LazyLock::new(|| InMemoryPriceStorage::new());
 
 pub fn get_global_reader() -> impl PriceReader + 'static {
     GLOBAL_PRICE_STORAGE.reader()
@@ -214,9 +186,39 @@ pub fn get_price_info(stablecoin: TypeTag) -> Option<PriceInfo> {
     get_global_reader().get_price_by_type(stablecoin)
 }
 
-pub fn update_global_price(price: PriceInfo) {
-    get_global_writer().update_price(price);
+pub fn get_version() -> u64 {
+    get_global_reader().get_version()
+}
+
+pub fn update_global_price(update_event_data: PriceUpdated) {
+    get_global_writer().update_prices(update_event_data);
 }
 
 pub static PRICE_INFO_TYPE_TAG: LazyLock<TypeTag> =
     LazyLock::new(|| TypeTag::Struct(Box::new(PriceInfo::struct_tag())));
+
+
+// Move event type `0x1::price_storage::PriceUpdated` in rust.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize, CryptoHasher, BCSCryptoHash)]
+pub struct PriceUpdated {
+    pub version: u64,
+    pub prices: Vec<PriceInfo>,
+}
+
+impl MoveStructType for PriceUpdated {
+    const MODULE_NAME: &'static IdentStr = ident_str!("price_storage");
+    const STRUCT_NAME: &'static IdentStr = ident_str!("PriceUpdated");
+}
+
+
+pub static PRICE_UPDATED_MOVE_TYPE_TAG: LazyLock<TypeTag> =
+    LazyLock::new(|| TypeTag::Struct(Box::new(PriceUpdated::struct_tag())));
+
+impl AsMoveValue for PriceInfo {
+    fn as_move_value(&self) -> MoveValue {
+        MoveValue::Struct(MoveStruct::Runtime(vec![
+            self.fa_address.as_move_value(),
+            self.price.as_move_value(),
+            self.decimals.as_move_value(),        ]))
+    }
+}

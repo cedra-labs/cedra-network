@@ -139,6 +139,7 @@ pub enum FeatureFlag {
     TRANSACTION_PAYLOAD_V2 = 93,
     ORDERLESS_TRANSACTIONS = 94,
     FEE_V2 = 95,
+    PRICE_STORAGE_VERSIONS_CHECK = 96,
 }
 
 impl FeatureFlag {
@@ -409,6 +410,10 @@ impl Features {
 
     pub fn is_fee_v2_enabled(&self) -> bool {
         self.is_enabled(FeatureFlag::FEE_V2)
+    }
+
+    pub fn is_price_storage_versions_check_enabled(&self) -> bool {
+        self.is_enabled(FeatureFlag::PRICE_STORAGE_VERSIONS_CHECK)
     }
 
     pub fn get_max_identifier_size(&self) -> u64 {

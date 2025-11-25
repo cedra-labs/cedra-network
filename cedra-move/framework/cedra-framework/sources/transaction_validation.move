@@ -18,6 +18,7 @@ module cedra_framework::transaction_validation {
     use cedra_framework::timestamp;
     use cedra_framework::transaction_fee;
     use cedra_framework::nonce_validation;
+    use cedra_framework::price_storage;
 
     friend cedra_framework::genesis;
 
@@ -72,6 +73,8 @@ module cedra_framework::transaction_validation {
     const PROLOGUE_ENONCE_ALREADY_USED: u64 = 1012;
     const PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE: u64 = 1013;
     const FEE_V2_NOT_ENABLED: u64 = 1014;
+    const PRICE_STORAGE_VERSIONS_CHECK_NOT_ENABLED: u64 = 1015;
+    const PROLOGUE_EBAD_PRICE_STORAGE_VERSION: u64 = 1016;
 
     /// Permission management
     ///
@@ -982,6 +985,19 @@ module cedra_framework::transaction_validation {
             fa_symbol,
             false
         )
+
+    }
+
+    fun check_price_storages_versions(version: u64) {
+        assert!(
+            features::price_storage_versions_check_enabled(),
+            error::invalid_state(PRICE_STORAGE_VERSIONS_CHECK_NOT_ENABLED)
+        );
+
+        assert!(
+            price_storage::get_version() == version,
+            error::invalid_argument(PROLOGUE_EBAD_PRICE_STORAGE_VERSION)
+        );
 
     }
 }

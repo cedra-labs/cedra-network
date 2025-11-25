@@ -147,6 +147,7 @@ pub enum FeatureFlag {
     TransactionPayloadV2,
     OrderlessTransactions,
     FeeV2,
+    PriceStorageVersionsCheck,
 }
 
 fn generate_features_blob(writer: &CodeWriter, data: &[u64]) {
@@ -389,6 +390,7 @@ impl From<FeatureFlag> for CedraFeatureFlag {
             FeatureFlag::TransactionPayloadV2 => CedraFeatureFlag::TRANSACTION_PAYLOAD_V2,
             FeatureFlag::OrderlessTransactions => CedraFeatureFlag::ORDERLESS_TRANSACTIONS,
             FeatureFlag::FeeV2 => CedraFeatureFlag::FEE_V2,
+            FeatureFlag::PriceStorageVersionsCheck => CedraFeatureFlag::PRICE_STORAGE_VERSIONS_CHECK,
         }
     }
 }
@@ -558,6 +560,7 @@ impl From<CedraFeatureFlag> for FeatureFlag {
             CedraFeatureFlag::TRANSACTION_PAYLOAD_V2 => FeatureFlag::TransactionPayloadV2,
             CedraFeatureFlag::ORDERLESS_TRANSACTIONS => FeatureFlag::OrderlessTransactions,
             CedraFeatureFlag::FEE_V2 => FeatureFlag::FeeV2,
+            CedraFeatureFlag::PRICE_STORAGE_VERSIONS_CHECK  => FeatureFlag::PriceStorageVersionsCheck,
         }
     }
 }

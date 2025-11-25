@@ -58,7 +58,7 @@ pub fn create_event_subscription_service(
     Option<(
         ReconfigNotificationListener<DbBackedOnChainConfig>,
         EventNotificationListener,
-    )>, // (reconfig_events, oracles_updated_events) for JWK consensus
+    )>, // (reconfig_events, oracles_updated_events) for Oracles consensus
 ) {
     // Create the event subscription service
     let mut event_subscription_service =

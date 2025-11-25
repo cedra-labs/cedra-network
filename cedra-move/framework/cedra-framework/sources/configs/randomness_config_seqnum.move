@@ -16,7 +16,7 @@ module cedra_framework::randomness_config_seqnum {
     /// If this seqnum is smaller than a validator local override, the on-chain `RandomnessConfig` will be ignored.
     /// Useful in a chain recovery from randomness stall.
     struct RandomnessConfigSeqNum has drop, key, store {
-        seq_num: u64,
+        seq_num: u64
     }
 
     /// Update `RandomnessConfigSeqNum`.

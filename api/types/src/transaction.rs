@@ -767,7 +767,7 @@ impl
                     info,
                     events,
                     timestamp: U64::from(timestamp),
-                    price_info: price_info.into(),
+                    price_info,
                 })
             },
         }
@@ -791,7 +791,7 @@ pub struct PriceUpdateTransaction {
     pub info: TransactionInfo,
     pub events: Vec<Event>,
     pub timestamp: U64,
-    pub price_info: PriceInfo,
+    pub price_info: Vec<PriceInfo>,
 }
 
 /// A more API-friendly representation of the on-chain `cedra_types::jwks::QuorumCertifiedUpdate`.

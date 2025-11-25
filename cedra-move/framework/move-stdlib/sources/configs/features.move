@@ -725,6 +725,16 @@ module std::features {
     }
 
 
+    /// Whether price_storage_versions_check are enabled.
+    /// Lifetime: transient
+    const PRICE_STORAGE_VERSIONS_CHECK: u64 = 96;   
+
+    public fun get_price_storage_versions_check_feature(): u64 { PRICE_STORAGE_VERSIONS_CHECK }
+
+    public fun price_storage_versions_check_enabled(): bool acquires Features {
+        is_enabled(PRICE_STORAGE_VERSIONS_CHECK)
+    }
+
     // ============================================================================================
     // Feature Flag Implementation
 

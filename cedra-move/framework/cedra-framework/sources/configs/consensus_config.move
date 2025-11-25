@@ -13,14 +13,16 @@ module cedra_framework::consensus_config {
     friend cedra_framework::reconfiguration_with_dkg;
 
     struct ConsensusConfig has drop, key, store {
-        config: vector<u8>,
+        config: vector<u8>
     }
 
     /// The provided on chain config bytes are empty or invalid
     const EINVALID_CONFIG: u64 = 1;
 
     /// Publishes the ConsensusConfig config.
-    public(friend) fun initialize(cedra_framework: &signer, config: vector<u8>) {
+    public(friend) fun initialize(
+        cedra_framework: &signer, config: vector<u8>
+    ) {
         system_addresses::assert_cedra_framework(cedra_framework);
         assert!(vector::length(&config) > 0, error::invalid_argument(EINVALID_CONFIG));
         move_to(cedra_framework, ConsensusConfig { config });
@@ -52,7 +54,7 @@ module cedra_framework::consensus_config {
     public fun set_for_next_epoch(account: &signer, config: vector<u8>) {
         system_addresses::assert_cedra_framework(account);
         assert!(vector::length(&config) > 0, error::invalid_argument(EINVALID_CONFIG));
-        std::config_buffer::upsert<ConsensusConfig>(ConsensusConfig {config});
+        std::config_buffer::upsert<ConsensusConfig>(ConsensusConfig { config });
     }
 
     /// Only used in reconfigurations to apply the pending `ConsensusConfig`, if there is any.

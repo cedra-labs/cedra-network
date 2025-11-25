@@ -9,10 +9,9 @@ use crate::{
     validator_txns::oracles::ExecutionFailure::{Expected, Unexpected},
     CedraVM,
 };
-use cedra_types::move_utils::as_move_value::AsMoveValue;
 
 use cedra_logger::debug;
-use cedra_types::{oracles::PriceInfo, transaction::TransactionStatus};
+use cedra_types::{move_utils::as_move_value::AsMoveValue, oracles::PriceInfo, transaction::TransactionStatus};
 use cedra_vm_logging::log_schema::AdapterLogSchema;
 use cedra_vm_types::{
     module_and_script_storage::module_storage::CedraModuleStorage, output::VMOutput,
@@ -47,7 +46,7 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        update: PriceInfo,
+        update: Vec<PriceInfo>,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
         debug!("Processing price update transaction");
         match self.process_price_storage_update_inner(
@@ -127,16 +126,14 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        price_info: PriceInfo,
+        price_info: Vec<PriceInfo>,
     ) -> Result<(VMStatus, VMOutput), ExecutionFailure> {
         let mut gas_meter = UnmeteredGasMeter;
         let mut session = self.new_session(resolver, session_id, None);
         let args = vec![
             MoveValue::Signer(AccountAddress::ONE),
-            price_info.fa_address.as_move_value(),
-            MoveValue::U64(price_info.price),
-            MoveValue::U8(price_info.decimals),
-        ];
+            price_info.as_move_value()
+                    ];
 
         let traversal_storage = TraversalStorage::new();
         session

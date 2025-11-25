@@ -15,7 +15,7 @@ use move_core_types::language_storage::TypeTag;
 
 #[derive(Debug, Clone)]
 pub struct StablecoinInfo {
-    fa_address: String,
+    pub fa_address: String,
     decimals: u8,
 }
 
@@ -50,24 +50,12 @@ impl Whitelist {
     ) -> Self {
         let hardcoded_list = vec![
             StablecoinInfo {
-                fa_address: "0x1::cedra_coin::CedraCoin".to_string(),
-                decimals: 8,
-            },
-            StablecoinInfo {
-                fa_address: "0xc745ffa4f97fa9739fae0cb173996f70bb8e4b0310fa781ccca2f7dc13f7db06::usdct::USDCT".to_string(),
-                decimals: 8,
-            },
-            StablecoinInfo {
-                fa_address: "0xca0746f983f7d03891c5e2dab8e321784357e687848b3840ae4cf5cc619dba7a::usdt::USDT".to_string(),
+                fa_address: "0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4::usdt::USDT".to_string(),
                 decimals: 8,
             },
         ];
 
         Self {
-            // stablecoins: RwLock::new(Self::fetch_whitelist(
-            //     db_reader.clone(),
-            //     indexer_reader.clone(),
-            // )),
             stablecoins: RwLock::new(hardcoded_list),
             db_reader,
             indexer_reader,
@@ -79,6 +67,7 @@ impl Whitelist {
         list.clone()
     }
 
+    //tod: make this func efficient
     // use this method only in pare with method exist
     pub fn get_coin_info(&self, fa_address: String) -> StablecoinInfo {
         if fa_address == CedraCoinType::type_tag().to_string() {
