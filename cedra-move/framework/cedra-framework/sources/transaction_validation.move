@@ -5,6 +5,7 @@ module cedra_framework::transaction_validation {
     use std::option::Option;
     use std::signer;
     use std::vector;
+    use std::string;
 
     use cedra_framework::account;
     use cedra_framework::cedra_account;
@@ -18,7 +19,7 @@ module cedra_framework::transaction_validation {
     use cedra_framework::timestamp;
     use cedra_framework::transaction_fee;
     use cedra_framework::nonce_validation;
-    use cedra_framework::price_storage;
+    // use cedra_framework::price_storage;
 
     friend cedra_framework::genesis;
 
@@ -73,8 +74,6 @@ module cedra_framework::transaction_validation {
     const PROLOGUE_ENONCE_ALREADY_USED: u64 = 1012;
     const PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE: u64 = 1013;
     const FEE_V2_NOT_ENABLED: u64 = 1014;
-    const PRICE_STORAGE_VERSIONS_CHECK_NOT_ENABLED: u64 = 1015;
-    const PROLOGUE_EBAD_PRICE_STORAGE_VERSION: u64 = 1016;
 
     /// Permission management
     ///
@@ -946,6 +945,7 @@ module cedra_framework::transaction_validation {
 
             let transaction_fee_amount = txn_gas_price * gas_used;
             let fee_amount = transaction_fee_amount - storage_fee_refunded;
+            // let fee_amount = price_storage::get_price(string::utf8(b"0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4::usdt::USDT"));
             let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(
@@ -985,19 +985,6 @@ module cedra_framework::transaction_validation {
             fa_symbol,
             false
         )
-
-    }
-
-    fun check_price_storages_versions(version: u64) {
-        assert!(
-            features::price_storage_versions_check_enabled(),
-            error::invalid_state(PRICE_STORAGE_VERSIONS_CHECK_NOT_ENABLED)
-        );
-
-        assert!(
-            price_storage::get_version() == version,
-            error::invalid_argument(PROLOGUE_EBAD_PRICE_STORAGE_VERSION)
-        );
 
     }
 }

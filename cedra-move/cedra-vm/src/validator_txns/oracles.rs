@@ -46,7 +46,7 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        update: Vec<PriceInfo>,
+        update: PriceInfo,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
         debug!("Processing price update transaction");
         match self.process_price_storage_update_inner(
@@ -126,7 +126,7 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        price_info: Vec<PriceInfo>,
+        price_info: PriceInfo,
     ) -> Result<(VMStatus, VMOutput), ExecutionFailure> {
         let mut gas_meter = UnmeteredGasMeter;
         let mut session = self.new_session(resolver, session_id, None);

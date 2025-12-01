@@ -69,7 +69,6 @@ use cedra_types::{
         ApprovedExecutionHashes, ConfigStorage, FeatureFlag, Features, OnChainConfig,
         TimedFeatureFlag, TimedFeatures,
     },
-    oracles::{get_price_info, PriceInfo},
     randomness::Randomness,
     state_store::{StateView, TStateView},
     transaction::{
@@ -151,8 +150,6 @@ static NUM_EXECUTION_SHARD: OnceCell<usize> = OnceCell::new();
 static NUM_PROOF_READING_THREADS: OnceCell<usize> = OnceCell::new();
 static DISCARD_FAILED_BLOCKS: OnceCell<bool> = OnceCell::new();
 static PROCESSED_TRANSACTIONS_DETAILED_COUNTERS: OnceCell<bool> = OnceCell::new();
-
-const STABLECOIN_DEFAULT_FEE_PRICE: u64 = 1;
 
 macro_rules! deprecated_module_bundle {
     () => {
@@ -469,49 +466,17 @@ impl CedraVM {
         txn_data: &TransactionMetadata,
         gas_meter: &impl CedraGasMeter,
         storage_fee_refund: u64,
-        stablecoin_price_info: PriceInfo,
     ) -> CustomFeeStatement {
+        let gas_used = Self::gas_used(txn_data.max_gas_amount(), gas_meter);
         CustomFeeStatement::new(
-            Self::convert_fee_price(
-                stablecoin_price_info.clone(),
-                Self::gas_used(txn_data.max_gas_amount(), gas_meter),
-            ),
-            Self::convert_fee_price(
-                stablecoin_price_info.clone(),
-                u64::from(gas_meter.execution_gas_used()),
-            ),
-            Self::convert_fee_price(
-                stablecoin_price_info.clone(),
-                u64::from(gas_meter.io_gas_used()),
-            ),
-            Self::convert_fee_price(
-                stablecoin_price_info.clone(),
-                u64::from(gas_meter.storage_fee_used()),
-            ),
-            Self::convert_fee_price(stablecoin_price_info.clone(), storage_fee_refund),
+            gas_used,
+            u64::from(gas_meter.execution_gas_used()),
+            u64::from(gas_meter.io_gas_used()),
+            u64::from(gas_meter.storage_fee_used()),
+            storage_fee_refund,
         )
     }
 
-    fn convert_fee_price(stablecoin_price_info: PriceInfo, cedra_amount: u64) -> u64 {
-        if cedra_amount == 0 {
-            return 0;
-        }
-
-        // We don't need to scale price decimals since it has statics calse for all cases.
-        // Formula:
-        // stablecoin_amount = (cedra_amount * cedra_price * 10^stablecoin_decimals) / (stablecoin_price * 10^cedra_decimals)
-        let stablecoin_amount = (cedra_amount as u128)
-            * (stablecoin_price_info.price as u128)
-            * 10u128.pow(stablecoin_price_info.decimals as u32)
-            / ((stablecoin_price_info.price as u128)
-                * 10u128.pow(stablecoin_price_info.decimals as u32));
-
-        if stablecoin_amount as u64 == 0 {
-            return STABLECOIN_DEFAULT_FEE_PRICE;
-        }
-
-        stablecoin_amount as u64
-    }
 
     pub(crate) fn failed_transaction_cleanup(
         &self,
@@ -683,25 +648,10 @@ impl CedraVM {
                 let mut fee_statement = FeeStatement::zero();
 
                 if txn_data.use_fee_v2(){
-                    let stablecoin_price_info =
-                        get_price_info(txn_data.fa_address.clone()).unwrap();
-                    if stablecoin_price_info.fa_address.len() == 0 {
-                        let msg = "There is no PriceInfo for the requested stablecoin".to_string();
-                        let err =
-                            PartialVMError::new(StatusCode::UNKNOWN_INVARIANT_VIOLATION_ERROR)
-                                .with_message(msg)
-                                .finish(Location::Undefined)
-                                .into_vm_status();
-                        return Err(err);
-                    }
-
-                    dbg!(&stablecoin_price_info);
-
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
                         gas_meter,
-                        ZERO_STORAGE_REFUND,
-                        stablecoin_price_info,
+                        ZERO_STORAGE_REFUND
                     );
                 } else {
                     fee_statement = CedraVM::fee_statement_from_gas_meter(
@@ -760,22 +710,10 @@ impl CedraVM {
                 let mut fee_statement = FeeStatement::zero();
 
                 if txn_data.use_fee_v2() {
-                    let stablecoin_price_info =
-                        get_price_info(txn_data.fa_address.clone()).unwrap();
-                    if stablecoin_price_info.fa_address.len() == 0 {
-                        let msg = "There is no PriceInfo for the requested stablecoin".to_string();
-                        let err =
-                            PartialVMError::new(StatusCode::UNKNOWN_INVARIANT_VIOLATION_ERROR)
-                                .with_message(msg)
-                                .finish(Location::Undefined)
-                                .into_vm_status();
-                        return Err(err);
-                    }
                     custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                         txn_data,
                         gas_meter,
                         ZERO_STORAGE_REFUND,
-                        stablecoin_price_info,
                     );
                 } else {
                     fee_statement = CedraVM::fee_statement_from_gas_meter(
@@ -864,21 +802,10 @@ impl CedraVM {
         let mut fee_statement = FeeStatement::zero();
 
         if txn_data.use_fee_v2() {
-            let stablecoin_price_info = get_price_info(txn_data.fa_address.clone()).expect("Cannot stablecoin price info");
-            if stablecoin_price_info.fa_address.len() == 0 {
-                let msg = "There is no PriceInfo for the requested stablecoin".to_string();
-                let err = PartialVMError::new(StatusCode::UNKNOWN_INVARIANT_VIOLATION_ERROR)
-                    .with_message(msg)
-                    .finish(Location::Undefined)
-                    .into_vm_status();
-                return Err(err);
-            }
-
             custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                 txn_data,
                 gas_meter,
                 u64::from(epilogue_session.get_storage_fee_refund()),
-                stablecoin_price_info,
             );
         } else {
             fee_statement = CedraVM::fee_statement_from_gas_meter(
@@ -2584,14 +2511,6 @@ impl CedraVM {
         is_approved_gov_script: bool,
         traversal_context: &mut TraversalContext,
     ) -> Result<(), VMStatus> {
-
-          transaction_validation::check_versions(
-            session,
-            module_storage,
-            self.features(),
-            log_context,
-            traversal_context,
-        )?;
 
         check_gas(
             self.gas_params(log_context)?,

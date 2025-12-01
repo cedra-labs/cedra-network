@@ -55,10 +55,6 @@ pub fn create_event_subscription_service(
         ReconfigNotificationListener<DbBackedOnChainConfig>,
         EventNotificationListener,
     )>, // (reconfig_events, jwk_updated_events) for JWK consensus
-    Option<(
-        ReconfigNotificationListener<DbBackedOnChainConfig>,
-        EventNotificationListener,
-    )>, // (reconfig_events, oracles_updated_events) for Oracles consensus
 ) {
     // Create the event subscription service
     let mut event_subscription_service =
@@ -117,20 +113,6 @@ pub fn create_event_subscription_service(
     } else {
         None
     };
-
-    // Create reconfiguration subscriptions for oracles
-    let oracles_subscriptions = if node_config.base.role.is_validator() {
-        let reconfig_events = event_subscription_service
-            .subscribe_to_reconfigurations()
-            .expect("Oracles must subscribe to reconfigurations");
-        let oracles_updated_events = event_subscription_service
-            .subscribe_to_events(vec![], vec!["0x1::price_storage::PriceUpdated".to_string()])
-            .expect("Oracles must subscribe to events");
-        Some((reconfig_events, oracles_updated_events))
-    } else {
-        None
-    };
-
     (
         event_subscription_service,
         mempool_reconfig_subscription,
@@ -138,7 +120,6 @@ pub fn create_event_subscription_service(
         consensus_reconfig_subscription,
         dkg_subscriptions,
         jwk_consensus_subscriptions,
-        oracles_subscriptions,
     )
 }
 

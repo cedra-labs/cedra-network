@@ -1,0 +1,21 @@
+syntax = "proto3";
+package stream;
+
+message StablecoinPrice {
+    int64 price = 1;
+    int32 scale = 2;
+    int64 timestamp = 3;
+    string fa_address = 4;
+    int32 decimals = 5;
+}
+
+message PriceRequest {
+    string fa_address = 1;
+}
+
+service StreamService {
+    rpc WhiteListPriceStream(PriceRequest) returns (stream StablecoinPrice);
+    rpc FAPriceStream(PriceRequest) returns (stream StablecoinPrice);
+}
+
+

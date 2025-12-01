@@ -1,9 +1,6 @@
 // Copyright © Cedra Foundation
 // Parts of the project are originally copyright © Meta Platforms, Inc.
 // SPDX-License-Identifier: Apache-2.0
-use move_core_types::value::MoveStruct;
-use crate::oracles::PriceInfo;
-
 use crate::{
     account_config::{
         DepositEvent, NewBlockEvent, NewEpochEvent, WithdrawEvent, NEW_EPOCH_EVENT_MOVE_TYPE_TAG,

@@ -1,7 +1,7 @@
 // Copyright © Cedra Foundation
 // SPDX-License-Identifier: Apache-2.0
 
-use cedra_metrics_core::{register_histogram_vec, register_int_gauge, HistogramVec, IntGauge};
+use cedra_metrics_core::{register_int_gauge,  IntGauge};
 use std::sync::LazyLock;
 
 /// Count of the pending messages sent to itself in the channel

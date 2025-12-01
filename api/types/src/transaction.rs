@@ -791,7 +791,7 @@ pub struct PriceUpdateTransaction {
     pub info: TransactionInfo,
     pub events: Vec<Event>,
     pub timestamp: U64,
-    pub price_info: Vec<PriceInfo>,
+    pub price_info: PriceInfo,
 }
 
 /// A more API-friendly representation of the on-chain `cedra_types::jwks::QuorumCertifiedUpdate`.

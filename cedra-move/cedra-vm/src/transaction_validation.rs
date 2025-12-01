@@ -13,7 +13,7 @@ use crate::{
     transaction_metadata::TransactionMetadata,
 };
 use cedra_gas_algebra::Gas;
-use cedra_types::{oracles::{get_version},
+use cedra_types::{
 error::code_invariant_error};
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
@@ -66,7 +66,6 @@ pub static CEDRA_TRANSACTION_VALIDATION: Lazy<TransactionValidation> =
         unified_prologue_fee_payer_v2_name: Identifier::new("unified_prologue_fee_payer_v2")
             .unwrap(),
         unified_epilogue_v2_name: Identifier::new("unified_epilogue_v2").unwrap(),
-        check_version_name: Identifier::new("check_price_storages_versions").unwrap(),
     });
 
 /// On-chain functions used to validate transactions
@@ -94,7 +93,6 @@ pub struct TransactionValidation {
     pub unified_prologue_v2_name: Identifier,
     pub unified_prologue_fee_payer_v2_name: Identifier,
     pub unified_epilogue_v2_name: Identifier,
-    pub check_version_name: Identifier,
 }
 
 impl TransactionValidation {
@@ -784,36 +782,3 @@ pub(crate) fn run_failure_epilogue(
     })
 }
 
-pub(crate) fn check_versions(
-    session: &mut SessionExt<impl CedraMoveResolver>,
-    module_storage: &impl ModuleStorage,
-    features: &Features,
-    log_context: &AdapterLogSchema,
-    traversal_context: &mut TraversalContext,
-) -> Result<(), VMStatus> {
-
-    if features.is_price_storage_versions_check_enabled(){
-
-    let in_memory_storage_version = get_version();
-             println!("[Version] Current in_memory_storage_version is {}", in_memory_storage_version);
-
-    session
-        .execute_function_bypass_visibility(
-             &CEDRA_TRANSACTION_VALIDATION.module_id(),
-            &CEDRA_TRANSACTION_VALIDATION.check_version_name,
-            vec![],
-            serialize_values(&vec![
-                MoveValue::U64(in_memory_storage_version),
-            ]),
-            &mut UnmeteredGasMeter,
-            traversal_context,
-            module_storage,
-        )
-        .map(|_return_vals| ())
-        .map_err(expect_no_verification_errors)
-        .or_else(|err| convert_prologue_error(err, log_context))
-} else {
-    // If feature is not enabled, skip version check
-        Ok(())
-}
-}

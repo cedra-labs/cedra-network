@@ -68,11 +68,9 @@ impl NetworkSender {
     ) -> anyhow::Result<OracleMessage> {
         if receiver == self.author() {
             let (tx, rx) = oneshot::channel();
-  let protocol = RPC.first().cloned().unwrap_or(ProtocolId::OracleRpcBcs);
-  let self_msg = Event::RpcRequest(self.author, msg.clone(), RPC[0], tx);
+            let protocol = RPC.first().cloned().unwrap_or(ProtocolId::OracleRpcBcs);
+            let self_msg = Event::RpcRequest(self.author, msg.clone(), RPC[0], tx);
             self.self_sender.clone().send(self_msg).await?;
-
-
             
                match timeout(timeout_duration, rx).await {
             Ok(Ok(Ok(bytes))) => {

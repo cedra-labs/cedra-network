@@ -31,7 +31,7 @@ use cedra_types::indexer::indexer_db_reader::IndexerReader;
 use cedra_jwk_consensus::{start_jwk_consensus_runtime, types::JWKConsensusMsg};
 use cedra_mempool::QuorumStoreRequest;
 use cedra_network::application::interface::{NetworkClient, NetworkServiceEvents};
-use cedra_oracles_runtime::{start_oracles_runtime, OracleMessage};
+use cedra_oracles_runtime::{start_oracles_runtime};
 use cedra_storage_interface::DbReader;
 use cedra_storage_interface::DbReaderWriter;
 use cedra_validator_transaction_pool::VTxnPoolState;
@@ -145,41 +145,19 @@ pub fn create_jwk_consensus_runtime(
 
 /// Creates and starts the Oracles runtime (if enabled)
 pub fn create_oracles_runtime(
-      oracle_subscriptions: Option<(
-        ReconfigNotificationListener<DbBackedOnChainConfig>,
-        EventNotificationListener,
-    )>,
     vtxn_pool: &VTxnPoolState,
     db_reader: Arc<dyn DbReader>,
     indexer_reader: Option<Arc<dyn IndexerReader>>,
-    oracle_network_interfaces: Option<ApplicationNetworkInterfaces<OracleMessage>>,
 ) -> Option<Runtime> {
 
-        let oracle_runtime = match oracle_network_interfaces {
-        Some(interfaces) => {
-            let ApplicationNetworkInterfaces {
-                network_client,
-                network_service_events,
-            } = interfaces;
 
-
-    let (_reconfig_events, onchain_oracle_updated_events) = oracle_subscriptions.expect(
-                "Oracle needs to listen to PriceUpdated event.",
+            let oracle_runtime = start_oracles_runtime(
+                vtxn_pool.clone(),
+                db_reader,
+                indexer_reader,
             );
-    let oracle_runtime = start_oracles_runtime(
-                        network_client,
-                network_service_events,
-        onchain_oracle_updated_events,
-        vtxn_pool.clone(),
-        db_reader,
-        indexer_reader,
-    );
 
-     Some(oracle_runtime)
-        },
-        _ => None,
-    };
-     oracle_runtime
+            Some(oracle_runtime)
 }
 
 /// Creates and starts the consensus observer and publisher (if enabled)
