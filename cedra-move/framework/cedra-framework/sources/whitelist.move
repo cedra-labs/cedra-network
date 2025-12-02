@@ -41,10 +41,6 @@ module cedra_framework::whitelist {
         /// Symbol of the fungible metadata, usually a shorter version of the name.
         /// For example, Singapore Dollar is SGD.
         symbol: String,
-        /// Number of decimals used for display purposes.
-        /// For example, if `decimals` equals `2`, a balance of `505` coins should
-        /// be displayed to a user as `5.05` (`505 / 10 ** 2`).
-        decimals: u8,
     }
 
     /// Initialize an empty FungibleAssetRegistry
@@ -165,7 +161,6 @@ module cedra_framework::whitelist {
                 metadata_address: asset_address,
                 module_name: string::utf8(asset.module_name),
                 symbol: string::utf8(asset.symbol),
-                decimals: fungible_asset::decimals(asset_metadata),
             });
 
             i = i + 1;

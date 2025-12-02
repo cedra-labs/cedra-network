@@ -47,9 +47,9 @@ impl PricesFetcher {
 
     let whitelist = self.whitelist.get_whitelist();
 
-    // for fa_address in whitelist {
+    for stablecoin_info in whitelist {
     let mut request = Request::new(PriceRequest {
-        fa_address: "0x1::cedra_coin::CedraCoin".to_string(),
+        fa_address: stablecoin_info.get_fa_address(),
     });
 
     let header_value = MetadataValue::from_static("oracle-stream-646581e0-f5a2-44bd-8298-696ee5ac4f00-ryMBQwsomuv0TF0ae5AEzeEfU");
@@ -75,21 +75,38 @@ impl PricesFetcher {
                 break;
             }
         }
-    // }
+    }
     }
     
     Ok(())
 }
 
-fn format_price(price: &StablecoinPrice) -> PriceInfo {
-        let scale = price.scale as u32;
+fn format_price(token: &StablecoinPrice) -> PriceInfo {
+     // // For your data: decimals is 6, 8, or 9, and price_scale_decimals is always 10
+     // let scaled_price = if token.decimals > token.scale {
+     //     // Downscale: divide by 10^(decimals - price_scale_decimals)
+     //     let divisor = 10u64.pow((token.decimals - token.scale) as u32);
+     //     token.price / divisor
+     // } else {
+     //     // Upscale: multiply by 10^(price_scale_decimals - decimals)
+     //     let multiplier = 10u64.pow((token.scale - token.decimals) as u32);
+     //     token.price.saturating_mul(multiplier)  // Use saturating_mul to prevent overflow
+     // };
+    
+       let scale = token.scale as u32;
         let scaled_price = if scale <= 18 {
-            price.price as u64
+            token.price as u64
         } else {
-            (price.price / 10_i64.pow(scale - 18)) as u64
+            (token.price / 10_i64.pow(scale - 18)) as u64
         };
 
-        PriceInfo::new(String::from("0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4::usdt::USDT"), scaled_price, price.scale as u8)
+
+    
+    PriceInfo {
+        fa_address: token.fa_address.clone(),
+        price: scaled_price,
+        decimals: token.decimals as u8,
+    }
 }
 
     async fn update_price(&self, price_info: PriceInfo) -> Result<(), Box<dyn std::error::Error>>  {

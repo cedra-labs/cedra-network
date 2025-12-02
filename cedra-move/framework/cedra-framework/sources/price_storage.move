@@ -80,14 +80,15 @@ module cedra_framework::price_storage {
         );
     }
 
-    public(friend) fun get_price(fa_address: String): u64 acquires PriceStorage {
+    public(friend) fun get_info(addr_str: String): (u64, u8) acquires PriceStorage {
         let store = borrow_global<PriceStorage>(@cedra_framework);
 
-        if (!table::contains(&store.prices, fa_address)) {
+        if (!table::contains(&store.prices, addr_str)) {
             abort EPRICE_NOT_FOUND;
         };
 
-        table::borrow(&store.prices, fa_address).price
+        let price_info = table::borrow(&store.prices, addr_str);
+        (price_info.price, price_info.decimals)
     }
 
   }

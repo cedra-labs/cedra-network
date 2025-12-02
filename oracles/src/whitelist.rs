@@ -15,8 +15,7 @@ use move_core_types::language_storage::TypeTag;
 
 #[derive(Debug, Clone)]
 pub struct StablecoinInfo {
-    pub fa_address: String,
-    decimals: u8,
+    pub fa_address: String
 }
 
 impl StablecoinInfo {
@@ -24,14 +23,9 @@ impl StablecoinInfo {
         self.fa_address.clone()
     }
 
-    pub fn get_decimals(&self) -> u8 {
-        self.decimals.clone()
-    }
-
     pub fn cedra_coin_info() -> Self {
         Self {
             fa_address: CedraCoinType::type_tag().to_string(),
-            decimals: 8,
         }
     }
 
@@ -190,7 +184,6 @@ impl Whitelist {
             for value in move_value {
                 if let MoveValue::Struct(move_struct) = value {
                     let mut owner_address = String::new();
-                    let mut decimals: u8 = 0;
                     let mut module_name = String::new();
                     let mut symbol = String::new();
 
@@ -199,9 +192,6 @@ impl Whitelist {
                         let key_str = &key.0; // Identifier
                         match (key_str.as_str(), val) {
                             ("owner_address", Value::String(s)) => owner_address = s.to_string(),
-                            ("decimals", Value::Number(num)) => {
-                                decimals = num.as_u64().unwrap() as u8
-                            },
                             ("module_name", Value::String(s)) => module_name = s.to_string(),
                             ("symbol", Value::String(s)) => symbol = s.to_string(),
                             _ => {},
@@ -211,7 +201,6 @@ impl Whitelist {
                     let address = owner_address + "::" + &module_name + "::" + &symbol;
                     stablecoins.push(StablecoinInfo {
                         fa_address: address,
-                        decimals,
                     });
                 }
             }

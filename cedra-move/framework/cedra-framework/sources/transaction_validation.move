@@ -5,6 +5,8 @@ module cedra_framework::transaction_validation {
     use std::option::Option;
     use std::signer;
     use std::vector;
+    use std::string;
+    use std::bcs;
     use cedra_framework::account;
     use cedra_framework::cedra_account;
     use cedra_framework::account_abstraction;
@@ -18,7 +20,7 @@ module cedra_framework::transaction_validation {
     use cedra_framework::transaction_fee;
     use cedra_framework::nonce_validation;
     use cedra_framework::price_storage;
-    use std::string;
+    use cedra_std::math64;
 
     friend cedra_framework::genesis;
 
@@ -74,6 +76,8 @@ module cedra_framework::transaction_validation {
     const PROLOGUE_ETRANSACTION_EXPIRATION_TOO_FAR_IN_FUTURE: u64 = 1013;
     const FEE_V2_NOT_ENABLED: u64 = 1014;
     const WRONG_UNIFIED_EPILOGUE: u64 = 1015;
+    const DECIMALS_TOO_BIG: u64 = 1016;
+    const FA_PRICE_IS_ZERO: u64 = 1017;
 
     /// Permission management
     ///
@@ -944,9 +948,61 @@ module cedra_framework::transaction_validation {
             );
 
             let transaction_fee_amount = txn_gas_price * gas_used;
-            // let fee_amount = transaction_fee_amount - storage_fee_refunded;
-            let fee_amount = price_storage::get_price(string::utf8(b"0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4::usdt::USDT"));
+            let cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
 
+            let fa_address_string = string::utf8(b"");
+            string::append_utf8(&mut fa_address_string, bcs::to_bytes(&fa_addr));
+            string::append_utf8(&mut fa_address_string, b"::");
+            string::append_utf8(&mut fa_address_string, fa_module);
+            string::append_utf8(&mut fa_address_string,b"::");
+            string::append_utf8(&mut fa_address_string, fa_symbol);
+            
+            let cedra_address_string= string::utf8(b"0x1::cedra_coin::CedraCoin");
+                    
+            let (fa_price, fa_decimals) = price_storage::get_info(fa_address_string);
+            let (cedra_price, cedra_decimals)= price_storage::get_info(cedra_address_string);
+
+            assert!(fa_price > 0, error::invalid_argument(DECIMALS_TOO_BIG));
+            assert!(fa_decimals <= 18, error::out_of_range(DECIMALS_TOO_BIG));
+
+            //todo: change location of description and leave here only minimal one
+            // Calculate the equivalent fee amount in FA tokens based on Cedra fee amount
+            // Formula: fa_fee = (cedra_fee * cedra_price * 10^fa_decimals) / (fa_price * 10^cedra_decimals)
+            // Why we use mul_div in two steps:
+            // 1. Direct multiplication could overflow: cedra_fee * cedra_price * 10^fa_decimals might exceed u64::MAX
+            // 2. mul_div uses u128 internally to prevent intermediate overflow
+            // 3. We break the calculation into safe steps:
+            //    Step 1: (cedra_fee * cedra_price) / 10^cedra_decimals
+            //    Step 2: (step1_result * 10^fa_decimals) / fa_price 
+            //
+            // This is mathematically identical to the original formula but safe from overflow.
+
+            // Example: Convert 100 Cedra tokens to FA tokens
+            // cedra_fee_amount = 100 (100 Cedra tokens)
+            // cedra_price = 2_000_000 (=$20.00 with 5 decimals: 20 * 10^5)
+            // cedra_decimals = 5
+            // fa_price = 50_000_000 (=$50.00 with 6 decimals: 50 * 10^6)  
+            // fa_decimals = 6
+            //
+            // Step 1: (100 * 2,000,000) / 100,000 = 2,000
+            // Step 2: (2,000 * 1,000,000) / 50,000,000 = 40 FA tokens
+            //
+            // Result: 100 Cedra ($20 each) = $2,000 = 40 FA ($50 each)
+
+            // step 1
+            let normalized_cedra_value = math64::mul_div(
+                cedra_fee_amount,          
+                cedra_price,               
+                math64::pow(10, cedra_decimals as u64)
+            );
+
+            // step 2
+            let fa_fee_amount =  math64::mul_div(
+                normalized_cedra_value,    
+                math64::pow(10, fa_decimals as u64), 
+                fa_price                   
+            );
+                    
             let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(
@@ -954,7 +1010,7 @@ module cedra_framework::transaction_validation {
                 fa_addr,
                 fa_module,
                 fa_symbol,
-                fee_amount
+                fa_fee_amount
             );
 
             if (!is_orderless_txn) {
