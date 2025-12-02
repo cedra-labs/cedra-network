@@ -2,7 +2,10 @@
 module cedra_framework::whitelist {
     use std::vector;
     use std::signer;
-
+    use std::string::{Self, String};
+    
+    use cedra_framework::object::{Self};
+    use cedra_framework::fungible_asset::{Self, Metadata};
     use cedra_framework::stablecoin;
 
     friend cedra_framework::transaction_fee;
@@ -25,6 +28,23 @@ module cedra_framework::whitelist {
         addr: address,
         module_name: vector<u8>,
         symbol: vector<u8>
+    }
+
+        /// WhitelistAssetMetadata of a Fungible asset
+    struct WhitelistAssetMetadata has key, copy, drop {
+        /// owner_address address of fa_asset owner
+        owner_address: address,
+        /// metadata_address address of fa_asset metadata
+        metadata_address: address,
+        /// module_name of the fungible metadata, i.e., "usdt".
+        module_name: String,
+        /// Symbol of the fungible metadata, usually a shorter version of the name.
+        /// For example, Singapore Dollar is SGD.
+        symbol: String,
+        /// Number of decimals used for display purposes.
+        /// For example, if `decimals` equals `2`, a balance of `505` coins should
+        /// be displayed to a user as `5.05` (`505 / 10 ** 2`).
+        decimals: u8,
     }
 
     /// Initialize an empty FungibleAssetRegistry
@@ -124,5 +144,33 @@ module cedra_framework::whitelist {
         admin: address
     ): vector<FungibleAssetStruct> acquires FungibleAssetRegistry {
         borrow_global<FungibleAssetRegistry>(admin).assets
+    }
+
+    #[view]
+    /// get_metadata_list returns a list of metadata objects for the existing stablecoins whitelist.
+    public fun get_metadata_list(): vector<WhitelistAssetMetadata> acquires FungibleAssetRegistry{
+        let registry = borrow_global<FungibleAssetRegistry>(@admin);
+
+        let i = 0;
+        let n = vector::length(&registry.assets);
+        let metadata_list = vector::empty<WhitelistAssetMetadata>();
+
+        while (i < n) {
+            let asset = vector::borrow(&registry.assets, i);
+            let asset_address = object::create_object_address(&asset.addr, asset.symbol);
+            let asset_metadata = object::address_to_object<Metadata>(asset_address);
+
+            vector::push_back(&mut metadata_list, WhitelistAssetMetadata{
+                owner_address: asset.addr,
+                metadata_address: asset_address,
+                module_name: string::utf8(asset.module_name),
+                symbol: string::utf8(asset.symbol),
+                decimals: fungible_asset::decimals(asset_metadata),
+            });
+
+            i = i + 1;
+        };
+
+        metadata_list
     }
 }

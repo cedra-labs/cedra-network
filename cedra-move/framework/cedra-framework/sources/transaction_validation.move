@@ -17,6 +17,8 @@ module cedra_framework::transaction_validation {
     use cedra_framework::timestamp;
     use cedra_framework::transaction_fee;
     use cedra_framework::nonce_validation;
+    use cedra_framework::price_storage;
+    use std::string;
 
     friend cedra_framework::genesis;
 
@@ -942,7 +944,9 @@ module cedra_framework::transaction_validation {
             );
 
             let transaction_fee_amount = txn_gas_price * gas_used;
-            let fee_amount = transaction_fee_amount - storage_fee_refunded;
+            // let fee_amount = transaction_fee_amount - storage_fee_refunded;
+            let fee_amount = price_storage::get_price(string::utf8(b"0xcf457e2e62739e7cc6d2b906acba3f17a708e0b98ed13518b221f79026dcd7b4::usdt::USDT"));
+
             let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(
