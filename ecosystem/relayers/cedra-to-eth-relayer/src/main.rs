@@ -14,22 +14,32 @@ async fn main() -> Result<()> {
     let eth_rpc_url = env::var("ETH_RPC_URL")?;
     let eth_bridge_address: Address = env::var("ETH_BRIDGE_ADDRESS")?.parse()?;
     let eth_private_key = env::var("ETH_RELAYER_PRIVATE_KEY")?;
+
     let poll_interval_ms: u64 = env::var("POLL_INTERVAL_MS")
         .ok()
         .and_then(|s| s.parse().ok())
         .unwrap_or(3000);
+
     let cedra_start_version: u64 = env::var("CEDRA_START_VERSION")
         .ok()
         .and_then(|s| s.parse().ok())
         .unwrap_or(0);
 
+    // NEW: Cedra chain id as encoded on the ETH bridge (originChainId)
+    let cedra_chain_id_on_eth: u16 = env::var("CEDRA_CHAIN_ID_ON_ETH")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        // fallback to whatever you actually used when deploying the bridge:
+        .unwrap_or(4);
+
     let cfg = WithdrawRelayerConfig {
         cedra_rest_url,
         cedra_bridge_address,
         cedra_start_version,
+        cedra_chain_id_on_eth,
         eth_rpc_url,
         eth_bridge_address,
-        eth_chain_id: 11155111,
+        eth_chain_id: 11155111, // Sepolia in your case
         poll_interval_ms,
         eth_private_key,
     };

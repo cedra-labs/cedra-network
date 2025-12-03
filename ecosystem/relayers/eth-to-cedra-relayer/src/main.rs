@@ -2,9 +2,10 @@ use anyhow::Result;
 use ethers::prelude::*;
 use std::env;
 use std::str::FromStr;
+use std::sync::Arc;
 
 use aptos_sdk::types::account_address::AccountAddress;
-use eth_to_cedra_relayer::EthToCedraRelayerConfig;
+use eth_to_cedra_relayer::{EthToCedraRelayerConfig, SimpleMetadataResolver};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -49,6 +50,8 @@ async fn main() -> Result<()> {
         cedra_bridge_module_address,
         cedra_gas_unit_price,
         cedra_max_gas,
+        // new field:
+        metadata_resolver: Arc::new(SimpleMetadataResolver),
     };
 
     eth_to_cedra_relayer::run_with_config(cfg).await

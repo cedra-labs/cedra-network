@@ -4,7 +4,9 @@ version = "0.0.1"
 
 [addresses]
 cedra_framework = "0x1"
-bridge = "0xd3c57dc714d710126e74bba9b7607dab714afb837474b3f451c4110ea8ad8318"  # <-- multisig
+bridge = "0x14f25a882af7dd5ff0209725c488a35834f5a1b051013adc4f8e0a6f0d541640"  # <-- multisig
+
+#0xfe883356cccfe3ad139c347cc3d3171dcb30f7d720d2c665247fdd9bd0c0a721 0x14f25a882af7dd5ff0209725c488a35834f5a1b051013adc4f8e0a6f0d541640
 
 [dependencies]
 CedraFramework = { local = "../cedra-move/framework/cedra-framework" } 

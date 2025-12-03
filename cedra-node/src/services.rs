@@ -48,8 +48,11 @@ use crate::info;
 
 // new relayer imports
 use cedra_to_eth_relayer::{WithdrawRelayerConfig, run_with_config as run_cedra_to_eth};
-use eth_to_cedra_relayer::{EthToCedraRelayerConfig, run_with_config as run_eth_to_cedra};
-
+use eth_to_cedra_relayer::{
+    EthToCedraRelayerConfig,
+    run_with_config as run_eth_to_cedra,
+    SimpleMetadataResolver,
+};
 
 const AC_SMP_CHANNEL_BUFFER_SIZE: usize = 1_024;
 const INTRA_NODE_CHANNEL_BUFFER_SIZE: usize = 1;
@@ -350,6 +353,7 @@ pub fn start_bridge_relayers(node_config: &NodeConfig) -> Option<Runtime> {
                     cedra_rest_url: c2e.cedra_rest_url.clone(),
                     cedra_bridge_address: c2e.cedra_bridge_address.clone(),
                     cedra_start_version: c2e.cedra_start_version,
+                    cedra_chain_id_on_eth: c2e.cedra_chain_id_on_eth,
                     eth_rpc_url: c2e.eth_rpc_url.clone(),
                     eth_bridge_address,
                     eth_chain_id: c2e.eth_chain_id,
@@ -420,6 +424,7 @@ pub fn start_bridge_relayers(node_config: &NodeConfig) -> Option<Runtime> {
                     cedra_bridge_module_address,
                     cedra_gas_unit_price: e2c.cedra_gas_unit_price,
                     cedra_max_gas: e2c.cedra_max_gas,
+                    metadata_resolver: Arc::new(SimpleMetadataResolver),
                 };
 
                 runtime.spawn(async move {

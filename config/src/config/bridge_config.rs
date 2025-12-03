@@ -12,6 +12,7 @@ pub struct CedraToEthRelayerNodeConfig {
     pub cedra_rest_url: String,
     pub cedra_bridge_address: String,
     pub cedra_start_version: u64,
+    pub cedra_chain_id_on_eth: u16,
     pub eth_rpc_url: String,
     pub eth_bridge_address: String,
     pub eth_chain_id: u64,
