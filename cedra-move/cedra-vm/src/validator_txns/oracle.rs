@@ -11,7 +11,7 @@ use crate::{
 };
 
 use cedra_logger::debug;
-use cedra_types::{move_utils::as_move_value::AsMoveValue, oracle::PriceInfo, transaction::TransactionStatus};
+use cedra_types::{oracle::{Prices,PriceInfo}, transaction::TransactionStatus};
 use cedra_vm_logging::log_schema::AdapterLogSchema;
 use cedra_vm_types::{
     module_and_script_storage::module_storage::CedraModuleStorage, output::VMOutput,
@@ -21,6 +21,7 @@ use move_core_types::{
     value::{serialize_values, MoveValue},
     vm_status::{AbortLocation, StatusCode, VMStatus},
 };
+ use cedra_types::move_utils::as_move_value::AsMoveValue;
 use move_vm_runtime::module_traversal::{TraversalContext, TraversalStorage};
 use move_vm_types::gas::UnmeteredGasMeter;
 
@@ -40,13 +41,13 @@ enum ExecutionFailure {
 }
 
 impl CedraVM {
-    pub(crate) fn process_price_update(
+    pub(crate) fn process_price_add(
         &self,
         resolver: &impl CedraMoveResolver,
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        update: PriceInfo,
+        update: Vec<PriceInfo>,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
         debug!("Processing price update transaction");
         match self.process_price_storage_update_inner(
@@ -80,13 +81,57 @@ impl CedraVM {
         }
     }
 
-    pub(crate) fn _process_price_remove(
+    fn process_price_storage_update_inner(
         &self,
         resolver: &impl CedraMoveResolver,
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        fa_address: AccountAddress,
+        price_info: Vec<PriceInfo>,
+    ) -> Result<(VMStatus, VMOutput), ExecutionFailure> {
+        let mut gas_meter = UnmeteredGasMeter;
+        let mut session = self.new_session(resolver, session_id, None);
+        let prices = Prices::new(price_info);
+        let args = vec![
+            MoveValue::Signer(AccountAddress::ONE),
+            prices.as_move_value()
+           ];
+
+        let traversal_storage = TraversalStorage::new();
+        session
+            .execute_function_bypass_visibility(
+                &PRICE_STORAGE_MODULE,
+                SET_PRICE,
+                vec![],
+                serialize_values(&args),
+                &mut gas_meter,
+                &mut TraversalContext::new(&traversal_storage),
+                module_storage,
+            )
+            .map_err(|e| expect_only_successful_execution(e, SET_PRICE.as_str(), log_context))
+            .map_err(|r| Unexpected(r.unwrap_err()))?;
+
+        let output = get_system_transaction_output(
+            session,
+            module_storage,
+            &self
+                .storage_gas_params(log_context)
+                .map_err(Unexpected)?
+                .change_set_configs,
+        )
+        .map_err(Unexpected)?;
+
+        Ok((VMStatus::Executed, output))
+    }
+
+
+        pub(crate) fn process_price_remove(
+        &self,
+        resolver: &impl CedraMoveResolver,
+        module_storage: &impl CedraModuleStorage,
+        log_context: &AdapterLogSchema,
+        session_id: SessionId,
+        fa_address: String,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
         debug!("Processing price remove transaction");
         match self.process_price_storage_remove_inner(
@@ -120,62 +165,20 @@ impl CedraVM {
         }
     }
 
-    fn process_price_storage_update_inner(
-        &self,
-        resolver: &impl CedraMoveResolver,
-        module_storage: &impl CedraModuleStorage,
-        log_context: &AdapterLogSchema,
-        session_id: SessionId,
-        price_info: PriceInfo,
-    ) -> Result<(VMStatus, VMOutput), ExecutionFailure> {
-        let mut gas_meter = UnmeteredGasMeter;
-        let mut session = self.new_session(resolver, session_id, None);
-        let args = vec![
-            MoveValue::Signer(AccountAddress::ONE),
-            price_info.as_move_value()
-                    ];
 
-        let traversal_storage = TraversalStorage::new();
-        session
-            .execute_function_bypass_visibility(
-                &PRICE_STORAGE_MODULE,
-                SET_PRICE,
-                vec![],
-                serialize_values(&args),
-                &mut gas_meter,
-                &mut TraversalContext::new(&traversal_storage),
-                module_storage,
-            )
-            .map_err(|e| expect_only_successful_execution(e, SET_PRICE.as_str(), log_context))
-            .map_err(|r| Unexpected(r.unwrap_err()))?;
-
-        let output = get_system_transaction_output(
-            session,
-            module_storage,
-            &self
-                .storage_gas_params(log_context)
-                .map_err(Unexpected)?
-                .change_set_configs,
-        )
-        .map_err(Unexpected)?;
-
-        Ok((VMStatus::Executed, output))
-    }
-
-    #[allow(dead_code)]
     fn process_price_storage_remove_inner(
         &self,
         resolver: &impl CedraMoveResolver,
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        fa_address: AccountAddress,
+        fa_address: String,
     ) -> Result<(VMStatus, VMOutput), ExecutionFailure> {
         let mut gas_meter = UnmeteredGasMeter;
         let mut session = self.new_session(resolver, session_id, None);
         let args = vec![
             MoveValue::Signer(AccountAddress::ONE),
-            MoveValue::Address(fa_address),
+            fa_address.as_move_value(),
         ];
 
         let traversal_storage = TraversalStorage::new();

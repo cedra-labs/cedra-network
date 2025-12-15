@@ -682,7 +682,8 @@ impl BlockMetadataTransaction {
 pub enum ValidatorTransaction {
     ObservedJwkUpdate(JWKUpdateTransaction),
     DkgResult(DKGResultTransaction),
-    PriceUpdate(PriceUpdateTransaction),
+    AddPrice(PriceUpdateTransaction),
+    RemovePrice(PriceRemoveTransaction),
 }
 
 impl ValidatorTransaction {
@@ -692,7 +693,8 @@ impl ValidatorTransaction {
                 "validator_transaction__observed_jwk_update"
             },
             ValidatorTransaction::DkgResult(_) => "validator_transaction__dkg_result",
-            ValidatorTransaction::PriceUpdate(_) => "validator_transaction__set_price",
+            ValidatorTransaction::AddPrice(_) => "validator_transaction__set_price",
+            ValidatorTransaction::RemovePrice(_) => "validator_transaction__remove_price",
         }
     }
 
@@ -700,7 +702,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &t.info,
             ValidatorTransaction::DkgResult(t) => &t.info,
-            ValidatorTransaction::PriceUpdate(t) => &t.info,
+            ValidatorTransaction::AddPrice(t) => &t.info,
+            ValidatorTransaction::RemovePrice(t) => &t.info,
         }
     }
 
@@ -708,7 +711,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &mut t.info,
             ValidatorTransaction::DkgResult(t) => &mut t.info,
-            ValidatorTransaction::PriceUpdate(t) => &mut t.info,
+            ValidatorTransaction::AddPrice(t) => &mut t.info,
+            ValidatorTransaction::RemovePrice(t) => &mut t.info,
         }
     }
 
@@ -716,7 +720,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => t.timestamp,
             ValidatorTransaction::DkgResult(t) => t.timestamp,
-            ValidatorTransaction::PriceUpdate(t) => t.timestamp,
+            ValidatorTransaction::AddPrice(t) => t.timestamp,
+            ValidatorTransaction::RemovePrice(t) => t.timestamp,
         }
     }
 
@@ -724,7 +729,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &t.events,
             ValidatorTransaction::DkgResult(t) => &t.events,
-            ValidatorTransaction::PriceUpdate(t) => &t.events,
+            ValidatorTransaction::AddPrice(t) => &t.events,
+            ValidatorTransaction::RemovePrice(t) => &t.events,
         }
     }
 }
@@ -762,14 +768,23 @@ impl
                 timestamp: U64::from(timestamp),
                 quorum_certified_update: quorum_certified_update.into(),
             }),
-            cedra_types::validator_txn::ValidatorTransaction::PriceUpdate(price_info) => {
-                Self::PriceUpdate(PriceUpdateTransaction {
+            cedra_types::validator_txn::ValidatorTransaction::AddPrice(price_info) => {
+                Self::AddPrice(PriceUpdateTransaction {
                     info,
                     events,
                     timestamp: U64::from(timestamp),
                     price_info,
                 })
             },
+            cedra_types::validator_txn::ValidatorTransaction::RemovePrice(fa_address) => {
+                Self::RemovePrice(PriceRemoveTransaction {
+                    info,
+                    events,
+                    timestamp: U64::from(timestamp),
+                    fa_address,
+                })
+            },
+
         }
     }
 }
@@ -791,8 +806,19 @@ pub struct PriceUpdateTransaction {
     pub info: TransactionInfo,
     pub events: Vec<Event>,
     pub timestamp: U64,
-    pub price_info: PriceInfo,
+    pub price_info: Vec<PriceInfo>,
 }
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
+pub struct PriceRemoveTransaction {
+    #[serde(flatten)]
+    #[oai(flatten)]
+    pub info: TransactionInfo,
+    pub events: Vec<Event>,
+    pub timestamp: U64,
+    pub fa_address: String,
+}
+
 
 /// A more API-friendly representation of the on-chain `cedra_types::jwks::QuorumCertifiedUpdate`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]

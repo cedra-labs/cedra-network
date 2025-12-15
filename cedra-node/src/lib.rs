@@ -727,6 +727,7 @@ pub fn setup_environment_and_start_node(
         consensus_reconfig_subscription,
         dkg_subscriptions,
         jwk_consensus_subscriptions,
+        oracle_subscriptions
     ) = state_sync::create_event_subscription_service(&node_config, &db_rw);
 
     // Set up the networks and gather the application network handles
@@ -822,10 +823,12 @@ pub fn setup_environment_and_start_node(
     let oracle_indexer_reader = indexer_reader.clone();
 
     // Create the Oracles runtime and get the VTxn pool
-    let oracles_runtime = consensus::create_oracles_runtime(
+    let oracles_runtime = consensus::create_oracle_runtime(
+        oracle_subscriptions,
         &vtxn_pool,
         oracle_db_reader,
         oracle_indexer_reader,
+        chain_id,
     );
 
     // Wait until state sync has been initialized

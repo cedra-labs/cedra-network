@@ -2,11 +2,11 @@ syntax = "proto3";
 package stream;
 
 message StablecoinPrice {
-    int64 price = 1;
-    int32 scale = 2;
-    int64 timestamp = 3;
+    uint64 price = 1;
+    uint32 scale = 2;
+    uint64 timestamp = 3;
     string fa_address = 4;
-    int32 decimals = 5;
+    uint32 decimals = 5;
 }
 
 message PriceRequest {

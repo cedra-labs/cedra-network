@@ -15,7 +15,8 @@ use std::fmt::Debug;
 pub enum ValidatorTransaction {
     DKGResult(DKGTranscript),
     ObservedJWKUpdate(jwks::QuorumCertifiedUpdate),
-    PriceUpdate(PriceInfo),
+    AddPrice(Vec<PriceInfo>),
+    RemovePrice(String),
 }
 
 impl ValidatorTransaction {
@@ -40,7 +41,8 @@ impl ValidatorTransaction {
             ValidatorTransaction::ObservedJWKUpdate(_) => {
                 "validator_transaction__observed_jwk_update"
             },
-            ValidatorTransaction::PriceUpdate(_) => "validator_transaction__price_storage_update",
+            ValidatorTransaction::AddPrice(_) => "validator_transaction__price_storage_add_price",
+            ValidatorTransaction::RemovePrice(_) => "validator_transaction__price_storage_remove_price",
         }
     }
 }

@@ -70,3 +70,4 @@ pub mod state_store;
 #[cfg(test)]
 mod unit_tests;
 pub mod vm;
+pub mod whitelist;

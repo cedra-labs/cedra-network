@@ -32,12 +32,19 @@ impl CedraVM {
                 session_id,
                 jwk_update,
             ),
-            ValidatorTransaction::PriceUpdate(price_info) => self.process_price_update(
+            ValidatorTransaction::AddPrice(price_info) => self.process_price_add(
                 resolver,
                 module_storage,
                 log_context,
                 session_id,
                 price_info,
+            ),
+            ValidatorTransaction::RemovePrice(fa_address) => self.process_price_remove(
+                resolver,
+                module_storage,
+                log_context,
+                session_id,
+                fa_address,
             ),
         }
     }

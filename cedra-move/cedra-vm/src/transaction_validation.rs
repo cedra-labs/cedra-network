@@ -60,7 +60,7 @@ pub static CEDRA_TRANSACTION_VALIDATION: Lazy<TransactionValidation> =
         unified_prologue_fee_payer_name: Identifier::new("unified_prologue_fee_payer").unwrap(),
         unified_epilogue_name: Identifier::new("unified_epilogue").unwrap(),
         unified_epilogue_fee_name: Identifier::new("unified_epilogue_fee").unwrap(),
-        unified_epilogue_fee_v2_name: Identifier::new("unified_epilogue_fee_v2").unwrap(),
+        unified_epilogue_fee_v3_name: Identifier::new("unified_epilogue_fee_v3").unwrap(),
         unified_prologue_v2_name: Identifier::new("unified_prologue_v2").unwrap(),
         unified_prologue_fee_payer_v2_name: Identifier::new("unified_prologue_fee_payer_v2")
             .unwrap(),
@@ -86,7 +86,7 @@ pub struct TransactionValidation {
     pub unified_prologue_fee_payer_name: Identifier,
     pub unified_epilogue_name: Identifier,
     pub unified_epilogue_fee_name: Identifier,
-    pub unified_epilogue_fee_v2_name: Identifier,
+    pub unified_epilogue_fee_v3_name: Identifier,
 
     // Only these v2 functions support Txn Payload V2 format and Orderless transactions
     pub unified_prologue_v2_name: Identifier,
@@ -473,6 +473,12 @@ fn run_epilogue(
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
 
+            let fa_address = format!(
+    "0x{:x}::{}::{}",
+    fa.address,       // Address as hex
+    fa.module.as_str(),        // Module name as string
+    fa.name.as_str()           // Symbol/name as string
+);
             let mut serialize_args = vec![
                 serialized_signers.sender(),
                 MoveValue::U64(custom_fee_statement.storage_fee_refund())
@@ -492,6 +498,7 @@ fn run_epilogue(
                     .simple_serialize()
                     .unwrap(),
                 MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
+                MoveValue::vector_u8(fa_address.as_bytes().to_vec()).simple_serialize().unwrap(),
             ];
 
             if features.is_transaction_payload_v2_enabled() {
@@ -506,7 +513,7 @@ fn run_epilogue(
                 .execute_function_bypass_visibility(
                     &CEDRA_TRANSACTION_VALIDATION.module_id(),
                     if features.is_transaction_payload_v2_enabled() {
-                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v2_name
+                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v3_name
                     } else {
                         &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name
                     },

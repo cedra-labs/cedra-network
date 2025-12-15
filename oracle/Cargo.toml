@@ -1,5 +1,5 @@
 [package]
-name = "cedra-oracles-runtime"
+name = "cedra-oracle-runtime"
 version = "0.1.0"
 authors.workspace = true
 edition.workspace = true
@@ -55,6 +55,8 @@ move-vm-types = { workspace = true }
 move-vm-runtime = { workspace = true }
 async-trait = { workspace = true }
 bcs = { workspace = true }
+hex.workspace = true
+faster-hex = "0.10.0"
 
 
 

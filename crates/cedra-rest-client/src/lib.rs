@@ -384,6 +384,36 @@ impl Client {
             .await
     }
 
+    pub async fn view_fa_fee_amount(
+        &self,
+        fa_address: String,
+        cedra_fee_amount: u64,
+    ) -> CedraResult<Response<u64>> {
+        let resp: Response<Vec<u64>> = self
+            .view_bcs(
+                &ViewFunction {
+                    module: ModuleId::new(AccountAddress::ONE, ident_str!("price_storage").into()),
+                    function: ident_str!("calculate_fa_fee").into(),
+                    ty_args: vec![],
+                    args: vec![
+                        bcs::to_bytes(&cedra_fee_amount).unwrap(),
+                        bcs::to_bytes(&fa_address).unwrap()
+                    ],
+                },
+                    None
+            )
+            .await?;
+
+        resp.and_then(|result| {
+            if result.len() != 1 {
+                Err(anyhow!("Wrong data size returned: {:?}", result).into())
+            } else {
+                Ok(result[0])
+            }
+        })
+    }
+
+
     pub async fn get_index(&self) -> CedraResult<Response<IndexResponse>> {
         self.get(self.build_path("")?).await
     }
