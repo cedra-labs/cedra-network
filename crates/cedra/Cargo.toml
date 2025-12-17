@@ -120,8 +120,6 @@ fuzzing = []
 no-upload-proposal = []
 indexer = ["cedra-node/indexer"]
 cli-framework-test-move = []
-# enables dev-only bridge commands like `DevRecordDeposit`
-bridge-dev = []
 
 [build-dependencies]
 shadow-rs = { workspace = true }
