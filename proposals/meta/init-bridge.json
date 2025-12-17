@@ -1,6 +1,0 @@
-{
-  "title": "Initialize Bridge module",
-  "description": "Governance resolution script that calls cedra_framework::bridge::initialize(@0x1).",
-  "source_code_url": "https://github.com/your-org/your-repo/blob/<commit>/proposals/init_bridge/sources/init_bridge.move",
-  "discussion_url": "https://github.com/your-org/your-repo/issues/123"
-}

@@ -8,12 +8,13 @@ async fn main() -> Result<()> {
     tracing_subscriber::fmt().init();
     dotenvy::dotenv().ok();
 
-    let cedra_rest_url =
-        env::var("CEDRA_REST_URL").unwrap_or_else(|_| "http://127.0.0.1:8080".to_string());
+    let cedra_rest_url = env::var("CEDRA_REST_URL")
+        .unwrap_or_else(|_| "http://127.0.0.1:8080".to_string());
     let cedra_bridge_address = env::var("CEDRA_BRIDGE_ADDRESS")?;
     let eth_rpc_url = env::var("ETH_RPC_URL")?;
     let eth_bridge_address: Address = env::var("ETH_BRIDGE_ADDRESS")?.parse()?;
     let eth_private_key = env::var("ETH_RELAYER_PRIVATE_KEY")?;
+    let safe_address: Address = env::var("SAFE_ADDRESS")?.parse()?;
 
     let poll_interval_ms: u64 = env::var("POLL_INTERVAL_MS")
         .ok()
@@ -42,6 +43,7 @@ async fn main() -> Result<()> {
         eth_chain_id: 11155111, // Sepolia in your case
         poll_interval_ms,
         eth_private_key,
+        safe_address
     };
 
     cedra_to_eth_relayer::run_with_config(cfg).await

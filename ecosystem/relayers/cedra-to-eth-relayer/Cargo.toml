@@ -27,3 +27,5 @@ aptos-sdk = { package = "cedra-sdk", path = "../../../sdk", default-features = f
 
 # Needed because Cedra rest client takes Url
 url = "2"
+
+tokio-postgres = "0.7"

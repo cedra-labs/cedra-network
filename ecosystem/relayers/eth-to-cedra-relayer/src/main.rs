@@ -27,8 +27,11 @@ async fn main() -> Result<()> {
     let cedra_private_key = env::var("CEDRA_PRIVATE_KEY_HEX")?;
     let cedra_account_address =
         AccountAddress::from_str(&env::var("CEDRA_ACCOUNT_ADDRESS")?)?;
+
     let cedra_bridge_module_address =
         AccountAddress::from_str(&env::var("CEDRA_BRIDGE_MODULE_ADDRESS")?)?;
+    let cedra_multisig_address =
+        AccountAddress::from_str(&env::var("CEDRA_MULTISIG_ADDRESS")?)?;
 
     let cedra_gas_unit_price = env::var("CEDRA_GAS_UNIT_PRICE")
         .ok()
@@ -48,6 +51,7 @@ async fn main() -> Result<()> {
         cedra_private_key,
         cedra_account_address,
         cedra_bridge_module_address,
+        cedra_multisig_address,
         cedra_gas_unit_price,
         cedra_max_gas,
         // new field:

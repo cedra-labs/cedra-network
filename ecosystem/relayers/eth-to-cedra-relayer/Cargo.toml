@@ -26,3 +26,7 @@ aptos-sdk = { package = "cedra-sdk", path = "../../../sdk", default-features = f
 
 # Needed because Cedra rest client takes Url
 url = "2"
+
+serde_json = "1"
+hex = "0.4"
+cedra-rest-client = { path = "../../../crates/cedra-rest-client" }

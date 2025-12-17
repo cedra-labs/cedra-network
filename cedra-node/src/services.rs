@@ -349,18 +349,34 @@ pub fn start_bridge_relayers(node_config: &NodeConfig) -> Option<Runtime> {
                     }
                 };
 
+                let safe_address: Address = match c2e.safe_address.parse() {
+                    Ok(addr) => addr,
+                    Err(e) => {
+                        warn!(
+                            "Invalid safe_address '{}' in cedra_to_eth config: {}",
+                            c2e.safe_address, e
+                        );
+                        return Some(runtime);
+                    }
+                };
+
                 let cfg = WithdrawRelayerConfig {
                     cedra_rest_url: c2e.cedra_rest_url.clone(),
                     cedra_bridge_address: c2e.cedra_bridge_address.clone(),
-                    cedra_start_version: c2e.cedra_start_version,
                     cedra_chain_id_on_eth: c2e.cedra_chain_id_on_eth,
+
+                    postgres_url: c2e.postgres_url.clone(),
+                    relayer_name: c2e.relayer_name.clone(),
+                    cedra_start_version: c2e.cedra_start_version,
+                    start_from_latest_if_empty: c2e.start_from_latest_if_empty,
+
                     eth_rpc_url: c2e.eth_rpc_url.clone(),
                     eth_bridge_address,
                     eth_chain_id: c2e.eth_chain_id,
                     poll_interval_ms: c2e.poll_interval_ms,
                     eth_private_key: eth_pk,
+                    safe_address,
                 };
-
                 runtime.spawn(async move {
                     if let Err(e) = run_cedra_to_eth(cfg).await {
                         warn!("cedra_to_eth relayer task exited with error: {e:?}");
@@ -413,6 +429,18 @@ pub fn start_bridge_relayers(node_config: &NodeConfig) -> Option<Runtime> {
                         }
                     };
 
+                let cedra_multisig_address =
+                    match e2c.cedra_multisig_address.parse::<AccountAddress>() {
+                        Ok(addr) => addr,
+                        Err(e) => {
+                            warn!(
+                                "Invalid cedra_multisig_address '{}' in eth_to_cedra config: {}",
+                                e2c.cedra_multisig_address, e
+                            );
+                            return Some(runtime);
+                        }
+                    };
+
                 let cfg = EthToCedraRelayerConfig {
                     eth_rpc_url: e2c.eth_rpc_url.clone(),
                     eth_bridge_address,
@@ -422,6 +450,7 @@ pub fn start_bridge_relayers(node_config: &NodeConfig) -> Option<Runtime> {
                     cedra_private_key: cedra_pk,
                     cedra_account_address,
                     cedra_bridge_module_address,
+                    cedra_multisig_address,
                     cedra_gas_unit_price: e2c.cedra_gas_unit_price,
                     cedra_max_gas: e2c.cedra_max_gas,
                     metadata_resolver: Arc::new(SimpleMetadataResolver),
