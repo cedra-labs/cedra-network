@@ -1958,27 +1958,25 @@ impl TransactionOptions {
             let adjusted_max_gas =
                 adjust_gas_headroom(gas_used, max(simulated_txn.request.max_gas_amount.0, 530));
 
-                    if let Some(fa_address) = self.fa_address {
+                    if let Some(fa_address) = &self.fa_address {
 
             let lower = client
-            .view_fa_fee_amount(fa_address, gas_used)
+            .view_fa_fee_amount(gas_used, gas_unit_price, fa_address.to_string())
             .await
             .map_err(|err| CliError::ApiError(err.to_string()))?
             .into_inner();
 
-         let upper = lower
-    .checked_mul(adjusted_max_gas)
-    .unwrap()
-    .checked_div(gas_used)
-    .unwrap();
-
-
-
+           let upper = client
+            .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_address.to_string())
+            .await
+            .map_err(|err| CliError::ApiError(err.to_string()))?
+            .into_inner();
 
                 let message = format!(
-                    "Do you want to submit a transaction for a range of [{} - {}] USDCT at a gas unit price of {} Octas?",
+                    "Do you want to submit a transaction for a range of [{} - {}] {} at a gas unit price of {} Octas?",
                     lower,
                     upper,
+                    fa_address,
                     gas_unit_price);
                 prompt_yes_with_override(&message, self.prompt_options)?;
 

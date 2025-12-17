@@ -2,14 +2,11 @@ use crate::config::ORACLE_AUTH_KEY_FILE;
 use crate::whitelist::Whitelist;
 
 use anyhow::{Context, Result};
-use cedra_event_notifications::EventNotification;
 use cedra_event_notifications::EventNotificationListener;
-use cedra_sdk::move_types::language_storage::TypeTag;
 use cedra_types::{
     chain_id::ChainId,
     oracle::PriceInfo,
     validator_txn::{Topic, ValidatorTransaction},
-    whitelist::FungibleAssetStruct,
 };
 use cedra_validator_transaction_pool::{TxnGuard, VTxnPoolState};
 use futures::StreamExt;
@@ -18,6 +15,7 @@ use tokio::{
     sync::{mpsc, Mutex},
     task::JoinHandle,
 };
+use cedra_logger::{debug, error};
 use tonic::{
     metadata::{Ascii, MetadataValue},
     Request,
@@ -105,7 +103,7 @@ impl OraclePriceManager {
         .collect();
 
         for fa_address in to_remove {
-            println!("🛑 Stopping stream for removed asset: {:?}", fa_address);
+            debug!("🛑 Stopping stream for removed asset: {:?}", fa_address);
             if let Some(handle) = active_streams.remove(&fa_address) {
                 handle.abort(); // stop the stream task
             }
@@ -123,7 +121,7 @@ impl OraclePriceManager {
             let for_map = fa_address.clone();
 
             if !active_streams.contains_key(&fa_address) {
-                println!("➕ Starting stream for new asset: {:?}", fa_address);
+                debug!("➕ Starting stream for new asset: {:?}", fa_address);
 
                 let auth_key = self.auth_key.clone();
                 let server_address = self.server_address();
@@ -133,7 +131,7 @@ impl OraclePriceManager {
                     if let Err(e) =
                         Self::price_stream_task(for_task, auth_key, price_tx, server_address).await
                     {
-                        eprintln!("❌ Stream management failed for {:?}: {}", &fa_address, e);
+                        error!("❌ Stream management failed for {:?}: {}", &fa_address, e);
                     }
                 });
 
@@ -155,7 +153,6 @@ impl OraclePriceManager {
         price_tx: mpsc::Sender<PriceInfo>,
         server_address: String,
     ) -> Result<()> {
-        // println!("📡 Starting price stream for {}", decoded_address);
         let price_tx = price_tx.clone();
 
         let header_value = MetadataValue::try_from(auth)
@@ -171,11 +168,11 @@ impl OraclePriceManager {
             .await
             {
                 Ok(_) => {
-                    println!("⚠️  Stream for {} closed, reconnecting...", fa_address);
+                    debug!("⚠️  Stream for {} closed, reconnecting...", fa_address);
                     tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
                 },
                 Err(e) => {
-                    eprintln!("❌ Stream error for {}: {}, reconnecting...", fa_address, e);
+                    error!("❌ Stream error for {}: {}, reconnecting...", fa_address, e);
                     tokio::time::sleep(tokio::time::Duration::from_secs(3)).await;
                 },
             }
@@ -265,22 +262,18 @@ impl OraclePriceManager {
                                 guards.drain(0..50);
                             }
 
-                        } else {
-                            println!("[DEBUG] Buffer empty, nothing to process");
                         }
                     }
                 }
             }
         });
-
-        println!("[DEBUG] Batch submitter task spawned successfully");
     }
 
     async fn listen_for_events(&mut self, price_tx: mpsc::Sender<PriceInfo>) -> Result<()> {
         loop {
             tokio::select! {
                 // Handle events from the event stream
-                event = self.oracles_updated_events.select_next_some() => {
+                _ = self.oracles_updated_events.select_next_some() => {
                     self.whitelist.update_whitelist().await;
                     self.ensure_whitelist_streams(price_tx.clone()).await?;
                 }

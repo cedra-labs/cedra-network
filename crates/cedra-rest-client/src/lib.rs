@@ -386,8 +386,9 @@ impl Client {
 
     pub async fn view_fa_fee_amount(
         &self,
+        gas_used: u64,
+        gas_unit_price: u64,
         fa_address: String,
-        cedra_fee_amount: u64,
     ) -> CedraResult<Response<u64>> {
         let resp: Response<Vec<u64>> = self
             .view_bcs(
@@ -396,9 +397,10 @@ impl Client {
                     function: ident_str!("calculate_fa_fee").into(),
                     ty_args: vec![],
                     args: vec![
-                        bcs::to_bytes(&cedra_fee_amount).unwrap(),
-                        bcs::to_bytes(&fa_address).unwrap()
-                    ],
+                   bcs::to_bytes(&u64::from(gas_used)).unwrap(),
+                bcs::to_bytes(&0u64).unwrap(),
+                bcs::to_bytes(&u64::from(gas_unit_price)).unwrap(),
+                bcs::to_bytes(&fa_address).unwrap(),                    ],
                 },
                     None
             )

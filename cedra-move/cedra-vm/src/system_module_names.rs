@@ -78,7 +78,7 @@ pub static TRANSACTION_FEE_MODULE: Lazy<ModuleId> = Lazy::new(|| {
 });
 
 pub const EMIT_FEE_STATEMENT: &IdentStr = ident_str!("emit_fee_statement");
-pub const EMIT_CUSTOM_FEE_STATEMENT: &IdentStr = ident_str!("emit_custom_fee_statement");
+pub const EMIT_CUSTOM_FEE_STATEMENT_V2: &IdentStr = ident_str!("emit_custom_fee_statement_v2");
 
 pub static PRICE_STORAGE_MODULE: Lazy<ModuleId> = Lazy::new(|| {
     ModuleId::new(
@@ -89,3 +89,4 @@ pub static PRICE_STORAGE_MODULE: Lazy<ModuleId> = Lazy::new(|| {
 
 pub const SET_PRICE: &IdentStr = ident_str!("set_prices");
 pub const REMOVE_PRICE: &IdentStr = ident_str!("remove_price");
+pub const CALCULATE_FA_FEE: &IdentStr = ident_str!("calculate_fa_fee");

@@ -4,7 +4,6 @@ module cedra_framework::transaction_validation {
     use std::option;
     use std::option::Option;
     use std::signer;
-    use std::string::String;
     use std::vector;
     use cedra_framework::account;
     use cedra_framework::cedra_account;
@@ -18,7 +17,6 @@ module cedra_framework::transaction_validation {
     use cedra_framework::timestamp;
     use cedra_framework::transaction_fee;
     use cedra_framework::nonce_validation;
-    use cedra_framework::price_storage;
 
     friend cedra_framework::genesis;
 
@@ -914,6 +912,7 @@ module cedra_framework::transaction_validation {
         }
     }
 
+//todo: make this deprecated, remove unused code
     public fun unified_epilogue_fee_v2(
         from: signer,
         storage_fee_refunded: u64,
@@ -992,14 +991,10 @@ module cedra_framework::transaction_validation {
 
     public fun unified_epilogue_fee_v3(
         from: signer,
-        storage_fee_refunded: u64,
-        txn_gas_price: u64,
-        txn_max_gas_units: u64,
-        gas_units_remaining: u64,
         fa_addr: address,
         fa_module: vector<u8>,
         fa_symbol: vector<u8>,
-        fa_address_string: String, 
+        stablecoin_amount: u64,
         is_orderless_txn: bool
     ) {
         assert!(
@@ -1008,27 +1003,6 @@ module cedra_framework::transaction_validation {
         );
 
         if (fa_addr != @0x1) { 
-            assert!(
-                txn_max_gas_units >= gas_units_remaining,
-                error::invalid_argument(EOUT_OF_GAS)
-            );
-
-            let gas_used = txn_max_gas_units - gas_units_remaining;
-
-            assert!(
-                (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
-                error::out_of_range(EOUT_OF_GAS)
-            );
-
-            let transaction_fee_amount = txn_gas_price * gas_used;
-            let cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
-
-            let fa_fee_amount= price_storage::calculate_fa_fee(
-                cedra_fee_amount,
-                fa_address_string
-            );                
-
-                    
             let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(
@@ -1036,7 +1010,7 @@ module cedra_framework::transaction_validation {
                 fa_addr,
                 fa_module,
                 fa_symbol,
-                fa_fee_amount
+                stablecoin_amount
             );
 
             if (!is_orderless_txn) {

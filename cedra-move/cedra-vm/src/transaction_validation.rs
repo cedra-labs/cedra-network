@@ -6,7 +6,7 @@ use crate::{
     errors::{convert_epilogue_error, convert_prologue_error, expect_only_successful_execution},
     move_vm_ext::{CedraMoveResolver, SessionExt},
     system_module_names::{
-        EMIT_CUSTOM_FEE_STATEMENT, EMIT_FEE_STATEMENT, MULTISIG_ACCOUNT_MODULE,
+        EMIT_CUSTOM_FEE_STATEMENT_V2, EMIT_FEE_STATEMENT, MULTISIG_ACCOUNT_MODULE,
         TRANSACTION_FEE_MODULE, VALIDATE_MULTISIG_TRANSACTION,
     },
     testing::{maybe_raise_injected_error, InjectedError},
@@ -458,7 +458,6 @@ fn run_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
-    custom_fee_statement: CustomFeeStatement,
     txn_data: &TransactionMetadata,
     features: &Features,
     traversal_context: &mut TraversalContext,
@@ -472,33 +471,18 @@ fn run_epilogue(
         if let TypeTag::Struct(fa) = &txn_data.fa_address {
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
+            let stablecoin_amount = txn_data.stablecoin_amount();
 
-            let fa_address = format!(
-    "0x{:x}::{}::{}",
-    fa.address,       // Address as hex
-    fa.module.as_str(),        // Module name as string
-    fa.name.as_str()           // Symbol/name as string
-);
             let mut serialize_args = vec![
                 serialized_signers.sender(),
-                MoveValue::U64(custom_fee_statement.storage_fee_refund())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::U64(txn_gas_price.into())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::U64(txn_max_gas_units.into())
-                    .simple_serialize()
-                    .unwrap(),
-                MoveValue::U64(gas_remaining.into())
-                    .simple_serialize()
-                    .unwrap(),
                 MoveValue::Address(fa.address).simple_serialize().unwrap(),
                 MoveValue::vector_u8(module_bytes)
                     .simple_serialize()
                     .unwrap(),
                 MoveValue::vector_u8(name_bytes).simple_serialize().unwrap(),
-                MoveValue::vector_u8(fa_address.as_bytes().to_vec()).simple_serialize().unwrap(),
+                MoveValue::U64(stablecoin_amount)
+                    .simple_serialize()
+                    .unwrap(),
             ];
 
             if features.is_transaction_payload_v2_enabled() {
@@ -661,7 +645,8 @@ fn run_epilogue(
 
     // Emit the FeeStatement event
     if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
-        emit_custom_fee_statement(
+        let custom_fee_statement = fee_statement.extend(txn_data.stablecoin_amount());
+        emit_custom_fee_statement_v2(
             session,
             module_storage,
             custom_fee_statement,
@@ -694,7 +679,7 @@ fn emit_fee_statement(
     Ok(())
 }
 
-fn emit_custom_fee_statement(
+fn emit_custom_fee_statement_v2(
     session: &mut SessionExt<impl CedraMoveResolver>,
     module_storage: &impl ModuleStorage,
     custom_fee_statement: CustomFeeStatement,
@@ -702,7 +687,7 @@ fn emit_custom_fee_statement(
 ) -> VMResult<()> {
     session.execute_function_bypass_visibility(
         &TRANSACTION_FEE_MODULE,
-        EMIT_CUSTOM_FEE_STATEMENT,
+        EMIT_CUSTOM_FEE_STATEMENT_V2,
         vec![],
         vec![bcs::to_bytes(&custom_fee_statement).expect("Failed to serialize fee statement")],
         &mut UnmeteredGasMeter,
@@ -720,7 +705,6 @@ pub(crate) fn run_success_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
-    custom_fee_statement: CustomFeeStatement,
     features: &Features,
     txn_data: &TransactionMetadata,
     log_context: &AdapterLogSchema,
@@ -740,7 +724,6 @@ pub(crate) fn run_success_epilogue(
         serialized_signers,
         gas_remaining,
         fee_statement,
-        custom_fee_statement,
         txn_data,
         features,
         traversal_context,
@@ -757,7 +740,6 @@ pub(crate) fn run_failure_epilogue(
     serialized_signers: &SerializedSigners,
     gas_remaining: Gas,
     fee_statement: FeeStatement,
-    custom_fee_statement: CustomFeeStatement,
     features: &Features,
     txn_data: &TransactionMetadata,
     log_context: &AdapterLogSchema,
@@ -770,7 +752,6 @@ pub(crate) fn run_failure_epilogue(
         serialized_signers,
         gas_remaining,
         fee_statement,
-        custom_fee_statement,
         txn_data,
         features,
         traversal_context,

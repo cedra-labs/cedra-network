@@ -15,6 +15,10 @@ module cedra_framework::price_storage {
     const EPRICE_ALREADY_EXISTS: u64 = 2;
     const DECIMALS_TOO_BIG: u64 = 3;
     const FA_PRICE_IS_ZERO: u64 = 4;
+    const EOUT_OF_GAS: u64 = 5;
+    /// MSB is used to indicate a gas payer tx
+    const MAX_U64: u128 = 18446744073709551615;
+
 
 
     struct PriceInfo has copy, drop, store {
@@ -116,9 +120,22 @@ module cedra_framework::price_storage {
 
     #[view]
     public fun calculate_fa_fee(
-        cedra_fee_amount: u64,
+        gas_used: u64,
+        storage_fee_refunded: u64,
+        txn_gas_price: u64,
         fa_address: String,
     ): u64 acquires PriceStorage {
+
+        assert!(
+            (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
+            error::out_of_range(EOUT_OF_GAS)
+        );
+
+        let transaction_fee_amount = txn_gas_price * gas_used;
+        let cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
+
+
+                 
         let store = borrow_global<PriceStorage>(@cedra_framework);
 
         // Get FA price and decimals
@@ -160,7 +177,7 @@ module cedra_framework::price_storage {
         //
         // Result: 100 Cedra ($20 each) = $2,000 = 40 FA ($50 each)
         let normalized_cedra_value = math64::mul_div(
-            cedra_fee_amount * 1000,
+            cedra_fee_amount,
             cedra_price,
             math64::pow(10, cedra_decimals as u64)
         );

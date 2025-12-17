@@ -4,6 +4,7 @@ use std::{
 };
 
 use serde_json::Value;
+use cedra_logger::error;
 
 use cedra_api_types::{AsConverter, EntryFunctionId, MoveValue, ViewRequest};
 use cedra_storage_interface::{
@@ -77,7 +78,7 @@ impl Whitelist {
         let view_function = match view_function_res {
             Ok(v) => v,
             Err(err) => {
-                eprintln!("Failed to fetch whitelist view function: {:?}", err);
+                error!("Failed to fetch whitelist view function: {:?}", err);
                 return vec![FungibleAssetStruct::cedra_coin_metadata()];
             },
         };
@@ -94,7 +95,7 @@ impl Whitelist {
         let values = match output.values {
             Ok(v) => v,
             Err(err) => {
-                eprintln!("fetch_whitelist err: {:?}", err);
+                error!("fetch_whitelist err: {:?}", err);
                 return vec![FungibleAssetStruct::cedra_coin_metadata()];
             },
         };
@@ -108,7 +109,7 @@ impl Whitelist {
                     .collect::<anyhow::Result<Vec<_>>>()
             })
         else {
-            eprintln!("Failed to get return types — returning default whitelist");
+            error!("Failed to get return types — returning default whitelist");
             return vec![FungibleAssetStruct::cedra_coin_metadata()];
         };
 
@@ -122,7 +123,7 @@ impl Whitelist {
             })
             .collect::<anyhow::Result<Vec<_>>>()
         else {
-            eprintln!("Failed to convert move values — returning default whitelist");
+            error!("Failed to convert move values — returning default whitelist");
             return vec![FungibleAssetStruct::cedra_coin_metadata()];
         };
 
