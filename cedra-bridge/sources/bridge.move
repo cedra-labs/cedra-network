@@ -289,13 +289,13 @@ module bridge::bridge {
         borrow_global_mut<Multisig>(@bridge).multisig_address = new_addr;
     }
 
-    public fun pause(bridge_owner: &signer) acquires Config {
+    public entry fun pause(bridge_owner: &signer) acquires Config {
         assert_owner(bridge_owner);
         let cfg = borrow_global_mut<Config>(@bridge);
         cfg.paused_all = true;
     }
 
-    public fun unpause(bridge_owner: &signer) acquires Config {
+    public entry fun unpause(bridge_owner: &signer) acquires Config {
         assert_owner(bridge_owner);
         let cfg = borrow_global_mut<Config>(@bridge);
         cfg.paused_all = false;
@@ -303,22 +303,22 @@ module bridge::bridge {
         cfg.pause_withdrawals = false;
     }
 
-    public fun pause_deposits(bridge_owner: &signer) acquires Config {
+    public entry fun pause_deposits(bridge_owner: &signer) acquires Config {
         assert_owner(bridge_owner);
         borrow_global_mut<Config>(@bridge).pause_deposits = true;
     }
 
-    public fun unpause_deposits(bridge_owner: &signer) acquires Config {
+    public entry fun unpause_deposits(bridge_owner: &signer) acquires Config {
         assert_owner(bridge_owner);
         borrow_global_mut<Config>(@bridge).pause_deposits = false;
     }
 
-    public fun pause_withdrawals(bridge_owner: &signer) acquires Config {
+    public entry fun pause_withdrawals(bridge_owner: &signer) acquires Config {
         assert_owner(bridge_owner);
         borrow_global_mut<Config>(@bridge).pause_withdrawals = true;
     }
 
-    public fun unpause_withdrawals(bridge_owner: &signer) acquires Config {
+    public entry fun unpause_withdrawals(bridge_owner: &signer) acquires Config {
         assert_owner(bridge_owner);
         borrow_global_mut<Config>(@bridge).pause_withdrawals = false;
     }

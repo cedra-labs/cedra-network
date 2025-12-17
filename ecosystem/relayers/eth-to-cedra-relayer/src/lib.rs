@@ -16,7 +16,7 @@ use aptos_sdk::{
         account_address::AccountAddress,
         chain_id::ChainId,
         transaction::{EntryFunction, TransactionPayload, Multisig, MultisigTransactionPayload},
-        LocalAccount,
+        LocalAccount, CedraCoinType, CoinType
     },
 };
 
@@ -314,7 +314,7 @@ pub async fn run_with_config(cfg: EthToCedraRelayerConfig) -> Result<()> {
     let gas_unit_price = cfg.cedra_gas_unit_price;
     let max_gas = cfg.cedra_max_gas;
 
-    let tf = TransactionFactory::new(chain_id)
+    let tf = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
         .with_gas_unit_price(gas_unit_price)
         .with_max_gas_amount(max_gas);
 
@@ -383,49 +383,6 @@ pub async fn run_with_config(cfg: EthToCedraRelayerConfig) -> Result<()> {
                 ).await {
                     warn!("❌ handle_via_multisig failed for deposit nonce={}: {:#}", event.nonce, err);
                 }
-
-                // let payload = TransactionPayload::EntryFunction(entry);
-
-                // // 3. Submit transaction on Cedra chain
-                // let acct = match client.get_account(account.address()).await {
-                //     Ok(resp) => resp.into_inner(),
-                //     Err(e) => {
-                //         warn!("Failed to fetch Cedra account state: {e:?}");
-                //         continue;
-                //     }
-                // };
-                // account.set_sequence_number(acct.sequence_number);
-
-                // let txn = account.sign_with_transaction_builder(tf.payload(payload));
-                // let resp = match client.submit(&txn).await {
-                //     Ok(r) => r.into_inner(),
-                //     Err(e) => {
-                //         warn!("Failed to submit Cedra tx: {e:?}");
-                //         continue;
-                //     }
-                // };
-
-                // let committed = match client.wait_for_transaction(&resp).await {
-                //     Ok(r) => r.into_inner(),
-                //     Err(e) => {
-                //         warn!("Error waiting for Cedra tx: {e:?}");
-                //         continue;
-                //     }
-                // };
-
-                // match committed {
-                //     aptos_sdk::rest_client::Transaction::UserTransaction(utx) => {
-                //         if utx.info.success {
-                //             info!("✅ Cedra withdraw_* OK: {}", utx.info.hash);
-                //         } else {
-                //             warn!(
-                //                 "❌ Cedra tx failed: {} -- {:?}",
-                //                 utx.info.vm_status, utx
-                //             );
-                //         }
-                //     }
-                //     other => warn!("Unexpected Cedra transaction kind: {:?}", other),
-                // }
             }
             Err(e) => {
                 warn!("Deposit event stream error: {e:?}");
