@@ -61,6 +61,7 @@ cedra-telemetry = { workspace = true }
 cedra-temppath = { workspace = true }
 cedra-time-service = { workspace = true }
 cedra-types = { workspace = true }
+cedra-oracle-runtime = { workspace = true }
 cedra-validator-transaction-pool = { workspace = true }
 cedra-vm = { workspace = true }
 cedra-vm-environment = { workspace = true }

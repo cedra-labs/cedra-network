@@ -994,6 +994,8 @@ fn convert_validator_transaction(
                     )
                 )
             },
+                      cedra_api_types::transaction::ValidatorTransaction::AddPrice(_) => todo!(),
+                      cedra_api_types::transaction::ValidatorTransaction::RemovePrice(_) => todo!(),
         },
         events: convert_events(api_validator_txn.events()),
     })

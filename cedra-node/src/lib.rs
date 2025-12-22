@@ -203,6 +203,7 @@ pub struct CedraHandle {
     _consensus_publisher_runtime: Option<Runtime>,
     _consensus_runtime: Option<Runtime>,
     _dkg_runtime: Option<Runtime>,
+    _oracles_runtime: Option<Runtime>,
     _indexer_grpc_runtime: Option<Runtime>,
     _indexer_runtime: Option<Runtime>,
     _indexer_table_info_runtime: Option<Runtime>,
@@ -726,6 +727,7 @@ pub fn setup_environment_and_start_node(
         consensus_reconfig_subscription,
         dkg_subscriptions,
         jwk_consensus_subscriptions,
+        oracle_subscriptions
     ) = state_sync::create_event_subscription_service(&node_config, &db_rw);
 
     // Set up the networks and gather the application network handles
@@ -779,6 +781,7 @@ pub fn setup_environment_and_start_node(
         indexer_grpc_runtime,
         internal_indexer_db_runtime,
         mempool_client_sender,
+        indexer_reader,
     ) = services::bootstrap_api_and_indexer(
         &node_config,
         db_rw.clone(),
@@ -814,6 +817,18 @@ pub fn setup_environment_and_start_node(
         jwk_consensus_subscriptions,
         jwk_consensus_network_interfaces,
         &vtxn_pool,
+    );
+
+    let oracle_db_reader = db_rw.clone().reader;
+    let oracle_indexer_reader = indexer_reader.clone();
+
+    // Create the Oracles runtime and get the VTxn pool
+    let oracles_runtime = consensus::create_oracle_runtime(
+        oracle_subscriptions,
+        &vtxn_pool,
+        oracle_db_reader,
+        oracle_indexer_reader,
+        chain_id,
     );
 
     // Wait until state sync has been initialized
@@ -853,6 +868,7 @@ pub fn setup_environment_and_start_node(
         _consensus_publisher_runtime: consensus_publisher_runtime,
         _consensus_runtime: consensus_runtime,
         _dkg_runtime: dkg_runtime,
+        _oracles_runtime: oracles_runtime,
         _indexer_grpc_runtime: indexer_grpc_runtime,
         _indexer_runtime: indexer_runtime,
         _indexer_table_info_runtime: indexer_table_info_runtime,

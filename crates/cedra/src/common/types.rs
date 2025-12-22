@@ -1937,6 +1937,7 @@ impl TransactionOptions {
                 Ed25519Signature::try_from([0u8; 64].as_ref()).unwrap(),
             );
 
+
             let txns = client
                 .simulate_with_gas_estimation(&signed_transaction, true, false)
                 .await?
@@ -1957,6 +1958,32 @@ impl TransactionOptions {
             let adjusted_max_gas =
                 adjust_gas_headroom(gas_used, max(simulated_txn.request.max_gas_amount.0, 530));
 
+                    if let Some(fa_address) = &self.fa_address {
+
+            let lower = client
+            .view_fa_fee_amount(gas_used, gas_unit_price, fa_address.to_string())
+            .await
+            .map_err(|err| CliError::ApiError(err.to_string()))?
+            .into_inner();
+
+           let upper = client
+            .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_address.to_string())
+            .await
+            .map_err(|err| CliError::ApiError(err.to_string()))?
+            .into_inner();
+
+                let message = format!(
+                    "Do you want to submit a transaction for a range of [{} - {}] {} at a gas unit price of {} Octas?",
+                    lower,
+                    upper,
+                    fa_address,
+                    gas_unit_price);
+                prompt_yes_with_override(&message, self.prompt_options)?;
+
+
+        } else {
+
+
             let (lower_cost_bound, upper_cost_bound) = if gas_used == 0 {
                 let estimated_gas = 100;
                 let lower = estimated_gas / 2 * gas_unit_price;
@@ -1976,6 +2003,7 @@ impl TransactionOptions {
                     upper_cost_bound,
                     gas_unit_price);
             prompt_yes_with_override(&message, self.prompt_options)?;
+            };
             adjusted_max_gas
         };
 

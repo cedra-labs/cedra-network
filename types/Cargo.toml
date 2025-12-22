@@ -71,6 +71,7 @@ strum = { workspace = true }
 strum_macros = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+faster-hex = "0.10.0"
 
 [dev-dependencies]
 ahash = { workspace = true }

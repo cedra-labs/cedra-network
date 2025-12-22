@@ -253,6 +253,7 @@ members = [
     "tools/compute-module-expansion-size",
     "types",
     "vm-validator",
+    "oracle"
 ]
 
 # NOTE: default-members is the complete list of binaries that form the "production Cedra codebase". These members should
@@ -290,6 +291,7 @@ rust-version = "1.86.0"
 # Internal crate dependencies.
 # Please do not add any test features here: they should be declared by the individual crate.
 cedra = { path = "crates/cedra" }
+cedra-oracle-runtime =  { path = "oracle" }
 cedra-accumulator = { path = "storage/accumulator" }
 cedra-admin-service = { path = "crates/cedra-admin-service" }
 cedra-aggregator = { path = "cedra-move/cedra-aggregator" }
@@ -731,7 +733,7 @@ reqwest-retry = "0.2.1"
 ring = { version = "0.16.20", features = ["std"] }
 ripemd = "0.1.1"
 rlimit = "0.10.2"
-rocksdb = { version = "0.22.0", features = ["lz4"] }
+rocksdb = { version = "0.24.0", features = ["lz4"] }
 rsa = { version = "0.9.6" }
 rstack-self = { version = "0.3.0", features = ["dw"], default-features = false }
 rstest = "0.15.0"

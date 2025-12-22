@@ -12,6 +12,8 @@ use cedra_types::{
     contract_event::ContractEvent,
     dkg::DKG_START_EVENT_MOVE_TYPE_TAG,
     jwks::OBSERVED_JWK_UPDATED_MOVE_TYPE_TAG,
+    whitelist::{WHITELIST_ASSET_ADDED_MOVE_TYPE_TAG
+    ,WHITELIST_ASSET_REMOVED_MOVE_TYPE_TAG},
     ledger_info::LedgerInfoWithSignatures,
     state_store::state_key::StateKey,
     transaction::{
@@ -270,6 +272,8 @@ pub fn should_forward_to_subscription_service(event: &ContractEvent) -> bool {
     let type_tag = event.type_tag();
     type_tag == OBSERVED_JWK_UPDATED_MOVE_TYPE_TAG.deref()
         || type_tag == DKG_START_EVENT_MOVE_TYPE_TAG.deref()
+        || type_tag == WHITELIST_ASSET_ADDED_MOVE_TYPE_TAG.deref()
+        || type_tag == WHITELIST_ASSET_REMOVED_MOVE_TYPE_TAG.deref()
         || type_tag == NEW_EPOCH_EVENT_MOVE_TYPE_TAG.deref()
         || type_tag == NEW_EPOCH_EVENT_V2_MOVE_TYPE_TAG.deref()
 }
@@ -279,6 +283,8 @@ pub fn should_forward_to_subscription_service_old(event: &ContractEvent) -> bool
     matches!(
         event.type_tag().to_string().as_str(),
         "0x1::reconfiguration::NewEpochEvent"
+            | "0x1::whitelist::AssetAddedEvent"
+            | "0x1::whitelist::AssetRemovedEvent"
             | "0x1::dkg::DKGStartEvent"
             | "\
             0x1::jwks::ObservedJWKsUpdated"

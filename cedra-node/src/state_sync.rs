@@ -55,6 +55,7 @@ pub fn create_event_subscription_service(
         ReconfigNotificationListener<DbBackedOnChainConfig>,
         EventNotificationListener,
     )>, // (reconfig_events, jwk_updated_events) for JWK consensus
+     Option<EventNotificationListener>, // (whitelist_added_removed_events) for Whitelist
 ) {
     // Create the event subscription service
     let mut event_subscription_service =
@@ -114,6 +115,16 @@ pub fn create_event_subscription_service(
         None
     };
 
+     // Create reconfiguration subscriptions for whitelist
+    let oracle_subscriptions = if node_config.base.role.is_validator() {
+        let whitelist_updated_events = event_subscription_service
+            .subscribe_to_events(vec![], vec!["0x1::whitelist::AssetAddedEvent".to_string(), "0x1::whitelist::AssetRemovedEvent".to_string()])
+            .expect("Whitelist must subscribe to events");
+        Some(whitelist_updated_events)
+    } else {
+        None
+    };
+
     (
         event_subscription_service,
         mempool_reconfig_subscription,
@@ -121,6 +132,7 @@ pub fn create_event_subscription_service(
         consensus_reconfig_subscription,
         dkg_subscriptions,
         jwk_consensus_subscriptions,
+        oracle_subscriptions,
     )
 }
 
