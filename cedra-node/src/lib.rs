@@ -824,6 +824,7 @@ pub fn setup_environment_and_start_node(
 
     // Create the Oracles runtime and get the VTxn pool
     let oracles_runtime = consensus::create_oracle_runtime(
+        &mut node_config,
         oracle_subscriptions,
         &vtxn_pool,
         oracle_db_reader,

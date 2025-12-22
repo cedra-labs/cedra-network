@@ -29,13 +29,11 @@ use cedra_event_notifications::{
 use cedra_jwk_consensus::{start_jwk_consensus_runtime, types::JWKConsensusMsg};
 use cedra_mempool::QuorumStoreRequest;
 use cedra_network::application::interface::{NetworkClient, NetworkServiceEvents};
-use cedra_storage_interface::DbReaderWriter;
-use cedra_validator_transaction_pool::VTxnPoolState;
-use cedra_types::{
-    chain_id::ChainId, indexer::indexer_db_reader::IndexerReader
-};
-use cedra_oracle_runtime::{start_oracles_runtime};
+use cedra_oracle_runtime::start_oracles_runtime;
 use cedra_storage_interface::DbReader;
+use cedra_storage_interface::DbReaderWriter;
+use cedra_types::{chain_id::ChainId, indexer::indexer_db_reader::IndexerReader};
+use cedra_validator_transaction_pool::VTxnPoolState;
 use futures::channel::mpsc::Sender;
 use std::sync::Arc;
 use tokio::runtime::Runtime;
@@ -145,25 +143,23 @@ pub fn create_jwk_consensus_runtime(
 }
 
 pub fn create_oracle_runtime(
+    node_config: &mut NodeConfig,
     oracle_subscriptions: Option<EventNotificationListener>,
     vtxn_pool: &VTxnPoolState,
     db_reader: Arc<dyn DbReader>,
     indexer_reader: Option<Arc<dyn IndexerReader>>,
     chain_id: ChainId,
 ) -> Option<Runtime> {
+    let oracle_runtime = start_oracles_runtime(
+        node_config.oracle.auth_key.clone(),
+        oracle_subscriptions,
+        vtxn_pool.clone(),
+        db_reader,
+        indexer_reader,
+        chain_id,
+    );
 
-  let onchain_whitelist_events = oracle_subscriptions.expect(
-                "Oracle needs to listen to Whitelist events.",
-            );
-            let oracle_runtime = start_oracles_runtime(
-                onchain_whitelist_events, 
-                vtxn_pool.clone(),
-                db_reader,
-                indexer_reader,
-                chain_id,
-            );
-
-            Some(oracle_runtime)
+    Some(oracle_runtime)
 }
 
 /// Creates and starts the consensus observer and publisher (if enabled)

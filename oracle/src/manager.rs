@@ -1,4 +1,3 @@
-use crate::config::ORACLE_AUTH_KEY_FILE;
 use crate::whitelist::Whitelist;
 
 use anyhow::{Context, Result};
@@ -10,7 +9,7 @@ use cedra_types::{
 };
 use cedra_validator_transaction_pool::{TxnGuard, VTxnPoolState};
 use futures::StreamExt;
-use std::{collections::HashMap, fs, sync::Arc};
+use std::{collections::HashMap, sync::Arc};
 use tokio::{
     sync::{mpsc, Mutex},
     task::JoinHandle,
@@ -42,16 +41,12 @@ pub struct OraclePriceManager {
 
 impl OraclePriceManager {
     pub fn new(
+        auth_key: String,
         whitelist: Arc<Whitelist>,
         vtxn_pool: VTxnPoolState,
         oracles_updated_events: EventNotificationListener,
         chain_id: ChainId,
     ) -> Self {
-        let auth_key = fs::read_to_string(ORACLE_AUTH_KEY_FILE)
-            .map_err(|e| anyhow::anyhow!("Failed to read auth key: {}", e))
-            .unwrap()
-            .trim()
-            .to_string();
 
         Self {
             whitelist,
