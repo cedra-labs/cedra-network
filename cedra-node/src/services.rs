@@ -18,7 +18,7 @@ use cedra_indexer_grpc_fullnode::runtime::bootstrap as bootstrap_indexer_grpc;
 use cedra_indexer_grpc_table_info::runtime::{
     bootstrap as bootstrap_indexer_table_info, bootstrap_internal_indexer_db,
 };
-use cedra_logger::{debug, telemetry_log_writer::TelemetryLog, LoggerFilterUpdater};
+use cedra_logger::{debug, warn, telemetry_log_writer::TelemetryLog, LoggerFilterUpdater};
 use cedra_mempool::{
     network::MempoolSyncMsg, MempoolClientRequest, MempoolClientSender, QuorumStoreRequest,
 };
@@ -41,6 +41,17 @@ use std::{sync::Arc, time::Instant};
 use tokio::{
     runtime::{Handle, Runtime},
     sync::watch::Receiver as WatchReceiver,
+};
+use ethers::prelude::Address;
+use cedra_sdk::types::account_address::AccountAddress;
+use crate::info;
+
+// new relayer imports
+use cedra_to_eth_relayer::{WithdrawRelayerConfig, run_with_config as run_cedra_to_eth};
+use eth_to_cedra_relayer::{
+    EthToCedraRelayerConfig,
+    run_with_config as run_eth_to_cedra,
+    SimpleMetadataResolver,
 };
 
 const AC_SMP_CHANNEL_BUFFER_SIZE: usize = 1_024;
@@ -297,4 +308,164 @@ pub fn start_telemetry_service(
         remote_log_rx,
         logger_filter_update_job,
     )
+}
+
+/// Starts the bridge relayers (cedra→eth and eth→cedra) if enabled in NodeConfig.
+/// Returns a runtime that hosts both tasks (or None if both disabled).
+pub fn start_bridge_relayers(node_config: &NodeConfig) -> Option<Runtime> {
+    let bridge_cfg = match &node_config.bridge_relayers {
+        Some(cfg) => {
+            info!("Bridge relayers config loaded: {cfg:?}");
+            cfg
+        }
+        None => {
+            info!("Bridge relayers config is None; no bridge runtimes started");
+            return None;
+        }
+    };
+
+    if bridge_cfg.cedra_to_eth.is_none() && bridge_cfg.eth_to_cedra.is_none() {
+        info!("Bridge relayers both None; nothing to start");
+        return None;
+    }
+
+    // Single runtime for both relayer tasks
+    let runtime = cedra_runtimes::spawn_named_runtime("bridge-rel".into(), None);
+
+    // --- Cedra -> Eth withdrawal relayer ---
+    if let Some(c2e) = &bridge_cfg.cedra_to_eth {
+        if c2e.enabled {
+            info!("Starting cedra_to_eth relayer...");
+            let eth_pk = c2e.eth_private_key.trim().to_string();
+            if eth_pk.is_empty() {
+                warn!("Bridge cedra_to_eth enabled but 'eth_private_key' is empty in config; not starting this relayer");
+            } else {
+                let eth_bridge_address: Address = match c2e.eth_bridge_address.parse() {
+                    Ok(addr) => addr,
+                    Err(e) => {
+                        warn!(
+                            "Invalid eth_bridge_address '{}' in cedra_to_eth config: {}",
+                            c2e.eth_bridge_address, e
+                        );
+                        return Some(runtime);
+                    }
+                };
+
+                let safe_address: Address = match c2e.safe_address.parse() {
+                    Ok(addr) => addr,
+                    Err(e) => {
+                        warn!(
+                            "Invalid safe_address '{}' in cedra_to_eth config: {}",
+                            c2e.safe_address, e
+                        );
+                        return Some(runtime);
+                    }
+                };
+
+                let cfg = WithdrawRelayerConfig {
+                    cedra_rest_url: c2e.cedra_rest_url.clone(),
+                    cedra_bridge_address: c2e.cedra_bridge_address.clone(),
+                    cedra_chain_id_on_eth: c2e.cedra_chain_id_on_eth,
+
+                    postgres_url: c2e.postgres_url.clone(),
+                    relayer_name: c2e.relayer_name.clone(),
+                    cedra_start_version: c2e.cedra_start_version,
+                    start_from_latest_if_empty: c2e.start_from_latest_if_empty,
+
+                    eth_rpc_url: c2e.eth_rpc_url.clone(),
+                    eth_bridge_address,
+                    eth_chain_id: c2e.eth_chain_id,
+                    poll_interval_ms: c2e.poll_interval_ms,
+                    eth_private_key: eth_pk,
+                    safe_address,
+                };
+                runtime.spawn(async move {
+                    if let Err(e) = run_cedra_to_eth(cfg).await {
+                        warn!("cedra_to_eth relayer task exited with error: {e:?}");
+                    }
+                });
+            }
+        }
+    }
+
+    // --- Eth -> Cedra deposit relayer ---
+    if let Some(e2c) = &bridge_cfg.eth_to_cedra {
+        if e2c.enabled {
+            info!("Starting eth_to_cedra relayer...");
+            let cedra_pk = e2c.cedra_private_key.trim().to_string();
+            if cedra_pk.is_empty() {
+                warn!("Bridge eth_to_cedra enabled but 'cedra_private_key' is empty in config; not starting this relayer");
+            } else {
+                let eth_bridge_address: Address = match e2c.eth_bridge_address.parse() {
+                    Ok(addr) => addr,
+                    Err(e) => {
+                        warn!(
+                            "Invalid eth_bridge_address '{}' in eth_to_cedra config: {}",
+                            e2c.eth_bridge_address, e
+                        );
+                        return Some(runtime);
+                    }
+                };
+
+                let cedra_account_address = match e2c.cedra_account_address.parse::<AccountAddress>()
+                {
+                    Ok(addr) => addr,
+                    Err(e) => {
+                        warn!(
+                            "Invalid cedra_account_address '{}' in eth_to_cedra config: {}",
+                            e2c.cedra_account_address, e
+                        );
+                        return Some(runtime);
+                    }
+                };
+
+                let cedra_bridge_module_address =
+                    match e2c.cedra_bridge_module_address.parse::<AccountAddress>() {
+                        Ok(addr) => addr,
+                        Err(e) => {
+                            warn!(
+                                "Invalid cedra_bridge_module_address '{}' in eth_to_cedra config: {}",
+                                e2c.cedra_bridge_module_address, e
+                            );
+                            return Some(runtime);
+                        }
+                    };
+
+                let cedra_multisig_address =
+                    match e2c.cedra_multisig_address.parse::<AccountAddress>() {
+                        Ok(addr) => addr,
+                        Err(e) => {
+                            warn!(
+                                "Invalid cedra_multisig_address '{}' in eth_to_cedra config: {}",
+                                e2c.cedra_multisig_address, e
+                            );
+                            return Some(runtime);
+                        }
+                    };
+
+                let cfg = EthToCedraRelayerConfig {
+                    eth_rpc_url: e2c.eth_rpc_url.clone(),
+                    eth_bridge_address,
+                    eth_start_block: e2c.eth_start_block,
+                    cedra_rest_url: e2c.cedra_rest_url.clone(),
+                    cedra_chain_id: e2c.cedra_chain_id,
+                    cedra_private_key: cedra_pk,
+                    cedra_account_address,
+                    cedra_bridge_module_address,
+                    cedra_multisig_address,
+                    cedra_gas_unit_price: e2c.cedra_gas_unit_price,
+                    cedra_max_gas: e2c.cedra_max_gas,
+                    metadata_resolver: Arc::new(SimpleMetadataResolver),
+                };
+
+                runtime.spawn(async move {
+                    if let Err(e) = run_eth_to_cedra(cfg).await {
+                        warn!("eth_to_cedra relayer task exited with error: {e:?}");
+                    }
+                });
+            }
+        }
+    }
+
+    Some(runtime)
 }

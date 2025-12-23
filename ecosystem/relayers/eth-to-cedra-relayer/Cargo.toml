@@ -1,0 +1,32 @@
+[package]
+name = "eth-to-cedra-relayer"
+edition = "2021"
+
+[lib]
+name = "eth_to_cedra_relayer"
+path = "src/lib.rs"
+
+[[bin]]
+name = "eth-to-cedra-relayer"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1", features=["macros","rt-multi-thread"] }
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+dotenvy = "0.15"
+
+# ETH
+ethers = { version = "2", features = ["abigen","ws","rustls"] }
+tokio-stream = "0.1"
+
+# Cedra SDK from your repo (no framework natives)
+cedra-sdk = { package = "cedra-sdk", path = "../../../sdk", default-features = false }
+
+# Needed because Cedra rest client takes Url
+url = "2"
+
+serde_json = "1"
+hex = "0.4"
+cedra-rest-client = { path = "../../../crates/cedra-rest-client" }
