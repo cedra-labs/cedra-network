@@ -809,36 +809,33 @@ impl CedraVM {
             let txn_max_gas_units = txn_data.max_gas_amount();
             let gas_used = u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
 
-            let values = session.execute_function_bypass_visibility(
+            let stablecoin_amount: u64 = match session.execute_function_bypass_visibility(
                 &PRICE_STORAGE_MODULE,
                 CALCULATE_FA_FEE,
                 vec![],
                 vec![
-                    MoveValue::U64(gas_used.into())
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::U64(storage_refund)
-                        .simple_serialize()
-                        .unwrap(),
-                    MoveValue::U64(txn_gas_price.into())
-                        .simple_serialize()
-                        .unwrap(),
-                    fa_address.as_move_value().simple_serialize()
-                        .unwrap(),
-                    ],
+                    MoveValue::U64(gas_used.into()).simple_serialize().unwrap(),
+                    MoveValue::U64(storage_refund).simple_serialize().unwrap(),
+                    MoveValue::U64(txn_gas_price.into()).simple_serialize().unwrap(),
+                    fa_address.as_move_value().simple_serialize().unwrap(),
+                ],
                 &mut unmetered_gas_meter,
                 traversal_context,
                 module_storage,
-                ).map_err(|err| anyhow!("Failed to execute function: {:?}", err)).unwrap()
-            .return_values
-            .into_iter()
-            .map(|(bytes, _ty)| bytes)
-            .collect::<Vec<_>>();
-
-            let stablecoin_amount: u64 = bcs::from_bytes(&values[0]).unwrap();
+            ) {
+                Ok(output) => {
+                    output
+                        .return_values
+                        .get(0)
+                        .and_then(|(bytes, _)| bcs::from_bytes::<u64>(bytes).ok())
+                        .unwrap_or(0)
+                }
+                Err(_) => 0,
+            };
 
            txn_data.with_stablecoin_amount(stablecoin_amount);
-}
+        }
+
             transaction_validation::run_success_epilogue(
                 session,
                 module_storage,
