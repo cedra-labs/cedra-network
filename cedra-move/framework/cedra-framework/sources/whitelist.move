@@ -2,6 +2,7 @@
 module cedra_framework::whitelist {
     use std::vector;
     use std::signer;
+    use cedra_framework::event::emit;
 
     use cedra_framework::stablecoin;
 
@@ -14,6 +15,7 @@ module cedra_framework::whitelist {
     // FungibleAssetRegistry already initialized
     const EALREADY_INITIALIZED: u64 = 3;
     const ENO_REGISTRY: u64 = 4;
+    const EASSET_EXISTS: u64 = 5; 
 
     /// Stores all assets that allowed in transaction commission
     struct FungibleAssetRegistry has key {
@@ -27,21 +29,54 @@ module cedra_framework::whitelist {
         symbol: vector<u8>
     }
 
-    /// Initialize an empty FungibleAssetRegistry
-    public entry fun init_registry(admin: &signer) {
-        let admin_address = signer::address_of(admin);
-        assert!(@admin == admin_address, EUNAUTHORIZED);
-
-        assert_registry_absent(@admin);
-
-        move_to(
-            admin,
-            FungibleAssetRegistry {
-                assets: vector::empty<FungibleAssetStruct>()
-            }
-        );
+    #[event]
+    struct AssetAddedEvent has copy, drop, store {
+        addr: address,
+        module_name: vector<u8>,
+        symbol: vector<u8>
     }
 
+    #[event]
+    struct AssetRemovedEvent has copy, drop, store {
+        addr: address,
+        module_name: vector<u8>,
+        symbol: vector<u8>
+    }
+
+public entry fun init_registry(admin: &signer) {
+    let admin_address = signer::address_of(admin);
+    assert!(@admin == admin_address, EUNAUTHORIZED);
+
+    assert_registry_absent(@admin);
+
+    let assets = vector::empty<FungibleAssetStruct>();
+
+    // Add default asset: 0x1::cedra_coin::CedraCoin
+    vector::push_back(
+        &mut assets,
+        FungibleAssetStruct {
+            addr: @0x1,
+            module_name: b"cedra_coin",
+            symbol: b"CedraCoin"
+        }
+    );
+
+    move_to(
+        admin,
+        FungibleAssetRegistry {
+            assets
+        }
+    );
+
+             emit(
+            AssetAddedEvent {
+             addr: @0x1,
+            module_name: b"cedra_coin",
+            symbol: b"CedraCoin"
+            }
+        );
+
+}
     // Add asset into FungibleAssetRegistry. Can be used only by admin
     public entry fun add_asset(
         admin: &signer,
@@ -62,10 +97,24 @@ module cedra_framework::whitelist {
             EASSET_NOT_FOUND
         );
 
+        assert!(
+            !asset_exists(asset_addr, module_name, symbol),
+            EASSET_EXISTS
+        );
+
         let registry = borrow_global_mut<FungibleAssetRegistry>(@admin);
+
         vector::push_back(
             &mut registry.assets,
             FungibleAssetStruct { addr: asset_addr, module_name, symbol }
+        );
+
+         emit(
+            AssetAddedEvent {
+                addr: asset_addr,
+                module_name,
+                symbol
+            }
         );
     }
 
@@ -87,6 +136,15 @@ module cedra_framework::whitelist {
         );
         if (exist) {
             vector::remove(&mut registry.assets, index);
+            
+
+           emit(
+                AssetRemovedEvent {
+                    addr: asset_addr,
+                    module_name,
+                    symbol
+                }
+            );
         } else {
             abort EASSET_NOT_FOUND
         }

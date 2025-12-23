@@ -468,9 +468,9 @@ impl CedraVM {
         storage_fee_refund: u64,
     ) -> CustomFeeStatement {
         let gas_used = Self::gas_used(txn_data.max_gas_amount(), gas_meter);
-        println!("{}", gas_used);
         CustomFeeStatement::new(
             gas_used,
+            txn_data.stablecoin_amount(),
             u64::from(gas_meter.execution_gas_used()),
             u64::from(gas_meter.io_gas_used()),
             u64::from(gas_meter.storage_fee_used()),
@@ -748,7 +748,6 @@ impl CedraVM {
                 serialized_signers,
                 gas_meter.balance(),
                 fee_statement,
-                custom_fee_statement,
                 self.features(),
                 txn_data,
                 log_context,
@@ -770,7 +769,7 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         serialized_signers: &SerializedSigners,
         gas_meter: &impl CedraGasMeter,
-        txn_data: &TransactionMetadata,
+        txn_data: &mut TransactionMetadata,
         log_context: &AdapterLogSchema,
         change_set_configs: &ChangeSetConfigs,
         traversal_context: &mut TraversalContext,
@@ -790,31 +789,62 @@ impl CedraVM {
             }
         }
 
-        let mut custom_fee_statement = CustomFeeStatement::zero();
-        let mut fee_statement = FeeStatement::zero();
+        let fee_statement = CedraVM::fee_statement_from_gas_meter(
+                txn_data,
+                gas_meter,
+                u64::from(epilogue_session.get_storage_fee_refund()),
+            );
 
-        if txn_data.use_fee_v2() {
-            custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
-                txn_data,
-                gas_meter,
-                u64::from(epilogue_session.get_storage_fee_refund()),
-            );
-        } else {
-            fee_statement = CedraVM::fee_statement_from_gas_meter(
-                txn_data,
-                gas_meter,
-                u64::from(epilogue_session.get_storage_fee_refund()),
-            );
-        }
+            let storage_refund = u64::from(epilogue_session.get_storage_fee_refund());
+
 
         epilogue_session.execute(|session| {
+
+        if txn_data.use_fee_v2() {
+                let mut unmetered_gas_meter = UnmeteredGasMeter;
+
+
+            let txn_gas_price = txn_data.gas_unit_price();
+            let fa_address = txn_data.fa_address();
+            let txn_max_gas_units = txn_data.max_gas_amount();
+            let gas_used = u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
+
+            let values = session.execute_function_bypass_visibility(
+                &PRICE_STORAGE_MODULE,
+                CALCULATE_FA_FEE,
+                vec![],
+                vec![
+                    MoveValue::U64(gas_used.into())
+                        .simple_serialize()
+                        .unwrap(),
+                    MoveValue::U64(storage_refund)
+                        .simple_serialize()
+                        .unwrap(),
+                    MoveValue::U64(txn_gas_price.into())
+                        .simple_serialize()
+                        .unwrap(),
+                    fa_address.as_move_value().simple_serialize()
+                        .unwrap(),
+                    ],
+                &mut unmetered_gas_meter,
+                traversal_context,
+                module_storage,
+                ).map_err(|err| anyhow!("Failed to execute function: {:?}", err)).unwrap()
+            .return_values
+            .into_iter()
+            .map(|(bytes, _ty)| bytes)
+            .collect::<Vec<_>>();
+
+            let stablecoin_amount: u64 = bcs::from_bytes(&values[0]).unwrap();
+
+           txn_data.with_stablecoin_amount(stablecoin_amount);
+}
             transaction_validation::run_success_epilogue(
                 session,
                 module_storage,
                 serialized_signers,
                 gas_meter.balance(),
                 fee_statement,
-                custom_fee_statement,
                 self.features(),
                 txn_data,
                 log_context,
@@ -822,6 +852,17 @@ impl CedraVM {
                 self.is_simulation,
             )
         })?;
+
+        let mut custom_fee_statement = CustomFeeStatement::zero();
+ if txn_data.use_fee_v2() {
+        custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+                txn_data,
+                gas_meter,
+                u64::from(epilogue_session.get_storage_fee_refund()),
+            );
+
+
+            }
 
         let output = epilogue_session.finish(
             if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement },
@@ -1000,7 +1041,7 @@ impl CedraVM {
         serialized_signers: &SerializedSigners,
         gas_meter: &mut impl CedraGasMeter,
         traversal_context: &mut TraversalContext<'a>,
-        txn_data: &TransactionMetadata,
+        txn_data: &mut TransactionMetadata,
         executable: TransactionExecutableRef<'a>, // TODO[Orderless]: Check what's the right lifetime to use here.
         log_context: &AdapterLogSchema,
         change_set_configs: &ChangeSetConfigs,
@@ -1152,7 +1193,7 @@ impl CedraVM {
         prologue_session_change_set: &SystemSessionChangeSet,
         gas_meter: &mut impl CedraGasMeter,
         traversal_context: &mut TraversalContext,
-        txn_data: &TransactionMetadata,
+        txn_data: &mut TransactionMetadata,
         executable: TransactionExecutableRef,
         multisig_address: AccountAddress,
         log_context: &AdapterLogSchema,
@@ -1843,7 +1884,7 @@ impl CedraVM {
         resolver: &impl CedraMoveResolver,
         code_storage: &impl CedraCodeStorage,
         txn: &SignedTransaction,
-        txn_data: TransactionMetadata,
+        txn_data: &mut TransactionMetadata,
         is_approved_gov_script: bool,
         log_context: &AdapterLogSchema,
         gas_meter: &mut impl CedraGasMeter,
@@ -1861,7 +1902,7 @@ impl CedraVM {
                 session,
                 code_storage,
                 txn,
-                &txn_data,
+                txn_data,
                 log_context,
                 is_approved_gov_script,
                 &mut traversal_context,
@@ -1930,7 +1971,7 @@ impl CedraVM {
                 &prologue_change_set,
                 gas_meter,
                 &mut traversal_context,
-                &txn_data,
+                txn_data,
                 executable,
                 multisig_address,
                 log_context,
@@ -1944,7 +1985,7 @@ impl CedraVM {
                 &serialized_signers,
                 gas_meter,
                 &mut traversal_context,
-                &txn_data,
+                txn_data,
                 executable,
                 log_context,
                 change_set_configs,
@@ -1977,6 +2018,7 @@ impl CedraVM {
 
     /// Main entrypoint for executing a user transaction that also allows the customization of the
     /// gas meter to be used.
+    /// With new oracle feature
     pub fn execute_user_transaction_with_custom_gas_meter<'a, C, G, F>(
         &self,
         resolver: &'a impl CedraMoveResolver,
@@ -1990,7 +2032,7 @@ impl CedraVM {
         G: CedraGasMeter,
         F: FnOnce(u64, VMGasParameters, StorageGasParameters, bool, Gas, &'a C) -> G,
     {
-        let txn_metadata = TransactionMetadata::new(txn);
+        let mut txn_metadata = TransactionMetadata::new(txn);
 
         let is_approved_gov_script = is_approved_gov_script(resolver, txn, &txn_metadata);
 
@@ -2017,7 +2059,7 @@ impl CedraVM {
             resolver,
             code_storage,
             txn,
-            txn_metadata,
+            &mut txn_metadata,
             is_approved_gov_script,
             log_context,
             &mut gas_meter,
