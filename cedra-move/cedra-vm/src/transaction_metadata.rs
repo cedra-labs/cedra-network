@@ -38,6 +38,7 @@ pub struct TransactionMetadata {
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
     pub fa_address: TypeTag,
+    pub stablecoin_amount: u64,
 }
 
 impl TransactionMetadata {
@@ -111,11 +112,24 @@ impl TransactionMetadata {
                 _ => None,
             },
             fa_address: txn.get_fa_address(),
+            stablecoin_amount: 0,
         }
+    }
+
+    pub fn with_stablecoin_amount(&mut self, amount: u64) {
+        self.stablecoin_amount = amount;
     }
 
     pub fn max_gas_amount(&self) -> Gas {
         self.max_gas_amount
+    }
+
+    pub fn stablecoin_amount(&self) -> u64 {
+        self.stablecoin_amount
+    }
+   
+    pub fn fa_address(&self) -> String {
+        self.fa_address.to_string()
     }
 
     pub fn gas_unit_price(&self) -> FeePerGasUnit {
