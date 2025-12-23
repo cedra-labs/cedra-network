@@ -6,8 +6,7 @@ use std::{result::Result::Ok, sync::Arc};
 use url::Url;
 use serde_json::json;
 
-// Cedra / Aptos SDK
-use aptos_sdk::{
+use cedra_sdk::{
     bcs,
     crypto::{ed25519::Ed25519PrivateKey, ValidCryptoMaterialStringExt},
     move_types::{ident_str, language_storage::ModuleId},
@@ -21,7 +20,7 @@ use aptos_sdk::{
 };
 
 use cedra_rest_client::{
-    Client as AptosClient,
+    Client as CedraClient,
     cedra_api_types::{ViewRequest, EntryFunctionId},
     Transaction as CedraTransaction,
 };
@@ -301,7 +300,7 @@ pub async fn run_with_config(cfg: EthToCedraRelayerConfig) -> Result<()> {
     // =============== Cedra side ===============
     let cedra_url = Url::parse(&cfg.cedra_rest_url)?;
     let chain_id = ChainId::new(cfg.cedra_chain_id);
-    let client = AptosClient::new(cedra_url);
+    let client = CedraClient::new(cedra_url);
 
     // parse private key
     let mut priv_hex = cfg.cedra_private_key.clone();
@@ -398,7 +397,7 @@ pub async fn run_with_config(cfg: EthToCedraRelayerConfig) -> Result<()> {
 /// -------------
 
 async fn view_u64(
-    client: &AptosClient,
+    client: &CedraClient,
     function: &str,
     args: Vec<serde_json::Value>,
 ) -> Result<u64> {
@@ -413,7 +412,6 @@ async fn view_u64(
         .get(0)
         .ok_or_else(|| anyhow!("empty view result for {function}"))?;
 
-    // Aptos API usually returns numbers as strings, e.g. "42"
     let s = v
         .as_str()
         .ok_or_else(|| anyhow!("expected string result for {function}, got {v:?}"))?;
@@ -423,11 +421,6 @@ async fn view_u64(
 
 /// Fetch a single MultisigTransaction via view.
 /// We only care about the raw payload bytes and the sequence number.
-///
-/// NOTE: you may need to adjust this depending on how your `aptos_api_types`
-/// deserializes structs. The idea is:
-///   let res = view("...::get_transaction", [multisig, seq]);
-///   res[0] is an object with fields { payload: "0x...", payload_hash: "0x..." | null, ... }.
 #[derive(Debug, Clone)]
 struct OnchainMultisigTx {
     pub sequence_number: u64,
@@ -436,7 +429,7 @@ struct OnchainMultisigTx {
 }
 
 async fn view_multisig_transaction(
-    client: &AptosClient,
+    client: &CedraClient,
     multisig: AccountAddress,
     sequence_number: u64,
 ) -> Result<OnchainMultisigTx> {
@@ -477,7 +470,7 @@ async fn view_multisig_transaction(
 /// Check this owner’s vote (if any) on a given tx.
 /// Returns (voted?, approved?).
 async fn view_vote_for_owner(
-    client: &AptosClient,
+    client: &CedraClient,
     multisig: AccountAddress,
     sequence_number: u64,
     owner: AccountAddress,
@@ -539,7 +532,7 @@ async fn view_vote_for_owner(
 
 /// View helper: can *this owner* execute (may imply implicit approval)?
 async fn view_can_execute(
-    client: &AptosClient,
+    client: &CedraClient,
     multisig: AccountAddress,
     sequence_number: u64,
     owner: AccountAddress,
@@ -573,7 +566,7 @@ fn to_msig_payload_bytes(inner: &TransactionPayload) -> Result<Vec<u8>> {
 
 /// Returns (sequence_number, created_new?)
 async fn find_or_create_multisig_tx(
-    client: &AptosClient,
+    client: &CedraClient,
     tf: &TransactionFactory,
     owner: &mut LocalAccount,
     multisig: AccountAddress,
@@ -643,7 +636,7 @@ async fn find_or_create_multisig_tx(
 }
 
 async fn ensure_approval_for_owner(
-    client: &AptosClient,
+    client: &CedraClient,
     tf: &TransactionFactory,
     owner: &mut LocalAccount,
     multisig: AccountAddress,
@@ -718,7 +711,7 @@ async fn ensure_approval_for_owner(
 }
 
 async fn try_execute_multisig_tx(
-    client: &AptosClient,
+    client: &CedraClient,
     tf: &TransactionFactory,
     owner: &mut LocalAccount,
     multisig: AccountAddress,
@@ -810,7 +803,7 @@ async fn try_execute_multisig_tx(
 }
 
 async fn handle_via_multisig(
-    client: &AptosClient,
+    client: &CedraClient,
     owner: &mut LocalAccount,
     tf: &TransactionFactory,
     multisig: AccountAddress,
