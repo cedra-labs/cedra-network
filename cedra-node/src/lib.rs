@@ -213,7 +213,6 @@ pub struct CedraHandle {
     _state_sync_runtimes: StateSyncRuntimes,
     _telemetry_runtime: Option<Runtime>,
     _indexer_db_runtime: Option<Runtime>,
-    _bridge_relayers_runtime: Option<Runtime>,
 }
 
 pub fn start(
@@ -846,9 +845,6 @@ pub fn setup_environment_and_start_node(
         &mut admin_service,
     );
 
-    // Start bridge relayers (if configured)
-    let bridge_relayers_runtime = services::start_bridge_relayers(&node_config);
-
     Ok(CedraHandle {
         _admin_service: admin_service,
         _api_runtime: api_runtime,
@@ -867,7 +863,6 @@ pub fn setup_environment_and_start_node(
         _state_sync_runtimes: state_sync_runtimes,
         _telemetry_runtime: telemetry_runtime,
         _indexer_db_runtime: internal_indexer_db_runtime,
-        _bridge_relayers_runtime: bridge_relayers_runtime,
     })
 }
 

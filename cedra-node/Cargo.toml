@@ -80,11 +80,6 @@ serde_yaml = { workspace = true }
 tokio = { workspace = true }
 ureq = { workspace = true }
 url = { workspace = true }
-ethers = { version = "2", features = ["abigen", "rustls"] }
-cedra-to-eth-relayer = { path = "../ecosystem/relayers/cedra-to-eth-relayer" }
-eth-to-cedra-relayer = { path = "../ecosystem/relayers/eth-to-cedra-relayer" }
-
-aptos-sdk = { package = "cedra-sdk", path = "../sdk", default-features = false }
 
 [target.'cfg(unix)'.dependencies]
 jemallocator = { version = "0.5.0", features = [
