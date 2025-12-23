@@ -37,6 +37,22 @@ module cedra_framework::price_storage {
     #[event]
     struct PriceRemoved has drop, store { fa_address: String }
 
+    // localnet init_module
+    fun init_module(cedra_framework: &signer) {
+        system_addresses::assert_cedra_framework(cedra_framework);
+        assert!(
+            !exists<PriceStorage>(@cedra_framework),
+            EPRICE_ALREADY_EXISTS
+        );
+
+        move_to(
+            cedra_framework,
+            PriceStorage {
+                prices: table::new<String, PriceInfo>(),
+            }
+        );
+    }
+
     public entry fun init_price_storage(cedra_framework: &signer) {
         system_addresses::assert_cedra_framework(cedra_framework);
 

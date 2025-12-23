@@ -472,6 +472,9 @@ fn run_epilogue(
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
             let stablecoin_amount = txn_data.stablecoin_amount();
+            if stablecoin_amount == 0 {
+                eprintln!("Can't calculate stablecoin_amount, check if stablecoin in whitelist & price_storage")
+            } else {
 
             let mut serialize_args = vec![
                 serialized_signers.sender(),
@@ -511,6 +514,7 @@ fn run_epilogue(
                     println!("unified_epilogue_fee failed: {:?}", e);
                     e
                 })?;
+            }
         } else {
             return Err(VMError::from(code_invariant_error(
                 "fa_address missing or not a Struct",
