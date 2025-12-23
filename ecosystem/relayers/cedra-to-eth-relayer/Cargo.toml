@@ -1,0 +1,31 @@
+[package]
+name = "cedra-to-eth-relayer"
+edition = "2021"
+
+[lib]
+name = "cedra_to_eth_relayer"
+path = "src/lib.rs"
+
+[[bin]]
+name = "cedra-to-eth-relayer"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+tokio = { version = "1", features = ["full"] }
+ethers = { version = "2", features = ["abigen", "rustls"] }
+dotenvy = "0.15"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+
+
+# Cedra SDK from your repo (no framework natives)
+aptos-sdk = { package = "cedra-sdk", path = "../../../sdk", default-features = false }
+
+# Needed because Cedra rest client takes Url
+url = "2"
+
+tokio-postgres = "0.7"

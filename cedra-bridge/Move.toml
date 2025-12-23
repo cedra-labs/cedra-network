@@ -1,0 +1,10 @@
+[package]
+name = "CedraBridgeDev"
+version = "0.0.1"
+
+[addresses]
+cedra_framework = "0x1"
+bridge = "0x5c2ab5f1a3d4227ff50e27f27f753053cb9b065a34dc0544c89ff19970ebd24f"
+
+[dependencies]
+CedraFramework = { local = "../cedra-move/framework/cedra-framework" } 
