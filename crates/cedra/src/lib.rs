@@ -4,7 +4,6 @@
 #![deny(unsafe_code)]
 
 pub mod account;
-pub mod bridge;
 pub mod common;
 pub mod config;
 pub mod genesis;
@@ -22,8 +21,8 @@ use crate::common::{
     types::{CliCommand, CliResult, CliTypedResult},
     utils::cli_build_information,
 };
-use async_trait::async_trait;
 use cedra_workspace_server::WorkspaceCommand;
+use async_trait::async_trait;
 use clap::Parser;
 use std::collections::BTreeMap;
 
@@ -52,8 +51,6 @@ pub enum Tool {
     #[clap(subcommand)]
     Stake(stake::StakeTool),
     #[clap(subcommand)]
-    Bridge(bridge::BridgeTool),
-    #[clap(subcommand)]
     Update(update::UpdateTool),
     #[clap(subcommand, hide(true))]
     Workspace(WorkspaceCommand),
@@ -75,7 +72,6 @@ impl Tool {
             Multisig(tool) => tool.execute().await,
             Node(tool) => tool.execute().await,
             Stake(tool) => tool.execute().await,
-            Bridge(tool) => tool.execute().await,
             Update(tool) => tool.execute().await,
             Workspace(workspace) => workspace.execute_serialized_without_logger().await,
         }
