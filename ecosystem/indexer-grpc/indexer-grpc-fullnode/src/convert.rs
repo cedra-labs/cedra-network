@@ -994,8 +994,36 @@ fn convert_validator_transaction(
                     )
                 )
             },
-                      cedra_api_types::transaction::ValidatorTransaction::AddPrice(_) => todo!(),
-                      cedra_api_types::transaction::ValidatorTransaction::RemovePrice(_) => todo!(),
+        ApiValidatorTransactionEnum::AddPrice(p) => {
+            Some(
+                validator_transaction::ValidatorTransactionType::AddPrice(
+                    validator_transaction::AddPrice {
+                        price_info: p
+                             .price_info
+                            .iter()
+                            .map(|price| {
+                                validator_transaction::add_price::PriceInfo {
+                                    fa_address: price.fa_address.clone(),
+                                    price: price.price,
+                                    decimals: price.decimals as u32,
+                                }
+                            })
+                            .collect(),
+                    },
+                ),
+            )
+        },
+            ApiValidatorTransactionEnum::RemovePrice(price_update) => {
+                Some(
+                    validator_transaction::ValidatorTransactionType::RemovePrice(
+                        validator_transaction::RemovePrice {
+                            fa_address:  price_update.fa_address.clone(),
+                        },
+                    )
+                )
+            },
+
+
         },
         events: convert_events(api_validator_txn.events()),
     })

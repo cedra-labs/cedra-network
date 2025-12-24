@@ -86,32 +86,32 @@ impl<'de> serde::Deserialize<'de> for ApiFilter {
                 formatter.write_str("struct cedra.indexer.v1.APIFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<ApiFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<ApiFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut filter__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::TransactionRootFilter => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("transactionRootFilter"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(api_filter::Filter::TransactionRootFilter)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(api_filter::Filter::TransactionRootFilter)
 ;
                         }
                         GeneratedField::UserTransactionFilter => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("userTransactionFilter"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(api_filter::Filter::UserTransactionFilter)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(api_filter::Filter::UserTransactionFilter)
 ;
                         }
                         GeneratedField::EventFilter => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("eventFilter"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(api_filter::Filter::EventFilter)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(api_filter::Filter::EventFilter)
 ;
                         }
                     }
@@ -155,13 +155,9 @@ impl serde::Serialize for ActiveStream {
             struct_ser.serialize_field("startTime", v)?;
         }
         if self.start_version != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("startVersion", ToString::to_string(&self.start_version).as_str())?;
         }
         if let Some(v) = self.end_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("endVersion", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.progress.as_ref() {
@@ -235,7 +231,7 @@ impl<'de> serde::Deserialize<'de> for ActiveStream {
                 formatter.write_str("struct cedra.indexer.v1.ActiveStream")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<ActiveStream, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<ActiveStream, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -244,26 +240,26 @@ impl<'de> serde::Deserialize<'de> for ActiveStream {
                 let mut start_version__ = None;
                 let mut end_version__ = None;
                 let mut progress__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Id => {
                             if id__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("id"));
                             }
-                            id__ = Some(map_.next_value()?);
+                            id__ = Some(map.next_value()?);
                         }
                         GeneratedField::StartTime => {
                             if start_time__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("startTime"));
                             }
-                            start_time__ = map_.next_value()?;
+                            start_time__ = map.next_value()?;
                         }
                         GeneratedField::StartVersion => {
                             if start_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("startVersion"));
                             }
                             start_version__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::EndVersion => {
@@ -271,14 +267,14 @@ impl<'de> serde::Deserialize<'de> for ActiveStream {
                                 return Err(serde::de::Error::duplicate_field("endVersion"));
                             }
                             end_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::Progress => {
                             if progress__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("progress"));
                             }
-                            progress__ = map_.next_value()?;
+                            progress__ = map.next_value()?;
                         }
                     }
                 }
@@ -388,39 +384,39 @@ impl<'de> serde::Deserialize<'de> for BooleanTransactionFilter {
                 formatter.write_str("struct cedra.indexer.v1.BooleanTransactionFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<BooleanTransactionFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<BooleanTransactionFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut filter__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ApiFilter => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("apiFilter"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::ApiFilter)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::ApiFilter)
 ;
                         }
                         GeneratedField::LogicalAnd => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("logicalAnd"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::LogicalAnd)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::LogicalAnd)
 ;
                         }
                         GeneratedField::LogicalOr => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("logicalOr"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::LogicalOr)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::LogicalOr)
 ;
                         }
                         GeneratedField::LogicalNot => {
                             if filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("logicalNot"));
                             }
-                            filter__ = map_.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::LogicalNot)
+                            filter__ = map.next_value::<::std::option::Option<_>>()?.map(boolean_transaction_filter::Filter::LogicalNot)
 ;
                         }
                     }
@@ -520,32 +516,32 @@ impl<'de> serde::Deserialize<'de> for EntryFunctionFilter {
                 formatter.write_str("struct cedra.indexer.v1.EntryFunctionFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<EntryFunctionFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<EntryFunctionFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut address__ = None;
                 let mut module_name__ = None;
                 let mut function__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Address => {
                             if address__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("address"));
                             }
-                            address__ = map_.next_value()?;
+                            address__ = map.next_value()?;
                         }
                         GeneratedField::ModuleName => {
                             if module_name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("moduleName"));
                             }
-                            module_name__ = map_.next_value()?;
+                            module_name__ = map.next_value()?;
                         }
                         GeneratedField::Function => {
                             if function__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("function"));
                             }
-                            function__ = map_.next_value()?;
+                            function__ = map.next_value()?;
                         }
                     }
                 }
@@ -638,25 +634,25 @@ impl<'de> serde::Deserialize<'de> for EventFilter {
                 formatter.write_str("struct cedra.indexer.v1.EventFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<EventFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<EventFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut struct_type__ = None;
                 let mut data_substring_filter__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::StructType => {
                             if struct_type__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("structType"));
                             }
-                            struct_type__ = map_.next_value()?;
+                            struct_type__ = map.next_value()?;
                         }
                         GeneratedField::DataSubstringFilter => {
                             if data_substring_filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("dataSubstringFilter"));
                             }
-                            data_substring_filter__ = map_.next_value()?;
+                            data_substring_filter__ = map.next_value()?;
                         }
                     }
                 }
@@ -688,16 +684,12 @@ impl serde::Serialize for FullnodeInfo {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.FullnodeInfo", len)?;
         if self.chain_id != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("chainId", ToString::to_string(&self.chain_id).as_str())?;
         }
         if let Some(v) = self.timestamp.as_ref() {
             struct_ser.serialize_field("timestamp", v)?;
         }
         if let Some(v) = self.known_latest_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("knownLatestVersion", ToString::to_string(&v).as_str())?;
         }
         struct_ser.end()
@@ -761,35 +753,35 @@ impl<'de> serde::Deserialize<'de> for FullnodeInfo {
                 formatter.write_str("struct cedra.indexer.v1.FullnodeInfo")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<FullnodeInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<FullnodeInfo, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut chain_id__ = None;
                 let mut timestamp__ = None;
                 let mut known_latest_version__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ChainId => {
                             if chain_id__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("chainId"));
                             }
                             chain_id__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::Timestamp => {
                             if timestamp__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("timestamp"));
                             }
-                            timestamp__ = map_.next_value()?;
+                            timestamp__ = map.next_value()?;
                         }
                         GeneratedField::KnownLatestVersion => {
                             if known_latest_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("knownLatestVersion"));
                             }
                             known_latest_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                     }
@@ -873,18 +865,18 @@ impl<'de> serde::Deserialize<'de> for GetDataServiceForRequestRequest {
                 formatter.write_str("struct cedra.indexer.v1.GetDataServiceForRequestRequest")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<GetDataServiceForRequestRequest, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<GetDataServiceForRequestRequest, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut user_request__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::UserRequest => {
                             if user_request__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("userRequest"));
                             }
-                            user_request__ = map_.next_value()?;
+                            user_request__ = map.next_value()?;
                         }
                     }
                 }
@@ -965,18 +957,18 @@ impl<'de> serde::Deserialize<'de> for GetDataServiceForRequestResponse {
                 formatter.write_str("struct cedra.indexer.v1.GetDataServiceForRequestResponse")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<GetDataServiceForRequestResponse, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<GetDataServiceForRequestResponse, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut data_service_address__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::DataServiceAddress => {
                             if data_service_address__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("dataServiceAddress"));
                             }
-                            data_service_address__ = Some(map_.next_value()?);
+                            data_service_address__ = Some(map.next_value()?);
                         }
                     }
                 }
@@ -1010,18 +1002,12 @@ impl serde::Serialize for GetTransactionsRequest {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.GetTransactionsRequest", len)?;
         if let Some(v) = self.starting_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("startingVersion", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.transactions_count.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("transactionsCount", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.batch_size.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("batchSize", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.transaction_filter.as_ref() {
@@ -1093,7 +1079,7 @@ impl<'de> serde::Deserialize<'de> for GetTransactionsRequest {
                 formatter.write_str("struct cedra.indexer.v1.GetTransactionsRequest")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<GetTransactionsRequest, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<GetTransactionsRequest, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -1101,14 +1087,14 @@ impl<'de> serde::Deserialize<'de> for GetTransactionsRequest {
                 let mut transactions_count__ = None;
                 let mut batch_size__ = None;
                 let mut transaction_filter__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::StartingVersion => {
                             if starting_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("startingVersion"));
                             }
                             starting_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::TransactionsCount => {
@@ -1116,7 +1102,7 @@ impl<'de> serde::Deserialize<'de> for GetTransactionsRequest {
                                 return Err(serde::de::Error::duplicate_field("transactionsCount"));
                             }
                             transactions_count__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::BatchSize => {
@@ -1124,14 +1110,14 @@ impl<'de> serde::Deserialize<'de> for GetTransactionsRequest {
                                 return Err(serde::de::Error::duplicate_field("batchSize"));
                             }
                             batch_size__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::TransactionFilter => {
                             if transaction_filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("transactionFilter"));
                             }
-                            transaction_filter__ = map_.next_value()?;
+                            transaction_filter__ = map.next_value()?;
                         }
                     }
                 }
@@ -1168,16 +1154,12 @@ impl serde::Serialize for GrpcManagerInfo {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.GrpcManagerInfo", len)?;
         if self.chain_id != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("chainId", ToString::to_string(&self.chain_id).as_str())?;
         }
         if let Some(v) = self.timestamp.as_ref() {
             struct_ser.serialize_field("timestamp", v)?;
         }
         if let Some(v) = self.known_latest_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("knownLatestVersion", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.master_address.as_ref() {
@@ -1248,7 +1230,7 @@ impl<'de> serde::Deserialize<'de> for GrpcManagerInfo {
                 formatter.write_str("struct cedra.indexer.v1.GrpcManagerInfo")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<GrpcManagerInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<GrpcManagerInfo, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -1256,35 +1238,35 @@ impl<'de> serde::Deserialize<'de> for GrpcManagerInfo {
                 let mut timestamp__ = None;
                 let mut known_latest_version__ = None;
                 let mut master_address__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ChainId => {
                             if chain_id__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("chainId"));
                             }
                             chain_id__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::Timestamp => {
                             if timestamp__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("timestamp"));
                             }
-                            timestamp__ = map_.next_value()?;
+                            timestamp__ = map.next_value()?;
                         }
                         GeneratedField::KnownLatestVersion => {
                             if known_latest_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("knownLatestVersion"));
                             }
                             known_latest_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::MasterAddress => {
                             if master_address__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("masterAddress"));
                             }
-                            master_address__ = map_.next_value()?;
+                            master_address__ = map.next_value()?;
                         }
                     }
                 }
@@ -1368,18 +1350,18 @@ impl<'de> serde::Deserialize<'de> for HeartbeatRequest {
                 formatter.write_str("struct cedra.indexer.v1.HeartbeatRequest")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<HeartbeatRequest, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<HeartbeatRequest, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut service_info__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ServiceInfo => {
                             if service_info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("serviceInfo"));
                             }
-                            service_info__ = map_.next_value()?;
+                            service_info__ = map.next_value()?;
                         }
                     }
                 }
@@ -1404,8 +1386,6 @@ impl serde::Serialize for HeartbeatResponse {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.HeartbeatResponse", len)?;
         if let Some(v) = self.known_latest_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("knownLatestVersion", ToString::to_string(&v).as_str())?;
         }
         struct_ser.end()
@@ -1462,19 +1442,19 @@ impl<'de> serde::Deserialize<'de> for HeartbeatResponse {
                 formatter.write_str("struct cedra.indexer.v1.HeartbeatResponse")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<HeartbeatResponse, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<HeartbeatResponse, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut known_latest_version__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::KnownLatestVersion => {
                             if known_latest_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("knownLatestVersion"));
                             }
                             known_latest_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                     }
@@ -1509,16 +1489,12 @@ impl serde::Serialize for HistoricalDataServiceInfo {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.HistoricalDataServiceInfo", len)?;
         if self.chain_id != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("chainId", ToString::to_string(&self.chain_id).as_str())?;
         }
         if let Some(v) = self.timestamp.as_ref() {
             struct_ser.serialize_field("timestamp", v)?;
         }
         if let Some(v) = self.known_latest_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("knownLatestVersion", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.stream_info.as_ref() {
@@ -1589,7 +1565,7 @@ impl<'de> serde::Deserialize<'de> for HistoricalDataServiceInfo {
                 formatter.write_str("struct cedra.indexer.v1.HistoricalDataServiceInfo")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<HistoricalDataServiceInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<HistoricalDataServiceInfo, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -1597,35 +1573,35 @@ impl<'de> serde::Deserialize<'de> for HistoricalDataServiceInfo {
                 let mut timestamp__ = None;
                 let mut known_latest_version__ = None;
                 let mut stream_info__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ChainId => {
                             if chain_id__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("chainId"));
                             }
                             chain_id__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::Timestamp => {
                             if timestamp__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("timestamp"));
                             }
-                            timestamp__ = map_.next_value()?;
+                            timestamp__ = map.next_value()?;
                         }
                         GeneratedField::KnownLatestVersion => {
                             if known_latest_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("knownLatestVersion"));
                             }
                             known_latest_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::StreamInfo => {
                             if stream_info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("streamInfo"));
                             }
-                            stream_info__ = map_.next_value()?;
+                            stream_info__ = map.next_value()?;
                         }
                     }
                 }
@@ -1665,24 +1641,18 @@ impl serde::Serialize for LiveDataServiceInfo {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.LiveDataServiceInfo", len)?;
         if self.chain_id != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("chainId", ToString::to_string(&self.chain_id).as_str())?;
         }
         if let Some(v) = self.timestamp.as_ref() {
             struct_ser.serialize_field("timestamp", v)?;
         }
         if let Some(v) = self.known_latest_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("knownLatestVersion", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.stream_info.as_ref() {
             struct_ser.serialize_field("streamInfo", v)?;
         }
         if let Some(v) = self.min_servable_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("minServableVersion", ToString::to_string(&v).as_str())?;
         }
         struct_ser.end()
@@ -1754,7 +1724,7 @@ impl<'de> serde::Deserialize<'de> for LiveDataServiceInfo {
                 formatter.write_str("struct cedra.indexer.v1.LiveDataServiceInfo")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<LiveDataServiceInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<LiveDataServiceInfo, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
@@ -1763,42 +1733,42 @@ impl<'de> serde::Deserialize<'de> for LiveDataServiceInfo {
                 let mut known_latest_version__ = None;
                 let mut stream_info__ = None;
                 let mut min_servable_version__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ChainId => {
                             if chain_id__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("chainId"));
                             }
                             chain_id__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::Timestamp => {
                             if timestamp__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("timestamp"));
                             }
-                            timestamp__ = map_.next_value()?;
+                            timestamp__ = map.next_value()?;
                         }
                         GeneratedField::KnownLatestVersion => {
                             if known_latest_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("knownLatestVersion"));
                             }
                             known_latest_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::StreamInfo => {
                             if stream_info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("streamInfo"));
                             }
-                            stream_info__ = map_.next_value()?;
+                            stream_info__ = map.next_value()?;
                         }
                         GeneratedField::MinServableVersion => {
                             if min_servable_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("minServableVersion"));
                             }
                             min_servable_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                     }
@@ -1883,18 +1853,18 @@ impl<'de> serde::Deserialize<'de> for LogicalAndFilters {
                 formatter.write_str("struct cedra.indexer.v1.LogicalAndFilters")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<LogicalAndFilters, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<LogicalAndFilters, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut filters__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Filters => {
                             if filters__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("filters"));
                             }
-                            filters__ = Some(map_.next_value()?);
+                            filters__ = Some(map.next_value()?);
                         }
                     }
                 }
@@ -1974,18 +1944,18 @@ impl<'de> serde::Deserialize<'de> for LogicalOrFilters {
                 formatter.write_str("struct cedra.indexer.v1.LogicalOrFilters")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<LogicalOrFilters, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<LogicalOrFilters, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut filters__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Filters => {
                             if filters__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("filters"));
                             }
-                            filters__ = Some(map_.next_value()?);
+                            filters__ = Some(map.next_value()?);
                         }
                     }
                 }
@@ -2083,32 +2053,32 @@ impl<'de> serde::Deserialize<'de> for MoveStructTagFilter {
                 formatter.write_str("struct cedra.indexer.v1.MoveStructTagFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<MoveStructTagFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<MoveStructTagFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut address__ = None;
                 let mut module__ = None;
                 let mut name__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Address => {
                             if address__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("address"));
                             }
-                            address__ = map_.next_value()?;
+                            address__ = map.next_value()?;
                         }
                         GeneratedField::Module => {
                             if module__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("module"));
                             }
-                            module__ = map_.next_value()?;
+                            module__ = map.next_value()?;
                         }
                         GeneratedField::Name => {
                             if name__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("name"));
                             }
-                            name__ = map_.next_value()?;
+                            name__ = map.next_value()?;
                         }
                     }
                 }
@@ -2138,8 +2108,6 @@ impl serde::Serialize for PingDataServiceRequest {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.PingDataServiceRequest", len)?;
         if let Some(v) = self.known_latest_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("knownLatestVersion", ToString::to_string(&v).as_str())?;
         }
         if self.ping_live_data_service {
@@ -2203,27 +2171,27 @@ impl<'de> serde::Deserialize<'de> for PingDataServiceRequest {
                 formatter.write_str("struct cedra.indexer.v1.PingDataServiceRequest")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<PingDataServiceRequest, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<PingDataServiceRequest, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut known_latest_version__ = None;
                 let mut ping_live_data_service__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::KnownLatestVersion => {
                             if known_latest_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("knownLatestVersion"));
                             }
                             known_latest_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::PingLiveDataService => {
                             if ping_live_data_service__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("pingLiveDataService"));
                             }
-                            ping_live_data_service__ = Some(map_.next_value()?);
+                            ping_live_data_service__ = Some(map.next_value()?);
                         }
                     }
                 }
@@ -2316,25 +2284,25 @@ impl<'de> serde::Deserialize<'de> for PingDataServiceResponse {
                 formatter.write_str("struct cedra.indexer.v1.PingDataServiceResponse")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<PingDataServiceResponse, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<PingDataServiceResponse, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut info__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::LiveDataServiceInfo => {
                             if info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("liveDataServiceInfo"));
                             }
-                            info__ = map_.next_value::<::std::option::Option<_>>()?.map(ping_data_service_response::Info::LiveDataServiceInfo)
+                            info__ = map.next_value::<::std::option::Option<_>>()?.map(ping_data_service_response::Info::LiveDataServiceInfo)
 ;
                         }
                         GeneratedField::HistoricalDataServiceInfo => {
                             if info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("historicalDataServiceInfo"));
                             }
-                            info__ = map_.next_value::<::std::option::Option<_>>()?.map(ping_data_service_response::Info::HistoricalDataServiceInfo)
+                            info__ = map.next_value::<::std::option::Option<_>>()?.map(ping_data_service_response::Info::HistoricalDataServiceInfo)
 ;
                         }
                     }
@@ -2363,13 +2331,9 @@ impl serde::Serialize for ProcessedRange {
         }
         let mut struct_ser = serializer.serialize_struct("cedra.indexer.v1.ProcessedRange", len)?;
         if self.first_version != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("firstVersion", ToString::to_string(&self.first_version).as_str())?;
         }
         if self.last_version != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("lastVersion", ToString::to_string(&self.last_version).as_str())?;
         }
         struct_ser.end()
@@ -2430,20 +2394,20 @@ impl<'de> serde::Deserialize<'de> for ProcessedRange {
                 formatter.write_str("struct cedra.indexer.v1.ProcessedRange")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<ProcessedRange, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<ProcessedRange, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut first_version__ = None;
                 let mut last_version__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::FirstVersion => {
                             if first_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("firstVersion"));
                             }
                             first_version__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::LastVersion => {
@@ -2451,7 +2415,7 @@ impl<'de> serde::Deserialize<'de> for ProcessedRange {
                                 return Err(serde::de::Error::duplicate_field("lastVersion"));
                             }
                             last_version__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                     }
@@ -2568,46 +2532,46 @@ impl<'de> serde::Deserialize<'de> for ServiceInfo {
                 formatter.write_str("struct cedra.indexer.v1.ServiceInfo")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<ServiceInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<ServiceInfo, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut address__ = None;
                 let mut info__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Address => {
                             if address__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("address"));
                             }
-                            address__ = map_.next_value()?;
+                            address__ = map.next_value()?;
                         }
                         GeneratedField::LiveDataServiceInfo => {
                             if info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("liveDataServiceInfo"));
                             }
-                            info__ = map_.next_value::<::std::option::Option<_>>()?.map(service_info::Info::LiveDataServiceInfo)
+                            info__ = map.next_value::<::std::option::Option<_>>()?.map(service_info::Info::LiveDataServiceInfo)
 ;
                         }
                         GeneratedField::HistoricalDataServiceInfo => {
                             if info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("historicalDataServiceInfo"));
                             }
-                            info__ = map_.next_value::<::std::option::Option<_>>()?.map(service_info::Info::HistoricalDataServiceInfo)
+                            info__ = map.next_value::<::std::option::Option<_>>()?.map(service_info::Info::HistoricalDataServiceInfo)
 ;
                         }
                         GeneratedField::FullnodeInfo => {
                             if info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("fullnodeInfo"));
                             }
-                            info__ = map_.next_value::<::std::option::Option<_>>()?.map(service_info::Info::FullnodeInfo)
+                            info__ = map.next_value::<::std::option::Option<_>>()?.map(service_info::Info::FullnodeInfo)
 ;
                         }
                         GeneratedField::GrpcManagerInfo => {
                             if info__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("grpcManagerInfo"));
                             }
-                            info__ = map_.next_value::<::std::option::Option<_>>()?.map(service_info::Info::GrpcManagerInfo)
+                            info__ = map.next_value::<::std::option::Option<_>>()?.map(service_info::Info::GrpcManagerInfo)
 ;
                         }
                     }
@@ -2690,18 +2654,18 @@ impl<'de> serde::Deserialize<'de> for StreamInfo {
                 formatter.write_str("struct cedra.indexer.v1.StreamInfo")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<StreamInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<StreamInfo, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut active_streams__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::ActiveStreams => {
                             if active_streams__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("activeStreams"));
                             }
-                            active_streams__ = Some(map_.next_value()?);
+                            active_streams__ = Some(map.next_value()?);
                         }
                     }
                 }
@@ -2781,18 +2745,18 @@ impl<'de> serde::Deserialize<'de> for StreamProgress {
                 formatter.write_str("struct cedra.indexer.v1.StreamProgress")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<StreamProgress, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<StreamProgress, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut samples__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Samples => {
                             if samples__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("samples"));
                             }
-                            samples__ = Some(map_.next_value()?);
+                            samples__ = Some(map.next_value()?);
                         }
                     }
                 }
@@ -2826,13 +2790,9 @@ impl serde::Serialize for StreamProgressSampleProto {
             struct_ser.serialize_field("timestamp", v)?;
         }
         if self.version != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("version", ToString::to_string(&self.version).as_str())?;
         }
         if self.size_bytes != 0 {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("sizeBytes", ToString::to_string(&self.size_bytes).as_str())?;
         }
         struct_ser.end()
@@ -2895,27 +2855,27 @@ impl<'de> serde::Deserialize<'de> for StreamProgressSampleProto {
                 formatter.write_str("struct cedra.indexer.v1.StreamProgressSampleProto")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<StreamProgressSampleProto, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<StreamProgressSampleProto, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut timestamp__ = None;
                 let mut version__ = None;
                 let mut size_bytes__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Timestamp => {
                             if timestamp__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("timestamp"));
                             }
-                            timestamp__ = map_.next_value()?;
+                            timestamp__ = map.next_value()?;
                         }
                         GeneratedField::Version => {
                             if version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("version"));
                             }
                             version__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                         GeneratedField::SizeBytes => {
@@ -2923,7 +2883,7 @@ impl<'de> serde::Deserialize<'de> for StreamProgressSampleProto {
                                 return Err(serde::de::Error::duplicate_field("sizeBytes"));
                             }
                             size_bytes__ = 
-                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
                     }
@@ -2957,8 +2917,8 @@ impl serde::Serialize for TransactionRootFilter {
             struct_ser.serialize_field("success", v)?;
         }
         if let Some(v) = self.transaction_type.as_ref() {
-            let v = super::super::transaction::v1::transaction::TransactionType::try_from(*v)
-                .map_err(|_| serde::ser::Error::custom(format!("Invalid variant {}", *v)))?;
+            let v = super::super::transaction::v1::transaction::TransactionType::from_i32(*v)
+                .ok_or_else(|| serde::ser::Error::custom(format!("Invalid variant {}", *v)))?;
             struct_ser.serialize_field("transactionType", &v)?;
         }
         struct_ser.end()
@@ -3018,25 +2978,25 @@ impl<'de> serde::Deserialize<'de> for TransactionRootFilter {
                 formatter.write_str("struct cedra.indexer.v1.TransactionRootFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<TransactionRootFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<TransactionRootFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut success__ = None;
                 let mut transaction_type__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Success => {
                             if success__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("success"));
                             }
-                            success__ = map_.next_value()?;
+                            success__ = map.next_value()?;
                         }
                         GeneratedField::TransactionType => {
                             if transaction_type__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("transactionType"));
                             }
-                            transaction_type__ = map_.next_value::<::std::option::Option<super::super::transaction::v1::transaction::TransactionType>>()?.map(|x| x as i32);
+                            transaction_type__ = map.next_value::<::std::option::Option<super::super::transaction::v1::transaction::TransactionType>>()?.map(|x| x as i32);
                         }
                     }
                 }
@@ -3068,8 +3028,6 @@ impl serde::Serialize for TransactionsInStorage {
             struct_ser.serialize_field("transactions", &self.transactions)?;
         }
         if let Some(v) = self.starting_version.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("startingVersion", ToString::to_string(&v).as_str())?;
         }
         struct_ser.end()
@@ -3129,26 +3087,26 @@ impl<'de> serde::Deserialize<'de> for TransactionsInStorage {
                 formatter.write_str("struct cedra.indexer.v1.TransactionsInStorage")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<TransactionsInStorage, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<TransactionsInStorage, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut transactions__ = None;
                 let mut starting_version__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Transactions => {
                             if transactions__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("transactions"));
                             }
-                            transactions__ = Some(map_.next_value()?);
+                            transactions__ = Some(map.next_value()?);
                         }
                         GeneratedField::StartingVersion => {
                             if starting_version__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("startingVersion"));
                             }
                             starting_version__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                     }
@@ -3184,8 +3142,6 @@ impl serde::Serialize for TransactionsResponse {
             struct_ser.serialize_field("transactions", &self.transactions)?;
         }
         if let Some(v) = self.chain_id.as_ref() {
-            #[allow(clippy::needless_borrow)]
-            #[allow(clippy::needless_borrows_for_generic_args)]
             struct_ser.serialize_field("chainId", ToString::to_string(&v).as_str())?;
         }
         if let Some(v) = self.processed_range.as_ref() {
@@ -3252,34 +3208,34 @@ impl<'de> serde::Deserialize<'de> for TransactionsResponse {
                 formatter.write_str("struct cedra.indexer.v1.TransactionsResponse")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<TransactionsResponse, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<TransactionsResponse, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut transactions__ = None;
                 let mut chain_id__ = None;
                 let mut processed_range__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Transactions => {
                             if transactions__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("transactions"));
                             }
-                            transactions__ = Some(map_.next_value()?);
+                            transactions__ = Some(map.next_value()?);
                         }
                         GeneratedField::ChainId => {
                             if chain_id__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("chainId"));
                             }
                             chain_id__ = 
-                                map_.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
+                                map.next_value::<::std::option::Option<::pbjson::private::NumberDeserialize<_>>>()?.map(|x| x.0)
                             ;
                         }
                         GeneratedField::ProcessedRange => {
                             if processed_range__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("processedRange"));
                             }
-                            processed_range__ = map_.next_value()?;
+                            processed_range__ = map.next_value()?;
                         }
                     }
                 }
@@ -3371,25 +3327,25 @@ impl<'de> serde::Deserialize<'de> for UserTransactionFilter {
                 formatter.write_str("struct cedra.indexer.v1.UserTransactionFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<UserTransactionFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<UserTransactionFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut sender__ = None;
                 let mut payload_filter__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::Sender => {
                             if sender__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("sender"));
                             }
-                            sender__ = map_.next_value()?;
+                            sender__ = map.next_value()?;
                         }
                         GeneratedField::PayloadFilter => {
                             if payload_filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("payloadFilter"));
                             }
-                            payload_filter__ = map_.next_value()?;
+                            payload_filter__ = map.next_value()?;
                         }
                     }
                 }
@@ -3471,18 +3427,18 @@ impl<'de> serde::Deserialize<'de> for UserTransactionPayloadFilter {
                 formatter.write_str("struct cedra.indexer.v1.UserTransactionPayloadFilter")
             }
 
-            fn visit_map<V>(self, mut map_: V) -> std::result::Result<UserTransactionPayloadFilter, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<UserTransactionPayloadFilter, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut entry_function_filter__ = None;
-                while let Some(k) = map_.next_key()? {
+                while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::EntryFunctionFilter => {
                             if entry_function_filter__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("entryFunctionFilter"));
                             }
-                            entry_function_filter__ = map_.next_value()?;
+                            entry_function_filter__ = map.next_value()?;
                         }
                     }
                 }
