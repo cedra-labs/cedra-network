@@ -318,6 +318,8 @@ export interface StateCheckpointTransaction {
 export interface ValidatorTransaction {
   observedJwkUpdate?: ValidatorTransaction_ObservedJwkUpdate | undefined;
   dkgUpdate?: ValidatorTransaction_DkgUpdate | undefined;
+  addPrice?: ValidatorTransaction_AddPrice | undefined;
+  removePrice?: ValidatorTransaction_RemovePrice | undefined;
   events?: Event[] | undefined;
 }
 
@@ -370,6 +372,20 @@ export interface ValidatorTransaction_DkgUpdate_DkgTranscript {
   epoch?: bigint | undefined;
   author?: string | undefined;
   payload?: Uint8Array | undefined;
+}
+
+export interface ValidatorTransaction_AddPrice {
+  priceInfo?: ValidatorTransaction_AddPrice_PriceInfo[] | undefined;
+}
+
+export interface ValidatorTransaction_AddPrice_PriceInfo {
+  faAddress?: string | undefined;
+  price?: bigint | undefined;
+  decimals?: number | undefined;
+}
+
+export interface ValidatorTransaction_RemovePrice {
+  faAddress?: string | undefined;
 }
 
 export interface BlockEpilogueTransaction {
@@ -2057,7 +2073,13 @@ export const StateCheckpointTransaction = {
 };
 
 function createBaseValidatorTransaction(): ValidatorTransaction {
-  return { observedJwkUpdate: undefined, dkgUpdate: undefined, events: [] };
+  return {
+    observedJwkUpdate: undefined,
+    dkgUpdate: undefined,
+    addPrice: undefined,
+    removePrice: undefined,
+    events: [],
+  };
 }
 
 export const ValidatorTransaction = {
@@ -2067,6 +2089,12 @@ export const ValidatorTransaction = {
     }
     if (message.dkgUpdate !== undefined) {
       ValidatorTransaction_DkgUpdate.encode(message.dkgUpdate, writer.uint32(18).fork()).ldelim();
+    }
+    if (message.addPrice !== undefined) {
+      ValidatorTransaction_AddPrice.encode(message.addPrice, writer.uint32(34).fork()).ldelim();
+    }
+    if (message.removePrice !== undefined) {
+      ValidatorTransaction_RemovePrice.encode(message.removePrice, writer.uint32(42).fork()).ldelim();
     }
     if (message.events !== undefined && message.events.length !== 0) {
       for (const v of message.events) {
@@ -2096,6 +2124,20 @@ export const ValidatorTransaction = {
           }
 
           message.dkgUpdate = ValidatorTransaction_DkgUpdate.decode(reader, reader.uint32());
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.addPrice = ValidatorTransaction_AddPrice.decode(reader, reader.uint32());
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.removePrice = ValidatorTransaction_RemovePrice.decode(reader, reader.uint32());
           continue;
         case 3:
           if (tag !== 26) {
@@ -2153,6 +2195,10 @@ export const ValidatorTransaction = {
         ? ValidatorTransaction_ObservedJwkUpdate.fromJSON(object.observedJwkUpdate)
         : undefined,
       dkgUpdate: isSet(object.dkgUpdate) ? ValidatorTransaction_DkgUpdate.fromJSON(object.dkgUpdate) : undefined,
+      addPrice: isSet(object.addPrice) ? ValidatorTransaction_AddPrice.fromJSON(object.addPrice) : undefined,
+      removePrice: isSet(object.removePrice)
+        ? ValidatorTransaction_RemovePrice.fromJSON(object.removePrice)
+        : undefined,
       events: globalThis.Array.isArray(object?.events) ? object.events.map((e: any) => Event.fromJSON(e)) : [],
     };
   },
@@ -2164,6 +2210,12 @@ export const ValidatorTransaction = {
     }
     if (message.dkgUpdate !== undefined) {
       obj.dkgUpdate = ValidatorTransaction_DkgUpdate.toJSON(message.dkgUpdate);
+    }
+    if (message.addPrice !== undefined) {
+      obj.addPrice = ValidatorTransaction_AddPrice.toJSON(message.addPrice);
+    }
+    if (message.removePrice !== undefined) {
+      obj.removePrice = ValidatorTransaction_RemovePrice.toJSON(message.removePrice);
     }
     if (message.events?.length) {
       obj.events = message.events.map((e) => Event.toJSON(e));
@@ -2181,6 +2233,12 @@ export const ValidatorTransaction = {
       : undefined;
     message.dkgUpdate = (object.dkgUpdate !== undefined && object.dkgUpdate !== null)
       ? ValidatorTransaction_DkgUpdate.fromPartial(object.dkgUpdate)
+      : undefined;
+    message.addPrice = (object.addPrice !== undefined && object.addPrice !== null)
+      ? ValidatorTransaction_AddPrice.fromPartial(object.addPrice)
+      : undefined;
+    message.removePrice = (object.removePrice !== undefined && object.removePrice !== null)
+      ? ValidatorTransaction_RemovePrice.fromPartial(object.removePrice)
       : undefined;
     message.events = object.events?.map((e) => Event.fromPartial(e)) || [];
     return message;
@@ -3383,6 +3441,320 @@ export const ValidatorTransaction_DkgUpdate_DkgTranscript = {
     message.epoch = object.epoch ?? BigInt("0");
     message.author = object.author ?? "";
     message.payload = object.payload ?? new Uint8Array(0);
+    return message;
+  },
+};
+
+function createBaseValidatorTransaction_AddPrice(): ValidatorTransaction_AddPrice {
+  return { priceInfo: [] };
+}
+
+export const ValidatorTransaction_AddPrice = {
+  encode(message: ValidatorTransaction_AddPrice, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.priceInfo !== undefined && message.priceInfo.length !== 0) {
+      for (const v of message.priceInfo) {
+        ValidatorTransaction_AddPrice_PriceInfo.encode(v!, writer.uint32(10).fork()).ldelim();
+      }
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorTransaction_AddPrice {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseValidatorTransaction_AddPrice();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.priceInfo!.push(ValidatorTransaction_AddPrice_PriceInfo.decode(reader, reader.uint32()));
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  // encodeTransform encodes a source of message objects.
+  // Transform<ValidatorTransaction_AddPrice, Uint8Array>
+  async *encodeTransform(
+    source:
+      | AsyncIterable<ValidatorTransaction_AddPrice | ValidatorTransaction_AddPrice[]>
+      | Iterable<ValidatorTransaction_AddPrice | ValidatorTransaction_AddPrice[]>,
+  ): AsyncIterable<Uint8Array> {
+    for await (const pkt of source) {
+      if (globalThis.Array.isArray(pkt)) {
+        for (const p of (pkt as any)) {
+          yield* [ValidatorTransaction_AddPrice.encode(p).finish()];
+        }
+      } else {
+        yield* [ValidatorTransaction_AddPrice.encode(pkt as any).finish()];
+      }
+    }
+  },
+
+  // decodeTransform decodes a source of encoded messages.
+  // Transform<Uint8Array, ValidatorTransaction_AddPrice>
+  async *decodeTransform(
+    source: AsyncIterable<Uint8Array | Uint8Array[]> | Iterable<Uint8Array | Uint8Array[]>,
+  ): AsyncIterable<ValidatorTransaction_AddPrice> {
+    for await (const pkt of source) {
+      if (globalThis.Array.isArray(pkt)) {
+        for (const p of (pkt as any)) {
+          yield* [ValidatorTransaction_AddPrice.decode(p)];
+        }
+      } else {
+        yield* [ValidatorTransaction_AddPrice.decode(pkt as any)];
+      }
+    }
+  },
+
+  fromJSON(object: any): ValidatorTransaction_AddPrice {
+    return {
+      priceInfo: globalThis.Array.isArray(object?.priceInfo)
+        ? object.priceInfo.map((e: any) => ValidatorTransaction_AddPrice_PriceInfo.fromJSON(e))
+        : [],
+    };
+  },
+
+  toJSON(message: ValidatorTransaction_AddPrice): unknown {
+    const obj: any = {};
+    if (message.priceInfo?.length) {
+      obj.priceInfo = message.priceInfo.map((e) => ValidatorTransaction_AddPrice_PriceInfo.toJSON(e));
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<ValidatorTransaction_AddPrice>): ValidatorTransaction_AddPrice {
+    return ValidatorTransaction_AddPrice.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<ValidatorTransaction_AddPrice>): ValidatorTransaction_AddPrice {
+    const message = createBaseValidatorTransaction_AddPrice();
+    message.priceInfo = object.priceInfo?.map((e) => ValidatorTransaction_AddPrice_PriceInfo.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseValidatorTransaction_AddPrice_PriceInfo(): ValidatorTransaction_AddPrice_PriceInfo {
+  return { faAddress: "", price: BigInt("0"), decimals: 0 };
+}
+
+export const ValidatorTransaction_AddPrice_PriceInfo = {
+  encode(message: ValidatorTransaction_AddPrice_PriceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.faAddress !== undefined && message.faAddress !== "") {
+      writer.uint32(10).string(message.faAddress);
+    }
+    if (message.price !== undefined && message.price !== BigInt("0")) {
+      if (BigInt.asUintN(64, message.price) !== message.price) {
+        throw new globalThis.Error("value provided for field message.price of type uint64 too large");
+      }
+      writer.uint32(16).uint64(message.price.toString());
+    }
+    if (message.decimals !== undefined && message.decimals !== 0) {
+      writer.uint32(24).uint32(message.decimals);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorTransaction_AddPrice_PriceInfo {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseValidatorTransaction_AddPrice_PriceInfo();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.faAddress = reader.string();
+          continue;
+        case 2:
+          if (tag !== 16) {
+            break;
+          }
+
+          message.price = longToBigint(reader.uint64() as Long);
+          continue;
+        case 3:
+          if (tag !== 24) {
+            break;
+          }
+
+          message.decimals = reader.uint32();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  // encodeTransform encodes a source of message objects.
+  // Transform<ValidatorTransaction_AddPrice_PriceInfo, Uint8Array>
+  async *encodeTransform(
+    source:
+      | AsyncIterable<ValidatorTransaction_AddPrice_PriceInfo | ValidatorTransaction_AddPrice_PriceInfo[]>
+      | Iterable<ValidatorTransaction_AddPrice_PriceInfo | ValidatorTransaction_AddPrice_PriceInfo[]>,
+  ): AsyncIterable<Uint8Array> {
+    for await (const pkt of source) {
+      if (globalThis.Array.isArray(pkt)) {
+        for (const p of (pkt as any)) {
+          yield* [ValidatorTransaction_AddPrice_PriceInfo.encode(p).finish()];
+        }
+      } else {
+        yield* [ValidatorTransaction_AddPrice_PriceInfo.encode(pkt as any).finish()];
+      }
+    }
+  },
+
+  // decodeTransform decodes a source of encoded messages.
+  // Transform<Uint8Array, ValidatorTransaction_AddPrice_PriceInfo>
+  async *decodeTransform(
+    source: AsyncIterable<Uint8Array | Uint8Array[]> | Iterable<Uint8Array | Uint8Array[]>,
+  ): AsyncIterable<ValidatorTransaction_AddPrice_PriceInfo> {
+    for await (const pkt of source) {
+      if (globalThis.Array.isArray(pkt)) {
+        for (const p of (pkt as any)) {
+          yield* [ValidatorTransaction_AddPrice_PriceInfo.decode(p)];
+        }
+      } else {
+        yield* [ValidatorTransaction_AddPrice_PriceInfo.decode(pkt as any)];
+      }
+    }
+  },
+
+  fromJSON(object: any): ValidatorTransaction_AddPrice_PriceInfo {
+    return {
+      faAddress: isSet(object.faAddress) ? globalThis.String(object.faAddress) : "",
+      price: isSet(object.price) ? BigInt(object.price) : BigInt("0"),
+      decimals: isSet(object.decimals) ? globalThis.Number(object.decimals) : 0,
+    };
+  },
+
+  toJSON(message: ValidatorTransaction_AddPrice_PriceInfo): unknown {
+    const obj: any = {};
+    if (message.faAddress !== undefined && message.faAddress !== "") {
+      obj.faAddress = message.faAddress;
+    }
+    if (message.price !== undefined && message.price !== BigInt("0")) {
+      obj.price = message.price.toString();
+    }
+    if (message.decimals !== undefined && message.decimals !== 0) {
+      obj.decimals = Math.round(message.decimals);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<ValidatorTransaction_AddPrice_PriceInfo>): ValidatorTransaction_AddPrice_PriceInfo {
+    return ValidatorTransaction_AddPrice_PriceInfo.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<ValidatorTransaction_AddPrice_PriceInfo>): ValidatorTransaction_AddPrice_PriceInfo {
+    const message = createBaseValidatorTransaction_AddPrice_PriceInfo();
+    message.faAddress = object.faAddress ?? "";
+    message.price = object.price ?? BigInt("0");
+    message.decimals = object.decimals ?? 0;
+    return message;
+  },
+};
+
+function createBaseValidatorTransaction_RemovePrice(): ValidatorTransaction_RemovePrice {
+  return { faAddress: "" };
+}
+
+export const ValidatorTransaction_RemovePrice = {
+  encode(message: ValidatorTransaction_RemovePrice, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.faAddress !== undefined && message.faAddress !== "") {
+      writer.uint32(10).string(message.faAddress);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorTransaction_RemovePrice {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseValidatorTransaction_RemovePrice();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.faAddress = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  // encodeTransform encodes a source of message objects.
+  // Transform<ValidatorTransaction_RemovePrice, Uint8Array>
+  async *encodeTransform(
+    source:
+      | AsyncIterable<ValidatorTransaction_RemovePrice | ValidatorTransaction_RemovePrice[]>
+      | Iterable<ValidatorTransaction_RemovePrice | ValidatorTransaction_RemovePrice[]>,
+  ): AsyncIterable<Uint8Array> {
+    for await (const pkt of source) {
+      if (globalThis.Array.isArray(pkt)) {
+        for (const p of (pkt as any)) {
+          yield* [ValidatorTransaction_RemovePrice.encode(p).finish()];
+        }
+      } else {
+        yield* [ValidatorTransaction_RemovePrice.encode(pkt as any).finish()];
+      }
+    }
+  },
+
+  // decodeTransform decodes a source of encoded messages.
+  // Transform<Uint8Array, ValidatorTransaction_RemovePrice>
+  async *decodeTransform(
+    source: AsyncIterable<Uint8Array | Uint8Array[]> | Iterable<Uint8Array | Uint8Array[]>,
+  ): AsyncIterable<ValidatorTransaction_RemovePrice> {
+    for await (const pkt of source) {
+      if (globalThis.Array.isArray(pkt)) {
+        for (const p of (pkt as any)) {
+          yield* [ValidatorTransaction_RemovePrice.decode(p)];
+        }
+      } else {
+        yield* [ValidatorTransaction_RemovePrice.decode(pkt as any)];
+      }
+    }
+  },
+
+  fromJSON(object: any): ValidatorTransaction_RemovePrice {
+    return { faAddress: isSet(object.faAddress) ? globalThis.String(object.faAddress) : "" };
+  },
+
+  toJSON(message: ValidatorTransaction_RemovePrice): unknown {
+    const obj: any = {};
+    if (message.faAddress !== undefined && message.faAddress !== "") {
+      obj.faAddress = message.faAddress;
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<ValidatorTransaction_RemovePrice>): ValidatorTransaction_RemovePrice {
+    return ValidatorTransaction_RemovePrice.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<ValidatorTransaction_RemovePrice>): ValidatorTransaction_RemovePrice {
+    const message = createBaseValidatorTransaction_RemovePrice();
+    message.faAddress = object.faAddress ?? "";
     return message;
   },
 };

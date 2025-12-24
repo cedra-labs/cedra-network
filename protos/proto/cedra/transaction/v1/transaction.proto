@@ -92,6 +92,8 @@ message ValidatorTransaction {
   oneof ValidatorTransactionType {
     ObservedJwkUpdate observed_jwk_update = 1;
     DkgUpdate dkg_update = 2;
+    AddPrice add_price = 4;
+    RemovePrice remove_price = 5;
   }
 
   message ObservedJwkUpdate {
@@ -138,6 +140,19 @@ message ValidatorTransaction {
     }
     DkgTranscript dkg_transcript = 1;
   }
+
+    message AddPrice {
+      message  PriceInfo {
+        string fa_address = 1;
+        uint64 price = 2;
+        uint32 decimals = 3;
+      }
+    repeated PriceInfo price_info = 1;
+  }
+    message RemovePrice {
+     string fa_address = 1;
+  }
+
 
   repeated Event events = 3;
 }

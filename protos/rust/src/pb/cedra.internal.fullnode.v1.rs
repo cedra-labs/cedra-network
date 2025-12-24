@@ -7,11 +7,13 @@
 //     TransactionOutput data(size n)
 //     StreamStatus: BATCH_END with version x + (k + 1) * n - 1
 
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TransactionsOutput {
     #[prost(message, repeated, tag="1")]
     pub transactions: ::prost::alloc::vec::Vec<super::super::super::transaction::v1::Transaction>,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct StreamStatus {
     #[prost(enumeration="stream_status::StatusType", tag="1")]
@@ -41,9 +43,9 @@ pub mod stream_status {
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                Self::Unspecified => "STATUS_TYPE_UNSPECIFIED",
-                Self::Init => "STATUS_TYPE_INIT",
-                Self::BatchEnd => "STATUS_TYPE_BATCH_END",
+                StatusType::Unspecified => "STATUS_TYPE_UNSPECIFIED",
+                StatusType::Init => "STATUS_TYPE_INIT",
+                StatusType::BatchEnd => "STATUS_TYPE_BATCH_END",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -57,6 +59,7 @@ pub mod stream_status {
         }
     }
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct GetTransactionsFromNodeRequest {
     /// Required; start version of current stream.
@@ -68,6 +71,7 @@ pub struct GetTransactionsFromNodeRequest {
     #[prost(uint64, optional, tag="2")]
     pub transactions_count: ::core::option::Option<u64>,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TransactionsFromNodeResponse {
     /// Making sure that all the responses include a chain id
@@ -78,7 +82,8 @@ pub struct TransactionsFromNodeResponse {
 }
 /// Nested message and enum types in `TransactionsFromNodeResponse`.
 pub mod transactions_from_node_response {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Response {
         #[prost(message, tag="1")]
         Status(super::StreamStatus),
@@ -86,9 +91,11 @@ pub mod transactions_from_node_response {
         Data(super::TransactionsOutput),
     }
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct PingFullnodeRequest {
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct PingFullnodeResponse {
     #[prost(message, optional, tag="1")]
@@ -191,7 +198,7 @@ pub const FILE_DESCRIPTOR_SET: &[u8] = &[
     0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x3a, 0x3a, 0x46, 0x75, 0x6c, 0x6c, 0x6e, 0x6f, 0x64,
     0x65, 0x3a, 0x3a, 0x56, 0x31, 0x4a, 0xc4, 0x0f, 0x0a, 0x06, 0x12, 0x04, 0x03, 0x00, 0x41, 0x01,
     0x0a, 0x4e, 0x0a, 0x01, 0x0c, 0x12, 0x03, 0x03, 0x00, 0x12, 0x32, 0x44, 0x20, 0x43, 0x6f, 0x70,
-    0x79, 0x72, 0x69, 0x67, 0x68, 0x74, 0x20, 0xc2, 0xa9, 0x20, 0x41, 0x70, 0x74, 0x6f, 0x73, 0x20,
+    0x79, 0x72, 0x69, 0x67, 0x68, 0x74, 0x20, 0xc2, 0xa9, 0x20, 0x43, 0x65, 0x64, 0x72, 0x61, 0x20,
     0x46, 0x6f, 0x75, 0x6e, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x0a, 0x20, 0x53, 0x50, 0x44, 0x58,
     0x2d, 0x4c, 0x69, 0x63, 0x65, 0x6e, 0x73, 0x65, 0x2d, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x66,
     0x69, 0x65, 0x72, 0x3a, 0x20, 0x41, 0x70, 0x61, 0x63, 0x68, 0x65, 0x2d, 0x32, 0x2e, 0x30, 0x0a,
