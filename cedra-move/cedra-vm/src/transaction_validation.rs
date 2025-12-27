@@ -59,7 +59,6 @@ pub static CEDRA_TRANSACTION_VALIDATION: Lazy<TransactionValidation> =
         unified_prologue_name: Identifier::new("unified_prologue").unwrap(),
         unified_prologue_fee_payer_name: Identifier::new("unified_prologue_fee_payer").unwrap(),
         unified_epilogue_name: Identifier::new("unified_epilogue").unwrap(),
-        unified_epilogue_fee_name: Identifier::new("unified_epilogue_fee").unwrap(),
         unified_epilogue_fee_v3_name: Identifier::new("unified_epilogue_fee_v3").unwrap(),
         unified_prologue_v2_name: Identifier::new("unified_prologue_v2").unwrap(),
         unified_prologue_fee_payer_v2_name: Identifier::new("unified_prologue_fee_payer_v2")
@@ -85,7 +84,6 @@ pub struct TransactionValidation {
     pub unified_prologue_name: Identifier,
     pub unified_prologue_fee_payer_name: Identifier,
     pub unified_epilogue_name: Identifier,
-    pub unified_epilogue_fee_name: Identifier,
     pub unified_epilogue_fee_v3_name: Identifier,
 
     // Only these v2 functions support Txn Payload V2 format and Orderless transactions
@@ -473,7 +471,9 @@ fn run_epilogue(
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
             let stablecoin_amount = txn_data.stablecoin_amount();
             if stablecoin_amount == 0 {
-                eprintln!("Can't calculate stablecoin_amount, check if stablecoin in whitelist & price_storage")
+            return Err(VMError::from(code_invariant_error(
+                "stablecoin amount is ZERO",
+            )));
             } else {
 
             let mut serialize_args = vec![
@@ -494,16 +494,18 @@ fn run_epilogue(
                         .simple_serialize()
                         .unwrap(),
                 );
+            } else {
+                serialize_args.push(
+                    MoveValue::Bool(false)
+                        .simple_serialize()
+                        .unwrap(),
+                );
             }
 
             session
                 .execute_function_bypass_visibility(
                     &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                    if features.is_transaction_payload_v2_enabled() {
-                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v3_name
-                    } else {
-                        &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_name
-                    },
+                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v3_name,
                     vec![],
                     serialize_args,
                     &mut UnmeteredGasMeter,
@@ -511,7 +513,7 @@ fn run_epilogue(
                     module_storage,
                 )
                 .map_err(|e| {
-                    println!("unified_epilogue_fee failed: {:?}", e);
+                    println!("unified_epilogue_fee_v3 failed: {:?}", e);
                     e
                 })?;
             }
