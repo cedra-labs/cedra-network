@@ -1002,7 +1002,7 @@ module cedra_framework::transaction_validation {
             error::invalid_state(FEE_V2_NOT_ENABLED)
         );
 
-        if (fa_addr != @0x1) { 
+        if (fa_addr != @0x1 && stablecoin_amount != 0) { 
             let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(

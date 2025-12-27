@@ -13,7 +13,6 @@ use crate::{
     transaction_metadata::TransactionMetadata,
 };
 use cedra_gas_algebra::Gas;
-use cedra_types::error::code_invariant_error;
 use cedra_types::{
     account_config::constants::CORE_CODE_ADDRESS,
     fee_statement::{CustomFeeStatement, FeeStatement},
@@ -23,7 +22,6 @@ use cedra_types::{
 };
 use cedra_vm_logging::log_schema::AdapterLogSchema;
 use fail::fail_point;
-use move_binary_format::errors::VMError;
 use move_binary_format::errors::VMResult;
 use move_core_types::{
     account_address::AccountAddress,
@@ -465,18 +463,12 @@ fn run_epilogue(
     let txn_max_gas_units = txn_data.max_gas_amount();
     let is_orderless_txn = txn_data.is_orderless();
 
-    if txn_data.use_fee_v2() {
+    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
         if let TypeTag::Struct(fa) = &txn_data.fa_address {
             let module_bytes = fa.module.as_str().as_bytes().to_vec();
             let name_bytes = fa.name.as_str().as_bytes().to_vec();
             let stablecoin_amount = txn_data.stablecoin_amount();
-            if stablecoin_amount == 0 {
-            return Err(VMError::from(code_invariant_error(
-                "stablecoin amount is ZERO",
-            )));
-            } else {
-
-            let mut serialize_args = vec![
+                  let mut serialize_args = vec![
                 serialized_signers.sender(),
                 MoveValue::Address(fa.address).simple_serialize().unwrap(),
                 MoveValue::vector_u8(module_bytes)
@@ -516,11 +508,15 @@ fn run_epilogue(
                     println!("unified_epilogue_fee_v3 failed: {:?}", e);
                     e
                 })?;
-            }
-        } else {
-            return Err(VMError::from(code_invariant_error(
-                "fa_address missing or not a Struct",
-            )));
+
+        let custom_fee_statement = fee_statement.extend(txn_data.stablecoin_amount());
+        emit_custom_fee_statement_v2(
+            session,
+            module_storage,
+            custom_fee_statement,
+            traversal_context,
+        )?;
+
         }
     } else {
         if features.is_account_abstraction_enabled()
@@ -647,20 +643,13 @@ fn run_epilogue(
             }
         }
         .map_err(expect_no_verification_errors)?;
+    
+        // Emit the FeeStatement event
+        if features.is_emit_fee_statement_enabled() {
+            emit_fee_statement(session, module_storage, fee_statement, traversal_context)?;
+        }
     }
 
-    // Emit the FeeStatement event
-    if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
-        let custom_fee_statement = fee_statement.extend(txn_data.stablecoin_amount());
-        emit_custom_fee_statement_v2(
-            session,
-            module_storage,
-            custom_fee_statement,
-            traversal_context,
-        )?;
-    } else if features.is_emit_fee_statement_enabled() {
-        emit_fee_statement(session, module_storage, fee_statement, traversal_context)?;
-    }
 
     maybe_raise_injected_error(InjectedError::EndOfRunEpilogue)?;
 
