@@ -4,7 +4,7 @@ use std::env;
 use std::str::FromStr;
 use std::sync::Arc;
 
-use aptos_sdk::types::account_address::AccountAddress;
+use cedra_sdk::types::account_address::AccountAddress;
 use eth_to_cedra_relayer::{EthToCedraRelayerConfig, SimpleMetadataResolver};
 
 #[tokio::main]
