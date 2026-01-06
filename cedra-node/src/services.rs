@@ -43,7 +43,7 @@ use tokio::{
     sync::watch::Receiver as WatchReceiver,
 };
 use ethers::prelude::Address;
-use aptos_sdk::types::account_address::AccountAddress;
+use cedra_sdk::types::account_address::AccountAddress;
 use crate::info;
 
 // new relayer imports

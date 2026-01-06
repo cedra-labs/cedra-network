@@ -23,7 +23,7 @@ reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
 
 
 # Cedra SDK from your repo (no framework natives)
-aptos-sdk = { package = "cedra-sdk", path = "../../../sdk", default-features = false }
+cedra-sdk = { package = "cedra-sdk", path = "../../../sdk", default-features = false }
 
 # Needed because Cedra rest client takes Url
 url = "2"
