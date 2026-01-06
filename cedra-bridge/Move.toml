@@ -4,7 +4,7 @@ version = "0.0.1"
 
 [addresses]
 cedra_framework = "0x1"
-bridge = "0x5c2ab5f1a3d4227ff50e27f27f753053cb9b065a34dc0544c89ff19970ebd24f"
+bridge = "0x5de311971f40ca56479571745a3aa957c7f473538683c351d457e8f9583f5a70"
 
 [dependencies]
 CedraFramework = { local = "../cedra-move/framework/cedra-framework" } 
