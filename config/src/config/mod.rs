@@ -39,6 +39,7 @@ mod state_sync_config;
 mod storage_config;
 pub mod transaction_filter_type;
 mod utils;
+mod bridge_config;
 
 // All public usage statements should be declared below
 pub use admin_service_config::*;
@@ -69,3 +70,4 @@ pub use safety_rules_config::*;
 pub use secure_backend_config::*;
 pub use state_sync_config::*;
 pub use storage_config::*;
+pub use bridge_config::*;

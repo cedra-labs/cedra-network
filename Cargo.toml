@@ -119,6 +119,8 @@ members = [
     "crates/validator-transaction-pool",
     "devtools/cedra-cargo-cli",
     "dkg",
+    "ecosystem/relayers/eth-to-cedra-relayer",
+    "ecosystem/relayers/cedra-to-eth-relayer",
     "ecosystem/indexer-grpc/indexer-grpc-cache-worker",
     "ecosystem/indexer-grpc/indexer-grpc-data-service",
     "ecosystem/indexer-grpc/indexer-grpc-data-service-v2",
