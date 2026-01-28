@@ -25,6 +25,7 @@ pub fn start_oracles_runtime(
     chain_id: ChainId,
 ) -> Runtime {
     let runtime = cedra_runtimes::spawn_named_runtime("oracles".into(), Some(4));
+
     // if auth_key.is_some() && oracles_updated_events.is_some() {
     //     let whitelist = Arc::new(Whitelist::new(db_reader, indexer_reader));
 

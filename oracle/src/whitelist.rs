@@ -3,8 +3,8 @@ use std::{
     sync::{Arc, RwLock},
 };
 
-use cedra_logger::error;
 use serde_json::Value;
+use cedra_logger::error;
 
 use cedra_api_types::{AsConverter, EntryFunctionId, MoveValue, ViewRequest};
 use cedra_storage_interface::{
