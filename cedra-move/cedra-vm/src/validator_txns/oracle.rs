@@ -50,7 +50,7 @@ impl CedraVM {
         update: Vec<PriceInfo>,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
         return Ok((
-            VMStatus::MoveAbort(AbortLocation::Script, 1551 as u64),
+            VMStatus::MoveAbort(AbortLocation::Script, 1551),
             VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
         ));
         
@@ -139,7 +139,7 @@ impl CedraVM {
         fa_address: String,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
          return Ok((
-            VMStatus::MoveAbort(AbortLocation::Script, 1552 as u64),
+            VMStatus::MoveAbort(AbortLocation::Script, 1552),
             VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
         ));
         debug!("Processing price remove transaction");
