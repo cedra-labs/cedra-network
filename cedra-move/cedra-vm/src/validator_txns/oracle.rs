@@ -49,6 +49,16 @@ impl CedraVM {
         session_id: SessionId,
         update: Vec<PriceInfo>,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
+                return Ok((
+
+
+            VMStatus::MoveAbort(AbortLocation::Script, 1551),
+
+
+            VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
+
+
+        ));
         debug!("Processing price update transaction");
         match self.process_price_storage_update_inner(
             resolver,
@@ -133,6 +143,17 @@ impl CedraVM {
         session_id: SessionId,
         fa_address: String,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
+          return Ok((
+
+
+
+            VMStatus::MoveAbort(AbortLocation::Script, 1552),
+
+
+            VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
+
+
+        ));
         debug!("Processing price remove transaction");
         match self.process_price_storage_remove_inner(
             resolver,
