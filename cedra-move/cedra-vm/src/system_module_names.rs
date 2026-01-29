@@ -87,6 +87,6 @@ pub static PRICE_STORAGE_MODULE: Lazy<ModuleId> = Lazy::new(|| {
     )
 });
 
-pub const SET_PRICE: &IdentStr = ident_str!("set_prices");
+pub const SET_PRICE: &IdentStr = ident_str!("set_prices_v2");
 pub const REMOVE_PRICE: &IdentStr = ident_str!("remove_price");
 pub const CALCULATE_FA_FEE: &IdentStr = ident_str!("calculate_fa_fee");

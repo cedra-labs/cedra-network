@@ -36,21 +36,23 @@ pub struct PriceInfo {
     pub price: u64,
     /// Number of decimals used for scaling
     pub decimals: u8,
+    pub timestamp: u64,
 }
 
 impl PriceInfo {
-    pub fn new(fa_address: String, price: u64, decimals: u8) -> Self {
+    pub fn new(fa_address: String, price: u64, decimals: u8, timestamp: u64) -> Self {
         Self {
             fa_address,
             price,
             decimals,
+            timestamp,
         }
     }
 }
 
 impl MoveStructType for PriceInfo {
     const MODULE_NAME: &'static IdentStr = ident_str!("price_storage");
-    const STRUCT_NAME: &'static IdentStr = ident_str!("PriceInfo");
+    const STRUCT_NAME: &'static IdentStr = ident_str!("PriceInfoV2");
 }
 
 impl AsMoveValue for PriceInfo {
@@ -59,6 +61,7 @@ impl AsMoveValue for PriceInfo {
             self.fa_address.as_move_value(),
             self.price.as_move_value(),
             self.decimals.as_move_value(),
+            self.timestamp.as_move_value(),
         ]))
     }
 }

@@ -25,20 +25,17 @@ module cedra_framework::price_storage {
 
 
 
-    struct PriceInfo has copy, drop, store {
+    struct PriceInfoV2 has copy, drop, store {
         fa_address: String,
         price: u64,
-        decimals: u8
+        decimals: u8,
+        timestamp: u64,
     }
 
-    struct PriceTimestamps has key, store {
-        timestamps: Table<String, u64>,
+    struct PriceStorageV2 has key, store {
+        prices: Table<String, PriceInfoV2>,
     }
 
-
-    struct PriceStorage has key, store {
-        prices: Table<String, PriceInfo>,
-    }
 
     #[event]
     struct PriceUpdated has drop, store { fa_address: String }
@@ -50,21 +47,14 @@ module cedra_framework::price_storage {
     fun init_module(cedra_framework: &signer) {
         system_addresses::assert_cedra_framework(cedra_framework);
         assert!(
-            !exists<PriceStorage>(@cedra_framework),
+            !exists<PriceStorageV2>(@cedra_framework),
             EPRICE_ALREADY_EXISTS
         );
 
         move_to(
             cedra_framework,
-            PriceStorage {
-                prices: table::new<String, PriceInfo>(),
-            }
-        );
-
-        move_to(
-            cedra_framework,
-            PriceTimestamps {
-                timestamps: table::new<String, u64>(),
+            PriceStorageV2 {
+                prices: table::new<String, PriceInfoV2>(),
             }
         );
     }
@@ -73,44 +63,25 @@ module cedra_framework::price_storage {
         system_addresses::assert_cedra_framework(cedra_framework);
 
         assert!(
-            !exists<PriceStorage>(@cedra_framework),
+            !exists<PriceStorageV2>(@cedra_framework),
             EPRICE_ALREADY_EXISTS
         );
 
         move_to(
             cedra_framework,
-            PriceStorage {
-                prices: table::new<String, PriceInfo>(),
+            PriceStorageV2 {
+                prices: table::new<String, PriceInfoV2>(),
             }
         );
     }
 
-    public entry fun init_timestamps_storage(cedra_framework: &signer) {
-        system_addresses::assert_cedra_framework(cedra_framework);
-
-        assert!(
-            !exists<PriceTimestamps>(@cedra_framework),
-            ETIMESTAMPS_ALREADY_EXISTS
-        );
-
-        move_to(
-            cedra_framework,
-            PriceTimestamps {
-                timestamps: table::new<String, u64>(),
-            }
-        );
-    }
-
-
-    public fun set_prices(
+    public fun set_prices_v2(
         cedra_framework: &signer,
-        prices: vector<PriceInfo>
-    ) acquires PriceStorage, PriceTimestamps {
+        prices: vector<PriceInfoV2>
+    ) acquires PriceStorageV2 {
         system_addresses::assert_cedra_framework(cedra_framework);
-        let store = borrow_global_mut<PriceStorage>(@cedra_framework);
-        let ts_store = borrow_global_mut<PriceTimestamps>(@cedra_framework);
+        let store = borrow_global_mut<PriceStorageV2>(@cedra_framework);
 
-        let now = timestamp::now_seconds();
         let i = 0;
         let n = vector::length(&prices);
         while (i < n) {
@@ -122,12 +93,6 @@ module cedra_framework::price_storage {
                 price_info
             );
 
-            table::upsert(
-                &mut ts_store.timestamps,
-                price_info.fa_address,
-                now
-            );
-
             emit(PriceUpdated { fa_address: price_info.fa_address });
 
             i = i + 1;
@@ -137,9 +102,9 @@ module cedra_framework::price_storage {
     public fun remove_price(
         cedra_framework: &signer,
         fa_address: String
-    ) acquires PriceStorage, PriceTimestamps {
+    ) acquires PriceStorageV2, PriceTimestamps {
         system_addresses::assert_cedra_framework(cedra_framework);
-        let store = borrow_global_mut<PriceStorage>(@cedra_framework);
+        let store = borrow_global_mut<PriceStorageV2>(@cedra_framework);
         let ts_store = borrow_global_mut<PriceTimestamps>(@cedra_framework);
 
         if (table::contains(&store.prices, fa_address)) {
@@ -153,8 +118,8 @@ module cedra_framework::price_storage {
     }
 
     public(friend) fun get_info(fa_address: String): (u64, u8) 
-    acquires PriceStorage {
-        let store = borrow_global<PriceStorage>(@cedra_framework);
+    acquires PriceStorageV2 {
+        let store = borrow_global<PriceStorageV2>(@cedra_framework);
 
         assert!(
             table::contains(&store.prices, fa_address),
@@ -165,12 +130,9 @@ module cedra_framework::price_storage {
         (price_info.price, price_info.decimals)
     }
 
-        #[view]
-        public fun get(fa_address: String): (u64, u8) 
-    acquires PriceStorage {
-        let store = borrow_global<PriceStorage>(@cedra_framework);
-
-
+    #[view]
+    public fun get(fa_address: String): (u64, u8) acquires PriceStorageV2 {
+        let store = borrow_global<PriceStorageV2>(@cedra_framework);
         assert!(
             table::contains(&store.prices, fa_address),
             EPRICE_NOT_FOUND
@@ -186,19 +148,9 @@ module cedra_framework::price_storage {
         storage_fee_refunded: u64,
         txn_gas_price: u64,
         fa_address: String,
-    ): u64 acquires PriceStorage, PriceTimestamps {
+    ): u64 acquires PriceStorageV2 {
 
         let current_time = timestamp::now_seconds();
-        let ts_store = borrow_global_mut<PriceTimestamps>(@cedra_framework);
-
-        assert!(table::contains(&ts_store.timestamps, fa_address), EPRICE_NOT_FOUND);
-
-        let price_timestamp = table::borrow(&ts_store.timestamps, fa_address);
-        assert!(
-            current_time - *price_timestamp <= MAX_PRICE_AGE,
-            error::out_of_range(EPRICE_TOO_OLD)
-        );
-
 
         assert!(
             (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
@@ -209,11 +161,15 @@ module cedra_framework::price_storage {
         let cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
 
                  
-        let store = borrow_global<PriceStorage>(@cedra_framework);
+        let store = borrow_global<PriceStorageV2>(@cedra_framework);
 
         // Get FA price and decimals
         assert!(table::contains(&store.prices, fa_address), EPRICE_NOT_FOUND);
         let fa_info = table::borrow(&store.prices, fa_address);
+         assert!(
+            current_time - fa_info.timestamp <= MAX_PRICE_AGE,
+            error::out_of_range(EPRICE_TOO_OLD)
+        );
         let fa_price = fa_info.price;
         let fa_decimals = fa_info.decimals;
         assert!(fa_price > 0, error::invalid_argument(FA_PRICE_IS_ZERO));
@@ -263,5 +219,28 @@ module cedra_framework::price_storage {
 
         fa_fee_amount
     }
+
+
+    struct PriceInfo has copy, drop, store {
+        fa_address: String,
+        price: u64,
+        decimals: u8
+    }
+
+    struct PriceStorage has key, store {
+        prices: Table<String, PriceInfo>,
+    }
+
+
+    struct PriceTimestamps has key, store {
+        timestamps: Table<String, u64>,
+    }
+
+    #[deprecated]
+    public fun set_prices(_cedra_framework: &signer, _prices: vector<PriceInfo>) {}
+
+    #[deprecated]
+    public entry fun init_timestamps_storage(_cedra_framework: &signer) {}
+
 
 }

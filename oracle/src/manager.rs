@@ -331,6 +331,7 @@ impl OraclePriceManager {
                                 fa_address: token.fa_address.clone(),
                                 price: token.price,
                                 decimals: token.decimals as u8,
+                                timestamp: token.timestamp / 1000 as u64,
                             })
                             .await
                             .is_err()
