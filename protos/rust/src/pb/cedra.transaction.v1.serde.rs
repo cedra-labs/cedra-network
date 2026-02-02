@@ -8463,7 +8463,7 @@ impl<'de> serde::Deserialize<'de> for validator_transaction::AddPrice {
         deserializer.deserialize_struct("cedra.transaction.v1.ValidatorTransaction.AddPrice", FIELDS, GeneratedVisitor)
     }
 }
-impl serde::Serialize for validator_transaction::add_price::PriceInfo {
+impl serde::Serialize for validator_transaction::add_price::PriceInfoV2 {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
@@ -8480,7 +8480,10 @@ impl serde::Serialize for validator_transaction::add_price::PriceInfo {
         if self.decimals != 0 {
             len += 1;
         }
-        let mut struct_ser = serializer.serialize_struct("cedra.transaction.v1.ValidatorTransaction.AddPrice.PriceInfo", len)?;
+        if self.timestamp != 0 {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("cedra.transaction.v1.ValidatorTransaction.AddPrice.PriceInfoV2", len)?;
         if !self.fa_address.is_empty() {
             struct_ser.serialize_field("faAddress", &self.fa_address)?;
         }
@@ -8490,10 +8493,13 @@ impl serde::Serialize for validator_transaction::add_price::PriceInfo {
         if self.decimals != 0 {
             struct_ser.serialize_field("decimals", &self.decimals)?;
         }
+        if self.timestamp != 0 {
+            struct_ser.serialize_field("timestamp", ToString::to_string(&self.timestamp).as_str())?;
+        }
         struct_ser.end()
     }
 }
-impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInfo {
+impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInfoV2 {
     #[allow(deprecated)]
     fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
     where
@@ -8504,6 +8510,7 @@ impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInf
             "faAddress",
             "price",
             "decimals",
+            "timestamp",
         ];
 
         #[allow(clippy::enum_variant_names)]
@@ -8511,6 +8518,7 @@ impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInf
             FaAddress,
             Price,
             Decimals,
+            Timestamp,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
             fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
@@ -8535,6 +8543,7 @@ impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInf
                             "faAddress" | "fa_address" => Ok(GeneratedField::FaAddress),
                             "price" => Ok(GeneratedField::Price),
                             "decimals" => Ok(GeneratedField::Decimals),
+                            "timestamp" => Ok(GeneratedField::Timestamp),
                             _ => Err(serde::de::Error::unknown_field(value, FIELDS)),
                         }
                     }
@@ -8544,19 +8553,20 @@ impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInf
         }
         struct GeneratedVisitor;
         impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
-            type Value = validator_transaction::add_price::PriceInfo;
+            type Value = validator_transaction::add_price::PriceInfoV2;
 
             fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-                formatter.write_str("struct cedra.transaction.v1.ValidatorTransaction.AddPrice.PriceInfo")
+                formatter.write_str("struct cedra.transaction.v1.ValidatorTransaction.AddPrice.PriceInfoV2")
             }
 
-            fn visit_map<V>(self, mut map: V) -> std::result::Result<validator_transaction::add_price::PriceInfo, V::Error>
+            fn visit_map<V>(self, mut map: V) -> std::result::Result<validator_transaction::add_price::PriceInfoV2, V::Error>
                 where
                     V: serde::de::MapAccess<'de>,
             {
                 let mut fa_address__ = None;
                 let mut price__ = None;
                 let mut decimals__ = None;
+                let mut timestamp__ = None;
                 while let Some(k) = map.next_key()? {
                     match k {
                         GeneratedField::FaAddress => {
@@ -8581,16 +8591,25 @@ impl<'de> serde::Deserialize<'de> for validator_transaction::add_price::PriceInf
                                 Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
                             ;
                         }
+                        GeneratedField::Timestamp => {
+                            if timestamp__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("timestamp"));
+                            }
+                            timestamp__ = 
+                                Some(map.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
                     }
                 }
-                Ok(validator_transaction::add_price::PriceInfo {
+                Ok(validator_transaction::add_price::PriceInfoV2 {
                     fa_address: fa_address__.unwrap_or_default(),
                     price: price__.unwrap_or_default(),
                     decimals: decimals__.unwrap_or_default(),
+                    timestamp: timestamp__.unwrap_or_default(),
                 })
             }
         }
-        deserializer.deserialize_struct("cedra.transaction.v1.ValidatorTransaction.AddPrice.PriceInfo", FIELDS, GeneratedVisitor)
+        deserializer.deserialize_struct("cedra.transaction.v1.ValidatorTransaction.AddPrice.PriceInfoV2", FIELDS, GeneratedVisitor)
     }
 }
 impl serde::Serialize for validator_transaction::DkgUpdate {

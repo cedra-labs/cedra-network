@@ -16,7 +16,6 @@ use std::fmt::Debug;
 #[derive(
     Clone, Debug, Hash, Object, Serialize, Deserialize, PartialEq, Eq, CryptoHasher, BCSCryptoHash,
 )]
-
 pub struct Prices {
     prices: Vec<PriceInfo>,
 }
@@ -25,6 +24,19 @@ impl Prices {
         Self { prices }
     }
 }
+
+#[derive(
+    Clone, Debug, Hash, Object, Serialize, Deserialize, PartialEq, Eq, CryptoHasher, BCSCryptoHash,
+)]
+pub struct PricesV2 {
+    prices: Vec<PriceInfoV2>,
+}
+impl PricesV2 {
+    pub fn new(prices: Vec<PriceInfoV2>) -> Self {
+        Self { prices }
+    }
+}
+
 
 /// Rust reflection of `0x1::price_storage::PriceInfo`
 #[derive(
@@ -36,10 +48,54 @@ pub struct PriceInfo {
     pub price: u64,
     /// Number of decimals used for scaling
     pub decimals: u8,
+}
+
+/// Rust reflection of `0x1::price_storage::PriceInfoV2`
+#[derive(
+    Clone, Debug, Object, Hash, Serialize, Deserialize, PartialEq, Eq, CryptoHasher, BCSCryptoHash,
+)]
+pub struct PriceInfoV2 {
+    pub fa_address: String,
+    /// Scaled price value (price * 10^decimals)
+    pub price: u64,
+    /// Number of decimals used for scaling
+    pub decimals: u8,
     pub timestamp: u64,
 }
 
+
 impl PriceInfo {
+    pub fn new(fa_address: String, price: u64, decimals: u8) -> Self {
+        Self {
+            fa_address,
+            price,
+            decimals,
+        }
+    }
+}
+
+impl MoveStructType for PriceInfo {
+    const MODULE_NAME: &'static IdentStr = ident_str!("price_storage");
+    const STRUCT_NAME: &'static IdentStr = ident_str!("PriceInfo");
+}
+
+impl AsMoveValue for PriceInfo {
+    fn as_move_value(&self) -> MoveValue {
+        MoveValue::Struct(MoveStruct::Runtime(vec![
+            self.fa_address.as_move_value(),
+            self.price.as_move_value(),
+            self.decimals.as_move_value(),
+        ]))
+    }
+}
+impl AsMoveValue for Prices {
+    fn as_move_value(&self) -> MoveValue {
+        MoveValue::Struct(MoveStruct::Runtime(vec![self.prices.as_move_value()]))
+    }
+}
+
+
+impl PriceInfoV2 {
     pub fn new(fa_address: String, price: u64, decimals: u8, timestamp: u64) -> Self {
         Self {
             fa_address,
@@ -50,12 +106,12 @@ impl PriceInfo {
     }
 }
 
-impl MoveStructType for PriceInfo {
+impl MoveStructType for PriceInfoV2 {
     const MODULE_NAME: &'static IdentStr = ident_str!("price_storage");
     const STRUCT_NAME: &'static IdentStr = ident_str!("PriceInfoV2");
 }
 
-impl AsMoveValue for PriceInfo {
+impl AsMoveValue for PriceInfoV2 {
     fn as_move_value(&self) -> MoveValue {
         MoveValue::Struct(MoveStruct::Runtime(vec![
             self.fa_address.as_move_value(),
@@ -65,8 +121,9 @@ impl AsMoveValue for PriceInfo {
         ]))
     }
 }
-impl AsMoveValue for Prices {
+impl AsMoveValue for PricesV2 {
     fn as_move_value(&self) -> MoveValue {
         MoveValue::Struct(MoveStruct::Runtime(vec![self.prices.as_move_value()]))
     }
 }
+

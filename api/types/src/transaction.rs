@@ -26,7 +26,7 @@ use cedra_types::{
     function_info::FunctionInfo,
     jwks::{jwk::JWK, ProviderJWKs, QuorumCertifiedUpdate},
     keyless,
-    oracle::PriceInfo,
+    oracle::PriceInfoV2,
     transaction::{
         authenticator::{
             AccountAuthenticator, AnyPublicKey, AnySignature, MultiKey, MultiKeyAuthenticator,
@@ -806,7 +806,7 @@ pub struct PriceUpdateTransaction {
     pub info: TransactionInfo,
     pub events: Vec<Event>,
     pub timestamp: U64,
-    pub price_info: Vec<PriceInfo>,
+    pub price_info: Vec<PriceInfoV2>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]

@@ -11,7 +11,7 @@ use crate::{
 };
 
 use cedra_logger::debug;
-use cedra_types::{oracle::{Prices,PriceInfo}, transaction::TransactionStatus};
+use cedra_types::{oracle::{PricesV2,PriceInfoV2}, transaction::TransactionStatus};
 use cedra_vm_logging::log_schema::AdapterLogSchema;
 use cedra_vm_types::{
     module_and_script_storage::module_storage::CedraModuleStorage, output::VMOutput,
@@ -47,18 +47,8 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        update: Vec<PriceInfo>,
+        update: Vec<PriceInfoV2>,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
-                return Ok((
-
-
-            VMStatus::MoveAbort(AbortLocation::Script, 1551),
-
-
-            VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
-
-
-        ));
         debug!("Processing price update transaction");
         match self.process_price_storage_update_inner(
             resolver,
@@ -97,11 +87,11 @@ impl CedraVM {
         module_storage: &impl CedraModuleStorage,
         log_context: &AdapterLogSchema,
         session_id: SessionId,
-        price_info: Vec<PriceInfo>,
+        price_info: Vec<PriceInfoV2>,
     ) -> Result<(VMStatus, VMOutput), ExecutionFailure> {
         let mut gas_meter = UnmeteredGasMeter;
         let mut session = self.new_session(resolver, session_id, None);
-        let prices = Prices::new(price_info);
+        let prices = PricesV2::new(price_info);
         let args = vec![
             MoveValue::Signer(AccountAddress::ONE),
             prices.as_move_value()
@@ -143,17 +133,6 @@ impl CedraVM {
         session_id: SessionId,
         fa_address: String,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
-          return Ok((
-
-
-
-            VMStatus::MoveAbort(AbortLocation::Script, 1552),
-
-
-            VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
-
-
-        ));
         debug!("Processing price remove transaction");
         match self.process_price_storage_remove_inner(
             resolver,

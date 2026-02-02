@@ -1002,10 +1002,11 @@ fn convert_validator_transaction(
                              .price_info
                             .iter()
                             .map(|price| {
-                                validator_transaction::add_price::PriceInfo {
+                                validator_transaction::add_price::PriceInfoV2 {
                                     fa_address: price.fa_address.clone(),
                                     price: price.price,
                                     decimals: price.decimals as u32,
+                                    timestamp: price.timestamp as u64,
                                 }
                             })
                             .collect(),
