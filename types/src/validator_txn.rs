@@ -4,7 +4,7 @@
 #[cfg(any(test, feature = "fuzzing"))]
 use crate::dkg::DKGTranscriptMetadata;
 use crate::{dkg::DKGTranscript, jwks};
-use crate::oracle::PriceInfo;
+use crate::oracle::PriceInfoV2;
 use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 #[cfg(any(test, feature = "fuzzing"))]
 use move_core_types::account_address::AccountAddress;
@@ -15,7 +15,7 @@ use std::fmt::Debug;
 pub enum ValidatorTransaction {
     DKGResult(DKGTranscript),
     ObservedJWKUpdate(jwks::QuorumCertifiedUpdate),
-    AddPrice(Vec<PriceInfo>),
+    AddPrice(Vec<PriceInfoV2>),
     RemovePrice(String),
 }
 

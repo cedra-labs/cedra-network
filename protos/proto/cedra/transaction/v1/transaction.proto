@@ -142,12 +142,13 @@ message ValidatorTransaction {
   }
 
     message AddPrice {
-      message  PriceInfo {
+      message  PriceInfoV2 {
         string fa_address = 1;
         uint64 price = 2;
         uint32 decimals = 3;
+        uint64 timestamp = 4;
       }
-    repeated PriceInfo price_info = 1;
+    repeated PriceInfoV2 price_info = 1;
   }
     message RemovePrice {
      string fa_address = 1;

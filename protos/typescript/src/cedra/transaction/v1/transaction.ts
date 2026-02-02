@@ -375,13 +375,14 @@ export interface ValidatorTransaction_DkgUpdate_DkgTranscript {
 }
 
 export interface ValidatorTransaction_AddPrice {
-  priceInfo?: ValidatorTransaction_AddPrice_PriceInfo[] | undefined;
+  priceInfo?: ValidatorTransaction_AddPrice_PriceInfoV2[] | undefined;
 }
 
-export interface ValidatorTransaction_AddPrice_PriceInfo {
+export interface ValidatorTransaction_AddPrice_PriceInfoV2 {
   faAddress?: string | undefined;
   price?: bigint | undefined;
   decimals?: number | undefined;
+  timestamp?: bigint | undefined;
 }
 
 export interface ValidatorTransaction_RemovePrice {
@@ -3453,7 +3454,7 @@ export const ValidatorTransaction_AddPrice = {
   encode(message: ValidatorTransaction_AddPrice, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.priceInfo !== undefined && message.priceInfo.length !== 0) {
       for (const v of message.priceInfo) {
-        ValidatorTransaction_AddPrice_PriceInfo.encode(v!, writer.uint32(10).fork()).ldelim();
+        ValidatorTransaction_AddPrice_PriceInfoV2.encode(v!, writer.uint32(10).fork()).ldelim();
       }
     }
     return writer;
@@ -3471,7 +3472,7 @@ export const ValidatorTransaction_AddPrice = {
             break;
           }
 
-          message.priceInfo!.push(ValidatorTransaction_AddPrice_PriceInfo.decode(reader, reader.uint32()));
+          message.priceInfo!.push(ValidatorTransaction_AddPrice_PriceInfoV2.decode(reader, reader.uint32()));
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -3519,7 +3520,7 @@ export const ValidatorTransaction_AddPrice = {
   fromJSON(object: any): ValidatorTransaction_AddPrice {
     return {
       priceInfo: globalThis.Array.isArray(object?.priceInfo)
-        ? object.priceInfo.map((e: any) => ValidatorTransaction_AddPrice_PriceInfo.fromJSON(e))
+        ? object.priceInfo.map((e: any) => ValidatorTransaction_AddPrice_PriceInfoV2.fromJSON(e))
         : [],
     };
   },
@@ -3527,7 +3528,7 @@ export const ValidatorTransaction_AddPrice = {
   toJSON(message: ValidatorTransaction_AddPrice): unknown {
     const obj: any = {};
     if (message.priceInfo?.length) {
-      obj.priceInfo = message.priceInfo.map((e) => ValidatorTransaction_AddPrice_PriceInfo.toJSON(e));
+      obj.priceInfo = message.priceInfo.map((e) => ValidatorTransaction_AddPrice_PriceInfoV2.toJSON(e));
     }
     return obj;
   },
@@ -3537,17 +3538,17 @@ export const ValidatorTransaction_AddPrice = {
   },
   fromPartial(object: DeepPartial<ValidatorTransaction_AddPrice>): ValidatorTransaction_AddPrice {
     const message = createBaseValidatorTransaction_AddPrice();
-    message.priceInfo = object.priceInfo?.map((e) => ValidatorTransaction_AddPrice_PriceInfo.fromPartial(e)) || [];
+    message.priceInfo = object.priceInfo?.map((e) => ValidatorTransaction_AddPrice_PriceInfoV2.fromPartial(e)) || [];
     return message;
   },
 };
 
-function createBaseValidatorTransaction_AddPrice_PriceInfo(): ValidatorTransaction_AddPrice_PriceInfo {
-  return { faAddress: "", price: BigInt("0"), decimals: 0 };
+function createBaseValidatorTransaction_AddPrice_PriceInfoV2(): ValidatorTransaction_AddPrice_PriceInfoV2 {
+  return { faAddress: "", price: BigInt("0"), decimals: 0, timestamp: BigInt("0") };
 }
 
-export const ValidatorTransaction_AddPrice_PriceInfo = {
-  encode(message: ValidatorTransaction_AddPrice_PriceInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const ValidatorTransaction_AddPrice_PriceInfoV2 = {
+  encode(message: ValidatorTransaction_AddPrice_PriceInfoV2, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.faAddress !== undefined && message.faAddress !== "") {
       writer.uint32(10).string(message.faAddress);
     }
@@ -3560,13 +3561,19 @@ export const ValidatorTransaction_AddPrice_PriceInfo = {
     if (message.decimals !== undefined && message.decimals !== 0) {
       writer.uint32(24).uint32(message.decimals);
     }
+    if (message.timestamp !== undefined && message.timestamp !== BigInt("0")) {
+      if (BigInt.asUintN(64, message.timestamp) !== message.timestamp) {
+        throw new globalThis.Error("value provided for field message.timestamp of type uint64 too large");
+      }
+      writer.uint32(32).uint64(message.timestamp.toString());
+    }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorTransaction_AddPrice_PriceInfo {
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorTransaction_AddPrice_PriceInfoV2 {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseValidatorTransaction_AddPrice_PriceInfo();
+    const message = createBaseValidatorTransaction_AddPrice_PriceInfoV2();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -3591,6 +3598,13 @@ export const ValidatorTransaction_AddPrice_PriceInfo = {
 
           message.decimals = reader.uint32();
           continue;
+        case 4:
+          if (tag !== 32) {
+            break;
+          }
+
+          message.timestamp = longToBigint(reader.uint64() as Long);
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3601,48 +3615,49 @@ export const ValidatorTransaction_AddPrice_PriceInfo = {
   },
 
   // encodeTransform encodes a source of message objects.
-  // Transform<ValidatorTransaction_AddPrice_PriceInfo, Uint8Array>
+  // Transform<ValidatorTransaction_AddPrice_PriceInfoV2, Uint8Array>
   async *encodeTransform(
     source:
-      | AsyncIterable<ValidatorTransaction_AddPrice_PriceInfo | ValidatorTransaction_AddPrice_PriceInfo[]>
-      | Iterable<ValidatorTransaction_AddPrice_PriceInfo | ValidatorTransaction_AddPrice_PriceInfo[]>,
+      | AsyncIterable<ValidatorTransaction_AddPrice_PriceInfoV2 | ValidatorTransaction_AddPrice_PriceInfoV2[]>
+      | Iterable<ValidatorTransaction_AddPrice_PriceInfoV2 | ValidatorTransaction_AddPrice_PriceInfoV2[]>,
   ): AsyncIterable<Uint8Array> {
     for await (const pkt of source) {
       if (globalThis.Array.isArray(pkt)) {
         for (const p of (pkt as any)) {
-          yield* [ValidatorTransaction_AddPrice_PriceInfo.encode(p).finish()];
+          yield* [ValidatorTransaction_AddPrice_PriceInfoV2.encode(p).finish()];
         }
       } else {
-        yield* [ValidatorTransaction_AddPrice_PriceInfo.encode(pkt as any).finish()];
+        yield* [ValidatorTransaction_AddPrice_PriceInfoV2.encode(pkt as any).finish()];
       }
     }
   },
 
   // decodeTransform decodes a source of encoded messages.
-  // Transform<Uint8Array, ValidatorTransaction_AddPrice_PriceInfo>
+  // Transform<Uint8Array, ValidatorTransaction_AddPrice_PriceInfoV2>
   async *decodeTransform(
     source: AsyncIterable<Uint8Array | Uint8Array[]> | Iterable<Uint8Array | Uint8Array[]>,
-  ): AsyncIterable<ValidatorTransaction_AddPrice_PriceInfo> {
+  ): AsyncIterable<ValidatorTransaction_AddPrice_PriceInfoV2> {
     for await (const pkt of source) {
       if (globalThis.Array.isArray(pkt)) {
         for (const p of (pkt as any)) {
-          yield* [ValidatorTransaction_AddPrice_PriceInfo.decode(p)];
+          yield* [ValidatorTransaction_AddPrice_PriceInfoV2.decode(p)];
         }
       } else {
-        yield* [ValidatorTransaction_AddPrice_PriceInfo.decode(pkt as any)];
+        yield* [ValidatorTransaction_AddPrice_PriceInfoV2.decode(pkt as any)];
       }
     }
   },
 
-  fromJSON(object: any): ValidatorTransaction_AddPrice_PriceInfo {
+  fromJSON(object: any): ValidatorTransaction_AddPrice_PriceInfoV2 {
     return {
       faAddress: isSet(object.faAddress) ? globalThis.String(object.faAddress) : "",
       price: isSet(object.price) ? BigInt(object.price) : BigInt("0"),
       decimals: isSet(object.decimals) ? globalThis.Number(object.decimals) : 0,
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp) : BigInt("0"),
     };
   },
 
-  toJSON(message: ValidatorTransaction_AddPrice_PriceInfo): unknown {
+  toJSON(message: ValidatorTransaction_AddPrice_PriceInfoV2): unknown {
     const obj: any = {};
     if (message.faAddress !== undefined && message.faAddress !== "") {
       obj.faAddress = message.faAddress;
@@ -3653,17 +3668,23 @@ export const ValidatorTransaction_AddPrice_PriceInfo = {
     if (message.decimals !== undefined && message.decimals !== 0) {
       obj.decimals = Math.round(message.decimals);
     }
+    if (message.timestamp !== undefined && message.timestamp !== BigInt("0")) {
+      obj.timestamp = message.timestamp.toString();
+    }
     return obj;
   },
 
-  create(base?: DeepPartial<ValidatorTransaction_AddPrice_PriceInfo>): ValidatorTransaction_AddPrice_PriceInfo {
-    return ValidatorTransaction_AddPrice_PriceInfo.fromPartial(base ?? {});
+  create(base?: DeepPartial<ValidatorTransaction_AddPrice_PriceInfoV2>): ValidatorTransaction_AddPrice_PriceInfoV2 {
+    return ValidatorTransaction_AddPrice_PriceInfoV2.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<ValidatorTransaction_AddPrice_PriceInfo>): ValidatorTransaction_AddPrice_PriceInfo {
-    const message = createBaseValidatorTransaction_AddPrice_PriceInfo();
+  fromPartial(
+    object: DeepPartial<ValidatorTransaction_AddPrice_PriceInfoV2>,
+  ): ValidatorTransaction_AddPrice_PriceInfoV2 {
+    const message = createBaseValidatorTransaction_AddPrice_PriceInfoV2();
     message.faAddress = object.faAddress ?? "";
     message.price = object.price ?? BigInt("0");
     message.decimals = object.decimals ?? 0;
+    message.timestamp = object.timestamp ?? BigInt("0");
     return message;
   },
 };

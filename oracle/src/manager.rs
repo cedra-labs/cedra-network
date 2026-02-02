@@ -5,7 +5,7 @@ use cedra_event_notifications::EventNotificationListener;
 use cedra_logger::{debug, error};
 use cedra_types::{
     chain_id::ChainId,
-    oracle::PriceInfo,
+    oracle::PriceInfoV2,
     validator_txn::{Topic, ValidatorTransaction},
 };
 use cedra_validator_transaction_pool::{TxnGuard, VTxnPoolState};
@@ -139,8 +139,8 @@ impl OraclePriceManager {
 
     pub async fn run(
         &mut self,
-        price_rx: mpsc::Receiver<PriceInfo>,
-        price_tx: mpsc::Sender<PriceInfo>,
+        price_rx: mpsc::Receiver<PriceInfoV2>,
+        price_tx: mpsc::Sender<PriceInfoV2>,
     ) -> Result<()> {
         let _ = self.cleanup_all_streams().await;
         // Initial update of whitelist on oracle runtime start
@@ -154,7 +154,7 @@ impl OraclePriceManager {
         Ok(())
     }
 
-    async fn ensure_whitelist_streams(&self, price_tx: mpsc::Sender<PriceInfo>) -> Result<()> {
+    async fn ensure_whitelist_streams(&self, price_tx: mpsc::Sender<PriceInfoV2>) -> Result<()> {
         let whitelist = self.whitelist.get_whitelist();
         let whitelist_addresses: Vec<String> =
             whitelist.iter().map(|a| a.move_type_string()).collect();
@@ -240,7 +240,7 @@ impl OraclePriceManager {
     async fn price_stream_task(
         fa_address: String,
         auth: String,
-        price_tx: mpsc::Sender<PriceInfo>,
+        price_tx: mpsc::Sender<PriceInfoV2>,
         handle: &OraclePriceManagerHandle,
         mut shutdown_rx: oneshot::Receiver<()>,
     ) -> Result<()> {
@@ -296,7 +296,7 @@ impl OraclePriceManager {
     async fn open_price_stream(
         fa_address: &str,
         auth: MetadataValue<Ascii>,
-        price_tx: mpsc::Sender<PriceInfo>,
+        price_tx: mpsc::Sender<PriceInfoV2>,
         handle: &OraclePriceManagerHandle,
         shutdown_rx: &mut oneshot::Receiver<()>,
     ) -> Result<()> {
@@ -327,7 +327,7 @@ impl OraclePriceManager {
                 price_update = stream.next() => match price_update {
                     Some(Ok(token)) => {
                         if price_tx
-                            .send(PriceInfo {
+                            .send(PriceInfoV2 {
                                 fa_address: token.fa_address.clone(),
                                 price: token.price,
                                 decimals: token.decimals as u8,
@@ -351,12 +351,12 @@ impl OraclePriceManager {
         }
     }
 
-    async fn spawn_price_submitter(&mut self, mut price_rx: mpsc::Receiver<PriceInfo>) {
+    async fn spawn_price_submitter(&mut self, mut price_rx: mpsc::Receiver<PriceInfoV2>) {
         let vtxn_pool = self.vtxn_pool.clone();
         let active_guards = self.active_guards.clone();
 
         tokio::spawn(async move {
-            let mut buffer: HashMap<String, PriceInfo> = HashMap::new();
+            let mut buffer: HashMap<String, PriceInfoV2> = HashMap::new();
             let mut ticker = tokio::time::interval(tokio::time::Duration::from_millis(1000));
 
             loop {
@@ -367,7 +367,7 @@ impl OraclePriceManager {
                     _ = ticker.tick() => {
                         if !buffer.is_empty() {
 
-                            let batch: Vec<PriceInfo> = buffer.values().cloned().collect();
+                            let batch: Vec<PriceInfoV2> = buffer.values().cloned().collect();
                             buffer.clear();
 
                             let txn = ValidatorTransaction::AddPrice(batch.clone());
@@ -390,7 +390,7 @@ impl OraclePriceManager {
         });
     }
 
-    async fn listen_for_events(&mut self, price_tx: mpsc::Sender<PriceInfo>) -> Result<()> {
+    async fn listen_for_events(&mut self, price_tx: mpsc::Sender<PriceInfoV2>) -> Result<()> {
         loop {
             tokio::select! {
                 // Handle events from the event stream
