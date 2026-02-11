@@ -915,6 +915,10 @@ pub enum EntryFunctionCall {
         permissions_storage_addr: AccountAddress,
     },
 
+    PriceStorageInitPriceStorage {},
+
+    PriceStorageInitTimestampsStorage {},
+
     /// Creates a new resource account and rotates the authentication key to either
     /// the optional auth key if it is non-empty (though auth keys are 32-bytes)
     /// or the source accounts current auth key.
@@ -1301,7 +1305,8 @@ pub enum EntryFunctionCall {
         symbol: Vec<u8>,
     },
 
-    /// Initialize an empty FungibleAssetRegistry
+    WhitelistAddCedraCoin {},
+
     WhitelistInitRegistry {},
 
     WhitelistRemoveAsset {
@@ -1822,6 +1827,8 @@ impl EntryFunctionCall {
             PermissionedSignerRevokePermissionStorageAddress {
                 permissions_storage_addr,
             } => permissioned_signer_revoke_permission_storage_address(permissions_storage_addr),
+            PriceStorageInitPriceStorage {} => price_storage_init_price_storage(),
+            PriceStorageInitTimestampsStorage {} => price_storage_init_timestamps_storage(),
             ResourceAccountCreateResourceAccount {
                 seed,
                 optional_auth_key,
@@ -2051,6 +2058,7 @@ impl EntryFunctionCall {
                 module_name,
                 symbol,
             } => whitelist_add_asset(asset_addr, module_name, symbol),
+            WhitelistAddCedraCoin {} => whitelist_add_cedra_coin(),
             WhitelistInitRegistry {} => whitelist_init_registry(),
             WhitelistRemoveAsset {
                 asset_addr,
@@ -4465,6 +4473,36 @@ pub fn permissioned_signer_revoke_permission_storage_address(
     ))
 }
 
+pub fn price_storage_init_price_storage() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("price_storage").to_owned(),
+        ),
+        ident_str!("init_price_storage").to_owned(),
+        vec![],
+        vec![],
+    ))
+}
+
+pub fn price_storage_init_timestamps_storage() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("price_storage").to_owned(),
+        ),
+        ident_str!("init_timestamps_storage").to_owned(),
+        vec![],
+        vec![],
+    ))
+}
+
 /// Creates a new resource account and rotates the authentication key to either
 /// the optional auth key if it is non-empty (though auth keys are 32-bytes)
 /// or the source accounts current auth key.
@@ -5753,7 +5791,21 @@ pub fn whitelist_add_asset(
     ))
 }
 
-/// Initialize an empty FungibleAssetRegistry
+pub fn whitelist_add_cedra_coin() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("whitelist").to_owned(),
+        ),
+        ident_str!("add_cedra_coin").to_owned(),
+        vec![],
+        vec![],
+    ))
+}
+
 pub fn whitelist_init_registry() -> TransactionPayload {
     TransactionPayload::EntryFunction(EntryFunction::new(
         ModuleId::new(
@@ -7131,6 +7183,26 @@ mod decoder {
         }
     }
 
+    pub fn price_storage_init_price_storage(
+        payload: &TransactionPayload,
+    ) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::PriceStorageInitPriceStorage {})
+        } else {
+            None
+        }
+    }
+
+    pub fn price_storage_init_timestamps_storage(
+        payload: &TransactionPayload,
+    ) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::PriceStorageInitTimestampsStorage {})
+        } else {
+            None
+        }
+    }
+
     pub fn resource_account_create_resource_account(
         payload: &TransactionPayload,
     ) -> Option<EntryFunctionCall> {
@@ -7887,6 +7959,14 @@ mod decoder {
         }
     }
 
+    pub fn whitelist_add_cedra_coin(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::WhitelistAddCedraCoin {})
+        } else {
+            None
+        }
+    }
+
     pub fn whitelist_init_registry(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
         if let TransactionPayload::EntryFunction(_script) = payload {
             Some(EntryFunctionCall::WhitelistInitRegistry {})
@@ -8339,6 +8419,14 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
             Box::new(decoder::permissioned_signer_revoke_permission_storage_address),
         );
         map.insert(
+            "price_storage_init_price_storage".to_string(),
+            Box::new(decoder::price_storage_init_price_storage),
+        );
+        map.insert(
+            "price_storage_init_timestamps_storage".to_string(),
+            Box::new(decoder::price_storage_init_timestamps_storage),
+        );
+        map.insert(
             "resource_account_create_resource_account".to_string(),
             Box::new(decoder::resource_account_create_resource_account),
         );
@@ -8587,6 +8675,10 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
         map.insert(
             "whitelist_add_asset".to_string(),
             Box::new(decoder::whitelist_add_asset),
+        );
+        map.insert(
+            "whitelist_add_cedra_coin".to_string(),
+            Box::new(decoder::whitelist_add_cedra_coin),
         );
         map.insert(
             "whitelist_init_registry".to_string(),
