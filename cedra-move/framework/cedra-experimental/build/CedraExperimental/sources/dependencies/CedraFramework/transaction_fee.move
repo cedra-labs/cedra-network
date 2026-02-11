@@ -94,25 +94,6 @@ module cedra_framework::transaction_fee {
     }
 
     #[event]
-    /// Breakdown of fee charge and refund for a transaction.
-    /// The structure is:
-    ///
-    /// - Net charge or refund (not in the statement)
-    ///    - total charge: total_charge_gas_units, matches `gas_used` in the on-chain `TransactionInfo`.
-    ///      This is the sum of the sub-items below. Notice that there's potential precision loss when
-    ///      the conversion between internal and external gas units and between native token and gas
-    ///      units, so it's possible that the numbers don't add up exactly. -- This number is the final
-    ///      charge, while the break down is merely informational.
-    ///        - gas charge for execution (CPU time): `execution_gas_units`
-    ///        - gas charge for IO (storage random access): `io_gas_units`
-    ///        - storage fee charge (storage space): `storage_fee_octas`, to be included in
-    ///          `total_charge_gas_unit`, this number is converted to gas units according to the user
-    ///          specified `gas_unit_price` on the transaction.
-    ///    - storage deletion refund: `storage_fee_refund_octas`, this is not included in `gas_used` or
-    ///      `total_charge_gas_units`, the net charge / refund is calculated by
-    ///      `total_charge_gas_units` * `gas_unit_price` - `storage_fee_refund_octas`.
-    ///
-    /// This is meant to emitted as a module event.
     struct CustomFeeStatement has drop, store {
         /// Total gas charge.
         total_charge_gas_units: u64,
@@ -125,6 +106,23 @@ module cedra_framework::transaction_fee {
         /// Storage fee refund.
         storage_fee_refund_octas: u64
     }
+    
+    #[event]
+    struct CustomFeeStatementV2 has drop, store {
+        /// Total gas charge.
+        total_charge_gas_units: u64,
+        /// FA amount.
+        stablecoin_amount: u64,
+        /// Execution gas charge.
+        execution_gas_units: u64,
+        /// IO gas charge.
+        io_gas_units: u64,
+        /// Storage fee charge.
+        storage_fee_octas: u64,
+        /// Storage fee refund.
+        storage_fee_refund_octas: u64
+    }
+
 
     /// Burn transaction fees in epilogue.
     public(friend) fun burn_fee(
@@ -230,6 +228,14 @@ module cedra_framework::transaction_fee {
     ) {
         event::emit(custom_fee_statement)
     }
+
+        // Called by the VM after epilogue.
+    fun emit_custom_fee_statement_v2(
+        custom_fee_statement: CustomFeeStatementV2
+    ) {
+        event::emit(custom_fee_statement)
+    }
+
 
     /// Return the address of the managed fungible asset that's created when this module is deployed.
     fun get_metadata(creator: address, symbol: vector<u8>): Object<Metadata> {
