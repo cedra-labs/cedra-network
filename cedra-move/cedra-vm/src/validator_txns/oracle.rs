@@ -5,7 +5,7 @@ use crate::{
     cedra_vm::get_system_transaction_output,
     errors::expect_only_successful_execution,
     move_vm_ext::{CedraMoveResolver, SessionId},
-    system_module_names::{PRICE_STORAGE_MODULE, REMOVE_PRICE, SET_PRICE},
+    system_module_names::{PRICE_STORAGE_MODULE, REMOVE_PRICE, SET_PRICE_V2},
     validator_txns::oracle::ExecutionFailure::{Expected, Unexpected},
     CedraVM,
 };
@@ -29,9 +29,6 @@ use move_vm_types::gas::UnmeteredGasMeter;
 #[allow(dead_code)]
 enum ExpectedFailure {
     // Move equivalent: `errors::invalid_argument(*)`
-    IncorrectVersion = 0x010103,
-    MultiSigVerificationFailed = 0x010104,
-    NotEnoughVotingPower = 0x010105,
 }
 
 #[allow(dead_code)]
@@ -49,10 +46,6 @@ impl CedraVM {
         session_id: SessionId,
         update: Vec<PriceInfoV2>,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
-        return Ok((
-            VMStatus::MoveAbort(AbortLocation::Script, 1551),
-            VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
-        ));
         debug!("Processing price update transaction");
         match self.process_price_storage_update_inner(
             resolver,
@@ -105,14 +98,14 @@ impl CedraVM {
         session
             .execute_function_bypass_visibility(
                 &PRICE_STORAGE_MODULE,
-                SET_PRICE,
+                SET_PRICE_V2,
                 vec![],
                 serialize_values(&args),
                 &mut gas_meter,
                 &mut TraversalContext::new(&traversal_storage),
                 module_storage,
             )
-            .map_err(|e| expect_only_successful_execution(e, SET_PRICE.as_str(), log_context))
+            .map_err(|e| expect_only_successful_execution(e, SET_PRICE_V2.as_str(), log_context))
             .map_err(|r| Unexpected(r.unwrap_err()))?;
 
         let output = get_system_transaction_output(
@@ -137,10 +130,6 @@ impl CedraVM {
         session_id: SessionId,
         fa_address: String,
     ) -> Result<(VMStatus, VMOutput), VMStatus> {
-        return Ok((
-            VMStatus::MoveAbort(AbortLocation::Script, 1552),
-            VMOutput::empty_with_status(TransactionStatus::Discard(StatusCode::ABORTED)),
-        ));
         debug!("Processing price remove transaction");
         match self.process_price_storage_remove_inner(
             resolver,
