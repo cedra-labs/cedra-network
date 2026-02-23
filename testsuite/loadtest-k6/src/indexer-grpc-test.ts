@@ -25,7 +25,6 @@ export const options = {
 };
 
 // GetTransactions from raw data stream
-// Inspiration from: https://github.com/cedra-labs/cedra-indexer-processors/blob/main/typescript/processors/example-write-set-change-processor/processor.ts
 export default () => {
   if (__ITER == 0) {
     client.connect(GRPC_ADDR, { plaintext: true });

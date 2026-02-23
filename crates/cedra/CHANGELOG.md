@@ -206,7 +206,6 @@ stdin, which triggers a graceful shutdown when received.
 
 ## [2.3.1] - 2023/11/07
 ### Updated
-- Updated processor code from https://github.com/cedra-labs/cedra-indexer-processors for the localnet to 2d5cb211a89a8705674e9e1e741c841dd899c558.
 - Improved reliability of inter-container networking with localnet.
 
 ## [2.3.0] - 2023/10/25
@@ -215,7 +214,6 @@ stdin, which triggers a graceful shutdown when received.
 
 ### Updated
 - Made the localnet exit more quickly if a service fails to start.
-- Updated processor code from https://github.com/cedra-labs/cedra-indexer-processors for the localnet to bcba94c26c8a6372056d2b69ce411c5719f98965.
 
 ### Fixed
 - Fixed an infrequent bug that caused startup failures for the localnet with `--force-restart` + `--with-indexer-api` by using a Docker volume rather than a bind mount for the postgres storage.
@@ -223,7 +221,7 @@ stdin, which triggers a graceful shutdown when received.
 
 ## [2.2.2] - 2023/10/16
 ### Updated
-- Updated processor code from https://github.com/cedra-labs/cedra-indexer-processors for the localnet to d6f55d4baba32960ea7be60878552e73ffbe8b7e.
+- Updated processor for the localnet.
 
 ## [2.2.1] - 2023/10/13
 ### Fixed
