@@ -7,7 +7,7 @@ use tracing::info;
 
 pub const HASURA_IMAGE: &str = "hasura/graphql-engine:v2.44.0-ce";
 
-/// This Hasura metadata originates from the cedra-indexer-processors repo.
+/// This Hasura metadata originates from the cedra-indexer-processors-v2 repo.
 ///
 /// This metadata here should come from the same revision as the `processor` dep.
 ///
