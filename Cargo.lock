@@ -3655,7 +3655,7 @@ dependencies = [
  "cedra-indexer-grpc-server-framework",
  "cedra-indexer-grpc-utils",
  "cedra-metrics-core",
- "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-moving-average",
  "cedra-protos 1.3.1",
  "clap 4.5.40",
  "futures",
@@ -3682,7 +3682,7 @@ dependencies = [
  "cedra-indexer-grpc-server-framework",
  "cedra-indexer-grpc-utils",
  "cedra-metrics-core",
- "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-moving-average",
  "cedra-protos 1.3.1",
  "cedra-transaction-filter 0.1.0",
  "clap 4.5.40",
@@ -3760,7 +3760,7 @@ dependencies = [
  "cedra-indexer-grpc-server-framework",
  "cedra-indexer-grpc-utils",
  "cedra-metrics-core",
- "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-moving-average",
  "clap 4.5.40",
  "futures",
  "jemallocator",
@@ -3815,7 +3815,7 @@ dependencies = [
  "cedra-mempool",
  "cedra-mempool-notifications",
  "cedra-metrics-core",
- "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0)",
+ "cedra-moving-average",
  "cedra-proptest-helpers",
  "cedra-protos 1.3.1",
  "cedra-runtimes",
@@ -3980,7 +3980,7 @@ dependencies = [
 [[package]]
 name = "cedra-indexer-processor-sdk"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=9fa9182285cf696da11a126f9739258afc72a3e2#9fa9182285cf696da11a126f9739258afc72a3e2"
 dependencies = [
  "ahash 0.8.12",
  "anyhow",
@@ -4017,7 +4017,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_yaml 0.8.26",
- "sha2 0.9.9",
+ "sha2 0.10.9",
  "tempfile",
  "thiserror 1.0.69",
  "tiny-keccak",
@@ -4065,10 +4065,10 @@ dependencies = [
 [[package]]
 name = "cedra-indexer-transaction-stream"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=9fa9182285cf696da11a126f9739258afc72a3e2#9fa9182285cf696da11a126f9739258afc72a3e2"
 dependencies = [
  "anyhow",
- "cedra-moving-average 0.1.0 (git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39)",
+ "cedra-moving-average",
  "cedra-protos 1.3.1 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
  "cedra-transaction-filter 0.1.0 (git+https://github.com/cedra-labs/cedra-network.git?rev=e8b7b18c6b07f5338af169246ada024a8a5ca4f6)",
  "chrono",
@@ -4575,15 +4575,7 @@ dependencies = [
 [[package]]
 name = "cedra-moving-average"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
-dependencies = [
- "chrono",
-]
-
-[[package]]
-name = "cedra-moving-average"
-version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=eff287d24279e93d7391b314ba83297071c27aa0#eff287d24279e93d7391b314ba83297071c27aa0"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=9fa9182285cf696da11a126f9739258afc72a3e2#9fa9182285cf696da11a126f9739258afc72a3e2"
 dependencies = [
  "chrono",
 ]
@@ -10764,7 +10756,7 @@ dependencies = [
 [[package]]
 name = "instrumented-channel"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=9fa9182285cf696da11a126f9739258afc72a3e2#9fa9182285cf696da11a126f9739258afc72a3e2"
 dependencies = [
  "delegate",
  "derive_builder",
@@ -14761,7 +14753,7 @@ dependencies = [
 [[package]]
 name = "processor"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processors-v2.git?rev=fa6a5d97b7f243f2198b9542d195da4586edeb94#fa6a5d97b7f243f2198b9542d195da4586edeb94"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processors-v2.git?rev=1201abcff8a525a964f62e057c61246aba005234#1201abcff8a525a964f62e057c61246aba005234"
 dependencies = [
  "ahash 0.8.12",
  "allocative",
@@ -16252,7 +16244,7 @@ dependencies = [
 [[package]]
 name = "sample"
 version = "0.1.0"
-source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=ec87f8aab59e83eb39d326161a84bed9dd1a6c39#ec87f8aab59e83eb39d326161a84bed9dd1a6c39"
+source = "git+https://github.com/cedra-labs/cedra-indexer-processor-sdk.git?rev=9fa9182285cf696da11a126f9739258afc72a3e2#9fa9182285cf696da11a126f9739258afc72a3e2"
 dependencies = [
  "tracing",
 ]

@@ -1,3 +1,0 @@
-[submodule "ecosystem/indexer-grpc/indexer-grpc-parser/cedra-indexer-processors"]
-	path = ecosystem/indexer-grpc/indexer-grpc-parser/cedra-indexer-processors
-	url = https://github.com/cedra-labs/cedra-indexer-processors.git
