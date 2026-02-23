@@ -495,10 +495,10 @@ ark-groth16 = "0.4.0"
 ark-relations = "0.4.0"
 ark-serialize = "0.4.0"
 ark-std = { version = "0.4.0", features = ["getrandom"] }
-cedra-indexer-processor-sdk = { git = "https://github.com/cedra-labs/cedra-indexer-processor-sdk.git", rev="ec87f8aab59e83eb39d326161a84bed9dd1a6c39", features = [
+cedra-indexer-processor-sdk = { git = "https://github.com/cedra-labs/cedra-indexer-processor-sdk.git", rev="9fa9182285cf696da11a126f9739258afc72a3e2", features = [
     "postgres_partial",
 ] }
-cedra-moving-average = { git = "https://github.com/cedra-labs/cedra-indexer-processor-sdk.git", rev="eff287d24279e93d7391b314ba83297071c27aa0" } 
+cedra-moving-average = { git = "https://github.com/cedra-labs/cedra-indexer-processor-sdk.git", rev="9fa9182285cf696da11a126f9739258afc72a3e2" } 
 assert_approx_eq = "1.1.0"
 async-channel = "1.7.1"
 async-mutex = "1.4.0"
@@ -694,7 +694,7 @@ pretty = "0.10.0"
 pretty_assertions = "1.2.1"
 # We set default-features to false so we don't onboard the libpq dep. See more here:
 # https://github.com/cedra-labs/cedra-network/pull/12568
-processor = { git = "https://github.com/cedra-labs/cedra-indexer-processors-v2.git", default-features = false, rev = "fa6a5d97b7f243f2198b9542d195da4586edeb94" } 
+processor = { git = "https://github.com/cedra-labs/cedra-indexer-processors-v2.git", default-features = false, rev = "1201abcff8a525a964f62e057c61246aba005234" } 
 procfs = "0.14.1"
 proc-macro2 = "1.0.38"
 project-root = "0.2.2"
