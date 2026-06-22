@@ -1307,7 +1307,13 @@ pub enum EntryFunctionCall {
 
     WhitelistAddCedraCoin {},
 
+    /// Destroys both legacy and canonical registries.
+    WhitelistDestroyRegistry {},
+
     WhitelistInitRegistry {},
+
+    /// Migrates the legacy registry into `WhitelistRegistry` and removes the old resource.
+    WhitelistMigrateRegistry {},
 
     WhitelistRemoveAsset {
         asset_addr: AccountAddress,
@@ -2059,7 +2065,9 @@ impl EntryFunctionCall {
                 symbol,
             } => whitelist_add_asset(asset_addr, module_name, symbol),
             WhitelistAddCedraCoin {} => whitelist_add_cedra_coin(),
+            WhitelistDestroyRegistry {} => whitelist_destroy_registry(),
             WhitelistInitRegistry {} => whitelist_init_registry(),
+            WhitelistMigrateRegistry {} => whitelist_migrate_registry(),
             WhitelistRemoveAsset {
                 asset_addr,
                 module_name,
@@ -5806,6 +5814,22 @@ pub fn whitelist_add_cedra_coin() -> TransactionPayload {
     ))
 }
 
+/// Destroys both legacy and canonical registries.
+pub fn whitelist_destroy_registry() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("whitelist").to_owned(),
+        ),
+        ident_str!("destroy_registry").to_owned(),
+        vec![],
+        vec![],
+    ))
+}
+
 pub fn whitelist_init_registry() -> TransactionPayload {
     TransactionPayload::EntryFunction(EntryFunction::new(
         ModuleId::new(
@@ -5816,6 +5840,22 @@ pub fn whitelist_init_registry() -> TransactionPayload {
             ident_str!("whitelist").to_owned(),
         ),
         ident_str!("init_registry").to_owned(),
+        vec![],
+        vec![],
+    ))
+}
+
+/// Migrates the legacy registry into `WhitelistRegistry` and removes the old resource.
+pub fn whitelist_migrate_registry() -> TransactionPayload {
+    TransactionPayload::EntryFunction(EntryFunction::new(
+        ModuleId::new(
+            AccountAddress::new([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,
+            ]),
+            ident_str!("whitelist").to_owned(),
+        ),
+        ident_str!("migrate_registry").to_owned(),
         vec![],
         vec![],
     ))
@@ -7967,9 +8007,25 @@ mod decoder {
         }
     }
 
+    pub fn whitelist_destroy_registry(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::WhitelistDestroyRegistry {})
+        } else {
+            None
+        }
+    }
+
     pub fn whitelist_init_registry(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
         if let TransactionPayload::EntryFunction(_script) = payload {
             Some(EntryFunctionCall::WhitelistInitRegistry {})
+        } else {
+            None
+        }
+    }
+
+    pub fn whitelist_migrate_registry(payload: &TransactionPayload) -> Option<EntryFunctionCall> {
+        if let TransactionPayload::EntryFunction(_script) = payload {
+            Some(EntryFunctionCall::WhitelistMigrateRegistry {})
         } else {
             None
         }
@@ -8681,8 +8737,16 @@ static SCRIPT_FUNCTION_DECODER_MAP: once_cell::sync::Lazy<EntryFunctionDecoderMa
             Box::new(decoder::whitelist_add_cedra_coin),
         );
         map.insert(
+            "whitelist_destroy_registry".to_string(),
+            Box::new(decoder::whitelist_destroy_registry),
+        );
+        map.insert(
             "whitelist_init_registry".to_string(),
             Box::new(decoder::whitelist_init_registry),
+        );
+        map.insert(
+            "whitelist_migrate_registry".to_string(),
+            Box::new(decoder::whitelist_migrate_registry),
         );
         map.insert(
             "whitelist_remove_asset".to_string(),

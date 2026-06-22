@@ -366,7 +366,7 @@ fn get_whitelist_request(
                     )
                 })?;
 
-            // Convert MoveValue to JSON and decode module_name/symbol
+            // Convert MoveValue to JSON and decode symbol fields for asset lists.
             let json_result = serde_json::to_value(&move_vals).map_err(|err| {
                 BasicErrorWith404::bad_request_with_code(
                     err,
@@ -387,7 +387,6 @@ fn get_whitelist_request(
                             .map(|obj| {
                                 let addr = obj.get("addr").cloned().unwrap_or(Value::Null);
 
-                                // Decode hex fields to plain UTF-8
                                 let module_name = obj
                                     .get("module_name")
                                     .and_then(|m| m.as_str())
@@ -408,10 +407,24 @@ fn get_whitelist_request(
                                     })
                                     .unwrap_or_default();
 
+                                let type_tag = match (&addr, module_name.as_str(), symbol.as_str()) {
+                                    (Value::String(a), "cedra_coin", "CedraCoin") if a == "0x1" => {
+                                        "0x1::cedra_coin::CedraCoin".to_string()
+                                    },
+                                    (Value::String(a), module, _) if !module.is_empty() => {
+                                        format!("{}::{}::{}", a, module, symbol)
+                                    },
+                                    (Value::String(a), _, _) => {
+                                        format!("{}::stablecoin::{}", a, symbol)
+                                    },
+                                    _ => String::new(),
+                                };
+
                                 serde_json::json!({
                                     "addr": addr,
                                     "module_name": module_name,
-                                    "symbol": symbol
+                                    "symbol": symbol,
+                                    "type_tag": type_tag
                                 })
                             })
                             .collect::<Vec<Value>>()

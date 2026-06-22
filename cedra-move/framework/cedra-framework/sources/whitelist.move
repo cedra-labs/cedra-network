@@ -15,18 +15,37 @@ module cedra_framework::whitelist {
     // FungibleAssetRegistry already initialized
     const EALREADY_INITIALIZED: u64 = 3;
     const ENO_REGISTRY: u64 = 4;
-    const EASSET_EXISTS: u64 = 5; 
+    const EASSET_EXISTS: u64 = 5;
+    const ENO_LEGACY_REGISTRY: u64 = 6;
 
-    /// Stores all assets that allowed in transaction commission
-    struct FungibleAssetRegistry has key {
-        assets: vector<FungibleAssetStruct>
-    }
+    const CEDRA_COIN_SYMBOL: vector<u8> = b"CedraCoin";
+    const STABLECOIN_MODULE: vector<u8> = b"stablecoin";
+    const CEDRA_COIN_MODULE: vector<u8> = b"cedra_coin";
 
-    /// Stores Asset values
+    // -------------------------------------------------------------------------
+    // Legacy on-chain layout (addr + module_name + symbol).
+    // Preserved for backward-compatible module upgrades and API surface.
+    // -------------------------------------------------------------------------
     struct FungibleAssetStruct has copy, drop, store {
         addr: address,
         module_name: vector<u8>,
         symbol: vector<u8>
+    }
+
+    struct FungibleAssetRegistry has key {
+        assets: vector<FungibleAssetStruct>
+    }
+
+    // -------------------------------------------------------------------------
+    // Canonical storage (addr + symbol only).
+    // -------------------------------------------------------------------------
+    struct WhitelistAsset has copy, drop, store {
+        addr: address,
+        symbol: vector<u8>
+    }
+
+    struct WhitelistRegistry has key {
+        assets: vector<WhitelistAsset>
     }
 
     #[event]
@@ -43,28 +62,17 @@ module cedra_framework::whitelist {
         symbol: vector<u8>
     }
 
-
     public entry fun init_registry(admin: &signer) {
         let admin_address = signer::address_of(admin);
         assert!(@admin == admin_address, EUNAUTHORIZED);
+        assert_no_registry(@admin);
 
-        assert_registry_absent(@admin);
-
-        let assets = vector::empty<FungibleAssetStruct>();
-
-        // Add default asset: 0x1::cedra_coin::CedraCoin
-        vector::push_back(
-            &mut assets,
-            FungibleAssetStruct {
-                addr: @0x1,
-                module_name: b"cedra_coin",
-                symbol: b"CedraCoin"
-            }
-        );
+        let assets = vector::empty<WhitelistAsset>();
+        vector::push_back(&mut assets, cedra_coin_asset());
 
         move_to(
             admin,
-            FungibleAssetRegistry {
+            WhitelistRegistry {
                 assets
             }
         );
@@ -72,22 +80,46 @@ module cedra_framework::whitelist {
         emit(
             AssetAddedEvent {
                 addr: @0x1,
-                module_name: b"cedra_coin",
-                symbol: b"CedraCoin"
+                module_name: CEDRA_COIN_MODULE,
+                symbol: CEDRA_COIN_SYMBOL
             }
         );
+    }
 
-}
-    // Add asset into FungibleAssetRegistry. Can be used only by admin
+    /// Migrates the legacy registry into `WhitelistRegistry` and removes the old resource.
+    public entry fun migrate_registry(admin: &signer) acquires FungibleAssetRegistry {
+        let admin_address = signer::address_of(admin);
+        assert!(@admin == admin_address, EUNAUTHORIZED);
+        assert!(exists<FungibleAssetRegistry>(@admin), ENO_LEGACY_REGISTRY);
+        assert!(!exists<WhitelistRegistry>(@admin), EALREADY_INITIALIZED);
+        migrate_registry_internal(admin);
+    }
+
+    /// Destroys both legacy and canonical registries.
+    public entry fun destroy_registry(admin: &signer) acquires FungibleAssetRegistry, WhitelistRegistry {
+        let admin_address = signer::address_of(admin);
+        assert!(@admin == admin_address, EUNAUTHORIZED);
+        assert!(has_registry(@admin), ENO_REGISTRY);
+
+        if (exists<WhitelistRegistry>(@admin)) {
+            let WhitelistRegistry { assets: _ } = move_from<WhitelistRegistry>(@admin);
+        };
+        if (exists<FungibleAssetRegistry>(@admin)) {
+            let FungibleAssetRegistry { assets: _ } = move_from<FungibleAssetRegistry>(@admin);
+        };
+    }
+
+    // Backward-compatible entry: `module_name` is accepted for API compatibility but
+    // matching uses addr + symbol only.
     public entry fun add_asset(
         admin: &signer,
         asset_addr: address,
         module_name: vector<u8>,
         symbol: vector<u8>
-    ) acquires FungibleAssetRegistry {
+    ) acquires FungibleAssetRegistry, WhitelistRegistry {
         let admin_address = signer::address_of(admin);
 
-        assert!(has_registry(@admin), ENO_REGISTRY);
+        ensure_canonical_registry(admin);
         assert!(
             admin_address == @admin || admin_address == @0x1,
             EUNAUTHORIZED
@@ -99,18 +131,18 @@ module cedra_framework::whitelist {
         );
 
         assert!(
-            !asset_exists(asset_addr, module_name, symbol),
+            !asset_exists(asset_addr, symbol),
             EASSET_EXISTS
         );
 
-        let registry = borrow_global_mut<FungibleAssetRegistry>(@admin);
+        let registry = borrow_global_mut<WhitelistRegistry>(@admin);
 
         vector::push_back(
             &mut registry.assets,
-            FungibleAssetStruct { addr: asset_addr, module_name, symbol }
+            WhitelistAsset { addr: asset_addr, symbol }
         );
 
-         emit(
+        emit(
             AssetAddedEvent {
                 addr: asset_addr,
                 module_name,
@@ -119,27 +151,27 @@ module cedra_framework::whitelist {
         );
     }
 
-    // Remove asset from FungibleAssetRegistry. Can be used only by admin
     public entry fun remove_asset(
         admin: &signer,
         asset_addr: address,
         module_name: vector<u8>,
         symbol: vector<u8>
-    ) acquires FungibleAssetRegistry {
+    ) acquires FungibleAssetRegistry, WhitelistRegistry {
         let admin_address = signer::address_of(admin);
         assert!(@admin == admin_address, EUNAUTHORIZED);
 
-        let registry = borrow_global_mut<FungibleAssetRegistry>(admin_address);
+        ensure_canonical_registry(admin);
+
+        let registry = borrow_global_mut<WhitelistRegistry>(admin_address);
 
         let (exist, index) = vector::index_of(
             &registry.assets,
-            &FungibleAssetStruct { addr: asset_addr, module_name, symbol }
+            &WhitelistAsset { addr: asset_addr, symbol }
         );
         if (exist) {
             vector::remove(&mut registry.assets, index);
-            
 
-           emit(
+            emit(
                 AssetRemovedEvent {
                     addr: asset_addr,
                     module_name,
@@ -151,52 +183,186 @@ module cedra_framework::whitelist {
         }
     }
 
-    // Add CedraCoin into FungibleAssetRegistry. Can be used only by admin
     public entry fun add_cedra_coin(
         admin: &signer,
-    ) acquires FungibleAssetRegistry {
+    ) acquires FungibleAssetRegistry, WhitelistRegistry {
         let admin_address = signer::address_of(admin);
 
-        assert!(has_registry(@admin), ENO_REGISTRY);
+        ensure_canonical_registry(admin);
         assert!(
             admin_address == @admin || admin_address == @0x1,
             EUNAUTHORIZED
         );
 
         assert!(
-            !asset_exists(@0x1, b"cedra_coin", b"CedraCoin"),
+            !asset_exists(@0x1, CEDRA_COIN_SYMBOL),
             EASSET_EXISTS
         );
 
-        let registry = borrow_global_mut<FungibleAssetRegistry>(@admin);
+        let registry = borrow_global_mut<WhitelistRegistry>(@admin);
 
         vector::push_back(
             &mut registry.assets,
-            FungibleAssetStruct { addr: @0x1, module_name:b"cedra_coin", symbol:b"CedraCoin"}
+            cedra_coin_asset()
         );
 
         emit(
             AssetAddedEvent {
                 addr: @0x1,
-                module_name: b"cedra_coin",
-                symbol: b"CedraCoin"
+                module_name: CEDRA_COIN_MODULE,
+                symbol: CEDRA_COIN_SYMBOL
             }
         );
     }
 
-
     public(friend) fun asset_exists(
-        asset_addr: address, module_name: vector<u8>, symbol: vector<u8>
-    ): bool acquires FungibleAssetRegistry {
-        let registry = borrow_global<FungibleAssetRegistry>(@admin);
+        asset_addr: address, symbol: vector<u8>
+    ): bool acquires FungibleAssetRegistry, WhitelistRegistry {
+        if (exists<WhitelistRegistry>(@admin)) {
+            return asset_exists_canonical(asset_addr, symbol);
+        };
 
+        if (exists<FungibleAssetRegistry>(@admin)) {
+            return asset_exists_legacy(asset_addr, symbol);
+        };
+
+        false
+    }
+
+    public(friend) fun has_registry(addr: address): bool {
+        exists<WhitelistRegistry>(addr) || exists<FungibleAssetRegistry>(addr)
+    }
+
+    #[view]
+    public fun is_cedra_coin(addr: address, symbol: vector<u8>): bool {
+        addr == @0x1 && symbol == CEDRA_COIN_SYMBOL
+    }
+
+    #[view]
+    public fun is_migrated(admin: address): bool {
+        exists<WhitelistRegistry>(admin)
+    }
+
+    #[view]
+    public fun get_canonical_asset_list(
+        admin: address
+    ): vector<WhitelistAsset> acquires FungibleAssetRegistry, WhitelistRegistry {
+        if (exists<WhitelistRegistry>(admin)) {
+            return borrow_global<WhitelistRegistry>(admin).assets
+        };
+
+        if (exists<FungibleAssetRegistry>(admin)) {
+            return legacy_assets_to_canonical(
+                &borrow_global<FungibleAssetRegistry>(admin).assets
+            );
+        };
+
+        vector::empty<WhitelistAsset>()
+    }
+
+    #[view]
+    public fun get_asset_list(
+        admin: address
+    ): vector<FungibleAssetStruct> acquires FungibleAssetRegistry, WhitelistRegistry {
+        if (exists<WhitelistRegistry>(admin)) {
+            return canonical_assets_to_legacy(
+                &borrow_global<WhitelistRegistry>(admin).assets
+            );
+        };
+
+        if (exists<FungibleAssetRegistry>(admin)) {
+            return borrow_global<FungibleAssetRegistry>(admin).assets;
+        };
+
+        vector::empty<FungibleAssetStruct>()
+    }
+
+    fun ensure_canonical_registry(admin: &signer) acquires FungibleAssetRegistry {
+        let admin_address = signer::address_of(admin);
+        if (exists<WhitelistRegistry>(admin_address)) {
+            return
+        };
+
+        if (exists<FungibleAssetRegistry>(admin_address)) {
+            migrate_registry_internal(admin);
+            return
+        };
+
+        abort ENO_REGISTRY
+    }
+
+    fun migrate_registry_internal(admin: &signer) acquires FungibleAssetRegistry {
+        let admin_address = signer::address_of(admin);
+        let FungibleAssetRegistry { assets: legacy_assets } =
+            move_from<FungibleAssetRegistry>(admin_address);
+
+        let canonical_assets = legacy_assets_to_canonical(&legacy_assets);
+
+        move_to(
+            admin,
+            WhitelistRegistry { assets: canonical_assets }
+        );
+    }
+
+    fun legacy_assets_to_canonical(
+        legacy_assets: &vector<FungibleAssetStruct>
+    ): vector<WhitelistAsset> {
+        let canonical = vector::empty<WhitelistAsset>();
+        let i = 0;
+        let n = vector::length(legacy_assets);
+        while (i < n) {
+            let legacy = vector::borrow(legacy_assets, i);
+            let canonical_asset = WhitelistAsset {
+                addr: legacy.addr,
+                symbol: legacy.symbol
+            };
+            if (!vector::contains(&canonical, &canonical_asset)) {
+                vector::push_back(&mut canonical, canonical_asset);
+            };
+            i = i + 1;
+        };
+        canonical
+    }
+
+    fun canonical_assets_to_legacy(
+        canonical_assets: &vector<WhitelistAsset>
+    ): vector<FungibleAssetStruct> {
+        let legacy = vector::empty<FungibleAssetStruct>();
+        let i = 0;
+        let n = vector::length(canonical_assets);
+        while (i < n) {
+            let asset = vector::borrow(canonical_assets, i);
+            vector::push_back(&mut legacy, to_legacy_struct(asset));
+            i = i + 1;
+        };
+        legacy
+    }
+
+    fun to_legacy_struct(asset: &WhitelistAsset): FungibleAssetStruct {
+        FungibleAssetStruct {
+            addr: asset.addr,
+            module_name: oracle_module_name(asset.addr, asset.symbol),
+            symbol: asset.symbol
+        }
+    }
+
+    fun oracle_module_name(addr: address, symbol: vector<u8>): vector<u8> {
+        if (is_cedra_coin(addr, symbol)) {
+            CEDRA_COIN_MODULE
+        } else {
+            STABLECOIN_MODULE
+        }
+    }
+
+    fun asset_exists_canonical(
+        asset_addr: address, symbol: vector<u8>
+    ): bool acquires WhitelistRegistry {
+        let registry = borrow_global<WhitelistRegistry>(@admin);
         let i = 0;
         let n = vector::length(&registry.assets);
         while (i < n) {
             let asset = vector::borrow(&registry.assets, i);
-            if (asset.addr == asset_addr
-                && asset.module_name == module_name
-                && asset.symbol == symbol) {
+            if (asset.addr == asset_addr && asset.symbol == symbol) {
                 return true;
             };
             i = i + 1;
@@ -204,18 +370,31 @@ module cedra_framework::whitelist {
         false
     }
 
-    public(friend) fun has_registry(addr: address): bool {
-        exists<FungibleAssetRegistry>(addr)
+    fun asset_exists_legacy(
+        asset_addr: address, symbol: vector<u8>
+    ): bool acquires FungibleAssetRegistry {
+        let registry = borrow_global<FungibleAssetRegistry>(@admin);
+        let i = 0;
+        let n = vector::length(&registry.assets);
+        while (i < n) {
+            let asset = vector::borrow(&registry.assets, i);
+            if (asset.addr == asset_addr && asset.symbol == symbol) {
+                return true;
+            };
+            i = i + 1;
+        };
+        false
     }
 
-    fun assert_registry_absent(admin_address: address) {
-        assert!(!exists<FungibleAssetRegistry>(admin_address), EALREADY_INITIALIZED);
+    fun assert_no_registry(admin_address: address) {
+        assert!(
+            !exists<WhitelistRegistry>(admin_address)
+                && !exists<FungibleAssetRegistry>(admin_address),
+            EALREADY_INITIALIZED
+        );
     }
 
-    #[view]
-    public fun get_asset_list(
-        admin: address
-    ): vector<FungibleAssetStruct> acquires FungibleAssetRegistry {
-        borrow_global<FungibleAssetRegistry>(admin).assets
+    fun cedra_coin_asset(): WhitelistAsset {
+        WhitelistAsset { addr: @0x1, symbol: CEDRA_COIN_SYMBOL }
     }
 }
