@@ -1,12 +1,17 @@
 module cedra_framework::price_storage {
     use std::vector;
     use std::error;
+    use std::hash;
     use std::string::{Self, String};
     use cedra_std::table::{Self, Table};
+    use cedra_std::string_utils;
     use cedra_framework::system_addresses;
     use cedra_framework::event::emit;
     use cedra_framework::timestamp;
     use cedra_std::math64;
+    use oracle::oracle;
+    use oracle::price::{Self, Price};
+    use oracle::i64;
 
     friend cedra_framework::transaction_validation;
 
@@ -22,18 +27,15 @@ module cedra_framework::price_storage {
     /// MSB is used to indicate a gas payer tx
     const MAX_U64: u128 = 18446744073709551615;
     const MAX_PRICE_AGE: u64 = 60;
-    
-    //----------------------------------
-    //----------------------------------
-    //----------------------------------
-    const oracle_address = vector<u8> = b"0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c";
-    const oracle_module = vector<u8> = b"oracle";
-    const oracle_method = vector<u8> = b"get_price_by_feed_id";
-    
-    //----------------------------------
-    //----------------------------------
-    //----------------------------------
 
+    /// On-chain oracle module target (documentation; bytecode links via @oracle named address).
+    const ORACLE_ADDRESS: vector<u8> = b"0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c";
+    const ORACLE_MODULE: vector<u8> = b"oracle";
+    const ORACLE_METHOD: vector<u8> = b"get_price_by_feed_id";
+
+    /// Cedra native feed identity for NewPriceIdentifier(address, symbol).
+    const CEDRA_FEED_ADDRESS: vector<u8> = b"0x1";
+    const CEDRA_FEED_SYMBOL: vector<u8> = b"CEDRA";
 
     struct PriceInfoV2 has copy, drop, store {
         fa_address: String,
@@ -47,11 +49,11 @@ module cedra_framework::price_storage {
     }
 
 
-    // #[event]
+    #[event]
     #[deprecated]
     struct PriceUpdated has drop, store { fa_address: String }
 
-    // #[event]
+    #[event]
     #[deprecated]
     struct PriceRemoved has drop, store { fa_address: String }
 
@@ -158,6 +160,39 @@ module cedra_framework::price_storage {
         (price_info.price, price_info.decimals)
     }
 
+    /// Format address as `0x` + 64-char zero-padded hex (no `@` prefix).
+    fun address_to_hex(addr: address): vector<u8> {
+        let s = string_utils::to_string_with_canonical_addresses(&addr);
+        let bytes = *string::bytes(&s);
+        // Strip leading `@` from "@0x...."
+        vector::remove(&mut bytes, 0);
+        bytes
+    }
+
+    /// Matches Go NewPriceIdentifier: sha3_256(address_bytes || symbol_bytes) -> 32 bytes.
+    fun new_price_feed_id(address_bytes: vector<u8>, symbol: vector<u8>): vector<u8> {
+        let data = address_bytes;
+        vector::append(&mut data, symbol);
+        hash::sha3_256(data)
+    }
+
+    /// Decode oracle Price into (price, decimals) used by the fee formula.
+    fun decode_oracle_price(p: &Price, current_time: u64): (u64, u8) {
+        assert!(
+            current_time - price::get_timestamp(p) <= MAX_PRICE_AGE,
+            error::out_of_range(EPRICE_TOO_OLD)
+        );
+
+        let raw_price = i64::get_magnitude_if_positive(&price::get_price(p));
+        assert!(raw_price > 0, error::invalid_argument(FA_PRICE_IS_ZERO));
+
+        let expo = price::get_expo(p);
+        let decimals = (i64::get_magnitude_if_negative(&expo) as u8);
+        assert!(decimals <= 18, error::out_of_range(DECIMALS_TOO_BIG));
+
+        (raw_price, decimals)
+    }
+
     #[view]
     public fun calculate_fa_fee_v2(
         gas_used: u64,
@@ -166,10 +201,44 @@ module cedra_framework::price_storage {
         fa_address: address,
         symbol: vector<u8>
     ): u64 {
-        const oracle_address = 
+        // Keep module constants aligned with the linked @oracle call target.
+        assert!(ORACLE_MODULE == b"oracle", EPRICE_NOT_FOUND);
+        assert!(ORACLE_METHOD == b"get_price_by_feed_id", EPRICE_NOT_FOUND);
+        assert!(ORACLE_ADDRESS == b"0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c", EPRICE_NOT_FOUND);
+
+        let current_time = timestamp::now_seconds();
+
+        assert!(
+            (txn_gas_price as u128) * (gas_used as u128) <= MAX_U64,
+            error::out_of_range(EOUT_OF_GAS)
+        );
+
+        let transaction_fee_amount = txn_gas_price * gas_used;
+        let cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
+
+        let fa_feed_id = new_price_feed_id(address_to_hex(fa_address), symbol);
+        let fa_oracle_price = oracle::get_price_by_feed_id(fa_feed_id);
+        let (fa_price, fa_decimals) = decode_oracle_price(&fa_oracle_price, current_time);
+
+        let cedra_feed_id = new_price_feed_id(CEDRA_FEED_ADDRESS, CEDRA_FEED_SYMBOL);
+        let cedra_oracle_price = oracle::get_price_by_feed_id(cedra_feed_id);
+        let (cedra_price, cedra_decimals) = decode_oracle_price(&cedra_oracle_price, current_time);
+
+        // fa_fee = (cedra_fee * cedra_price * 10^fa_decimals) / (fa_price * 10^cedra_decimals)
+        let normalized_cedra_value = math64::mul_div(
+            cedra_fee_amount,
+            cedra_price,
+            math64::pow(10, (cedra_decimals as u64))
+        );
+
+        math64::mul_div(
+            normalized_cedra_value,
+            math64::pow(10, (fa_decimals as u64)),
+            fa_price
+        )
     }
 
-    #[view]
+    #[deprecated]
     public fun calculate_fa_fee(
         gas_used: u64,
         storage_fee_refunded: u64,

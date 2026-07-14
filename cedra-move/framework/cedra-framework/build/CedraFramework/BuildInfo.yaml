@@ -9,16 +9,17 @@ compiled_package_info:
     cedra_std: "0000000000000000000000000000000000000000000000000000000000000001"
     cedra_token: "0000000000000000000000000000000000000000000000000000000000000003"
     core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
+    oracle: 108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: 67FA32B73C245F8CEFBC7F71A28BFB1C92C9F14E78D62A56CDA99747555A9DCA
+  source_digest: 15CE7632585FDD2B521C1D2C40B4C5ED7ECF96DB99D9A89D1D7336F6315227DB
   build_flags:
     dev_mode: false
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: true
+    generate_abis: false
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
@@ -49,10 +50,12 @@ compiled_package_info:
         - verify_only
         - view
       skip_attribute_checks: false
-      compiler_version: ~
-      language_version: ~
-      experiments: []
+      compiler_version: V2_0
+      language_version: V2_1
+      experiments:
+        - optimize=on
 dependencies:
   - CedraStdlib
   - MoveStdlib
+  - OracleInterface
 bytecode_deps: []

@@ -1,0 +1,10 @@
+[package]
+name = "OracleInterface"
+version = "0.0.1"
+
+[addresses]
+std = "0x1"
+oracle = "0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c"
+
+[dependencies]
+MoveStdlib = { local = "../move-stdlib" }
