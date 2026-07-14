@@ -22,7 +22,17 @@ module cedra_framework::price_storage {
     /// MSB is used to indicate a gas payer tx
     const MAX_U64: u128 = 18446744073709551615;
     const MAX_PRICE_AGE: u64 = 60;
-
+    
+    //----------------------------------
+    //----------------------------------
+    //----------------------------------
+    const oracle_address = vector<u8> = b"0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c";
+    const oracle_module = vector<u8> = b"oracle";
+    const oracle_method = vector<u8> = b"get_price_by_feed_id";
+    
+    //----------------------------------
+    //----------------------------------
+    //----------------------------------
 
 
     struct PriceInfoV2 has copy, drop, store {
@@ -37,13 +47,16 @@ module cedra_framework::price_storage {
     }
 
 
-    #[event]
+    // #[event]
+    #[deprecated]
     struct PriceUpdated has drop, store { fa_address: String }
 
-    #[event]
+    // #[event]
+    #[deprecated]
     struct PriceRemoved has drop, store { fa_address: String }
 
     // localnet init_module
+    #[deprecated]
     fun init_module(cedra_framework: &signer) {
         system_addresses::assert_cedra_framework(cedra_framework);
         assert!(
@@ -59,6 +72,7 @@ module cedra_framework::price_storage {
         );
     }
 
+    #[deprecated]
     public entry fun init_price_storage(cedra_framework: &signer) {
         system_addresses::assert_cedra_framework(cedra_framework);
 
@@ -75,6 +89,7 @@ module cedra_framework::price_storage {
         );
     }
 
+    #[deprecated]
     public fun set_prices_v2(
         cedra_framework: &signer,
         prices: vector<PriceInfoV2>
@@ -99,6 +114,7 @@ module cedra_framework::price_storage {
         }
     }
 
+    #[deprecated]
     public fun remove_price(
         cedra_framework: &signer,
         fa_address: String
@@ -116,7 +132,7 @@ module cedra_framework::price_storage {
             emit(PriceRemoved { fa_address });
         }
     }
-
+    #[deprecated]
     public(friend) fun get_info(fa_address: String): (u64, u8) 
     acquires PriceStorageV2 {
         let store = borrow_global<PriceStorageV2>(@cedra_framework);
@@ -130,7 +146,7 @@ module cedra_framework::price_storage {
         (price_info.price, price_info.decimals)
     }
 
-    #[view]
+    #[deprecated]
     public fun get(fa_address: String): (u64, u8) acquires PriceStorageV2 {
         let store = borrow_global<PriceStorageV2>(@cedra_framework);
         assert!(
@@ -140,6 +156,17 @@ module cedra_framework::price_storage {
 
         let price_info = table::borrow(&store.prices, fa_address);
         (price_info.price, price_info.decimals)
+    }
+
+    #[view]
+    public fun calculate_fa_fee_v2(
+        gas_used: u64,
+        storage_fee_refunded: u64,
+        txn_gas_price: u64,
+        fa_address: address,
+        symbol: vector<u8>
+    ): u64 {
+        const oracle_address = 
     }
 
     #[view]
@@ -241,6 +268,4 @@ module cedra_framework::price_storage {
 
     #[deprecated]
     public entry fun init_timestamps_storage(_cedra_framework: &signer) {}
-
-
 }
