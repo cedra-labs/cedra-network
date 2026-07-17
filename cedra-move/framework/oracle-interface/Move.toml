@@ -1,6 +1,6 @@
 [package]
-name = "OracleInterface"
-version = "0.0.1"
+name = "CedraOracle"
+version = "1.0.0"
 
 [addresses]
 std = "0x1"

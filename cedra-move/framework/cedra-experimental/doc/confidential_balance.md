@@ -46,10 +46,10 @@ directly on encrypted data.
 -  [Function `get_chunk_size_bits`](#0x7_confidential_balance_get_chunk_size_bits)
 
 
-<pre><code><b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<pre><code><b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255">0x1::ristretto255</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 <b>use</b> <a href="ristretto255_twisted_elgamal.md#0x7_ristretto255_twisted_elgamal">0x7::ristretto255_twisted_elgamal</a>;
 </code></pre>
 
@@ -73,7 +73,7 @@ Represents a compressed confidential balance, where each chunk is a compressed T
 
 <dl>
 <dt>
-<code>chunks: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="ristretto255_twisted_elgamal.md#0x7_ristretto255_twisted_elgamal_CompressedCiphertext">ristretto255_twisted_elgamal::CompressedCiphertext</a>&gt;</code>
+<code>chunks: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="ristretto255_twisted_elgamal.md#0x7_ristretto255_twisted_elgamal_CompressedCiphertext">ristretto255_twisted_elgamal::CompressedCiphertext</a>&gt;</code>
 </dt>
 <dd>
 
@@ -101,7 +101,7 @@ Represents a confidential balance, where each chunk is a Twisted ElGamal ciphert
 
 <dl>
 <dt>
-<code>chunks: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="ristretto255_twisted_elgamal.md#0x7_ristretto255_twisted_elgamal_Ciphertext">ristretto255_twisted_elgamal::Ciphertext</a>&gt;</code>
+<code>chunks: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="ristretto255_twisted_elgamal.md#0x7_ristretto255_twisted_elgamal_Ciphertext">ristretto255_twisted_elgamal::Ciphertext</a>&gt;</code>
 </dt>
 <dd>
 
@@ -174,7 +174,7 @@ Creates a new zero pending balance, where each chunk is set to zero Twisted ElGa
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_pending_balance_no_randomness">new_pending_balance_no_randomness</a>(): <a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
     <a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
-        chunks: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|_| {
+        chunks: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|_| {
             twisted_elgamal::ciphertext_from_points(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity">ristretto255::point_identity</a>(), <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity">ristretto255::point_identity</a>())
         })
     }
@@ -203,7 +203,7 @@ Creates a new zero actual balance, where each chunk is set to zero Twisted ElGam
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_actual_balance_no_randomness">new_actual_balance_no_randomness</a>(): <a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
     <a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
-        chunks: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|_| {
+        chunks: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|_| {
             twisted_elgamal::ciphertext_from_points(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity">ristretto255::point_identity</a>(), <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity">ristretto255::point_identity</a>())
         })
     }
@@ -232,7 +232,7 @@ Creates a new compressed zero pending balance, where each chunk is set to compre
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_compressed_pending_balance_no_randomness">new_compressed_pending_balance_no_randomness</a>(): <a href="confidential_balance.md#0x7_confidential_balance_CompressedConfidentialBalance">CompressedConfidentialBalance</a> {
     <a href="confidential_balance.md#0x7_confidential_balance_CompressedConfidentialBalance">CompressedConfidentialBalance</a> {
-        chunks: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|_| {
+        chunks: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|_| {
             twisted_elgamal::ciphertext_from_compressed_points(
                 <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity_compressed">ristretto255::point_identity_compressed</a>(), <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity_compressed">ristretto255::point_identity_compressed</a>())
         })
@@ -262,7 +262,7 @@ Creates a new compressed zero actual balance, where each chunk is set to compres
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_compressed_actual_balance_no_randomness">new_compressed_actual_balance_no_randomness</a>(): <a href="confidential_balance.md#0x7_confidential_balance_CompressedConfidentialBalance">CompressedConfidentialBalance</a> {
     <a href="confidential_balance.md#0x7_confidential_balance_CompressedConfidentialBalance">CompressedConfidentialBalance</a> {
-        chunks: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|_| {
+        chunks: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|_| {
             twisted_elgamal::ciphertext_from_compressed_points(
                 <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity_compressed">ristretto255::point_identity_compressed</a>(), <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_identity_compressed">ristretto255::point_identity_compressed</a>())
         })
@@ -311,7 +311,7 @@ Creates a new pending balance from a serialized byte array representation.
 Returns <code>Some(<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>)</code> if deserialization succeeds, otherwise <code>None</code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_pending_balance_from_bytes">new_pending_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_pending_balance_from_bytes">new_pending_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>&gt;
 </code></pre>
 
 
@@ -320,12 +320,12 @@ Returns <code>Some(<a href="confidential_balance.md#0x7_confidential_balance_Con
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_pending_balance_from_bytes">new_pending_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_pending_balance_from_bytes">new_pending_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>&gt; {
     <b>if</b> (bytes.length() != 64 * <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>) {
         <b>return</b> std::option::none()
     };
 
-    <b>let</b> chunks = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|i| {
+    <b>let</b> chunks = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|i| {
         twisted_elgamal::new_ciphertext_from_bytes(bytes.slice(i * 64, (i + 1) * 64))
     });
 
@@ -333,7 +333,7 @@ Returns <code>Some(<a href="confidential_balance.md#0x7_confidential_balance_Con
         <b>return</b> std::option::none()
     };
 
-    <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
+    <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
         chunks: chunks.map(|chunk| chunk.extract())
     })
 }
@@ -351,7 +351,7 @@ Creates a new actual balance from a serialized byte array representation.
 Returns <code>Some(<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>)</code> if deserialization succeeds, otherwise <code>None</code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_actual_balance_from_bytes">new_actual_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_actual_balance_from_bytes">new_actual_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>&gt;
 </code></pre>
 
 
@@ -360,12 +360,12 @@ Returns <code>Some(<a href="confidential_balance.md#0x7_confidential_balance_Con
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_actual_balance_from_bytes">new_actual_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_new_actual_balance_from_bytes">new_actual_balance_from_bytes</a>(bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>&gt; {
     <b>if</b> (bytes.length() != 64 * <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>) {
         <b>return</b> std::option::none()
     };
 
-    <b>let</b> chunks = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|i| {
+    <b>let</b> chunks = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|i| {
         twisted_elgamal::new_ciphertext_from_bytes(bytes.slice(i * 64, (i + 1) * 64))
     });
 
@@ -373,7 +373,7 @@ Returns <code>Some(<a href="confidential_balance.md#0x7_confidential_balance_Con
         <b>return</b> std::option::none()
     };
 
-    <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
+    <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a> {
         chunks: chunks.map(|chunk| chunk.extract())
     })
 }
@@ -444,7 +444,7 @@ Decompresses a compressed confidential balance into its <code><a href="confident
 Serializes a confidential balance into a byte array representation.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_bytes">balance_to_bytes</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_bytes">balance_to_bytes</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -453,8 +453,8 @@ Serializes a confidential balance into a byte array representation.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_bytes">balance_to_bytes</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
-    <b>let</b> bytes = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;[];
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_bytes">balance_to_bytes</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+    <b>let</b> bytes = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;[];
 
     balance.chunks.for_each_ref(|ciphertext| {
         bytes.append(twisted_elgamal::ciphertext_to_bytes(ciphertext));
@@ -475,7 +475,7 @@ Serializes a confidential balance into a byte array representation.
 Extracts the <code>C</code> value component (<code>a * H + r * G</code>) of each chunk in a confidential balance as a vector of <code>RistrettoPoint</code>s.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_c">balance_to_points_c</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_RistrettoPoint">ristretto255::RistrettoPoint</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_c">balance_to_points_c</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_RistrettoPoint">ristretto255::RistrettoPoint</a>&gt;
 </code></pre>
 
 
@@ -484,7 +484,7 @@ Extracts the <code>C</code> value component (<code>a * H + r * G</code>) of each
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_c">balance_to_points_c</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;RistrettoPoint&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_c">balance_to_points_c</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;RistrettoPoint&gt; {
     balance.chunks.map_ref(|chunk| {
         <b>let</b> (c, _) = twisted_elgamal::ciphertext_as_points(chunk);
         <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_clone">ristretto255::point_clone</a>(c)
@@ -503,7 +503,7 @@ Extracts the <code>C</code> value component (<code>a * H + r * G</code>) of each
 Extracts the <code>D</code> randomness component (<code>r * Y</code>) of each chunk in a confidential balance as a vector of <code>RistrettoPoint</code>s.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_d">balance_to_points_d</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_RistrettoPoint">ristretto255::RistrettoPoint</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_d">balance_to_points_d</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">confidential_balance::ConfidentialBalance</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_RistrettoPoint">ristretto255::RistrettoPoint</a>&gt;
 </code></pre>
 
 
@@ -512,7 +512,7 @@ Extracts the <code>D</code> randomness component (<code>r * Y</code>) of each ch
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_d">balance_to_points_d</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;RistrettoPoint&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_to_points_d">balance_to_points_d</a>(balance: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;RistrettoPoint&gt; {
     balance.chunks.map_ref(|chunk| {
         <b>let</b> (_, d) = twisted_elgamal::ciphertext_as_points(chunk);
         <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_clone">ristretto255::point_clone</a>(d)
@@ -542,7 +542,7 @@ The second balance must have fewer or equal chunks compared to the first.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_add_balances_mut">add_balances_mut</a>(lhs: &<b>mut</b> <a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>, rhs: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>) {
-    <b>assert</b>!(lhs.chunks.length() &gt;= rhs.chunks.length(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
+    <b>assert</b>!(lhs.chunks.length() &gt;= rhs.chunks.length(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
 
     lhs.chunks.enumerate_mut(|i, chunk| {
         <b>if</b> (i &lt; rhs.chunks.length()) {
@@ -574,7 +574,7 @@ The second balance must have fewer or equal chunks compared to the first.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_sub_balances_mut">sub_balances_mut</a>(lhs: &<b>mut</b> <a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>, rhs: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>) {
-    <b>assert</b>!(lhs.chunks.length() &gt;= rhs.chunks.length(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
+    <b>assert</b>!(lhs.chunks.length() &gt;= rhs.chunks.length(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
 
     lhs.chunks.enumerate_mut(|i, chunk| {
         <b>if</b> (i &lt; rhs.chunks.length()) {
@@ -605,7 +605,7 @@ Checks if two confidential balances are equivalent, including both value and ran
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_equals">balance_equals</a>(lhs: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>, rhs: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): bool {
-    <b>assert</b>!(lhs.chunks.length() == rhs.chunks.length(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
+    <b>assert</b>!(lhs.chunks.length() == rhs.chunks.length(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
 
     <b>let</b> ok = <b>true</b>;
 
@@ -638,7 +638,7 @@ Checks if the corresponding value components (<code>C</code>) of two confidentia
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_balance_c_equals">balance_c_equals</a>(lhs: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>, rhs: &<a href="confidential_balance.md#0x7_confidential_balance_ConfidentialBalance">ConfidentialBalance</a>): bool {
-    <b>assert</b>!(lhs.chunks.length() == rhs.chunks.length(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
+    <b>assert</b>!(lhs.chunks.length() == rhs.chunks.length(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="confidential_balance.md#0x7_confidential_balance_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
 
     <b>let</b> ok = <b>true</b>;
 
@@ -694,7 +694,7 @@ Checks if a confidential balance is equivalent to zero, where all chunks are the
 Splits a 64-bit integer amount into four 16-bit chunks, represented as <code>Scalar</code> values.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u64">split_into_chunks_u64</a>(amount: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_Scalar">ristretto255::Scalar</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u64">split_into_chunks_u64</a>(amount: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_Scalar">ristretto255::Scalar</a>&gt;
 </code></pre>
 
 
@@ -703,8 +703,8 @@ Splits a 64-bit integer amount into four 16-bit chunks, represented as <code>Sca
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u64">split_into_chunks_u64</a>(amount: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Scalar&gt; {
-    <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|i| {
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u64">split_into_chunks_u64</a>(amount: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Scalar&gt; {
+    <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_PENDING_BALANCE_CHUNKS">PENDING_BALANCE_CHUNKS</a>).map(|i| {
         <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_new_scalar_from_u64">ristretto255::new_scalar_from_u64</a>(amount &gt;&gt; (i * <a href="confidential_balance.md#0x7_confidential_balance_CHUNK_SIZE_BITS">CHUNK_SIZE_BITS</a> <b>as</b> u8) & 0xffff)
     })
 }
@@ -721,7 +721,7 @@ Splits a 64-bit integer amount into four 16-bit chunks, represented as <code>Sca
 Splits a 128-bit integer amount into eight 16-bit chunks, represented as <code>Scalar</code> values.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u128">split_into_chunks_u128</a>(amount: u128): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_Scalar">ristretto255::Scalar</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u128">split_into_chunks_u128</a>(amount: u128): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_Scalar">ristretto255::Scalar</a>&gt;
 </code></pre>
 
 
@@ -730,8 +730,8 @@ Splits a 128-bit integer amount into eight 16-bit chunks, represented as <code>S
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u128">split_into_chunks_u128</a>(amount: u128): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Scalar&gt; {
-    <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|i| {
+<pre><code><b>public</b> <b>fun</b> <a href="confidential_balance.md#0x7_confidential_balance_split_into_chunks_u128">split_into_chunks_u128</a>(amount: u128): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Scalar&gt; {
+    <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_range">vector::range</a>(0, <a href="confidential_balance.md#0x7_confidential_balance_ACTUAL_BALANCE_CHUNKS">ACTUAL_BALANCE_CHUNKS</a>).map(|i| {
         <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_new_scalar_from_u128">ristretto255::new_scalar_from_u128</a>(amount &gt;&gt; (i * <a href="confidential_balance.md#0x7_confidential_balance_CHUNK_SIZE_BITS">CHUNK_SIZE_BITS</a> <b>as</b> u8) & 0xffff)
     })
 }

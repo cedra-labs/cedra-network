@@ -30,10 +30,10 @@ NOTE: on-chain config <code>0x1::state::ValidatorSet</code> implemented its own 
 
 
 <pre><code><b>use</b> <a href="../../cedra-stdlib/doc/any.md#0x1_any">0x1::any</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/simple_map.md#0x1_simple_map">0x1::simple_map</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info">0x1::type_info</a>;
 </code></pre>
@@ -57,7 +57,7 @@ NOTE: on-chain config <code>0x1::state::ValidatorSet</code> implemented its own 
 
 <dl>
 <dt>
-<code>configs: <a href="../../cedra-stdlib/doc/simple_map.md#0x1_simple_map_SimpleMap">simple_map::SimpleMap</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="../../cedra-stdlib/doc/any.md#0x1_any_Any">any::Any</a>&gt;</code>
+<code>configs: <a href="../../cedra-stdlib/doc/simple_map.md#0x1_simple_map_SimpleMap">simple_map::SimpleMap</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="../../cedra-stdlib/doc/any.md#0x1_any_Any">any::Any</a>&gt;</code>
 </dt>
 <dd>
 
@@ -98,7 +98,7 @@ Config buffer operations failed with permission denied.
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="config_buffer.md#0x1_config_buffer_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="config_buffer.md#0x1_config_buffer_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -107,7 +107,7 @@ Config buffer operations failed with permission denied.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="config_buffer.md#0x1_config_buffer_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b> <b>fun</b> <a href="config_buffer.md#0x1_config_buffer_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
     <b>if</b> (!<b>exists</b>&lt;<a href="config_buffer.md#0x1_config_buffer_PendingConfigs">PendingConfigs</a>&gt;(@cedra_framework)) {
         <b>move_to</b>(cedra_framework, <a href="config_buffer.md#0x1_config_buffer_PendingConfigs">PendingConfigs</a> {
@@ -199,7 +199,7 @@ Use <code>extract_v2</code> instead.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="config_buffer.md#0x1_config_buffer_extract">extract</a>&lt;T: store&gt;(): T {
-    <b>abort</b>(<a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_unavailable">error::unavailable</a>(<a href="config_buffer.md#0x1_config_buffer_EDEPRECATED">EDEPRECATED</a>))
+    <b>abort</b>(<a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_unavailable">error::unavailable</a>(<a href="config_buffer.md#0x1_config_buffer_EDEPRECATED">EDEPRECATED</a>))
 }
 </code></pre>
 
@@ -337,8 +337,8 @@ Typically used in <code>X::on_new_epoch()</code> where X is an on-chaon config.
 
 
 <pre><code><b>schema</b> <a href="config_buffer.md#0x1_config_buffer_SetForNextEpochAbortsIf">SetForNextEpochAbortsIf</a> {
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
-    config: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    config: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
     <b>let</b> account_addr = std::signer::address_of(<a href="account.md#0x1_account">account</a>);
     <b>aborts_if</b> account_addr != @cedra_framework;
     <b>aborts_if</b> len(config) == 0;

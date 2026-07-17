@@ -51,10 +51,10 @@
 -  [Function `get_price`](#0x7_order_book_types_get_price)
 
 
-<pre><code><b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
+<pre><code><b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
 <b>use</b> <a href="../../cedra-framework/doc/big_ordered_map.md#0x1_big_ordered_map">0x1::big_ordered_map</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs">0x1::from_bcs</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="../../cedra-framework/doc/transaction_context.md#0x1_transaction_context">0x1::transaction_context</a>;
 </code></pre>
 
@@ -221,7 +221,7 @@
 
 </dd>
 <dt>
-<code>price: u64</code>
+<code><a href="">price</a>: u64</code>
 </dt>
 <dd>
 
@@ -245,7 +245,7 @@
 
 </dd>
 <dt>
-<code>trigger_condition: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;</code>
+<code>trigger_condition: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;</code>
 </dt>
 <dd>
 
@@ -562,7 +562,7 @@
     // TODO change from random <b>to</b> monothonically increasing value
     <a href="order_book_types.md#0x7_order_book_types_new_unique_idx_type">new_unique_idx_type</a>(
         <a href="../../cedra-framework/../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_u256">from_bcs::to_u256</a>(
-            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&<a href="../../cedra-framework/doc/transaction_context.md#0x1_transaction_context_generate_auid_address">transaction_context::generate_auid_address</a>())
+            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&<a href="../../cedra-framework/doc/transaction_context.md#0x1_transaction_context_generate_auid_address">transaction_context::generate_auid_address</a>())
         )
     )
 }
@@ -676,7 +676,7 @@
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_new_order">new_order</a>&lt;M: <b>copy</b>, drop, store&gt;(order_id: <a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, price: u64, orig_size: u64, size: u64, is_buy: bool, trigger_condition: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;, metadata: M): <a href="order_book_types.md#0x7_order_book_types_Order">order_book_types::Order</a>&lt;M&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_new_order">new_order</a>&lt;M: <b>copy</b>, drop, store&gt;(order_id: <a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, <a href="">price</a>: u64, orig_size: u64, size: u64, is_buy: bool, trigger_condition: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;, metadata: M): <a href="order_book_types.md#0x7_order_book_types_Order">order_book_types::Order</a>&lt;M&gt;
 </code></pre>
 
 
@@ -688,7 +688,7 @@
 <pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_new_order">new_order</a>&lt;M: store + <b>copy</b> + drop&gt;(
     order_id: <a href="order_book_types.md#0x7_order_book_types_OrderIdType">OrderIdType</a>,
     unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">UniqueIdxType</a>,
-    price: u64,
+    <a href="">price</a>: u64,
     orig_size: u64,
     size: u64,
     is_buy: bool,
@@ -698,7 +698,7 @@
     <a href="order_book_types.md#0x7_order_book_types_Order">Order</a> {
         order_id,
         unique_priority_idx,
-        price,
+        <a href="">price</a>,
         orig_size,
         remaining_size: size,
         is_buy,
@@ -868,7 +868,7 @@
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_index">index</a>(self: &<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>, is_buy: bool): (<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_index">index</a>(self: &<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>, is_buy: bool): (<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;)
 </code></pre>
 
 
@@ -882,20 +882,20 @@
     match(self) {
         TriggerCondition::TakeProfit(tp) =&gt; {
             <b>if</b> (is_buy) {
-                (<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*tp), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
+                (<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*tp), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
             } <b>else</b> {
-                (<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*tp), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
+                (<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*tp), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
             }
         }
         TriggerCondition::StopLoss(sl) =&gt; {
             <b>if</b> (is_buy) {
-                (<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*sl), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
+                (<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*sl), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
             } <b>else</b> {
-                (<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*sl), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
+                (<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*sl), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>())
             }
         }
         TriggerCondition::TimeBased(time) =&gt; {
-            (<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*time))
+            (<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*time))
         }
     }
 }
@@ -1035,7 +1035,7 @@
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_get_trigger_condition_from_order">get_trigger_condition_from_order</a>&lt;M: <b>copy</b>, drop, store&gt;(self: &<a href="order_book_types.md#0x7_order_book_types_Order">order_book_types::Order</a>&lt;M&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_get_trigger_condition_from_order">get_trigger_condition_from_order</a>&lt;M: <b>copy</b>, drop, store&gt;(self: &<a href="order_book_types.md#0x7_order_book_types_Order">order_book_types::Order</a>&lt;M&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;
 </code></pre>
 
 
@@ -1237,7 +1237,7 @@
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_destroy_order">destroy_order</a>&lt;M: <b>copy</b>, drop, store&gt;(self: <a href="order_book_types.md#0x7_order_book_types_Order">order_book_types::Order</a>&lt;M&gt;): (<a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>, <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, u64, u64, u64, bool, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;, M)
+<pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_destroy_order">destroy_order</a>&lt;M: <b>copy</b>, drop, store&gt;(self: <a href="order_book_types.md#0x7_order_book_types_Order">order_book_types::Order</a>&lt;M&gt;): (<a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>, <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, u64, u64, u64, bool, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="order_book_types.md#0x7_order_book_types_TriggerCondition">order_book_types::TriggerCondition</a>&gt;, M)
 </code></pre>
 
 
@@ -1252,7 +1252,7 @@
     (
         self.order_id,
         self.unique_priority_idx,
-        self.price,
+        self.<a href="">price</a>,
         self.orig_size,
         self.remaining_size,
         self.is_buy,
@@ -1358,7 +1358,7 @@
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="order_book_types.md#0x7_order_book_types_get_price">get_price</a>&lt;M: store + <b>copy</b> + drop&gt;(self: &<a href="order_book_types.md#0x7_order_book_types_Order">Order</a>&lt;M&gt;): u64 {
-    self.price
+    self.<a href="">price</a>
 }
 </code></pre>
 

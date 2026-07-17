@@ -25,10 +25,10 @@ The <code><a href="function_info.md#0x1_function_info">function_info</a></code> 
     -  [Function `load_function_impl`](#@Specification_1_load_function_impl)
 
 
-<pre><code><b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<pre><code><b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 </code></pre>
 
 
@@ -57,13 +57,13 @@ A <code>String</code> holds a sequence of bytes which is guaranteed to be in utf
 
 </dd>
 <dt>
-<code>module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -115,7 +115,7 @@ Feature hasn't been activated yet.
 Creates a new function info from names.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info">new_function_info</a>(module_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
+<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info">new_function_info</a>(module_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
 </code></pre>
 
 
@@ -125,12 +125,12 @@ Creates a new function info from names.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info">new_function_info</a>(
-    module_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    module_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     module_name: String,
     function_name: String,
 ): <a href="function_info.md#0x1_function_info_FunctionInfo">FunctionInfo</a> {
     <a href="function_info.md#0x1_function_info_new_function_info_from_address">new_function_info_from_address</a>(
-        <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(module_signer),
+        <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(module_signer),
         module_name,
         function_name,
     )
@@ -147,7 +147,7 @@ Creates a new function info from names.
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info_from_address">new_function_info_from_address</a>(module_address: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
+<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info_from_address">new_function_info_from_address</a>(module_address: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
 </code></pre>
 
 
@@ -162,11 +162,11 @@ Creates a new function info from names.
     function_name: String,
 ): <a href="function_info.md#0x1_function_info_FunctionInfo">FunctionInfo</a> {
     <b>assert</b>!(
-        <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&module_name)),
+        <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&module_name)),
         <a href="function_info.md#0x1_function_info_EINVALID_IDENTIFIER">EINVALID_IDENTIFIER</a>
     );
     <b>assert</b>!(
-        <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&function_name)),
+        <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&function_name)),
         <a href="function_info.md#0x1_function_info_EINVALID_IDENTIFIER">EINVALID_IDENTIFIER</a>
     );
     <a href="function_info.md#0x1_function_info_FunctionInfo">FunctionInfo</a> {
@@ -211,8 +211,8 @@ dispatch_target also needs to be public so the type signature will remain unchan
     dispatch_target: &<a href="function_info.md#0x1_function_info_FunctionInfo">FunctionInfo</a>,
 ): bool {
     <b>assert</b>!(
-        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_dispatchable_fungible_asset_enabled">features::dispatchable_fungible_asset_enabled</a>(),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_aborted">error::aborted</a>(<a href="function_info.md#0x1_function_info_ENOT_ACTIVATED">ENOT_ACTIVATED</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_dispatchable_fungible_asset_enabled">features::dispatchable_fungible_asset_enabled</a>(),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_aborted">error::aborted</a>(<a href="function_info.md#0x1_function_info_ENOT_ACTIVATED">ENOT_ACTIVATED</a>)
     );
     <a href="function_info.md#0x1_function_info_load_function_impl">load_function_impl</a>(dispatch_target);
     <a href="function_info.md#0x1_function_info_check_dispatch_type_compatibility_impl">check_dispatch_type_compatibility_impl</a>(framework_function, dispatch_target)
@@ -284,7 +284,7 @@ if such module isn't accessed previously in the transaction.
 
 
 
-<pre><code><b>fun</b> <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool
+<pre><code><b>fun</b> <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool
 </code></pre>
 
 
@@ -293,7 +293,7 @@ if such module isn't accessed previously in the transaction.
 <summary>Implementation</summary>
 
 
-<pre><code><b>native</b> <b>fun</b> <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool;
+<pre><code><b>native</b> <b>fun</b> <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool;
 </code></pre>
 
 
@@ -331,7 +331,7 @@ if such module isn't accessed previously in the transaction.
 <a id="0x1_function_info_spec_is_identifier"></a>
 
 
-<pre><code><b>fun</b> <a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(s: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool;
+<pre><code><b>fun</b> <a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(s: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool;
 </code></pre>
 
 
@@ -341,16 +341,16 @@ if such module isn't accessed previously in the transaction.
 ### Function `new_function_info`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info">new_function_info</a>(module_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
+<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info">new_function_info</a>(module_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
 </code></pre>
 
 
 
 
-<pre><code><b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(module_name));
-<b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(function_name));
+<pre><code><b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(module_name));
+<b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(function_name));
 <b>ensures</b> result == <a href="function_info.md#0x1_function_info_FunctionInfo">FunctionInfo</a> {
-    module_address: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(module_signer),
+    module_address: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(module_signer),
     module_name,
     function_name,
 };
@@ -363,14 +363,14 @@ if such module isn't accessed previously in the transaction.
 ### Function `new_function_info_from_address`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info_from_address">new_function_info_from_address</a>(module_address: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
+<pre><code><b>public</b> <b>fun</b> <a href="function_info.md#0x1_function_info_new_function_info_from_address">new_function_info_from_address</a>(module_address: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>
 </code></pre>
 
 
 
 
-<pre><code><b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(module_name));
-<b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(function_name));
+<pre><code><b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(module_name));
+<b>aborts_if</b> !<a href="function_info.md#0x1_function_info_spec_is_identifier">spec_is_identifier</a>(<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(function_name));
 <b>ensures</b> result == <a href="function_info.md#0x1_function_info_FunctionInfo">FunctionInfo</a> {
     module_address,
     module_name,
@@ -435,7 +435,7 @@ if such module isn't accessed previously in the transaction.
 ### Function `is_identifier`
 
 
-<pre><code><b>fun</b> <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool
+<pre><code><b>fun</b> <a href="function_info.md#0x1_function_info_is_identifier">is_identifier</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool
 </code></pre>
 
 

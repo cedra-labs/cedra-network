@@ -34,23 +34,23 @@
 
 
 <pre><code><b>use</b> <a href="auth_data.md#0x1_auth_data">0x1::auth_data</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
 <b>use</b> <a href="big_ordered_map.md#0x1_big_ordered_map">0x1::big_ordered_map</a>;
 <b>use</b> <a href="create_signer.md#0x1_create_signer">0x1::create_signer</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs">0x1::from_bcs</a>;
 <b>use</b> <a href="function_info.md#0x1_function_info">0x1::function_info</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/hash.md#0x1_hash">0x1::hash</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/hash.md#0x1_hash">0x1::hash</a>;
 <b>use</b> <a href="object.md#0x1_object">0x1::object</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="ordered_map.md#0x1_ordered_map">0x1::ordered_map</a>;
 <b>use</b> <a href="permissioned_signer.md#0x1_permissioned_signer">0x1::permissioned_signer</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -79,7 +79,7 @@
 
 </dd>
 <dt>
-<code><b>update</b>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code><b>update</b>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -378,7 +378,7 @@ Return the current dispatchable authenticator move function info. <code>None</co
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticator">dispatchable_authenticator</a>(addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>&gt;&gt;
+<b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticator">dispatchable_authenticator</a>(addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>&gt;&gt;
 </code></pre>
 
 
@@ -387,13 +387,13 @@ Return the current dispatchable authenticator move function info. <code>None</co
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticator">dispatchable_authenticator</a>(addr: <b>address</b>): Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;FunctionInfo&gt;&gt; <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticator">dispatchable_authenticator</a>(addr: <b>address</b>): Option&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;FunctionInfo&gt;&gt; <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a> {
     <b>let</b> resource_addr = <a href="account_abstraction.md#0x1_account_abstraction_resource_addr">resource_addr</a>(addr);
     <b>if</b> (<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr)) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
             <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>[resource_addr].auth_functions.keys()
         )
-    } <b>else</b> { <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>() }
+    } <b>else</b> { <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>() }
 }
 </code></pre>
 
@@ -410,7 +410,7 @@ for the derivable account abstraction defined by the given function.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address_view">derive_account_address_view</a>(module_address: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, abstract_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
+<b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address_view">derive_account_address_view</a>(module_address: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, abstract_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
 </code></pre>
 
 
@@ -423,7 +423,7 @@ for the derivable account abstraction defined by the given function.
     module_address: <b>address</b>,
     module_name: String,
     function_name: String,
-    abstract_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    abstract_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ): <b>address</b> {
     <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(
         <a href="function_info.md#0x1_function_info_new_function_info_from_address">function_info::new_function_info_from_address</a>(module_address, module_name, function_name),
@@ -446,7 +446,7 @@ TODO: probably worth creating some module with all these derived functions,
 and do computation/caching in rust to avoid recomputation, as we do for objects.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(derivable_func_info: <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>, abstract_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
+<pre><code><b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(derivable_func_info: <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>, abstract_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
 </code></pre>
 
 
@@ -455,14 +455,14 @@ and do computation/caching in rust to avoid recomputation, as we do for objects.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(derivable_func_info: FunctionInfo, abstract_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b> {
-    // using <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs">bcs</a> serialized structs here - this allows for no need for separators.
-    // Alternative would've been <b>to</b> create unique <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">string</a>, we would need <b>to</b> convert derivable_func_info into <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">string</a>,
+<pre><code><b>public</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(derivable_func_info: FunctionInfo, abstract_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b> {
+    // using <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs">bcs</a> serialized structs here - this allows for no need for separators.
+    // Alternative would've been <b>to</b> create unique <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">string</a>, we would need <b>to</b> convert derivable_func_info into <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">string</a>,
     // then authentication_key <b>to</b> hex, and then we need separators <b>as</b> well - like ::
-    let bytes = <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&derivable_func_info);
-    bytes.append(<a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(abstract_public_key));
+    let bytes = <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&derivable_func_info);
+    bytes.append(<a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(abstract_public_key));
     bytes.push_back(<a href="account_abstraction.md#0x1_account_abstraction_DERIVABLE_ABSTRACTION_DERIVED_SCHEME">DERIVABLE_ABSTRACTION_DERIVED_SCHEME</a>);
-    <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/hash.md#0x1_hash_sha3_256">hash::sha3_256</a>(bytes))
+    <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(<a href="../../oracle-interface/../move-stdlib/doc/hash.md#0x1_hash_sha3_256">hash::sha3_256</a>(bytes))
 }
 </code></pre>
 
@@ -478,7 +478,7 @@ Add dispatchable authentication function that enables account abstraction via th
 Note: it is a private entry function that can only be called directly from transaction.
 
 
-<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_add_authentication_function">add_authentication_function</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_address: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_add_authentication_function">add_authentication_function</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_address: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -488,13 +488,13 @@ Note: it is a private entry function that can only be called directly from trans
 
 
 <pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_add_authentication_function">add_authentication_function</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     module_address: <b>address</b>,
     module_name: String,
     function_name: String,
 ) <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a> {
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_account_abstraction_enabled">features::is_account_abstraction_enabled</a>(), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EACCOUNT_ABSTRACTION_NOT_ENABLED">EACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
-    <b>assert</b>!(!is_permissioned_signer(<a href="account.md#0x1_account">account</a>), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account_abstraction.md#0x1_account_abstraction_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>));
+    <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_account_abstraction_enabled">features::is_account_abstraction_enabled</a>(), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EACCOUNT_ABSTRACTION_NOT_ENABLED">EACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
+    <b>assert</b>!(!is_permissioned_signer(<a href="account.md#0x1_account">account</a>), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account_abstraction.md#0x1_account_abstraction_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>));
     <a href="account_abstraction.md#0x1_account_abstraction_update_dispatchable_authenticator_impl">update_dispatchable_authenticator_impl</a>(
         <a href="account.md#0x1_account">account</a>,
         <a href="function_info.md#0x1_function_info_new_function_info_from_address">function_info::new_function_info_from_address</a>(module_address, module_name, function_name),
@@ -516,7 +516,7 @@ dispatchable function needs to verify that signing_data.authenticator() is a val
 Note: it is a private entry function that can only be called directly from transaction.
 
 
-<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_authentication_function">remove_authentication_function</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_address: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_authentication_function">remove_authentication_function</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_address: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -526,12 +526,12 @@ Note: it is a private entry function that can only be called directly from trans
 
 
 <pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_authentication_function">remove_authentication_function</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     module_address: <b>address</b>,
     module_name: String,
     function_name: String,
 ) <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a> {
-    <b>assert</b>!(!is_permissioned_signer(<a href="account.md#0x1_account">account</a>), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account_abstraction.md#0x1_account_abstraction_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>));
+    <b>assert</b>!(!is_permissioned_signer(<a href="account.md#0x1_account">account</a>), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account_abstraction.md#0x1_account_abstraction_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>));
     <a href="account_abstraction.md#0x1_account_abstraction_update_dispatchable_authenticator_impl">update_dispatchable_authenticator_impl</a>(
         <a href="account.md#0x1_account">account</a>,
         <a href="function_info.md#0x1_function_info_new_function_info_from_address">function_info::new_function_info_from_address</a>(module_address, module_name, function_name),
@@ -553,7 +553,7 @@ After calling this function, the account is not abstracted at all.
 Note: it is a private entry function that can only be called directly from transaction.
 
 
-<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_authenticator">remove_authenticator</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_authenticator">remove_authenticator</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -563,10 +563,10 @@ Note: it is a private entry function that can only be called directly from trans
 
 
 <pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_authenticator">remove_authenticator</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
 ) <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a> {
-    <b>assert</b>!(!is_permissioned_signer(<a href="account.md#0x1_account">account</a>), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account_abstraction.md#0x1_account_abstraction_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>));
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>assert</b>!(!is_permissioned_signer(<a href="account.md#0x1_account">account</a>), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account_abstraction.md#0x1_account_abstraction_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>));
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> resource_addr = <a href="account_abstraction.md#0x1_account_abstraction_resource_addr">resource_addr</a>(addr);
     <b>if</b> (<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr)) {
         <b>move_from</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr);
@@ -596,7 +596,7 @@ Note: This is  public entry function, as it requires framework signer, and that 
 only be obtained as a part of the governance script.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_register_derivable_authentication_function">register_derivable_authentication_function</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_address: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_register_derivable_authentication_function">register_derivable_authentication_function</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, module_address: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -606,12 +606,12 @@ only be obtained as a part of the governance script.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_register_derivable_authentication_function">register_derivable_authentication_function</a>(
-    cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     module_address: <b>address</b>,
     module_name: String,
     function_name: String,
 ) <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a> {
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_derivable_account_abstraction_enabled">features::is_derivable_account_abstraction_enabled</a>(), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED">EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
+    <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_derivable_account_abstraction_enabled">features::is_derivable_account_abstraction_enabled</a>(), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED">EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
 
     <a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a>[@cedra_framework].auth_functions.add(
@@ -631,7 +631,7 @@ only be obtained as a part of the governance script.
 
 
 
-<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -640,7 +640,7 @@ only be obtained as a part of the governance script.
 <summary>Implementation</summary>
 
 
-<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code>entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
     <b>move_to</b>(
         cedra_framework,
@@ -683,7 +683,7 @@ only be obtained as a part of the governance script.
 
 
 
-<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_update_dispatchable_authenticator_impl">update_dispatchable_authenticator_impl</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, auth_function: <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>, is_add: bool)
+<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_update_dispatchable_authenticator_impl">update_dispatchable_authenticator_impl</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, auth_function: <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>, is_add: bool)
 </code></pre>
 
 
@@ -693,20 +693,20 @@ only be obtained as a part of the governance script.
 
 
 <pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_update_dispatchable_authenticator_impl">update_dispatchable_authenticator_impl</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     auth_function: FunctionInfo,
     is_add: bool,
 ) <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a> {
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> resource_addr = <a href="account_abstraction.md#0x1_account_abstraction_resource_addr">resource_addr</a>(addr);
     <b>let</b> dispatcher_auth_function_info = <a href="function_info.md#0x1_function_info_new_function_info_from_address">function_info::new_function_info_from_address</a>(
         @cedra_framework,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"<a href="account_abstraction.md#0x1_account_abstraction">account_abstraction</a>"),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"dispatchable_authenticate"),
+        <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"<a href="account_abstraction.md#0x1_account_abstraction">account_abstraction</a>"),
+        <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"dispatchable_authenticate"),
     );
     <b>assert</b>!(
         <a href="function_info.md#0x1_function_info_check_dispatch_type_compatibility">function_info::check_dispatch_type_compatibility</a>(&dispatcher_auth_function_info, &auth_function),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account_abstraction.md#0x1_account_abstraction_EAUTH_FUNCTION_SIGNATURE_MISMATCH">EAUTH_FUNCTION_SIGNATURE_MISMATCH</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account_abstraction.md#0x1_account_abstraction_EAUTH_FUNCTION_SIGNATURE_MISMATCH">EAUTH_FUNCTION_SIGNATURE_MISMATCH</a>)
     );
     <b>if</b> (is_add) {
         <b>if</b> (!<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr)) {
@@ -718,7 +718,7 @@ only be obtained as a part of the governance script.
         <b>let</b> current_map = &<b>mut</b> <b>borrow_global_mut</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr).auth_functions;
         <b>assert</b>!(
             !current_map.contains(&auth_function),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>)
         );
         current_map.add(auth_function, <b>true</b>);
         <a href="event.md#0x1_event_emit">event::emit</a>(
@@ -729,11 +729,11 @@ only be obtained as a part of the governance script.
             }
         );
     } <b>else</b> {
-        <b>assert</b>!(<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>));
+        <b>assert</b>!(<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>));
         <b>let</b> current_map = &<b>mut</b> <b>borrow_global_mut</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>&gt;(resource_addr).auth_functions;
         <b>assert</b>!(
             current_map.contains(&auth_function),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>)
         );
         current_map.remove(&auth_function);
         <a href="event.md#0x1_event_emit">event::emit</a>(
@@ -770,7 +770,7 @@ only be obtained as a part of the governance script.
 
 
 <pre><code>inline <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticator_internal">dispatchable_authenticator_internal</a>(addr: <b>address</b>): &OrderedMap&lt;FunctionInfo, bool&gt; {
-    <b>assert</b>!(<a href="account_abstraction.md#0x1_account_abstraction_using_dispatchable_authenticator">using_dispatchable_authenticator</a>(addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDISPATCHABLE_AUTHENTICATOR_IS_NOT_USED">EDISPATCHABLE_AUTHENTICATOR_IS_NOT_USED</a>));
+    <b>assert</b>!(<a href="account_abstraction.md#0x1_account_abstraction_using_dispatchable_authenticator">using_dispatchable_authenticator</a>(addr), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDISPATCHABLE_AUTHENTICATOR_IS_NOT_USED">EDISPATCHABLE_AUTHENTICATOR_IS_NOT_USED</a>));
     &<a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>[<a href="account_abstraction.md#0x1_account_abstraction_resource_addr">resource_addr</a>(addr)].auth_functions
 }
 </code></pre>
@@ -795,7 +795,7 @@ only be obtained as a part of the governance script.
 
 
 <pre><code>inline <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_derivable_authenticator_internal">dispatchable_derivable_authenticator_internal</a>(): &BigOrderedMap&lt;FunctionInfo, <a href="account_abstraction.md#0x1_account_abstraction_DerivableRegisterValue">DerivableRegisterValue</a>&gt; {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a>&gt;(@cedra_framework), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDERIVABLE_AA_NOT_INITIALIZED">EDERIVABLE_AA_NOT_INITIALIZED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a>&gt;(@cedra_framework), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDERIVABLE_AA_NOT_INITIALIZED">EDERIVABLE_AA_NOT_INITIALIZED</a>));
     &<a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a>[@cedra_framework].auth_functions
 }
 </code></pre>
@@ -810,7 +810,7 @@ only be obtained as a part of the governance script.
 
 
 
-<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, func_info: <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>, signing_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, func_info: <a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>, signing_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -820,31 +820,31 @@ only be obtained as a part of the governance script.
 
 
 <pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_authenticate">authenticate</a>(
-    <a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     func_info: FunctionInfo,
     signing_data: AbstractionAuthData,
-): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>, <a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a> {
-    <b>let</b> master_signer_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
+): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>acquires</b> <a href="account_abstraction.md#0x1_account_abstraction_DispatchableAuthenticator">DispatchableAuthenticator</a>, <a href="account_abstraction.md#0x1_account_abstraction_DerivableDispatchableAuthenticator">DerivableDispatchableAuthenticator</a> {
+    <b>let</b> master_signer_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="account.md#0x1_account">account</a>);
 
     <b>if</b> (signing_data.is_derivable()) {
-        <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_derivable_account_abstraction_enabled">features::is_derivable_account_abstraction_enabled</a>(), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED">EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
-        <b>assert</b>!(master_signer_addr == <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(func_info, signing_data.derivable_abstract_public_key()), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EINCONSISTENT_SIGNER_ADDRESS">EINCONSISTENT_SIGNER_ADDRESS</a>));
+        <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_derivable_account_abstraction_enabled">features::is_derivable_account_abstraction_enabled</a>(), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED">EDERIVABLE_ACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
+        <b>assert</b>!(master_signer_addr == <a href="account_abstraction.md#0x1_account_abstraction_derive_account_address">derive_account_address</a>(func_info, signing_data.derivable_abstract_public_key()), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EINCONSISTENT_SIGNER_ADDRESS">EINCONSISTENT_SIGNER_ADDRESS</a>));
 
         <b>let</b> func_infos = <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_derivable_authenticator_internal">dispatchable_derivable_authenticator_internal</a>();
-        <b>assert</b>!(func_infos.contains(&func_info), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>));
+        <b>assert</b>!(func_infos.contains(&func_info), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>));
     } <b>else</b> {
-        <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_account_abstraction_enabled">features::is_account_abstraction_enabled</a>(), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EACCOUNT_ABSTRACTION_NOT_ENABLED">EACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
+        <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_account_abstraction_enabled">features::is_account_abstraction_enabled</a>(), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EACCOUNT_ABSTRACTION_NOT_ENABLED">EACCOUNT_ABSTRACTION_NOT_ENABLED</a>));
 
         <b>let</b> func_infos = <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticator_internal">dispatchable_authenticator_internal</a>(master_signer_addr);
-        <b>assert</b>!(func_infos.contains(&func_info), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>));
+        <b>assert</b>!(func_infos.contains(&func_info), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account_abstraction.md#0x1_account_abstraction_EFUNCTION_INFO_EXISTENCE">EFUNCTION_INFO_EXISTENCE</a>));
     };
 
     <a href="function_info.md#0x1_function_info_load_module_from_function">function_info::load_module_from_function</a>(&func_info);
     <b>let</b> returned_signer = <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticate">dispatchable_authenticate</a>(<a href="account.md#0x1_account">account</a>, signing_data, &func_info);
-    // Returned <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> MUST represent the same <a href="account.md#0x1_account">account</a> <b>address</b>. Otherwise, it may <b>break</b> the <b>invariant</b> of Cedra blockchain!
+    // Returned <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> MUST represent the same <a href="account.md#0x1_account">account</a> <b>address</b>. Otherwise, it may <b>break</b> the <b>invariant</b> of Cedra blockchain!
     <b>assert</b>!(
-        master_signer_addr == <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&returned_signer),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EINCONSISTENT_SIGNER_ADDRESS">EINCONSISTENT_SIGNER_ADDRESS</a>)
+        master_signer_addr == <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&returned_signer),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account_abstraction.md#0x1_account_abstraction_EINCONSISTENT_SIGNER_ADDRESS">EINCONSISTENT_SIGNER_ADDRESS</a>)
     );
     returned_signer
 }
@@ -861,7 +861,7 @@ only be obtained as a part of the governance script.
 The native function to dispatch customized move authentication function.
 
 
-<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticate">dispatchable_authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signing_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, function: &<a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticate">dispatchable_authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signing_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, function: &<a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -871,10 +871,10 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code><b>native</b> <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticate">dispatchable_authenticate</a>(
-    <a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     signing_data: AbstractionAuthData,
     function: &FunctionInfo
-): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
 </code></pre>
 
 
@@ -888,7 +888,7 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code>#[deprecated]
-<b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_add_dispatchable_authentication_function">add_dispatchable_authentication_function</a>(_account: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _module_address: <b>address</b>, _module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, _function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_add_dispatchable_authentication_function">add_dispatchable_authentication_function</a>(_account: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _module_address: <b>address</b>, _module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, _function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -898,7 +898,7 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_add_dispatchable_authentication_function">add_dispatchable_authentication_function</a>(
-    _account: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    _account: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     _module_address: <b>address</b>,
     _module_name: String,
     _function_name: String,
@@ -918,7 +918,7 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code>#[deprecated]
-<b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_dispatchable_authentication_function">remove_dispatchable_authentication_function</a>(_account: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _module_address: <b>address</b>, _module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, _function_name: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_dispatchable_authentication_function">remove_dispatchable_authentication_function</a>(_account: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _module_address: <b>address</b>, _module_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, _function_name: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -928,7 +928,7 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_dispatchable_authentication_function">remove_dispatchable_authentication_function</a>(
-    _account: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    _account: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     _module_address: <b>address</b>,
     _module_name: String,
     _function_name: String,
@@ -948,7 +948,7 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code>#[deprecated]
-<b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_dispatchable_authenticator">remove_dispatchable_authenticator</a>(_account: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_dispatchable_authenticator">remove_dispatchable_authenticator</a>(_account: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -958,7 +958,7 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_remove_dispatchable_authenticator">remove_dispatchable_authenticator</a>(
-    _account: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    _account: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
 ) {
     <b>abort</b> std::error::unavailable(<a href="account_abstraction.md#0x1_account_abstraction_EDEPRECATED_FUNCTION">EDEPRECATED_FUNCTION</a>)
 }
@@ -984,10 +984,10 @@ The native function to dispatch customized move authentication function.
 
 
 <pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_spec_dispatchable_authenticate">spec_dispatchable_authenticate</a>(
-   <a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+   <a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
    signing_data: AbstractionAuthData,
    function: &FunctionInfo
-): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
 </code></pre>
 
 
@@ -997,7 +997,7 @@ The native function to dispatch customized move authentication function.
 ### Function `dispatchable_authenticate`
 
 
-<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticate">dispatchable_authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signing_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, function: &<a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="account_abstraction.md#0x1_account_abstraction_dispatchable_authenticate">dispatchable_authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signing_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, function: &<a href="function_info.md#0x1_function_info_FunctionInfo">function_info::FunctionInfo</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 

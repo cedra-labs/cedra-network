@@ -29,8 +29,8 @@
 
 
 <pre><code><b>use</b> <a href="../../cedra-framework/doc/big_ordered_map.md#0x1_big_ordered_map">0x1::big_ordered_map</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="order_book_types.md#0x7_order_book_types">0x7::order_book_types</a>;
 </code></pre>
 
@@ -53,7 +53,7 @@
 
 <dl>
 <dt>
-<code>price: u64</code>
+<code><a href="">price</a>: u64</code>
 </dt>
 <dd>
 
@@ -232,7 +232,7 @@ Picks the best (i.e. highest) bid (i.e. buy) price from the active order book.
 aborts if there are no buys
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_best_bid_price">best_bid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_best_bid_price">best_bid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -243,10 +243,10 @@ aborts if there are no buys
 
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_best_bid_price">best_bid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>): Option&lt;u64&gt; {
     <b>if</b> (self.buys.is_empty()) {
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     } <b>else</b> {
         <b>let</b> (back_key, _back_value) = self.buys.borrow_back();
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(back_key.price)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(back_key.<a href="">price</a>)
     }
 }
 </code></pre>
@@ -263,7 +263,7 @@ Picks the best (i.e. lowest) ask (i.e. sell) price from the active order book.
 aborts if there are no sells
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_best_ask_price">best_ask_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_best_ask_price">best_ask_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -274,10 +274,10 @@ aborts if there are no sells
 
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_best_ask_price">best_ask_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>): Option&lt;u64&gt; {
     <b>if</b> (self.sells.is_empty()) {
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     } <b>else</b> {
         <b>let</b> (front_key, _front_value) = self.sells.borrow_front();
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(front_key.price)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(front_key.<a href="">price</a>)
     }
 }
 </code></pre>
@@ -292,7 +292,7 @@ aborts if there are no sells
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_mid_price">get_mid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_mid_price">get_mid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -305,9 +305,9 @@ aborts if there are no sells
     <b>let</b> best_bid = self.<a href="active_order_book.md#0x7_active_order_book_best_bid_price">best_bid_price</a>();
     <b>let</b> best_ask = self.<a href="active_order_book.md#0x7_active_order_book_best_ask_price">best_ask_price</a>();
     <b>if</b> (best_bid.is_none() || best_ask.is_none()) {
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     } <b>else</b> {
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
             (best_bid.destroy_some() + best_ask.destroy_some()) / 2
         )
     }
@@ -324,7 +324,7 @@ aborts if there are no sells
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_slippage_price">get_slippage_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, is_buy: bool, slippage_pct: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_slippage_price">get_slippage_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, is_buy: bool, slippage_pct: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -338,16 +338,16 @@ aborts if there are no sells
 ): Option&lt;u64&gt; {
     <b>let</b> mid_price = self.<a href="active_order_book.md#0x7_active_order_book_get_mid_price">get_mid_price</a>();
     <b>if</b> (mid_price.is_none()) {
-        <b>return</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>();
+        <b>return</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>();
     };
     <b>let</b> mid_price = mid_price.destroy_some();
     <b>let</b> slippage = mul_div(
         mid_price, slippage_pct, get_slippage_pct_precision() * 100
     );
     <b>if</b> (is_buy) {
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(mid_price + slippage)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(mid_price + slippage)
     } <b>else</b> {
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(mid_price - slippage)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(mid_price - slippage)
     }
 }
 </code></pre>
@@ -362,7 +362,7 @@ aborts if there are no sells
 
 
 
-<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_impact_bid_price">get_impact_bid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, impact_size: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_impact_bid_price">get_impact_bid_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, impact_size: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -376,7 +376,7 @@ aborts if there are no sells
     <b>let</b> total_size = 0;
     <b>let</b> orders = &self.buys;
     <b>if</b> (orders.is_empty()) {
-        <b>return</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>();
+        <b>return</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>();
     };
     <b>let</b> (front_key, front_value) = orders.borrow_back();
     <b>while</b> (total_size &lt; impact_size) {
@@ -387,7 +387,7 @@ aborts if there are no sells
                 front_value.size
             };
         total_value = total_value
-            + (matched_size <b>as</b> u128) * (front_key.price <b>as</b> u128);
+            + (matched_size <b>as</b> u128) * (front_key.<a href="">price</a> <b>as</b> u128);
         total_size = total_size + matched_size;
         <b>let</b> next_key = orders.prev_key(&front_key);
         <b>if</b> (next_key.is_none()) {
@@ -397,7 +397,7 @@ aborts if there are no sells
         front_key = next_key.destroy_some();
         front_value = orders.borrow(&front_key);
     };
-    <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>((total_value / (total_size <b>as</b> u128)) <b>as</b> u64)
+    <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>((total_value / (total_size <b>as</b> u128)) <b>as</b> u64)
 }
 </code></pre>
 
@@ -411,7 +411,7 @@ aborts if there are no sells
 
 
 
-<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_impact_ask_price">get_impact_ask_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, impact_size: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_impact_ask_price">get_impact_ask_price</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, impact_size: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -425,7 +425,7 @@ aborts if there are no sells
     <b>let</b> total_size = 0;
     <b>let</b> orders = &self.sells;
     <b>if</b> (orders.is_empty()) {
-        <b>return</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>();
+        <b>return</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>();
     };
     <b>let</b> (front_key, front_value) = orders.borrow_front();
     <b>while</b> (total_size &lt; impact_size) {
@@ -436,7 +436,7 @@ aborts if there are no sells
                 front_value.size
             };
         total_value = total_value
-            + (matched_size <b>as</b> u128) * (front_key.price <b>as</b> u128);
+            + (matched_size <b>as</b> u128) * (front_key.<a href="">price</a> <b>as</b> u128);
         total_size = total_size + matched_size;
         <b>let</b> next_key = orders.next_key(&front_key);
         <b>if</b> (next_key.is_none()) {
@@ -445,7 +445,7 @@ aborts if there are no sells
         front_key = next_key.destroy_some();
         front_value = orders.borrow(&front_key);
     };
-    <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>((total_value / (total_size <b>as</b> u128)) <b>as</b> u64)
+    <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>((total_value / (total_size <b>as</b> u128)) <b>as</b> u64)
 }
 </code></pre>
 
@@ -489,7 +489,7 @@ aborts if there are no sells
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_cancel_active_order">cancel_active_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, price: u64, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, is_buy: bool): u64
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_cancel_active_order">cancel_active_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, <a href="">price</a>: u64, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, is_buy: bool): u64
 </code></pre>
 
 
@@ -500,12 +500,12 @@ aborts if there are no sells
 
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_cancel_active_order">cancel_active_order</a>(
     self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>,
-    price: u64,
+    <a href="">price</a>: u64,
     unique_priority_idx: UniqueIdxType,
     is_buy: bool
 ): u64 {
     <b>let</b> tie_breaker = <a href="active_order_book.md#0x7_active_order_book_get_tie_breaker">get_tie_breaker</a>(unique_priority_idx, is_buy);
-    <b>let</b> key = <a href="active_order_book.md#0x7_active_order_book_ActiveBidKey">ActiveBidKey</a> { price: price, tie_breaker };
+    <b>let</b> key = <a href="active_order_book.md#0x7_active_order_book_ActiveBidKey">ActiveBidKey</a> { <a href="">price</a>: <a href="">price</a>, tie_breaker };
     <b>let</b> value =
         <b>if</b> (is_buy) {
             self.buys.remove(&key)
@@ -526,7 +526,7 @@ aborts if there are no sells
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_is_active_order">is_active_order</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, price: u64, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, is_buy: bool): bool
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_is_active_order">is_active_order</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, <a href="">price</a>: u64, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, is_buy: bool): bool
 </code></pre>
 
 
@@ -537,12 +537,12 @@ aborts if there are no sells
 
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_is_active_order">is_active_order</a>(
     self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>,
-    price: u64,
+    <a href="">price</a>: u64,
     unique_priority_idx: UniqueIdxType,
     is_buy: bool
 ): bool {
     <b>let</b> tie_breaker = <a href="active_order_book.md#0x7_active_order_book_get_tie_breaker">get_tie_breaker</a>(unique_priority_idx, is_buy);
-    <b>let</b> key = <a href="active_order_book.md#0x7_active_order_book_ActiveBidKey">ActiveBidKey</a> { price: price, tie_breaker };
+    <b>let</b> key = <a href="active_order_book.md#0x7_active_order_book_ActiveBidKey">ActiveBidKey</a> { <a href="">price</a>: <a href="">price</a>, tie_breaker };
     <b>if</b> (is_buy) {
         self.buys.contains(&key)
     } <b>else</b> {
@@ -562,7 +562,7 @@ aborts if there are no sells
 Check if the order is a taker order - i.e. if it can be immediately matched with the order book fully or partially.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_is_taker_order">is_taker_order</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, price: u64, is_buy: bool): bool
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_is_taker_order">is_taker_order</a>(self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, <a href="">price</a>: u64, is_buy: bool): bool
 </code></pre>
 
 
@@ -572,14 +572,14 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_is_taker_order">is_taker_order</a>(
-    self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>, price: u64, is_buy: bool
+    self: &<a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>, <a href="">price</a>: u64, is_buy: bool
 ): bool {
     <b>if</b> (is_buy) {
         <b>let</b> best_ask_price = self.<a href="active_order_book.md#0x7_active_order_book_best_ask_price">best_ask_price</a>();
-        best_ask_price.is_some() && price &gt;= best_ask_price.destroy_some()
+        best_ask_price.is_some() && <a href="">price</a> &gt;= best_ask_price.destroy_some()
     } <b>else</b> {
         <b>let</b> best_bid_price = self.<a href="active_order_book.md#0x7_active_order_book_best_bid_price">best_bid_price</a>();
-        best_bid_price.is_some() && price &lt;= best_bid_price.destroy_some()
+        best_bid_price.is_some() && <a href="">price</a> &lt;= best_bid_price.destroy_some()
     }
 }
 </code></pre>
@@ -644,7 +644,7 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 
-<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_for_buy_order">get_single_match_for_buy_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, price: u64, size: u64): <a href="order_book_types.md#0x7_order_book_types_ActiveMatchedOrder">order_book_types::ActiveMatchedOrder</a>
+<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_for_buy_order">get_single_match_for_buy_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, <a href="">price</a>: u64, size: u64): <a href="order_book_types.md#0x7_order_book_types_ActiveMatchedOrder">order_book_types::ActiveMatchedOrder</a>
 </code></pre>
 
 
@@ -654,10 +654,10 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 <pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_for_buy_order">get_single_match_for_buy_order</a>(
-    self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>, price: u64, size: u64
+    self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>, <a href="">price</a>: u64, size: u64
 ): ActiveMatchedOrder {
     <b>let</b> (smallest_key, smallest_value) = self.sells.borrow_front();
-    <b>assert</b>!(price &gt;= smallest_key.price, <a href="active_order_book.md#0x7_active_order_book_EINTERNAL_INVARIANT_BROKEN">EINTERNAL_INVARIANT_BROKEN</a>);
+    <b>assert</b>!(<a href="">price</a> &gt;= smallest_key.<a href="">price</a>, <a href="active_order_book.md#0x7_active_order_book_EINTERNAL_INVARIANT_BROKEN">EINTERNAL_INVARIANT_BROKEN</a>);
     <a href="active_order_book.md#0x7_active_order_book_single_match_with_current_active_order">single_match_with_current_active_order</a>(
         size,
         smallest_key,
@@ -677,7 +677,7 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 
-<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_for_sell_order">get_single_match_for_sell_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, price: u64, size: u64): <a href="order_book_types.md#0x7_order_book_types_ActiveMatchedOrder">order_book_types::ActiveMatchedOrder</a>
+<pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_for_sell_order">get_single_match_for_sell_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, <a href="">price</a>: u64, size: u64): <a href="order_book_types.md#0x7_order_book_types_ActiveMatchedOrder">order_book_types::ActiveMatchedOrder</a>
 </code></pre>
 
 
@@ -687,10 +687,10 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 <pre><code><b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_for_sell_order">get_single_match_for_sell_order</a>(
-    self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>, price: u64, size: u64
+    self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>, <a href="">price</a>: u64, size: u64
 ): ActiveMatchedOrder {
     <b>let</b> (largest_key, largest_value) = self.buys.borrow_back();
-    <b>assert</b>!(price &lt;= largest_key.price, <a href="active_order_book.md#0x7_active_order_book_EINTERNAL_INVARIANT_BROKEN">EINTERNAL_INVARIANT_BROKEN</a>);
+    <b>assert</b>!(<a href="">price</a> &lt;= largest_key.<a href="">price</a>, <a href="active_order_book.md#0x7_active_order_book_EINTERNAL_INVARIANT_BROKEN">EINTERNAL_INVARIANT_BROKEN</a>);
     <a href="active_order_book.md#0x7_active_order_book_single_match_with_current_active_order">single_match_with_current_active_order</a>(
         size,
         largest_key,
@@ -710,7 +710,7 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_result">get_single_match_result</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, price: u64, size: u64, is_buy: bool): <a href="order_book_types.md#0x7_order_book_types_ActiveMatchedOrder">order_book_types::ActiveMatchedOrder</a>
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_result">get_single_match_result</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, <a href="">price</a>: u64, size: u64, is_buy: bool): <a href="order_book_types.md#0x7_order_book_types_ActiveMatchedOrder">order_book_types::ActiveMatchedOrder</a>
 </code></pre>
 
 
@@ -721,14 +721,14 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_get_single_match_result">get_single_match_result</a>(
     self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>,
-    price: u64,
+    <a href="">price</a>: u64,
     size: u64,
     is_buy: bool
 ): ActiveMatchedOrder {
     <b>if</b> (is_buy) {
-        self.<a href="active_order_book.md#0x7_active_order_book_get_single_match_for_buy_order">get_single_match_for_buy_order</a>(price, size)
+        self.<a href="active_order_book.md#0x7_active_order_book_get_single_match_for_buy_order">get_single_match_for_buy_order</a>(<a href="">price</a>, size)
     } <b>else</b> {
-        self.<a href="active_order_book.md#0x7_active_order_book_get_single_match_for_sell_order">get_single_match_for_sell_order</a>(price, size)
+        self.<a href="active_order_book.md#0x7_active_order_book_get_single_match_for_sell_order">get_single_match_for_sell_order</a>(<a href="">price</a>, size)
     }
 }
 </code></pre>
@@ -743,7 +743,7 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_place_maker_order">place_maker_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, order_id: <a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>, price: u64, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, size: u64, is_buy: bool)
+<pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_place_maker_order">place_maker_order</a>(self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">active_order_book::ActiveOrderBook</a>, order_id: <a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>, <a href="">price</a>: u64, unique_priority_idx: <a href="order_book_types.md#0x7_order_book_types_UniqueIdxType">order_book_types::UniqueIdxType</a>, size: u64, is_buy: bool)
 </code></pre>
 
 
@@ -755,16 +755,16 @@ Check if the order is a taker order - i.e. if it can be immediately matched with
 <pre><code><b>public</b> <b>fun</b> <a href="active_order_book.md#0x7_active_order_book_place_maker_order">place_maker_order</a>(
     self: &<b>mut</b> <a href="active_order_book.md#0x7_active_order_book_ActiveOrderBook">ActiveOrderBook</a>,
     order_id: OrderIdType,
-    price: u64,
+    <a href="">price</a>: u64,
     unique_priority_idx: UniqueIdxType,
     size: u64,
     is_buy: bool
 ) {
     <b>let</b> tie_breaker = <a href="active_order_book.md#0x7_active_order_book_get_tie_breaker">get_tie_breaker</a>(unique_priority_idx, is_buy);
-    <b>let</b> key = <a href="active_order_book.md#0x7_active_order_book_ActiveBidKey">ActiveBidKey</a> { price, tie_breaker };
+    <b>let</b> key = <a href="active_order_book.md#0x7_active_order_book_ActiveBidKey">ActiveBidKey</a> { <a href="">price</a>, tie_breaker };
     <b>let</b> value = <a href="active_order_book.md#0x7_active_order_book_ActiveBidData">ActiveBidData</a> { order_id, size };
     // Assert that this is not a taker order
-    <b>assert</b>!(!self.<a href="active_order_book.md#0x7_active_order_book_is_taker_order">is_taker_order</a>(price, is_buy), <a href="active_order_book.md#0x7_active_order_book_EINVALID_MAKER_ORDER">EINVALID_MAKER_ORDER</a>);
+    <b>assert</b>!(!self.<a href="active_order_book.md#0x7_active_order_book_is_taker_order">is_taker_order</a>(<a href="">price</a>, is_buy), <a href="active_order_book.md#0x7_active_order_book_EINVALID_MAKER_ORDER">EINVALID_MAKER_ORDER</a>);
     <b>if</b> (is_buy) {
         self.buys.add(key, value);
     } <b>else</b> {

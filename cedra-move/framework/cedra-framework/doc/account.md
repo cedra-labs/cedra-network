@@ -113,26 +113,26 @@
     -  [Function `verify_signed_message`](#@Specification_4_verify_signed_message)
 
 
-<pre><code><b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
+<pre><code><b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
 <b>use</b> <a href="chain_id.md#0x1_chain_id">0x1::chain_id</a>;
 <b>use</b> <a href="create_signer.md#0x1_create_signer">0x1::create_signer</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519">0x1::ed25519</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs">0x1::from_bcs</a>;
 <b>use</b> <a href="guid.md#0x1_guid">0x1::guid</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/hash.md#0x1_hash">0x1::hash</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/hash.md#0x1_hash">0x1::hash</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519">0x1::multi_ed25519</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/multi_key.md#0x1_multi_key">0x1::multi_key</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="permissioned_signer.md#0x1_permissioned_signer">0x1::permissioned_signer</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/single_key.md#0x1_single_key">0x1::single_key</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/table.md#0x1_table">0x1::table</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/type_info.md#0x1_type_info">0x1::type_info</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -161,13 +161,13 @@
 
 </dd>
 <dt>
-<code>old_authentication_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>old_authentication_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>new_authentication_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>new_authentication_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -201,7 +201,7 @@
 
 </dd>
 <dt>
-<code>verified_public_key_bit_map: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>verified_public_key_bit_map: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -213,19 +213,19 @@
 
 </dd>
 <dt>
-<code>public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>old_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>old_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -253,7 +253,7 @@ Resource representing an account.
 
 <dl>
 <dt>
-<code>authentication_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>authentication_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -316,13 +316,13 @@ Resource representing an account.
 
 <dl>
 <dt>
-<code>old_authentication_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>old_authentication_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>new_authentication_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>new_authentication_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -410,7 +410,7 @@ Resource representing an account.
 
 <dl>
 <dt>
-<code>for: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;</code>
+<code>for: <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;</code>
 </dt>
 <dd>
 
@@ -552,7 +552,7 @@ context because they include the TXN's unique sequence number.
 
 </dd>
 <dt>
-<code>new_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>new_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -1106,7 +1106,7 @@ Scheme identifier for single key public keys used to derive authentication keys 
 
 
 
-<pre><code><b>const</b> <a href="account.md#0x1_account_ZERO_AUTH_KEY">ZERO_AUTH_KEY</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+<pre><code><b>const</b> <a href="account.md#0x1_account_ZERO_AUTH_KEY">ZERO_AUTH_KEY</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 </code></pre>
 
 
@@ -1118,7 +1118,7 @@ Scheme identifier for single key public keys used to derive authentication keys 
 Permissions
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>fun</b> <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1127,10 +1127,10 @@ Permissions
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code>inline <b>fun</b> <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <b>assert</b>!(
         <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">permissioned_signer::check_permission_exists</a>(s, AccountPermission::KeyRotation {}),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account.md#0x1_account_ENO_ACCOUNT_PERMISSION">ENO_ACCOUNT_PERMISSION</a>),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account.md#0x1_account_ENO_ACCOUNT_PERMISSION">ENO_ACCOUNT_PERMISSION</a>),
     );
 }
 </code></pre>
@@ -1145,7 +1145,7 @@ Permissions
 
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>fun</b> <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1154,10 +1154,10 @@ Permissions
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code>inline <b>fun</b> <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <b>assert</b>!(
         <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">permissioned_signer::check_permission_exists</a>(s, AccountPermission::Offering {}),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account.md#0x1_account_ENO_ACCOUNT_PERMISSION">ENO_ACCOUNT_PERMISSION</a>),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account.md#0x1_account_ENO_ACCOUNT_PERMISSION">ENO_ACCOUNT_PERMISSION</a>),
     );
 }
 </code></pre>
@@ -1175,7 +1175,7 @@ Grant permission to perform key rotations on behalf of the master signer.
 This is **extremely dangerous** and should be granted only when it's absolutely needed.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_rotation_permission">grant_key_rotation_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_rotation_permission">grant_key_rotation_permission</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1184,7 +1184,7 @@ This is **extremely dangerous** and should be granted only when it's absolutely 
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_rotation_permission">grant_key_rotation_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_rotation_permission">grant_key_rotation_permission</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_unlimited">permissioned_signer::authorize_unlimited</a>(master, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>, AccountPermission::KeyRotation {})
 }
 </code></pre>
@@ -1202,7 +1202,7 @@ Grant permission to use offered address's signer on behalf of the master signer.
 This is **extremely dangerous** and should be granted only when it's absolutely needed.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_offering_permission">grant_key_offering_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_offering_permission">grant_key_offering_permission</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1211,7 +1211,7 @@ This is **extremely dangerous** and should be granted only when it's absolutely 
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_offering_permission">grant_key_offering_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_grant_key_offering_permission">grant_key_offering_permission</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_unlimited">permissioned_signer::authorize_unlimited</a>(master, <a href="permissioned_signer.md#0x1_permissioned_signer">permissioned_signer</a>, AccountPermission::Offering {})
 }
 </code></pre>
@@ -1227,7 +1227,7 @@ This is **extremely dangerous** and should be granted only when it's absolutely 
 Only called during genesis to initialize system resources for this module.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1236,7 +1236,7 @@ Only called during genesis to initialize system resources for this module.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
     <b>move_to</b>(cedra_framework, <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
         address_map: <a href="../../cedra-stdlib/doc/table.md#0x1_table_new">table::new</a>(),
@@ -1267,7 +1267,7 @@ Only called during genesis to initialize system resources for this module.
     <b>if</b> (!<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(account_address)) {
         <b>assert</b>!(
             account_address != @vm_reserved && account_address != @cedra_framework && account_address != @cedra_token,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ECANNOT_RESERVED_ADDRESS">ECANNOT_RESERVED_ADDRESS</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ECANNOT_RESERVED_ADDRESS">ECANNOT_RESERVED_ADDRESS</a>)
         );
         <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(account_address);
     }
@@ -1287,7 +1287,7 @@ is returned. This way, the caller of this function can publish additional resour
 <code>new_address</code>.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_account">create_account</a>(new_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_account">create_account</a>(new_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -1296,15 +1296,15 @@ is returned. This way, the caller of this function can publish additional resour
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_account">create_account</a>(new_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_account">create_account</a>(new_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
     // there cannot be an <a href="account.md#0x1_account_Account">Account</a> resource under new_addr already.
-    <b>assert</b>!(!<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(new_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="account.md#0x1_account_EACCOUNT_ALREADY_EXISTS">EACCOUNT_ALREADY_EXISTS</a>));
+    <b>assert</b>!(!<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(new_address), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="account.md#0x1_account_EACCOUNT_ALREADY_EXISTS">EACCOUNT_ALREADY_EXISTS</a>));
     // NOTE: @core_resources gets created via a `create_account` call, so we do not <b>include</b> it below.
     <b>assert</b>!(
         new_address != @vm_reserved && new_address != @cedra_framework && new_address != @cedra_token,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ECANNOT_RESERVED_ADDRESS">ECANNOT_RESERVED_ADDRESS</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ECANNOT_RESERVED_ADDRESS">ECANNOT_RESERVED_ADDRESS</a>)
     );
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         <a href="create_signer.md#0x1_create_signer">create_signer</a>(new_address)
     } <b>else</b> {
         <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address)
@@ -1322,7 +1322,7 @@ is returned. This way, the caller of this function can publish additional resour
 
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -1331,12 +1331,12 @@ is returned. This way, the caller of this function can publish additional resour
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
+<pre><code><b>fun</b> <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
     <b>let</b> new_account = <a href="create_signer.md#0x1_create_signer">create_signer</a>(new_address);
-    <b>let</b> authentication_key = <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&new_address);
+    <b>let</b> authentication_key = <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&new_address);
     <b>assert</b>!(
         authentication_key.length() == 32,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EMALFORMED_AUTHENTICATION_KEY">EMALFORMED_AUTHENTICATION_KEY</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EMALFORMED_AUTHENTICATION_KEY">EMALFORMED_AUTHENTICATION_KEY</a>)
     );
 
     <b>let</b> guid_creation_num = 0;
@@ -1355,8 +1355,8 @@ is returned. This way, the caller of this function can publish additional resour
             guid_creation_num,
             coin_register_events,
             key_rotation_events,
-            rotation_capability_offer: <a href="account.md#0x1_account_CapabilityOffer">CapabilityOffer</a> { for: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>() },
-            signer_capability_offer: <a href="account.md#0x1_account_CapabilityOffer">CapabilityOffer</a> { for: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>() },
+            rotation_capability_offer: <a href="account.md#0x1_account_CapabilityOffer">CapabilityOffer</a> { for: <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>() },
+            signer_capability_offer: <a href="account.md#0x1_account_CapabilityOffer">CapabilityOffer</a> { for: <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>() },
         }
     );
 
@@ -1395,7 +1395,7 @@ When the feature flag is disabled:
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_exists_at">exists_at</a>(addr: <b>address</b>): bool {
-    <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>() || <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr)
+    <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>() || <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr)
 }
 </code></pre>
 
@@ -1462,10 +1462,10 @@ When the feature flag is disabled:
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_guid_next_creation_num">get_guid_next_creation_num</a>(addr: <b>address</b>): u64 <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <b>if</b> (<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(addr)) {
         <a href="account.md#0x1_account_Account">Account</a>[addr].guid_creation_num
-    } <b>else</b> <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    } <b>else</b> <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         0
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>)
     }
 }
 </code></pre>
@@ -1493,10 +1493,10 @@ When the feature flag is disabled:
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_sequence_number">get_sequence_number</a>(addr: <b>address</b>): u64 <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <b>if</b> (<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(addr)) {
         <a href="account.md#0x1_account_Account">Account</a>[addr].sequence_number
-    } <b>else</b> <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    } <b>else</b> <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         0
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>)
     }
 }
 </code></pre>
@@ -1512,7 +1512,7 @@ When the feature flag is disabled:
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="account.md#0x1_account_originating_address">originating_address</a>(auth_key: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;
+<b>public</b> <b>fun</b> <a href="account.md#0x1_account_originating_address">originating_address</a>(auth_key: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;
 </code></pre>
 
 
@@ -1524,9 +1524,9 @@ When the feature flag is disabled:
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_originating_address">originating_address</a>(auth_key: <b>address</b>): Option&lt;<b>address</b>&gt; <b>acquires</b> <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
     <b>let</b> address_map_ref = &<a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>[@cedra_framework].address_map;
     <b>if</b> (address_map_ref.contains(auth_key)) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*address_map_ref.borrow(auth_key))
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*address_map_ref.borrow(auth_key))
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -1551,10 +1551,10 @@ When the feature flag is disabled:
 
 
 <pre><code>inline <b>fun</b> <a href="account.md#0x1_account_ensure_resource_exists">ensure_resource_exists</a>(addr: <b>address</b>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a>{
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         <a href="account.md#0x1_account_create_account_if_does_not_exist">create_account_if_does_not_exist</a>(addr);
     } <b>else</b> {
-        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(addr), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
     }
 }
 </code></pre>
@@ -1584,7 +1584,7 @@ When the feature flag is disabled:
 
     <b>assert</b>!(
         (*sequence_number <b>as</b> u128) &lt; <a href="account.md#0x1_account_MAX_U64">MAX_U64</a>,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="account.md#0x1_account_ESEQUENCE_NUMBER_TOO_BIG">ESEQUENCE_NUMBER_TOO_BIG</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="account.md#0x1_account_ESEQUENCE_NUMBER_TOO_BIG">ESEQUENCE_NUMBER_TOO_BIG</a>)
     );
 
     *sequence_number = *sequence_number + 1;
@@ -1602,7 +1602,7 @@ When the feature flag is disabled:
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -1611,13 +1611,13 @@ When the feature flag is disabled:
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <b>if</b> (<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(addr)) {
         <a href="account.md#0x1_account_Account">Account</a>[addr].authentication_key
-    } <b>else</b> <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&addr)
+    } <b>else</b> <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+        <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&addr)
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>)
     }
 }
 </code></pre>
@@ -1637,7 +1637,7 @@ many contexts:
 3. During multisig_v2 account creation
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1646,12 +1646,12 @@ many contexts:
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_ensure_resource_exists">ensure_resource_exists</a>(addr);
     <b>assert</b>!(
         new_auth_key.length() == 32,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EMALFORMED_AUTHENTICATION_KEY">EMALFORMED_AUTHENTICATION_KEY</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EMALFORMED_AUTHENTICATION_KEY">EMALFORMED_AUTHENTICATION_KEY</a>)
     );
     <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[addr];
@@ -1677,7 +1677,7 @@ If you'd like to followup with updating the <code><a href="account.md#0x1_accoun
 <code><a href="account.md#0x1_account_set_originating_address">set_originating_address</a>()</code>.
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1686,7 +1686,7 @@ If you'd like to followup with updating the <code><a href="account.md#0x1_accoun
 <summary>Implementation</summary>
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>, new_auth_key);
 }
 </code></pre>
@@ -1705,7 +1705,7 @@ This function will abort if the scheme is not recognized or if new_public_key_by
 Note: This function does not update the <code><a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a></code> table.
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_from_public_key">rotate_authentication_key_from_public_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, scheme: u8, new_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_from_public_key">rotate_authentication_key_from_public_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, scheme: u8, new_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1714,8 +1714,8 @@ Note: This function does not update the <code><a href="account.md#0x1_account_Or
 <summary>Implementation</summary>
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_from_public_key">rotate_authentication_key_from_public_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, scheme: u8, new_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_from_public_key">rotate_authentication_key_from_public_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, scheme: u8, new_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[addr];
     <b>let</b> old_auth_key = account_resource.authentication_key;
     <b>let</b> new_auth_key;
@@ -1730,13 +1730,13 @@ Note: This function does not update the <code><a href="account.md#0x1_account_Or
     } <b>else</b> <b>if</b> (scheme == <a href="account.md#0x1_account_MULTI_KEY_SCHEME">MULTI_KEY_SCHEME</a>) {
         new_auth_key = <a href="../../cedra-stdlib/doc/multi_key.md#0x1_multi_key_new_public_key_from_bytes">multi_key::new_public_key_from_bytes</a>(new_public_key_bytes).to_authentication_key();
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EUNRECOGNIZED_SCHEME">EUNRECOGNIZED_SCHEME</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EUNRECOGNIZED_SCHEME">EUNRECOGNIZED_SCHEME</a>)
     };
     <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>, new_auth_key);
     <a href="event.md#0x1_event_emit">event::emit</a>(<a href="account.md#0x1_account_KeyRotationToPublicKey">KeyRotationToPublicKey</a> {
         <a href="account.md#0x1_account">account</a>: addr,
         // Set verified_public_key_bit_map <b>to</b> [0x00, 0x00, 0x00, 0x00] <b>as</b> the <b>public</b> key(s) are not verified
-        verified_public_key_bit_map: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0x00, 0x00, 0x00, 0x00],
+        verified_public_key_bit_map: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0x00, 0x00, 0x00, 0x00],
         public_key_scheme: scheme,
         public_key: new_public_key_bytes,
         old_auth_key,
@@ -1789,7 +1789,7 @@ is the original public key of the account and the new backup key has been valida
 * Emits a <code>KeyRotationToMultiPublicKey</code> event with the new multi-key configuration
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_upsert_ed25519_backup_key_on_keyless_account">upsert_ed25519_backup_key_on_keyless_account</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, keyless_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_key_proof: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_upsert_ed25519_backup_key_on_keyless_account">upsert_ed25519_backup_key_on_keyless_account</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, keyless_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_key_proof: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1798,20 +1798,20 @@ is the original public key of the account and the new backup key has been valida
 <summary>Implementation</summary>
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_upsert_ed25519_backup_key_on_keyless_account">upsert_ed25519_backup_key_on_keyless_account</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, keyless_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_key_proof: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_upsert_ed25519_backup_key_on_keyless_account">upsert_ed25519_backup_key_on_keyless_account</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, keyless_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, backup_key_proof: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     // Check that the provided <b>public</b> key is a <a href="../../cedra-stdlib/doc/keyless.md#0x1_keyless">keyless</a> <b>public</b> key
     <b>let</b> keyless_single_key = <a href="../../cedra-stdlib/doc/single_key.md#0x1_single_key_new_public_key_from_bytes">single_key::new_public_key_from_bytes</a>(keyless_public_key);
-    <b>assert</b>!(<a href="../../cedra-stdlib/doc/single_key.md#0x1_single_key_is_keyless_or_federated_keyless_public_key">single_key::is_keyless_or_federated_keyless_public_key</a>(&keyless_single_key), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENOT_A_KEYLESS_PUBLIC_KEY">ENOT_A_KEYLESS_PUBLIC_KEY</a>));
+    <b>assert</b>!(<a href="../../cedra-stdlib/doc/single_key.md#0x1_single_key_is_keyless_or_federated_keyless_public_key">single_key::is_keyless_or_federated_keyless_public_key</a>(&keyless_single_key), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENOT_A_KEYLESS_PUBLIC_KEY">ENOT_A_KEYLESS_PUBLIC_KEY</a>));
 
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[addr];
     <b>let</b> old_auth_key = account_resource.authentication_key;
 
     // Check that the provided <b>public</b> key is original <b>public</b> key of the <a href="account.md#0x1_account">account</a> by comparing
     // its authentication key <b>to</b> the <a href="account.md#0x1_account">account</a> <b>address</b>.
     <b>assert</b>!(
-        <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&addr) == keyless_single_key.to_authentication_key(),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENOT_THE_ORIGINAL_PUBLIC_KEY">ENOT_THE_ORIGINAL_PUBLIC_KEY</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&addr) == keyless_single_key.to_authentication_key(),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENOT_THE_ORIGINAL_PUBLIC_KEY">ENOT_THE_ORIGINAL_PUBLIC_KEY</a>)
     );
 
     <b>let</b> curr_auth_key_as_address = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(old_auth_key);
@@ -1834,7 +1834,7 @@ is the original public key of the account and the new backup key has been valida
     <b>let</b> backup_key_ed25519 = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_new_unvalidated_public_key_from_bytes">ed25519::new_unvalidated_public_key_from_bytes</a>(backup_public_key);
     <b>let</b> backup_key_as_single_key = <a href="../../cedra-stdlib/doc/single_key.md#0x1_single_key_from_ed25519_public_key_unvalidated">single_key::from_ed25519_public_key_unvalidated</a>(backup_key_ed25519);
 
-    <b>let</b> new_public_key = <a href="../../cedra-stdlib/doc/multi_key.md#0x1_multi_key_new_multi_key_from_single_keys">multi_key::new_multi_key_from_single_keys</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[keyless_single_key, backup_key_as_single_key], 1);
+    <b>let</b> new_public_key = <a href="../../cedra-stdlib/doc/multi_key.md#0x1_multi_key_new_multi_key_from_single_keys">multi_key::new_multi_key_from_single_keys</a>(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[keyless_single_key, backup_key_as_single_key], 1);
     <b>let</b> new_auth_key = new_public_key.to_authentication_key();
 
     // Rotate the authentication key <b>to</b> the new multi key <b>public</b> key
@@ -1846,9 +1846,9 @@ is the original public key of the account and the new backup key has been valida
         // The <a href="../../cedra-stdlib/doc/keyless.md#0x1_keyless">keyless</a> <b>public</b> key is the original <b>public</b> key of the <a href="account.md#0x1_account">account</a> and the new backup key
         // <b>has</b> been validated via verifying the challenge signed by the new backup key.
         // Represents the bitmap 0b11000000000000000000000000000000
-        verified_public_key_bit_map: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0xC0, 0x00, 0x00, 0x00],
+        verified_public_key_bit_map: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0xC0, 0x00, 0x00, 0x00],
         public_key_scheme: <a href="account.md#0x1_account_MULTI_KEY_SCHEME">MULTI_KEY_SCHEME</a>,
-        public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&new_public_key),
+        public_key: <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(&new_public_key),
         old_auth_key,
         new_auth_key,
     });
@@ -1893,7 +1893,7 @@ Because we ask for a valid <code>cap_update_table</code>, this kind of attack is
 to rotate his address to Alice's address in the first place.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key">rotate_authentication_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, from_scheme: u8, from_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, to_scheme: u8, to_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_rotate_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key">rotate_authentication_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, from_scheme: u8, from_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, to_scheme: u8, to_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_rotate_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1903,15 +1903,15 @@ to rotate his address to Alice's address in the first place.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key">rotate_authentication_key</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     from_scheme: u8,
-    from_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    from_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     to_scheme: u8,
-    to_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    cap_rotate_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    cap_update_table: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    to_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    cap_rotate_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    cap_update_table: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
 ) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a>, <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_ensure_resource_exists">ensure_resource_exists</a>(addr);
     <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[addr];
@@ -1922,17 +1922,17 @@ to rotate his address to Alice's address in the first place.
         <b>let</b> from_auth_key = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_unvalidated_public_key_to_authentication_key">ed25519::unvalidated_public_key_to_authentication_key</a>(&from_pk);
         <b>assert</b>!(
             account_resource.authentication_key == from_auth_key,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_unauthenticated">error::unauthenticated</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_unauthenticated">error::unauthenticated</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
         );
     } <b>else</b> <b>if</b> (from_scheme == <a href="account.md#0x1_account_MULTI_ED25519_SCHEME">MULTI_ED25519_SCHEME</a>) {
         <b>let</b> from_pk = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_new_unvalidated_public_key_from_bytes">multi_ed25519::new_unvalidated_public_key_from_bytes</a>(from_public_key_bytes);
         <b>let</b> from_auth_key = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_unvalidated_public_key_to_authentication_key">multi_ed25519::unvalidated_public_key_to_authentication_key</a>(&from_pk);
         <b>assert</b>!(
             account_resource.authentication_key == from_auth_key,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_unauthenticated">error::unauthenticated</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_unauthenticated">error::unauthenticated</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
         );
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
     };
 
     // Construct a valid `<a href="account.md#0x1_account_RotationProofChallenge">RotationProofChallenge</a>` that `cap_rotate_key` and `cap_update_table` will validate against.
@@ -1964,11 +1964,11 @@ to rotate his address to Alice's address in the first place.
     <b>let</b> verified_public_key_bit_map;
     <b>if</b> (to_scheme == <a href="account.md#0x1_account_ED25519_SCHEME">ED25519_SCHEME</a>) {
         // Set verified_public_key_bit_map <b>to</b> [0x80, 0x00, 0x00, 0x00] <b>as</b> the <b>public</b> key is verified and there is only one <b>public</b> key.
-        verified_public_key_bit_map = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0x80, 0x00, 0x00, 0x00];
+        verified_public_key_bit_map = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0x80, 0x00, 0x00, 0x00];
     } <b>else</b> {
         // The new key is a multi-<a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519">ed25519</a> key, so set the verified_public_key_bit_map <b>to</b> the signature bitmap.
-        <b>let</b> len = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&cap_update_table);
-        verified_public_key_bit_map = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_slice">vector::slice</a>(&cap_update_table, len - 4, len);
+        <b>let</b> len = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&cap_update_table);
+        verified_public_key_bit_map = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_slice">vector::slice</a>(&cap_update_table, len - 4, len);
     };
 
     <a href="event.md#0x1_event_emit">event::emit</a>(<a href="account.md#0x1_account_KeyRotationToPublicKey">KeyRotationToPublicKey</a> {
@@ -1992,7 +1992,7 @@ to rotate his address to Alice's address in the first place.
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_with_rotation_capability">rotate_authentication_key_with_rotation_capability</a>(delegate_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_cap_offerer_address: <b>address</b>, new_scheme: u8, new_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_with_rotation_capability">rotate_authentication_key_with_rotation_capability</a>(delegate_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_cap_offerer_address: <b>address</b>, new_scheme: u8, new_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -2002,22 +2002,22 @@ to rotate his address to Alice's address in the first place.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_with_rotation_capability">rotate_authentication_key_with_rotation_capability</a>(
-    delegate_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    delegate_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     rotation_cap_offerer_address: <b>address</b>,
     new_scheme: u8,
-    new_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    cap_update_table: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    new_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    cap_update_table: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a>, <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
     <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(delegate_signer);
-    <b>assert</b>!(<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(rotation_cap_offerer_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EOFFERER_ADDRESS_DOES_NOT_EXIST">EOFFERER_ADDRESS_DOES_NOT_EXIST</a>));
+    <b>assert</b>!(<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(rotation_cap_offerer_address), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EOFFERER_ADDRESS_DOES_NOT_EXIST">EOFFERER_ADDRESS_DOES_NOT_EXIST</a>));
 
     // Check that there <b>exists</b> a rotation <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer at the offerer's <a href="account.md#0x1_account">account</a> resource for the delegate.
-    <b>let</b> delegate_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(delegate_signer);
+    <b>let</b> delegate_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(delegate_signer);
     <b>let</b> offerer_account_resource = &<a href="account.md#0x1_account_Account">Account</a>[rotation_cap_offerer_address];
     <b>let</b> old_auth_key = offerer_account_resource.authentication_key;
     <b>assert</b>!(
         offerer_account_resource.rotation_capability_offer.for.contains(&delegate_address),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_ROTATION_CAPABILITY_OFFER">ENO_SUCH_ROTATION_CAPABILITY_OFFER</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_ROTATION_CAPABILITY_OFFER">ENO_SUCH_ROTATION_CAPABILITY_OFFER</a>)
     );
 
     <b>let</b> curr_auth_key = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(offerer_account_resource.authentication_key);
@@ -2047,11 +2047,11 @@ to rotate his address to Alice's address in the first place.
     <b>let</b> verified_public_key_bit_map;
     <b>if</b> (new_scheme == <a href="account.md#0x1_account_ED25519_SCHEME">ED25519_SCHEME</a>) {
         // Set verified_public_key_bit_map <b>to</b> [0x80, 0x00, 0x00, 0x00] <b>as</b> the <b>public</b> key is verified and there is only one <b>public</b> key.
-        verified_public_key_bit_map = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0x80, 0x00, 0x00, 0x00];
+        verified_public_key_bit_map = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0x80, 0x00, 0x00, 0x00];
     } <b>else</b> {
         // The new key is a multi-<a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519">ed25519</a> key, so set the verified_public_key_bit_map <b>to</b> the signature bitmap.
-        <b>let</b> len = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&cap_update_table);
-        verified_public_key_bit_map = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_slice">vector::slice</a>(&cap_update_table, len - 4, len);
+        <b>let</b> len = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&cap_update_table);
+        verified_public_key_bit_map = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_slice">vector::slice</a>(&cap_update_table, len - 4, len);
     };
 
     <a href="event.md#0x1_event_emit">event::emit</a>(<a href="account.md#0x1_account_KeyRotationToPublicKey">KeyRotationToPublicKey</a> {
@@ -2092,7 +2092,7 @@ We prevent such attacks by asking for this extra signature authorizing the key r
 offer, calling this function will replace the previous <code>recipient_address</code> upon successful verification.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_rotation_capability">offer_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_capability_sig_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_rotation_capability">offer_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_capability_sig_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
 </code></pre>
 
 
@@ -2102,16 +2102,16 @@ offer, calling this function will replace the previous <code>recipient_address</
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_rotation_capability">offer_rotation_capability</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    rotation_capability_sig_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    rotation_capability_sig_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     account_scheme: u8,
-    account_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    account_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     recipient_address: <b>address</b>,
 ) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(<a href="account.md#0x1_account">account</a>);
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_ensure_resource_exists">ensure_resource_exists</a>(addr);
-    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(recipient_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(recipient_address), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
 
     // proof that this <a href="account.md#0x1_account">account</a> intends <b>to</b> delegate its rotation <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> <b>to</b> another <a href="account.md#0x1_account">account</a>
     <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[addr];
@@ -2128,29 +2128,29 @@ offer, calling this function will replace the previous <code>recipient_address</
         <b>let</b> expected_auth_key = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_unvalidated_public_key_to_authentication_key">ed25519::unvalidated_public_key_to_authentication_key</a>(&pubkey);
         <b>assert</b>!(
             account_resource.authentication_key == expected_auth_key,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
         );
 
         <b>let</b> rotation_capability_sig = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_new_signature_from_bytes">ed25519::new_signature_from_bytes</a>(rotation_capability_sig_bytes);
         <b>assert</b>!(
             <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_signature_verify_strict_t">ed25519::signature_verify_strict_t</a>(&rotation_capability_sig, &pubkey, proof_challenge),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>)
         );
     } <b>else</b> <b>if</b> (account_scheme == <a href="account.md#0x1_account_MULTI_ED25519_SCHEME">MULTI_ED25519_SCHEME</a>) {
         <b>let</b> pubkey = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_new_unvalidated_public_key_from_bytes">multi_ed25519::new_unvalidated_public_key_from_bytes</a>(account_public_key_bytes);
         <b>let</b> expected_auth_key = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_unvalidated_public_key_to_authentication_key">multi_ed25519::unvalidated_public_key_to_authentication_key</a>(&pubkey);
         <b>assert</b>!(
             account_resource.authentication_key == expected_auth_key,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>)
         );
 
         <b>let</b> rotation_capability_sig = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_new_signature_from_bytes">multi_ed25519::new_signature_from_bytes</a>(rotation_capability_sig_bytes);
         <b>assert</b>!(
             <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_signature_verify_strict_t">multi_ed25519::signature_verify_strict_t</a>(&rotation_capability_sig, &pubkey, proof_challenge),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>)
         );
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
     };
 
     // <b>update</b> the existing rotation <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer or put in a new rotation <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer for the current <a href="account.md#0x1_account">account</a>
@@ -2181,7 +2181,7 @@ Kept as a private entry function to ensure that after an unproven rotation via
 authority of the new authentication key.
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_set_originating_address">set_originating_address</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_set_originating_address">set_originating_address</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -2190,9 +2190,9 @@ authority of the new authentication key.
 <summary>Implementation</summary>
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_set_originating_address">set_originating_address</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a>, <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
-    <b>let</b> account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
-    <b>assert</b>!(<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(account_addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_set_originating_address">set_originating_address</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a>, <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
+    <b>let</b> account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>assert</b>!(<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(account_addr), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
     <b>let</b> auth_key_as_address =
         <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(<a href="account.md#0x1_account_Account">Account</a>[account_addr].authentication_key);
     <b>let</b> address_map_ref_mut =
@@ -2200,7 +2200,7 @@ authority of the new authentication key.
     <b>if</b> (address_map_ref_mut.contains(auth_key_as_address)) {
         <b>assert</b>!(
             *address_map_ref_mut.borrow(auth_key_as_address) == account_addr,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENEW_AUTH_KEY_ALREADY_MAPPED">ENEW_AUTH_KEY_ALREADY_MAPPED</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENEW_AUTH_KEY_ALREADY_MAPPED">ENEW_AUTH_KEY_ALREADY_MAPPED</a>)
         );
     } <b>else</b> {
         address_map_ref_mut.add(auth_key_as_address, account_addr);
@@ -2230,12 +2230,12 @@ Returns true if the account at <code>account_addr</code> has a rotation capabili
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_is_rotation_capability_offered">is_rotation_capability_offered</a>(account_addr: <b>address</b>): bool <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         <b>if</b> (!<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(account_addr)) {
             <b>return</b> <b>false</b>;
         }
     } <b>else</b> {
-        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(account_addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(account_addr), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
     };
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[account_addr];
     account_resource.rotation_capability_offer.for.is_some()
@@ -2268,7 +2268,7 @@ Returns the address of the account that has a rotation capability offer from the
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[account_addr];
     <b>assert</b>!(
         account_resource.rotation_capability_offer.for.is_some(),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SIGNER_CAPABILITY_OFFERED">ENO_SIGNER_CAPABILITY_OFFERED</a>),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SIGNER_CAPABILITY_OFFERED">ENO_SIGNER_CAPABILITY_OFFERED</a>),
     );
     *account_resource.rotation_capability_offer.for.borrow()
 }
@@ -2285,7 +2285,7 @@ Returns the address of the account that has a rotation capability offer from the
 Revoke the rotation capability offer given to <code>to_be_revoked_recipient_address</code> from <code><a href="account.md#0x1_account">account</a></code>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_rotation_capability">revoke_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_rotation_capability">revoke_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
 </code></pre>
 
 
@@ -2294,15 +2294,15 @@ Revoke the rotation capability offer given to <code>to_be_revoked_recipient_addr
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_rotation_capability">revoke_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(to_be_revoked_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_rotation_capability">revoke_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(to_be_revoked_address), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
     <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(<a href="account.md#0x1_account">account</a>);
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_assert_account_resource_with_error">assert_account_resource_with_error</a>(addr, <a href="account.md#0x1_account_ENO_SUCH_ROTATION_CAPABILITY_OFFER">ENO_SUCH_ROTATION_CAPABILITY_OFFER</a>);
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[addr];
     <b>assert</b>!(
         account_resource.rotation_capability_offer.for.contains(&to_be_revoked_address),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_ROTATION_CAPABILITY_OFFER">ENO_SUCH_ROTATION_CAPABILITY_OFFER</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_ROTATION_CAPABILITY_OFFER">ENO_SUCH_ROTATION_CAPABILITY_OFFER</a>)
     );
     <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>);
 }
@@ -2319,7 +2319,7 @@ Revoke the rotation capability offer given to <code>to_be_revoked_recipient_addr
 Revoke any rotation capability offer in the specified account.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -2328,11 +2328,11 @@ Revoke any rotation capability offer in the specified account.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_check_rotation_permission">check_rotation_permission</a>(<a href="account.md#0x1_account">account</a>);
-    <b>let</b> offerer_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> offerer_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_assert_account_resource_with_error">assert_account_resource_with_error</a>(offerer_addr, <a href="account.md#0x1_account_ENO_SUCH_ROTATION_CAPABILITY_OFFER">ENO_SUCH_ROTATION_CAPABILITY_OFFER</a>);
-    <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>)];
+    <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>)];
     account_resource.rotation_capability_offer.for.extract();
 }
 </code></pre>
@@ -2356,7 +2356,7 @@ previous <code>recipient_address</code> upon successful verification (the previo
 to the account owner's signer capability).
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_signer_capability">offer_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signer_capability_sig_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_signer_capability">offer_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signer_capability_sig_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
 </code></pre>
 
 
@@ -2366,18 +2366,18 @@ to the account owner's signer capability).
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_signer_capability">offer_signer_capability</a>(
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    signer_capability_sig_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    signer_capability_sig_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     account_scheme: u8,
-    account_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    account_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     recipient_address: <b>address</b>
 ) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(<a href="account.md#0x1_account">account</a>);
-    <b>let</b> source_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> source_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_ensure_resource_exists">ensure_resource_exists</a>(source_address);
-    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(recipient_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(recipient_address), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
 
-    // Proof that this <a href="account.md#0x1_account">account</a> intends <b>to</b> delegate its <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> <b>to</b> another <a href="account.md#0x1_account">account</a>.
+    // Proof that this <a href="account.md#0x1_account">account</a> intends <b>to</b> delegate its <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> <b>to</b> another <a href="account.md#0x1_account">account</a>.
     <b>let</b> proof_challenge = <a href="account.md#0x1_account_SignerCapabilityOfferProofChallengeV2">SignerCapabilityOfferProofChallengeV2</a> {
         sequence_number: <a href="account.md#0x1_account_get_sequence_number">get_sequence_number</a>(source_address),
         source_address,
@@ -2386,7 +2386,7 @@ to the account owner's signer capability).
     <a href="account.md#0x1_account_verify_signed_message">verify_signed_message</a>(
         source_address, account_scheme, account_public_key_bytes, signer_capability_sig_bytes, proof_challenge);
 
-    // Update the existing <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer or put in a new <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer for the recipient.
+    // Update the existing <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer or put in a new <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer for the recipient.
     <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[source_address];
     account_resource.signer_capability_offer.for.swap_or_fill(recipient_address);
 }
@@ -2414,12 +2414,12 @@ Returns true if the account at <code>account_addr</code> has a signer capability
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_is_signer_capability_offered">is_signer_capability_offered</a>(account_addr: <b>address</b>): bool <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         <b>if</b> (!<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(account_addr)) {
             <b>return</b> <b>false</b>;
         }
     } <b>else</b> {
-        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(account_addr), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(account_addr), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
     };
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[account_addr];
     account_resource.signer_capability_offer.for.is_some()
@@ -2452,7 +2452,7 @@ Returns the address of the account that has a signer capability offer from the a
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[account_addr];
     <b>assert</b>!(
         account_resource.signer_capability_offer.for.is_some(),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SIGNER_CAPABILITY_OFFERED">ENO_SIGNER_CAPABILITY_OFFERED</a>),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SIGNER_CAPABILITY_OFFERED">ENO_SIGNER_CAPABILITY_OFFERED</a>),
     );
     *account_resource.signer_capability_offer.for.borrow()
 }
@@ -2470,7 +2470,7 @@ Revoke the account owner's signer capability offer for <code>to_be_revoked_addre
 has a signer capability offer from <code><a href="account.md#0x1_account">account</a></code> but will be revoked in this function).
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_signer_capability">revoke_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_signer_capability">revoke_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
 </code></pre>
 
 
@@ -2479,15 +2479,15 @@ has a signer capability offer from <code><a href="account.md#0x1_account">accoun
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_signer_capability">revoke_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_signer_capability">revoke_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(<a href="account.md#0x1_account">account</a>);
-    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(to_be_revoked_address), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(to_be_revoked_address), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_assert_account_resource_with_error">assert_account_resource_with_error</a>(addr, <a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>);
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[addr];
     <b>assert</b>!(
         account_resource.signer_capability_offer.for.contains(&to_be_revoked_address),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>)
     );
     <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>);
 }
@@ -2504,7 +2504,7 @@ has a signer capability offer from <code><a href="account.md#0x1_account">accoun
 Revoke any signer capability offer in the specified account.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -2513,11 +2513,11 @@ Revoke any signer capability offer in the specified account.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(<a href="account.md#0x1_account">account</a>);
-    <b>let</b> offerer_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> offerer_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_assert_account_resource_with_error">assert_account_resource_with_error</a>(offerer_addr, <a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>);
-    <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>)];
+    <b>let</b> account_resource = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>)];
     account_resource.signer_capability_offer.for.extract();
 }
 </code></pre>
@@ -2534,7 +2534,7 @@ Return an authorized signer of the offerer, if there's an existing signer capabi
 at the offerer's address.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_authorized_signer">create_authorized_signer</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, offerer_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_authorized_signer">create_authorized_signer</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, offerer_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -2543,15 +2543,15 @@ at the offerer's address.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_authorized_signer">create_authorized_signer</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, offerer_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_authorized_signer">create_authorized_signer</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, offerer_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="account.md#0x1_account_check_offering_permission">check_offering_permission</a>(<a href="account.md#0x1_account">account</a>);
     <a href="account.md#0x1_account_assert_account_resource_with_error">assert_account_resource_with_error</a>(offerer_address, <a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>);
-    // Check <b>if</b> there's an existing <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer from the offerer.
+    // Check <b>if</b> there's an existing <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a> offer from the offerer.
     <b>let</b> account_resource = &<a href="account.md#0x1_account_Account">Account</a>[offerer_address];
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>assert</b>!(
         account_resource.signer_capability_offer.for.contains(&addr),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_ENO_SUCH_SIGNER_CAPABILITY">ENO_SUCH_SIGNER_CAPABILITY</a>)
     );
 
     <a href="create_signer.md#0x1_create_signer">create_signer</a>(offerer_address)
@@ -2578,13 +2578,13 @@ at the offerer's address.
 
 
 <pre><code>inline <b>fun</b> <a href="account.md#0x1_account_assert_account_resource_with_error">assert_account_resource_with_error</a>(<a href="account.md#0x1_account">account</a>: <b>address</b>, error_code: u64) {
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
+    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_default_account_resource_enabled">features::is_default_account_resource_enabled</a>()) {
         <b>assert</b>!(
             <a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(<a href="account.md#0x1_account">account</a>),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(error_code),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(error_code),
         );
     } <b>else</b> {
-        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(<a href="account.md#0x1_account">account</a>), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
+        <b>assert</b>!(<a href="account.md#0x1_account_exists_at">exists_at</a>(<a href="account.md#0x1_account">account</a>), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EACCOUNT_DOES_NOT_EXIST">EACCOUNT_DOES_NOT_EXIST</a>));
     };
 }
 </code></pre>
@@ -2600,7 +2600,7 @@ at the offerer's address.
 Helper functions for authentication key rotation.
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_assert_valid_rotation_proof_signature_and_get_auth_key">assert_valid_rotation_proof_signature_and_get_auth_key</a>(scheme: u8, public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signature: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, challenge: &<a href="account.md#0x1_account_RotationProofChallenge">account::RotationProofChallenge</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>fun</b> <a href="account.md#0x1_account_assert_valid_rotation_proof_signature_and_get_auth_key">assert_valid_rotation_proof_signature_and_get_auth_key</a>(scheme: u8, public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signature: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, challenge: &<a href="account.md#0x1_account_RotationProofChallenge">account::RotationProofChallenge</a>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -2611,10 +2611,10 @@ Helper functions for authentication key rotation.
 
 <pre><code><b>fun</b> <a href="account.md#0x1_account_assert_valid_rotation_proof_signature_and_get_auth_key">assert_valid_rotation_proof_signature_and_get_auth_key</a>(
     scheme: u8,
-    public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    signature: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    signature: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     challenge: &<a href="account.md#0x1_account_RotationProofChallenge">RotationProofChallenge</a>
-): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
     <b>if</b> (scheme == <a href="account.md#0x1_account_ED25519_SCHEME">ED25519_SCHEME</a>) {
         <b>let</b> pk = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_new_unvalidated_public_key_from_bytes">ed25519::new_unvalidated_public_key_from_bytes</a>(public_key_bytes);
         <b>let</b> sig = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_new_signature_from_bytes">ed25519::new_signature_from_bytes</a>(signature);
@@ -2632,7 +2632,7 @@ Helper functions for authentication key rotation.
         );
         <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_unvalidated_public_key_to_authentication_key">multi_ed25519::unvalidated_public_key_to_authentication_key</a>(&pk)
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
     }
 }
 </code></pre>
@@ -2649,7 +2649,7 @@ Update the <code><a href="account.md#0x1_account_OriginatingAddress">Originating
 in the event of key recovery.
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_update_auth_key_and_originating_address_table">update_auth_key_and_originating_address_table</a>(originating_addr: <b>address</b>, account_resource: &<b>mut</b> <a href="account.md#0x1_account_Account">account::Account</a>, new_auth_key_vector: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>fun</b> <a href="account.md#0x1_account_update_auth_key_and_originating_address_table">update_auth_key_and_originating_address_table</a>(originating_addr: <b>address</b>, account_resource: &<b>mut</b> <a href="account.md#0x1_account_Account">account::Account</a>, new_auth_key_vector: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -2661,14 +2661,14 @@ in the event of key recovery.
 <pre><code><b>fun</b> <a href="account.md#0x1_account_update_auth_key_and_originating_address_table">update_auth_key_and_originating_address_table</a>(
     originating_addr: <b>address</b>,
     account_resource: &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>,
-    new_auth_key_vector: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    new_auth_key_vector: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
 ) <b>acquires</b> <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a> {
     <b>let</b> address_map = &<b>mut</b> <a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>[@cedra_framework].address_map;
     <b>let</b> curr_auth_key = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(account_resource.authentication_key);
     <b>let</b> new_auth_key = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(new_auth_key_vector);
     <b>assert</b>!(
         new_auth_key != curr_auth_key,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENEW_AUTH_KEY_SAME_AS_CURRENT">ENEW_AUTH_KEY_SAME_AS_CURRENT</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENEW_AUTH_KEY_SAME_AS_CURRENT">ENEW_AUTH_KEY_SAME_AS_CURRENT</a>)
     );
 
     // Checks `<a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>[curr_auth_key]` is either unmapped, or mapped <b>to</b> `originating_address`.
@@ -2686,14 +2686,14 @@ in the event of key recovery.
         // because <b>address</b> b is not the <a href="account.md#0x1_account">account</a>'s originating <b>address</b>.
         <b>assert</b>!(
             originating_addr == address_map.remove(curr_auth_key),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EINVALID_ORIGINATING_ADDRESS">EINVALID_ORIGINATING_ADDRESS</a>)
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="account.md#0x1_account_EINVALID_ORIGINATING_ADDRESS">EINVALID_ORIGINATING_ADDRESS</a>)
         );
     };
 
     // Set `<a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>[new_auth_key] = originating_address`.
     <b>assert</b>!(
         !address_map.contains(new_auth_key),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENEW_AUTH_KEY_ALREADY_MAPPED">ENEW_AUTH_KEY_ALREADY_MAPPED</a>)
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_ENEW_AUTH_KEY_ALREADY_MAPPED">ENEW_AUTH_KEY_ALREADY_MAPPED</a>)
     );
     address_map.add(new_auth_key, originating_addr);
 
@@ -2731,7 +2731,7 @@ This is a helper function to compute resource addresses. Computation of the addr
 involves the use of a cryptographic hash operation and should be use thoughtfully.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(source: &<b>address</b>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(source: &<b>address</b>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
 </code></pre>
 
 
@@ -2740,11 +2740,11 @@ involves the use of a cryptographic hash operation and should be use thoughtfull
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(source: &<b>address</b>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b> {
-    <b>let</b> bytes = <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(source);
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(source: &<b>address</b>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b> {
+    <b>let</b> bytes = <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(source);
     bytes.append(seed);
     bytes.push_back(<a href="account.md#0x1_account_DERIVE_RESOURCE_ACCOUNT_SCHEME">DERIVE_RESOURCE_ACCOUNT_SCHEME</a>);
-    <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/hash.md#0x1_hash_sha3_256">hash::sha3_256</a>(bytes))
+    <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_to_address">from_bcs::to_address</a>(<a href="../../oracle-interface/../move-stdlib/doc/hash.md#0x1_hash_sha3_256">hash::sha3_256</a>(bytes))
 }
 </code></pre>
 
@@ -2767,7 +2767,7 @@ collision where someone has legitimately produced a private key that maps to a r
 than <code>(1/2)^(256)</code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_account">create_resource_account</a>(source: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_account">create_resource_account</a>(source: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
 </code></pre>
 
 
@@ -2776,19 +2776,19 @@ than <code>(1/2)^(256)</code>.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_account">create_resource_account</a>(source: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">SignerCapability</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>let</b> resource_addr = <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(&<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(source), seed);
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_account">create_resource_account</a>(source: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">SignerCapability</a>) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+    <b>let</b> resource_addr = <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(&<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(source), seed);
     <b>let</b> resource = <b>if</b> (<a href="account.md#0x1_account_exists_at">exists_at</a>(resource_addr)) {
         <b>if</b> (<a href="account.md#0x1_account_resource_exists_at">resource_exists_at</a>(resource_addr)) {
         <b>let</b> <a href="account.md#0x1_account">account</a> = &<a href="account.md#0x1_account_Account">Account</a>[resource_addr];
         <b>assert</b>!(
             <a href="account.md#0x1_account">account</a>.signer_capability_offer.for.is_none(),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="account.md#0x1_account_ERESOURCE_ACCCOUNT_EXISTS">ERESOURCE_ACCCOUNT_EXISTS</a>),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="account.md#0x1_account_ERESOURCE_ACCCOUNT_EXISTS">ERESOURCE_ACCCOUNT_EXISTS</a>),
         );
         };
         <b>assert</b>!(
             <a href="account.md#0x1_account_get_sequence_number">get_sequence_number</a>(resource_addr) == 0,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account.md#0x1_account_EACCOUNT_ALREADY_USED">EACCOUNT_ALREADY_USED</a>),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="account.md#0x1_account_EACCOUNT_ALREADY_USED">EACCOUNT_ALREADY_USED</a>),
         );
         <a href="create_signer.md#0x1_create_signer">create_signer</a>(resource_addr)
     } <b>else</b> {
@@ -2801,7 +2801,7 @@ than <code>(1/2)^(256)</code>.
     <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(&resource, <a href="account.md#0x1_account_ZERO_AUTH_KEY">ZERO_AUTH_KEY</a>);
 
     <b>let</b> <a href="account.md#0x1_account">account</a> = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[resource_addr];
-    <a href="account.md#0x1_account">account</a>.signer_capability_offer.for = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(resource_addr);
+    <a href="account.md#0x1_account">account</a>.signer_capability_offer.for = <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(resource_addr);
     <b>let</b> signer_cap = <a href="account.md#0x1_account_SignerCapability">SignerCapability</a> { <a href="account.md#0x1_account">account</a>: resource_addr };
     (resource, signer_cap)
 }
@@ -2818,7 +2818,7 @@ than <code>(1/2)^(256)</code>.
 create the account for system reserved addresses
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_framework_reserved_account">create_framework_reserved_account</a>(addr: <b>address</b>): (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_framework_reserved_account">create_framework_reserved_account</a>(addr: <b>address</b>): (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
 </code></pre>
 
 
@@ -2827,7 +2827,7 @@ create the account for system reserved addresses
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_framework_reserved_account">create_framework_reserved_account</a>(addr: <b>address</b>): (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">SignerCapability</a>) {
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_framework_reserved_account">create_framework_reserved_account</a>(addr: <b>address</b>): (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">SignerCapability</a>) {
     <b>assert</b>!(
         addr == @0x1 ||
             addr == @0x2 ||
@@ -2839,11 +2839,11 @@ create the account for system reserved addresses
             addr == @0x8 ||
             addr == @0x9 ||
             addr == @0xa,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account.md#0x1_account_ENO_VALID_FRAMEWORK_RESERVED_ADDRESS">ENO_VALID_FRAMEWORK_RESERVED_ADDRESS</a>),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="account.md#0x1_account_ENO_VALID_FRAMEWORK_RESERVED_ADDRESS">ENO_VALID_FRAMEWORK_RESERVED_ADDRESS</a>),
     );
-    <b>let</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> = <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(addr);
+    <b>let</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> = <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(addr);
     <b>let</b> signer_cap = <a href="account.md#0x1_account_SignerCapability">SignerCapability</a> { <a href="account.md#0x1_account">account</a>: addr };
-    (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signer_cap)
+    (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signer_cap)
 }
 </code></pre>
 
@@ -2868,7 +2868,7 @@ When the feature flag is disabled:
 Aborts if the maximum number of GUIDs has been reached (0x4000000000000)
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_guid">create_guid</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="guid.md#0x1_guid_GUID">guid::GUID</a>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_guid">create_guid</a>(account_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="guid.md#0x1_guid_GUID">guid::GUID</a>
 </code></pre>
 
 
@@ -2877,14 +2877,14 @@ Aborts if the maximum number of GUIDs has been reached (0x4000000000000)
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_guid">create_guid</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="guid.md#0x1_guid_GUID">guid::GUID</a> <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(account_signer);
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_guid">create_guid</a>(account_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="guid.md#0x1_guid_GUID">guid::GUID</a> <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(account_signer);
     <a href="account.md#0x1_account_ensure_resource_exists">ensure_resource_exists</a>(addr);
     <b>let</b> <a href="account.md#0x1_account">account</a> = &<b>mut</b> <a href="account.md#0x1_account_Account">Account</a>[addr];
     <b>let</b> <a href="guid.md#0x1_guid">guid</a> = <a href="guid.md#0x1_guid_create">guid::create</a>(addr, &<b>mut</b> <a href="account.md#0x1_account">account</a>.guid_creation_num);
     <b>assert</b>!(
         <a href="account.md#0x1_account">account</a>.guid_creation_num &lt; <a href="account.md#0x1_account_MAX_GUID_CREATION_NUM">MAX_GUID_CREATION_NUM</a>,
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="account.md#0x1_account_EEXCEEDED_MAX_GUID_CREATION_NUM">EEXCEEDED_MAX_GUID_CREATION_NUM</a>),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="account.md#0x1_account_EEXCEEDED_MAX_GUID_CREATION_NUM">EEXCEEDED_MAX_GUID_CREATION_NUM</a>),
     );
     <a href="guid.md#0x1_guid">guid</a>
 }
@@ -2904,7 +2904,7 @@ This is a wrapper around <code>create_guid</code> that creates an EventHandle,
 inheriting the same behavior regarding account existence and feature flags.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_new_event_handle">new_event_handle</a>&lt;T: drop, store&gt;(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="event.md#0x1_event_EventHandle">event::EventHandle</a>&lt;T&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_new_event_handle">new_event_handle</a>&lt;T: drop, store&gt;(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="event.md#0x1_event_EventHandle">event::EventHandle</a>&lt;T&gt;
 </code></pre>
 
 
@@ -2913,7 +2913,7 @@ inheriting the same behavior regarding account existence and feature flags.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_new_event_handle">new_event_handle</a>&lt;T: drop + store&gt;(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): EventHandle&lt;T&gt; <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_new_event_handle">new_event_handle</a>&lt;T: drop + store&gt;(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): EventHandle&lt;T&gt; <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <a href="event.md#0x1_event_new_event_handle">event::new_event_handle</a>(<a href="account.md#0x1_account_create_guid">create_guid</a>(<a href="account.md#0x1_account">account</a>))
 }
 </code></pre>
@@ -2970,7 +2970,7 @@ Coin management methods.
 Capability based functions for efficient use.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_signer_with_capability">create_signer_with_capability</a>(<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>: &<a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_signer_with_capability">create_signer_with_capability</a>(<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>: &<a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -2979,7 +2979,7 @@ Capability based functions for efficient use.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_signer_with_capability">create_signer_with_capability</a>(<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>: &<a href="account.md#0x1_account_SignerCapability">SignerCapability</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_signer_with_capability">create_signer_with_capability</a>(<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>: &<a href="account.md#0x1_account_SignerCapability">SignerCapability</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
     <b>let</b> addr = &<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>.<a href="account.md#0x1_account">account</a>;
     <a href="create_signer.md#0x1_create_signer">create_signer</a>(*addr)
 }
@@ -3019,7 +3019,7 @@ Capability based functions for efficient use.
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_verify_signed_message">verify_signed_message</a>&lt;T: drop&gt;(<a href="account.md#0x1_account">account</a>: <b>address</b>, account_scheme: u8, account_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signed_message_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, message: T)
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_verify_signed_message">verify_signed_message</a>&lt;T: drop&gt;(<a href="account.md#0x1_account">account</a>: <b>address</b>, account_scheme: u8, account_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signed_message_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, message: T)
 </code></pre>
 
 
@@ -3031,8 +3031,8 @@ Capability based functions for efficient use.
 <pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_verify_signed_message">verify_signed_message</a>&lt;T: drop&gt;(
     <a href="account.md#0x1_account">account</a>: <b>address</b>,
     account_scheme: u8,
-    account_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    signed_message_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    account_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    signed_message_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     message: T,
 ) <b>acquires</b> <a href="account.md#0x1_account_Account">Account</a> {
     <b>let</b> auth_key = <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(<a href="account.md#0x1_account">account</a>);
@@ -3042,29 +3042,29 @@ Capability based functions for efficient use.
         <b>let</b> expected_auth_key = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_unvalidated_public_key_to_authentication_key">ed25519::unvalidated_public_key_to_authentication_key</a>(&pubkey);
         <b>assert</b>!(
             auth_key == expected_auth_key,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>),
         );
 
         <b>let</b> signer_capability_sig = <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_new_signature_from_bytes">ed25519::new_signature_from_bytes</a>(signed_message_bytes);
         <b>assert</b>!(
             <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_signature_verify_strict_t">ed25519::signature_verify_strict_t</a>(&signer_capability_sig, &pubkey, message),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>),
         );
     } <b>else</b> <b>if</b> (account_scheme == <a href="account.md#0x1_account_MULTI_ED25519_SCHEME">MULTI_ED25519_SCHEME</a>) {
         <b>let</b> pubkey = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_new_unvalidated_public_key_from_bytes">multi_ed25519::new_unvalidated_public_key_from_bytes</a>(account_public_key);
         <b>let</b> expected_auth_key = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_unvalidated_public_key_to_authentication_key">multi_ed25519::unvalidated_public_key_to_authentication_key</a>(&pubkey);
         <b>assert</b>!(
             auth_key == expected_auth_key,
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EWRONG_CURRENT_PUBLIC_KEY">EWRONG_CURRENT_PUBLIC_KEY</a>),
         );
 
         <b>let</b> signer_capability_sig = <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_new_signature_from_bytes">multi_ed25519::new_signature_from_bytes</a>(signed_message_bytes);
         <b>assert</b>!(
             <a href="../../cedra-stdlib/doc/multi_ed25519.md#0x1_multi_ed25519_signature_verify_strict_t">multi_ed25519::signature_verify_strict_t</a>(&signer_capability_sig, &pubkey, message),
-            <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>),
+            <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_PROOF_OF_KNOWLEDGE">EINVALID_PROOF_OF_KNOWLEDGE</a>),
         );
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
+        <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="account.md#0x1_account_EINVALID_SCHEME">EINVALID_SCHEME</a>)
     };
 }
 </code></pre>
@@ -3205,7 +3205,7 @@ Capability based functions for efficient use.
 ### Function `initialize`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_initialize">initialize</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_initialize">initialize</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -3213,7 +3213,7 @@ Only the address <code>@cedra_framework</code> can call.
 OriginatingAddress does not exist under <code>@cedra_framework</code> before the call.
 
 
-<pre><code><b>let</b> cedra_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework);
+<pre><code><b>let</b> cedra_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework);
 <b>aborts_if</b> !<a href="system_addresses.md#0x1_system_addresses_is_cedra_framework_address">system_addresses::is_cedra_framework_address</a>(cedra_addr);
 <b>aborts_if</b> <b>exists</b>&lt;<a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>&gt;(cedra_addr);
 <b>ensures</b> <b>exists</b>&lt;<a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>&gt;(cedra_addr);
@@ -3233,7 +3233,7 @@ OriginatingAddress does not exist under <code>@cedra_framework</code> before the
 Ensure that the account exists at the end of the call.
 
 
-<pre><code><b>let</b> authentication_key = <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(account_address);
+<pre><code><b>let</b> authentication_key = <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(account_address);
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(account_address);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(account_address) && (
     account_address == @vm_reserved
@@ -3251,7 +3251,7 @@ Ensure that the account exists at the end of the call.
 ### Function `create_account`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_account">create_account</a>(new_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_account">create_account</a>(new_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -3262,7 +3262,7 @@ Limit the new account address is not @vm_reserved / @cedra_framework / @cedra_to
 
 <pre><code><b>include</b> <a href="account.md#0x1_account_CreateAccountAbortsIf">CreateAccountAbortsIf</a> {addr: new_address};
 <b>aborts_if</b> new_address == @vm_reserved || new_address == @cedra_framework || new_address == @cedra_token;
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == new_address;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == new_address;
 // This enforces <a id="high-level-req-2" href="#high-level-req">high-level requirement 2</a>:
 <b>ensures</b> <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(new_address);
 </code></pre>
@@ -3274,7 +3274,7 @@ Limit the new account address is not @vm_reserved / @cedra_framework / @cedra_to
 ### Function `create_account_unchecked`
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="account.md#0x1_account_create_account_unchecked">create_account_unchecked</a>(new_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -3285,7 +3285,7 @@ The Account does not exist under the new address before creating the account.
 <pre><code><b>pragma</b> opaque;
 <b>include</b> <a href="account.md#0x1_account_CreateAccountAbortsIf">CreateAccountAbortsIf</a> {addr: new_address};
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(new_address);
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == new_address;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == new_address;
 <b>ensures</b> <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(new_address);
 </code></pre>
 
@@ -3318,7 +3318,7 @@ The Account does not exist under the new address before creating the account.
 <pre><code><b>fun</b> <a href="account.md#0x1_account_spec_exists_at">spec_exists_at</a>(addr: <b>address</b>): bool {
    <b>use</b> std::features;
    <b>use</b> std::features::DEFAULT_ACCOUNT_RESOURCE;
-   <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_spec_is_enabled">features::spec_is_enabled</a>(DEFAULT_ACCOUNT_RESOURCE) || <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr)
+   <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_spec_is_enabled">features::spec_is_enabled</a>(DEFAULT_ACCOUNT_RESOURCE) || <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr)
 }
 </code></pre>
 
@@ -3330,7 +3330,7 @@ The Account does not exist under the new address before creating the account.
 
 <pre><code><b>schema</b> <a href="account.md#0x1_account_CreateAccountAbortsIf">CreateAccountAbortsIf</a> {
     addr: <b>address</b>;
-    <b>let</b> authentication_key = <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(addr);
+    <b>let</b> authentication_key = <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(addr);
     <b>aborts_if</b> len(authentication_key) != 32;
     <b>aborts_if</b> <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
     <b>ensures</b> len(authentication_key) == 32;
@@ -3381,7 +3381,7 @@ The Account does not exist under the new address before creating the account.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="account.md#0x1_account_originating_address">originating_address</a>(auth_key: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;
+<b>public</b> <b>fun</b> <a href="account.md#0x1_account_originating_address">originating_address</a>(auth_key: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;
 </code></pre>
 
 
@@ -3422,7 +3422,7 @@ The sequence_number of the Account is up to MAX_U64.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<b>public</b> <b>fun</b> <a href="account.md#0x1_account_get_authentication_key">get_authentication_key</a>(addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -3439,7 +3439,7 @@ The sequence_number of the Account is up to MAX_U64.
 <a id="0x1_account_spec_get_authentication_key"></a>
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_spec_get_authentication_key">spec_get_authentication_key</a>(addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+<pre><code><b>fun</b> <a href="account.md#0x1_account_spec_get_authentication_key">spec_get_authentication_key</a>(addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
    <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr).authentication_key
 }
 </code></pre>
@@ -3451,7 +3451,7 @@ The sequence_number of the Account is up to MAX_U64.
 ### Function `rotate_authentication_key_internal`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_internal">rotate_authentication_key_internal</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -3459,11 +3459,11 @@ The Account existed under the signer before the call.
 The length of new_auth_key is 32.
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 // This enforces <a id="high-level-req-10" href="#high-level-req">high-level requirement 10</a>:
 <b>let</b> <b>post</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
-<b>aborts_if</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(new_auth_key) != 32;
+<b>aborts_if</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(new_auth_key) != 32;
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>ensures</b> account_resource.authentication_key == new_auth_key;
 </code></pre>
@@ -3475,17 +3475,17 @@ The length of new_auth_key is 32.
 ### Function `rotate_authentication_key_call`
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_call">rotate_authentication_key_call</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, new_auth_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 // This enforces <a id="high-level-req-10" href="#high-level-req">high-level requirement 10</a>:
 <b>let</b> <b>post</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
-<b>aborts_if</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(new_auth_key) != 32;
+<b>aborts_if</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(new_auth_key) != 32;
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>ensures</b> account_resource.authentication_key == new_auth_key;
 </code></pre>
@@ -3497,7 +3497,7 @@ The length of new_auth_key is 32.
 ### Function `rotate_authentication_key_from_public_key`
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_from_public_key">rotate_authentication_key_from_public_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, scheme: u8, new_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_from_public_key">rotate_authentication_key_from_public_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, scheme: u8, new_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -3512,7 +3512,7 @@ The length of new_auth_key is 32.
 <a id="0x1_account_spec_assert_valid_rotation_proof_signature_and_get_auth_key"></a>
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_spec_assert_valid_rotation_proof_signature_and_get_auth_key">spec_assert_valid_rotation_proof_signature_and_get_auth_key</a>(scheme: u8, public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signature: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, challenge: <a href="account.md#0x1_account_RotationProofChallenge">RotationProofChallenge</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
+<pre><code><b>fun</b> <a href="account.md#0x1_account_spec_assert_valid_rotation_proof_signature_and_get_auth_key">spec_assert_valid_rotation_proof_signature_and_get_auth_key</a>(scheme: u8, public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signature: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, challenge: <a href="account.md#0x1_account_RotationProofChallenge">RotationProofChallenge</a>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
 </code></pre>
 
 
@@ -3522,7 +3522,7 @@ The length of new_auth_key is 32.
 ### Function `rotate_authentication_key`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key">rotate_authentication_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, from_scheme: u8, from_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, to_scheme: u8, to_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_rotate_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key">rotate_authentication_key</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, from_scheme: u8, from_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, to_scheme: u8, to_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_rotate_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -3530,7 +3530,7 @@ The Account existed under the signer
 The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 // This enforces <a id="high-level-req-6.1" href="#high-level-req">high-level requirement 6</a>:
@@ -3591,14 +3591,14 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 ### Function `rotate_authentication_key_with_rotation_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_with_rotation_capability">rotate_authentication_key_with_rotation_capability</a>(delegate_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_cap_offerer_address: <b>address</b>, new_scheme: u8, new_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_rotate_authentication_key_with_rotation_capability">rotate_authentication_key_with_rotation_capability</a>(delegate_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_cap_offerer_address: <b>address</b>, new_scheme: u8, new_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, cap_update_table: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
 
 
 <pre><code><b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(rotation_cap_offerer_address);
-<b>let</b> delegate_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(delegate_signer);
+<b>let</b> delegate_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(delegate_signer);
 <b>let</b> offerer_account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(rotation_cap_offerer_address);
 <b>aborts_if</b> !<a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_deserializable">from_bcs::deserializable</a>&lt;<b>address</b>&gt;(offerer_account_resource.authentication_key);
 <b>let</b> curr_auth_key = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_deserialize">from_bcs::deserialize</a>&lt;<b>address</b>&gt;(offerer_account_resource.authentication_key);
@@ -3610,7 +3610,7 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
     new_public_key: new_public_key_bytes,
 };
 // This enforces <a id="high-level-req-6.2" href="#high-level-req">high-level requirement 6</a>:
-<b>aborts_if</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(offerer_account_resource.rotation_capability_offer.for, delegate_address);
+<b>aborts_if</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(offerer_account_resource.rotation_capability_offer.for, delegate_address);
 // This enforces <a id="high-level-req-9.1" href="#high-level-req">high-level requirement 9</a>:
 <b>include</b> <a href="account.md#0x1_account_AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf">AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf</a> {
     scheme: new_scheme,
@@ -3642,13 +3642,13 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 ### Function `offer_rotation_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_rotation_capability">offer_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_capability_sig_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_rotation_capability">offer_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, rotation_capability_sig_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
 </code></pre>
 
 
 
 
-<pre><code><b>let</b> source_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>let</b> source_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(source_address);
 <b>let</b> proof_challenge = <a href="account.md#0x1_account_RotationCapabilityOfferProofChallengeV2">RotationCapabilityOfferProofChallengeV2</a> {
     <a href="chain_id.md#0x1_chain_id">chain_id</a>: <b>global</b>&lt;<a href="chain_id.md#0x1_chain_id_ChainId">chain_id::ChainId</a>&gt;(@cedra_framework).id,
@@ -3686,7 +3686,7 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 // This enforces <a id="high-level-req-7.1" href="#high-level-req">high-level requirement 7</a>:
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(source_address);
 <b>let</b> <b>post</b> offer_for = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(source_address).rotation_capability_offer.for;
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(offer_for) == recipient_address;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(offer_for) == recipient_address;
 </code></pre>
 
 
@@ -3696,7 +3696,7 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 ### Function `set_originating_address`
 
 
-<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_set_originating_address">set_originating_address</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code>entry <b>fun</b> <a href="account.md#0x1_account_set_originating_address">set_originating_address</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -3748,21 +3748,21 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 ### Function `revoke_rotation_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_rotation_capability">revoke_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_rotation_capability">revoke_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
 </code></pre>
 
 
 
 
 <pre><code><b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(to_be_revoked_address);
-<b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
-<b>aborts_if</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(account_resource.rotation_capability_offer.for,to_be_revoked_address);
+<b>aborts_if</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(account_resource.rotation_capability_offer.for,to_be_revoked_address);
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>ensures</b> <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(to_be_revoked_address);
 <b>let</b> <b>post</b> offer_for = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr).rotation_capability_offer.for;
-<b>ensures</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(offer_for);
+<b>ensures</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(offer_for);
 </code></pre>
 
 
@@ -3772,20 +3772,20 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 ### Function `revoke_any_rotation_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_rotation_capability">revoke_any_rotation_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 // This enforces <a id="high-level-req-7.3" href="#high-level-req">high-level requirement 7</a>:
-<b>aborts_if</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(account_resource.rotation_capability_offer.for);
+<b>aborts_if</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(account_resource.rotation_capability_offer.for);
 <b>let</b> <b>post</b> offer_for = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr).rotation_capability_offer.for;
-<b>ensures</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(offer_for);
+<b>ensures</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(offer_for);
 </code></pre>
 
 
@@ -3795,7 +3795,7 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME
 ### Function `offer_signer_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_signer_capability">offer_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signer_capability_sig_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_offer_signer_capability">offer_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, signer_capability_sig_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, account_scheme: u8, account_public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, recipient_address: <b>address</b>)
 </code></pre>
 
 
@@ -3803,7 +3803,7 @@ The Account existed under the signer.
 The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME.
 
 
-<pre><code><b>let</b> source_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<pre><code><b>let</b> source_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(source_address);
 <b>let</b> proof_challenge = <a href="account.md#0x1_account_SignerCapabilityOfferProofChallengeV2">SignerCapabilityOfferProofChallengeV2</a> {
     sequence_number: account_resource.sequence_number,
@@ -3839,7 +3839,7 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME.
 // This enforces <a id="high-level-req-7.2" href="#high-level-req">high-level requirement 7</a>:
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(source_address);
 <b>let</b> <b>post</b> offer_for = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(source_address).signer_capability_offer.for;
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(offer_for) == recipient_address;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(offer_for) == recipient_address;
 </code></pre>
 
 
@@ -3885,7 +3885,7 @@ The authentication scheme is ED25519_SCHEME and MULTI_ED25519_SCHEME.
 ### Function `revoke_signer_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_signer_capability">revoke_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_signer_capability">revoke_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, to_be_revoked_address: <b>address</b>)
 </code></pre>
 
 
@@ -3894,10 +3894,10 @@ The value of signer_capability_offer.for of Account resource under the signer is
 
 
 <pre><code><b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(to_be_revoked_address);
-<b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
 <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
-<b>aborts_if</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(account_resource.signer_capability_offer.for,to_be_revoked_address);
+<b>aborts_if</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(account_resource.signer_capability_offer.for,to_be_revoked_address);
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
 <b>ensures</b> <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(to_be_revoked_address);
 </code></pre>
@@ -3909,17 +3909,17 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `revoke_any_signer_capability`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="account.md#0x1_account_revoke_any_signer_capability">revoke_any_signer_capability</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
 
 
-<pre><code><b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>));
+<pre><code><b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>));
 // This enforces <a id="high-level-req-7.4" href="#high-level-req">high-level requirement 7</a>:
-<b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>));
-<b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>));
-<b>aborts_if</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(account_resource.signer_capability_offer.for);
+<b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>));
+<b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>));
+<b>aborts_if</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(account_resource.signer_capability_offer.for);
 </code></pre>
 
 
@@ -3929,7 +3929,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `create_authorized_signer`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_authorized_signer">create_authorized_signer</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, offerer_address: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_authorized_signer">create_authorized_signer</a>(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, offerer_address: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -3944,7 +3944,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 };
 <b>modifies</b> <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(offerer_address);
 <b>ensures</b> <b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(offerer_address);
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == offerer_address;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == offerer_address;
 </code></pre>
 
 
@@ -3954,13 +3954,13 @@ The value of signer_capability_offer.for of Account resource under the signer is
 
 
 <pre><code><b>schema</b> <a href="account.md#0x1_account_AccountContainsAddr">AccountContainsAddr</a> {
-    <a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    <a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
     <b>address</b>: <b>address</b>;
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> account_resource = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<b>address</b>);
     <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(<b>address</b>);
     // This enforces <a id="high-level-spec-3" href="create_signer.md#high-level-req">high-level requirement 3</a> of the <a href="create_signer.md">create_signer</a> module:
-    <b>aborts_if</b> !<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(account_resource.signer_capability_offer.for,addr);
+    <b>aborts_if</b> !<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_contains">option::spec_contains</a>(account_resource.signer_capability_offer.for,addr);
 }
 </code></pre>
 
@@ -3971,7 +3971,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `assert_valid_rotation_proof_signature_and_get_auth_key`
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_assert_valid_rotation_proof_signature_and_get_auth_key">assert_valid_rotation_proof_signature_and_get_auth_key</a>(scheme: u8, public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signature: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, challenge: &<a href="account.md#0x1_account_RotationProofChallenge">account::RotationProofChallenge</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>fun</b> <a href="account.md#0x1_account_assert_valid_rotation_proof_signature_and_get_auth_key">assert_valid_rotation_proof_signature_and_get_auth_key</a>(scheme: u8, public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signature: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, challenge: &<a href="account.md#0x1_account_RotationProofChallenge">account::RotationProofChallenge</a>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -3990,8 +3990,8 @@ The value of signer_capability_offer.for of Account resource under the signer is
 
 <pre><code><b>schema</b> <a href="account.md#0x1_account_AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf">AssertValidRotationProofSignatureAndGetAuthKeyAbortsIf</a> {
     scheme: u8;
-    public_key_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
-    signature: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
+    public_key_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
+    signature: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
     challenge: <a href="account.md#0x1_account_RotationProofChallenge">RotationProofChallenge</a>;
     <b>include</b> scheme == <a href="account.md#0x1_account_ED25519_SCHEME">ED25519_SCHEME</a> ==&gt; <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_NewUnvalidatedPublicKeyFromBytesAbortsIf">ed25519::NewUnvalidatedPublicKeyFromBytesAbortsIf</a> { bytes: public_key_bytes };
     <b>include</b> scheme == <a href="account.md#0x1_account_ED25519_SCHEME">ED25519_SCHEME</a> ==&gt; <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519_NewSignatureFromBytesAbortsIf">ed25519::NewSignatureFromBytesAbortsIf</a> { bytes: signature };
@@ -4018,7 +4018,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `update_auth_key_and_originating_address_table`
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_update_auth_key_and_originating_address_table">update_auth_key_and_originating_address_table</a>(originating_addr: <b>address</b>, account_resource: &<b>mut</b> <a href="account.md#0x1_account_Account">account::Account</a>, new_auth_key_vector: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>fun</b> <a href="account.md#0x1_account_update_auth_key_and_originating_address_table">update_auth_key_and_originating_address_table</a>(originating_addr: <b>address</b>, account_resource: &<b>mut</b> <a href="account.md#0x1_account_Account">account::Account</a>, new_auth_key_vector: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -4037,7 +4037,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 <pre><code><b>schema</b> <a href="account.md#0x1_account_UpdateAuthKeyAndOriginatingAddressTableAbortsIf">UpdateAuthKeyAndOriginatingAddressTableAbortsIf</a> {
     originating_addr: <b>address</b>;
     account_resource: <a href="account.md#0x1_account_Account">Account</a>;
-    new_auth_key_vector: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
+    new_auth_key_vector: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
     <b>let</b> address_map = <b>global</b>&lt;<a href="account.md#0x1_account_OriginatingAddress">OriginatingAddress</a>&gt;(@cedra_framework).address_map;
     <b>let</b> curr_auth_key = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_deserialize">from_bcs::deserialize</a>&lt;<b>address</b>&gt;(account_resource.authentication_key);
     <b>let</b> new_auth_key = <a href="../../cedra-stdlib/doc/from_bcs.md#0x1_from_bcs_deserialize">from_bcs::deserialize</a>&lt;<b>address</b>&gt;(new_auth_key_vector);
@@ -4059,7 +4059,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `create_resource_address`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(source: &<b>address</b>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_address">create_resource_address</a>(source: &<b>address</b>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
 </code></pre>
 
 
@@ -4080,7 +4080,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 <a id="0x1_account_spec_create_resource_address"></a>
 
 
-<pre><code><b>fun</b> <a href="account.md#0x1_account_spec_create_resource_address">spec_create_resource_address</a>(source: <b>address</b>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>;
+<pre><code><b>fun</b> <a href="account.md#0x1_account_spec_create_resource_address">spec_create_resource_address</a>(source: <b>address</b>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>;
 </code></pre>
 
 
@@ -4090,20 +4090,20 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `create_resource_account`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_account">create_resource_account</a>(source: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, seed: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_resource_account">create_resource_account</a>(source: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, seed: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
 </code></pre>
 
 
 
 
-<pre><code><b>let</b> source_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(source);
+<pre><code><b>let</b> source_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(source);
 <b>let</b> resource_addr = <a href="account.md#0x1_account_spec_create_resource_address">spec_create_resource_address</a>(source_addr, seed);
 <b>aborts_if</b> len(<a href="account.md#0x1_account_ZERO_AUTH_KEY">ZERO_AUTH_KEY</a>) != 32;
 <b>include</b> <a href="account.md#0x1_account_spec_exists_at">spec_exists_at</a>(resource_addr) ==&gt; <a href="account.md#0x1_account_CreateResourceAccountAbortsIf">CreateResourceAccountAbortsIf</a>;
 <b>include</b> !<a href="account.md#0x1_account_spec_exists_at">spec_exists_at</a>(resource_addr) ==&gt; <a href="account.md#0x1_account_CreateAccountAbortsIf">CreateAccountAbortsIf</a> {addr: resource_addr};
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result_1) == resource_addr;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result_1) == resource_addr;
 <b>let</b> <b>post</b> offer_for = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(resource_addr).signer_capability_offer.for;
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(offer_for) == resource_addr;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(offer_for) == resource_addr;
 <b>ensures</b> result_2 == <a href="account.md#0x1_account_SignerCapability">SignerCapability</a> { <a href="account.md#0x1_account">account</a>: resource_addr };
 </code></pre>
 
@@ -4114,7 +4114,7 @@ The value of signer_capability_offer.for of Account resource under the signer is
 ### Function `create_framework_reserved_account`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_framework_reserved_account">create_framework_reserved_account</a>(addr: <b>address</b>): (<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="account.md#0x1_account_create_framework_reserved_account">create_framework_reserved_account</a>(addr: <b>address</b>): (<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>)
 </code></pre>
 
 
@@ -4125,7 +4125,7 @@ The system reserved addresses is @0x1 / @0x2 / @0x3 / @0x4 / @0x5  / @0x6 / @0x7
 
 <pre><code><b>aborts_if</b> <a href="account.md#0x1_account_spec_is_framework_address">spec_is_framework_address</a>(addr);
 <b>include</b> <a href="account.md#0x1_account_CreateAccountAbortsIf">CreateAccountAbortsIf</a> {addr};
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result_1) == addr;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result_1) == addr;
 <b>ensures</b> result_2 == <a href="account.md#0x1_account_SignerCapability">SignerCapability</a> { <a href="account.md#0x1_account">account</a>: addr };
 </code></pre>
 
@@ -4156,7 +4156,7 @@ The system reserved addresses is @0x1 / @0x2 / @0x3 / @0x4 / @0x5  / @0x6 / @0x7
 ### Function `create_guid`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_guid">create_guid</a>(account_signer: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="guid.md#0x1_guid_GUID">guid::GUID</a>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_guid">create_guid</a>(account_signer: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="guid.md#0x1_guid_GUID">guid::GUID</a>
 </code></pre>
 
 
@@ -4164,7 +4164,7 @@ The Account existed under the signer.
 The guid_creation_num of the account resource is up to MAX_U64.
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(account_signer);
+<pre><code><b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(account_signer);
 <b>include</b> <a href="account.md#0x1_account_NewEventHandleAbortsIf">NewEventHandleAbortsIf</a> {
     <a href="account.md#0x1_account">account</a>: account_signer,
 };
@@ -4180,7 +4180,7 @@ The guid_creation_num of the account resource is up to MAX_U64.
 ### Function `new_event_handle`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_new_event_handle">new_event_handle</a>&lt;T: drop, store&gt;(<a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="event.md#0x1_event_EventHandle">event::EventHandle</a>&lt;T&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_new_event_handle">new_event_handle</a>&lt;T: drop, store&gt;(<a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="event.md#0x1_event_EventHandle">event::EventHandle</a>&lt;T&gt;
 </code></pre>
 
 
@@ -4198,8 +4198,8 @@ The guid_creation_num of the Account is up to MAX_U64.
 
 
 <pre><code><b>schema</b> <a href="account.md#0x1_account_NewEventHandleAbortsIf">NewEventHandleAbortsIf</a> {
-    <a href="account.md#0x1_account">account</a>: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
-    <b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
+    <a href="account.md#0x1_account">account</a>: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    <b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="account.md#0x1_account">account</a>);
     <b>let</b> <a href="account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
     <b>aborts_if</b> !<b>exists</b>&lt;<a href="account.md#0x1_account_Account">Account</a>&gt;(addr);
     <b>aborts_if</b> <a href="account.md#0x1_account">account</a>.guid_creation_num + 1 &gt; <a href="account.md#0x1_account_MAX_U64">MAX_U64</a>;
@@ -4232,14 +4232,14 @@ The guid_creation_num of the Account is up to MAX_U64.
 ### Function `create_signer_with_capability`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_signer_with_capability">create_signer_with_capability</a>(<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>: &<a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_create_signer_with_capability">create_signer_with_capability</a>(<a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>: &<a href="account.md#0x1_account_SignerCapability">account::SignerCapability</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
 
 
 <pre><code><b>let</b> addr = <a href="../../cedra-stdlib/doc/capability.md#0x1_capability">capability</a>.<a href="account.md#0x1_account">account</a>;
-<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == addr;
+<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(result) == addr;
 </code></pre>
 
 
@@ -4261,7 +4261,7 @@ The guid_creation_num of the Account is up to MAX_U64.
 ### Function `verify_signed_message`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_verify_signed_message">verify_signed_message</a>&lt;T: drop&gt;(<a href="account.md#0x1_account">account</a>: <b>address</b>, account_scheme: u8, account_public_key: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signed_message_bytes: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, message: T)
+<pre><code><b>public</b> <b>fun</b> <a href="account.md#0x1_account_verify_signed_message">verify_signed_message</a>&lt;T: drop&gt;(<a href="account.md#0x1_account">account</a>: <b>address</b>, account_scheme: u8, account_public_key: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, signed_message_bytes: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, message: T)
 </code></pre>
 
 

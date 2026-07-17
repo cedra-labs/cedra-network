@@ -53,7 +53,7 @@
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="base16.md#0x1_base16_base16_utf8_to_vec_u8">base16_utf8_to_vec_u8</a>(str: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="base16.md#0x1_base16_base16_utf8_to_vec_u8">base16_utf8_to_vec_u8</a>(str: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -62,14 +62,14 @@
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="base16.md#0x1_base16_base16_utf8_to_vec_u8">base16_utf8_to_vec_u8</a>(str: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
-    <b>let</b> result = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;u8&gt;();
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="base16.md#0x1_base16_base16_utf8_to_vec_u8">base16_utf8_to_vec_u8</a>(str: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+    <b>let</b> result = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;u8&gt;();
     <b>let</b> i = 0;
-    <b>while</b> (i &lt; <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&str)) {
-        <b>let</b> c1 = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&str, i);
-        <b>let</b> c2 = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&str, i + 1);
+    <b>while</b> (i &lt; <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&str)) {
+        <b>let</b> c1 = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&str, i);
+        <b>let</b> c2 = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&str, i + 1);
         <b>let</b> byte = <a href="base16.md#0x1_base16_hex_char_to_u8">hex_char_to_u8</a>(*c1) &lt;&lt; 4 | <a href="base16.md#0x1_base16_hex_char_to_u8">hex_char_to_u8</a>(*c2);
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> result, byte);
+        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> result, byte);
         i = i + 2;
     };
     result
@@ -90,7 +90,7 @@
 ### Function `base16_utf8_to_vec_u8`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="base16.md#0x1_base16_base16_utf8_to_vec_u8">base16_utf8_to_vec_u8</a>(str: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="base16.md#0x1_base16_base16_utf8_to_vec_u8">base16_utf8_to_vec_u8</a>(str: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -106,7 +106,7 @@
 <a id="0x1_base16_spec_base16_utf8_to_vec_u8"></a>
 
 
-<pre><code><b>fun</b> <a href="base16.md#0x1_base16_spec_base16_utf8_to_vec_u8">spec_base16_utf8_to_vec_u8</a>(str: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
+<pre><code><b>fun</b> <a href="base16.md#0x1_base16_spec_base16_utf8_to_vec_u8">spec_base16_utf8_to_vec_u8</a>(str: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;;
 </code></pre>
 
 

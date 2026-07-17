@@ -16,7 +16,7 @@
 
 
 <pre><code><b>use</b> <a href="../../cedra-framework/doc/big_ordered_map.md#0x1_big_ordered_map">0x1::big_ordered_map</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp">0x1::timestamp</a>;
 <b>use</b> <a href="order_book_types.md#0x7_order_book_types">0x7::order_book_types</a>;
 </code></pre>
@@ -40,7 +40,7 @@
 
 <dl>
 <dt>
-<code>price: u64</code>
+<code><a href="">price</a>: u64</code>
 </dt>
 <dd>
 
@@ -161,7 +161,7 @@
     <b>if</b> (price_move_up_index.is_some()) {
         self.price_move_up_index.remove(
             &<a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderKey">PendingOrderKey</a> {
-                price: price_move_up_index.destroy_some(),
+                <a href="">price</a>: price_move_up_index.destroy_some(),
                 tie_breaker: unique_priority_idx
             }
         );
@@ -169,7 +169,7 @@
     <b>if</b> (price_move_down_index.is_some()) {
         self.price_move_down_index.remove(
             &<a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderKey">PendingOrderKey</a> {
-                price: price_move_down_index.destroy_some(),
+                <a href="">price</a>: price_move_down_index.destroy_some(),
                 tie_breaker: unique_priority_idx
             }
         );
@@ -213,7 +213,7 @@
     <b>if</b> (price_move_up_index.is_some()) {
         self.price_move_up_index.add(
             <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderKey">PendingOrderKey</a> {
-                price: price_move_up_index.destroy_some(),
+                <a href="">price</a>: price_move_up_index.destroy_some(),
                 tie_breaker: unique_priority_idx
             },
             order_id
@@ -221,7 +221,7 @@
     } <b>else</b> <b>if</b> (price_move_down_index.is_some()) {
         self.price_move_down_index.add(
             <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderKey">PendingOrderKey</a> {
-                price: price_move_down_index.destroy_some(),
+                <a href="">price</a>: price_move_down_index.destroy_some(),
                 tie_breaker: unique_priority_idx
             },
             order_id
@@ -242,7 +242,7 @@
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_take_ready_price_based_orders">take_ready_price_based_orders</a>(self: &<b>mut</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderBookIndex">pending_order_book_index::PendingOrderBookIndex</a>, current_price: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_take_ready_price_based_orders">take_ready_price_based_orders</a>(self: &<b>mut</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderBookIndex">pending_order_book_index::PendingOrderBookIndex</a>, current_price: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>&gt;
 </code></pre>
 
 
@@ -253,11 +253,11 @@
 
 <pre><code><b>public</b> <b>fun</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_take_ready_price_based_orders">take_ready_price_based_orders</a>(
     self: &<b>mut</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderBookIndex">PendingOrderBookIndex</a>, current_price: u64
-): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;OrderIdType&gt; {
-    <b>let</b> orders = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
+): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;OrderIdType&gt; {
+    <b>let</b> orders = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
     <b>while</b> (!self.price_move_up_index.is_empty()) {
         <b>let</b> (key, order_id) = self.price_move_up_index.borrow_front();
-        <b>if</b> (current_price &gt;= key.price) {
+        <b>if</b> (current_price &gt;= key.<a href="">price</a>) {
             orders.push_back(*order_id);
             self.price_move_up_index.remove(&key);
         } <b>else</b> {
@@ -266,7 +266,7 @@
     };
     <b>while</b> (!self.price_move_down_index.is_empty()) {
         <b>let</b> (key, order_id) = self.price_move_down_index.borrow_back();
-        <b>if</b> (current_price &lt;= key.price) {
+        <b>if</b> (current_price &lt;= key.<a href="">price</a>) {
             orders.push_back(*order_id);
             self.price_move_down_index.remove(&key);
         } <b>else</b> {
@@ -287,7 +287,7 @@
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_take_time_time_based_orders">take_time_time_based_orders</a>(self: &<b>mut</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderBookIndex">pending_order_book_index::PendingOrderBookIndex</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_take_time_time_based_orders">take_time_time_based_orders</a>(self: &<b>mut</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderBookIndex">pending_order_book_index::PendingOrderBookIndex</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="order_book_types.md#0x7_order_book_types_OrderIdType">order_book_types::OrderIdType</a>&gt;
 </code></pre>
 
 
@@ -298,8 +298,8 @@
 
 <pre><code><b>public</b> <b>fun</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_take_time_time_based_orders">take_time_time_based_orders</a>(
     self: &<b>mut</b> <a href="pending_order_book_index.md#0x7_pending_order_book_index_PendingOrderBookIndex">PendingOrderBookIndex</a>
-): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;OrderIdType&gt; {
-    <b>let</b> orders = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
+): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;OrderIdType&gt; {
+    <b>let</b> orders = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
     <b>while</b> (!self.time_based_index.is_empty()) {
         <b>let</b> current_time = <a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>();
         <b>let</b> (time, order_id) = self.time_based_index.borrow_front();

@@ -123,7 +123,7 @@ resource account.
 
 Later on, when someone wants to convert their <code><a href="veiled_coin.md#0x7_veiled_coin_VeiledCoin">VeiledCoin</a>&lt;T&gt;</code> into a normal <code><a href="../../cedra-framework/doc/coin.md#0x1_coin_Coin">coin::Coin</a>&lt;T&gt;</code>,
 the resource account can be used to transfer out the normal from its coin store. Transferring out a coin like this
-requires a <code><a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a></code> for the resource account, which the <code><a href="veiled_coin.md#0x7_veiled_coin">veiled_coin</a></code> module can obtain via a <code>SignerCapability</code>.
+requires a <code><a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a></code> for the resource account, which the <code><a href="veiled_coin.md#0x7_veiled_coin">veiled_coin</a></code> module can obtain via a <code>SignerCapability</code>.
 
 
 <a id="@References_5"></a>
@@ -176,14 +176,14 @@ Mahdi and Boneh, Dan; in Financial Cryptography and Data Security; 2020
 
 <pre><code><b>use</b> <a href="../../cedra-framework/doc/account.md#0x1_account">0x1::account</a>;
 <b>use</b> <a href="../../cedra-framework/doc/coin.md#0x1_coin">0x1::coin</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="../../cedra-framework/doc/event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255">0x1::ristretto255</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_bulletproofs.md#0x1_ristretto255_bulletproofs">0x1::ristretto255_bulletproofs</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal">0x1::ristretto255_elgamal</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen">0x1::ristretto255_pedersen</a>;
-<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="helpers.md#0x7_helpers">0x7::helpers</a>;
 <b>use</b> <a href="sigma_protos.md#0x7_sigma_protos">0x7::sigma_protos</a>;
 </code></pre>
@@ -550,7 +550,7 @@ See <code><a href="veiled_coin.md#0x7_veiled_coin_NUM_LEAST_SIGNIFICANT_BITS_REM
 The domain separation tag (DST) used for the Bulletproofs prover.
 
 
-<pre><code><b>const</b> <a href="veiled_coin.md#0x7_veiled_coin_VEILED_COIN_BULLETPROOFS_DST">VEILED_COIN_BULLETPROOFS_DST</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [67, 101, 100, 114, 97, 86, 101, 105, 108, 101, 100, 67, 111, 105, 110, 47, 66, 117, 108, 108, 101, 116, 112, 114, 111, 111, 102, 82, 97, 110, 103, 101, 80, 114, 111, 111, 102];
+<pre><code><b>const</b> <a href="veiled_coin.md#0x7_veiled_coin_VEILED_COIN_BULLETPROOFS_DST">VEILED_COIN_BULLETPROOFS_DST</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [67, 101, 100, 114, 97, 86, 101, 105, 108, 101, 100, 67, 111, 105, 110, 47, 66, 117, 108, 108, 101, 116, 112, 114, 111, 111, 102, 82, 97, 110, 103, 101, 80, 114, 111, 111, 102];
 </code></pre>
 
 
@@ -563,7 +563,7 @@ Initializes a so-called "resource" account which will maintain a <code><a href="
 that have been converted into a <code><a href="veiled_coin.md#0x7_veiled_coin_VeiledCoin">VeiledCoin</a>&lt;T&gt;</code>.
 
 
-<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_init_module">init_module</a>(deployer: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_init_module">init_module</a>(deployer: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -572,20 +572,20 @@ that have been converted into a <code><a href="veiled_coin.md#0x7_veiled_coin_Ve
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_init_module">init_module</a>(deployer: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_init_module">init_module</a>(deployer: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <b>assert</b>!(
         bulletproofs::get_max_range_bits() &gt;= <a href="veiled_coin.md#0x7_veiled_coin_MAX_BITS_IN_VEILED_COIN_VALUE">MAX_BITS_IN_VEILED_COIN_VALUE</a>,
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="veiled_coin.md#0x7_veiled_coin_ERANGE_PROOF_SYSTEM_HAS_INSUFFICIENT_RANGE">ERANGE_PROOF_SYSTEM_HAS_INSUFFICIENT_RANGE</a>)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="veiled_coin.md#0x7_veiled_coin_ERANGE_PROOF_SYSTEM_HAS_INSUFFICIENT_RANGE">ERANGE_PROOF_SYSTEM_HAS_INSUFFICIENT_RANGE</a>)
     );
 
     <b>assert</b>!(
         <a href="veiled_coin.md#0x7_veiled_coin_NUM_LEAST_SIGNIFICANT_BITS_REMOVED">NUM_LEAST_SIGNIFICANT_BITS_REMOVED</a> + <a href="veiled_coin.md#0x7_veiled_coin_NUM_MOST_SIGNIFICANT_BITS_REMOVED">NUM_MOST_SIGNIFICANT_BITS_REMOVED</a> == 32,
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="veiled_coin.md#0x7_veiled_coin_EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT">EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT</a>)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="veiled_coin.md#0x7_veiled_coin_EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT">EU64_COIN_AMOUNT_CLAMPING_IS_INCORRECT</a>)
     );
 
-    // Create the resource <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>. This will allow this <b>module</b> <b>to</b> later obtain a `<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>` for this <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> and
+    // Create the resource <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>. This will allow this <b>module</b> <b>to</b> later obtain a `<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>` for this <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> and
     // transfer `Coin&lt;T&gt;`'s into its `CoinStore&lt;T&gt;` before minting a `<a href="veiled_coin.md#0x7_veiled_coin_VeiledCoin">VeiledCoin</a>&lt;T&gt;`.
-    <b>let</b> (_resource, signer_cap) = <a href="../../cedra-framework/doc/account.md#0x1_account_create_resource_account">account::create_resource_account</a>(deployer, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>());
+    <b>let</b> (_resource, signer_cap) = <a href="../../cedra-framework/doc/account.md#0x1_account_create_resource_account">account::create_resource_account</a>(deployer, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>());
 
     <b>move_to</b>(deployer,
         <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a> {
@@ -607,7 +607,7 @@ Initializes a veiled account for the specified <code>user</code> such that their
 Importantly, the user's wallet must retain their corresponding secret key.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register">register</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register">register</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -616,7 +616,7 @@ Importantly, the user's wallet must retain their corresponding secret key.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register">register</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) {
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register">register</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) {
     <b>let</b> pk = elgamal::new_pubkey_from_bytes(pk);
     <a href="veiled_coin.md#0x7_veiled_coin_register_internal">register_internal</a>&lt;CoinType&gt;(user, pk.extract());
 }
@@ -635,7 +635,7 @@ Sends a *public* <code>amount</code> of normal coins from <code>sender</code> to
 **WARNING:** This function *leaks* the transferred <code>amount</code>, since it is given as a public input.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil_to">veil_to</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil_to">veil_to</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32)
 </code></pre>
 
 
@@ -645,7 +645,7 @@ Sends a *public* <code>amount</code> of normal coins from <code>sender</code> to
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil_to">veil_to</a>&lt;CoinType&gt;(
-    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>
+    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>
 {
     <b>let</b> c = <a href="../../cedra-framework/doc/coin.md#0x1_coin_withdraw">coin::withdraw</a>&lt;CoinType&gt;(sender, <a href="veiled_coin.md#0x7_veiled_coin_cast_u32_to_u64_amount">cast_u32_to_u64_amount</a>(amount));
 
@@ -670,7 +670,7 @@ This function can be used by the <code>owner</code> to initialize his veiled bal
 **WARNING:** The initialized balance is *leaked*, since its initialized <code>amount</code> is public here.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil">veil</a>&lt;CoinType&gt;(owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u32)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil">veil</a>&lt;CoinType&gt;(owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u32)
 </code></pre>
 
 
@@ -679,8 +679,8 @@ This function can be used by the <code>owner</code> to initialize his veiled bal
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil">veil</a>&lt;CoinType&gt;(owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u32) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a> {
-    <a href="veiled_coin.md#0x7_veiled_coin_veil_to">veil_to</a>&lt;CoinType&gt;(owner, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner), amount)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veil">veil</a>&lt;CoinType&gt;(owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u32) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a> {
+    <a href="veiled_coin.md#0x7_veiled_coin_veil_to">veil_to</a>&lt;CoinType&gt;(owner, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner), amount)
 }
 </code></pre>
 
@@ -701,7 +701,7 @@ No ZK range proof is necessary for the <code>amount</code>, which is given as a 
 **WARNING:** This *leaks* the transferred <code>amount</code>, since it is a public <code>u32</code> argument.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil_to">unveil_to</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, withdraw_subproof: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil_to">unveil_to</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32, comm_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, withdraw_subproof: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -711,19 +711,19 @@ No ZK range proof is necessary for the <code>amount</code>, which is given as a 
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil_to">unveil_to</a>&lt;CoinType&gt;(
-    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     recipient: <b>address</b>,
     amount: u32,
-    comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    zkrp_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    withdraw_subproof: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>
+    comm_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    zkrp_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    withdraw_subproof: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>
 {
     // Deserialize all the proofs into their proper Move structs
     <b>let</b> comm_new_balance = pedersen::new_commitment_from_bytes(comm_new_balance);
-    <b>assert</b>!(comm_new_balance.is_some(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(comm_new_balance.is_some(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> sigma_proof = <a href="sigma_protos.md#0x7_sigma_protos_deserialize_withdrawal_subproof">sigma_protos::deserialize_withdrawal_subproof</a>(withdraw_subproof);
-    <b>assert</b>!(std::option::is_some(&sigma_proof), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(std::option::is_some(&sigma_proof), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> comm_new_balance = comm_new_balance.extract();
     <b>let</b> zkrp_new_balance = bulletproofs::range_proof_from_bytes(zkrp_new_balance);
@@ -749,7 +749,7 @@ No ZK range proof is necessary for the <code>amount</code>, which is given as a 
 Like <code>unveil_to</code>, except the <code>sender</code> is also the recipient.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil">unveil</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u32, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, withdraw_subproof: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil">unveil</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, amount: u32, comm_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, withdraw_subproof: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -759,15 +759,15 @@ Like <code>unveil_to</code>, except the <code>sender</code> is also the recipien
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil">unveil</a>&lt;CoinType&gt;(
-    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     amount: u32,
-    comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    zkrp_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    withdraw_subproof: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>
+    comm_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    zkrp_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    withdraw_subproof: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>
 {
     <a href="veiled_coin.md#0x7_veiled_coin_unveil_to">unveil_to</a>&lt;CoinType&gt;(
         sender,
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender),
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender),
         amount,
         comm_new_balance,
         zkrp_new_balance,
@@ -801,7 +801,7 @@ coins out of thin air.
 as in 'deposit_ct' (with the same randomness) and as in <code>comm_amount</code>.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_fully_veiled_transfer">fully_veiled_transfer</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, withdraw_ct: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, deposit_ct: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, comm_amount: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_amount: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, transfer_subproof: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_fully_veiled_transfer">fully_veiled_transfer</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, withdraw_ct: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, deposit_ct: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, comm_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, comm_amount: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, zkrp_amount: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, transfer_subproof: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -811,31 +811,31 @@ as in 'deposit_ct' (with the same randomness) and as in <code>comm_amount</code>
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_fully_veiled_transfer">fully_veiled_transfer</a>&lt;CoinType&gt;(
-    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     recipient: <b>address</b>,
-    withdraw_ct: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    deposit_ct: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    comm_amount: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    zkrp_new_balance: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    zkrp_amount: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    transfer_subproof: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>
+    withdraw_ct: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    deposit_ct: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    comm_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    comm_amount: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    zkrp_new_balance: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    zkrp_amount: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    transfer_subproof: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>
 {
     // Deserialize everything into their proper Move structs
     <b>let</b> veiled_withdraw_amount = elgamal::new_ciphertext_from_bytes(withdraw_ct);
-    <b>assert</b>!(veiled_withdraw_amount.is_some(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(veiled_withdraw_amount.is_some(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> veiled_deposit_amount = elgamal::new_ciphertext_from_bytes(deposit_ct);
-    <b>assert</b>!(veiled_deposit_amount.is_some(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(veiled_deposit_amount.is_some(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> comm_new_balance = pedersen::new_commitment_from_bytes(comm_new_balance);
-    <b>assert</b>!(comm_new_balance.is_some(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(comm_new_balance.is_some(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> comm_amount = pedersen::new_commitment_from_bytes(comm_amount);
-    <b>assert</b>!(comm_amount.is_some(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(comm_amount.is_some(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> transfer_subproof = <a href="sigma_protos.md#0x7_sigma_protos_deserialize_transfer_subproof">sigma_protos::deserialize_transfer_subproof</a>(transfer_subproof);
-    <b>assert</b>!(std::option::is_some(&transfer_subproof), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
+    <b>assert</b>!(std::option::is_some(&transfer_subproof), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="veiled_coin.md#0x7_veiled_coin_EDESERIALIZATION_FAILED">EDESERIALIZATION_FAILED</a>));
 
     <b>let</b> transfer_proof = <a href="veiled_coin.md#0x7_veiled_coin_TransferProof">TransferProof</a> {
         zkrp_new_balance: bulletproofs::range_proof_from_bytes(zkrp_new_balance),
@@ -989,7 +989,7 @@ Returns the ElGamal encryption of the veiled balance of <code>owner</code> for t
 <pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veiled_balance">veiled_balance</a>&lt;CoinType&gt;(owner: <b>address</b>): elgamal::CompressedCiphertext <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a> {
     <b>assert</b>!(
         <a href="veiled_coin.md#0x7_veiled_coin_has_veiled_coin_store">has_veiled_coin_store</a>&lt;CoinType&gt;(owner),
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>),
     );
 
     <b>borrow_global</b>&lt;<a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>&lt;CoinType&gt;&gt;(owner).veiled_balance
@@ -1019,7 +1019,7 @@ Given an address <code>addr</code>, returns the ElGamal encryption public key as
 <pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_encryption_public_key">encryption_public_key</a>&lt;CoinType&gt;(addr: <b>address</b>): elgamal::CompressedPubkey <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a> {
     <b>assert</b>!(
         <a href="veiled_coin.md#0x7_veiled_coin_has_veiled_coin_store">has_veiled_coin_store</a>&lt;CoinType&gt;(addr),
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>)
     );
 
     <b>borrow_global_mut</b>&lt;<a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>&lt;CoinType&gt;&gt;(addr).pk
@@ -1047,7 +1047,7 @@ Returns the total supply of veiled coins
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_total_veiled_coins">total_veiled_coins</a>&lt;CoinType&gt;(): u64 <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a> {
-    <b>let</b> rsrc_acc_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>());
+    <b>let</b> rsrc_acc_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&<a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>());
     <b>assert</b>!(<a href="../../cedra-framework/doc/coin.md#0x1_coin_is_account_registered">coin::is_account_registered</a>&lt;CoinType&gt;(rsrc_acc_addr), <a href="veiled_coin.md#0x7_veiled_coin_EINTERNAL_ERROR">EINTERNAL_ERROR</a>);
 
     <a href="../../cedra-framework/doc/coin.md#0x1_coin_balance">coin::balance</a>&lt;CoinType&gt;(rsrc_acc_addr)
@@ -1065,7 +1065,7 @@ Returns the total supply of veiled coins
 Returns the domain separation tag (DST) for constructing Bulletproof-based range proofs in this module.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_veiled_coin_bulletproofs_dst">get_veiled_coin_bulletproofs_dst</a>(): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_veiled_coin_bulletproofs_dst">get_veiled_coin_bulletproofs_dst</a>(): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -1074,7 +1074,7 @@ Returns the domain separation tag (DST) for constructing Bulletproof-based range
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_veiled_coin_bulletproofs_dst">get_veiled_coin_bulletproofs_dst</a>(): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_veiled_coin_bulletproofs_dst">get_veiled_coin_bulletproofs_dst</a>(): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
     <a href="veiled_coin.md#0x7_veiled_coin_VEILED_COIN_BULLETPROOFS_DST">VEILED_COIN_BULLETPROOFS_DST</a>
 }
 </code></pre>
@@ -1117,7 +1117,7 @@ Like <code>register</code>, but the public key has been parsed in a type-safe st
 TODO: Do we want to require a PoK of the SK here?
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register_internal">register_internal</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal_CompressedPubkey">ristretto255_elgamal::CompressedPubkey</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register_internal">register_internal</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal_CompressedPubkey">ristretto255_elgamal::CompressedPubkey</a>)
 </code></pre>
 
 
@@ -1126,11 +1126,11 @@ TODO: Do we want to require a PoK of the SK here?
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register_internal">register_internal</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: elgamal::CompressedPubkey) {
-    <b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(user);
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_register_internal">register_internal</a>&lt;CoinType&gt;(user: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, pk: elgamal::CompressedPubkey) {
+    <b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(user);
     <b>assert</b>!(
         !<a href="veiled_coin.md#0x7_veiled_coin_has_veiled_coin_store">has_veiled_coin_store</a>&lt;CoinType&gt;(account_addr),
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_ALREADY_PUBLISHED">EVEILED_COIN_STORE_ALREADY_PUBLISHED</a>),
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_ALREADY_PUBLISHED">EVEILED_COIN_STORE_ALREADY_PUBLISHED</a>),
     );
 
     // Note: There is no way <b>to</b> find an ElGamal SK such that the `(0_G, 0_G)` ciphertext below decrypts <b>to</b> a non-zero
@@ -1168,7 +1168,7 @@ Deposits a veiled <code><a href="../../cedra-framework/doc/coin.md#0x1_coin">coi
 <pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veiled_deposit">veiled_deposit</a>&lt;CoinType&gt;(to_addr: <b>address</b>, <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a>: <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoin">VeiledCoin</a>&lt;CoinType&gt;) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a> {
     <b>assert</b>!(
         <a href="veiled_coin.md#0x7_veiled_coin_has_veiled_coin_store">has_veiled_coin_store</a>&lt;CoinType&gt;(to_addr),
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> veiled_coin_store = <b>borrow_global_mut</b>&lt;<a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>&lt;CoinType&gt;&gt;(to_addr);
@@ -1203,7 +1203,7 @@ Deposits a veiled <code><a href="../../cedra-framework/doc/coin.md#0x1_coin">coi
 Like <code>unveil_to</code>, except the proofs have been deserialized into type-safe structs.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil_to_internal">unveil_to_internal</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, withdrawal_proof: <a href="veiled_coin.md#0x7_veiled_coin_WithdrawalProof">veiled_coin::WithdrawalProof</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil_to_internal">unveil_to_internal</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient: <b>address</b>, amount: u32, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, withdrawal_proof: <a href="veiled_coin.md#0x7_veiled_coin_WithdrawalProof">veiled_coin::WithdrawalProof</a>)
 </code></pre>
 
 
@@ -1213,16 +1213,16 @@ Like <code>unveil_to</code>, except the proofs have been deserialized into type-
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_unveil_to_internal">unveil_to_internal</a>&lt;CoinType&gt;(
-    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     recipient: <b>address</b>,
     amount: u32,
     comm_new_balance: pedersen::Commitment,
     withdrawal_proof: <a href="veiled_coin.md#0x7_veiled_coin_WithdrawalProof">WithdrawalProof</a>
 ) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>, <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a> {
-    <b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender);
+    <b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender);
     <b>assert</b>!(
         <a href="veiled_coin.md#0x7_veiled_coin_has_veiled_coin_store">has_veiled_coin_store</a>&lt;CoinType&gt;(addr),
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="veiled_coin.md#0x7_veiled_coin_EVEILED_COIN_STORE_NOT_PUBLISHED">EVEILED_COIN_STORE_NOT_PUBLISHED</a>)
     );
 
     // Fetch the sender's ElGamal encryption <b>public</b> key
@@ -1281,7 +1281,7 @@ Like <code>unveil_to</code>, except the proofs have been deserialized into type-
 Like <code>fully_veiled_transfer</code>, except the ciphertext and proofs have been deserialized into type-safe structs.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_fully_veiled_transfer_internal">fully_veiled_transfer_internal</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient_addr: <b>address</b>, veiled_withdraw_amount: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal_Ciphertext">ristretto255_elgamal::Ciphertext</a>, veiled_deposit_amount: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal_Ciphertext">ristretto255_elgamal::Ciphertext</a>, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, comm_amount: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, transfer_proof: &<a href="veiled_coin.md#0x7_veiled_coin_TransferProof">veiled_coin::TransferProof</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_fully_veiled_transfer_internal">fully_veiled_transfer_internal</a>&lt;CoinType&gt;(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, recipient_addr: <b>address</b>, veiled_withdraw_amount: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal_Ciphertext">ristretto255_elgamal::Ciphertext</a>, veiled_deposit_amount: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal_Ciphertext">ristretto255_elgamal::Ciphertext</a>, comm_new_balance: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, comm_amount: <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, transfer_proof: &<a href="veiled_coin.md#0x7_veiled_coin_TransferProof">veiled_coin::TransferProof</a>)
 </code></pre>
 
 
@@ -1291,7 +1291,7 @@ Like <code>fully_veiled_transfer</code>, except the ciphertext and proofs have b
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_fully_veiled_transfer_internal">fully_veiled_transfer_internal</a>&lt;CoinType&gt;(
-    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     recipient_addr: <b>address</b>,
     veiled_withdraw_amount: elgamal::Ciphertext,
     veiled_deposit_amount: elgamal::Ciphertext,
@@ -1299,7 +1299,7 @@ Like <code>fully_veiled_transfer</code>, except the ciphertext and proofs have b
     comm_amount: pedersen::Commitment,
     transfer_proof: &<a href="veiled_coin.md#0x7_veiled_coin_TransferProof">TransferProof</a>) <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinStore">VeiledCoinStore</a>
 {
-    <b>let</b> sender_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender);
+    <b>let</b> sender_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(sender);
 
     <b>let</b> sender_pk = <a href="veiled_coin.md#0x7_veiled_coin_encryption_public_key">encryption_public_key</a>&lt;CoinType&gt;(sender_addr);
     <b>let</b> recipient_pk = <a href="veiled_coin.md#0x7_veiled_coin_encryption_public_key">encryption_public_key</a>&lt;CoinType&gt;(recipient_addr);
@@ -1363,7 +1363,7 @@ Verifies range proofs on the remaining balance of an account committed in <code>
 the transferred amount committed inside <code>comm_amount</code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_verify_range_proofs">verify_range_proofs</a>(comm_new_balance: &<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, zkrp_new_balance: &<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_bulletproofs.md#0x1_ristretto255_bulletproofs_RangeProof">ristretto255_bulletproofs::RangeProof</a>, comm_amount: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>&gt;, zkrp_amount: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_bulletproofs.md#0x1_ristretto255_bulletproofs_RangeProof">ristretto255_bulletproofs::RangeProof</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_verify_range_proofs">verify_range_proofs</a>(comm_new_balance: &<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>, zkrp_new_balance: &<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_bulletproofs.md#0x1_ristretto255_bulletproofs_RangeProof">ristretto255_bulletproofs::RangeProof</a>, comm_amount: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen_Commitment">ristretto255_pedersen::Commitment</a>&gt;, zkrp_amount: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_bulletproofs.md#0x1_ristretto255_bulletproofs_RangeProof">ristretto255_bulletproofs::RangeProof</a>&gt;)
 </code></pre>
 
 
@@ -1410,7 +1410,7 @@ the transferred amount committed inside <code>comm_amount</code>.
             zkrp_new_balance,
             <a href="veiled_coin.md#0x7_veiled_coin_MAX_BITS_IN_VEILED_COIN_VALUE">MAX_BITS_IN_VEILED_COIN_VALUE</a>, <a href="veiled_coin.md#0x7_veiled_coin_VEILED_COIN_BULLETPROOFS_DST">VEILED_COIN_BULLETPROOFS_DST</a>
         ),
-        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="veiled_coin.md#0x7_veiled_coin_ERANGE_PROOF_VERIFICATION_FAILED">ERANGE_PROOF_VERIFICATION_FAILED</a>)
+        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="veiled_coin.md#0x7_veiled_coin_ERANGE_PROOF_VERIFICATION_FAILED">ERANGE_PROOF_VERIFICATION_FAILED</a>)
     );
 
     // Checks that the transferred amount is in range (when this amount did not originate from a <b>public</b> amount); i.e., range condition (2)
@@ -1421,7 +1421,7 @@ the transferred amount committed inside <code>comm_amount</code>.
                 zkrp_amount.borrow(),
                 <a href="veiled_coin.md#0x7_veiled_coin_MAX_BITS_IN_VEILED_COIN_VALUE">MAX_BITS_IN_VEILED_COIN_VALUE</a>, <a href="veiled_coin.md#0x7_veiled_coin_VEILED_COIN_BULLETPROOFS_DST">VEILED_COIN_BULLETPROOFS_DST</a>
             ),
-            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="veiled_coin.md#0x7_veiled_coin_ERANGE_PROOF_VERIFICATION_FAILED">ERANGE_PROOF_VERIFICATION_FAILED</a>)
+            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="veiled_coin.md#0x7_veiled_coin_ERANGE_PROOF_VERIFICATION_FAILED">ERANGE_PROOF_VERIFICATION_FAILED</a>)
         );
     };
 }
@@ -1438,7 +1438,7 @@ the transferred amount committed inside <code>comm_amount</code>.
 Returns a signer for the resource account storing all the normal coins that have been veiled.
 
 
-<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>(): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>(): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -1447,7 +1447,7 @@ Returns a signer for the resource account storing all the normal coins that have
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>(): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a> {
+<pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>(): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a> {
     <a href="../../cedra-framework/doc/account.md#0x1_account_create_signer_with_capability">account::create_signer_with_capability</a>(&<b>borrow_global</b>&lt;<a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a>&gt;(@cedra_experimental).signer_cap)
 }
 </code></pre>
@@ -1477,20 +1477,20 @@ Mints a veiled coin from a normal coin, shelving the normal coin into the resour
 <pre><code><b>fun</b> <a href="veiled_coin.md#0x7_veiled_coin_veiled_mint_from_coin">veiled_mint_from_coin</a>&lt;CoinType&gt;(c: Coin&lt;CoinType&gt;): <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoin">VeiledCoin</a>&lt;CoinType&gt; <b>acquires</b> <a href="veiled_coin.md#0x7_veiled_coin_VeiledCoinMinter">VeiledCoinMinter</a> {
     // If there is no `<a href="../../cedra-framework/doc/coin.md#0x1_coin_CoinStore">coin::CoinStore</a>&lt;CoinType&gt;` in the resource <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>, create one.
     <b>let</b> rsrc_acc_signer = <a href="veiled_coin.md#0x7_veiled_coin_get_resource_account_signer">get_resource_account_signer</a>();
-    <b>let</b> rsrc_acc_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&rsrc_acc_signer);
+    <b>let</b> rsrc_acc_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(&rsrc_acc_signer);
     <b>if</b> (!<a href="../../cedra-framework/doc/coin.md#0x1_coin_is_account_registered">coin::is_account_registered</a>&lt;CoinType&gt;(rsrc_acc_addr)) {
         <a href="../../cedra-framework/doc/coin.md#0x1_coin_register">coin::register</a>&lt;CoinType&gt;(&rsrc_acc_signer);
     };
 
     // Move the normal <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a> into the <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a> store, so we can mint a veiled <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a>.
     // (There is no other way <b>to</b> drop a normal <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a>, for safety reasons, so moving it into a <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a> store is
-    //  the only <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">option</a>.)
+    //  the only <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">option</a>.)
     <b>let</b> value_u64 = <a href="../../cedra-framework/doc/coin.md#0x1_coin_value">coin::value</a>(&c);
     <b>let</b> value_u32 = <a href="veiled_coin.md#0x7_veiled_coin_clamp_u64_to_u32_amount">clamp_u64_to_u32_amount</a>(value_u64);
 
     // Paranoid check: <b>assert</b> that the u64 <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a> value had only its middle 32 bits set (should be the case
     // because the caller should have withdrawn a u32 amount, but enforcing this here anyway).
-    <b>assert</b>!(<a href="veiled_coin.md#0x7_veiled_coin_cast_u32_to_u64_amount">cast_u32_to_u64_amount</a>(value_u32) == value_u64, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="veiled_coin.md#0x7_veiled_coin_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
+    <b>assert</b>!(<a href="veiled_coin.md#0x7_veiled_coin_cast_u32_to_u64_amount">cast_u32_to_u64_amount</a>(value_u32) == value_u64, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_internal">error::internal</a>(<a href="veiled_coin.md#0x7_veiled_coin_EINTERNAL_ERROR">EINTERNAL_ERROR</a>));
 
     // <a href="veiled_coin.md#0x7_veiled_coin_Deposit">Deposit</a> a normal <a href="../../cedra-framework/doc/coin.md#0x1_coin">coin</a> into the resource <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>...
     <a href="../../cedra-framework/doc/coin.md#0x1_coin_deposit">coin::deposit</a>(rsrc_acc_addr, c);

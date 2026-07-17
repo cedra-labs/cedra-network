@@ -13,7 +13,7 @@ compiled_package_info:
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: 15CE7632585FDD2B521C1D2C40B4C5ED7ECF96DB99D9A89D1D7336F6315227DB
+  source_digest: BE82F51BA2B0585316D085040705277E8A1394B773F3416E2C06DAAC680BE7C7
   build_flags:
     dev_mode: false
     test_mode: false
@@ -26,7 +26,7 @@ compiled_package_info:
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: true
+    skip_fetch_latest_git_deps: false
     compiler_config:
       bytecode_version: 7
       known_attributes:
@@ -50,12 +50,11 @@ compiled_package_info:
         - verify_only
         - view
       skip_attribute_checks: false
-      compiler_version: V2_0
-      language_version: V2_1
-      experiments:
-        - optimize=on
+      compiler_version: ~
+      language_version: ~
+      experiments: []
 dependencies:
+  - CedraOracle
   - CedraStdlib
   - MoveStdlib
-  - OracleInterface
 bytecode_deps: []

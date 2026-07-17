@@ -35,7 +35,7 @@ module cedra_framework::price_storage {
 
     /// Cedra native feed identity for NewPriceIdentifier(address, symbol).
     const CEDRA_FEED_ADDRESS: vector<u8> = b"0x1";
-    const CEDRA_FEED_SYMBOL: vector<u8> = b"CEDRA";
+    const CEDRA_FEED_SYMBOL: vector<u8> = b"Cedra";
 
     struct PriceInfoV2 has copy, drop, store {
         fa_address: String,
@@ -160,13 +160,17 @@ module cedra_framework::price_storage {
         (price_info.price, price_info.decimals)
     }
 
-    /// Format address as `0x` + 64-char zero-padded hex (no `@` prefix).
+    /// Format address as `0x` + 64-char zero-padded lowercase hex.
+    /// Matches Go NewPriceIdentifier address strings (e.g. "0xc745ffa4...").
+    /// Note: to_string_with_canonical_addresses yields "@" + 64 hex with no "0x".
     fun address_to_hex(addr: address): vector<u8> {
         let s = string_utils::to_string_with_canonical_addresses(&addr);
-        let bytes = *string::bytes(&s);
-        // Strip leading `@` from "@0x...."
-        vector::remove(&mut bytes, 0);
-        bytes
+        let hex = *string::bytes(&s);
+        // Strip leading `@` from "@<64 hex>"
+        vector::remove(&mut hex, 0);
+        let result = b"0x";
+        vector::append(&mut result, hex);
+        result
     }
 
     /// Matches Go NewPriceIdentifier: sha3_256(address_bytes || symbol_bytes) -> 32 bytes.
@@ -337,4 +341,28 @@ module cedra_framework::price_storage {
 
     #[deprecated]
     public entry fun init_timestamps_storage(_cedra_framework: &signer) {}
+
+    #[test]
+    fun test_new_price_feed_id_cedra() {
+        let feed_id = new_price_feed_id(CEDRA_FEED_ADDRESS, CEDRA_FEED_SYMBOL);
+        assert!(
+            feed_id == x"ab5cfdf4863d0717a8ebe5608f54f508e73b620c4d3855fbbacf8a9dd32c0d13",
+            1
+        );
+    }
+
+    #[test]
+    fun test_address_to_hex_and_fa_feed_id() {
+        let addr = @0xc745ffa4f97fa9739fae0cb173996f70bb8e4b0310fa781ccca2f7dc13f7db06;
+        let hex = address_to_hex(addr);
+        assert!(
+            hex == b"0xc745ffa4f97fa9739fae0cb173996f70bb8e4b0310fa781ccca2f7dc13f7db06",
+            1
+        );
+        let feed_id = new_price_feed_id(hex, b"USDCT");
+        assert!(
+            feed_id == x"9d4a9a43175e027d694d9fb4943feeeaa07dc0a5424bc51012de1bda83e43059",
+            2
+        );
+    }
 }

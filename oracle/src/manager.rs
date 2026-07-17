@@ -338,6 +338,11 @@ impl OraclePriceManager {
                         {
                             return Err(anyhow::anyhow!("Batch channel closed"));
                         }
+                        println!("----------------------------------");
+                        println!("----------------------------------");
+                        println!("{:?}", token.fa_address.clone());
+                        println!("----------------------------------");
+                        println!("----------------------------------");
                     },
                     Some(Err(e)) => {
                         return Err(anyhow::anyhow!("Stream error for {:?}: {}", fa_address, e));

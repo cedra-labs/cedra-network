@@ -62,20 +62,20 @@ have a simple layout which is easily accessible in Rust.
     -  [Function `on_new_epoch`](#@Specification_1_on_new_epoch)
 
 
-<pre><code><b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
+<pre><code><b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs">0x1::bcs</a>;
 <b>use</b> <a href="chain_status.md#0x1_chain_status">0x1::chain_status</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/comparator.md#0x1_comparator">0x1::comparator</a>;
 <b>use</b> <a href="config_buffer.md#0x1_config_buffer">0x1::config_buffer</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any">0x1::copyable_any</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="reconfiguration.md#0x1_reconfiguration">0x1::reconfiguration</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
-<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -98,13 +98,13 @@ An OIDC provider.
 
 <dl>
 <dt>
-<code>name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
  The utf-8 encoded issuer string. E.g., b"https://www.facebook.com".
 </dd>
 <dt>
-<code>config_url: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>config_url: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
  The ut8-8 encoded OpenID configuration URL of the provider.
@@ -133,7 +133,7 @@ A list of OIDC providers whose JWKs should be watched by validators. Maintained 
 
 <dl>
 <dt>
-<code>providers: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_OIDCProvider">jwks::OIDCProvider</a>&gt;</code>
+<code>providers: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_OIDCProvider">jwks::OIDCProvider</a>&gt;</code>
 </dt>
 <dd>
 
@@ -162,13 +162,13 @@ Observing <code><a href="jwks.md#0x1_jwks_UnsupportedJWK">UnsupportedJWK</a></co
 
 <dl>
 <dt>
-<code>id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>payload: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>payload: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -196,31 +196,31 @@ A JWK variant where <code>kty</code> is <code>RSA</code>.
 
 <dl>
 <dt>
-<code>kid: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>kid: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>kty: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>kty: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>alg: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>alg: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>e: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>e: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>n: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>n: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -279,7 +279,7 @@ A provider and its <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code>s.
 
 <dl>
 <dt>
-<code>issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
  The utf-8 encoding of the issuer string (e.g., "https://www.facebook.com").
@@ -294,7 +294,7 @@ A provider and its <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code>s.
  The Rust authenticator only uses the latest version.
 </dd>
 <dt>
-<code><a href="jwks.md#0x1_jwks">jwks</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;</code>
+<code><a href="jwks.md#0x1_jwks">jwks</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;</code>
 </dt>
 <dd>
  Vector of <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code>'s sorted by their unique ID (from <code>get_jwk_id</code>) in dictionary order.
@@ -322,7 +322,7 @@ Multiple <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code> o
 
 <dl>
 <dt>
-<code>entries: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;</code>
+<code>entries: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;</code>
 </dt>
 <dd>
  Vector of <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code> sorted by <code>ProviderJWKs::issuer</code> in dictionary order.
@@ -474,7 +474,7 @@ A <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> variant to remove an i
 
 <dl>
 <dt>
-<code>issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -502,13 +502,13 @@ A <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> variant to remove a sp
 
 <dl>
 <dt>
-<code>issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -536,7 +536,7 @@ A <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> variant to upsert a JW
 
 <dl>
 <dt>
-<code>issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -572,7 +572,7 @@ Maintained by governance proposals.
 
 <dl>
 <dt>
-<code>patches: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>&gt;</code>
+<code>patches: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>&gt;</code>
 </dt>
 <dd>
 
@@ -648,7 +648,7 @@ JWKs for federated keyless accounts are stored in this resource.
 
 
 
-<pre><code><b>const</b> <a href="jwks.md#0x1_jwks_DELETE_COMMAND_INDICATOR">DELETE_COMMAND_INDICATOR</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 72, 73, 83, 95, 73, 83, 95, 65, 95, 68, 69, 76, 69, 84, 69, 95, 67, 79, 77, 77, 65, 78, 68];
+<pre><code><b>const</b> <a href="jwks.md#0x1_jwks_DELETE_COMMAND_INDICATOR">DELETE_COMMAND_INDICATOR</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 72, 73, 83, 95, 73, 83, 95, 65, 95, 68, 69, 76, 69, 84, 69, 95, 67, 79, 77, 77, 65, 78, 68];
 </code></pre>
 
 
@@ -799,7 +799,7 @@ Cognito, etc). For type-safety, we explicitly use a <code><b>struct</b> <a href=
 reusing <code><a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: AllProviderJWKs }</code>, which is a JWK-consensus-specific struct.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_patch_federated_jwks">patch_federated_jwks</a>(jwk_owner: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_patch_federated_jwks">patch_federated_jwks</a>(jwk_owner: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>&gt;)
 </code></pre>
 
 
@@ -808,26 +808,26 @@ reusing <code><a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> { <a href="
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_patch_federated_jwks">patch_federated_jwks</a>(jwk_owner: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">Patch</a>&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_patch_federated_jwks">patch_federated_jwks</a>(jwk_owner: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">Patch</a>&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a> {
     // Prevents accidental calls in <a href="jwks.md#0x1_jwks">0x1::jwks</a> that install federated JWKs at the Cedra framework <b>address</b>.
-    <b>assert</b>!(!<a href="system_addresses.md#0x1_system_addresses_is_cedra_framework_address">system_addresses::is_cedra_framework_address</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(jwk_owner)),
-        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINSTALL_FEDERATED_JWKS_AT_cedra_framework">EINSTALL_FEDERATED_JWKS_AT_cedra_framework</a>)
+    <b>assert</b>!(!<a href="system_addresses.md#0x1_system_addresses_is_cedra_framework_address">system_addresses::is_cedra_framework_address</a>(<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(jwk_owner)),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINSTALL_FEDERATED_JWKS_AT_cedra_framework">EINSTALL_FEDERATED_JWKS_AT_cedra_framework</a>)
     );
 
-    <b>let</b> jwk_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(jwk_owner);
+    <b>let</b> jwk_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(jwk_owner);
     <b>if</b> (!<b>exists</b>&lt;<a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a>&gt;(jwk_addr)) {
-        <b>move_to</b>(jwk_owner, <a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a> { entries: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] } });
+        <b>move_to</b>(jwk_owner, <a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a> { entries: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] } });
     };
 
     <b>let</b> fed_jwks = <b>borrow_global_mut</b>&lt;<a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a>&gt;(jwk_addr);
-    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_for_each_ref">vector::for_each_ref</a>(&patches, |obj|{
+    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_for_each_ref">vector::for_each_ref</a>(&patches, |obj|{
         <b>let</b> patch: &<a href="jwks.md#0x1_jwks_Patch">Patch</a> = obj;
         <a href="jwks.md#0x1_jwks_apply_patch">apply_patch</a>(&<b>mut</b> fed_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, *patch);
     });
 
     // TODO: Can we check the size more efficiently instead of serializing it via BCS?
-    <b>let</b> num_bytes = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&<a href="../../cedra-stdlib/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(fed_jwks));
-    <b>assert</b>!(num_bytes &lt; <a href="jwks.md#0x1_jwks_MAX_FEDERATED_JWKS_SIZE_BYTES">MAX_FEDERATED_JWKS_SIZE_BYTES</a>, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EFEDERATED_JWKS_TOO_LARGE">EFEDERATED_JWKS_TOO_LARGE</a>));
+    <b>let</b> num_bytes = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&<a href="../../oracle-interface/../move-stdlib/doc/bcs.md#0x1_bcs_to_bytes">bcs::to_bytes</a>(fed_jwks));
+    <b>assert</b>!(num_bytes &lt; <a href="jwks.md#0x1_jwks_MAX_FEDERATED_JWKS_SIZE_BYTES">MAX_FEDERATED_JWKS_SIZE_BYTES</a>, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EFEDERATED_JWKS_TOO_LARGE">EFEDERATED_JWKS_TOO_LARGE</a>));
 }
 </code></pre>
 
@@ -894,7 +894,7 @@ See AIP-96 for more details about federated keyless - https://github.com/cedra-f
 NOTE: Currently only RSA keys are supported.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="jwks.md#0x1_jwks_update_federated_jwk_set">update_federated_jwk_set</a>(jwk_owner: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, iss: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, kid_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, alg_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, e_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, n_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="jwks.md#0x1_jwks_update_federated_jwk_set">update_federated_jwk_set</a>(jwk_owner: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, iss: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, kid_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, alg_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, e_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, n_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -903,23 +903,23 @@ NOTE: Currently only RSA keys are supported.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="jwks.md#0x1_jwks_update_federated_jwk_set">update_federated_jwk_set</a>(jwk_owner: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, iss: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, kid_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;, alg_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;, e_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;, n_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a> {
-    <b>assert</b>!(!<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_is_empty">vector::is_empty</a>(&kid_vec), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
-    <b>let</b> num_jwk = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>&lt;String&gt;(&kid_vec);
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&alg_vec) == num_jwk , <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&e_vec) == num_jwk, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
-    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&n_vec) == num_jwk, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
+<pre><code><b>public</b> entry <b>fun</b> <a href="jwks.md#0x1_jwks_update_federated_jwk_set">update_federated_jwk_set</a>(jwk_owner: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, iss: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, kid_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;, alg_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;, e_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;, n_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_FederatedJWKs">FederatedJWKs</a> {
+    <b>assert</b>!(!<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_is_empty">vector::is_empty</a>(&kid_vec), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
+    <b>let</b> num_jwk = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>&lt;String&gt;(&kid_vec);
+    <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&alg_vec) == num_jwk , <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
+    <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&e_vec) == num_jwk, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
+    <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&n_vec) == num_jwk, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EINVALID_FEDERATED_JWK_SET">EINVALID_FEDERATED_JWK_SET</a>));
 
     <b>let</b> remove_all_patch = <a href="jwks.md#0x1_jwks_new_patch_remove_all">new_patch_remove_all</a>();
-    <b>let</b> patches = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[remove_all_patch];
-    <b>while</b> (!<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_is_empty">vector::is_empty</a>(&kid_vec)) {
-        <b>let</b> kid = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> kid_vec);
-        <b>let</b> alg = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> alg_vec);
-        <b>let</b> e = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> e_vec);
-        <b>let</b> n = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> n_vec);
+    <b>let</b> patches = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[remove_all_patch];
+    <b>while</b> (!<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_is_empty">vector::is_empty</a>(&kid_vec)) {
+        <b>let</b> kid = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> kid_vec);
+        <b>let</b> alg = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> alg_vec);
+        <b>let</b> e = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> e_vec);
+        <b>let</b> n = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(&<b>mut</b> n_vec);
         <b>let</b> jwk = <a href="jwks.md#0x1_jwks_new_rsa_jwk">new_rsa_jwk</a>(kid, alg, e, n);
         <b>let</b> patch = <a href="jwks.md#0x1_jwks_new_patch_upsert_jwk">new_patch_upsert_jwk</a>(iss, jwk);
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> patches, patch)
+        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> patches, patch)
     };
     <a href="jwks.md#0x1_jwks_patch_federated_jwks">patch_federated_jwks</a>(jwk_owner, patches);
 }
@@ -938,7 +938,7 @@ Abort if such a JWK does not exist.
 More convenient to call from Rust, since it does not wrap the JWK in an <code>Option</code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_get_patched_jwk">get_patched_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_get_patched_jwk">get_patched_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>
 </code></pre>
 
 
@@ -947,8 +947,8 @@ More convenient to call from Rust, since it does not wrap the JWK in an <code>Op
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_get_patched_jwk">get_patched_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">JWK</a> <b>acquires</b> <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> {
-    <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks_try_get_patched_jwk">try_get_patched_jwk</a>(issuer, jwk_id))
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_get_patched_jwk">get_patched_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">JWK</a> <b>acquires</b> <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> {
+    <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks_try_get_patched_jwk">try_get_patched_jwk</a>(issuer, jwk_id))
 }
 </code></pre>
 
@@ -964,7 +964,7 @@ Get a JWK by issuer and key ID from the <code><a href="jwks.md#0x1_jwks_PatchedJ
 More convenient to call from Move, since it does not abort.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_try_get_patched_jwk">try_get_patched_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_try_get_patched_jwk">try_get_patched_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
 </code></pre>
 
 
@@ -973,7 +973,7 @@ More convenient to call from Move, since it does not abort.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_try_get_patched_jwk">try_get_patched_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_try_get_patched_jwk">try_get_patched_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> {
     <b>let</b> <a href="jwks.md#0x1_jwks">jwks</a> = &<b>borrow_global</b>&lt;<a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>&gt;(@cedra_framework).<a href="jwks.md#0x1_jwks">jwks</a>;
     <a href="jwks.md#0x1_jwks_try_get_jwk_by_issuer">try_get_jwk_by_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>, issuer, jwk_id)
 }
@@ -992,7 +992,7 @@ Deprecated by <code><a href="jwks.md#0x1_jwks_upsert_oidc_provider_for_next_epoc
 TODO: update all the tests that reference this function, then disable this function.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider">upsert_oidc_provider</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider">upsert_oidc_provider</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
 </code></pre>
 
 
@@ -1001,14 +1001,14 @@ TODO: update all the tests that reference this function, then disable this funct
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider">upsert_oidc_provider</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider">upsert_oidc_provider</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
     <a href="chain_status.md#0x1_chain_status_assert_genesis">chain_status::assert_genesis</a>();
 
     <b>let</b> provider_set = <b>borrow_global_mut</b>&lt;<a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>&gt;(@cedra_framework);
 
     <b>let</b> old_config_url= <a href="jwks.md#0x1_jwks_remove_oidc_provider_internal">remove_oidc_provider_internal</a>(provider_set, name);
-    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> provider_set.providers, <a href="jwks.md#0x1_jwks_OIDCProvider">OIDCProvider</a> { name, config_url });
+    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> provider_set.providers, <a href="jwks.md#0x1_jwks_OIDCProvider">OIDCProvider</a> { name, config_url });
     old_config_url
 }
 </code></pre>
@@ -1033,7 +1033,7 @@ cedra_framework::cedra_governance::reconfigure(&framework_signer);
 ```
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider_for_next_epoch">upsert_oidc_provider_for_next_epoch</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider_for_next_epoch">upsert_oidc_provider_for_next_epoch</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
 </code></pre>
 
 
@@ -1042,7 +1042,7 @@ cedra_framework::cedra_governance::reconfigure(&framework_signer);
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider_for_next_epoch">upsert_oidc_provider_for_next_epoch</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_oidc_provider_for_next_epoch">upsert_oidc_provider_for_next_epoch</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, config_url: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
 
     <b>let</b> provider_set = <b>if</b> (<a href="config_buffer.md#0x1_config_buffer_does_exist">config_buffer::does_exist</a>&lt;<a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>&gt;()) {
@@ -1052,7 +1052,7 @@ cedra_framework::cedra_governance::reconfigure(&framework_signer);
     };
 
     <b>let</b> old_config_url = <a href="jwks.md#0x1_jwks_remove_oidc_provider_internal">remove_oidc_provider_internal</a>(&<b>mut</b> provider_set, name);
-    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> provider_set.providers, <a href="jwks.md#0x1_jwks_OIDCProvider">OIDCProvider</a> { name, config_url });
+    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(&<b>mut</b> provider_set.providers, <a href="jwks.md#0x1_jwks_OIDCProvider">OIDCProvider</a> { name, config_url });
     <a href="config_buffer.md#0x1_config_buffer_upsert">config_buffer::upsert</a>(provider_set);
     old_config_url
 }
@@ -1071,7 +1071,7 @@ Deprecated by <code><a href="jwks.md#0x1_jwks_remove_oidc_provider_for_next_epoc
 TODO: update all the tests that reference this function, then disable this function.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider">remove_oidc_provider</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider">remove_oidc_provider</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
 </code></pre>
 
 
@@ -1080,7 +1080,7 @@ TODO: update all the tests that reference this function, then disable this funct
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider">remove_oidc_provider</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider">remove_oidc_provider</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
     <a href="chain_status.md#0x1_chain_status_assert_genesis">chain_status::assert_genesis</a>();
 
@@ -1108,7 +1108,7 @@ cedra_framework::cedra_governance::reconfigure(&framework_signer);
 ```
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_for_next_epoch">remove_oidc_provider_for_next_epoch</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_for_next_epoch">remove_oidc_provider_for_next_epoch</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
 </code></pre>
 
 
@@ -1117,7 +1117,7 @@ cedra_framework::cedra_governance::reconfigure(&framework_signer);
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_for_next_epoch">remove_oidc_provider_for_next_epoch</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_for_next_epoch">remove_oidc_provider_for_next_epoch</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
 
     <b>let</b> provider_set = <b>if</b> (<a href="config_buffer.md#0x1_config_buffer_does_exist">config_buffer::does_exist</a>&lt;<a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>&gt;()) {
@@ -1142,7 +1142,7 @@ cedra_framework::cedra_governance::reconfigure(&framework_signer);
 Only used in reconfigurations to apply the pending <code><a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a></code>, if there is any.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="jwks.md#0x1_jwks_on_new_epoch">on_new_epoch</a>(framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="jwks.md#0x1_jwks_on_new_epoch">on_new_epoch</a>(framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1151,7 +1151,7 @@ Only used in reconfigurations to apply the pending <code><a href="jwks.md#0x1_jw
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="jwks.md#0x1_jwks_on_new_epoch">on_new_epoch</a>(framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="jwks.md#0x1_jwks_on_new_epoch">on_new_epoch</a>(framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(framework);
     <b>if</b> (<a href="config_buffer.md#0x1_config_buffer_does_exist">config_buffer::does_exist</a>&lt;<a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>&gt;()) {
         <b>let</b> new_config = <a href="config_buffer.md#0x1_config_buffer_extract_v2">config_buffer::extract_v2</a>&lt;<a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>&gt;();
@@ -1175,7 +1175,7 @@ Only used in reconfigurations to apply the pending <code><a href="jwks.md#0x1_jw
 Set the <code><a href="jwks.md#0x1_jwks_Patches">Patches</a></code>. Only called in governance proposals.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_set_patches">set_patches</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_set_patches">set_patches</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>&gt;)
 </code></pre>
 
 
@@ -1184,7 +1184,7 @@ Set the <code><a href="jwks.md#0x1_jwks_Patches">Patches</a></code>. Only called
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_set_patches">set_patches</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">Patch</a>&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_Patches">Patches</a>, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_set_patches">set_patches</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, patches: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_Patch">Patch</a>&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_Patches">Patches</a>, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
     <b>borrow_global_mut</b>&lt;<a href="jwks.md#0x1_jwks_Patches">Patches</a>&gt;(@cedra_framework).patches = patches;
     <a href="jwks.md#0x1_jwks_regenerate_patched_jwks">regenerate_patched_jwks</a>();
@@ -1229,7 +1229,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes al
 Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes the entry of a given issuer, if exists.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_issuer">new_patch_remove_issuer</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_issuer">new_patch_remove_issuer</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>
 </code></pre>
 
 
@@ -1238,7 +1238,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes th
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_issuer">new_patch_remove_issuer</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_issuer">new_patch_remove_issuer</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
     <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
         variant: <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_pack">copyable_any::pack</a>(<a href="jwks.md#0x1_jwks_PatchRemoveIssuer">PatchRemoveIssuer</a> { issuer }),
     }
@@ -1256,7 +1256,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes th
 Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes the entry of a given issuer, if exists.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_jwk">new_patch_remove_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_jwk">new_patch_remove_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>
 </code></pre>
 
 
@@ -1265,7 +1265,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes th
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_jwk">new_patch_remove_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_remove_jwk">new_patch_remove_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
     <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
         variant: <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_pack">copyable_any::pack</a>(<a href="jwks.md#0x1_jwks_PatchRemoveJWK">PatchRemoveJWK</a> { issuer, jwk_id })
     }
@@ -1283,7 +1283,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that removes th
 Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that upserts a JWK into an issuer's JWK set.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_upsert_jwk">new_patch_upsert_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk: <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>): <a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_upsert_jwk">new_patch_upsert_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk: <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>): <a href="jwks.md#0x1_jwks_Patch">jwks::Patch</a>
 </code></pre>
 
 
@@ -1292,7 +1292,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that upserts a 
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_upsert_jwk">new_patch_upsert_jwk</a>(issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk: <a href="jwks.md#0x1_jwks_JWK">JWK</a>): <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_patch_upsert_jwk">new_patch_upsert_jwk</a>(issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk: <a href="jwks.md#0x1_jwks_JWK">JWK</a>): <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
     <a href="jwks.md#0x1_jwks_Patch">Patch</a> {
         variant: <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_pack">copyable_any::pack</a>(<a href="jwks.md#0x1_jwks_PatchUpsertJWK">PatchUpsertJWK</a> { issuer, jwk })
     }
@@ -1310,7 +1310,7 @@ Create a <code><a href="jwks.md#0x1_jwks_Patch">Patch</a></code> that upserts a 
 Create a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> of variant <code><a href="jwks.md#0x1_jwks_RSA_JWK">RSA_JWK</a></code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_rsa_jwk">new_rsa_jwk</a>(kid: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, alg: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, e: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, n: <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_rsa_jwk">new_rsa_jwk</a>(kid: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, alg: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, e: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, n: <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>
 </code></pre>
 
 
@@ -1343,7 +1343,7 @@ Create a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> of variant <code><a
 Create a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> of variant <code><a href="jwks.md#0x1_jwks_UnsupportedJWK">UnsupportedJWK</a></code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_unsupported_jwk">new_unsupported_jwk</a>(id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, payload: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_unsupported_jwk">new_unsupported_jwk</a>(id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, payload: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>
 </code></pre>
 
 
@@ -1352,7 +1352,7 @@ Create a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> of variant <code><a
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_unsupported_jwk">new_unsupported_jwk</a>(id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, payload: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">JWK</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_new_unsupported_jwk">new_unsupported_jwk</a>(id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, payload: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="jwks.md#0x1_jwks_JWK">JWK</a> {
     <a href="jwks.md#0x1_jwks_JWK">JWK</a> {
         variant: <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_pack">copyable_any::pack</a>(<a href="jwks.md#0x1_jwks_UnsupportedJWK">UnsupportedJWK</a> { id, payload })
     }
@@ -1370,7 +1370,7 @@ Create a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> of variant <code><a
 Initialize some JWK resources. Should only be invoked by genesis.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_initialize">initialize</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_initialize">initialize</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -1379,12 +1379,12 @@ Initialize some JWK resources. Should only be invoked by genesis.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_initialize">initialize</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_initialize">initialize</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
-    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> { providers: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] });
-    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a> { entries: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] } });
-    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_Patches">Patches</a> { patches: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] });
-    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a> { entries: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] } });
+    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a> { providers: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] });
+    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a> { entries: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] } });
+    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_Patches">Patches</a> { patches: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] });
+    <b>move_to</b>(fx, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a> { <a href="jwks.md#0x1_jwks">jwks</a>: <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a> { entries: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[] } });
 }
 </code></pre>
 
@@ -1400,7 +1400,7 @@ Helper function that removes an OIDC provider from the <code><a href="jwks.md#0x
 Returns the old config URL of the provider, if any, as an <code>Option</code>.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_internal">remove_oidc_provider_internal</a>(provider_set: &<b>mut</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">jwks::SupportedOIDCProviders</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_internal">remove_oidc_provider_internal</a>(provider_set: &<b>mut</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">jwks::SupportedOIDCProviders</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;
 </code></pre>
 
 
@@ -1409,17 +1409,17 @@ Returns the old config URL of the provider, if any, as an <code>Option</code>.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_internal">remove_oidc_provider_internal</a>(provider_set: &<b>mut</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>, name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; {
-    <b>let</b> (name_exists, idx) = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&provider_set.providers, |obj| {
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_oidc_provider_internal">remove_oidc_provider_internal</a>(provider_set: &<b>mut</b> <a href="jwks.md#0x1_jwks_SupportedOIDCProviders">SupportedOIDCProviders</a>, name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt; {
+    <b>let</b> (name_exists, idx) = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&provider_set.providers, |obj| {
         <b>let</b> provider: &<a href="jwks.md#0x1_jwks_OIDCProvider">OIDCProvider</a> = obj;
         provider.name == name
     });
 
     <b>if</b> (name_exists) {
-        <b>let</b> old_provider = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_swap_remove">vector::swap_remove</a>(&<b>mut</b> provider_set.providers, idx);
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(old_provider.config_url)
+        <b>let</b> old_provider = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_swap_remove">vector::swap_remove</a>(&<b>mut</b> provider_set.providers, idx);
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(old_provider.config_url)
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -1438,7 +1438,7 @@ NOTE: It is assumed verification has been done to ensure each update is quorum-c
 and its <code><a href="version.md#0x1_version">version</a></code> equals to the on-chain version + 1.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_into_observed_jwks">upsert_into_observed_jwks</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, provider_jwks_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_into_observed_jwks">upsert_into_observed_jwks</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, provider_jwks_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;)
 </code></pre>
 
 
@@ -1447,28 +1447,28 @@ and its <code><a href="version.md#0x1_version">version</a></code> equals to the 
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_into_observed_jwks">upsert_into_observed_jwks</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, provider_jwks_vec: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_Patches">Patches</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_upsert_into_observed_jwks">upsert_into_observed_jwks</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, provider_jwks_vec: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>&gt;) <b>acquires</b> <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_Patches">Patches</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
     <b>let</b> observed_jwks = <b>borrow_global_mut</b>&lt;<a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>&gt;(@cedra_framework);
 
-    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_jwk_consensus_per_key_mode_enabled">features::is_jwk_consensus_per_key_mode_enabled</a>()) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_for_each">vector::for_each</a>(provider_jwks_vec, |proposed_provider_jwks|{
+    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_jwk_consensus_per_key_mode_enabled">features::is_jwk_consensus_per_key_mode_enabled</a>()) {
+        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_for_each">vector::for_each</a>(provider_jwks_vec, |proposed_provider_jwks|{
             <b>let</b> maybe_cur_issuer_jwks = <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(&<b>mut</b> observed_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, proposed_provider_jwks.issuer);
-            <b>let</b> cur_issuer_jwks = <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&maybe_cur_issuer_jwks)) {
-                <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> maybe_cur_issuer_jwks)
+            <b>let</b> cur_issuer_jwks = <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&maybe_cur_issuer_jwks)) {
+                <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> maybe_cur_issuer_jwks)
             } <b>else</b> {
                 <a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a> {
                     issuer: proposed_provider_jwks.issuer,
                     <a href="version.md#0x1_version">version</a>: 0,
-                    <a href="jwks.md#0x1_jwks">jwks</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[],
+                    <a href="jwks.md#0x1_jwks">jwks</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[],
                 }
             };
-            <b>assert</b>!(cur_issuer_jwks.<a href="version.md#0x1_version">version</a> + 1 == proposed_provider_jwks.<a href="version.md#0x1_version">version</a>, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EUNEXPECTED_VERSION">EUNEXPECTED_VERSION</a>));
-            <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_for_each">vector::for_each</a>(proposed_provider_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, |jwk|{
-                <b>let</b> variant_type_name = *<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(<a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_type_name">copyable_any::type_name</a>(&jwk.variant));
+            <b>assert</b>!(cur_issuer_jwks.<a href="version.md#0x1_version">version</a> + 1 == proposed_provider_jwks.<a href="version.md#0x1_version">version</a>, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EUNEXPECTED_VERSION">EUNEXPECTED_VERSION</a>));
+            <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_for_each">vector::for_each</a>(proposed_provider_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, |jwk|{
+                <b>let</b> variant_type_name = *<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(<a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_type_name">copyable_any::type_name</a>(&jwk.variant));
                 <b>let</b> is_delete = <b>if</b> (variant_type_name == b"<a href="jwks.md#0x1_jwks_RSA_JWK">0x1::jwks::RSA_JWK</a>") {
                     <b>let</b> rsa_jwk = <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_unpack">copyable_any::unpack</a>&lt;<a href="jwks.md#0x1_jwks_RSA_JWK">RSA_JWK</a>&gt;(jwk.variant);
-                    *<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&rsa_jwk.n) == <a href="jwks.md#0x1_jwks_DELETE_COMMAND_INDICATOR">DELETE_COMMAND_INDICATOR</a>
+                    *<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&rsa_jwk.n) == <a href="jwks.md#0x1_jwks_DELETE_COMMAND_INDICATOR">DELETE_COMMAND_INDICATOR</a>
                 } <b>else</b> {
                     <b>false</b>
                 };
@@ -1482,7 +1482,7 @@ and its <code><a href="version.md#0x1_version">version</a></code> equals to the 
             <a href="jwks.md#0x1_jwks_upsert_provider_jwks">upsert_provider_jwks</a>(&<b>mut</b> observed_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, cur_issuer_jwks);
         });
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_for_each">vector::for_each</a>(provider_jwks_vec, |provider_jwks| {
+        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_for_each">vector::for_each</a>(provider_jwks_vec, |provider_jwks| {
             <a href="jwks.md#0x1_jwks_upsert_provider_jwks">upsert_provider_jwks</a>(&<b>mut</b> observed_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, provider_jwks);
         });
     };
@@ -1506,7 +1506,7 @@ Only used by governance to delete an issuer from <code><a href="jwks.md#0x1_jwks
 Return the potentially existing <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code> of the given issuer.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer_from_observed_jwks">remove_issuer_from_observed_jwks</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer_from_observed_jwks">remove_issuer_from_observed_jwks</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;
 </code></pre>
 
 
@@ -1515,7 +1515,7 @@ Return the potentially existing <code><a href="jwks.md#0x1_jwks_ProviderJWKs">Pr
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer_from_observed_jwks">remove_issuer_from_observed_jwks</a>(fx: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_Patches">Patches</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer_from_observed_jwks">remove_issuer_from_observed_jwks</a>(fx: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>&gt; <b>acquires</b> <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>, <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_Patches">Patches</a> {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(fx);
     <b>let</b> observed_jwks = <b>borrow_global_mut</b>&lt;<a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>&gt;(@cedra_framework);
     <b>let</b> old_value = <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(&<b>mut</b> observed_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, issuer);
@@ -1551,7 +1551,7 @@ Regenerate <code><a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a></code> f
 <pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_regenerate_patched_jwks">regenerate_patched_jwks</a>() <b>acquires</b> <a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a>, <a href="jwks.md#0x1_jwks_Patches">Patches</a>, <a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a> {
     <b>let</b> <a href="jwks.md#0x1_jwks">jwks</a> = <b>borrow_global</b>&lt;<a href="jwks.md#0x1_jwks_ObservedJWKs">ObservedJWKs</a>&gt;(@cedra_framework).<a href="jwks.md#0x1_jwks">jwks</a>;
     <b>let</b> patches = <b>borrow_global</b>&lt;<a href="jwks.md#0x1_jwks_Patches">Patches</a>&gt;(@cedra_framework);
-    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_for_each_ref">vector::for_each_ref</a>(&patches.patches, |obj|{
+    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_for_each_ref">vector::for_each_ref</a>(&patches.patches, |obj|{
         <b>let</b> patch: &<a href="jwks.md#0x1_jwks_Patch">Patch</a> = obj;
         <a href="jwks.md#0x1_jwks_apply_patch">apply_patch</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>, *patch);
     });
@@ -1570,7 +1570,7 @@ Regenerate <code><a href="jwks.md#0x1_jwks_PatchedJWKs">PatchedJWKs</a></code> f
 Get a JWK by issuer and key ID from an <code><a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a></code>, if it exists.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_issuer">try_get_jwk_by_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<a href="jwks.md#0x1_jwks_AllProvidersJWKs">jwks::AllProvidersJWKs</a>, issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_issuer">try_get_jwk_by_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<a href="jwks.md#0x1_jwks_AllProvidersJWKs">jwks::AllProvidersJWKs</a>, issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
 </code></pre>
 
 
@@ -1579,16 +1579,16 @@ Get a JWK by issuer and key ID from an <code><a href="jwks.md#0x1_jwks_AllProvid
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_issuer">try_get_jwk_by_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a>, issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
-    <b>let</b> (issuer_found, index) = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, |obj| {
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_issuer">try_get_jwk_by_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a>, issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
+    <b>let</b> (issuer_found, index) = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, |obj| {
         <b>let</b> provider_jwks: &<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a> = obj;
         issuer == provider_jwks.issuer
     });
 
     <b>if</b> (issuer_found) {
-        <a href="jwks.md#0x1_jwks_try_get_jwk_by_id">try_get_jwk_by_id</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, index), jwk_id)
+        <a href="jwks.md#0x1_jwks_try_get_jwk_by_id">try_get_jwk_by_id</a>(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, index), jwk_id)
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -1604,7 +1604,7 @@ Get a JWK by issuer and key ID from an <code><a href="jwks.md#0x1_jwks_AllProvid
 Get a JWK by key ID from a <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code>, if it exists.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_id">try_get_jwk_by_id</a>(provider_jwks: &<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_id">try_get_jwk_by_id</a>(provider_jwks: &<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
 </code></pre>
 
 
@@ -1613,16 +1613,16 @@ Get a JWK by key ID from a <code><a href="jwks.md#0x1_jwks_ProviderJWKs">Provide
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_id">try_get_jwk_by_id</a>(provider_jwks: &<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
-    <b>let</b> (jwk_id_found, index) = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&provider_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, |obj|{
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_try_get_jwk_by_id">try_get_jwk_by_id</a>(provider_jwks: &<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
+    <b>let</b> (jwk_id_found, index) = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&provider_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, |obj|{
         <b>let</b> jwk: &<a href="jwks.md#0x1_jwks_JWK">JWK</a> = obj;
         jwk_id == <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(jwk)
     });
 
     <b>if</b> (jwk_id_found) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&provider_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, index))
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&provider_jwks.<a href="jwks.md#0x1_jwks">jwks</a>, index))
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -1638,7 +1638,7 @@ Get a JWK by key ID from a <code><a href="jwks.md#0x1_jwks_ProviderJWKs">Provide
 Get the ID of a JWK.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(jwk: &<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(jwk: &<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -1647,16 +1647,16 @@ Get the ID of a JWK.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(jwk: &<a href="jwks.md#0x1_jwks_JWK">JWK</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
-    <b>let</b> variant_type_name = *<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(<a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_type_name">copyable_any::type_name</a>(&jwk.variant));
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(jwk: &<a href="jwks.md#0x1_jwks_JWK">JWK</a>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+    <b>let</b> variant_type_name = *<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(<a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_type_name">copyable_any::type_name</a>(&jwk.variant));
     <b>if</b> (variant_type_name == b"<a href="jwks.md#0x1_jwks_RSA_JWK">0x1::jwks::RSA_JWK</a>") {
         <b>let</b> rsa = <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_unpack">copyable_any::unpack</a>&lt;<a href="jwks.md#0x1_jwks_RSA_JWK">RSA_JWK</a>&gt;(jwk.variant);
-        *<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&rsa.kid)
+        *<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(&rsa.kid)
     } <b>else</b> <b>if</b> (variant_type_name == b"<a href="jwks.md#0x1_jwks_UnsupportedJWK">0x1::jwks::UnsupportedJWK</a>") {
         <b>let</b> unsupported = <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_unpack">copyable_any::unpack</a>&lt;<a href="jwks.md#0x1_jwks_UnsupportedJWK">UnsupportedJWK</a>&gt;(jwk.variant);
         unsupported.id
     } <b>else</b> {
-        <b>abort</b>(<a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EUNKNOWN_JWK_VARIANT">EUNKNOWN_JWK_VARIANT</a>))
+        <b>abort</b>(<a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="jwks.md#0x1_jwks_EUNKNOWN_JWK_VARIANT">EUNKNOWN_JWK_VARIANT</a>))
     }
 }
 </code></pre>
@@ -1673,7 +1673,7 @@ Upsert a <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code> i
 Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a></code>.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_upsert_provider_jwks">upsert_provider_jwks</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">jwks::AllProvidersJWKs</a>, provider_jwks: <a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_upsert_provider_jwks">upsert_provider_jwks</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">jwks::AllProvidersJWKs</a>, provider_jwks: <a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;
 </code></pre>
 
 
@@ -1686,9 +1686,9 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
     // NOTE: Using a linear-time search here because we do not expect too many providers.
     <b>let</b> found = <b>false</b>;
     <b>let</b> index = 0;
-    <b>let</b> num_entries = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries);
+    <b>let</b> num_entries = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries);
     <b>while</b> (index &lt; num_entries) {
-        <b>let</b> cur_entry = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, index);
+        <b>let</b> cur_entry = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, index);
         <b>let</b> comparison = compare_u8_vector(provider_jwks.issuer, cur_entry.issuer);
         <b>if</b> (is_greater_than(&comparison)) {
             index = index + 1;
@@ -1701,13 +1701,13 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
     // Now <b>if</b> `found == <b>true</b>`, `index` points <b>to</b> the <a href="jwks.md#0x1_jwks_JWK">JWK</a> we want <b>to</b> <b>update</b>/remove; otherwise, `index` points <b>to</b>
     // <b>where</b> we want <b>to</b> insert.
     <b>let</b> ret = <b>if</b> (found) {
-        <b>let</b> entry = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow_mut">vector::borrow_mut</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.entries, index);
-        <b>let</b> old_entry = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*entry);
+        <b>let</b> entry = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow_mut">vector::borrow_mut</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.entries, index);
+        <b>let</b> old_entry = <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*entry);
         *entry = provider_jwks;
         old_entry
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_insert">vector::insert</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.entries, index, provider_jwks);
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_insert">vector::insert</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.entries, index, provider_jwks);
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     ret
@@ -1726,7 +1726,7 @@ Remove the entry of an issuer from a <code><a href="jwks.md#0x1_jwks_AllProvider
 Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a></code>.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">jwks::AllProvidersJWKs</a>, issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">jwks::AllProvidersJWKs</a>, issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>&gt;
 </code></pre>
 
 
@@ -1735,16 +1735,16 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a>, issuer: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>&gt; {
-    <b>let</b> (found, index) = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, |obj| {
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a>, issuer: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>&gt; {
+    <b>let</b> (found, index) = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.entries, |obj| {
         <b>let</b> provider_jwk_set: &<a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a> = obj;
         provider_jwk_set.issuer == issuer
     });
 
     <b>let</b> ret = <b>if</b> (found) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_remove">vector::remove</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.entries, index))
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_remove">vector::remove</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.entries, index))
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     ret
@@ -1762,7 +1762,7 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
 Upsert a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> into a <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code>. If this upsert replaced an existing entry, return it.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_upsert_jwk">upsert_jwk</a>(set: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>, jwk: <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_upsert_jwk">upsert_jwk</a>(set: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>, jwk: <a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
 </code></pre>
 
 
@@ -1774,9 +1774,9 @@ Upsert a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> into a <code><a hre
 <pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_upsert_jwk">upsert_jwk</a>(set: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>, jwk: <a href="jwks.md#0x1_jwks_JWK">JWK</a>): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
     <b>let</b> found = <b>false</b>;
     <b>let</b> index = 0;
-    <b>let</b> num_entries = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&set.<a href="jwks.md#0x1_jwks">jwks</a>);
+    <b>let</b> num_entries = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&set.<a href="jwks.md#0x1_jwks">jwks</a>);
     <b>while</b> (index &lt; num_entries) {
-        <b>let</b> cur_entry = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&set.<a href="jwks.md#0x1_jwks">jwks</a>, index);
+        <b>let</b> cur_entry = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&set.<a href="jwks.md#0x1_jwks">jwks</a>, index);
         <b>let</b> comparison = compare_u8_vector(<a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(&jwk), <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(cur_entry));
         <b>if</b> (is_greater_than(&comparison)) {
             index = index + 1;
@@ -1789,13 +1789,13 @@ Upsert a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> into a <code><a hre
     // Now <b>if</b> `found == <b>true</b>`, `index` points <b>to</b> the <a href="jwks.md#0x1_jwks_JWK">JWK</a> we want <b>to</b> <b>update</b>/remove; otherwise, `index` points <b>to</b>
     // <b>where</b> we want <b>to</b> insert.
     <b>let</b> ret = <b>if</b> (found) {
-        <b>let</b> entry = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow_mut">vector::borrow_mut</a>(&<b>mut</b> set.<a href="jwks.md#0x1_jwks">jwks</a>, index);
-        <b>let</b> old_entry = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*entry);
+        <b>let</b> entry = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow_mut">vector::borrow_mut</a>(&<b>mut</b> set.<a href="jwks.md#0x1_jwks">jwks</a>, index);
+        <b>let</b> old_entry = <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*entry);
         *entry = jwk;
         old_entry
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_insert">vector::insert</a>(&<b>mut</b> set.<a href="jwks.md#0x1_jwks">jwks</a>, index, jwk);
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_insert">vector::insert</a>(&<b>mut</b> set.<a href="jwks.md#0x1_jwks">jwks</a>, index, jwk);
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     ret
@@ -1813,7 +1813,7 @@ Upsert a <code><a href="jwks.md#0x1_jwks_JWK">JWK</a></code> into a <code><a hre
 Remove the entry of a key ID from a <code><a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a></code> and return the entry, if exists.
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_jwk">remove_jwk</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_jwk">remove_jwk</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">jwks::ProviderJWKs</a>, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="jwks.md#0x1_jwks_JWK">jwks::JWK</a>&gt;
 </code></pre>
 
 
@@ -1822,16 +1822,16 @@ Remove the entry of a key ID from a <code><a href="jwks.md#0x1_jwks_ProviderJWKs
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_jwk">remove_jwk</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>, jwk_id: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
-    <b>let</b> (found, index) = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.<a href="jwks.md#0x1_jwks">jwks</a>, |obj| {
+<pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_remove_jwk">remove_jwk</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a>, jwk_id: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="jwks.md#0x1_jwks_JWK">JWK</a>&gt; {
+    <b>let</b> (found, index) = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_find">vector::find</a>(&<a href="jwks.md#0x1_jwks">jwks</a>.<a href="jwks.md#0x1_jwks">jwks</a>, |obj| {
         <b>let</b> jwk: &<a href="jwks.md#0x1_jwks_JWK">JWK</a> = obj;
         jwk_id == <a href="jwks.md#0x1_jwks_get_jwk_id">get_jwk_id</a>(jwk)
     });
 
     <b>let</b> ret = <b>if</b> (found) {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_remove">vector::remove</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.<a href="jwks.md#0x1_jwks">jwks</a>, index))
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_remove">vector::remove</a>(&<b>mut</b> <a href="jwks.md#0x1_jwks">jwks</a>.<a href="jwks.md#0x1_jwks">jwks</a>, index))
     } <b>else</b> {
-        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     ret
@@ -1860,9 +1860,9 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
 
 
 <pre><code><b>fun</b> <a href="jwks.md#0x1_jwks_apply_patch">apply_patch</a>(<a href="jwks.md#0x1_jwks">jwks</a>: &<b>mut</b> <a href="jwks.md#0x1_jwks_AllProvidersJWKs">AllProvidersJWKs</a>, patch: <a href="jwks.md#0x1_jwks_Patch">Patch</a>) {
-    <b>let</b> variant_type_name = *<a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(<a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_type_name">copyable_any::type_name</a>(&patch.variant));
+    <b>let</b> variant_type_name = *<a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string_bytes">string::bytes</a>(<a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_type_name">copyable_any::type_name</a>(&patch.variant));
     <b>if</b> (variant_type_name == b"<a href="jwks.md#0x1_jwks_PatchRemoveAll">0x1::jwks::PatchRemoveAll</a>") {
-        <a href="jwks.md#0x1_jwks">jwks</a>.entries = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[];
+        <a href="jwks.md#0x1_jwks">jwks</a>.entries = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[];
     } <b>else</b> <b>if</b> (variant_type_name == b"<a href="jwks.md#0x1_jwks_PatchRemoveIssuer">0x1::jwks::PatchRemoveIssuer</a>") {
         <b>let</b> cmd = <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any_unpack">copyable_any::unpack</a>&lt;<a href="jwks.md#0x1_jwks_PatchRemoveIssuer">PatchRemoveIssuer</a>&gt;(patch.variant);
         <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>, cmd.issuer);
@@ -1871,8 +1871,8 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
         // TODO: This is inefficient: we remove the issuer, modify its JWKs & and reinsert the updated issuer. Why
         // not just <b>update</b> it in place?
         <b>let</b> existing_jwk_set = <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>, cmd.issuer);
-        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&existing_jwk_set)) {
-            <b>let</b> jwk_set = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> existing_jwk_set);
+        <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&existing_jwk_set)) {
+            <b>let</b> jwk_set = <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> existing_jwk_set);
             <a href="jwks.md#0x1_jwks_remove_jwk">remove_jwk</a>(&<b>mut</b> jwk_set, cmd.jwk_id);
             <a href="jwks.md#0x1_jwks_upsert_provider_jwks">upsert_provider_jwks</a>(<a href="jwks.md#0x1_jwks">jwks</a>, jwk_set);
         };
@@ -1881,13 +1881,13 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
         // TODO: This is inefficient: we remove the issuer, modify its JWKs & and reinsert the updated issuer. Why
         // not just <b>update</b> it in place?
         <b>let</b> existing_jwk_set = <a href="jwks.md#0x1_jwks_remove_issuer">remove_issuer</a>(<a href="jwks.md#0x1_jwks">jwks</a>, cmd.issuer);
-        <b>let</b> jwk_set = <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&existing_jwk_set)) {
-            <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> existing_jwk_set)
+        <b>let</b> jwk_set = <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_is_some">option::is_some</a>(&existing_jwk_set)) {
+            <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_extract">option::extract</a>(&<b>mut</b> existing_jwk_set)
         } <b>else</b> {
             <a href="jwks.md#0x1_jwks_ProviderJWKs">ProviderJWKs</a> {
                 <a href="version.md#0x1_version">version</a>: 0,
                 issuer: cmd.issuer,
-                <a href="jwks.md#0x1_jwks">jwks</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[],
+                <a href="jwks.md#0x1_jwks">jwks</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[],
             }
         };
         <a href="jwks.md#0x1_jwks_upsert_jwk">upsert_jwk</a>(&<b>mut</b> jwk_set, cmd.jwk);
@@ -1912,7 +1912,7 @@ Maintains the sorted-by-issuer invariant in <code><a href="jwks.md#0x1_jwks_AllP
 ### Function `on_new_epoch`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="jwks.md#0x1_jwks_on_new_epoch">on_new_epoch</a>(framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="jwks.md#0x1_jwks_on_new_epoch">on_new_epoch</a>(framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
