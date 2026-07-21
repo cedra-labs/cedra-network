@@ -33,7 +33,7 @@
 <b>use</b> <a href="">0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c::price</a>;
 <b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/hash.md#0x1_hash">0x1::hash</a>;
-<b>use</b> <a href="../../cedra-stdlib/doc/math64.md#0x1_math64">0x1::math64</a>;
+<b>use</b> <a href="../../cedra-stdlib/doc/math128.md#0x1_math128">0x1::math128</a>;
 <b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/string_utils.md#0x1_string_utils">0x1::string_utils</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/table.md#0x1_table">0x1::table</a>;
@@ -323,12 +323,32 @@ Cedra native feed identity for NewPriceIdentifier(address, symbol).
 
 
 
+<a id="0x1_price_storage_EFA_FEE_OVERFLOW"></a>
+
+Computed FA fee does not fit in u64.
+
+
+<pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_EFA_FEE_OVERFLOW">EFA_FEE_OVERFLOW</a>: u64 = 10;
+</code></pre>
+
+
+
 <a id="0x1_price_storage_EPRICE_ALREADY_EXISTS"></a>
 
 Price already exists in storage
 
 
 <pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_EPRICE_ALREADY_EXISTS">EPRICE_ALREADY_EXISTS</a>: u64 = 2;
+</code></pre>
+
+
+
+<a id="0x1_price_storage_EPRICE_CONFIDENCE_TOO_WIDE"></a>
+
+Oracle confidence interval is too wide relative to price.
+
+
+<pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_EPRICE_CONFIDENCE_TOO_WIDE">EPRICE_CONFIDENCE_TOO_WIDE</a>: u64 = 11;
 </code></pre>
 
 
@@ -343,11 +363,31 @@ Price not founded in storage
 
 
 
+<a id="0x1_price_storage_EPRICE_TIMESTAMP_IN_FUTURE"></a>
+
+Oracle price timestamp is ahead of on-chain time.
+
+
+<pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_EPRICE_TIMESTAMP_IN_FUTURE">EPRICE_TIMESTAMP_IN_FUTURE</a>: u64 = 9;
+</code></pre>
+
+
+
 <a id="0x1_price_storage_EPRICE_TOO_OLD"></a>
 
 
 
 <pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_EPRICE_TOO_OLD">EPRICE_TOO_OLD</a>: u64 = 6;
+</code></pre>
+
+
+
+<a id="0x1_price_storage_ESTORAGE_REFUND_EXCEEDS_FEE"></a>
+
+Storage refund exceeds the gas fee amount.
+
+
+<pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_ESTORAGE_REFUND_EXCEEDS_FEE">ESTORAGE_REFUND_EXCEEDS_FEE</a>: u64 = 8;
 </code></pre>
 
 
@@ -370,8 +410,20 @@ Price not founded in storage
 
 
 
+<a id="0x1_price_storage_MAX_CONF_BPS"></a>
+
+Max confidence / price in basis points (200 = 2%).
+
+
+<pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_MAX_CONF_BPS">MAX_CONF_BPS</a>: u64 = 200;
+</code></pre>
+
+
+
 <a id="0x1_price_storage_MAX_PRICE_AGE"></a>
 
+Max age of an oracle price relative to on-chain time (seconds).
+60s is a common fee/trading default; tighten to ~30s if the publisher updates faster.
 
 
 <pre><code><b>const</b> <a href="price_storage.md#0x1_price_storage_MAX_PRICE_AGE">MAX_PRICE_AGE</a>: u64 = 60;
@@ -702,13 +754,21 @@ Decode oracle Price into (price, decimals) used by the fee formula.
 
 
 <pre><code><b>fun</b> <a href="price_storage.md#0x1_price_storage_decode_oracle_price">decode_oracle_price</a>(p: &Price, current_time: u64): (u64, u8) {
+    <b>let</b> price_ts = <a href="_get_timestamp">price::get_timestamp</a>(p);
+    <b>assert</b>!(price_ts &lt;= current_time, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="price_storage.md#0x1_price_storage_EPRICE_TIMESTAMP_IN_FUTURE">EPRICE_TIMESTAMP_IN_FUTURE</a>));
     <b>assert</b>!(
-        current_time - <a href="_get_timestamp">price::get_timestamp</a>(p) &lt;= <a href="price_storage.md#0x1_price_storage_MAX_PRICE_AGE">MAX_PRICE_AGE</a>,
+        current_time - price_ts &lt;= <a href="price_storage.md#0x1_price_storage_MAX_PRICE_AGE">MAX_PRICE_AGE</a>,
         <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="price_storage.md#0x1_price_storage_EPRICE_TOO_OLD">EPRICE_TOO_OLD</a>)
     );
 
     <b>let</b> raw_price = <a href="_get_magnitude_if_positive">i64::get_magnitude_if_positive</a>(&<a href="_get_price">price::get_price</a>(p));
     <b>assert</b>!(raw_price &gt; 0, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="price_storage.md#0x1_price_storage_FA_PRICE_IS_ZERO">FA_PRICE_IS_ZERO</a>));
+
+    // conf and <a href="">price</a> share the same expo, so the ratio is scale-independent.
+    <b>assert</b>!(
+        (<a href="_get_conf">price::get_conf</a>(p) <b>as</b> u128) * 10000 &lt;= (raw_price <b>as</b> u128) * (<a href="price_storage.md#0x1_price_storage_MAX_CONF_BPS">MAX_CONF_BPS</a> <b>as</b> u128),
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="price_storage.md#0x1_price_storage_EPRICE_CONFIDENCE_TOO_WIDE">EPRICE_CONFIDENCE_TOO_WIDE</a>)
+    );
 
     <b>let</b> expo = <a href="_get_expo">price::get_expo</a>(p);
     <b>let</b> decimals = (<a href="_get_magnitude_if_negative">i64::get_magnitude_if_negative</a>(&expo) <b>as</b> u8);
@@ -758,7 +818,14 @@ Decode oracle Price into (price, decimals) used by the fee formula.
     );
 
     <b>let</b> transaction_fee_amount = txn_gas_price * gas_used;
+    <b>assert</b>!(
+        storage_fee_refunded &lt;= transaction_fee_amount,
+        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="price_storage.md#0x1_price_storage_ESTORAGE_REFUND_EXCEEDS_FEE">ESTORAGE_REFUND_EXCEEDS_FEE</a>)
+    );
     <b>let</b> cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
+    <b>if</b> (cedra_fee_amount == 0) {
+        <b>return</b> 0
+    };
 
     <b>let</b> fa_feed_id = <a href="price_storage.md#0x1_price_storage_new_price_feed_id">new_price_feed_id</a>(<a href="price_storage.md#0x1_price_storage_address_to_hex">address_to_hex</a>(fa_address), symbol);
     <b>let</b> fa_oracle_price = <a href="_get_price_by_feed_id">oracle::get_price_by_feed_id</a>(fa_feed_id);
@@ -769,17 +836,25 @@ Decode oracle Price into (price, decimals) used by the fee formula.
     <b>let</b> (cedra_price, cedra_decimals) = <a href="price_storage.md#0x1_price_storage_decode_oracle_price">decode_oracle_price</a>(&cedra_oracle_price, current_time);
 
     // fa_fee = (cedra_fee * cedra_price * 10^fa_decimals) / (fa_price * 10^cedra_decimals)
-    <b>let</b> normalized_cedra_value = <a href="../../cedra-stdlib/doc/math64.md#0x1_math64_mul_div">math64::mul_div</a>(
-        cedra_fee_amount,
-        cedra_price,
-        <a href="../../cedra-stdlib/doc/math64.md#0x1_math64_pow">math64::pow</a>(10, (cedra_decimals <b>as</b> u64))
+    // Use u128 mul_div (u256 intermediate) and reject results that do not fit in u64.
+    <b>let</b> fa_fee_u128 = <a href="../../cedra-stdlib/doc/math128.md#0x1_math128_mul_div">math128::mul_div</a>(
+        <a href="../../cedra-stdlib/doc/math128.md#0x1_math128_mul_div">math128::mul_div</a>(
+            (cedra_fee_amount <b>as</b> u128),
+            (cedra_price <b>as</b> u128),
+            <a href="../../cedra-stdlib/doc/math128.md#0x1_math128_pow">math128::pow</a>(10, (cedra_decimals <b>as</b> u128))
+        ),
+        <a href="../../cedra-stdlib/doc/math128.md#0x1_math128_pow">math128::pow</a>(10, (fa_decimals <b>as</b> u128)),
+        (fa_price <b>as</b> u128)
     );
+    <b>assert</b>!(fa_fee_u128 &lt;= <a href="price_storage.md#0x1_price_storage_MAX_U64">MAX_U64</a>, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="price_storage.md#0x1_price_storage_EFA_FEE_OVERFLOW">EFA_FEE_OVERFLOW</a>));
 
-    <a href="../../cedra-stdlib/doc/math64.md#0x1_math64_mul_div">math64::mul_div</a>(
-        normalized_cedra_value,
-        <a href="../../cedra-stdlib/doc/math64.md#0x1_math64_pow">math64::pow</a>(10, (fa_decimals <b>as</b> u64)),
-        fa_price
-    )
+    <b>let</b> fa_fee = (fa_fee_u128 <b>as</b> u64);
+    // Charge at least 1 FA unit when net Cedra fee is positive but division truncates <b>to</b> 0.
+    <b>if</b> (fa_fee == 0) {
+        1
+    } <b>else</b> {
+        fa_fee
+    }
 }
 </code></pre>
 

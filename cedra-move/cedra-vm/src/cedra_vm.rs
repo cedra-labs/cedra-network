@@ -801,9 +801,7 @@ impl CedraVM {
         epilogue_session.execute(|session| {
 
         if txn_data.use_fee_v2() {
-                let mut unmetered_gas_meter = UnmeteredGasMeter;
-
-
+            let mut unmetered_gas_meter = UnmeteredGasMeter;
             let txn_gas_price = txn_data.gas_unit_price();
             let txn_max_gas_units = txn_data.max_gas_amount();
             let gas_used =
@@ -826,29 +824,41 @@ impl CedraVM {
                         traversal_context,
                         module_storage,
                     ) {
-                        Ok(output) => output
+                        Ok(output) => match output
                             .return_values
                             .get(0)
                             .and_then(|(bytes, _)| bcs::from_bytes::<u64>(bytes).ok())
-                            .unwrap_or(0),
-                        Err(_) => 0,
+                        {
+                            // 0 is valid when net Cedra fee is 0 (full storage refund).
+                            Some(amount) => amount,
+                            None => {
+                                return Err(PartialVMError::new(
+                                    StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
+                                )
+                                .with_message(
+                                    "FA fee calculation returned no u64 value".to_string(),
+                                )
+                                .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
+                                .into_vm_status());
+                            },
+                        },
+                        Err(err) => {
+                            println!("FA fee v2 Move error: {:?}", err);
+                            return Err(err.into_vm_status());
+                        },
                     }
                 } else {
-                    0
+                    println!("FA oracle identity missing for fee_v2 transaction");
+                    return Err(PartialVMError::new(
+                        StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
+                    )
+                    .with_message("FA oracle identity missing for fee_v2 transaction".to_string())
+                    .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
+                    .into_vm_status());
                 };
-
-            if stablecoin_amount == 0 {
-                return Err(PartialVMError::new(
-                    StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
-                )
-                .with_message("FA fee calculation returned zero".to_string())
-                .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
-                .into_vm_status());
-            }
 
             txn_data.with_stablecoin_amount(stablecoin_amount);
         }
-
             transaction_validation::run_success_epilogue(
                 session,
                 module_storage,
@@ -864,15 +874,13 @@ impl CedraVM {
         })?;
 
         let mut custom_fee_statement = CustomFeeStatement::zero();
- if txn_data.use_fee_v2() {
-        custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+        if txn_data.use_fee_v2() {
+            custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                 txn_data,
                 gas_meter,
                 u64::from(epilogue_session.get_storage_fee_refund()),
             );
-
-
-            }
+        }
 
         let output = epilogue_session.finish(
             if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement },
