@@ -805,35 +805,48 @@ impl CedraVM {
 
 
             let txn_gas_price = txn_data.gas_unit_price();
-            let fa_address = txn_data.fa_address();
             let txn_max_gas_units = txn_data.max_gas_amount();
-            let gas_used = u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
+            let gas_used =
+                u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
 
-            let stablecoin_amount: u64 = match session.execute_function_bypass_visibility(
-                &PRICE_STORAGE_MODULE,
-                CALCULATE_FA_FEE,
-                vec![],
-                vec![
-                    MoveValue::U64(gas_used.into()).simple_serialize().unwrap(),
-                    MoveValue::U64(storage_refund).simple_serialize().unwrap(),
-                    MoveValue::U64(txn_gas_price.into()).simple_serialize().unwrap(),
-                    fa_address.as_move_value().simple_serialize().unwrap(),
-                ],
-                &mut unmetered_gas_meter,
-                traversal_context,
-                module_storage,
-            ) {
-                Ok(output) => {
-                    output
-                        .return_values
-                        .get(0)
-                        .and_then(|(bytes, _)| bcs::from_bytes::<u64>(bytes).ok())
-                        .unwrap_or(0)
-                }
-                Err(_) => 0,
-            };
+            let stablecoin_amount: u64 =
+                if let Some((fa_addr, symbol)) = txn_data.fa_oracle_identity() {
+                    match session.execute_function_bypass_visibility(
+                        &PRICE_STORAGE_MODULE,
+                        CALCULATE_FA_FEE_V2,
+                        vec![],
+                        vec![
+                            MoveValue::U64(gas_used).simple_serialize().unwrap(),
+                            MoveValue::U64(storage_refund).simple_serialize().unwrap(),
+                            MoveValue::U64(txn_gas_price.into()).simple_serialize().unwrap(),
+                            MoveValue::Address(fa_addr).simple_serialize().unwrap(),
+                            MoveValue::vector_u8(symbol).simple_serialize().unwrap(),
+                        ],
+                        &mut unmetered_gas_meter,
+                        traversal_context,
+                        module_storage,
+                    ) {
+                        Ok(output) => output
+                            .return_values
+                            .get(0)
+                            .and_then(|(bytes, _)| bcs::from_bytes::<u64>(bytes).ok())
+                            .unwrap_or(0),
+                        Err(_) => 0,
+                    }
+                } else {
+                    0
+                };
 
-           txn_data.with_stablecoin_amount(stablecoin_amount);
+            if stablecoin_amount == 0 {
+                return Err(PartialVMError::new(
+                    StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
+                )
+                .with_message("FA fee calculation returned zero".to_string())
+                .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
+                .into_vm_status());
+            }
+
+            txn_data.with_stablecoin_amount(stablecoin_amount);
         }
 
             transaction_validation::run_success_epilogue(
