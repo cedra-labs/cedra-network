@@ -11,9 +11,7 @@ cedra_token = "0x3"
 core_resources = "0xA550C18"
 vm_reserved = "0x0"
 admin = "0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e"
-oracle = "0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c"
 
 [dependencies]
 CedraStdlib = { local = "../cedra-stdlib" }
 MoveStdlib = { local = "../move-stdlib" }
-CedraOracle = { local = "../oracle-interface" }

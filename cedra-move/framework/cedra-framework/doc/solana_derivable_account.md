@@ -41,11 +41,11 @@ Nonce: <cedra_txn_digest>
 <b>use</b> <a href="../../cedra-stdlib/doc/bcs_stream.md#0x1_bcs_stream">0x1::bcs_stream</a>;
 <b>use</b> <a href="common_account_abstractions_utils.md#0x1_common_account_abstractions_utils">0x1::common_account_abstractions_utils</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/ed25519.md#0x1_ed25519">0x1::ed25519</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/string_utils.md#0x1_string_utils">0x1::string_utils</a>;
 <b>use</b> <a href="transaction_context.md#0x1_transaction_context">0x1::transaction_context</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -75,7 +75,7 @@ Nonce: <cedra_txn_digest>
 
 <dl>
 <dt>
-<code>signature: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>signature: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -147,7 +147,7 @@ Entry function payload is missing.
 
 
 
-<pre><code><b>const</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_BASE_58_ALPHABET">BASE_58_ALPHABET</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 74, 75, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122];
+<pre><code><b>const</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_BASE_58_ALPHABET">BASE_58_ALPHABET</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 74, 75, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122];
 </code></pre>
 
 
@@ -176,7 +176,7 @@ Invalid public key length.
 
 
 
-<pre><code><b>const</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_HEX_ALPHABET">HEX_ALPHABET</a>: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102];
+<pre><code><b>const</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_HEX_ALPHABET">HEX_ALPHABET</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102];
 </code></pre>
 
 
@@ -193,7 +193,7 @@ require both the base58 public key in UTF8 to construct the message and
 the raw bytes version to do signature verification.
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_public_key">deserialize_abstract_public_key</a>(abstract_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_public_key">deserialize_abstract_public_key</a>(abstract_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): (<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -202,8 +202,8 @@ the raw bytes version to do signature verification.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_public_key">deserialize_abstract_public_key</a>(abstract_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;):
-(<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) {
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_public_key">deserialize_abstract_public_key</a>(abstract_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;):
+(<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;) {
     <b>let</b> stream = <a href="../../cedra-stdlib/doc/bcs_stream.md#0x1_bcs_stream_new">bcs_stream::new</a>(*abstract_public_key);
     <b>let</b> base58_public_key = <a href="../../cedra-stdlib/doc/bcs_stream.md#0x1_bcs_stream_deserialize_vector">bcs_stream::deserialize_vector</a>&lt;u8&gt;(&<b>mut</b> stream, |x| deserialize_u8(x));
     <b>let</b> domain = <a href="../../cedra-stdlib/doc/bcs_stream.md#0x1_bcs_stream_deserialize_vector">bcs_stream::deserialize_vector</a>&lt;u8&gt;(&<b>mut</b> stream, |x| deserialize_u8(x));
@@ -222,7 +222,7 @@ the raw bytes version to do signature verification.
 Returns a tuple of the signature type and the signature.
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_signature">deserialize_abstract_signature</a>(abstract_signature: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="solana_derivable_account.md#0x1_solana_derivable_account_SIWSAbstractSignature">solana_derivable_account::SIWSAbstractSignature</a>
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_signature">deserialize_abstract_signature</a>(abstract_signature: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="solana_derivable_account.md#0x1_solana_derivable_account_SIWSAbstractSignature">solana_derivable_account::SIWSAbstractSignature</a>
 </code></pre>
 
 
@@ -231,7 +231,7 @@ Returns a tuple of the signature type and the signature.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_signature">deserialize_abstract_signature</a>(abstract_signature: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="solana_derivable_account.md#0x1_solana_derivable_account_SIWSAbstractSignature">SIWSAbstractSignature</a> {
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_signature">deserialize_abstract_signature</a>(abstract_signature: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="solana_derivable_account.md#0x1_solana_derivable_account_SIWSAbstractSignature">SIWSAbstractSignature</a> {
     <b>let</b> stream = <a href="../../cedra-stdlib/doc/bcs_stream.md#0x1_bcs_stream_new">bcs_stream::new</a>(*abstract_signature);
     <b>let</b> signature_type = <a href="../../cedra-stdlib/doc/bcs_stream.md#0x1_bcs_stream_deserialize_u8">bcs_stream::deserialize_u8</a>(&<b>mut</b> stream);
     <b>if</b> (signature_type == 0x00) {
@@ -253,7 +253,7 @@ Returns a tuple of the signature type and the signature.
 
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_construct_message">construct_message</a>(base58_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, domain: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, entry_function_name: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, digest_utf8: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_construct_message">construct_message</a>(base58_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, domain: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, entry_function_name: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, digest_utf8: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -263,12 +263,12 @@ Returns a tuple of the signature type and the signature.
 
 
 <pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_construct_message">construct_message</a>(
-    base58_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    domain: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    entry_function_name: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    digest_utf8: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
-    <b>let</b> message = &<b>mut</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[];
+    base58_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    domain: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    entry_function_name: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    digest_utf8: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+    <b>let</b> message = &<b>mut</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[];
     message.append(*domain);
     message.append(b" wants you <b>to</b> sign in <b>with</b> your Solana <a href="account.md#0x1_account">account</a>:\n");
     message.append(*base58_public_key);
@@ -299,7 +299,7 @@ Returns a tuple of the signature type and the signature.
 
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_to_public_key_bytes">to_public_key_bytes</a>(base58_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_to_public_key_bytes">to_public_key_bytes</a>(base58_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -308,8 +308,8 @@ Returns a tuple of the signature type and the signature.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_to_public_key_bytes">to_public_key_bytes</a>(base58_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
-    <b>let</b> bytes = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0u8];
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_to_public_key_bytes">to_public_key_bytes</a>(base58_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+    <b>let</b> bytes = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>[0u8];
     <b>let</b> base = 58u16;
 
     <b>let</b> i = 0;
@@ -346,7 +346,7 @@ Returns a tuple of the signature type and the signature.
         i = i + 1;
     };
 
-    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_reverse">vector::reverse</a>(&<b>mut</b> bytes);
+    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_reverse">vector::reverse</a>(&<b>mut</b> bytes);
     <b>assert</b>!(bytes.length() == <a href="solana_derivable_account.md#0x1_solana_derivable_account_PUBLIC_KEY_NUM_BYTES">PUBLIC_KEY_NUM_BYTES</a>, <a href="solana_derivable_account.md#0x1_solana_derivable_account_EINVALID_PUBLIC_KEY_LENGTH">EINVALID_PUBLIC_KEY_LENGTH</a>);
     bytes
 }
@@ -362,7 +362,7 @@ Returns a tuple of the signature type and the signature.
 
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate_auth_data">authenticate_auth_data</a>(aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, entry_function_name: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate_auth_data">authenticate_auth_data</a>(aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, entry_function_name: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -373,7 +373,7 @@ Returns a tuple of the signature type and the signature.
 
 <pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate_auth_data">authenticate_auth_data</a>(
     aa_auth_data: AbstractionAuthData,
-    entry_function_name: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    entry_function_name: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) {
     <b>let</b> abstract_public_key = aa_auth_data.derivable_abstract_public_key();
     <b>let</b> (base58_public_key, domain) = <a href="solana_derivable_account.md#0x1_solana_derivable_account_deserialize_abstract_public_key">deserialize_abstract_public_key</a>(abstract_public_key);
@@ -412,7 +412,7 @@ Returns a tuple of the signature type and the signature.
 Authorization function for domain account abstraction.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -421,7 +421,7 @@ Authorization function for domain account abstraction.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, aa_auth_data: AbstractionAuthData): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, aa_auth_data: AbstractionAuthData): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
     <b>let</b> maybe_entry_function_payload = <a href="transaction_context.md#0x1_transaction_context_entry_function_payload">transaction_context::entry_function_payload</a>();
     <b>if</b> (maybe_entry_function_payload.is_some()) {
         <b>let</b> entry_function_payload = maybe_entry_function_payload.destroy_some();
@@ -448,7 +448,7 @@ Authorization function for domain account abstraction.
 ### Function `to_public_key_bytes`
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_to_public_key_bytes">to_public_key_bytes</a>(base58_public_key: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_to_public_key_bytes">to_public_key_bytes</a>(base58_public_key: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -464,7 +464,7 @@ Authorization function for domain account abstraction.
 ### Function `authenticate_auth_data`
 
 
-<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate_auth_data">authenticate_auth_data</a>(aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, entry_function_name: &<a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate_auth_data">authenticate_auth_data</a>(aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>, entry_function_name: &<a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -480,7 +480,7 @@ Authorization function for domain account abstraction.
 ### Function `authenticate`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="solana_derivable_account.md#0x1_solana_derivable_account_authenticate">authenticate</a>(<a href="account.md#0x1_account">account</a>: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, aa_auth_data: <a href="auth_data.md#0x1_auth_data_AbstractionAuthData">auth_data::AbstractionAuthData</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 

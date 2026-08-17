@@ -13,3 +13,5 @@ required_proposer_stake: 1000000
 rewards_apy_percentage: 10
 voting_duration_secs: 43200
 voting_power_increase_limit: 20
+# Optional. Address of the published CedraOracle package. Defaults to 0x108c5651... if omitted.
+# oracle_address: "0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c"

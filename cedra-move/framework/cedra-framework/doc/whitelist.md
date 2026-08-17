@@ -21,9 +21,9 @@
 
 
 <pre><code><b>use</b> <a href="event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="stablecoin.md#0x1_stablecoin">0x1::stablecoin</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -46,7 +46,7 @@ Stores all assets that allowed in transaction commission
 
 <dl>
 <dt>
-<code>assets: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">whitelist::FungibleAssetStruct</a>&gt;</code>
+<code>assets: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">whitelist::FungibleAssetStruct</a>&gt;</code>
 </dt>
 <dd>
 
@@ -80,13 +80,13 @@ Stores Asset values
 
 </dd>
 <dt>
-<code>module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -120,13 +120,13 @@ Stores Asset values
 
 </dd>
 <dt>
-<code>module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -160,13 +160,13 @@ Stores Asset values
 
 </dd>
 <dt>
-<code>module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
+<code>symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;</code>
 </dt>
 <dd>
 
@@ -233,7 +233,7 @@ Caller is not authorized to make this call
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_init_registry">init_registry</a>(admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_init_registry">init_registry</a>(admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -242,16 +242,16 @@ Caller is not authorized to make this call
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_init_registry">init_registry</a>(admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
-    <b>let</b> admin_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
+<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_init_registry">init_registry</a>(admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+    <b>let</b> admin_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
     <b>assert</b>!(@admin == admin_address, <a href="whitelist.md#0x1_whitelist_EUNAUTHORIZED">EUNAUTHORIZED</a>);
 
     <a href="whitelist.md#0x1_whitelist_assert_registry_absent">assert_registry_absent</a>(@admin);
 
-    <b>let</b> assets = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a>&gt;();
+    <b>let</b> assets = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a>&gt;();
 
     // Add default asset: <a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">0x1::cedra_coin::CedraCoin</a>
-    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(
+    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(
         &<b>mut</b> assets,
         <a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a> {
             addr: @0x1,
@@ -288,7 +288,7 @@ Caller is not authorized to make this call
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_add_asset">add_asset</a>(admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, asset_addr: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_add_asset">add_asset</a>(admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, asset_addr: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -298,12 +298,12 @@ Caller is not authorized to make this call
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_add_asset">add_asset</a>(
-    admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     asset_addr: <b>address</b>,
-    module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
-    <b>let</b> admin_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
+    <b>let</b> admin_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
 
     <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">has_registry</a>(@admin), <a href="whitelist.md#0x1_whitelist_ENO_REGISTRY">ENO_REGISTRY</a>);
     <b>assert</b>!(
@@ -323,7 +323,7 @@ Caller is not authorized to make this call
 
     <b>let</b> registry = <b>borrow_global_mut</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(@admin);
 
-    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(
+    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(
         &<b>mut</b> registry.assets,
         <a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a> { addr: asset_addr, module_name, symbol }
     );
@@ -348,7 +348,7 @@ Caller is not authorized to make this call
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_remove_asset">remove_asset</a>(admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, asset_addr: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_remove_asset">remove_asset</a>(admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, asset_addr: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -358,22 +358,22 @@ Caller is not authorized to make this call
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_remove_asset">remove_asset</a>(
-    admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     asset_addr: <b>address</b>,
-    module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ) <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
-    <b>let</b> admin_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
+    <b>let</b> admin_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
     <b>assert</b>!(@admin == admin_address, <a href="whitelist.md#0x1_whitelist_EUNAUTHORIZED">EUNAUTHORIZED</a>);
 
     <b>let</b> registry = <b>borrow_global_mut</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(admin_address);
 
-    <b>let</b> (exist, index) = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_index_of">vector::index_of</a>(
+    <b>let</b> (exist, index) = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_index_of">vector::index_of</a>(
         &registry.assets,
         &<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a> { addr: asset_addr, module_name, symbol }
     );
     <b>if</b> (exist) {
-        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_remove">vector::remove</a>(&<b>mut</b> registry.assets, index);
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_remove">vector::remove</a>(&<b>mut</b> registry.assets, index);
 
 
        emit(
@@ -399,7 +399,7 @@ Caller is not authorized to make this call
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_add_cedra_coin">add_cedra_coin</a>(admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_add_cedra_coin">add_cedra_coin</a>(admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -409,9 +409,9 @@ Caller is not authorized to make this call
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="whitelist.md#0x1_whitelist_add_cedra_coin">add_cedra_coin</a>(
-    admin: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    admin: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
 ) <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
-    <b>let</b> admin_address = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
+    <b>let</b> admin_address = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(admin);
 
     <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">has_registry</a>(@admin), <a href="whitelist.md#0x1_whitelist_ENO_REGISTRY">ENO_REGISTRY</a>);
     <b>assert</b>!(
@@ -426,7 +426,7 @@ Caller is not authorized to make this call
 
     <b>let</b> registry = <b>borrow_global_mut</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(@admin);
 
-    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(
+    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_push_back">vector::push_back</a>(
         &<b>mut</b> registry.assets,
         <a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a> { addr: @0x1, module_name:b"<a href="cedra_coin.md#0x1_cedra_coin">cedra_coin</a>", symbol:b"CedraCoin"}
     );
@@ -451,7 +451,7 @@ Caller is not authorized to make this call
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="whitelist.md#0x1_whitelist_asset_exists">asset_exists</a>(asset_addr: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="whitelist.md#0x1_whitelist_asset_exists">asset_exists</a>(asset_addr: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): bool
 </code></pre>
 
 
@@ -461,14 +461,14 @@ Caller is not authorized to make this call
 
 
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="whitelist.md#0x1_whitelist_asset_exists">asset_exists</a>(
-    asset_addr: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    asset_addr: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ): bool <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
     <b>let</b> registry = <b>borrow_global</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(@admin);
 
     <b>let</b> i = 0;
-    <b>let</b> n = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&registry.assets);
+    <b>let</b> n = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(&registry.assets);
     <b>while</b> (i &lt; n) {
-        <b>let</b> asset = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&registry.assets, i);
+        <b>let</b> asset = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_borrow">vector::borrow</a>(&registry.assets, i);
         <b>if</b> (asset.addr == asset_addr
             && asset.module_name == module_name
             && asset.symbol == symbol) {
@@ -539,7 +539,7 @@ Caller is not authorized to make this call
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="whitelist.md#0x1_whitelist_get_asset_list">get_asset_list</a>(admin: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">whitelist::FungibleAssetStruct</a>&gt;
+<b>public</b> <b>fun</b> <a href="whitelist.md#0x1_whitelist_get_asset_list">get_asset_list</a>(admin: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">whitelist::FungibleAssetStruct</a>&gt;
 </code></pre>
 
 
@@ -550,7 +550,7 @@ Caller is not authorized to make this call
 
 <pre><code><b>public</b> <b>fun</b> <a href="whitelist.md#0x1_whitelist_get_asset_list">get_asset_list</a>(
     admin: <b>address</b>
-): <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a>&gt; <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
+): <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetStruct">FungibleAssetStruct</a>&gt; <b>acquires</b> <a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a> {
     <b>borrow_global</b>&lt;<a href="whitelist.md#0x1_whitelist_FungibleAssetRegistry">FungibleAssetRegistry</a>&gt;(admin).assets
 }
 </code></pre>

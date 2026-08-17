@@ -60,11 +60,11 @@ The key features are:
 -  [Function `set_collection_uri`](#0x4_cedra_token_set_collection_uri)
 
 
-<pre><code><b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<pre><code><b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="../../cedra-framework/doc/object.md#0x1_object">0x1::object</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="collection.md#0x4_collection">0x4::collection</a>;
 <b>use</b> <a href="property_map.md#0x4_property_map">0x4::property_map</a>;
 <b>use</b> <a href="royalty.md#0x4_royalty">0x4::royalty</a>;
@@ -92,13 +92,13 @@ Storage state for managing the no-code Collection.
 
 <dl>
 <dt>
-<code>mutator_ref: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>&gt;</code>
+<code>mutator_ref: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>&gt;</code>
 </dt>
 <dd>
  Used to mutate collection fields
 </dd>
 <dt>
-<code>royalty_mutator_ref: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_MutatorRef">royalty::MutatorRef</a>&gt;</code>
+<code>royalty_mutator_ref: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_MutatorRef">royalty::MutatorRef</a>&gt;</code>
 </dt>
 <dd>
  Used to mutate royalties
@@ -175,19 +175,19 @@ Storage state for managing the no-code Token.
 
 <dl>
 <dt>
-<code>burn_ref: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x4_token_BurnRef">token::BurnRef</a>&gt;</code>
+<code>burn_ref: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x4_token_BurnRef">token::BurnRef</a>&gt;</code>
 </dt>
 <dd>
  Used to burn.
 </dd>
 <dt>
-<code>transfer_ref: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/doc/object.md#0x1_object_TransferRef">object::TransferRef</a>&gt;</code>
+<code>transfer_ref: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/doc/object.md#0x1_object_TransferRef">object::TransferRef</a>&gt;</code>
 </dt>
 <dd>
  Used to control freeze.
 </dd>
 <dt>
-<code>mutator_ref: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x4_token_MutatorRef">token::MutatorRef</a>&gt;</code>
+<code>mutator_ref: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x4_token_MutatorRef">token::MutatorRef</a>&gt;</code>
 </dt>
 <dd>
  Used to mutate fields
@@ -275,7 +275,7 @@ The token being burned is not burnable
 Create a new collection
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_create_collection">create_collection</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, mutable_description: bool, mutable_royalty: bool, mutable_uri: bool, mutable_token_description: bool, mutable_token_name: bool, mutable_token_properties: bool, mutable_token_uri: bool, tokens_burnable_by_creator: bool, tokens_freezable_by_creator: bool, royalty_numerator: u64, royalty_denominator: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_create_collection">create_collection</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, mutable_description: bool, mutable_royalty: bool, mutable_uri: bool, mutable_token_description: bool, mutable_token_name: bool, mutable_token_properties: bool, mutable_token_uri: bool, tokens_burnable_by_creator: bool, tokens_freezable_by_creator: bool, royalty_numerator: u64, royalty_denominator: u64)
 </code></pre>
 
 
@@ -285,7 +285,7 @@ Create a new collection
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_create_collection">create_collection</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     max_supply: u64,
     name: String,
@@ -333,7 +333,7 @@ Create a new collection
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_create_collection_object">create_collection_object</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, mutable_description: bool, mutable_royalty: bool, mutable_uri: bool, mutable_token_description: bool, mutable_token_name: bool, mutable_token_properties: bool, mutable_token_uri: bool, tokens_burnable_by_creator: bool, tokens_freezable_by_creator: bool, royalty_numerator: u64, royalty_denominator: u64): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">cedra_token::CedraCollection</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_create_collection_object">create_collection_object</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, mutable_description: bool, mutable_royalty: bool, mutable_uri: bool, mutable_token_description: bool, mutable_token_name: bool, mutable_token_properties: bool, mutable_token_uri: bool, tokens_burnable_by_creator: bool, tokens_freezable_by_creator: bool, royalty_numerator: u64, royalty_denominator: u64): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">cedra_token::CedraCollection</a>&gt;
 </code></pre>
 
 
@@ -343,7 +343,7 @@ Create a new collection
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_create_collection_object">create_collection_object</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     max_supply: u64,
     name: String,
@@ -360,28 +360,28 @@ Create a new collection
     royalty_numerator: u64,
     royalty_denominator: u64,
 ): Object&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>&gt; {
-    <b>let</b> creator_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+    <b>let</b> creator_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <b>let</b> <a href="royalty.md#0x4_royalty">royalty</a> = <a href="royalty.md#0x4_royalty_create">royalty::create</a>(royalty_numerator, royalty_denominator, creator_addr);
     <b>let</b> constructor_ref = <a href="collection.md#0x4_collection_create_fixed_collection">collection::create_fixed_collection</a>(
         creator,
         description,
         max_supply,
         name,
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="royalty.md#0x4_royalty">royalty</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="royalty.md#0x4_royalty">royalty</a>),
         uri,
     );
 
     <b>let</b> object_signer = <a href="../../cedra-framework/doc/object.md#0x1_object_generate_signer">object::generate_signer</a>(&constructor_ref);
     <b>let</b> mutator_ref = <b>if</b> (mutable_description || mutable_uri) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="collection.md#0x4_collection_generate_mutator_ref">collection::generate_mutator_ref</a>(&constructor_ref))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="collection.md#0x4_collection_generate_mutator_ref">collection::generate_mutator_ref</a>(&constructor_ref))
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     <b>let</b> royalty_mutator_ref = <b>if</b> (mutable_royalty) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="royalty.md#0x4_royalty_generate_mutator_ref">royalty::generate_mutator_ref</a>(<a href="../../cedra-framework/doc/object.md#0x1_object_generate_extend_ref">object::generate_extend_ref</a>(&constructor_ref)))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="royalty.md#0x4_royalty_generate_mutator_ref">royalty::generate_mutator_ref</a>(<a href="../../cedra-framework/doc/object.md#0x1_object_generate_extend_ref">object::generate_extend_ref</a>(&constructor_ref)))
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     <b>let</b> cedra_collection = <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
@@ -412,7 +412,7 @@ Create a new collection
 With an existing collection, directly mint a viable token into the creators account.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint">mint</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint">mint</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;)
 </code></pre>
 
 
@@ -422,14 +422,14 @@ With an existing collection, directly mint a viable token into the creators acco
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint">mint</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: String,
     description: String,
     name: String,
     uri: String,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <a href="cedra_token.md#0x4_cedra_token_mint_token_object">mint_token_object</a>(creator, <a href="collection.md#0x4_collection">collection</a>, description, name, uri, property_keys, property_types, property_values);
 }
@@ -446,7 +446,7 @@ With an existing collection, directly mint a viable token into the creators acco
 Mint a token into an existing collection, and retrieve the object / address of the token.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_token_object">mint_token_object</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">cedra_token::CedraToken</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_token_object">mint_token_object</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">cedra_token::CedraToken</a>&gt;
 </code></pre>
 
 
@@ -456,14 +456,14 @@ Mint a token into an existing collection, and retrieve the object / address of t
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_token_object">mint_token_object</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: String,
     description: String,
     name: String,
     uri: String,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
 ): Object&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>&gt; <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> constructor_ref = <a href="cedra_token.md#0x4_cedra_token_mint_internal">mint_internal</a>(
         creator,
@@ -502,7 +502,7 @@ Mint a token into an existing collection, and retrieve the object / address of t
 With an existing collection, directly mint a soul bound token into the recipient's account.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound">mint_soul_bound</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, soul_bound_to: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound">mint_soul_bound</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, soul_bound_to: <b>address</b>)
 </code></pre>
 
 
@@ -512,14 +512,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound">mint_soul_bound</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: String,
     description: String,
     name: String,
     uri: String,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
     soul_bound_to: <b>address</b>,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
     <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound_token_object">mint_soul_bound_token_object</a>(
@@ -547,7 +547,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 With an existing collection, directly mint a soul bound token into the recipient's account.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound_token_object">mint_soul_bound_token_object</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, soul_bound_to: <b>address</b>): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">cedra_token::CedraToken</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound_token_object">mint_soul_bound_token_object</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, soul_bound_to: <b>address</b>): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">cedra_token::CedraToken</a>&gt;
 </code></pre>
 
 
@@ -557,14 +557,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_soul_bound_token_object">mint_soul_bound_token_object</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: String,
     description: String,
     name: String,
     uri: String,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
     soul_bound_to: <b>address</b>,
 ): Object&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>&gt; <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
     <b>let</b> constructor_ref = <a href="cedra_token.md#0x4_cedra_token_mint_internal">mint_internal</a>(
@@ -597,7 +597,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_internal">mint_internal</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_internal">mint_internal</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -607,16 +607,16 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_mint_internal">mint_internal</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: String,
     description: String,
     name: String,
     uri: String,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
 ): ConstructorRef <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
-    <b>let</b> constructor_ref = <a href="token.md#0x4_token_create">token::create</a>(creator, <a href="collection.md#0x4_collection">collection</a>, description, name, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), uri);
+    <b>let</b> constructor_ref = <a href="token.md#0x4_token_create">token::create</a>(creator, <a href="collection.md#0x4_collection">collection</a>, description, name, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(), uri);
 
     <b>let</b> object_signer = <a href="../../cedra-framework/doc/object.md#0x1_object_generate_signer">object::generate_signer</a>(&constructor_ref);
 
@@ -628,20 +628,20 @@ With an existing collection, directly mint a soul bound token into the recipient
             || <a href="collection.md#0x4_collection">collection</a>.mutable_token_name
             || <a href="collection.md#0x4_collection">collection</a>.mutable_token_uri
     ) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="token.md#0x4_token_generate_mutator_ref">token::generate_mutator_ref</a>(&constructor_ref))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="token.md#0x4_token_generate_mutator_ref">token::generate_mutator_ref</a>(&constructor_ref))
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     <b>let</b> burn_ref = <b>if</b> (<a href="collection.md#0x4_collection">collection</a>.tokens_burnable_by_creator) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="token.md#0x4_token_generate_burn_ref">token::generate_burn_ref</a>(&constructor_ref))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="token.md#0x4_token_generate_burn_ref">token::generate_burn_ref</a>(&constructor_ref))
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     };
 
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
         burn_ref,
-        transfer_ref: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(),
+        transfer_ref: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(),
         mutator_ref,
         property_mutator_ref: <a href="property_map.md#0x4_property_map_generate_mutator_ref">property_map::generate_mutator_ref</a>(&constructor_ref),
     };
@@ -677,7 +677,7 @@ With an existing collection, directly mint a soul bound token into the recipient
     <b>let</b> token_address = <a href="../../cedra-framework/doc/object.md#0x1_object_object_address">object::object_address</a>(<a href="token.md#0x4_token">token</a>);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>&gt;(token_address),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ETOKEN_DOES_NOT_EXIST">ETOKEN_DOES_NOT_EXIST</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ETOKEN_DOES_NOT_EXIST">ETOKEN_DOES_NOT_EXIST</a>),
     );
     &<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>[token_address]
 }
@@ -844,7 +844,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>&lt;T: key&gt;(<a href="token.md#0x4_token">token</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraToken">cedra_token::CedraToken</a>
+<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>&lt;T: key&gt;(<a href="token.md#0x4_token">token</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraToken">cedra_token::CedraToken</a>
 </code></pre>
 
 
@@ -853,16 +853,16 @@ With an existing collection, directly mint a soul bound token into the recipient
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>&lt;T: key&gt;(<a href="token.md#0x4_token">token</a>: &Object&lt;T&gt;, creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
+<pre><code>inline <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>&lt;T: key&gt;(<a href="token.md#0x4_token">token</a>: &Object&lt;T&gt;, creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> token_address = <a href="../../cedra-framework/doc/object.md#0x1_object_object_address">object::object_address</a>(<a href="token.md#0x4_token">token</a>);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>&gt;(token_address),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ETOKEN_DOES_NOT_EXIST">ETOKEN_DOES_NOT_EXIST</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ETOKEN_DOES_NOT_EXIST">ETOKEN_DOES_NOT_EXIST</a>),
     );
 
     <b>assert</b>!(
-        <a href="token.md#0x4_token_creator">token::creator</a>(*<a href="token.md#0x4_token">token</a>) == <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_ENOT_CREATOR">ENOT_CREATOR</a>),
+        <a href="token.md#0x4_token_creator">token::creator</a>(*<a href="token.md#0x4_token">token</a>) == <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_ENOT_CREATOR">ENOT_CREATOR</a>),
     );
     &<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>[token_address]
 }
@@ -878,7 +878,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_burn">burn</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_burn">burn</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;)
 </code></pre>
 
 
@@ -887,11 +887,11 @@ With an existing collection, directly mint a soul bound token into the recipient
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_burn">burn</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_burn">burn</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.burn_ref.is_some(),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_ETOKEN_NOT_BURNABLE">ETOKEN_NOT_BURNABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_ETOKEN_NOT_BURNABLE">ETOKEN_NOT_BURNABLE</a>),
     );
     <b>move</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a>;
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <b>move_from</b>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a>&gt;(<a href="../../cedra-framework/doc/object.md#0x1_object_object_address">object::object_address</a>(&<a href="token.md#0x4_token">token</a>));
@@ -916,7 +916,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_freeze_transfer">freeze_transfer</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_freeze_transfer">freeze_transfer</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;)
 </code></pre>
 
 
@@ -925,12 +925,12 @@ With an existing collection, directly mint a soul bound token into the recipient
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_freeze_transfer">freeze_transfer</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_freeze_transfer">freeze_transfer</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_collection_tokens_freezable">are_collection_tokens_freezable</a>(<a href="token.md#0x4_token_collection_object">token::collection_object</a>(<a href="token.md#0x4_token">token</a>))
             && <a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.transfer_ref.is_some(),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <a href="../../cedra-framework/doc/object.md#0x1_object_disable_ungated_transfer">object::disable_ungated_transfer</a>(<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.transfer_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>());
 }
@@ -946,7 +946,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_unfreeze_transfer">unfreeze_transfer</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_unfreeze_transfer">unfreeze_transfer</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;)
 </code></pre>
 
 
@@ -956,14 +956,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_unfreeze_transfer">unfreeze_transfer</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_collection_tokens_freezable">are_collection_tokens_freezable</a>(<a href="token.md#0x4_token_collection_object">token::collection_object</a>(<a href="token.md#0x4_token">token</a>))
             && <a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.transfer_ref.is_some(),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <a href="../../cedra-framework/doc/object.md#0x1_object_enable_ungated_transfer">object::enable_ungated_transfer</a>(<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.transfer_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>());
 }
@@ -979,7 +979,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_description">set_description</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_description">set_description</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -989,13 +989,13 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_description">set_description</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     description: String,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_is_mutable_description">is_mutable_description</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <a href="token.md#0x4_token_set_description">token::set_description</a>(<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.mutator_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>(), description);
@@ -1012,7 +1012,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_name">set_name</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_name">set_name</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1022,13 +1022,13 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_name">set_name</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     name: String,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_is_mutable_name">is_mutable_name</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <a href="token.md#0x4_token_set_name">token::set_name</a>(<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.mutator_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>(), name);
@@ -1045,7 +1045,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_uri">set_uri</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_uri">set_uri</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1055,13 +1055,13 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_uri">set_uri</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     uri: String,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_is_mutable_uri">is_mutable_uri</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <a href="token.md#0x4_token_set_uri">token::set_uri</a>(<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.mutator_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>(), uri);
@@ -1078,7 +1078,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_add_property">add_property</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, type: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_add_property">add_property</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, type: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1088,16 +1088,16 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_add_property">add_property</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     key: String,
     type: String,
-    value: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    value: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_properties_mutable">are_properties_mutable</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
     );
 
     <a href="property_map.md#0x4_property_map_add">property_map::add</a>(&<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.property_mutator_ref, key, type, value);
@@ -1114,7 +1114,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_add_typed_property">add_typed_property</a>&lt;T: key, V: drop&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: V)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_add_typed_property">add_typed_property</a>&lt;T: key, V: drop&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: V)
 </code></pre>
 
 
@@ -1124,7 +1124,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_add_typed_property">add_typed_property</a>&lt;T: key, V: drop&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     key: String,
     value: V,
@@ -1132,7 +1132,7 @@ With an existing collection, directly mint a soul bound token into the recipient
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_properties_mutable">are_properties_mutable</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
     );
 
     <a href="property_map.md#0x4_property_map_add_typed">property_map::add_typed</a>(&<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.property_mutator_ref, key, value);
@@ -1149,7 +1149,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_remove_property">remove_property</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_remove_property">remove_property</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1159,14 +1159,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_remove_property">remove_property</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     key: String,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_properties_mutable">are_properties_mutable</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
     );
 
     <a href="property_map.md#0x4_property_map_remove">property_map::remove</a>(&<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.property_mutator_ref, &key);
@@ -1183,7 +1183,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_update_property">update_property</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, type: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_update_property">update_property</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, type: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;)
 </code></pre>
 
 
@@ -1193,16 +1193,16 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_update_property">update_property</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     key: String,
     type: String,
-    value: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    value: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>, <a href="cedra_token.md#0x4_cedra_token_CedraToken">CedraToken</a> {
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_properties_mutable">are_properties_mutable</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
     );
 
     <a href="property_map.md#0x4_property_map_update">property_map::update</a>(&<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.property_mutator_ref, &key, type, value);
@@ -1219,7 +1219,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_update_typed_property">update_typed_property</a>&lt;T: key, V: drop&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: V)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_update_typed_property">update_typed_property</a>&lt;T: key, V: drop&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x4_token">token</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, key: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, value: V)
 </code></pre>
 
 
@@ -1229,7 +1229,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_update_typed_property">update_typed_property</a>&lt;T: key, V: drop&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="token.md#0x4_token">token</a>: Object&lt;T&gt;,
     key: String,
     value: V,
@@ -1237,7 +1237,7 @@ With an existing collection, directly mint a soul bound token into the recipient
     <b>let</b> <a href="cedra_token.md#0x4_cedra_token">cedra_token</a> = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow">authorized_borrow</a>(&<a href="token.md#0x4_token">token</a>, creator);
     <b>assert</b>!(
         <a href="cedra_token.md#0x4_cedra_token_are_properties_mutable">are_properties_mutable</a>(<a href="token.md#0x4_token">token</a>),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EPROPERTIES_NOT_MUTABLE">EPROPERTIES_NOT_MUTABLE</a>),
     );
 
     <a href="property_map.md#0x4_property_map_update_typed">property_map::update_typed</a>(&<a href="cedra_token.md#0x4_cedra_token">cedra_token</a>.property_mutator_ref, &key, value);
@@ -1254,7 +1254,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_collection_object">collection_object</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">cedra_token::CedraCollection</a>&gt;
+<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_collection_object">collection_object</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">cedra_token::CedraCollection</a>&gt;
 </code></pre>
 
 
@@ -1263,8 +1263,8 @@ With an existing collection, directly mint a soul bound token into the recipient
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_collection_object">collection_object</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: &String): Object&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>&gt; {
-    <b>let</b> collection_addr = <a href="collection.md#0x4_collection_create_collection_address">collection::create_collection_address</a>(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator), name);
+<pre><code>inline <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_collection_object">collection_object</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: &String): Object&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>&gt; {
+    <b>let</b> collection_addr = <a href="collection.md#0x4_collection_create_collection_address">collection::create_collection_address</a>(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator), name);
     <a href="../../cedra-framework/doc/object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>&gt;(collection_addr)
 }
 </code></pre>
@@ -1292,7 +1292,7 @@ With an existing collection, directly mint a soul bound token into the recipient
     <b>let</b> collection_address = <a href="../../cedra-framework/doc/object.md#0x1_object_object_address">object::object_address</a>(<a href="token.md#0x4_token">token</a>);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>&gt;(collection_address),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ECOLLECTION_DOES_NOT_EXIST">ECOLLECTION_DOES_NOT_EXIST</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ECOLLECTION_DOES_NOT_EXIST">ECOLLECTION_DOES_NOT_EXIST</a>),
     );
     &<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>[collection_address]
 }
@@ -1542,7 +1542,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraCollection">cedra_token::CedraCollection</a>
+<pre><code><b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraCollection">cedra_token::CedraCollection</a>
 </code></pre>
 
 
@@ -1551,15 +1551,15 @@ With an existing collection, directly mint a soul bound token into the recipient
 <summary>Implementation</summary>
 
 
-<pre><code>inline <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: &Object&lt;T&gt;, creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
+<pre><code>inline <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: &Object&lt;T&gt;, creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
     <b>let</b> collection_address = <a href="../../cedra-framework/doc/object.md#0x1_object_object_address">object::object_address</a>(<a href="collection.md#0x4_collection">collection</a>);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>&gt;(collection_address),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ECOLLECTION_DOES_NOT_EXIST">ECOLLECTION_DOES_NOT_EXIST</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="cedra_token.md#0x4_cedra_token_ECOLLECTION_DOES_NOT_EXIST">ECOLLECTION_DOES_NOT_EXIST</a>),
     );
     <b>assert</b>!(
-        <a href="collection.md#0x4_collection_creator">collection::creator</a>(*<a href="collection.md#0x4_collection">collection</a>) == <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_ENOT_CREATOR">ENOT_CREATOR</a>),
+        <a href="collection.md#0x4_collection_creator">collection::creator</a>(*<a href="collection.md#0x4_collection">collection</a>) == <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_ENOT_CREATOR">ENOT_CREATOR</a>),
     );
     &<a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a>[collection_address]
 }
@@ -1575,7 +1575,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_description">set_collection_description</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_description">set_collection_description</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1585,14 +1585,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_description">set_collection_description</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: Object&lt;T&gt;,
     description: String,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
     <b>let</b> cedra_collection = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>(&<a href="collection.md#0x4_collection">collection</a>, creator);
     <b>assert</b>!(
         cedra_collection.mutable_description,
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <a href="collection.md#0x4_collection_set_description">collection::set_description</a>(cedra_collection.mutator_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>(), description);
 }
@@ -1608,7 +1608,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_royalties">set_collection_royalties</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_royalties">set_collection_royalties</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>)
 </code></pre>
 
 
@@ -1618,14 +1618,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_royalties">set_collection_royalties</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: Object&lt;T&gt;,
     <a href="royalty.md#0x4_royalty">royalty</a>: <a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
     <b>let</b> cedra_collection = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>(&<a href="collection.md#0x4_collection">collection</a>, creator);
     <b>assert</b>!(
         cedra_collection.royalty_mutator_ref.is_some(),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <a href="royalty.md#0x4_royalty_update">royalty::update</a>(cedra_collection.royalty_mutator_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>(), <a href="royalty.md#0x4_royalty">royalty</a>);
 }
@@ -1641,7 +1641,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code>entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_royalties_call">set_collection_royalties_call</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, royalty_numerator: u64, royalty_denominator: u64, payee_address: <b>address</b>)
+<pre><code>entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_royalties_call">set_collection_royalties_call</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, royalty_numerator: u64, royalty_denominator: u64, payee_address: <b>address</b>)
 </code></pre>
 
 
@@ -1651,7 +1651,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code>entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_royalties_call">set_collection_royalties_call</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: Object&lt;T&gt;,
     royalty_numerator: u64,
     royalty_denominator: u64,
@@ -1672,7 +1672,7 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_uri">set_collection_uri</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_uri">set_collection_uri</a>&lt;T: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1682,14 +1682,14 @@ With an existing collection, directly mint a soul bound token into the recipient
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="cedra_token.md#0x4_cedra_token_set_collection_uri">set_collection_uri</a>&lt;T: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     <a href="collection.md#0x4_collection">collection</a>: Object&lt;T&gt;,
     uri: String,
 ) <b>acquires</b> <a href="cedra_token.md#0x4_cedra_token_CedraCollection">CedraCollection</a> {
     <b>let</b> cedra_collection = <a href="cedra_token.md#0x4_cedra_token_authorized_borrow_collection">authorized_borrow_collection</a>(&<a href="collection.md#0x4_collection">collection</a>, creator);
     <b>assert</b>!(
         cedra_collection.mutable_uri,
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="cedra_token.md#0x4_cedra_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>),
     );
     <a href="collection.md#0x4_collection_set_uri">collection::set_uri</a>(cedra_collection.mutator_ref.<a href="cedra_token.md#0x4_cedra_token_borrow">borrow</a>(), uri);
 }

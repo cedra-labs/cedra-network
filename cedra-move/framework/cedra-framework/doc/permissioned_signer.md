@@ -81,13 +81,13 @@ for blind signing.
 <pre><code><b>use</b> <a href="big_ordered_map.md#0x1_big_ordered_map">0x1::big_ordered_map</a>;
 <b>use</b> <a href="../../cedra-stdlib/doc/copyable_any.md#0x1_copyable_any">0x1::copyable_any</a>;
 <b>use</b> <a href="create_signer.md#0x1_create_signer">0x1::create_signer</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="timestamp.md#0x1_timestamp">0x1::timestamp</a>;
 <b>use</b> <a href="transaction_context.md#0x1_transaction_context">0x1::transaction_context</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -139,7 +139,7 @@ Stores the list of granted permission handles for a given account.
 
 <dl>
 <dt>
-<code>active_handles: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<b>address</b>&gt;</code>
+<code>active_handles: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<b>address</b>&gt;</code>
 </dt>
 <dd>
  Each address refers to a <code>permissions_storage_addr</code> that stores the <code><a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a></code>.
@@ -466,7 +466,7 @@ This handle can be used to derive a signer that can be used in the context of
 the current transaction.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_permissioned_handle">create_permissioned_handle</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">permissioned_signer::PermissionedHandle</a>
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_permissioned_handle">create_permissioned_handle</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">permissioned_signer::PermissionedHandle</a>
 </code></pre>
 
 
@@ -475,15 +475,15 @@ the current transaction.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_permissioned_handle">create_permissioned_handle</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">PermissionedHandle</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_permissioned_handle">create_permissioned_handle</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">PermissionedHandle</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
 
     <a href="permissioned_signer.md#0x1_permissioned_signer_assert_master_signer">assert_master_signer</a>(master);
     <b>let</b> permissions_storage_addr = generate_auid_address();
-    <b>let</b> master_account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
+    <b>let</b> master_account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
 
     <a href="permissioned_signer.md#0x1_permissioned_signer_initialize_permission_address">initialize_permission_address</a>(permissions_storage_addr);
 
@@ -513,8 +513,8 @@ Destroys an ephermeral permission handle. Clean up the permission stored in that
 
 <pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_destroy_permissioned_handle">destroy_permissioned_handle</a>(p: <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">PermissionedHandle</a>) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
     <b>let</b> PermissionedHandle::V1 { master_account_addr: _, permissions_storage_addr } =
         p;
@@ -537,7 +537,7 @@ signer interacts with various framework functions, it would subject to permissio
 and would abort if check fails.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle">signer_from_permissioned_handle</a>(p: &<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">permissioned_signer::PermissionedHandle</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle">signer_from_permissioned_handle</a>(p: &<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">permissioned_signer::PermissionedHandle</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -546,10 +546,10 @@ and would abort if check fails.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle">signer_from_permissioned_handle</a>(p: &<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">PermissionedHandle</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle">signer_from_permissioned_handle</a>(p: &<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">PermissionedHandle</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
     <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(
         p.master_account_addr, p.permissions_storage_addr
@@ -568,7 +568,7 @@ and would abort if check fails.
 Returns true if <code>s</code> is a permissioned signer.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
 </code></pre>
 
 
@@ -577,11 +577,11 @@ Returns true if <code>s</code> is a permissioned signer.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool {
-    // When the permissioned <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> is disabled, no one is able <b>to</b> construct a permissioned
-    // <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>. Thus we should <b>return</b> <b>false</b> here, <b>as</b> other on chain permission checks will
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool {
+    // When the permissioned <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> is disabled, no one is able <b>to</b> construct a permissioned
+    // <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>. Thus we should <b>return</b> <b>false</b> here, <b>as</b> other on chain permission checks will
     // depend on this checks.
-    <b>if</b>(!<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>()) {
+    <b>if</b>(!<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>()) {
         <b>return</b> <b>false</b>;
     };
     <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s)
@@ -600,7 +600,7 @@ Grant the permissioned signer the permission to revoke granted permission handle
 its address.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_grant_revoke_permission">grant_revoke_permission</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_grant_revoke_permission">grant_revoke_permission</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -610,12 +610,12 @@ its address.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_grant_revoke_permission">grant_revoke_permission</a>(
-    master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
     <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_unlimited">authorize_unlimited</a>(master, permissioned, <a href="permissioned_signer.md#0x1_permissioned_signer_RevokePermissionHandlePermission">RevokePermissionHandlePermission</a> {});
 }
@@ -633,7 +633,7 @@ Revoke a specific storable permission handle immediately. This will disallow own
 the storable permission handle to derive signer from it anymore.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission_storage_address">revoke_permission_storage_address</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissions_storage_addr: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission_storage_address">revoke_permission_storage_address</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissions_storage_addr: <b>address</b>)
 </code></pre>
 
 
@@ -643,27 +643,27 @@ the storable permission handle to derive signer from it anymore.
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission_storage_address">revoke_permission_storage_address</a>(
-    s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissions_storage_addr: <b>address</b>
+    s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissions_storage_addr: <b>address</b>
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>, <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
     <b>assert</b>!(
         <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>(s, <a href="permissioned_signer.md#0x1_permissioned_signer_RevokePermissionHandlePermission">RevokePermissionHandlePermission</a> {}),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>)
     );
-    <b>let</b> master_account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(s);
+    <b>let</b> master_account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(s);
 
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_REVOKED">E_PERMISSION_REVOKED</a>),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_REVOKED">E_PERMISSION_REVOKED</a>),
     );
     <b>let</b> active_handles = &<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>[master_account_addr].active_handles;
     <b>let</b> (found, idx) = active_handles.index_of(&permissions_storage_addr);
 
     // The <b>address</b> <b>has</b> <b>to</b> be in the activated list in the master <a href="account.md#0x1_account">account</a> <b>address</b>.
-    <b>assert</b>!(found, <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_NOT_ACTIVE">E_NOT_ACTIVE</a>));
+    <b>assert</b>!(found, <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_NOT_ACTIVE">E_NOT_ACTIVE</a>));
     active_handles.swap_remove(idx);
     <a href="permissioned_signer.md#0x1_permissioned_signer_destroy_permissions_storage_address">destroy_permissions_storage_address</a>(permissions_storage_addr);
 }
@@ -680,7 +680,7 @@ the storable permission handle to derive signer from it anymore.
 Revoke all storable permission handle of the signer immediately.
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_all_handles">revoke_all_handles</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_all_handles">revoke_all_handles</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -689,24 +689,24 @@ Revoke all storable permission handle of the signer immediately.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_all_handles">revoke_all_handles</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>, <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
+<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_all_handles">revoke_all_handles</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>, <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
     <b>assert</b>!(
         <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>(s, <a href="permissioned_signer.md#0x1_permissioned_signer_RevokePermissionHandlePermission">RevokePermissionHandlePermission</a> {}),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>)
     );
-    <b>let</b> master_account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(s);
+    <b>let</b> master_account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(s);
     <b>if</b> (!<b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr)) { <b>return</b> };
 
     <b>let</b> granted_permissions =
         <b>borrow_global_mut</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr);
-    <b>let</b> delete_list = <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_trim_reverse">vector::trim_reverse</a>(
+    <b>let</b> delete_list = <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_trim_reverse">vector::trim_reverse</a>(
         &<b>mut</b> granted_permissions.active_handles, 0
     );
-    <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_destroy">vector::destroy</a>(
+    <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_destroy">vector::destroy</a>(
         delete_list,
         |<b>address</b>| {
             <a href="permissioned_signer.md#0x1_permissioned_signer_destroy_permissions_storage_address">destroy_permissions_storage_address</a>(<b>address</b>);
@@ -760,7 +760,7 @@ This is as dangerous as key delegation, thus it remains public(package) for now.
 The caller should check if <code>expiration_time</code> is not too far in the future.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_storable_permissioned_handle">create_storable_permissioned_handle</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, expiration_time: u64): <a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">permissioned_signer::StorablePermissionedHandle</a>
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_storable_permissioned_handle">create_storable_permissioned_handle</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, expiration_time: u64): <a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">permissioned_signer::StorablePermissionedHandle</a>
 </code></pre>
 
 
@@ -770,25 +770,25 @@ The caller should check if <code>expiration_time</code> is not too far in the fu
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_storable_permissioned_handle">create_storable_permissioned_handle</a>(
-    master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, expiration_time: u64
+    master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, expiration_time: u64
 ): <a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">StorablePermissionedHandle</a> <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
 
     <a href="permissioned_signer.md#0x1_permissioned_signer_assert_master_signer">assert_master_signer</a>(master);
     <b>let</b> permissions_storage_addr = generate_auid_address();
-    <b>let</b> master_account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
+    <b>let</b> master_account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
 
     <b>assert</b>!(
         <a href="timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt; expiration_time,
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_EXPIRED">E_PERMISSION_EXPIRED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_EXPIRED">E_PERMISSION_EXPIRED</a>)
     );
 
     <b>if</b> (!<b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr)) {
         <b>move_to</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(
-            master, <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a> { active_handles: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>() }
+            master, <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a> { active_handles: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>() }
         );
     };
 
@@ -836,7 +836,7 @@ Destroys a storable permission handle. Clean up the permission stored in that ha
 
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_REVOKED">E_PERMISSION_REVOKED</a>),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_REVOKED">E_PERMISSION_REVOKED</a>),
     );
     <b>let</b> active_handles = &<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>[master_account_addr].active_handles;
 
@@ -895,7 +895,7 @@ Destroys a storable permission handle. Clean up the permission stored in that ha
 Generate the permissioned signer based on the storable permission handle.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_storable_permissioned_handle">signer_from_storable_permissioned_handle</a>(p: &<a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">permissioned_signer::StorablePermissionedHandle</a>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_storable_permissioned_handle">signer_from_storable_permissioned_handle</a>(p: &<a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">permissioned_signer::StorablePermissionedHandle</a>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -906,18 +906,18 @@ Generate the permissioned signer based on the storable permission handle.
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_storable_permissioned_handle">signer_from_storable_permissioned_handle</a>(
     p: &<a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">StorablePermissionedHandle</a>
-): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
+): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> {
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_permissioned_signer_enabled">features::is_permissioned_signer_enabled</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
     );
     <b>assert</b>!(
         <a href="timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt; p.expiration_time,
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_EXPIRED">E_PERMISSION_EXPIRED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_EXPIRED">E_PERMISSION_EXPIRED</a>)
     );
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(p.permissions_storage_addr),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_REVOKED">E_PERMISSION_REVOKED</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_PERMISSION_REVOKED">E_PERMISSION_REVOKED</a>)
     );
     <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(
         p.master_account_addr, p.permissions_storage_addr
@@ -963,7 +963,7 @@ Return the permission handle address so that it could be used for revocation pur
 Helper function that would abort if the signer passed in is a permissioned signer.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_assert_master_signer">assert_master_signer</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_assert_master_signer">assert_master_signer</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -972,9 +972,9 @@ Helper function that would abort if the signer passed in is a permissioned signe
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_assert_master_signer">assert_master_signer</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_assert_master_signer">assert_master_signer</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <b>assert</b>!(
-        !<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s), <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>)
+        !<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s), <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ENOT_MASTER_SIGNER">ENOT_MASTER_SIGNER</a>)
     );
 }
 </code></pre>
@@ -1123,7 +1123,7 @@ Authorizes <code>permissioned</code> with the given permission. This requires to
 signer.
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_map_or">map_or</a>&lt;PermKey: <b>copy</b>, drop, store, T&gt;(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey, mutate: |&<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">permissioned_signer::StoredPermission</a>|T, default: T): T
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_map_or">map_or</a>&lt;PermKey: <b>copy</b>, drop, store, T&gt;(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey, mutate: |&<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">permissioned_signer::StoredPermission</a>|T, default: T): T
 </code></pre>
 
 
@@ -1133,7 +1133,7 @@ signer.
 
 
 <pre><code>inline <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_map_or">map_or</a>&lt;PermKey: <b>copy</b> + drop + store, T&gt;(
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     perm: PermKey,
     mutate: |&<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">StoredPermission</a>| T,
     default: T,
@@ -1141,7 +1141,7 @@ signer.
     <b>let</b> permission_signer_addr = <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(permission_signer_addr),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_NOT_ACTIVE">E_NOT_ACTIVE</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_NOT_ACTIVE">E_NOT_ACTIVE</a>)
     );
     <b>let</b> perms =
         &<b>mut</b> <b>borrow_global_mut</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(permission_signer_addr).perms;
@@ -1167,7 +1167,7 @@ signer.
 
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_insert_or">insert_or</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey, mutate: |&<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">permissioned_signer::StoredPermission</a>|, default: <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">permissioned_signer::StoredPermission</a>)
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_insert_or">insert_or</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey, mutate: |&<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">permissioned_signer::StoredPermission</a>|, default: <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">permissioned_signer::StoredPermission</a>)
 </code></pre>
 
 
@@ -1177,7 +1177,7 @@ signer.
 
 
 <pre><code>inline <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_insert_or">insert_or</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     perm: PermKey,
     mutate: |&<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">StoredPermission</a>|,
     default: <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">StoredPermission</a>,
@@ -1185,7 +1185,7 @@ signer.
     <b>let</b> permission_signer_addr = <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(permission_signer_addr),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_NOT_ACTIVE">E_NOT_ACTIVE</a>)
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_E_NOT_ACTIVE">E_NOT_ACTIVE</a>)
     );
     <b>let</b> perms =
         &<b>mut</b> <b>borrow_global_mut</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(permission_signer_addr).perms;
@@ -1213,7 +1213,7 @@ Authorizes <code>permissioned</code> with a given capacity and increment the exi
 Consumption using <code>check_permission_consume</code> will deduct the capacity.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_increase">authorize_increase</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, capacity: u256, perm: PermKey)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_increase">authorize_increase</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, capacity: u256, perm: PermKey)
 </code></pre>
 
 
@@ -1223,16 +1223,16 @@ Consumption using <code>check_permission_consume</code> will deduct the capacity
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_increase">authorize_increase</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     capacity: u256,
     perm: PermKey
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>assert</b>!(
         <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(permissioned)
             && !<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(master)
-            && <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master) == <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(permissioned),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ECANNOT_AUTHORIZE">ECANNOT_AUTHORIZE</a>)
+            && <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master) == <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(permissioned),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ECANNOT_AUTHORIZE">ECANNOT_AUTHORIZE</a>)
     );
     <a href="permissioned_signer.md#0x1_permissioned_signer_insert_or">insert_or</a>(
         permissioned,
@@ -1257,7 +1257,7 @@ Authorizes <code>permissioned</code> with the given unlimited permission.
 Unlimited permission can be consumed however many times.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_unlimited">authorize_unlimited</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_unlimited">authorize_unlimited</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey)
 </code></pre>
 
 
@@ -1267,15 +1267,15 @@ Unlimited permission can be consumed however many times.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_unlimited">authorize_unlimited</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     perm: PermKey
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>assert</b>!(
         <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(permissioned)
             && !<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(master)
-            && <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master) == <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(permissioned),
-        <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ECANNOT_AUTHORIZE">ECANNOT_AUTHORIZE</a>)
+            && <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master) == <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(permissioned),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_ECANNOT_AUTHORIZE">ECANNOT_AUTHORIZE</a>)
     );
     <a href="permissioned_signer.md#0x1_permissioned_signer_insert_or">insert_or</a>(
         permissioned,
@@ -1299,7 +1299,7 @@ Unlimited permission can be consumed however many times.
 Grant an unlimited permission to a permissioned signer **without** master signer's approvoal.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_grant_unlimited_with_permissioned_signer">grant_unlimited_with_permissioned_signer</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_grant_unlimited_with_permissioned_signer">grant_unlimited_with_permissioned_signer</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey)
 </code></pre>
 
 
@@ -1309,7 +1309,7 @@ Grant an unlimited permission to a permissioned signer **without** master signer
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_grant_unlimited_with_permissioned_signer">grant_unlimited_with_permissioned_signer</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     perm: PermKey
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>if</b>(!<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(permissioned)) {
@@ -1341,7 +1341,7 @@ constructed within its own module, otherwise attackers can refill the permission
 to bypass the checks.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">increase_limit</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, capacity: u256, perm: PermKey)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">increase_limit</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, capacity: u256, perm: PermKey)
 </code></pre>
 
 
@@ -1351,7 +1351,7 @@ to bypass the checks.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_increase_limit">increase_limit</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     capacity: u256,
     perm: PermKey
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
@@ -1379,7 +1379,7 @@ to bypass the checks.
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): bool
 </code></pre>
 
 
@@ -1389,7 +1389,7 @@ to bypass the checks.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey
+    s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey
 ): bool <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     // 0 capacity permissions will be treated <b>as</b> non-existant.
     <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">check_permission_capacity_above</a>(s, 1, perm)
@@ -1406,7 +1406,7 @@ to bypass the checks.
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">check_permission_capacity_above</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">check_permission_capacity_above</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
 </code></pre>
 
 
@@ -1416,10 +1416,10 @@ to bypass the checks.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">check_permission_capacity_above</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey
+    s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey
 ): bool <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>if</b> (!<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s)) {
-        // master <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>has</b> all permissions
+        // master <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>has</b> all permissions
         <b>return</b> <b>true</b>
     };
     <a href="permissioned_signer.md#0x1_permissioned_signer_map_or">map_or</a>(
@@ -1443,7 +1443,7 @@ to bypass the checks.
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">check_permission_consume</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">check_permission_consume</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
 </code></pre>
 
 
@@ -1453,10 +1453,10 @@ to bypass the checks.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">check_permission_consume</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey
+    s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey
 ): bool <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>if</b> (!<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s)) {
-        // master <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>has</b> all permissions
+        // master <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>has</b> all permissions
         <b>return</b> <b>true</b>
     };
     <a href="permissioned_signer.md#0x1_permissioned_signer_map_or">map_or</a>(
@@ -1480,7 +1480,7 @@ to bypass the checks.
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_capacity">capacity</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u256&gt;
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_capacity">capacity</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u256&gt;
 </code></pre>
 
 
@@ -1490,21 +1490,21 @@ to bypass the checks.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_capacity">capacity</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey
+    s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey
 ): Option&lt;u256&gt; <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>if</b> (!<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s)) {
-        <b>return</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_U256_MAX">U256_MAX</a>)
+        <b>return</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_U256_MAX">U256_MAX</a>)
     };
     <a href="permissioned_signer.md#0x1_permissioned_signer_map_or">map_or</a>(
         s,
         perm,
         |stored_permission: &<b>mut</b> <a href="permissioned_signer.md#0x1_permissioned_signer_StoredPermission">StoredPermission</a>| {
-            <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(match (stored_permission) {
+            <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(match (stored_permission) {
                 StoredPermission::Capacity(capacity) =&gt; *capacity,
                 StoredPermission::Unlimited =&gt; <a href="permissioned_signer.md#0x1_permissioned_signer_U256_MAX">U256_MAX</a>,
             })
         },
-        <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(),
     )
 }
 </code></pre>
@@ -1519,7 +1519,7 @@ to bypass the checks.
 
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission">revoke_permission</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission">revoke_permission</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey)
 </code></pre>
 
 
@@ -1529,10 +1529,10 @@ to bypass the checks.
 
 
 <pre><code><b>public</b>(<b>package</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission">revoke_permission</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(
-    permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey
+    permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey
 ) <b>acquires</b> <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a> {
     <b>if</b> (!<a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(permissioned)) {
-        // Master <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>has</b> no permissions associated <b>with</b> it.
+        // Master <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a> <b>has</b> no permissions associated <b>with</b> it.
         <b>return</b>
     };
     <b>let</b> addr = <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned);
@@ -1556,7 +1556,7 @@ to bypass the checks.
 Unused function. Keeping it for compatibility purpose.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_address_of">address_of</a>(_s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_address_of">address_of</a>(_s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>
 </code></pre>
 
 
@@ -1565,8 +1565,8 @@ Unused function. Keeping it for compatibility purpose.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_address_of">address_of</a>(_s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b> {
-    <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_address_of">address_of</a>(_s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b> {
+    <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
 }
 </code></pre>
 
@@ -1581,7 +1581,7 @@ Unused function. Keeping it for compatibility purpose.
 Unused function. Keeping it for compatibility purpose.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_borrow_address">borrow_address</a>(_s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<b>address</b>
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_borrow_address">borrow_address</a>(_s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<b>address</b>
 </code></pre>
 
 
@@ -1590,8 +1590,8 @@ Unused function. Keeping it for compatibility purpose.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_borrow_address">borrow_address</a>(_s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<b>address</b> {
-    <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_borrow_address">borrow_address</a>(_s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): &<b>address</b> {
+    <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="permissioned_signer.md#0x1_permissioned_signer_EPERMISSION_SIGNER_DISABLED">EPERMISSION_SIGNER_DISABLED</a>)
 }
 </code></pre>
 
@@ -1607,7 +1607,7 @@ Unused function. Keeping it for compatibility purpose.
 Check whether this is a permissioned signer.
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
 </code></pre>
 
 
@@ -1616,7 +1616,7 @@ Check whether this is a permissioned signer.
 <summary>Implementation</summary>
 
 
-<pre><code><b>native</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool;
+<pre><code><b>native</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool;
 </code></pre>
 
 
@@ -1630,7 +1630,7 @@ Check whether this is a permissioned signer.
 Return the address used for storing permissions. Aborts if not a permissioned signer.
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>
 </code></pre>
 
 
@@ -1639,7 +1639,7 @@ Return the address used for storing permissions. Aborts if not a permissioned si
 <summary>Implementation</summary>
 
 
-<pre><code><b>native</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>;
+<pre><code><b>native</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>;
 </code></pre>
 
 
@@ -1658,7 +1658,7 @@ invariants:
 signer::address_of(master) == signer::address_of(signer_from_permissioned_handle(create_permissioned_handle(master))),
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(master_account_addr: <b>address</b>, permissions_storage_addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(master_account_addr: <b>address</b>, permissions_storage_addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 
@@ -1669,7 +1669,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 
 <pre><code><b>native</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(
     master_account_addr: <b>address</b>, permissions_storage_addr: <b>address</b>
-): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
 </code></pre>
 
 
@@ -1698,7 +1698,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <a id="0x1_permissioned_signer_spec_is_permissioned_signer_impl"></a>
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer_impl">spec_is_permissioned_signer_impl</a>(s: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool;
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer_impl">spec_is_permissioned_signer_impl</a>(s: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool;
 </code></pre>
 
 
@@ -1708,7 +1708,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `create_permissioned_handle`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_permissioned_handle">create_permissioned_handle</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">permissioned_signer::PermissionedHandle</a>
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_permissioned_handle">create_permissioned_handle</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <a href="permissioned_signer.md#0x1_permissioned_signer_PermissionedHandle">permissioned_signer::PermissionedHandle</a>
 </code></pre>
 
 
@@ -1718,7 +1718,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <b>aborts_if</b> [abstract] <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer">spec_is_permissioned_signer</a>(master);
 <b>let</b> permissions_storage_addr = <a href="transaction_context.md#0x1_transaction_context_spec_generate_unique_address">transaction_context::spec_generate_unique_address</a>();
 <b>modifies</b> <b>global</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(permissions_storage_addr);
-<b>let</b> master_account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
+<b>let</b> master_account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
 <b>ensures</b> result.master_account_addr == master_account_addr;
 <b>ensures</b> result.permissions_storage_addr == permissions_storage_addr;
 </code></pre>
@@ -1746,7 +1746,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `is_permissioned_signer`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
+<pre><code><b>public</b> <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer">is_permissioned_signer</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
 </code></pre>
 
 
@@ -1763,7 +1763,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <a id="0x1_permissioned_signer_spec_permission_address"></a>
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_permission_address">spec_permission_address</a>(s: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>;
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_permission_address">spec_permission_address</a>(s: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>;
 </code></pre>
 
 
@@ -1773,7 +1773,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `revoke_permission_storage_address`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission_storage_address">revoke_permission_storage_address</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissions_storage_addr: <b>address</b>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_revoke_permission_storage_address">revoke_permission_storage_address</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissions_storage_addr: <b>address</b>)
 </code></pre>
 
 
@@ -1784,7 +1784,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `create_storable_permissioned_handle`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_storable_permissioned_handle">create_storable_permissioned_handle</a>(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, expiration_time: u64): <a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">permissioned_signer::StorablePermissionedHandle</a>
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_create_storable_permissioned_handle">create_storable_permissioned_handle</a>(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, expiration_time: u64): <a href="permissioned_signer.md#0x1_permissioned_signer_StorablePermissionedHandle">permissioned_signer::StorablePermissionedHandle</a>
 </code></pre>
 
 
@@ -1794,12 +1794,12 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <b>aborts_if</b> [abstract] <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer">spec_is_permissioned_signer</a>(master);
 <b>let</b> permissions_storage_addr = <a href="transaction_context.md#0x1_transaction_context_spec_generate_unique_address">transaction_context::spec_generate_unique_address</a>();
 <b>modifies</b> <b>global</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(permissions_storage_addr);
-<b>let</b> master_account_addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
+<b>let</b> master_account_addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
 <b>modifies</b> <b>global</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr);
 <b>ensures</b> result.master_account_addr == master_account_addr;
 <b>ensures</b> result.permissions_storage_addr == permissions_storage_addr;
 <b>ensures</b> result.expiration_time == expiration_time;
-<b>ensures</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(
+<b>ensures</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(
     <b>global</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_GrantedPermissionHandles">GrantedPermissionHandles</a>&gt;(master_account_addr).active_handles,
     permissions_storage_addr
 );
@@ -1832,7 +1832,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `authorize_increase`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_increase">authorize_increase</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(master: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, capacity: u256, perm: PermKey)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_authorize_increase">authorize_increase</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(master: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, capacity: u256, perm: PermKey)
 </code></pre>
 
 
@@ -1841,7 +1841,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <pre><code><b>pragma</b> aborts_if_is_partial;
 <b>aborts_if</b> !<a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer">spec_is_permissioned_signer</a>(permissioned);
 <b>aborts_if</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer">spec_is_permissioned_signer</a>(master);
-<b>aborts_if</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(permissioned) != <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
+<b>aborts_if</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(permissioned) != <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(master);
 <b>ensures</b> <b>exists</b>&lt;<a href="permissioned_signer.md#0x1_permissioned_signer_PermissionStorage">PermissionStorage</a>&gt;(
     <a href="permissioned_signer.md#0x1_permissioned_signer_spec_permission_address">spec_permission_address</a>(permissioned)
 );
@@ -1854,7 +1854,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `check_permission_exists`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_exists">check_permission_exists</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): bool
 </code></pre>
 
 
@@ -1871,7 +1871,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <a id="0x1_permissioned_signer_spec_check_permission_exists"></a>
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_check_permission_exists">spec_check_permission_exists</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(s: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): bool;
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_check_permission_exists">spec_check_permission_exists</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(s: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): bool;
 </code></pre>
 
 
@@ -1881,7 +1881,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `check_permission_capacity_above`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">check_permission_capacity_above</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_capacity_above">check_permission_capacity_above</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
 </code></pre>
 
 
@@ -1903,7 +1903,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `check_permission_consume`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">check_permission_consume</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_check_permission_consume">check_permission_consume</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool
 </code></pre>
 
 
@@ -1921,7 +1921,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <a id="0x1_permissioned_signer_spec_check_permission_consume"></a>
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_check_permission_consume">spec_check_permission_consume</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(s: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool;
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_check_permission_consume">spec_check_permission_consume</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(s: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, threshold: u256, perm: PermKey): bool;
 </code></pre>
 
 
@@ -1931,7 +1931,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `capacity`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_capacity">capacity</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u256&gt;
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_capacity">capacity</a>&lt;PermKey: <b>copy</b>, drop, store&gt;(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u256&gt;
 </code></pre>
 
 
@@ -1949,7 +1949,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <a id="0x1_permissioned_signer_spec_capacity"></a>
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_capacity">spec_capacity</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(s: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): Option&lt;u256&gt;;
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_capacity">spec_capacity</a>&lt;PermKey: <b>copy</b> + drop + store&gt;(s: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, perm: PermKey): Option&lt;u256&gt;;
 </code></pre>
 
 
@@ -1959,7 +1959,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `is_permissioned_signer_impl`
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_is_permissioned_signer_impl">is_permissioned_signer_impl</a>(s: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool
 </code></pre>
 
 
@@ -1975,10 +1975,10 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 <a id="0x1_permissioned_signer_spec_is_permissioned_signer"></a>
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer">spec_is_permissioned_signer</a>(s: <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool {
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer">spec_is_permissioned_signer</a>(s: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): bool {
    <b>use</b> std::features;
    <b>use</b> std::features::PERMISSIONED_SIGNER;
-   <b>if</b> (!<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_spec_is_enabled">features::spec_is_enabled</a>(PERMISSIONED_SIGNER)) {
+   <b>if</b> (!<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_spec_is_enabled">features::spec_is_enabled</a>(PERMISSIONED_SIGNER)) {
        <b>false</b>
    } <b>else</b> {
        <a href="permissioned_signer.md#0x1_permissioned_signer_spec_is_permissioned_signer_impl">spec_is_permissioned_signer_impl</a>(s)
@@ -1993,7 +1993,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `permission_address`
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_permission_address">permission_address</a>(permissioned: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>): <b>address</b>
 </code></pre>
 
 
@@ -2012,7 +2012,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 
 <pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_spec_signer_from_permissioned_handle_impl">spec_signer_from_permissioned_handle_impl</a>(
    master_account_addr: <b>address</b>, permissions_storage_addr: <b>address</b>
-): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
 </code></pre>
 
 
@@ -2022,7 +2022,7 @@ signer::address_of(master) == signer::address_of(signer_from_permissioned_handle
 ### Function `signer_from_permissioned_handle_impl`
 
 
-<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(master_account_addr: <b>address</b>, permissions_storage_addr: <b>address</b>): <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
+<pre><code><b>fun</b> <a href="permissioned_signer.md#0x1_permissioned_signer_signer_from_permissioned_handle_impl">signer_from_permissioned_handle_impl</a>(master_account_addr: <b>address</b>, permissions_storage_addr: <b>address</b>): <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>
 </code></pre>
 
 

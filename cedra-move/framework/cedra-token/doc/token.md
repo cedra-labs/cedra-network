@@ -189,12 +189,12 @@ Checkout our developer doc on our token standard https://cedra.dev/standards
 
 
 <pre><code><b>use</b> <a href="../../cedra-framework/doc/account.md#0x1_account">0x1::account</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="../../cedra-framework/doc/event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table">0x1::table</a>;
 <b>use</b> <a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp">0x1::timestamp</a>;
 <b>use</b> <a href="property_map.md#0x3_property_map">0x3::property_map</a>;
@@ -302,13 +302,13 @@ globally unique identifier of tokendata
  The address of the creator, eg: 0xcafe
 </dd>
 <dt>
-<code>collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The name of collection; this is unique under the same account, eg: "Cedra Animal Collection"
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The name of the token; this is the same as the name field of TokenData
@@ -354,7 +354,7 @@ The shared TokenData by tokens with different property_version
  The number of tokens with this TokenData. Supply is only tracked for the limited token whose maximum is not 0
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The Uniform Resource Identifier (uri) pointing to the JSON file stored in off-chain storage; the URL length should be less than 512 characters, eg: https://arweave.net/Fmmn4ul-7Mv6vzm7JwE69O-I-vd6Bz2QriJO1niwCh4
@@ -366,13 +366,13 @@ The shared TokenData by tokens with different property_version
  The denominator and numerator for calculating the royalty fee; it also contains payee account address for depositing the Royalty
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The name of the token, which should be unique within the collection; the length of name should be smaller than 128, characters, eg: "Cedra Animal #1234"
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  Describes this Token
@@ -603,7 +603,7 @@ Represent collection and token metadata for a creator
 
 <dl>
 <dt>
-<code>collection_data: <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_Table">table::Table</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="token.md#0x3_token_CollectionData">token::CollectionData</a>&gt;</code>
+<code>collection_data: <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_Table">table::Table</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="token.md#0x3_token_CollectionData">token::CollectionData</a>&gt;</code>
 </dt>
 <dd>
 
@@ -655,19 +655,19 @@ Represent the collection metadata
 
 <dl>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  A description for the token collection Eg: "Cedra Toad Overload"
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The collection name, which should be unique among all collections by the creator; the name should also be smaller than 128 characters, eg: "Animal Collection"
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The URI for the collection; its length should be smaller than 512 characters
@@ -988,7 +988,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1000,7 +1000,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1024,7 +1024,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1036,19 +1036,19 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
+<code>property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
@@ -1083,7 +1083,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1095,7 +1095,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1119,7 +1119,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1131,19 +1131,19 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
+<code>property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
@@ -1183,7 +1183,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1195,7 +1195,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1219,7 +1219,7 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1231,19 +1231,19 @@ token creation event id of token created
 
 </dd>
 <dt>
-<code>property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
+<code>property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
@@ -1499,19 +1499,19 @@ mint token event. This event triggered when creator adds more supply to existing
 
 </dd>
 <dt>
-<code>keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
+<code>values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
@@ -1552,19 +1552,19 @@ mint token event. This event triggered when creator adds more supply to existing
 
 </dd>
 <dt>
-<code>keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
+<code>values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
@@ -1610,19 +1610,19 @@ mint token event. This event triggered when creator adds more supply to existing
 
 </dd>
 <dt>
-<code>keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
+<code>values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;</code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
+<code>types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;</code>
 </dt>
 <dd>
 
@@ -1656,19 +1656,19 @@ create collection event with creator address and collection name
 
 </dd>
 <dt>
-<code>collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1708,19 +1708,19 @@ create collection event with creator address and collection name
 
 </dd>
 <dt>
-<code>collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -1774,7 +1774,7 @@ The URI is too long
 
 
 
-<pre><code><b>const</b> <a href="token.md#0x3_token_BURNABLE_BY_CREATOR">BURNABLE_BY_CREATOR</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 79, 75, 69, 78, 95, 66, 85, 82, 78, 65, 66, 76, 69, 95, 66, 89, 95, 67, 82, 69, 65, 84, 79, 82];
+<pre><code><b>const</b> <a href="token.md#0x3_token_BURNABLE_BY_CREATOR">BURNABLE_BY_CREATOR</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 79, 75, 69, 78, 95, 66, 85, 82, 78, 65, 66, 76, 69, 95, 66, 89, 95, 67, 82, 69, 65, 84, 79, 82];
 </code></pre>
 
 
@@ -1783,7 +1783,7 @@ The URI is too long
 
 
 
-<pre><code><b>const</b> <a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 79, 75, 69, 78, 95, 66, 85, 82, 78, 65, 66, 76, 69, 95, 66, 89, 95, 79, 87, 78, 69, 82];
+<pre><code><b>const</b> <a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 79, 75, 69, 78, 95, 66, 85, 82, 78, 65, 66, 76, 69, 95, 66, 89, 95, 79, 87, 78, 69, 82];
 </code></pre>
 
 
@@ -2196,7 +2196,7 @@ Cannot withdraw 0 token
 
 
 
-<pre><code><b>const</b> <a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 79, 75, 69, 78, 95, 80, 82, 79, 80, 69, 82, 84, 89, 95, 77, 85, 84, 65, 84, 66, 76, 69];
+<pre><code><b>const</b> <a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [84, 79, 75, 69, 78, 95, 80, 82, 79, 80, 69, 82, 84, 89, 95, 77, 85, 84, 65, 84, 66, 76, 69];
 </code></pre>
 
 
@@ -2244,7 +2244,7 @@ Cannot withdraw 0 token
 create a empty token collection with parameters
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_collection_script">create_collection_script</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_collection_script">create_collection_script</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
 </code></pre>
 
 
@@ -2254,12 +2254,12 @@ create a empty token collection with parameters
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_collection_script">create_collection_script</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     name: String,
     description: String,
     uri: String,
     maximum: u64,
-    mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;,
+    mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;,
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <a href="token.md#0x3_token_create_collection">create_collection</a>(
         creator,
@@ -2283,7 +2283,7 @@ create a empty token collection with parameters
 create token with raw inputs
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_token_script">create_token_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, balance: u64, maximum: u64, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_token_script">create_token_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, balance: u64, maximum: u64, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -2293,7 +2293,7 @@ create token with raw inputs
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_token_script">create_token_script</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     collection: String,
     name: String,
     description: String,
@@ -2303,10 +2303,10 @@ create token with raw inputs
     royalty_payee_address: <b>address</b>,
     royalty_points_denominator: u64,
     royalty_points_numerator: u64,
-    mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;
+    mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;,
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     <b>let</b> token_mut_config = <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(&mutate_setting);
     <b>let</b> tokendata_id = <a href="token.md#0x3_token_create_tokendata">create_tokendata</a>(
@@ -2344,7 +2344,7 @@ create token with raw inputs
 Mint more token from an existing token_data. Mint only adds more token to property_version 0
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mint_script">mint_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_address: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mint_script">mint_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_address: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, amount: u64)
 </code></pre>
 
 
@@ -2354,7 +2354,7 @@ Mint more token from an existing token_data. Mint only adds more token to proper
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mint_script">mint_script</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_data_address: <b>address</b>,
     collection: String,
     name: String,
@@ -2366,7 +2366,7 @@ Mint more token from an existing token_data. Mint only adds more token to proper
         name,
     );
     // only creator of the tokendata can mint more tokens for now
-    <b>assert</b>!(token_data_id.creator == <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MINT_CAPABILITY">ENO_MINT_CAPABILITY</a>));
+    <b>assert</b>!(token_data_id.creator == <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MINT_CAPABILITY">ENO_MINT_CAPABILITY</a>));
     <a href="token.md#0x3_token_mint_token">mint_token</a>(
         <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>,
         token_data_id,
@@ -2388,7 +2388,7 @@ if the token property_version is 0, we will create a new property_version per to
 if the token property_version is not 0, we will just update the propertyMap and use the existing token_id (property_version)
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mutate_token_properties">mutate_token_properties</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, amount: u64, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mutate_token_properties">mutate_token_properties</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, amount: u64, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -2398,18 +2398,18 @@ if the token property_version is not 0, we will just update the propertyMap and 
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mutate_token_properties">mutate_token_properties</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_owner: <b>address</b>,
     creator: <b>address</b>,
     collection_name: String,
     token_name: String,
     token_property_version: u64,
     amount: u64,
-    keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
-    types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>assert</b>!(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>) == creator, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ENO_MUTATE_CAPABILITY">ENO_MUTATE_CAPABILITY</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>) == creator, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ENO_MUTATE_CAPABILITY">ENO_MUTATE_CAPABILITY</a>));
     <b>let</b> token_id = <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(
         creator,
         collection_name,
@@ -2433,7 +2433,7 @@ if the token property_version is not 0, we will just update the propertyMap and 
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_direct_transfer_script">direct_transfer_script</a>(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_direct_transfer_script">direct_transfer_script</a>(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
 </code></pre>
 
 
@@ -2443,8 +2443,8 @@ if the token property_version is not 0, we will just update the propertyMap and 
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_direct_transfer_script">direct_transfer_script</a>(
-    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    receiver: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    receiver: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     creators_address: <b>address</b>,
     collection: String,
     name: String,
@@ -2466,7 +2466,7 @@ if the token property_version is not 0, we will just update the propertyMap and 
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_opt_in_direct_transfer">opt_in_direct_transfer</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, opt_in: bool)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_opt_in_direct_transfer">opt_in_direct_transfer</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, opt_in: bool)
 </code></pre>
 
 
@@ -2475,8 +2475,8 @@ if the token property_version is not 0, we will just update the propertyMap and 
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_opt_in_direct_transfer">opt_in_direct_transfer</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, opt_in: bool) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_opt_in_direct_transfer">opt_in_direct_transfer</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, opt_in: bool) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
+    <b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <b>let</b> opt_in_flag = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[addr].direct_transfer;
     *opt_in_flag = opt_in;
@@ -2496,7 +2496,7 @@ Transfers <code>amount</code> of tokens from <code>from</code> to <code><b>to</b
 The receiver <code><b>to</b></code> has to opt-in direct transfer first
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_transfer_with_opt_in">transfer_with_opt_in</a>(from: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, <b>to</b>: <b>address</b>, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_transfer_with_opt_in">transfer_with_opt_in</a>(from: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, <b>to</b>: <b>address</b>, amount: u64)
 </code></pre>
 
 
@@ -2506,7 +2506,7 @@ The receiver <code><b>to</b></code> has to opt-in direct transfer first
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_transfer_with_opt_in">transfer_with_opt_in</a>(
-    from: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    from: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     creator: <b>address</b>,
     collection_name: String,
     token_name: String,
@@ -2531,7 +2531,7 @@ Burn a token by creator when the token's BURNABLE_BY_CREATOR is true
 The token is owned at address owner
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn_by_creator">burn_by_creator</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, owner: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn_by_creator">burn_by_creator</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, owner: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
 </code></pre>
 
 
@@ -2541,38 +2541,38 @@ The token is owned at address owner
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn_by_creator">burn_by_creator</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     owner: <b>address</b>,
     collection: String,
     name: String,
     property_version: u64,
     amount: u64,
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>let</b> creator_address = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
-    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENO_BURN_TOKEN_WITH_ZERO_AMOUNT">ENO_BURN_TOKEN_WITH_ZERO_AMOUNT</a>));
+    <b>let</b> creator_address = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENO_BURN_TOKEN_WITH_ZERO_AMOUNT">ENO_BURN_TOKEN_WITH_ZERO_AMOUNT</a>));
     <b>let</b> token_id = <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(creator_address, collection, name, property_version);
     <b>let</b> creator_addr = token_id.token_data_id.creator;
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> collections = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[creator_address];
     <b>assert</b>!(
         collections.token_data.contains(token_id.token_data_id),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> token_data = collections.token_data.borrow_mut(token_id.token_data_id);
 
     // The property should be explicitly set in the <a href="property_map.md#0x3_property_map">property_map</a> for creator <b>to</b> burn the <a href="token.md#0x3_token">token</a>
     <b>assert</b>!(
-        token_data.default_properties.contains_key(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_CREATOR">BURNABLE_BY_CREATOR</a>)),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ECREATOR_CANNOT_BURN_TOKEN">ECREATOR_CANNOT_BURN_TOKEN</a>)
+        token_data.default_properties.contains_key(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_CREATOR">BURNABLE_BY_CREATOR</a>)),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ECREATOR_CANNOT_BURN_TOKEN">ECREATOR_CANNOT_BURN_TOKEN</a>)
     );
 
-    <b>let</b> burn_by_creator_flag = token_data.default_properties.read_bool(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_CREATOR">BURNABLE_BY_CREATOR</a>));
-    <b>assert</b>!(burn_by_creator_flag, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ECREATOR_CANNOT_BURN_TOKEN">ECREATOR_CANNOT_BURN_TOKEN</a>));
+    <b>let</b> burn_by_creator_flag = token_data.default_properties.read_bool(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_CREATOR">BURNABLE_BY_CREATOR</a>));
+    <b>assert</b>!(burn_by_creator_flag, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ECREATOR_CANNOT_BURN_TOKEN">ECREATOR_CANNOT_BURN_TOKEN</a>));
 
     // <a href="token.md#0x3_token_Burn">Burn</a> the tokens.
     <b>let</b> <a href="token.md#0x3_token_Token">Token</a> { id: _, amount: burned_amount, token_properties: _ } = <a href="token.md#0x3_token_withdraw_with_event_internal">withdraw_with_event_internal</a>(owner, token_id, amount);
@@ -2618,7 +2618,7 @@ The token is owned at address owner
 Burn a token by the token owner
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn">burn</a>(owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn">burn</a>(owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
 </code></pre>
 
 
@@ -2628,41 +2628,41 @@ Burn a token by the token owner
 
 
 <pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn">burn</a>(
-    owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     creators_address: <b>address</b>,
     collection: String,
     name: String,
     property_version: u64,
     amount: u64
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENO_BURN_TOKEN_WITH_ZERO_AMOUNT">ENO_BURN_TOKEN_WITH_ZERO_AMOUNT</a>));
+    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENO_BURN_TOKEN_WITH_ZERO_AMOUNT">ENO_BURN_TOKEN_WITH_ZERO_AMOUNT</a>));
     <b>let</b> token_id = <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(creators_address, collection, name, property_version);
     <b>let</b> creator_addr = token_id.token_data_id.creator;
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> collections = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[creator_addr];
     <b>assert</b>!(
         collections.token_data.contains(token_id.token_data_id),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> token_data = collections.token_data.borrow_mut(token_id.token_data_id);
 
     <b>assert</b>!(
-        token_data.default_properties.contains_key(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>)),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EOWNER_CANNOT_BURN_TOKEN">EOWNER_CANNOT_BURN_TOKEN</a>)
+        token_data.default_properties.contains_key(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>)),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EOWNER_CANNOT_BURN_TOKEN">EOWNER_CANNOT_BURN_TOKEN</a>)
     );
-    <b>let</b> burn_by_owner_flag = token_data.default_properties.read_bool(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>));
-    <b>assert</b>!(burn_by_owner_flag, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EOWNER_CANNOT_BURN_TOKEN">EOWNER_CANNOT_BURN_TOKEN</a>));
+    <b>let</b> burn_by_owner_flag = token_data.default_properties.read_bool(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>));
+    <b>assert</b>!(burn_by_owner_flag, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EOWNER_CANNOT_BURN_TOKEN">EOWNER_CANNOT_BURN_TOKEN</a>));
 
     // <a href="token.md#0x3_token_Burn">Burn</a> the tokens.
     <b>let</b> <a href="token.md#0x3_token_Token">Token</a> { id: _, amount: burned_amount, token_properties: _ } = <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(owner, token_id, amount);
-    <b>let</b> token_store = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner)];
+    <b>let</b> token_store = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner)];
     <b>if</b> (std::features::module_event_migration_enabled()) {
-        <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(<a href="token.md#0x3_token_Burn">Burn</a> { <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner), id: token_id, amount: burned_amount });
+        <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(<a href="token.md#0x3_token_Burn">Burn</a> { <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner), id: token_id, amount: burned_amount });
     } <b>else</b> {
         <a href="../../cedra-framework/doc/event.md#0x1_event_emit_event">event::emit_event</a>&lt;<a href="token.md#0x3_token_BurnTokenEvent">BurnTokenEvent</a>&gt;(
             &<b>mut</b> token_store.burn_events,
@@ -2708,7 +2708,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_description">mutate_collection_description</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_description">mutate_collection_description</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -2717,13 +2717,13 @@ Burn a token by the token owner
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_description">mutate_collection_description</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: String, description: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>let</b> creator_address = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_description">mutate_collection_description</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: String, description: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+    <b>let</b> creator_address = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address, collection_name);
     <b>let</b> collection_data = <a href="token.md#0x3_token_Collections">Collections</a>[creator_address].collection_data.borrow_mut(
         collection_name
     );
-    <b>assert</b>!(collection_data.mutability_config.description, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(collection_data.mutability_config.description, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     <a href="token_event_store.md#0x3_token_event_store_emit_collection_description_mutate_event">token_event_store::emit_collection_description_mutate_event</a>(creator, collection_name, collection_data.description, description);
     collection_data.description = description;
 }
@@ -2739,7 +2739,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_uri">mutate_collection_uri</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_uri">mutate_collection_uri</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -2748,14 +2748,14 @@ Burn a token by the token owner
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_uri">mutate_collection_uri</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: String, uri: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
-    <b>let</b> creator_address = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_uri">mutate_collection_uri</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: String, uri: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
+    <b>let</b> creator_address = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address, collection_name);
     <b>let</b> collection_data = <a href="token.md#0x3_token_Collections">Collections</a>[creator_address].collection_data.borrow_mut(
         collection_name
     );
-    <b>assert</b>!(collection_data.mutability_config.uri, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(collection_data.mutability_config.uri, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     <a href="token_event_store.md#0x3_token_event_store_emit_collection_uri_mutate_event">token_event_store::emit_collection_uri_mutate_event</a>(creator, collection_name, collection_data.uri , uri);
     collection_data.uri = uri;
 }
@@ -2771,7 +2771,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_maximum">mutate_collection_maximum</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_maximum">mutate_collection_maximum</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64)
 </code></pre>
 
 
@@ -2780,16 +2780,16 @@ Burn a token by the token owner
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_maximum">mutate_collection_maximum</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: String, maximum: u64) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>let</b> creator_address = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_maximum">mutate_collection_maximum</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: String, maximum: u64) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+    <b>let</b> creator_address = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address, collection_name);
     <b>let</b> collection_data = <a href="token.md#0x3_token_Collections">Collections</a>[creator_address].collection_data.borrow_mut(
         collection_name
     );
     // cannot change maximum from 0 and cannot change maximum <b>to</b> 0
-    <b>assert</b>!(collection_data.maximum != 0 && maximum != 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
-    <b>assert</b>!(maximum &gt;= collection_data.supply, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
-    <b>assert</b>!(collection_data.mutability_config.maximum, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(collection_data.maximum != 0 && maximum != 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
+    <b>assert</b>!(maximum &gt;= collection_data.supply, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
+    <b>assert</b>!(collection_data.mutability_config.maximum, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     <a href="token_event_store.md#0x3_token_event_store_emit_collection_maximum_mutate_event">token_event_store::emit_collection_maximum_mutate_event</a>(creator, collection_name, collection_data.maximum, maximum);
     collection_data.maximum = maximum;
 }
@@ -2805,7 +2805,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_maximum">mutate_tokendata_maximum</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, maximum: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_maximum">mutate_tokendata_maximum</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, maximum: u64)
 </code></pre>
 
 
@@ -2814,14 +2814,14 @@ Burn a token by the token owner
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_maximum">mutate_tokendata_maximum</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>, maximum: u64) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_maximum">mutate_tokendata_maximum</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>, maximum: u64) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator, token_data_id);
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[token_data_id.creator].token_data;
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
     // cannot change maximum from 0 and cannot change maximum <b>to</b> 0
-    <b>assert</b>!(token_data.maximum != 0 && maximum != 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
-    <b>assert</b>!(maximum &gt;= token_data.supply, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
-    <b>assert</b>!(token_data.mutability_config.maximum, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(token_data.maximum != 0 && maximum != 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
+    <b>assert</b>!(maximum &gt;= token_data.supply, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_MAXIMUM">EINVALID_MAXIMUM</a>));
+    <b>assert</b>!(token_data.mutability_config.maximum, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     <a href="token_event_store.md#0x3_token_event_store_emit_token_maximum_mutate_event">token_event_store::emit_token_maximum_mutate_event</a>(creator, token_data_id.collection, token_data_id.name, token_data.maximum, maximum);
     token_data.maximum = maximum;
 }
@@ -2837,7 +2837,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_uri">mutate_tokendata_uri</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_uri">mutate_tokendata_uri</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -2847,16 +2847,16 @@ Burn a token by the token owner
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_uri">mutate_tokendata_uri</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>,
     uri: String
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
+    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
     <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator, token_data_id);
 
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[token_data_id.creator].token_data;
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
-    <b>assert</b>!(token_data.mutability_config.uri, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(token_data.mutability_config.uri, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     <a href="token_event_store.md#0x3_token_event_store_emit_token_uri_mutate_event">token_event_store::emit_token_uri_mutate_event</a>(creator, token_data_id.collection, token_data_id.name, token_data.uri ,uri);
     token_data.uri = uri;
 }
@@ -2872,7 +2872,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_royalty">mutate_tokendata_royalty</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, royalty: <a href="token.md#0x3_token_Royalty">token::Royalty</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_royalty">mutate_tokendata_royalty</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, royalty: <a href="token.md#0x3_token_Royalty">token::Royalty</a>)
 </code></pre>
 
 
@@ -2881,12 +2881,12 @@ Burn a token by the token owner
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_royalty">mutate_tokendata_royalty</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>, royalty: <a href="token.md#0x3_token_Royalty">Royalty</a>) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_royalty">mutate_tokendata_royalty</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>, royalty: <a href="token.md#0x3_token_Royalty">Royalty</a>) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator, token_data_id);
 
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[token_data_id.creator].token_data;
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
-    <b>assert</b>!(token_data.mutability_config.royalty, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(token_data.mutability_config.royalty, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
 
     <a href="token_event_store.md#0x3_token_event_store_emit_token_royalty_mutate_event">token_event_store::emit_token_royalty_mutate_event</a>(
         creator,
@@ -2913,7 +2913,7 @@ Burn a token by the token owner
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_description">mutate_tokendata_description</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_description">mutate_tokendata_description</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -2922,12 +2922,12 @@ Burn a token by the token owner
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_description">mutate_tokendata_description</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>, description: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_description">mutate_tokendata_description</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>, description: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator, token_data_id);
 
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[token_data_id.creator].token_data;
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
-    <b>assert</b>!(token_data.mutability_config.description, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>assert</b>!(token_data.mutability_config.description, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     <a href="token_event_store.md#0x3_token_event_store_emit_token_descrition_mutate_event">token_event_store::emit_token_descrition_mutate_event</a>(creator, token_data_id.collection, token_data_id.name, token_data.description, description);
     token_data.description = description;
 }
@@ -2944,7 +2944,7 @@ Burn a token by the token owner
 Allow creator to mutate the default properties in TokenData
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_property">mutate_tokendata_property</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_property">mutate_tokendata_property</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -2954,31 +2954,31 @@ Allow creator to mutate the default properties in TokenData
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_property">mutate_tokendata_property</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>,
-    keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
-    types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator, token_data_id);
     <b>let</b> key_len = keys.length();
     <b>let</b> val_len = values.length();
     <b>let</b> typ_len = types.length();
-    <b>assert</b>!(key_len == val_len, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="token.md#0x3_token_ETOKEN_PROPERTIES_COUNT_NOT_MATCH">ETOKEN_PROPERTIES_COUNT_NOT_MATCH</a>));
-    <b>assert</b>!(key_len == typ_len, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="token.md#0x3_token_ETOKEN_PROPERTIES_COUNT_NOT_MATCH">ETOKEN_PROPERTIES_COUNT_NOT_MATCH</a>));
+    <b>assert</b>!(key_len == val_len, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="token.md#0x3_token_ETOKEN_PROPERTIES_COUNT_NOT_MATCH">ETOKEN_PROPERTIES_COUNT_NOT_MATCH</a>));
+    <b>assert</b>!(key_len == typ_len, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="token.md#0x3_token_ETOKEN_PROPERTIES_COUNT_NOT_MATCH">ETOKEN_PROPERTIES_COUNT_NOT_MATCH</a>));
 
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[token_data_id.creator].token_data;
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
-    <b>assert</b>!(token_data.mutability_config.properties, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
-    <b>let</b> old_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Option&lt;PropertyValue&gt;&gt; = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
-    <b>let</b> new_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;PropertyValue&gt; = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
+    <b>assert</b>!(token_data.mutability_config.properties, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+    <b>let</b> old_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;Option&lt;PropertyValue&gt;&gt; = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
+    <b>let</b> new_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;PropertyValue&gt; = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
     <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(&keys);
     for (i in 0..keys.length()){
         <b>let</b> key = keys.borrow(i);
         <b>let</b> old_pv = <b>if</b> (token_data.default_properties.contains_key(key)) {
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*token_data.default_properties.borrow(key))
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(*token_data.default_properties.borrow(key))
         } <b>else</b> {
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>&lt;PropertyValue&gt;()
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>&lt;PropertyValue&gt;()
         };
         old_values.push_back(old_pv);
         <b>let</b> new_pv = <a href="property_map.md#0x3_property_map_create_property_value_raw">property_map::create_property_value_raw</a>(values[i], types[i]);
@@ -3004,7 +3004,7 @@ Allow creator to mutate the default properties in TokenData
 Mutate the token_properties of one token.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_one_token">mutate_one_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_one_token">mutate_one_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
 </code></pre>
 
 
@@ -3014,34 +3014,34 @@ Mutate the token_properties of one token.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_one_token">mutate_one_token</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_owner: <b>address</b>,
     token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>,
-    keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
-    types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
 ): <a href="token.md#0x3_token_TokenId">TokenId</a> <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     <b>let</b> creator = token_id.token_data_id.creator;
-    <b>assert</b>!(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>) == creator, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MUTATE_CAPABILITY">ENO_MUTATE_CAPABILITY</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>) == creator, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MUTATE_CAPABILITY">ENO_MUTATE_CAPABILITY</a>));
     // validate <b>if</b> the properties is mutable
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[
         creator
     ].token_data;
 
-    <b>assert</b>!(all_token_data.contains(token_id.token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_id.token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
     <b>let</b> token_data = all_token_data.borrow_mut(token_id.token_data_id);
 
     // <b>if</b> default property is mutatable, <a href="token.md#0x3_token">token</a> property is always mutable
     // we only need <b>to</b> check <a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a> when default property is immutable
     <b>if</b> (!token_data.mutability_config.properties) {
         <b>assert</b>!(
-            token_data.default_properties.contains_key(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a>)),
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>)
+            token_data.default_properties.contains_key(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a>)),
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>)
         );
 
-        <b>let</b> token_prop_mutable = token_data.default_properties.read_bool(&<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a>));
-        <b>assert</b>!(token_prop_mutable, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
+        <b>let</b> token_prop_mutable = token_data.default_properties.read_bool(&<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(<a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE">TOKEN_PROPERTY_MUTABLE</a>));
+        <b>assert</b>!(token_prop_mutable, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EFIELD_NOT_MUTABLE">EFIELD_NOT_MUTABLE</a>));
     };
 
     // check <b>if</b> the property_version is 0 <b>to</b> determine <b>if</b> we need <b>to</b> <b>update</b> the property_version
@@ -3132,9 +3132,9 @@ Mutate the token_properties of one token.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_royalty">create_royalty</a>(royalty_points_numerator: u64, royalty_points_denominator: u64, payee_address: <b>address</b>): <a href="token.md#0x3_token_Royalty">Royalty</a> {
-    <b>assert</b>!(royalty_points_numerator &lt;= royalty_points_denominator, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_ROYALTY_NUMERATOR_DENOMINATOR">EINVALID_ROYALTY_NUMERATOR_DENOMINATOR</a>));
+    <b>assert</b>!(royalty_points_numerator &lt;= royalty_points_denominator, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_ROYALTY_NUMERATOR_DENOMINATOR">EINVALID_ROYALTY_NUMERATOR_DENOMINATOR</a>));
     // Question[Orderless]: Is it okay <b>to</b> remove this check <b>to</b> accommodate stateless accounts?
-    // <b>assert</b>!(<a href="../../cedra-framework/doc/account.md#0x1_account_exists_at">account::exists_at</a>(payee_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EROYALTY_PAYEE_ACCOUNT_DOES_NOT_EXIST">EROYALTY_PAYEE_ACCOUNT_DOES_NOT_EXIST</a>));
+    // <b>assert</b>!(<a href="../../cedra-framework/doc/account.md#0x1_account_exists_at">account::exists_at</a>(payee_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EROYALTY_PAYEE_ACCOUNT_DOES_NOT_EXIST">EROYALTY_PAYEE_ACCOUNT_DOES_NOT_EXIST</a>));
     <a href="token.md#0x3_token_Royalty">Royalty</a> {
         royalty_points_numerator,
         royalty_points_denominator,
@@ -3154,7 +3154,7 @@ Mutate the token_properties of one token.
 Deposit the token balance into the owner's account and emit an event.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_deposit_token">deposit_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">token::Token</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_deposit_token">deposit_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">token::Token</a>)
 </code></pre>
 
 
@@ -3163,8 +3163,8 @@ Deposit the token balance into the owner's account and emit an event.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_deposit_token">deposit_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">Token</a>) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_deposit_token">deposit_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">Token</a>) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
+    <b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <a href="token.md#0x3_token_direct_deposit">direct_deposit</a>(account_addr, <a href="token.md#0x3_token">token</a>)
 }
@@ -3192,7 +3192,7 @@ direct deposit if user opt in direct transfer
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_direct_deposit_with_opt_in">direct_deposit_with_opt_in</a>(account_addr: <b>address</b>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">Token</a>) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     <b>let</b> opt_in_transfer = <a href="token.md#0x3_token_TokenStore">TokenStore</a>[account_addr].direct_transfer;
-    <b>assert</b>!(opt_in_transfer, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EUSER_NOT_OPT_IN_DIRECT_TRANSFER">EUSER_NOT_OPT_IN_DIRECT_TRANSFER</a>));
+    <b>assert</b>!(opt_in_transfer, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EUSER_NOT_OPT_IN_DIRECT_TRANSFER">EUSER_NOT_OPT_IN_DIRECT_TRANSFER</a>));
     <a href="token.md#0x3_token_direct_deposit">direct_deposit</a>(account_addr, <a href="token.md#0x3_token">token</a>);
 }
 </code></pre>
@@ -3207,7 +3207,7 @@ direct deposit if user opt in direct transfer
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_direct_transfer">direct_transfer</a>(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_direct_transfer">direct_transfer</a>(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64)
 </code></pre>
 
 
@@ -3217,8 +3217,8 @@ direct deposit if user opt in direct transfer
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_direct_transfer">direct_transfer</a>(
-    sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
-    receiver: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    receiver: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>,
     amount: u64,
 ) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
@@ -3237,7 +3237,7 @@ direct deposit if user opt in direct transfer
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -3246,8 +3246,8 @@ direct deposit if user opt in direct transfer
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
-    <b>if</b> (!<b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>))) {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+    <b>if</b> (!<b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>))) {
         <b>move_to</b>(
             <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>,
             <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
@@ -3283,7 +3283,7 @@ direct deposit if user opt in direct transfer
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_merge">merge</a>(dst_token: &<b>mut</b> <a href="token.md#0x3_token_Token">Token</a>, source_token: <a href="token.md#0x3_token_Token">Token</a>) {
-    <b>assert</b>!(&dst_token.id == &source_token.id, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_TOKEN_MERGE">EINVALID_TOKEN_MERGE</a>));
+    <b>assert</b>!(&dst_token.id == &source_token.id, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_TOKEN_MERGE">EINVALID_TOKEN_MERGE</a>));
     dst_token.amount += source_token.amount;
     <b>let</b> <a href="token.md#0x3_token_Token">Token</a> { id: _, amount: _, token_properties: _ } = source_token;
 }
@@ -3309,9 +3309,9 @@ direct deposit if user opt in direct transfer
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_split">split</a>(dst_token: &<b>mut</b> <a href="token.md#0x3_token_Token">Token</a>, amount: u64): <a href="token.md#0x3_token_Token">Token</a> {
-    <b>assert</b>!(dst_token.id.property_version == 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="token.md#0x3_token_ENFT_NOT_SPLITABLE">ENFT_NOT_SPLITABLE</a>));
-    <b>assert</b>!(dst_token.amount &gt; amount, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ETOKEN_SPLIT_AMOUNT_LARGER_OR_EQUAL_TO_TOKEN_AMOUNT">ETOKEN_SPLIT_AMOUNT_LARGER_OR_EQUAL_TO_TOKEN_AMOUNT</a>));
-    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ETOKEN_CANNOT_HAVE_ZERO_AMOUNT">ETOKEN_CANNOT_HAVE_ZERO_AMOUNT</a>));
+    <b>assert</b>!(dst_token.id.property_version == 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_state">error::invalid_state</a>(<a href="token.md#0x3_token_ENFT_NOT_SPLITABLE">ENFT_NOT_SPLITABLE</a>));
+    <b>assert</b>!(dst_token.amount &gt; amount, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ETOKEN_SPLIT_AMOUNT_LARGER_OR_EQUAL_TO_TOKEN_AMOUNT">ETOKEN_SPLIT_AMOUNT_LARGER_OR_EQUAL_TO_TOKEN_AMOUNT</a>));
+    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ETOKEN_CANNOT_HAVE_ZERO_AMOUNT">ETOKEN_CANNOT_HAVE_ZERO_AMOUNT</a>));
     dst_token.amount -= amount;
     <a href="token.md#0x3_token_Token">Token</a> {
         id: dst_token.id,
@@ -3356,7 +3356,7 @@ direct deposit if user opt in direct transfer
 Transfers <code>amount</code> of tokens from <code>from</code> to <code><b>to</b></code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_transfer">transfer</a>(from: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, <b>to</b>: <b>address</b>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_transfer">transfer</a>(from: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, <b>to</b>: <b>address</b>, amount: u64)
 </code></pre>
 
 
@@ -3366,13 +3366,13 @@ Transfers <code>amount</code> of tokens from <code>from</code> to <code><b>to</b
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_transfer">transfer</a>(
-    from: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    from: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     id: <a href="token.md#0x3_token_TokenId">TokenId</a>,
     <b>to</b>: <b>address</b>,
     amount: u64,
 ) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     <b>let</b> opt_in_transfer = <a href="token.md#0x3_token_TokenStore">TokenStore</a>[<b>to</b>].direct_transfer;
-    <b>assert</b>!(opt_in_transfer, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EUSER_NOT_OPT_IN_DIRECT_TRANSFER">EUSER_NOT_OPT_IN_DIRECT_TRANSFER</a>));
+    <b>assert</b>!(opt_in_transfer, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EUSER_NOT_OPT_IN_DIRECT_TRANSFER">EUSER_NOT_OPT_IN_DIRECT_TRANSFER</a>));
     <b>let</b> <a href="token.md#0x3_token">token</a> = <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(from, id, amount);
     <a href="token.md#0x3_token_direct_deposit">direct_deposit</a>(<b>to</b>, <a href="token.md#0x3_token">token</a>);
 }
@@ -3389,7 +3389,7 @@ Transfers <code>amount</code> of tokens from <code>from</code> to <code><b>to</b
 Token owner can create this one-time withdraw capability with an expiration time
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_withdraw_capability">create_withdraw_capability</a>(owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64, expiration_sec: u64): <a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_withdraw_capability">create_withdraw_capability</a>(owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64, expiration_sec: u64): <a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>
 </code></pre>
 
 
@@ -3399,13 +3399,13 @@ Token owner can create this one-time withdraw capability with an expiration time
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_withdraw_capability">create_withdraw_capability</a>(
-    owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>,
     amount: u64,
     expiration_sec: u64,
 ): <a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a> {
     <a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a> {
-        token_owner: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner),
+        token_owner: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(owner),
         token_id,
         amount,
         expiration_sec,
@@ -3437,7 +3437,7 @@ Withdraw the token with a capability
     withdraw_proof: <a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a>,
 ): <a href="token.md#0x3_token_Token">Token</a> <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     // verify the delegation hasn't expired yet
-    <b>assert</b>!(<a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt;= withdraw_proof.expiration_sec, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EWITHDRAW_PROOF_EXPIRES">EWITHDRAW_PROOF_EXPIRES</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt;= withdraw_proof.expiration_sec, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EWITHDRAW_PROOF_EXPIRES">EWITHDRAW_PROOF_EXPIRES</a>));
 
     <a href="token.md#0x3_token_withdraw_with_event_internal">withdraw_with_event_internal</a>(
         withdraw_proof.token_owner,
@@ -3458,7 +3458,7 @@ Withdraw the token with a capability
 Withdraw the token with a capability.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_partial_withdraw_with_capability">partial_withdraw_with_capability</a>(withdraw_proof: <a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>, withdraw_amount: u64): (<a href="token.md#0x3_token_Token">token::Token</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_partial_withdraw_with_capability">partial_withdraw_with_capability</a>(withdraw_proof: <a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>, withdraw_amount: u64): (<a href="token.md#0x3_token_Token">token::Token</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>&gt;)
 </code></pre>
 
 
@@ -3472,14 +3472,14 @@ Withdraw the token with a capability.
     withdraw_amount: u64,
 ): (<a href="token.md#0x3_token_Token">Token</a>, Option&lt;<a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a>&gt;) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     // verify the delegation hasn't expired yet
-    <b>assert</b>!(<a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt;= withdraw_proof.expiration_sec, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EWITHDRAW_PROOF_EXPIRES">EWITHDRAW_PROOF_EXPIRES</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/doc/timestamp.md#0x1_timestamp_now_seconds">timestamp::now_seconds</a>() &lt;= withdraw_proof.expiration_sec, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EWITHDRAW_PROOF_EXPIRES">EWITHDRAW_PROOF_EXPIRES</a>));
 
-    <b>assert</b>!(withdraw_amount &lt;= withdraw_proof.amount, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINSUFFICIENT_WITHDRAW_CAPABILITY_AMOUNT">EINSUFFICIENT_WITHDRAW_CAPABILITY_AMOUNT</a>));
+    <b>assert</b>!(withdraw_amount &lt;= withdraw_proof.amount, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINSUFFICIENT_WITHDRAW_CAPABILITY_AMOUNT">EINSUFFICIENT_WITHDRAW_CAPABILITY_AMOUNT</a>));
 
     <b>let</b> res: Option&lt;<a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a>&gt; = <b>if</b> (withdraw_amount == withdraw_proof.amount) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>&lt;<a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a>&gt;()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>&lt;<a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a>&gt;()
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(
             <a href="token.md#0x3_token_WithdrawCapability">WithdrawCapability</a> {
                 token_owner: withdraw_proof.token_owner,
                 token_id: withdraw_proof.token_id,
@@ -3511,7 +3511,7 @@ Withdraw the token with a capability.
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64): <a href="token.md#0x3_token_Token">token::Token</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64): <a href="token.md#0x3_token_Token">token::Token</a>
 </code></pre>
 
 
@@ -3521,11 +3521,11 @@ Withdraw the token with a capability.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     id: <a href="token.md#0x3_token_TokenId">TokenId</a>,
     amount: u64,
 ): <a href="token.md#0x3_token_Token">Token</a> <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+    <b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <a href="token.md#0x3_token_withdraw_with_event_internal">withdraw_with_event_internal</a>(account_addr, id, amount)
 }
 </code></pre>
@@ -3541,7 +3541,7 @@ Withdraw the token with a capability.
 Create a new collection to hold tokens
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection">create_collection</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection">create_collection</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
 </code></pre>
 
 
@@ -3551,16 +3551,16 @@ Create a new collection to hold tokens
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection">create_collection</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     name: String,
     description: String,
     uri: String,
     maximum: u64,
-    mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;
+    mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(name.length() &lt;= <a href="token.md#0x3_token_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
-    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
-    <b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+    <b>assert</b>!(name.length() &lt;= <a href="token.md#0x3_token_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
+    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
+    <b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <b>if</b> (!<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(account_addr)) {
         <b>move_to</b>(
             creator,
@@ -3578,7 +3578,7 @@ Create a new collection to hold tokens
 
     <b>assert</b>!(
         !collection_data.contains(name),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="token.md#0x3_token_ECOLLECTION_ALREADY_EXISTS">ECOLLECTION_ALREADY_EXISTS</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="token.md#0x3_token_ECOLLECTION_ALREADY_EXISTS">ECOLLECTION_ALREADY_EXISTS</a>),
     );
 
     <b>let</b> mutability_config = <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(&mutate_setting);
@@ -3628,7 +3628,7 @@ Create a new collection to hold tokens
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_collection_exists">check_collection_exists</a>(creator: <b>address</b>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_collection_exists">check_collection_exists</a>(creator: <b>address</b>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
 </code></pre>
 
 
@@ -3640,7 +3640,7 @@ Create a new collection to hold tokens
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_collection_exists">check_collection_exists</a>(creator: <b>address</b>, name: String): bool <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> collection_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator].collection_data;
@@ -3658,7 +3658,7 @@ Create a new collection to hold tokens
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_tokendata_exists">check_tokendata_exists</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_tokendata_exists">check_tokendata_exists</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
 </code></pre>
 
 
@@ -3670,7 +3670,7 @@ Create a new collection to hold tokens
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_tokendata_exists">check_tokendata_exists</a>(creator: <b>address</b>, collection_name: String, token_name: String): bool <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator].token_data;
@@ -3689,7 +3689,7 @@ Create a new collection to hold tokens
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_tokendata">create_tokendata</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, token_mutate_config: <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_tokendata">create_tokendata</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, token_mutate_config: <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
 </code></pre>
 
 
@@ -3699,7 +3699,7 @@ Create a new collection to hold tokens
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_tokendata">create_tokendata</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     collection: String,
     name: String,
     description: String,
@@ -3709,19 +3709,19 @@ Create a new collection to hold tokens
     royalty_points_denominator: u64,
     royalty_points_numerator: u64,
     token_mutate_config: <a href="token.md#0x3_token_TokenMutabilityConfig">TokenMutabilityConfig</a>,
-    property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
-    property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;
+    property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;
 ): <a href="token.md#0x3_token_TokenDataId">TokenDataId</a> <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(name.length() &lt;= <a href="token.md#0x3_token_MAX_NFT_NAME_LENGTH">MAX_NFT_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENFT_NAME_TOO_LONG">ENFT_NAME_TOO_LONG</a>));
-    <b>assert</b>!(collection.length() &lt;= <a href="token.md#0x3_token_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
-    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
-    <b>assert</b>!(royalty_points_numerator &lt;= royalty_points_denominator, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_ROYALTY_NUMERATOR_DENOMINATOR">EINVALID_ROYALTY_NUMERATOR_DENOMINATOR</a>));
+    <b>assert</b>!(name.length() &lt;= <a href="token.md#0x3_token_MAX_NFT_NAME_LENGTH">MAX_NFT_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENFT_NAME_TOO_LONG">ENFT_NAME_TOO_LONG</a>));
+    <b>assert</b>!(collection.length() &lt;= <a href="token.md#0x3_token_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
+    <b>assert</b>!(uri.length() &lt;= <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EURI_TOO_LONG">EURI_TOO_LONG</a>));
+    <b>assert</b>!(royalty_points_numerator &lt;= royalty_points_denominator, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINVALID_ROYALTY_NUMERATOR_DENOMINATOR">EINVALID_ROYALTY_NUMERATOR_DENOMINATOR</a>));
 
-    <b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+    <b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(account_addr),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>),
     );
     <b>let</b> collections = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[account_addr];
 
@@ -3729,11 +3729,11 @@ Create a new collection to hold tokens
 
     <b>assert</b>!(
         collections.collection_data.contains(token_data_id.collection),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTION_NOT_PUBLISHED">ECOLLECTION_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTION_NOT_PUBLISHED">ECOLLECTION_NOT_PUBLISHED</a>),
     );
     <b>assert</b>!(
         !collections.token_data.contains(token_data_id),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="token.md#0x3_token_ETOKEN_DATA_ALREADY_EXISTS">ETOKEN_DATA_ALREADY_EXISTS</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_already_exists">error::already_exists</a>(<a href="token.md#0x3_token_ETOKEN_DATA_ALREADY_EXISTS">ETOKEN_DATA_ALREADY_EXISTS</a>),
     );
 
     <b>let</b> collection = collections.collection_data.borrow_mut(token_data_id.collection);
@@ -3744,7 +3744,7 @@ Create a new collection to hold tokens
         collection.supply += 1;
         <b>assert</b>!(
             collection.maximum &gt;= collection.supply,
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECREATE_WOULD_EXCEED_COLLECTION_MAXIMUM">ECREATE_WOULD_EXCEED_COLLECTION_MAXIMUM</a>),
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECREATE_WOULD_EXCEED_COLLECTION_MAXIMUM">ECREATE_WOULD_EXCEED_COLLECTION_MAXIMUM</a>),
         );
     };
 
@@ -3814,7 +3814,7 @@ Create a new collection to hold tokens
 return the number of distinct token_data_id created under this collection
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_supply">get_collection_supply</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_supply">get_collection_supply</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -3830,9 +3830,9 @@ return the number of distinct token_data_id created under this collection
     );
 
     <b>if</b> (collection_data.maximum &gt; 0) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(collection_data.supply)
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(collection_data.supply)
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -3847,7 +3847,7 @@ return the number of distinct token_data_id created under this collection
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_description">get_collection_description</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_description">get_collection_description</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -3875,7 +3875,7 @@ return the number of distinct token_data_id created under this collection
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_uri">get_collection_uri</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_uri">get_collection_uri</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -3903,7 +3903,7 @@ return the number of distinct token_data_id created under this collection
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_maximum">get_collection_maximum</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): u64
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_maximum">get_collection_maximum</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): u64
 </code></pre>
 
 
@@ -3932,7 +3932,7 @@ return the number of distinct token_data_id created under this collection
 return the number of distinct token_id created under this TokenData
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_supply">get_token_supply</a>(creator_address: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_supply">get_token_supply</a>(creator_address: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -3942,15 +3942,15 @@ return the number of distinct token_id created under this TokenData
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_supply">get_token_supply</a>(creator_address: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): Option&lt;u64&gt; <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_address].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
     <b>let</b> token_data = all_token_data.borrow(token_data_id);
 
     <b>if</b> (token_data.maximum &gt; 0) {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(token_data.supply)
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(token_data.supply)
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>&lt;u64&gt;()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>&lt;u64&gt;()
     }
 }
 </code></pre>
@@ -3976,9 +3976,9 @@ return the largest_property_version of this TokenData
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_largest_property_version">get_tokendata_largest_property_version</a>(creator_address: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): u64 <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_address].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
     all_token_data.borrow(token_data_id).largest_property_version
 }
 </code></pre>
@@ -4046,7 +4046,7 @@ return the TokenId for a given Token
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>
 </code></pre>
 
 
@@ -4055,7 +4055,7 @@ return the TokenId for a given Token
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_TokenMutabilityConfig">TokenMutabilityConfig</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_TokenMutabilityConfig">TokenMutabilityConfig</a> {
     <a href="token.md#0x3_token_TokenMutabilityConfig">TokenMutabilityConfig</a> {
         maximum: mutate_setting[<a href="token.md#0x3_token_TOKEN_MAX_MUTABLE_IND">TOKEN_MAX_MUTABLE_IND</a>],
         uri: mutate_setting[<a href="token.md#0x3_token_TOKEN_URI_MUTABLE_IND">TOKEN_URI_MUTABLE_IND</a>],
@@ -4076,7 +4076,7 @@ return the TokenId for a given Token
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
 </code></pre>
 
 
@@ -4085,7 +4085,7 @@ return the TokenId for a given Token
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_CollectionMutabilityConfig">CollectionMutabilityConfig</a> {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_CollectionMutabilityConfig">CollectionMutabilityConfig</a> {
     <a href="token.md#0x3_token_CollectionMutabilityConfig">CollectionMutabilityConfig</a> {
         description: mutate_setting[<a href="token.md#0x3_token_COLLECTION_DESCRIPTION_MUTABLE_IND">COLLECTION_DESCRIPTION_MUTABLE_IND</a>],
         uri: mutate_setting[<a href="token.md#0x3_token_COLLECTION_URI_MUTABLE_IND">COLLECTION_URI_MUTABLE_IND</a>],
@@ -4104,7 +4104,7 @@ return the TokenId for a given Token
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token">mint_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token">mint_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
 </code></pre>
 
 
@@ -4114,18 +4114,18 @@ return the TokenId for a given Token
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token">mint_token</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>,
     amount: u64,
 ): <a href="token.md#0x3_token_TokenId">TokenId</a> <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>assert</b>!(token_data_id.creator == <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MINT_CAPABILITY">ENO_MINT_CAPABILITY</a>));
+    <b>assert</b>!(token_data_id.creator == <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MINT_CAPABILITY">ENO_MINT_CAPABILITY</a>));
     <b>let</b> creator_addr = token_data_id.creator;
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[creator_addr].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
 
     <b>if</b> (token_data.maximum &gt; 0) {
-        <b>assert</b>!(token_data.supply + amount &lt;= token_data.maximum, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EMINT_WOULD_EXCEED_TOKEN_MAXIMUM">EMINT_WOULD_EXCEED_TOKEN_MAXIMUM</a>));
+        <b>assert</b>!(token_data.supply + amount &lt;= token_data.maximum, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EMINT_WOULD_EXCEED_TOKEN_MAXIMUM">EMINT_WOULD_EXCEED_TOKEN_MAXIMUM</a>));
         token_data.supply += amount;
     };
 
@@ -4166,7 +4166,7 @@ return the TokenId for a given Token
 create tokens and directly deposite to receiver's address. The receiver should opt-in direct transfer
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token_to">mint_token_to</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token_to">mint_token_to</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64)
 </code></pre>
 
 
@@ -4176,23 +4176,23 @@ create tokens and directly deposite to receiver's address. The receiver should o
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token_to">mint_token_to</a>(
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     receiver: <b>address</b>,
     token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>,
     amount: u64,
 ) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(receiver), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_STORE_NOT_PUBLISHED">ETOKEN_STORE_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(receiver), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_STORE_NOT_PUBLISHED">ETOKEN_STORE_NOT_PUBLISHED</a>));
     <b>let</b> opt_in_transfer = <a href="token.md#0x3_token_TokenStore">TokenStore</a>[receiver].direct_transfer;
-    <b>assert</b>!(opt_in_transfer, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EUSER_NOT_OPT_IN_DIRECT_TRANSFER">EUSER_NOT_OPT_IN_DIRECT_TRANSFER</a>));
+    <b>assert</b>!(opt_in_transfer, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EUSER_NOT_OPT_IN_DIRECT_TRANSFER">EUSER_NOT_OPT_IN_DIRECT_TRANSFER</a>));
 
-    <b>assert</b>!(token_data_id.creator == <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MINT_CAPABILITY">ENO_MINT_CAPABILITY</a>));
+    <b>assert</b>!(token_data_id.creator == <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MINT_CAPABILITY">ENO_MINT_CAPABILITY</a>));
     <b>let</b> creator_addr = token_data_id.creator;
     <b>let</b> all_token_data = &<b>mut</b> <a href="token.md#0x3_token_Collections">Collections</a>[creator_addr].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
     <b>let</b> token_data = all_token_data.borrow_mut(token_data_id);
 
     <b>if</b> (token_data.maximum &gt; 0) {
-        <b>assert</b>!(token_data.supply + amount &lt;= token_data.maximum, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EMINT_WOULD_EXCEED_TOKEN_MAXIMUM">EMINT_WOULD_EXCEED_TOKEN_MAXIMUM</a>));
+        <b>assert</b>!(token_data.supply + amount &lt;= token_data.maximum, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EMINT_WOULD_EXCEED_TOKEN_MAXIMUM">EMINT_WOULD_EXCEED_TOKEN_MAXIMUM</a>));
         token_data.supply += amount;
     };
 
@@ -4258,7 +4258,7 @@ create tokens and directly deposite to receiver's address. The receiver should o
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_data_id">create_token_data_id</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_data_id">create_token_data_id</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
 </code></pre>
 
 
@@ -4272,8 +4272,8 @@ create tokens and directly deposite to receiver's address. The receiver should o
     collection: String,
     name: String,
 ): <a href="token.md#0x3_token_TokenDataId">TokenDataId</a> {
-    <b>assert</b>!(collection.length() &lt;= <a href="token.md#0x3_token_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
-    <b>assert</b>!(name.length() &lt;= <a href="token.md#0x3_token_MAX_NFT_NAME_LENGTH">MAX_NFT_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENFT_NAME_TOO_LONG">ENFT_NAME_TOO_LONG</a>));
+    <b>assert</b>!(collection.length() &lt;= <a href="token.md#0x3_token_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
+    <b>assert</b>!(name.length() &lt;= <a href="token.md#0x3_token_MAX_NFT_NAME_LENGTH">MAX_NFT_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ENFT_NAME_TOO_LONG">ENFT_NAME_TOO_LONG</a>));
     <a href="token.md#0x3_token_TokenDataId">TokenDataId</a> { creator, collection, name }
 }
 </code></pre>
@@ -4288,7 +4288,7 @@ create tokens and directly deposite to receiver's address. The receiver should o
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
 </code></pre>
 
 
@@ -4498,7 +4498,7 @@ create tokens and directly deposite to receiver's address. The receiver should o
 return the creator address, collection name, token name and property_version
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_id_fields">get_token_id_fields</a>(token_id: &<a href="token.md#0x3_token_TokenId">token::TokenId</a>): (<b>address</b>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_id_fields">get_token_id_fields</a>(token_id: &<a href="token.md#0x3_token_TokenId">token::TokenId</a>): (<b>address</b>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, u64)
 </code></pre>
 
 
@@ -4527,7 +4527,7 @@ return the creator address, collection name, token name and property_version
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_data_id_fields">get_token_data_id_fields</a>(token_data_id: &<a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): (<b>address</b>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_data_id_fields">get_token_data_id_fields</a>(token_data_id: &<a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): (<b>address</b>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -4568,12 +4568,12 @@ if property_version > 0, return the property value stored at owner's token store
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_property_map">get_property_map</a>(owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>): PropertyMap <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a>, <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>assert</b>!(<a href="token.md#0x3_token_balance_of">balance_of</a>(owner, token_id) &gt; 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_EINSUFFICIENT_BALANCE">EINSUFFICIENT_BALANCE</a>));
+    <b>assert</b>!(<a href="token.md#0x3_token_balance_of">balance_of</a>(owner, token_id) &gt; 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_EINSUFFICIENT_BALANCE">EINSUFFICIENT_BALANCE</a>));
     // <b>if</b> property_version = 0, <b>return</b> default property map
     <b>if</b> (token_id.property_version == 0) {
         <b>let</b> creator_addr = token_id.token_data_id.creator;
         <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_addr].token_data;
-        <b>assert</b>!(all_token_data.contains(token_id.token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+        <b>assert</b>!(all_token_data.contains(token_id.token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
         <b>let</b> token_data = all_token_data.borrow(token_id.token_data_id);
         token_data.default_properties
     } <b>else</b> {
@@ -4604,9 +4604,9 @@ if property_version > 0, return the property value stored at owner's token store
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_maximum">get_tokendata_maximum</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): u64 <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>let</b> creator_address = token_data_id.creator;
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_address].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
 
     <b>let</b> token_data = all_token_data.borrow(token_data_id);
     token_data.maximum
@@ -4623,7 +4623,7 @@ if property_version > 0, return the property value stored at owner's token store
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_uri">get_tokendata_uri</a>(creator: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_uri">get_tokendata_uri</a>(creator: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -4633,9 +4633,9 @@ if property_version > 0, return the property value stored at owner's token store
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_uri">get_tokendata_uri</a>(creator: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): String <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
 
     <b>let</b> token_data = all_token_data.borrow(token_data_id);
     token_data.uri
@@ -4652,7 +4652,7 @@ if property_version > 0, return the property value stored at owner's token store
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_description">get_tokendata_description</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_description">get_tokendata_description</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -4663,9 +4663,9 @@ if property_version > 0, return the property value stored at owner's token store
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_description">get_tokendata_description</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): String <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>let</b> creator_address = token_data_id.creator;
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_address].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
 
     <b>let</b> token_data = all_token_data.borrow(token_data_id);
     token_data.description
@@ -4693,9 +4693,9 @@ if property_version > 0, return the property value stored at owner's token store
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_royalty">get_tokendata_royalty</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): <a href="token.md#0x3_token_Royalty">Royalty</a> <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>let</b> creator_address = token_data_id.creator;
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_address].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
 
     <b>let</b> token_data = all_token_data.borrow(token_data_id);
     token_data.royalty
@@ -4749,9 +4749,9 @@ return the mutation setting of the token
 
 <pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_mutability_config">get_tokendata_mutability_config</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>): <a href="token.md#0x3_token_TokenMutabilityConfig">TokenMutabilityConfig</a> <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>let</b> creator_addr = token_data_id.creator;
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_addr].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
     all_token_data.borrow(token_data_id).mutability_config
 }
 </code></pre>
@@ -4893,7 +4893,7 @@ return the collection mutation setting
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_mutability_config">get_collection_mutability_config</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
+<b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_mutability_config">get_collection_mutability_config</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
 </code></pre>
 
 
@@ -4906,9 +4906,9 @@ return the collection mutation setting
     creator: <b>address</b>,
     collection_name: String
 ): <a href="token.md#0x3_token_CollectionMutabilityConfig">CollectionMutabilityConfig</a> <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_collection_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator].collection_data;
-    <b>assert</b>!(all_collection_data.contains(collection_name), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTION_NOT_PUBLISHED">ECOLLECTION_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_collection_data.contains(collection_name), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTION_NOT_PUBLISHED">ECOLLECTION_NOT_PUBLISHED</a>));
     all_collection_data.borrow(collection_name).mutability_config
 }
 </code></pre>
@@ -5078,13 +5078,13 @@ return if the collection maximum is mutable with collection mutability config
     amount: u64,
 ): <a href="token.md#0x3_token_Token">Token</a> <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     // It does not make sense <b>to</b> withdraw 0 tokens.
-    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EWITHDRAW_ZERO">EWITHDRAW_ZERO</a>));
+    <b>assert</b>!(amount &gt; 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EWITHDRAW_ZERO">EWITHDRAW_ZERO</a>));
     // Make sure the <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> <b>has</b> sufficient tokens <b>to</b> withdraw.
-    <b>assert</b>!(<a href="token.md#0x3_token_balance_of">balance_of</a>(account_addr, id) &gt;= amount, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINSUFFICIENT_BALANCE">EINSUFFICIENT_BALANCE</a>));
+    <b>assert</b>!(<a href="token.md#0x3_token_balance_of">balance_of</a>(account_addr, id) &gt;= amount, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_EINSUFFICIENT_BALANCE">EINSUFFICIENT_BALANCE</a>));
 
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(account_addr),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_STORE_NOT_PUBLISHED">ETOKEN_STORE_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_STORE_NOT_PUBLISHED">ETOKEN_STORE_NOT_PUBLISHED</a>),
     );
 
     <b>let</b> token_store = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[account_addr];
@@ -5100,7 +5100,7 @@ return if the collection maximum is mutable with collection mutability config
     <b>let</b> tokens = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[account_addr].tokens;
     <b>assert</b>!(
         tokens.contains(id),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ENO_TOKEN_IN_TOKEN_STORE">ENO_TOKEN_IN_TOKEN_STORE</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ENO_TOKEN_IN_TOKEN_STORE">ENO_TOKEN_IN_TOKEN_STORE</a>),
     );
     // balance &gt; amount and amount &gt; 0 indirectly asserted that balance &gt; 0.
     <b>let</b> balance = &<b>mut</b> tokens.borrow_mut(id).amount;
@@ -5123,7 +5123,7 @@ return if the collection maximum is mutable with collection mutability config
 
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_update_token_property_internal">update_token_property_internal</a>(token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_update_token_property_internal">update_token_property_internal</a>(token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -5135,12 +5135,12 @@ return if the collection maximum is mutable with collection mutability config
 <pre><code><b>fun</b> <a href="token.md#0x3_token_update_token_property_internal">update_token_property_internal</a>(
     token_owner: <b>address</b>,
     token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>,
-    keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
-    values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
-    types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
+    values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;,
+    types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;,
 ) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
     <b>let</b> tokens = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[token_owner].tokens;
-    <b>assert</b>!(tokens.contains(token_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ENO_TOKEN_IN_TOKEN_STORE">ENO_TOKEN_IN_TOKEN_STORE</a>));
+    <b>assert</b>!(tokens.contains(token_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ENO_TOKEN_IN_TOKEN_STORE">ENO_TOKEN_IN_TOKEN_STORE</a>));
 
     <b>let</b> value = &<b>mut</b> tokens.borrow_mut(token_id).token_properties;
     <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(&keys);
@@ -5169,7 +5169,7 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 <pre><code><b>fun</b> <a href="token.md#0x3_token_direct_deposit">direct_deposit</a>(account_addr: <b>address</b>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">Token</a>) <b>acquires</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a> {
-    <b>assert</b>!(<a href="token.md#0x3_token">token</a>.amount &gt; 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ETOKEN_CANNOT_HAVE_ZERO_AMOUNT">ETOKEN_CANNOT_HAVE_ZERO_AMOUNT</a>));
+    <b>assert</b>!(<a href="token.md#0x3_token">token</a>.amount &gt; 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="token.md#0x3_token_ETOKEN_CANNOT_HAVE_ZERO_AMOUNT">ETOKEN_CANNOT_HAVE_ZERO_AMOUNT</a>));
     <b>let</b> token_store = &<b>mut</b> <a href="token.md#0x3_token_TokenStore">TokenStore</a>[account_addr];
 
     <b>if</b> (std::features::module_event_migration_enabled()) {
@@ -5183,7 +5183,7 @@ Deposit the token balance into the recipients account and emit an event.
 
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(account_addr),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_STORE_NOT_PUBLISHED">ETOKEN_STORE_NOT_PUBLISHED</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_STORE_NOT_PUBLISHED">ETOKEN_STORE_NOT_PUBLISHED</a>),
     );
 
     <b>if</b> (!token_store.tokens.contains(<a href="token.md#0x3_token">token</a>.id)) {
@@ -5205,7 +5205,7 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -5215,9 +5215,9 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 <pre><code><b>fun</b> <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address: <b>address</b>, collection_name: String) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_collection_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_address].collection_data;
-    <b>assert</b>!(all_collection_data.contains(collection_name), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTION_NOT_PUBLISHED">ECOLLECTION_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_collection_data.contains(collection_name), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTION_NOT_PUBLISHED">ECOLLECTION_NOT_PUBLISHED</a>));
 }
 </code></pre>
 
@@ -5231,7 +5231,7 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>)
 </code></pre>
 
 
@@ -5240,12 +5240,12 @@ Deposit the token balance into the recipients account and emit an event.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>) <b>acquires</b> <a href="token.md#0x3_token_Collections">Collections</a> {
     <b>let</b> creator_addr = token_data_id.creator;
-    <b>assert</b>!(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator) == creator_addr, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MUTATE_CAPABILITY">ENO_MUTATE_CAPABILITY</a>));
-    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator) == creator_addr, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_ENO_MUTATE_CAPABILITY">ENO_MUTATE_CAPABILITY</a>));
+    <b>assert</b>!(<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ECOLLECTIONS_NOT_PUBLISHED">ECOLLECTIONS_NOT_PUBLISHED</a>));
     <b>let</b> all_token_data = &<a href="token.md#0x3_token_Collections">Collections</a>[creator_addr].token_data;
-    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
+    <b>assert</b>!(all_token_data.contains(token_data_id), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="token.md#0x3_token_ETOKEN_DATA_NOT_PUBLISHED">ETOKEN_DATA_NOT_PUBLISHED</a>));
 }
 </code></pre>
 
@@ -5259,7 +5259,7 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(keys: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(keys: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -5268,13 +5268,13 @@ Deposit the token balance into the recipients account and emit an event.
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(keys: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;) {
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(keys: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;String&gt;) {
     keys.for_each_ref(|key| {
         <b>let</b> key: &String = key;
         <b>let</b> length = key.length();
         <b>if</b> (length &gt;= 6) {
             <b>let</b> prefix = key.sub_string(0, 6);
-            <b>assert</b>!(prefix != <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"TOKEN_"), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EPROPERTY_RESERVED_BY_STANDARD">EPROPERTY_RESERVED_BY_STANDARD</a>));
+            <b>assert</b>!(prefix != <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"TOKEN_"), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_permission_denied">error::permission_denied</a>(<a href="token.md#0x3_token_EPROPERTY_RESERVED_BY_STANDARD">EPROPERTY_RESERVED_BY_STANDARD</a>));
         };
     });
 }
@@ -5290,7 +5290,7 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_initialize_token_script">initialize_token_script</a>(_account: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_initialize_token_script">initialize_token_script</a>(_account: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -5299,7 +5299,7 @@ Deposit the token balance into the recipients account and emit an event.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_initialize_token_script">initialize_token_script</a>(_account: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_initialize_token_script">initialize_token_script</a>(_account: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
     <b>abort</b> 0
 }
 </code></pre>
@@ -5314,7 +5314,7 @@ Deposit the token balance into the recipients account and emit an event.
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token">initialize_token</a>(_account: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token">initialize_token</a>(_account: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>)
 </code></pre>
 
 
@@ -5323,7 +5323,7 @@ Deposit the token balance into the recipients account and emit an event.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token">initialize_token</a>(_account: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>) {
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token">initialize_token</a>(_account: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _token_id: <a href="token.md#0x3_token_TokenId">TokenId</a>) {
     <b>abort</b> 0
 }
 </code></pre>
@@ -5349,7 +5349,7 @@ Deposit the token balance into the recipients account and emit an event.
 ### Function `create_collection_script`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_collection_script">create_collection_script</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_collection_script">create_collection_script</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
 </code></pre>
 
 
@@ -5368,7 +5368,7 @@ The length of the uri is up to MAX_URI_LENGTH;
 ### Function `create_token_script`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_token_script">create_token_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, balance: u64, maximum: u64, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_create_token_script">create_token_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, balance: u64, maximum: u64, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -5379,7 +5379,7 @@ The sum of supply and mint Token is less than maximum.
 
 
 <pre><code><b>pragma</b> aborts_if_is_partial;
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>let</b> token_data_id = <a href="token.md#0x3_token_spec_create_tokendata">spec_create_tokendata</a>(addr, collection, name);
 <b>let</b> creator_addr = token_data_id.creator;
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr).token_data;
@@ -5412,7 +5412,7 @@ The sum of supply and mint Token is less than maximum.
 ### Function `mint_script`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mint_script">mint_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_address: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mint_script">mint_script</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_address: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, amount: u64)
 </code></pre>
 
 
@@ -5425,11 +5425,11 @@ only creator of the tokendata can mint tokens
     collection,
     name,
 );
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>let</b> creator_addr = token_data_id.creator;
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr).token_data;
 <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_data_id);
-<b>aborts_if</b> token_data_id.creator != <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>aborts_if</b> token_data_id.creator != <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>include</b> <a href="token.md#0x3_token_CreateTokenDataIdAbortsIf">CreateTokenDataIdAbortsIf</a>{
 creator: token_data_address,
 collection,
@@ -5447,7 +5447,7 @@ token_data_id
 ### Function `mutate_token_properties`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mutate_token_properties">mutate_token_properties</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, amount: u64, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_mutate_token_properties">mutate_token_properties</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, amount: u64, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -5455,7 +5455,7 @@ The signer is creator.
 
 
 <pre><code><b>pragma</b> aborts_if_is_partial;
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>aborts_if</b> addr != creator;
 <b>include</b> <a href="token.md#0x3_token_CreateTokenDataIdAbortsIf">CreateTokenDataIdAbortsIf</a> {
     creator,
@@ -5471,7 +5471,7 @@ The signer is creator.
 ### Function `direct_transfer_script`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_direct_transfer_script">direct_transfer_script</a>(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_direct_transfer_script">direct_transfer_script</a>(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
 </code></pre>
 
 
@@ -5492,14 +5492,14 @@ The signer is creator.
 ### Function `opt_in_direct_transfer`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_opt_in_direct_transfer">opt_in_direct_transfer</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, opt_in: bool)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_opt_in_direct_transfer">opt_in_direct_transfer</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, opt_in: bool)
 </code></pre>
 
 
 
 
 <pre><code><b>pragma</b> aborts_if_is_partial;
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>let</b> account_addr = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 </code></pre>
 
@@ -5510,7 +5510,7 @@ The signer is creator.
 ### Function `transfer_with_opt_in`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_transfer_with_opt_in">transfer_with_opt_in</a>(from: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, <b>to</b>: <b>address</b>, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_transfer_with_opt_in">transfer_with_opt_in</a>(from: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_property_version: u64, <b>to</b>: <b>address</b>, amount: u64)
 </code></pre>
 
 
@@ -5531,14 +5531,14 @@ The signer is creator.
 ### Function `burn_by_creator`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn_by_creator">burn_by_creator</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, owner: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn_by_creator">burn_by_creator</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, owner: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
 </code></pre>
 
 
 
 
 <pre><code><b>pragma</b> aborts_if_is_partial;
-<b>let</b> creator_address = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<b>let</b> creator_address = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> token_id = <a href="token.md#0x3_token_spec_create_token_id_raw">spec_create_token_id_raw</a>(creator_address, collection, name, property_version);
 <b>let</b> creator_addr = token_id.token_data_id.creator;
 <b>let</b> collections = <b>borrow_global_mut</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_address);
@@ -5559,7 +5559,7 @@ The signer is creator.
 ### Function `burn`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn">burn</a>(owner: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_burn">burn</a>(owner: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, creators_address: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64, amount: u64)
 </code></pre>
 
 
@@ -5581,7 +5581,7 @@ creator: creators_address
 <b>aborts_if</b> !<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr);
 <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_contains">table::spec_contains</a>(collections.token_data, token_id.token_data_id);
 <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/doc/simple_map.md#0x1_simple_map_spec_contains_key">simple_map::spec_contains_key</a>(token_data.default_properties.map, std::string::spec_utf8(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>));
-<b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_spec_internal_check_utf8">string::spec_internal_check_utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>);
+<b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_spec_internal_check_utf8">string::spec_internal_check_utf8</a>(<a href="token.md#0x3_token_BURNABLE_BY_OWNER">BURNABLE_BY_OWNER</a>);
 </code></pre>
 
 
@@ -5611,14 +5611,14 @@ creator: creators_address
 ### Function `mutate_collection_description`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_description">mutate_collection_description</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_description">mutate_collection_description</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
 The description of Collection is mutable.
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> collection_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(<b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(addr).collection_data, collection_name);
 <b>include</b> <a href="token.md#0x3_token_AssertCollectionExistsAbortsIf">AssertCollectionExistsAbortsIf</a> {
@@ -5635,14 +5635,14 @@ The description of Collection is mutable.
 ### Function `mutate_collection_uri`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_uri">mutate_collection_uri</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_uri">mutate_collection_uri</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
 The uri of Collection is mutable.
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> collection_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(<b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(addr).collection_data, collection_name);
 <b>aborts_if</b> len(uri.bytes) &gt; <a href="token.md#0x3_token_MAX_URI_LENGTH">MAX_URI_LENGTH</a>;
@@ -5660,7 +5660,7 @@ The uri of Collection is mutable.
 ### Function `mutate_collection_maximum`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_maximum">mutate_collection_maximum</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_collection_maximum">mutate_collection_maximum</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64)
 </code></pre>
 
 
@@ -5669,7 +5669,7 @@ The maximum should more than suply.
 The maxium of Collection is mutable.
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> collection_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(<b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(addr).collection_data, collection_name);
 <b>include</b> <a href="token.md#0x3_token_AssertCollectionExistsAbortsIf">AssertCollectionExistsAbortsIf</a> {
@@ -5688,7 +5688,7 @@ The maxium of Collection is mutable.
 ### Function `mutate_tokendata_maximum`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_maximum">mutate_tokendata_maximum</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, maximum: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_maximum">mutate_tokendata_maximum</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, maximum: u64)
 </code></pre>
 
 
@@ -5697,7 +5697,7 @@ The maximum should more than suply.
 The token maximum is mutable
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(token_data_id.creator).token_data;
 <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_data_id);
@@ -5714,7 +5714,7 @@ The token maximum is mutable
 ### Function `mutate_tokendata_uri`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_uri">mutate_tokendata_uri</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_uri">mutate_tokendata_uri</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -5723,7 +5723,7 @@ The  creator of token_data_id should exist in Collections.
 The token uri is mutable
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<pre><code><b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(token_data_id.creator).token_data;
 <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_data_id);
@@ -5739,7 +5739,7 @@ The token uri is mutable
 ### Function `mutate_tokendata_royalty`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_royalty">mutate_tokendata_royalty</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, royalty: <a href="token.md#0x3_token_Royalty">token::Royalty</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_royalty">mutate_tokendata_royalty</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, royalty: <a href="token.md#0x3_token_Royalty">token::Royalty</a>)
 </code></pre>
 
 
@@ -5747,7 +5747,7 @@ The token royalty is mutable
 
 
 <pre><code><b>include</b> <a href="token.md#0x3_token_AssertTokendataExistsAbortsIf">AssertTokendataExistsAbortsIf</a>;
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(token_data_id.creator).token_data;
 <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_data_id);
@@ -5761,7 +5761,7 @@ The token royalty is mutable
 ### Function `mutate_tokendata_description`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_description">mutate_tokendata_description</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_description">mutate_tokendata_description</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -5769,7 +5769,7 @@ The token description is mutable
 
 
 <pre><code><b>include</b> <a href="token.md#0x3_token_AssertTokendataExistsAbortsIf">AssertTokendataExistsAbortsIf</a>;
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(token_data_id.creator).token_data;
 <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_data_id);
@@ -5783,7 +5783,7 @@ The token description is mutable
 ### Function `mutate_tokendata_property`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_property">mutate_tokendata_property</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_tokendata_property">mutate_tokendata_property</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -5806,7 +5806,7 @@ The property map is mutable
 ### Function `mutate_one_token`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_one_token">mutate_one_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mutate_one_token">mutate_one_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
 </code></pre>
 
 
@@ -5817,7 +5817,7 @@ The property map is mutable.
 
 <pre><code><b>pragma</b> aborts_if_is_partial;
 <b>let</b> creator = token_id.token_data_id.creator;
-<b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator).token_data;
 <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_id.token_data_id);
 <b>aborts_if</b> addr != creator;
@@ -5864,7 +5864,7 @@ The royalty_points_numerator should less than royalty_points_denominator.
 ### Function `deposit_token`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_deposit_token">deposit_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">token::Token</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_deposit_token">deposit_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, <a href="token.md#0x3_token">token</a>: <a href="token.md#0x3_token_Token">token::Token</a>)
 </code></pre>
 
 
@@ -5872,7 +5872,7 @@ The royalty_points_numerator should less than royalty_points_denominator.
 
 <pre><code><b>pragma</b> verify = <b>false</b>;
 <b>pragma</b> aborts_if_is_partial;
-<b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>include</b> !<b>exists</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(account_addr) ==&gt; <a href="token.md#0x3_token_InitializeTokenStore">InitializeTokenStore</a>;
 <b>let</b> token_id = <a href="token.md#0x3_token">token</a>.id;
 <b>let</b> token_amount = <a href="token.md#0x3_token">token</a>.amount;
@@ -5908,7 +5908,7 @@ The token can direct_transfer.
 ### Function `direct_transfer`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_direct_transfer">direct_transfer</a>(sender: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_direct_transfer">direct_transfer</a>(sender: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64)
 </code></pre>
 
 
@@ -5926,7 +5926,7 @@ Make sure the account has sufficient tokens to withdraw.
 ### Function `initialize_token_store`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token_store">initialize_token_store</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -5942,8 +5942,8 @@ Make sure the account has sufficient tokens to withdraw.
 
 
 <pre><code><b>schema</b> <a href="token.md#0x3_token_InitializeTokenStore">InitializeTokenStore</a> {
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
-    <b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    <b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <b>let</b> account_addr = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
 }
 </code></pre>
@@ -5990,14 +5990,14 @@ Make sure the account has sufficient tokens to withdraw.
 ### Function `transfer`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_transfer">transfer</a>(from: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, <b>to</b>: <b>address</b>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_transfer">transfer</a>(from: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, <b>to</b>: <b>address</b>, amount: u64)
 </code></pre>
 
 
 
 
 <pre><code><b>let</b> opt_in_transfer = <b>global</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(<b>to</b>).direct_transfer;
-<b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(from);
+<b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(from);
 <b>aborts_if</b> !opt_in_transfer;
 <b>pragma</b> aborts_if_is_partial;
 <b>include</b> <a href="token.md#0x3_token_WithdrawWithEventInternalAbortsIf">WithdrawWithEventInternalAbortsIf</a>;
@@ -6032,7 +6032,7 @@ amount: withdraw_proof.amount};
 ### Function `partial_withdraw_with_capability`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_partial_withdraw_with_capability">partial_withdraw_with_capability</a>(withdraw_proof: <a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>, withdraw_amount: u64): (<a href="token.md#0x3_token_Token">token::Token</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_partial_withdraw_with_capability">partial_withdraw_with_capability</a>(withdraw_proof: <a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>, withdraw_amount: u64): (<a href="token.md#0x3_token_Token">token::Token</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="token.md#0x3_token_WithdrawCapability">token::WithdrawCapability</a>&gt;)
 </code></pre>
 
 
@@ -6056,7 +6056,7 @@ amount: withdraw_proof.amount};
 ### Function `withdraw_token`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64): <a href="token.md#0x3_token_Token">token::Token</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_withdraw_token">withdraw_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, amount: u64): <a href="token.md#0x3_token_Token">token::Token</a>
 </code></pre>
 
 
@@ -6064,7 +6064,7 @@ Cannot withdraw 0 tokens.
 Make sure the account has sufficient tokens to withdraw.
 
 
-<pre><code><b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<pre><code><b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>include</b> <a href="token.md#0x3_token_WithdrawWithEventInternalAbortsIf">WithdrawWithEventInternalAbortsIf</a>;
 </code></pre>
 
@@ -6075,7 +6075,7 @@ Make sure the account has sufficient tokens to withdraw.
 ### Function `create_collection`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection">create_collection</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection">create_collection</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;)
 </code></pre>
 
 
@@ -6085,7 +6085,7 @@ The collection_data should not exist before you create it.
 
 
 <pre><code><b>pragma</b> aborts_if_is_partial;
-<b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+<b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
 <b>aborts_if</b> len(name.bytes) &gt; 128;
 <b>aborts_if</b> len(uri.bytes) &gt; 512;
 <b>include</b> <a href="token.md#0x3_token_CreateCollectionAbortsIf">CreateCollectionAbortsIf</a>;
@@ -6098,13 +6098,13 @@ The collection_data should not exist before you create it.
 
 
 <pre><code><b>schema</b> <a href="token.md#0x3_token_CreateCollectionAbortsIf">CreateCollectionAbortsIf</a> {
-    creator: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    creator: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
     name: String;
     description: String;
     uri: String;
     maximum: u64;
-    mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;;
-    <b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+    mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;;
+    <b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <b>let</b> <a href="../../cedra-framework/doc/account.md#0x1_account">account</a> = <b>global</b>&lt;<a href="../../cedra-framework/doc/account.md#0x1_account_Account">account::Account</a>&gt;(addr);
     <b>let</b> collection = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(addr);
     <b>let</b> b = !<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(addr);
@@ -6120,7 +6120,7 @@ The collection_data should not exist before you create it.
 ### Function `check_collection_exists`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_collection_exists">check_collection_exists</a>(creator: <b>address</b>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_collection_exists">check_collection_exists</a>(creator: <b>address</b>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
 </code></pre>
 
 
@@ -6136,7 +6136,7 @@ The collection_data should not exist before you create it.
 ### Function `check_tokendata_exists`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_tokendata_exists">check_tokendata_exists</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_check_tokendata_exists">check_tokendata_exists</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, token_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): bool
 </code></pre>
 
 
@@ -6159,7 +6159,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `create_tokendata`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_tokendata">create_tokendata</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, token_mutate_config: <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>, property_keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_tokendata">create_tokendata</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, maximum: u64, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, royalty_payee_address: <b>address</b>, royalty_points_denominator: u64, royalty_points_numerator: u64, token_mutate_config: <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>, property_keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, property_values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, property_types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
 </code></pre>
 
 
@@ -6169,7 +6169,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 
 <pre><code><b>pragma</b> verify = <b>false</b>;
 <b>pragma</b> aborts_if_is_partial;
-<b>let</b> account_addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<b>let</b> account_addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>let</b> collections = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(account_addr);
 <b>let</b> token_data_id = <a href="token.md#0x3_token_spec_create_token_data_id">spec_create_token_data_id</a>(account_addr, collection, name);
 <b>let</b> Collection = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(collections.collection_data, token_data_id.collection);
@@ -6218,7 +6218,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_collection_supply`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_supply">get_collection_supply</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_supply">get_collection_supply</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -6234,7 +6234,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_collection_description`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_description">get_collection_description</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_description">get_collection_description</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -6250,7 +6250,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_collection_uri`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_uri">get_collection_uri</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_uri">get_collection_uri</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -6266,7 +6266,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_collection_maximum`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_maximum">get_collection_maximum</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): u64
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_maximum">get_collection_maximum</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): u64
 </code></pre>
 
 
@@ -6282,7 +6282,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_token_supply`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_supply">get_token_supply</a>(creator_address: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_token_supply">get_token_supply</a>(creator_address: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -6318,7 +6318,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `create_token_mutability_config`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_mutability_config">create_token_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_TokenMutabilityConfig">token::TokenMutabilityConfig</a>
 </code></pre>
 
 
@@ -6336,13 +6336,13 @@ The mutate_setting shuold have a value.
 
 
 <pre><code><b>schema</b> <a href="token.md#0x3_token_CreateTokenMutabilityConfigAbortsIf">CreateTokenMutabilityConfigAbortsIf</a> {
-    mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;;
+    mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;;
     <b>aborts_if</b> len(mutate_setting) &lt; 5;
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_MAX_MUTABLE_IND">TOKEN_MAX_MUTABLE_IND</a>]);
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_URI_MUTABLE_IND">TOKEN_URI_MUTABLE_IND</a>]);
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_ROYALTY_MUTABLE_IND">TOKEN_ROYALTY_MUTABLE_IND</a>]);
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_DESCRIPTION_MUTABLE_IND">TOKEN_DESCRIPTION_MUTABLE_IND</a>]);
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE_IND">TOKEN_PROPERTY_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_MAX_MUTABLE_IND">TOKEN_MAX_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_URI_MUTABLE_IND">TOKEN_URI_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_ROYALTY_MUTABLE_IND">TOKEN_ROYALTY_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_DESCRIPTION_MUTABLE_IND">TOKEN_DESCRIPTION_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_TOKEN_PROPERTY_MUTABLE_IND">TOKEN_PROPERTY_MUTABLE_IND</a>]);
 }
 </code></pre>
 
@@ -6353,7 +6353,7 @@ The mutate_setting shuold have a value.
 ### Function `create_collection_mutability_config`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_collection_mutability_config">create_collection_mutability_config</a>(mutate_setting: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
 </code></pre>
 
 
@@ -6369,11 +6369,11 @@ The mutate_setting shuold have a value.
 
 
 <pre><code><b>schema</b> <a href="token.md#0x3_token_CreateCollectionMutabilityConfigAbortsIf">CreateCollectionMutabilityConfigAbortsIf</a> {
-    mutate_setting: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;;
+    mutate_setting: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;bool&gt;;
     <b>aborts_if</b> len(mutate_setting) &lt; 3;
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_COLLECTION_DESCRIPTION_MUTABLE_IND">COLLECTION_DESCRIPTION_MUTABLE_IND</a>]);
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_COLLECTION_URI_MUTABLE_IND">COLLECTION_URI_MUTABLE_IND</a>]);
-    <b>aborts_if</b> !<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_COLLECTION_MAX_MUTABLE_IND">COLLECTION_MAX_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_COLLECTION_DESCRIPTION_MUTABLE_IND">COLLECTION_DESCRIPTION_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_COLLECTION_URI_MUTABLE_IND">COLLECTION_URI_MUTABLE_IND</a>]);
+    <b>aborts_if</b> !<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_spec_contains">vector::spec_contains</a>(mutate_setting, mutate_setting[<a href="token.md#0x3_token_COLLECTION_MAX_MUTABLE_IND">COLLECTION_MAX_MUTABLE_IND</a>]);
 }
 </code></pre>
 
@@ -6384,7 +6384,7 @@ The mutate_setting shuold have a value.
 ### Function `mint_token`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token">mint_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token">mint_token</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
 </code></pre>
 
 
@@ -6403,10 +6403,10 @@ The sum of supply and the amount of mint Token is less than maximum.
 
 
 <pre><code><b>schema</b> <a href="token.md#0x3_token_MintTokenAbortsIf">MintTokenAbortsIf</a> {
-    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    <a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
     token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>;
     amount: u64;
-    <b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+    <b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
     <b>let</b> creator_addr = token_data_id.creator;
     <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr).token_data;
     <b>let</b> token_data = <a href="../../cedra-framework/../cedra-stdlib/doc/table.md#0x1_table_spec_get">table::spec_get</a>(all_token_data, token_data_id);
@@ -6427,13 +6427,13 @@ The sum of supply and the amount of mint Token is less than maximum.
 ### Function `mint_token_to`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token_to">mint_token_to</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_mint_token_to">mint_token_to</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, receiver: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>, amount: u64)
 </code></pre>
 
 
 
 
-<pre><code><b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
+<pre><code><b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(<a href="../../cedra-framework/doc/account.md#0x1_account">account</a>);
 <b>let</b> opt_in_transfer = <b>global</b>&lt;<a href="token.md#0x3_token_TokenStore">TokenStore</a>&gt;(receiver).direct_transfer;
 <b>let</b> creator_addr = token_data_id.creator;
 <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr).token_data;
@@ -6460,7 +6460,7 @@ The sum of supply and the amount of mint Token is less than maximum.
 ### Function `create_token_data_id`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_data_id">create_token_data_id</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_data_id">create_token_data_id</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>
 </code></pre>
 
 
@@ -6493,7 +6493,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `create_token_id_raw`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_create_token_id_raw">create_token_id_raw</a>(creator: <b>address</b>, collection: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, property_version: u64): <a href="token.md#0x3_token_TokenId">token::TokenId</a>
 </code></pre>
 
 
@@ -6587,7 +6587,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_tokendata_uri`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_uri">get_tokendata_uri</a>(creator: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_uri">get_tokendata_uri</a>(creator: <b>address</b>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -6605,7 +6605,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `get_tokendata_description`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_description">get_tokendata_description</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_tokendata_description">get_tokendata_description</a>(token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -6675,7 +6675,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_mutability_config">get_collection_mutability_config</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
+<b>public</b> <b>fun</b> <a href="token.md#0x3_token_get_collection_mutability_config">get_collection_mutability_config</a>(creator: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="token.md#0x3_token_CollectionMutabilityConfig">token::CollectionMutabilityConfig</a>
 </code></pre>
 
 
@@ -6727,7 +6727,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `update_token_property_internal`
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_update_token_property_internal">update_token_property_internal</a>(token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_update_token_property_internal">update_token_property_internal</a>(token_owner: <b>address</b>, token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>, keys: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;, values: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;&gt;, types: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -6784,7 +6784,7 @@ The length of name should less than MAX_NFT_NAME_LENGTH
 ### Function `assert_collection_exists`
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_collection_exists">assert_collection_exists</a>(creator_address: <b>address</b>, collection_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -6816,7 +6816,7 @@ The collection_name should exist in collection_data of the creator_address's Col
 ### Function `assert_tokendata_exists`
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_tokendata_exists">assert_tokendata_exists</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, token_data_id: <a href="token.md#0x3_token_TokenDataId">token::TokenDataId</a>)
 </code></pre>
 
 
@@ -6835,10 +6835,10 @@ The token_data_id is in the all_token_data.
 
 
 <pre><code><b>schema</b> <a href="token.md#0x3_token_AssertTokendataExistsAbortsIf">AssertTokendataExistsAbortsIf</a> {
-    creator: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
+    creator: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>;
     token_data_id: <a href="token.md#0x3_token_TokenDataId">TokenDataId</a>;
     <b>let</b> creator_addr = token_data_id.creator;
-    <b>let</b> addr = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
+    <b>let</b> addr = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator);
     <b>aborts_if</b> addr != creator_addr;
     <b>aborts_if</b> !<b>exists</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr);
     <b>let</b> all_token_data = <b>global</b>&lt;<a href="token.md#0x3_token_Collections">Collections</a>&gt;(creator_addr).token_data;
@@ -6853,7 +6853,7 @@ The token_data_id is in the all_token_data.
 ### Function `assert_non_standard_reserved_property`
 
 
-<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(keys: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
+<pre><code><b>fun</b> <a href="token.md#0x3_token_assert_non_standard_reserved_property">assert_non_standard_reserved_property</a>(keys: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>&gt;)
 </code></pre>
 
 
@@ -6869,7 +6869,7 @@ The token_data_id is in the all_token_data.
 ### Function `initialize_token_script`
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_initialize_token_script">initialize_token_script</a>(_account: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="token.md#0x3_token_initialize_token_script">initialize_token_script</a>(_account: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -6886,7 +6886,7 @@ Deprecated function
 ### Function `initialize_token`
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token">initialize_token</a>(_account: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="token.md#0x3_token_initialize_token">initialize_token</a>(_account: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _token_id: <a href="token.md#0x3_token_TokenId">token::TokenId</a>)
 </code></pre>
 
 

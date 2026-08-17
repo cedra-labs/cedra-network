@@ -92,3 +92,4 @@ pub const SET_PRICE_V2: &IdentStr = ident_str!("set_prices_v2");
 pub const REMOVE_PRICE: &IdentStr = ident_str!("remove_price");
 pub const CALCULATE_FA_FEE: &IdentStr = ident_str!("calculate_fa_fee");
 pub const CALCULATE_FA_FEE_V2: &IdentStr = ident_str!("calculate_fa_fee_v2");
+pub const CALCULATE_FA_FEE_FROM_QUOTES: &IdentStr = ident_str!("calculate_fa_fee_from_quotes");

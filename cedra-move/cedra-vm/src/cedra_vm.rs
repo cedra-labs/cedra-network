@@ -7,6 +7,7 @@ use crate::{
     counters::*,
     data_cache::{AsMoveResolver, StorageAdapter},
     errors::{discarded_output, expect_only_successful_execution},
+    fa_oracle,
     gas::{check_gas, make_prod_gas_meter, ProdGasMeter},
     keyless_validation,
     move_vm_ext::{
@@ -809,46 +810,18 @@ impl CedraVM {
 
             let stablecoin_amount: u64 =
                 if let Some((fa_addr, symbol)) = txn_data.fa_oracle_identity() {
-                    match session.execute_function_bypass_visibility(
-                        &PRICE_STORAGE_MODULE,
-                        CALCULATE_FA_FEE_V2,
-                        vec![],
-                        vec![
-                            MoveValue::U64(gas_used).simple_serialize().unwrap(),
-                            MoveValue::U64(storage_refund).simple_serialize().unwrap(),
-                            MoveValue::U64(txn_gas_price.into()).simple_serialize().unwrap(),
-                            MoveValue::Address(fa_addr).simple_serialize().unwrap(),
-                            MoveValue::vector_u8(symbol).simple_serialize().unwrap(),
-                        ],
+                    fa_oracle::compute_fa_fee_v2(
+                        session,
+                        module_storage,
                         &mut unmetered_gas_meter,
                         traversal_context,
-                        module_storage,
-                    ) {
-                        Ok(output) => match output
-                            .return_values
-                            .get(0)
-                            .and_then(|(bytes, _)| bcs::from_bytes::<u64>(bytes).ok())
-                        {
-                            // 0 is valid when net Cedra fee is 0 (full storage refund).
-                            Some(amount) => amount,
-                            None => {
-                                return Err(PartialVMError::new(
-                                    StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
-                                )
-                                .with_message(
-                                    "FA fee calculation returned no u64 value".to_string(),
-                                )
-                                .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
-                                .into_vm_status());
-                            },
-                        },
-                        Err(err) => {
-                            println!("FA fee v2 Move error: {:?}", err);
-                            return Err(err.into_vm_status());
-                        },
-                    }
+                        gas_used,
+                        storage_refund,
+                        txn_gas_price.into(),
+                        fa_addr,
+                        &symbol,
+                    )?
                 } else {
-                    println!("FA oracle identity missing for fee_v2 transaction");
                     return Err(PartialVMError::new(
                         StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
                     )
@@ -2529,6 +2502,19 @@ impl CedraVM {
         )?;
 
         let storage = TraversalStorage::new();
+        let mut traversal_context = TraversalContext::new(&storage);
+
+        if module_id == *PRICE_STORAGE_MODULE && func_name.as_ident_str() == CALCULATE_FA_FEE_V2 {
+            let amount = fa_oracle::try_compute_fa_fee_v2_view(
+                session,
+                module_storage,
+                gas_meter,
+                &mut traversal_context,
+                &arguments,
+            )
+            .map_err(|err| anyhow!("Failed to execute function: {:?}", err))?;
+            return Ok(vec![bcs::to_bytes(&amount)?]);
+        }
 
         Ok(session
             .execute_function_bypass_visibility(
@@ -2537,7 +2523,7 @@ impl CedraVM {
                 type_args,
                 arguments,
                 gas_meter,
-                &mut TraversalContext::new(&storage),
+                &mut traversal_context,
                 module_storage,
             )
             .map_err(|err| anyhow!("Failed to execute function: {:?}", err))?

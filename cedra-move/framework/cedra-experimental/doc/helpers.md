@@ -11,10 +11,10 @@
 -  [Function `public_amount_to_veiled_balance`](#0x7_helpers_public_amount_to_veiled_balance)
 
 
-<pre><code><b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<pre><code><b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255">0x1::ristretto255</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal">0x1::ristretto255_elgamal</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 </code></pre>
 
 
@@ -42,7 +42,7 @@ Given a vector <code>vec</code>, removes the last <code>cut_len</code> elements 
 exists because we did not like the interface of <code>std::vector::trim</code>.)
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="helpers.md#0x7_helpers_cut_vector">cut_vector</a>&lt;T&gt;(vec: &<b>mut</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt;, cut_len: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="helpers.md#0x7_helpers_cut_vector">cut_vector</a>&lt;T&gt;(vec: &<b>mut</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt;, cut_len: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt;
 </code></pre>
 
 
@@ -51,12 +51,12 @@ exists because we did not like the interface of <code>std::vector::trim</code>.)
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="helpers.md#0x7_helpers_cut_vector">cut_vector</a>&lt;T&gt;(vec: &<b>mut</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt;, cut_len: u64): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt; {
-    <b>let</b> len = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(vec);
-    <b>let</b> res = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
-    <b>assert</b>!(len &gt;= cut_len, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="helpers.md#0x7_helpers_EVECTOR_CUT_TOO_LARGE">EVECTOR_CUT_TOO_LARGE</a>));
+<pre><code><b>public</b> <b>fun</b> <a href="helpers.md#0x7_helpers_cut_vector">cut_vector</a>&lt;T&gt;(vec: &<b>mut</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt;, cut_len: u64): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;T&gt; {
+    <b>let</b> len = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_length">vector::length</a>(vec);
+    <b>let</b> res = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>();
+    <b>assert</b>!(len &gt;= cut_len, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="helpers.md#0x7_helpers_EVECTOR_CUT_TOO_LARGE">EVECTOR_CUT_TOO_LARGE</a>));
     <b>while</b> (cut_len &gt; 0) {
-        res.push_back(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(vec));
+        res.push_back(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_pop_back">vector::pop_back</a>(vec));
         cut_len -= 1;
     };
     res.reverse();

@@ -127,12 +127,12 @@ $\Sigma$-bullets modification of Bulletproofs.
 -  [Function `fiat_shamir_transfer_subproof_challenge`](#0x7_sigma_protos_fiat_shamir_transfer_subproof_challenge)
 
 
-<pre><code><b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<pre><code><b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255">0x1::ristretto255</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_elgamal.md#0x1_ristretto255_elgamal">0x1::ristretto255_elgamal</a>;
 <b>use</b> <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255_pedersen.md#0x1_ristretto255_pedersen">0x1::ristretto255_pedersen</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 <b>use</b> <a href="helpers.md#0x7_helpers">0x7::helpers</a>;
 </code></pre>
 
@@ -312,7 +312,7 @@ The $\Sigma$-protocol proof for withdrawals did not verify.
 The domain separation tag (DST) used in the Fiat-Shamir transform of our $\Sigma$-protocol.
 
 
-<pre><code><b>const</b> <a href="sigma_protos.md#0x7_sigma_protos_FIAT_SHAMIR_SIGMA_DST">FIAT_SHAMIR_SIGMA_DST</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [67, 101, 100, 114, 97, 86, 101, 105, 108, 101, 100, 67, 111, 105, 110, 47, 87, 105, 116, 104, 100, 114, 97, 119, 97, 108, 83, 117, 98, 112, 114, 111, 111, 102, 70, 105, 97, 116, 83, 104, 97, 109, 105, 114];
+<pre><code><b>const</b> <a href="sigma_protos.md#0x7_sigma_protos_FIAT_SHAMIR_SIGMA_DST">FIAT_SHAMIR_SIGMA_DST</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; = [67, 101, 100, 114, 97, 86, 101, 105, 108, 101, 100, 67, 111, 105, 110, 47, 87, 105, 116, 104, 100, 114, 97, 119, 97, 108, 83, 117, 98, 112, 114, 111, 111, 102, 70, 105, 97, 116, 83, 104, 97, 109, 105, 114];
 </code></pre>
 
 
@@ -371,7 +371,7 @@ as the value encrypted by the ciphertext obtained by subtracting withdraw_ct fro
     // \rho * D + X1 =? \alpha_2 * g
     <b>let</b> d_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(big_d, &rho);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> d_acc, &proof.x1);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&d_acc, &g_alpha2), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&d_acc, &g_alpha2), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     <b>let</b> g_alpha1 = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_basepoint_mul">ristretto255::basepoint_mul</a>(&proof.alpha1);
     // \rho * C + X2 =? \alpha_1 * g + \alpha_2 * y
@@ -379,14 +379,14 @@ as the value encrypted by the ciphertext obtained by subtracting withdraw_ct fro
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> big_c_acc, &proof.x2);
     <b>let</b> y_alpha2 = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&sender_pk_point, &proof.alpha2);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> y_alpha2, &g_alpha1);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_c_acc, &y_alpha2), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_c_acc, &y_alpha2), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     // \rho * \bar{C} + X3 =? \alpha_1 * g + \alpha_2 * \bar{y}
     <b>let</b> big_bar_c_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(bar_big_c, &rho);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> big_bar_c_acc, &proof.x3);
     <b>let</b> y_bar_alpha2 = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&recipient_pk_point, &proof.alpha2);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> y_bar_alpha2, &g_alpha1);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_bar_c_acc, &y_bar_alpha2), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_bar_c_acc, &y_bar_alpha2), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     <b>let</b> g_alpha3 = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_basepoint_mul">ristretto255::basepoint_mul</a>(&proof.alpha3);
     // \rho * (C_1 - C) + X_4 =? \alpha_3 * g + \alpha_5 * (C_2 - D)
@@ -397,7 +397,7 @@ as the value encrypted by the ciphertext obtained by subtracting withdraw_ct fro
     <b>let</b> big_c2_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_sub">ristretto255::point_sub</a>(c2, big_d);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul_assign">ristretto255::point_mul_assign</a>(&<b>mut</b> big_c2_acc, &proof.alpha5);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> big_c2_acc, &g_alpha3);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_c1_acc, &big_c2_acc), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_c1_acc, &big_c2_acc), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     // \rho * c + X_5 =? \alpha_1 * g + \alpha_2 * h
     <b>let</b> c_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(c, &rho);
@@ -405,7 +405,7 @@ as the value encrypted by the ciphertext obtained by subtracting withdraw_ct fro
 
     <b>let</b> h_alpha2_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&h, &proof.alpha2);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> h_alpha2_acc, &g_alpha1);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&c_acc, &h_alpha2_acc), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&c_acc, &h_alpha2_acc), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     // \rho * \bar{c} + X_6 =? \alpha_3 * g + \alpha_4 * h
     <b>let</b> bar_c_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(bar_c, &rho);
@@ -413,14 +413,14 @@ as the value encrypted by the ciphertext obtained by subtracting withdraw_ct fro
 
     <b>let</b> h_alpha4_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&h, &proof.alpha4);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> h_alpha4_acc, &g_alpha3);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&bar_c_acc, &h_alpha4_acc), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&bar_c_acc, &h_alpha4_acc), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     // \rho * Y + X_7 =? \alpha_5 * G
     <b>let</b> y_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&sender_pk_point, &rho);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> y_acc, &proof.x7);
 
     <b>let</b> g_alpha5 = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_basepoint_mul">ristretto255::basepoint_mul</a>(&proof.alpha5);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&y_acc, &g_alpha5), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&y_acc, &g_alpha5), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 }
 </code></pre>
 
@@ -477,7 +477,7 @@ ElGamal-encrypted in the ciphertext obtained by subtracting the ciphertext (vG, 
 
     <b>let</b> big_c2_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(big_c2, &proof.alpha3);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> big_c2_acc, &g_alpha1);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_c1_acc, &big_c2_acc), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&big_c1_acc, &big_c2_acc), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     // \rho * c + X_2 =? \alpha_1 * g + \alpha_2 * h
     <b>let</b> c_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(c, &rho);
@@ -485,14 +485,14 @@ ElGamal-encrypted in the ciphertext obtained by subtracting the ciphertext (vG, 
 
     <b>let</b> h_alpha2_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&h, &proof.alpha2);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> h_alpha2_acc, &g_alpha1);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&c_acc, &h_alpha2_acc), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&c_acc, &h_alpha2_acc), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 
     // \rho * Y + X_3 =? \alpha_3 * g
     <b>let</b> y_acc = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_mul">ristretto255::point_mul</a>(&sender_pk_point, &rho);
     <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_add_assign">ristretto255::point_add_assign</a>(&<b>mut</b> y_acc, &proof.x3);
 
     <b>let</b> g_alpha3 = <a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_basepoint_mul">ristretto255::basepoint_mul</a>(&proof.alpha3);
-    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&y_acc, &g_alpha3), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_equals">ristretto255::point_equals</a>(&y_acc, &g_alpha3), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="sigma_protos.md#0x7_sigma_protos_ESIGMA_PROTOCOL_VERIFY_FAILED">ESIGMA_PROTOCOL_VERIFY_FAILED</a>));
 }
 </code></pre>
 
@@ -507,7 +507,7 @@ ElGamal-encrypted in the ciphertext obtained by subtracting the ciphertext (vG, 
 Deserializes and returns an <code><a href="sigma_protos.md#0x7_sigma_protos_WithdrawalSubproof">WithdrawalSubproof</a></code> given its byte representation.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_withdrawal_subproof">deserialize_withdrawal_subproof</a>(proof_bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="sigma_protos.md#0x7_sigma_protos_WithdrawalSubproof">sigma_protos::WithdrawalSubproof</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_withdrawal_subproof">deserialize_withdrawal_subproof</a>(proof_bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="sigma_protos.md#0x7_sigma_protos_WithdrawalSubproof">sigma_protos::WithdrawalSubproof</a>&gt;
 </code></pre>
 
 
@@ -516,7 +516,7 @@ Deserializes and returns an <code><a href="sigma_protos.md#0x7_sigma_protos_With
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_withdrawal_subproof">deserialize_withdrawal_subproof</a>(proof_bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="sigma_protos.md#0x7_sigma_protos_WithdrawalSubproof">WithdrawalSubproof</a>&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_withdrawal_subproof">deserialize_withdrawal_subproof</a>(proof_bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="sigma_protos.md#0x7_sigma_protos_WithdrawalSubproof">WithdrawalSubproof</a>&gt; {
     <b>if</b> (proof_bytes.length::&lt;u8&gt;() != 192) {
         <b>return</b> std::option::none&lt;<a href="sigma_protos.md#0x7_sigma_protos_WithdrawalSubproof">WithdrawalSubproof</a>&gt;()
     };
@@ -580,7 +580,7 @@ Deserializes and returns an <code><a href="sigma_protos.md#0x7_sigma_protos_With
 Deserializes and returns a <code><a href="sigma_protos.md#0x7_sigma_protos_TransferSubproof">TransferSubproof</a></code> given its byte representation.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_transfer_subproof">deserialize_transfer_subproof</a>(proof_bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="sigma_protos.md#0x7_sigma_protos_TransferSubproof">sigma_protos::TransferSubproof</a>&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_transfer_subproof">deserialize_transfer_subproof</a>(proof_bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="sigma_protos.md#0x7_sigma_protos_TransferSubproof">sigma_protos::TransferSubproof</a>&gt;
 </code></pre>
 
 
@@ -589,7 +589,7 @@ Deserializes and returns a <code><a href="sigma_protos.md#0x7_sigma_protos_Trans
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_transfer_subproof">deserialize_transfer_subproof</a>(proof_bytes: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="sigma_protos.md#0x7_sigma_protos_TransferSubproof">TransferSubproof</a>&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="sigma_protos.md#0x7_sigma_protos_deserialize_transfer_subproof">deserialize_transfer_subproof</a>(proof_bytes: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Option&lt;<a href="sigma_protos.md#0x7_sigma_protos_TransferSubproof">TransferSubproof</a>&gt; {
     <b>if</b> (proof_bytes.length::&lt;u8&gt;() != 384) {
         <b>return</b> std::option::none&lt;<a href="sigma_protos.md#0x7_sigma_protos_TransferSubproof">TransferSubproof</a>&gt;()
     };
@@ -718,7 +718,7 @@ $\Sigma$-protocol.
     <b>let</b> c = pedersen::commitment_as_point(sender_new_balance_comm);
     <b>let</b> y = elgamal::pubkey_to_compressed_point(sender_pk);
 
-    <b>let</b> bytes = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;u8&gt;();
+    <b>let</b> bytes = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;u8&gt;();
 
     bytes.append::&lt;u8&gt;(<a href="sigma_protos.md#0x7_sigma_protos_FIAT_SHAMIR_SIGMA_DST">FIAT_SHAMIR_SIGMA_DST</a>);
     bytes.append::&lt;u8&gt;(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_to_bytes">ristretto255::point_to_bytes</a>(&<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_basepoint_compressed">ristretto255::basepoint_compressed</a>()));
@@ -782,7 +782,7 @@ Computes a Fiat-Shamir challenge <code>rho = H(G, H, Y, Y', C, D, c, c_1, c_2, \
     <b>let</b> (c1, c2) = elgamal::ciphertext_as_points(sender_curr_balance_ct);
     <b>let</b> bar_c = pedersen::commitment_as_point(sender_new_balance_comm);
 
-    <b>let</b> bytes = <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;u8&gt;();
+    <b>let</b> bytes = <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>&lt;u8&gt;();
 
     bytes.append::&lt;u8&gt;(<a href="sigma_protos.md#0x7_sigma_protos_FIAT_SHAMIR_SIGMA_DST">FIAT_SHAMIR_SIGMA_DST</a>);
     bytes.append::&lt;u8&gt;(<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_point_to_bytes">ristretto255::point_to_bytes</a>(&<a href="../../cedra-framework/../cedra-stdlib/doc/ristretto255.md#0x1_ristretto255_basepoint_compressed">ristretto255::basepoint_compressed</a>()));

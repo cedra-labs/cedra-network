@@ -7,9 +7,6 @@ module cedra_framework::price_storage {
     use cedra_std::string_utils;
     use cedra_std::math128;
     use cedra_framework::timestamp;
-    use oracle::oracle;
-    use oracle::price::{Self, Price};
-    use oracle::i64;
 
     friend cedra_framework::transaction_validation;
 
@@ -30,22 +27,28 @@ module cedra_framework::price_storage {
     const EFA_FEE_OVERFLOW: u64 = 10;
     /// Oracle confidence interval is too wide relative to price.
     const EPRICE_CONFIDENCE_TOO_WIDE: u64 = 11;
+    /// Oracle fetch is performed by the VM from OracleConfig; this entry is view metadata only.
+    const EORACLE_FETCH_REQUIRES_VM: u64 = 12;
     /// MSB is used to indicate a gas payer tx
     const MAX_U64: u128 = 18446744073709551615;
     /// Max age of an oracle price relative to on-chain time (seconds).
-    /// 60s is a common fee/trading default; tighten to ~30s if the publisher updates faster.
     const MAX_PRICE_AGE: u64 = 60;
     /// Max confidence / price in basis points (200 = 2%).
     const MAX_CONF_BPS: u64 = 200;
 
-    /// On-chain oracle module target (documentation; bytecode links via @oracle named address).
-    const ORACLE_ADDRESS: vector<u8> = b"0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c";
-    const ORACLE_MODULE: vector<u8> = b"oracle";
-    const ORACLE_METHOD: vector<u8> = b"get_price_by_feed_id";
-
     /// Cedra native feed identity for NewPriceIdentifier(address, symbol).
     const CEDRA_FEED_ADDRESS: vector<u8> = b"0x1";
     const CEDRA_FEED_SYMBOL: vector<u8> = b"Cedra";
+
+    /// BCS layout of an oracle Price unpacked by the VM.
+    struct OracleQuote has copy, drop {
+        price_negative: bool,
+        price_magnitude: u64,
+        conf: u64,
+        expo_negative: bool,
+        expo_magnitude: u64,
+        timestamp: u64,
+    }
 
     #[deprecated]
     struct PriceInfoV2 has copy, drop, store {
@@ -144,44 +147,67 @@ module cedra_framework::price_storage {
         hash::sha3_256(data)
     }
 
-    /// Decode oracle Price into (price, decimals) used by the fee formula.
-    fun decode_oracle_price(p: &Price, current_time: u64): (u64, u8) {
-        let price_ts = price::get_timestamp(p);
-        assert!(price_ts <= current_time, error::out_of_range(EPRICE_TIMESTAMP_IN_FUTURE));
+    public fun new_oracle_quote(
+        price_negative: bool,
+        price_magnitude: u64,
+        conf: u64,
+        expo_negative: bool,
+        expo_magnitude: u64,
+        timestamp: u64,
+    ): OracleQuote {
+        OracleQuote {
+            price_negative,
+            price_magnitude,
+            conf,
+            expo_negative,
+            expo_magnitude,
+            timestamp,
+        }
+    }
+
+    /// Decode an oracle quote into (price, decimals) used by the fee formula.
+    fun decode_oracle_quote(q: &OracleQuote, current_time: u64): (u64, u8) {
+        assert!(q.timestamp <= current_time, error::out_of_range(EPRICE_TIMESTAMP_IN_FUTURE));
         assert!(
-            current_time - price_ts <= MAX_PRICE_AGE,
+            current_time - q.timestamp <= MAX_PRICE_AGE,
             error::out_of_range(EPRICE_TOO_OLD)
         );
 
-        let raw_price = i64::get_magnitude_if_positive(&price::get_price(p));
-        assert!(raw_price > 0, error::invalid_argument(FA_PRICE_IS_ZERO));
+        assert!(!q.price_negative && q.price_magnitude > 0, error::invalid_argument(FA_PRICE_IS_ZERO));
+        let raw_price = q.price_magnitude;
 
-        // conf and price share the same expo, so the ratio is scale-independent.
         assert!(
-            (price::get_conf(p) as u128) * 10000 <= (raw_price as u128) * (MAX_CONF_BPS as u128),
+            (q.conf as u128) * 10000 <= (raw_price as u128) * (MAX_CONF_BPS as u128),
             error::out_of_range(EPRICE_CONFIDENCE_TOO_WIDE)
         );
 
-        let expo = price::get_expo(p);
-        let decimals = (i64::get_magnitude_if_negative(&expo) as u8);
+        assert!(q.expo_negative, error::out_of_range(DECIMALS_TOO_BIG));
+        let decimals = (q.expo_magnitude as u8);
         assert!(decimals <= 18, error::out_of_range(DECIMALS_TOO_BIG));
 
         (raw_price, decimals)
     }
 
+    /// VM-backed view: the node fetches prices from `OracleConfig.addr` and evaluates the fee.
+    /// Direct Move execution of this function aborts; use `calculate_fa_fee_from_quotes`.
     #[view]
     public fun calculate_fa_fee_v2(
+        _gas_used: u64,
+        _storage_fee_refunded: u64,
+        _txn_gas_price: u64,
+        _fa_address: address,
+        _symbol: vector<u8>
+    ): u64 {
+        abort error::invalid_state(EORACLE_FETCH_REQUIRES_VM)
+    }
+
+    public fun calculate_fa_fee_from_quotes(
         gas_used: u64,
         storage_fee_refunded: u64,
         txn_gas_price: u64,
-        fa_address: address,
-        symbol: vector<u8>
+        fa: OracleQuote,
+        cedra: OracleQuote,
     ): u64 {
-        // Keep module constants aligned with the linked @oracle call target.
-        assert!(ORACLE_MODULE == b"oracle", EPRICE_NOT_FOUND);
-        assert!(ORACLE_METHOD == b"get_price_by_feed_id", EPRICE_NOT_FOUND);
-        assert!(ORACLE_ADDRESS == b"0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c", EPRICE_NOT_FOUND);
-
         let current_time = timestamp::now_seconds();
 
         assert!(
@@ -199,16 +225,9 @@ module cedra_framework::price_storage {
             return 0
         };
 
-        let fa_feed_id = new_price_feed_id(address_to_hex(fa_address), symbol);
-        let fa_oracle_price = oracle::get_price_by_feed_id(fa_feed_id);
-        let (fa_price, fa_decimals) = decode_oracle_price(&fa_oracle_price, current_time);
+        let (fa_price, fa_decimals) = decode_oracle_quote(&fa, current_time);
+        let (cedra_price, cedra_decimals) = decode_oracle_quote(&cedra, current_time);
 
-        let cedra_feed_id = new_price_feed_id(CEDRA_FEED_ADDRESS, CEDRA_FEED_SYMBOL);
-        let cedra_oracle_price = oracle::get_price_by_feed_id(cedra_feed_id);
-        let (cedra_price, cedra_decimals) = decode_oracle_price(&cedra_oracle_price, current_time);
-
-        // fa_fee = (cedra_fee * cedra_price * 10^fa_decimals) / (fa_price * 10^cedra_decimals)
-        // Use u128 mul_div (u256 intermediate) and reject results that do not fit in u64.
         let fa_fee_u128 = math128::mul_div(
             math128::mul_div(
                 (cedra_fee_amount as u128),
@@ -221,7 +240,6 @@ module cedra_framework::price_storage {
         assert!(fa_fee_u128 <= MAX_U64, error::out_of_range(EFA_FEE_OVERFLOW));
 
         let fa_fee = (fa_fee_u128 as u64);
-        // Charge at least 1 FA unit when net Cedra fee is positive but division truncates to 0.
         if (fa_fee == 0) {
             1
         } else {

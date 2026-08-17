@@ -39,6 +39,8 @@ spec cedra_framework::reconfiguration_with_dkg {
         use cedra_framework::jwks;
         use cedra_framework::randomness_config;
         use cedra_framework::jwk_consensus_config;
+        use cedra_framework::keyless_account;
+        use cedra_framework::oracle_config;
         framework: signer;
         requires signer::address_of(framework) == @cedra_framework;
         requires chain_status::is_operating();
@@ -57,6 +59,7 @@ spec cedra_framework::reconfiguration_with_dkg {
         include config_buffer::OnNewEpochRequirement<jwk_consensus_config::JWKConsensusConfig>;
         include config_buffer::OnNewEpochRequirement<keyless_account::Configuration>;
         include config_buffer::OnNewEpochRequirement<keyless_account::Groth16VerificationKey>;
+        include config_buffer::OnNewEpochRequirement<oracle_config::OracleConfig>;
     }
 
     spec finish_with_dkg_result(account: &signer, dkg_result: vector<u8>) {

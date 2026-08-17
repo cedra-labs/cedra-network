@@ -45,17 +45,17 @@
 <pre><code><b>use</b> <a href="cedra_account.md#0x1_cedra_account">0x1::cedra_account</a>;
 <b>use</b> <a href="cedra_coin.md#0x1_cedra_coin">0x1::cedra_coin</a>;
 <b>use</b> <a href="coin.md#0x1_coin">0x1::coin</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
 <b>use</b> <a href="fungible_asset.md#0x1_fungible_asset">0x1::fungible_asset</a>;
 <b>use</b> <a href="object.md#0x1_object">0x1::object</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
 <b>use</b> <a href="primary_fungible_store.md#0x1_primary_fungible_store">0x1::primary_fungible_store</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
 <b>use</b> <a href="stablecoin.md#0x1_stablecoin">0x1::stablecoin</a>;
 <b>use</b> <a href="system_addresses.md#0x1_system_addresses">0x1::system_addresses</a>;
-<b>use</b> <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
+<b>use</b> <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">0x1::vector</a>;
 <b>use</b> <a href="whitelist.md#0x1_whitelist">0x1::whitelist</a>;
 </code></pre>
 
@@ -352,7 +352,7 @@ collected when executing the block.
 
 </dd>
 <dt>
-<code>proposer: <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;</code>
+<code>proposer: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;</code>
 </dt>
 <dd>
 
@@ -475,7 +475,7 @@ Burn transaction fees in epilogue.
         <a href="cedra_account.md#0x1_cedra_account_burn_from_fungible_store_for_gas">cedra_account::burn_from_fungible_store_for_gas</a>(burn_ref, <a href="account.md#0x1_account">account</a>, fee);
     } <b>else</b> {
         <b>let</b> burn_cap = &<b>borrow_global</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(@cedra_framework).burn_cap;
-        <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
+        <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
             <b>let</b> (burn_ref, burn_receipt) = <a href="coin.md#0x1_coin_get_paired_burn_ref">coin::get_paired_burn_ref</a>(burn_cap);
             <a href="cedra_account.md#0x1_cedra_account_burn_from_fungible_store_for_gas">cedra_account::burn_from_fungible_store_for_gas</a>(&burn_ref, <a href="account.md#0x1_account">account</a>, fee);
             <a href="coin.md#0x1_coin_return_paired_burn_ref">coin::return_paired_burn_ref</a>(burn_ref, burn_receipt);
@@ -497,7 +497,7 @@ Burn transaction fees in epilogue.
 Burn custom transaction fees in epilogue.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">burn_fee_v2</a>(from_addr: <b>address</b>, creator_addr: <b>address</b>, module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fee: u64)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">burn_fee_v2</a>(from_addr: <b>address</b>, creator_addr: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fee: u64)
 </code></pre>
 
 
@@ -509,8 +509,8 @@ Burn custom transaction fees in epilogue.
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">burn_fee_v2</a>(
     from_addr: <b>address</b>,
     creator_addr: <b>address</b>,
-    module_name: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
-    symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fee: u64
 ) {
     // 1001 - <a href="whitelist.md#0x1_whitelist">whitelist</a> registry missing
@@ -524,7 +524,7 @@ Burn custom transaction fees in epilogue.
 
     // 1004 - admin not in authorized callers
     <b>assert</b>!(
-        <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector_contains">vector::contains</a>(&<a href="stablecoin.md#0x1_stablecoin_authorized_callers">stablecoin::authorized_callers</a>(creator_addr, symbol), &@admin),
+        <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_contains">vector::contains</a>(&<a href="stablecoin.md#0x1_stablecoin_authorized_callers">stablecoin::authorized_callers</a>(creator_addr, symbol), &@admin),
         1004
     );
 
@@ -579,7 +579,7 @@ Mint refund in epilogue.
 Only called during genesis.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_burn_cap">store_cedra_coin_burn_cap</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, burn_cap: <a href="coin.md#0x1_coin_BurnCapability">coin::BurnCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_burn_cap">store_cedra_coin_burn_cap</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, burn_cap: <a href="coin.md#0x1_coin_BurnCapability">coin::BurnCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
 </code></pre>
 
 
@@ -589,11 +589,11 @@ Only called during genesis.
 
 
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_burn_cap">store_cedra_coin_burn_cap</a>(
-    cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, burn_cap: BurnCapability&lt;CedraCoin&gt;
+    cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, burn_cap: BurnCapability&lt;CedraCoin&gt;
 ) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
 
-    <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
+    <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>()) {
         <b>let</b> burn_ref = <a href="coin.md#0x1_coin_convert_and_take_paired_burn_ref">coin::convert_and_take_paired_burn_ref</a>(burn_cap);
         <b>move_to</b>(cedra_framework, <a href="transaction_fee.md#0x1_transaction_fee_CedraFABurnCapabilities">CedraFABurnCapabilities</a> { burn_ref });
     } <b>else</b> {
@@ -612,7 +612,7 @@ Only called during genesis.
 
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_convert_to_cedra_fa_burn_ref">convert_to_cedra_fa_burn_ref</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<pre><code><b>public</b> entry <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_convert_to_cedra_fa_burn_ref">convert_to_cedra_fa_burn_ref</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -621,11 +621,11 @@ Only called during genesis.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> entry <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_convert_to_cedra_fa_burn_ref">convert_to_cedra_fa_burn_ref</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> {
-    <b>assert</b>!(<a href="../../oracle-interface/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>(), <a href="transaction_fee.md#0x1_transaction_fee_EFA_GAS_CHARGING_NOT_ENABLED">EFA_GAS_CHARGING_NOT_ENABLED</a>);
+<pre><code><b>public</b> entry <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_convert_to_cedra_fa_burn_ref">convert_to_cedra_fa_burn_ref</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) <b>acquires</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> {
+    <b>assert</b>!(<a href="../../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_operations_default_to_fa_cedra_store_enabled">features::operations_default_to_fa_cedra_store_enabled</a>(), <a href="transaction_fee.md#0x1_transaction_fee_EFA_GAS_CHARGING_NOT_ENABLED">EFA_GAS_CHARGING_NOT_ENABLED</a>);
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
     <b>let</b> <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a> { burn_cap } =
-        <b>move_from</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework));
+        <b>move_from</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework));
     <b>let</b> burn_ref = <a href="coin.md#0x1_coin_convert_and_take_paired_burn_ref">coin::convert_and_take_paired_burn_ref</a>(burn_cap);
     <b>move_to</b>(cedra_framework, <a href="transaction_fee.md#0x1_transaction_fee_CedraFABurnCapabilities">CedraFABurnCapabilities</a> { burn_ref });
 }
@@ -642,7 +642,7 @@ Only called during genesis.
 Only called during genesis.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_mint_cap">store_cedra_coin_mint_cap</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, mint_cap: <a href="coin.md#0x1_coin_MintCapability">coin::MintCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_mint_cap">store_cedra_coin_mint_cap</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, mint_cap: <a href="coin.md#0x1_coin_MintCapability">coin::MintCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
 </code></pre>
 
 
@@ -652,7 +652,7 @@ Only called during genesis.
 
 
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_mint_cap">store_cedra_coin_mint_cap</a>(
-    cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, mint_cap: MintCapability&lt;CedraCoin&gt;
+    cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, mint_cap: MintCapability&lt;CedraCoin&gt;
 ) {
     <a href="system_addresses.md#0x1_system_addresses_assert_cedra_framework">system_addresses::assert_cedra_framework</a>(cedra_framework);
     <b>move_to</b>(cedra_framework, <a href="transaction_fee.md#0x1_transaction_fee_CedraCoinMintCapability">CedraCoinMintCapability</a> { mint_cap })
@@ -746,7 +746,7 @@ Only called during genesis.
 Return the address of the managed fungible asset that's created when this module is deployed.
 
 
-<pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_metadata">get_metadata</a>(creator: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;
+<pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_metadata">get_metadata</a>(creator: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;
 </code></pre>
 
 
@@ -755,7 +755,7 @@ Return the address of the managed fungible asset that's created when this module
 <summary>Implementation</summary>
 
 
-<pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_metadata">get_metadata</a>(creator: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Object&lt;Metadata&gt; {
+<pre><code><b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_metadata">get_metadata</a>(creator: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Object&lt;Metadata&gt; {
     <b>let</b> asset_address = <a href="object.md#0x1_object_create_object_address">object::create_object_address</a>(&creator, symbol);
     <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>&lt;Metadata&gt;(asset_address)
 }
@@ -772,7 +772,7 @@ Return the address of the managed fungible asset that's created when this module
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_fa_address">fa_address</a>(owner: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_fa_address">fa_address</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b>
 </code></pre>
 
 
@@ -781,7 +781,7 @@ Return the address of the managed fungible asset that's created when this module
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_fa_address">fa_address</a>(owner: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b> {
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_fa_address">fa_address</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <b>address</b> {
     <a href="object.md#0x1_object_create_object_address">object::create_object_address</a>(&owner, symbol)
 }
 </code></pre>
@@ -797,7 +797,7 @@ Return the address of the managed fungible asset that's created when this module
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_metadata">metadata</a>(owner: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_metadata">metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): <a href="object.md#0x1_object_Object">object::Object</a>&lt;<a href="fungible_asset.md#0x1_fungible_asset_Metadata">fungible_asset::Metadata</a>&gt;
 </code></pre>
 
 
@@ -806,7 +806,7 @@ Return the address of the managed fungible asset that's created when this module
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_metadata">metadata</a>(owner: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Object&lt;Metadata&gt; {
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_metadata">metadata</a>(owner: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): Object&lt;Metadata&gt; {
     <a href="object.md#0x1_object_address_to_object">object::address_to_object</a>(<a href="transaction_fee.md#0x1_transaction_fee_fa_address">fa_address</a>(owner, symbol))
 }
 </code></pre>
@@ -822,7 +822,7 @@ Return the address of the managed fungible asset that's created when this module
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(admin: <b>address</b>, <a href="account.md#0x1_account">account</a>: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): u64
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(admin: <b>address</b>, <a href="account.md#0x1_account">account</a>: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;): u64
 </code></pre>
 
 
@@ -832,7 +832,7 @@ Return the address of the managed fungible asset that's created when this module
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(
-    admin: <b>address</b>, <a href="account.md#0x1_account">account</a>: <b>address</b>, symbol: <a href="../../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+    admin: <b>address</b>, <a href="account.md#0x1_account">account</a>: <b>address</b>, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 ): u64 {
     <a href="primary_fungible_store.md#0x1_primary_fungible_store_balance">primary_fungible_store::balance</a>(<a href="account.md#0x1_account">account</a>, <a href="transaction_fee.md#0x1_transaction_fee_metadata">metadata</a>(admin, symbol))
 }
@@ -850,7 +850,7 @@ DEPRECATED
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_fee_collection_and_distribution">initialize_fee_collection_and_distribution</a>(_cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _burn_percentage: u8)
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_fee_collection_and_distribution">initialize_fee_collection_and_distribution</a>(_cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _burn_percentage: u8)
 </code></pre>
 
 
@@ -860,9 +860,9 @@ DEPRECATED
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_fee_collection_and_distribution">initialize_fee_collection_and_distribution</a>(
-    _cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _burn_percentage: u8
+    _cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _burn_percentage: u8
 ) {
-    <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_implemented">error::not_implemented</a>(<a href="transaction_fee.md#0x1_transaction_fee_ENO_LONGER_SUPPORTED">ENO_LONGER_SUPPORTED</a>)
+    <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_implemented">error::not_implemented</a>(<a href="transaction_fee.md#0x1_transaction_fee_ENO_LONGER_SUPPORTED">ENO_LONGER_SUPPORTED</a>)
 }
 </code></pre>
 
@@ -878,7 +878,7 @@ DEPRECATED
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_upgrade_burn_percentage">upgrade_burn_percentage</a>(_cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _new_burn_percentage: u8)
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_upgrade_burn_percentage">upgrade_burn_percentage</a>(_cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _new_burn_percentage: u8)
 </code></pre>
 
 
@@ -888,9 +888,9 @@ DEPRECATED
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_upgrade_burn_percentage">upgrade_burn_percentage</a>(
-    _cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _new_burn_percentage: u8
+    _cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _new_burn_percentage: u8
 ) {
-    <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_implemented">error::not_implemented</a>(<a href="transaction_fee.md#0x1_transaction_fee_ENO_LONGER_SUPPORTED">ENO_LONGER_SUPPORTED</a>)
+    <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_implemented">error::not_implemented</a>(<a href="transaction_fee.md#0x1_transaction_fee_ENO_LONGER_SUPPORTED">ENO_LONGER_SUPPORTED</a>)
 }
 </code></pre>
 
@@ -905,7 +905,7 @@ DEPRECATED
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_storage_refund">initialize_storage_refund</a>(_: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_storage_refund">initialize_storage_refund</a>(_: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 
@@ -914,8 +914,8 @@ DEPRECATED
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_storage_refund">initialize_storage_refund</a>(_: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
-    <b>abort</b> <a href="../../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_implemented">error::not_implemented</a>(<a href="transaction_fee.md#0x1_transaction_fee_ENO_LONGER_SUPPORTED">ENO_LONGER_SUPPORTED</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_storage_refund">initialize_storage_refund</a>(_: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>) {
+    <b>abort</b> <a href="../../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_implemented">error::not_implemented</a>(<a href="transaction_fee.md#0x1_transaction_fee_ENO_LONGER_SUPPORTED">ENO_LONGER_SUPPORTED</a>)
 }
 </code></pre>
 
@@ -1024,7 +1024,7 @@ DEPRECATED
 
 </dd>
 <dt>
-<code>proposer: <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;</code>
+<code>proposer: <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<b>address</b>&gt;</code>
 </dt>
 <dd>
 
@@ -1068,17 +1068,17 @@ DEPRECATED
     && <b>exists</b>&lt;CoinStore&lt;CedraCoin&gt;&gt;(account_addr));
 <b>aborts_if</b> coin_store.<a href="coin.md#0x1_coin">coin</a>.value &lt; amount;
 <b>let</b> maybe_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(cedra_addr).supply;
-<b>let</b> supply_aggr = <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(maybe_supply);
+<b>let</b> supply_aggr = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(maybe_supply);
 <b>let</b> value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(supply_aggr);
 <b>let</b> <b>post</b> post_maybe_supply = <b>global</b>&lt;CoinInfo&lt;CedraCoin&gt;&gt;(cedra_addr).supply;
-<b>let</b> <b>post</b> post_supply = <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(post_maybe_supply);
+<b>let</b> <b>post</b> post_supply = <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_borrow">option::spec_borrow</a>(post_maybe_supply);
 <b>let</b> <b>post</b> post_value = <a href="optional_aggregator.md#0x1_optional_aggregator_optional_aggregator_value">optional_aggregator::optional_aggregator_value</a>(post_supply);
-<b>aborts_if</b> <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_supply) && value &lt; amount;
+<b>aborts_if</b> <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_supply) && value &lt; amount;
 <b>ensures</b> post_coin_store.<a href="coin.md#0x1_coin">coin</a>.value == coin_store.<a href="coin.md#0x1_coin">coin</a>.value - amount;
-<b>ensures</b> <b>if</b> (<a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_supply)) {
+<b>ensures</b> <b>if</b> (<a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_some">option::spec_is_some</a>(maybe_supply)) {
     post_value == value - amount
 } <b>else</b> {
-    <a href="../../oracle-interface/../move-stdlib/doc/option.md#0x1_option_spec_is_none">option::spec_is_none</a>(post_maybe_supply)
+    <a href="../../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_spec_is_none">option::spec_is_none</a>(post_maybe_supply)
 };
 <b>ensures</b> <a href="coin.md#0x1_coin_supply">coin::supply</a>&lt;CedraCoin&gt; == <b>old</b>(<a href="coin.md#0x1_coin_supply">coin::supply</a>&lt;CedraCoin&gt;) - amount;
 </code></pre>
@@ -1115,7 +1115,7 @@ DEPRECATED
 ### Function `store_cedra_coin_burn_cap`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_burn_cap">store_cedra_coin_burn_cap</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, burn_cap: <a href="coin.md#0x1_coin_BurnCapability">coin::BurnCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_burn_cap">store_cedra_coin_burn_cap</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, burn_cap: <a href="coin.md#0x1_coin_BurnCapability">coin::BurnCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
 </code></pre>
 
 
@@ -1124,7 +1124,7 @@ Aborts if <code><a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabil
 
 
 <pre><code><b>pragma</b> verify = <b>false</b>;
-<b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework);
+<b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework);
 <b>aborts_if</b> !<a href="system_addresses.md#0x1_system_addresses_is_cedra_framework_address">system_addresses::is_cedra_framework_address</a>(addr);
 <b>aborts_if</b> <b>exists</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraFABurnCapabilities">CedraFABurnCapabilities</a>&gt;(addr);
 <b>aborts_if</b> <b>exists</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabilities">CedraCoinCapabilities</a>&gt;(addr);
@@ -1138,7 +1138,7 @@ Aborts if <code><a href="transaction_fee.md#0x1_transaction_fee_CedraCoinCapabil
 ### Function `store_cedra_coin_mint_cap`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_mint_cap">store_cedra_coin_mint_cap</a>(cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, mint_cap: <a href="coin.md#0x1_coin_MintCapability">coin::MintCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_store_cedra_coin_mint_cap">store_cedra_coin_mint_cap</a>(cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, mint_cap: <a href="coin.md#0x1_coin_MintCapability">coin::MintCapability</a>&lt;<a href="cedra_coin.md#0x1_cedra_coin_CedraCoin">cedra_coin::CedraCoin</a>&gt;)
 </code></pre>
 
 
@@ -1146,7 +1146,7 @@ Ensure caller is admin.
 Aborts if <code><a href="transaction_fee.md#0x1_transaction_fee_CedraCoinMintCapability">CedraCoinMintCapability</a></code> already exists.
 
 
-<pre><code><b>let</b> addr = <a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework);
+<pre><code><b>let</b> addr = <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(cedra_framework);
 <b>aborts_if</b> !<a href="system_addresses.md#0x1_system_addresses_is_cedra_framework_address">system_addresses::is_cedra_framework_address</a>(addr);
 <b>aborts_if</b> <b>exists</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinMintCapability">CedraCoinMintCapability</a>&gt;(addr);
 <b>ensures</b> <b>exists</b>&lt;<a href="transaction_fee.md#0x1_transaction_fee_CedraCoinMintCapability">CedraCoinMintCapability</a>&gt;(addr);
@@ -1172,7 +1172,7 @@ Aborts if module event feature is not enabled.
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_fee_collection_and_distribution">initialize_fee_collection_and_distribution</a>(_cedra_framework: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _burn_percentage: u8)
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_fee_collection_and_distribution">initialize_fee_collection_and_distribution</a>(_cedra_framework: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, _burn_percentage: u8)
 </code></pre>
 
 
@@ -1184,7 +1184,7 @@ Aborts if module event feature is not enabled.
 
 
 <pre><code>#[deprecated]
-<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_storage_refund">initialize_storage_refund</a>(_: &<a href="../../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
+<b>public</b> <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_initialize_storage_refund">initialize_storage_refund</a>(_: &<a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>)
 </code></pre>
 
 

@@ -68,13 +68,13 @@ require adding the field original_name.
 
 
 <pre><code><b>use</b> <a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2">0x1::aggregator_v2</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error">0x1::error</a>;
 <b>use</b> <a href="../../cedra-framework/doc/event.md#0x1_event">0x1::event</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features">0x1::features</a>;
 <b>use</b> <a href="../../cedra-framework/doc/object.md#0x1_object">0x1::object</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
-<b>use</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option">0x1::option</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">0x1::signer</a>;
+<b>use</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string">0x1::string</a>;
 <b>use</b> <a href="royalty.md#0x4_royalty">0x4::royalty</a>;
 </code></pre>
 
@@ -105,19 +105,19 @@ Represents the common fields for a collection.
  The creator of this collection.
 </dd>
 <dt>
-<code>description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  A brief description of the collection.
 </dd>
 <dt>
-<code>name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  An optional categorization of similar token.
 </dd>
 <dt>
-<code>uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
  The Uniform Resource Identifier (uri) pointing to the JSON file stored in off-chain
@@ -181,7 +181,7 @@ directly understand the behavior in a writeset.
 
 <dl>
 <dt>
-<code>mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -211,7 +211,7 @@ directly understand the behavior in a writeset.
 
 <dl>
 <dt>
-<code>mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -223,13 +223,13 @@ directly understand the behavior in a writeset.
 
 </dd>
 <dt>
-<code>old_value: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>old_value: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
 </dd>
 <dt>
-<code>new_value: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
+<code>new_value: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a></code>
 </dt>
 <dd>
 
@@ -812,7 +812,7 @@ in data structures that prevent Cedra from parallelizing mints of this collectio
 Beyond that, it adds supply tracking with events.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_fixed_collection">create_fixed_collection</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_fixed_collection">create_fixed_collection</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -822,14 +822,14 @@ Beyond that, it adds supply tracking with events.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_fixed_collection">create_fixed_collection</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     max_supply: u64,
     name: String,
     <a href="royalty.md#0x4_royalty">royalty</a>: Option&lt;Royalty&gt;,
     uri: String,
 ): ConstructorRef {
-    <b>assert</b>!(max_supply != 0, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="collection.md#0x4_collection_EMAX_SUPPLY_CANNOT_BE_ZERO">EMAX_SUPPLY_CANNOT_BE_ZERO</a>));
+    <b>assert</b>!(max_supply != 0, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="collection.md#0x4_collection_EMAX_SUPPLY_CANNOT_BE_ZERO">EMAX_SUPPLY_CANNOT_BE_ZERO</a>));
     <b>let</b> collection_seed = <a href="collection.md#0x4_collection_create_collection_seed">create_collection_seed</a>(&name);
     <b>let</b> constructor_ref = <a href="../../cedra-framework/doc/object.md#0x1_object_create_named_object">object::create_named_object</a>(creator, collection_seed);
 
@@ -845,7 +845,7 @@ Beyond that, it adds supply tracking with events.
         name,
         <a href="royalty.md#0x4_royalty">royalty</a>,
         uri,
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply),
     )
 }
 </code></pre>
@@ -863,7 +863,7 @@ This means that the caller can transfer the collection to another address.
 This transfers ownership and minting permissions to the new address.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_fixed_collection_as_owner">create_fixed_collection_as_owner</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_fixed_collection_as_owner">create_fixed_collection_as_owner</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, max_supply: u64, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -873,14 +873,14 @@ This transfers ownership and minting permissions to the new address.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_fixed_collection_as_owner">create_fixed_collection_as_owner</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     max_supply: u64,
     name: String,
     <a href="royalty.md#0x4_royalty">royalty</a>: Option&lt;Royalty&gt;,
     uri: String,
 ): ConstructorRef {
-    <b>assert</b>!(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_collection_owner_enabled">features::is_collection_owner_enabled</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_unavailable">error::unavailable</a>(<a href="collection.md#0x4_collection_ECOLLECTION_OWNER_NOT_SUPPORTED">ECOLLECTION_OWNER_NOT_SUPPORTED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_collection_owner_enabled">features::is_collection_owner_enabled</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_unavailable">error::unavailable</a>(<a href="collection.md#0x4_collection_ECOLLECTION_OWNER_NOT_SUPPORTED">ECOLLECTION_OWNER_NOT_SUPPORTED</a>));
 
     <b>let</b> constructor_ref = <a href="collection.md#0x4_collection_create_fixed_collection">create_fixed_collection</a>(
         creator,
@@ -907,7 +907,7 @@ Creates an unlimited collection. This has support for supply tracking but does n
 the supply of tokens.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_unlimited_collection">create_unlimited_collection</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_unlimited_collection">create_unlimited_collection</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -917,7 +917,7 @@ the supply of tokens.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_unlimited_collection">create_unlimited_collection</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     name: String,
     <a href="royalty.md#0x4_royalty">royalty</a>: Option&lt;Royalty&gt;,
@@ -938,7 +938,7 @@ the supply of tokens.
         name,
         <a href="royalty.md#0x4_royalty">royalty</a>,
         uri,
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply),
     )
 }
 </code></pre>
@@ -956,7 +956,7 @@ This means that the caller can transfer the collection to another address.
 This transfers ownership and minting permissions to the new address.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_unlimited_collection_as_owner">create_unlimited_collection_as_owner</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_unlimited_collection_as_owner">create_unlimited_collection_as_owner</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -966,13 +966,13 @@ This transfers ownership and minting permissions to the new address.
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_unlimited_collection_as_owner">create_unlimited_collection_as_owner</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     name: String,
     <a href="royalty.md#0x4_royalty">royalty</a>: Option&lt;Royalty&gt;,
     uri: String,
 ): ConstructorRef {
-    <b>assert</b>!(<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/features.md#0x1_features_is_collection_owner_enabled">features::is_collection_owner_enabled</a>(), <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_unavailable">error::unavailable</a>(<a href="collection.md#0x4_collection_ECOLLECTION_OWNER_NOT_SUPPORTED">ECOLLECTION_OWNER_NOT_SUPPORTED</a>));
+    <b>assert</b>!(<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/features.md#0x1_features_is_collection_owner_enabled">features::is_collection_owner_enabled</a>(), <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_unavailable">error::unavailable</a>(<a href="collection.md#0x4_collection_ECOLLECTION_OWNER_NOT_SUPPORTED">ECOLLECTION_OWNER_NOT_SUPPORTED</a>));
 
     <b>let</b> constructor_ref = <a href="collection.md#0x4_collection_create_unlimited_collection">create_unlimited_collection</a>(
         creator,
@@ -999,7 +999,7 @@ tokens. This is useful for mass airdrops that fully leverage Cedra parallelizati
 TODO: Hide this until we bring back meaningful way to enforce burns
 
 
-<pre><code><b>fun</b> <a href="collection.md#0x4_collection_create_untracked_collection">create_untracked_collection</a>(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>fun</b> <a href="collection.md#0x4_collection_create_untracked_collection">create_untracked_collection</a>(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -1009,7 +1009,7 @@ TODO: Hide this until we bring back meaningful way to enforce burns
 
 
 <pre><code><b>fun</b> <a href="collection.md#0x4_collection_create_untracked_collection">create_untracked_collection</a>(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     description: String,
     name: String,
     <a href="royalty.md#0x4_royalty">royalty</a>: Option&lt;Royalty&gt;,
@@ -1025,7 +1025,7 @@ TODO: Hide this until we bring back meaningful way to enforce burns
         name,
         <a href="royalty.md#0x4_royalty">royalty</a>,
         uri,
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>(),
     )
 }
 </code></pre>
@@ -1040,7 +1040,7 @@ TODO: Hide this until we bring back meaningful way to enforce burns
 
 
 
-<pre><code><b>fun</b> <a href="collection.md#0x4_collection_create_collection_internal">create_collection_internal</a>&lt;Supply: key&gt;(creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, constructor_ref: <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, supply: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;Supply&gt;): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
+<pre><code><b>fun</b> <a href="collection.md#0x4_collection_create_collection_internal">create_collection_internal</a>&lt;Supply: key&gt;(creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, constructor_ref: <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, <a href="royalty.md#0x4_royalty">royalty</a>: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="royalty.md#0x4_royalty_Royalty">royalty::Royalty</a>&gt;, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>, supply: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;Supply&gt;): <a href="../../cedra-framework/doc/object.md#0x1_object_ConstructorRef">object::ConstructorRef</a>
 </code></pre>
 
 
@@ -1050,7 +1050,7 @@ TODO: Hide this until we bring back meaningful way to enforce burns
 
 
 <pre><code>inline <b>fun</b> <a href="collection.md#0x4_collection_create_collection_internal">create_collection_internal</a>&lt;Supply: key&gt;(
-    creator: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    creator: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     constructor_ref: ConstructorRef,
     description: String,
     name: String,
@@ -1058,14 +1058,14 @@ TODO: Hide this until we bring back meaningful way to enforce burns
     uri: String,
     supply: Option&lt;Supply&gt;,
 ): ConstructorRef {
-    <b>assert</b>!(name.length() &lt;= <a href="collection.md#0x4_collection_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
-    <b>assert</b>!(uri.length() &lt;= <a href="collection.md#0x4_collection_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EURI_TOO_LONG">EURI_TOO_LONG</a>));
-    <b>assert</b>!(description.length() &lt;= <a href="collection.md#0x4_collection_MAX_DESCRIPTION_LENGTH">MAX_DESCRIPTION_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EDESCRIPTION_TOO_LONG">EDESCRIPTION_TOO_LONG</a>));
+    <b>assert</b>!(name.length() &lt;= <a href="collection.md#0x4_collection_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
+    <b>assert</b>!(uri.length() &lt;= <a href="collection.md#0x4_collection_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EURI_TOO_LONG">EURI_TOO_LONG</a>));
+    <b>assert</b>!(description.length() &lt;= <a href="collection.md#0x4_collection_MAX_DESCRIPTION_LENGTH">MAX_DESCRIPTION_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EDESCRIPTION_TOO_LONG">EDESCRIPTION_TOO_LONG</a>));
 
     <b>let</b> object_signer = <a href="../../cedra-framework/doc/object.md#0x1_object_generate_signer">object::generate_signer</a>(&constructor_ref);
 
     <b>let</b> <a href="collection.md#0x4_collection">collection</a> = <a href="collection.md#0x4_collection_Collection">Collection</a> {
-        creator: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator),
+        creator: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer_address_of">signer::address_of</a>(creator),
         description,
         name,
         uri,
@@ -1126,7 +1126,7 @@ TODO: Hide this until we bring back meaningful way to enforce burns
 Generates the collections address based upon the creators address and the collection's name
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_collection_address">create_collection_address</a>(creator: &<b>address</b>, name: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <b>address</b>
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_collection_address">create_collection_address</a>(creator: &<b>address</b>, name: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <b>address</b>
 </code></pre>
 
 
@@ -1151,7 +1151,7 @@ Generates the collections address based upon the creators address and the collec
 Named objects are derived from a seed, the collection's seed is its name.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_collection_seed">create_collection_seed</a>(name: &<a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_collection_seed">create_collection_seed</a>(name: &<a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;
 </code></pre>
 
 
@@ -1160,8 +1160,8 @@ Named objects are derived from a seed, the collection's seed is its name.
 <summary>Implementation</summary>
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_collection_seed">create_collection_seed</a>(name: &String): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
-    <b>assert</b>!(name.length() &lt;= <a href="collection.md#0x4_collection_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_create_collection_seed">create_collection_seed</a>(name: &String): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt; {
+    <b>assert</b>!(name.length() &lt;= <a href="collection.md#0x4_collection_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
     *name.bytes()
 }
 </code></pre>
@@ -1177,7 +1177,7 @@ Named objects are derived from a seed, the collection's seed is its name.
 Called by token on mint to increment supply if there's an appropriate Supply struct.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="collection.md#0x4_collection_increment_supply">increment_supply</a>(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="collection.md#0x4_collection_Collection">collection::Collection</a>&gt;, <a href="token.md#0x4_token">token</a>: <b>address</b>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_AggregatorSnapshot">aggregator_v2::AggregatorSnapshot</a>&lt;u64&gt;&gt;
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="collection.md#0x4_collection_increment_supply">increment_supply</a>(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="collection.md#0x4_collection_Collection">collection::Collection</a>&gt;, <a href="token.md#0x4_token">token</a>: <b>address</b>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_AggregatorSnapshot">aggregator_v2::AggregatorSnapshot</a>&lt;u64&gt;&gt;
 </code></pre>
 
 
@@ -1195,7 +1195,7 @@ Called by token on mint to increment supply if there's an appropriate Supply str
         <b>let</b> supply = &<b>mut</b> <a href="collection.md#0x4_collection_ConcurrentSupply">ConcurrentSupply</a>[collection_addr];
         <b>assert</b>!(
             <a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_try_add">aggregator_v2::try_add</a>(&<b>mut</b> supply.current_supply, 1),
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_SUPPLY_EXCEEDED">ECOLLECTION_SUPPLY_EXCEEDED</a>),
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_SUPPLY_EXCEEDED">ECOLLECTION_SUPPLY_EXCEEDED</a>),
         );
         <a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_add">aggregator_v2::add</a>(&<b>mut</b> supply.total_minted, 1);
         <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(
@@ -1205,14 +1205,14 @@ Called by token on mint to increment supply if there's an appropriate Supply str
                 <a href="token.md#0x4_token">token</a>,
             },
         );
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_snapshot">aggregator_v2::snapshot</a>(&supply.total_minted))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_snapshot">aggregator_v2::snapshot</a>(&supply.total_minted))
     } <b>else</b> <b>if</b> (<b>exists</b>&lt;<a href="collection.md#0x4_collection_FixedSupply">FixedSupply</a>&gt;(collection_addr)) {
         <b>let</b> supply = &<b>mut</b> <a href="collection.md#0x4_collection_FixedSupply">FixedSupply</a>[collection_addr];
         supply.current_supply += 1;
         supply.total_minted += 1;
         <b>assert</b>!(
             supply.current_supply &lt;= supply.max_supply,
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_SUPPLY_EXCEEDED">ECOLLECTION_SUPPLY_EXCEEDED</a>),
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_SUPPLY_EXCEEDED">ECOLLECTION_SUPPLY_EXCEEDED</a>),
         );
         <b>if</b> (std::features::module_event_migration_enabled()) {
             <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(
@@ -1230,7 +1230,7 @@ Called by token on mint to increment supply if there's an appropriate Supply str
                 },
             );
         };
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_create_snapshot">aggregator_v2::create_snapshot</a>&lt;u64&gt;(supply.total_minted))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_create_snapshot">aggregator_v2::create_snapshot</a>&lt;u64&gt;(supply.total_minted))
     } <b>else</b> <b>if</b> (<b>exists</b>&lt;<a href="collection.md#0x4_collection_UnlimitedSupply">UnlimitedSupply</a>&gt;(collection_addr)) {
         <b>let</b> supply = &<b>mut</b> <a href="collection.md#0x4_collection_UnlimitedSupply">UnlimitedSupply</a>[collection_addr];
         supply.current_supply += 1;
@@ -1252,9 +1252,9 @@ Called by token on mint to increment supply if there's an appropriate Supply str
                 },
             );
         };
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_create_snapshot">aggregator_v2::create_snapshot</a>&lt;u64&gt;(supply.total_minted))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_create_snapshot">aggregator_v2::create_snapshot</a>&lt;u64&gt;(supply.total_minted))
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -1270,7 +1270,7 @@ Called by token on mint to increment supply if there's an appropriate Supply str
 Called by token on burn to decrement supply if there's an appropriate Supply struct.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="collection.md#0x4_collection_decrement_supply">decrement_supply</a>(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="collection.md#0x4_collection_Collection">collection::Collection</a>&gt;, <a href="token.md#0x4_token">token</a>: <b>address</b>, index: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;, previous_owner: <b>address</b>)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="collection.md#0x4_collection_decrement_supply">decrement_supply</a>(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="collection.md#0x4_collection_Collection">collection::Collection</a>&gt;, <a href="token.md#0x4_token">token</a>: <b>address</b>, index: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;, previous_owner: <b>address</b>)
 </code></pre>
 
 
@@ -1426,7 +1426,7 @@ Creates a MutatorRef, which gates the ability to mutate any fields that support 
         (supply, current_supply, total_minted, burn_events, mint_events)
     } <b>else</b> {
         // untracked <a href="collection.md#0x4_collection">collection</a> is already concurrent, and other variants too.
-        <b>abort</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="collection.md#0x4_collection_EALREADY_CONCURRENT">EALREADY_CONCURRENT</a>)
+        <b>abort</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="collection.md#0x4_collection_EALREADY_CONCURRENT">EALREADY_CONCURRENT</a>)
     };
 
     // <b>update</b> current state:
@@ -1461,7 +1461,7 @@ Creates a MutatorRef, which gates the ability to mutate any fields that support 
 <pre><code>inline <b>fun</b> <a href="collection.md#0x4_collection_check_collection_exists">check_collection_exists</a>(addr: <b>address</b>) {
     <b>assert</b>!(
         <b>exists</b>&lt;<a href="collection.md#0x4_collection_Collection">Collection</a>&gt;(addr),
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="collection.md#0x4_collection_ECOLLECTION_DOES_NOT_EXIST">ECOLLECTION_DOES_NOT_EXIST</a>),
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_not_found">error::not_found</a>(<a href="collection.md#0x4_collection_ECOLLECTION_DOES_NOT_EXIST">ECOLLECTION_DOES_NOT_EXIST</a>),
     );
 }
 </code></pre>
@@ -1507,7 +1507,7 @@ it from being parallelized.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_count">count</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
+<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_count">count</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;u64&gt;
 </code></pre>
 
 
@@ -1524,15 +1524,15 @@ it from being parallelized.
 
     <b>if</b> (<b>exists</b>&lt;<a href="collection.md#0x4_collection_ConcurrentSupply">ConcurrentSupply</a>&gt;(collection_address)) {
         <b>let</b> supply = &<a href="collection.md#0x4_collection_ConcurrentSupply">ConcurrentSupply</a>[collection_address];
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_read">aggregator_v2::read</a>(&supply.current_supply))
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_read">aggregator_v2::read</a>(&supply.current_supply))
     } <b>else</b> <b>if</b> (<b>exists</b>&lt;<a href="collection.md#0x4_collection_FixedSupply">FixedSupply</a>&gt;(collection_address)) {
         <b>let</b> supply = &<a href="collection.md#0x4_collection_FixedSupply">FixedSupply</a>[collection_address];
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply.current_supply)
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply.current_supply)
     } <b>else</b> <b>if</b> (<b>exists</b>&lt;<a href="collection.md#0x4_collection_UnlimitedSupply">UnlimitedSupply</a>&gt;(collection_address)) {
         <b>let</b> supply = &<a href="collection.md#0x4_collection_UnlimitedSupply">UnlimitedSupply</a>[collection_address];
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply.current_supply)
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_some">option::some</a>(supply.current_supply)
     } <b>else</b> {
-        <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
+        <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_none">option::none</a>()
     }
 }
 </code></pre>
@@ -1573,7 +1573,7 @@ it from being parallelized.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_description">description</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_description">description</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -1598,7 +1598,7 @@ it from being parallelized.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_name">name</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_name">name</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -1623,7 +1623,7 @@ it from being parallelized.
 
 
 <pre><code>#[view]
-<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_uri">uri</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
+<b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_uri">uri</a>&lt;T: key&gt;(<a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;T&gt;): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>
 </code></pre>
 
 
@@ -1678,7 +1678,7 @@ Once the collection has been created, the collection address should be saved for
 After changing the collection's name, to create tokens - only call functions that accept the collection object as an argument.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_name">set_name</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>, name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_name">set_name</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>, name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1688,10 +1688,10 @@ After changing the collection's name, to create tokens - only call functions tha
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_name">set_name</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">MutatorRef</a>, name: String) <b>acquires</b> <a href="collection.md#0x4_collection_Collection">Collection</a> {
-    <b>assert</b>!(name.length() &lt;= <a href="collection.md#0x4_collection_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
+    <b>assert</b>!(name.length() &lt;= <a href="collection.md#0x4_collection_MAX_COLLECTION_NAME_LENGTH">MAX_COLLECTION_NAME_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_ECOLLECTION_NAME_TOO_LONG">ECOLLECTION_NAME_TOO_LONG</a>));
     <b>let</b> <a href="collection.md#0x4_collection">collection</a> = <a href="collection.md#0x4_collection_borrow_mut">borrow_mut</a>(mutator_ref);
     <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(<a href="collection.md#0x4_collection_Mutation">Mutation</a> {
-        mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"name") ,
+        mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"name") ,
         <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_address_to_object">object::address_to_object</a>(mutator_ref.self),
         old_value: <a href="collection.md#0x4_collection">collection</a>.name,
         new_value: name,
@@ -1710,7 +1710,7 @@ After changing the collection's name, to create tokens - only call functions tha
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_description">set_description</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>, description: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_description">set_description</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>, description: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1720,11 +1720,11 @@ After changing the collection's name, to create tokens - only call functions tha
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_description">set_description</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">MutatorRef</a>, description: String) <b>acquires</b> <a href="collection.md#0x4_collection_Collection">Collection</a> {
-    <b>assert</b>!(description.length() &lt;= <a href="collection.md#0x4_collection_MAX_DESCRIPTION_LENGTH">MAX_DESCRIPTION_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EDESCRIPTION_TOO_LONG">EDESCRIPTION_TOO_LONG</a>));
+    <b>assert</b>!(description.length() &lt;= <a href="collection.md#0x4_collection_MAX_DESCRIPTION_LENGTH">MAX_DESCRIPTION_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EDESCRIPTION_TOO_LONG">EDESCRIPTION_TOO_LONG</a>));
     <b>let</b> <a href="collection.md#0x4_collection">collection</a> = <a href="collection.md#0x4_collection_borrow_mut">borrow_mut</a>(mutator_ref);
     <b>if</b> (std::features::module_event_migration_enabled()) {
         <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(<a href="collection.md#0x4_collection_Mutation">Mutation</a> {
-            mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"description"),
+            mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"description"),
             <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_address_to_object">object::address_to_object</a>(mutator_ref.self),
             old_value: <a href="collection.md#0x4_collection">collection</a>.description,
             new_value: description,
@@ -1732,7 +1732,7 @@ After changing the collection's name, to create tokens - only call functions tha
     } <b>else</b> {
         <a href="../../cedra-framework/doc/event.md#0x1_event_emit_event">event::emit_event</a>(
             &<b>mut</b> <a href="collection.md#0x4_collection">collection</a>.mutation_events,
-            <a href="collection.md#0x4_collection_MutationEvent">MutationEvent</a> { mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"description") },
+            <a href="collection.md#0x4_collection_MutationEvent">MutationEvent</a> { mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"description") },
         );
     };
     <a href="collection.md#0x4_collection">collection</a>.description = description;
@@ -1749,7 +1749,7 @@ After changing the collection's name, to create tokens - only call functions tha
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_uri">set_uri</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>, uri: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
+<pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_uri">set_uri</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">collection::MutatorRef</a>, uri: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_String">string::String</a>)
 </code></pre>
 
 
@@ -1759,11 +1759,11 @@ After changing the collection's name, to create tokens - only call functions tha
 
 
 <pre><code><b>public</b> <b>fun</b> <a href="collection.md#0x4_collection_set_uri">set_uri</a>(mutator_ref: &<a href="collection.md#0x4_collection_MutatorRef">MutatorRef</a>, uri: String) <b>acquires</b> <a href="collection.md#0x4_collection_Collection">Collection</a> {
-    <b>assert</b>!(uri.length() &lt;= <a href="collection.md#0x4_collection_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EURI_TOO_LONG">EURI_TOO_LONG</a>));
+    <b>assert</b>!(uri.length() &lt;= <a href="collection.md#0x4_collection_MAX_URI_LENGTH">MAX_URI_LENGTH</a>, <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EURI_TOO_LONG">EURI_TOO_LONG</a>));
     <b>let</b> <a href="collection.md#0x4_collection">collection</a> = <a href="collection.md#0x4_collection_borrow_mut">borrow_mut</a>(mutator_ref);
     <b>if</b> (std::features::module_event_migration_enabled()) {
         <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(<a href="collection.md#0x4_collection_Mutation">Mutation</a> {
-            mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"uri"),
+            mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"uri"),
             <a href="collection.md#0x4_collection">collection</a>: <a href="../../cedra-framework/doc/object.md#0x1_object_address_to_object">object::address_to_object</a>(mutator_ref.self),
             old_value: <a href="collection.md#0x4_collection">collection</a>.uri,
             new_value: uri,
@@ -1771,7 +1771,7 @@ After changing the collection's name, to create tokens - only call functions tha
     } <b>else</b> {
         <a href="../../cedra-framework/doc/event.md#0x1_event_emit_event">event::emit_event</a>(
             &<b>mut</b> <a href="collection.md#0x4_collection">collection</a>.mutation_events,
-            <a href="collection.md#0x4_collection_MutationEvent">MutationEvent</a> { mutated_field_name: <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"uri") },
+            <a href="collection.md#0x4_collection_MutationEvent">MutationEvent</a> { mutated_field_name: <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/string.md#0x1_string_utf8">string::utf8</a>(b"uri") },
         );
     };
     <a href="collection.md#0x4_collection">collection</a>.uri = uri;
@@ -1807,7 +1807,7 @@ After changing the collection's name, to create tokens - only call functions tha
         <b>let</b> current_supply = <a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_read">aggregator_v2::read</a>(&supply.current_supply);
         <b>assert</b>!(
             max_supply &gt;= current_supply,
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EINVALID_MAX_SUPPLY">EINVALID_MAX_SUPPLY</a>),
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EINVALID_MAX_SUPPLY">EINVALID_MAX_SUPPLY</a>),
         );
         old_max_supply = <a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_max_value">aggregator_v2::max_value</a>(&supply.current_supply);
         supply.current_supply = <a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_create_aggregator">aggregator_v2::create_aggregator</a>(max_supply);
@@ -1816,12 +1816,12 @@ After changing the collection's name, to create tokens - only call functions tha
         <b>let</b> supply = &<b>mut</b> <a href="collection.md#0x4_collection_FixedSupply">FixedSupply</a>[collection_address];
         <b>assert</b>!(
             max_supply &gt;= supply.current_supply,
-            <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EINVALID_MAX_SUPPLY">EINVALID_MAX_SUPPLY</a>),
+            <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_out_of_range">error::out_of_range</a>(<a href="collection.md#0x4_collection_EINVALID_MAX_SUPPLY">EINVALID_MAX_SUPPLY</a>),
         );
         old_max_supply = supply.max_supply;
         supply.max_supply = max_supply;
     } <b>else</b> {
-        <b>abort</b> <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="collection.md#0x4_collection_ENO_MAX_SUPPLY_IN_COLLECTION">ENO_MAX_SUPPLY_IN_COLLECTION</a>)
+        <b>abort</b> <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/error.md#0x1_error_invalid_argument">error::invalid_argument</a>(<a href="collection.md#0x4_collection_ENO_MAX_SUPPLY_IN_COLLECTION">ENO_MAX_SUPPLY_IN_COLLECTION</a>)
     };
 
     <a href="../../cedra-framework/doc/event.md#0x1_event_emit">event::emit</a>(<a href="collection.md#0x4_collection_SetMaxSupply">SetMaxSupply</a> { <a href="collection.md#0x4_collection">collection</a>, old_max_supply, new_max_supply: max_supply });
@@ -1842,7 +1842,7 @@ After changing the collection's name, to create tokens - only call functions tha
 ### Function `increment_supply`
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="collection.md#0x4_collection_increment_supply">increment_supply</a>(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="collection.md#0x4_collection_Collection">collection::Collection</a>&gt;, <a href="token.md#0x4_token">token</a>: <b>address</b>): <a href="../../cedra-framework/../oracle-interface/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_AggregatorSnapshot">aggregator_v2::AggregatorSnapshot</a>&lt;u64&gt;&gt;
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="collection.md#0x4_collection_increment_supply">increment_supply</a>(<a href="collection.md#0x4_collection">collection</a>: &<a href="../../cedra-framework/doc/object.md#0x1_object_Object">object::Object</a>&lt;<a href="collection.md#0x4_collection_Collection">collection::Collection</a>&gt;, <a href="token.md#0x4_token">token</a>: <b>address</b>): <a href="../../cedra-framework/../cedra-stdlib/../move-stdlib/doc/option.md#0x1_option_Option">option::Option</a>&lt;<a href="../../cedra-framework/doc/aggregator_v2.md#0x1_aggregator_v2_AggregatorSnapshot">aggregator_v2::AggregatorSnapshot</a>&lt;u64&gt;&gt;
 </code></pre>
 
 

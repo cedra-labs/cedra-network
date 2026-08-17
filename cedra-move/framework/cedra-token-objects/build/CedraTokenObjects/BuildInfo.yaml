@@ -10,7 +10,6 @@ compiled_package_info:
     cedra_token: "0000000000000000000000000000000000000000000000000000000000000003"
     cedra_token_objects: "0000000000000000000000000000000000000000000000000000000000000004"
     core_resources: 000000000000000000000000000000000000000000000000000000000a550c18
-    oracle: 108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     vm: "0000000000000000000000000000000000000000000000000000000000000000"
     vm_reserved: "0000000000000000000000000000000000000000000000000000000000000000"
@@ -20,14 +19,14 @@ compiled_package_info:
     test_mode: false
     override_std: ~
     generate_docs: false
-    generate_abis: true
+    generate_abis: false
     generate_move_model: true
     full_model_generation: true
     install_dir: ~
     force_recompilation: false
     additional_named_addresses: {}
     fetch_deps_only: false
-    skip_fetch_latest_git_deps: true
+    skip_fetch_latest_git_deps: false
     compiler_config:
       bytecode_version: 7
       known_attributes:
@@ -56,7 +55,6 @@ compiled_package_info:
       experiments: []
 dependencies:
   - CedraFramework
-  - CedraOracle
   - CedraStdlib
   - MoveStdlib
 bytecode_deps: []
