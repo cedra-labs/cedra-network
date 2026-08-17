@@ -29,6 +29,7 @@ module cedra_framework::config_buffer {
     friend cedra_framework::randomness_config;
     friend cedra_framework::randomness_config_seqnum;
     friend cedra_framework::version;
+    friend cedra_framework::oracle_config;
 
     /// Config buffer operations failed with permission denied.
     const ESTD_SIGNER_NEEDED: u64 = 1;
