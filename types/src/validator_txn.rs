@@ -15,7 +15,10 @@ use std::fmt::Debug;
 pub enum ValidatorTransaction {
     DKGResult(DKGTranscript),
     ObservedJWKUpdate(jwks::QuorumCertifiedUpdate),
+    /// Historical oracle price updates. Kept for BCS compatibility with committed chain data.
+    /// The oracle runtime no longer emits these.
     AddPrice(Vec<PriceInfoV2>),
+    /// Historical oracle price removals. Kept for BCS compatibility with committed chain data.
     RemovePrice(String),
 }
 
@@ -42,7 +45,9 @@ impl ValidatorTransaction {
                 "validator_transaction__observed_jwk_update"
             },
             ValidatorTransaction::AddPrice(_) => "validator_transaction__price_storage_add_price",
-            ValidatorTransaction::RemovePrice(_) => "validator_transaction__price_storage_remove_price",
+            ValidatorTransaction::RemovePrice(_) => {
+                "validator_transaction__price_storage_remove_price"
+            },
         }
     }
 }
@@ -56,7 +61,6 @@ pub enum Topic {
         issuer: jwks::Issuer,
         kid: jwks::KID,
     },
-    ORACLE,
     CUSTOM(String),
 }
 

@@ -1922,7 +1922,7 @@ impl TransactionOptions {
             };
 
             let transaction_factory =
-                TransactionFactory::new(chain_id, coin_type).with_gas_unit_price(gas_unit_price);
+                TransactionFactory::new(chain_id, coin_type.clone()).with_gas_unit_price(gas_unit_price);
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1958,30 +1958,30 @@ impl TransactionOptions {
             let adjusted_max_gas =
                 adjust_gas_headroom(gas_used, max(simulated_txn.request.max_gas_amount.0, 530));
 
-                    if let Some(fa_address) = &self.fa_address {
+            if self.fa_address.is_some() {
+                let (fa_addr, fa_symbol) = resolve_fa_oracle_identity(&coin_type)?;
 
-            let lower = client
-            .view_fa_fee_amount(gas_used, gas_unit_price, fa_address.to_string())
-            .await
-            .map_err(|err| CliError::ApiError(err.to_string()))?
-            .into_inner();
+                let lower = client
+                    .view_fa_fee_amount(gas_used, gas_unit_price, fa_addr, &fa_symbol)
+                    .await
+                    .map_err(|err| CliError::ApiError(err.to_string()))?
+                    .into_inner();
 
-           let upper = client
-            .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_address.to_string())
-            .await
-            .map_err(|err| CliError::ApiError(err.to_string()))?
-            .into_inner();
+                let upper = client
+                    .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_addr, &fa_symbol)
+                    .await
+                    .map_err(|err| CliError::ApiError(err.to_string()))?
+                    .into_inner();
 
                 let message = format!(
                     "Do you want to submit a transaction for a range of [{} - {}] {} at a gas unit price of {} Octas?",
                     lower,
                     upper,
-                    fa_address,
-                    gas_unit_price);
+                    coin_type,
+                    gas_unit_price
+                );
                 prompt_yes_with_override(&message, self.prompt_options)?;
-
-
-        } else {
+            } else {
 
 
             let (lower_cost_bound, upper_cost_bound) = if gas_used == 0 {
@@ -2590,4 +2590,22 @@ pub fn get_mint_site_url(address: Option<AccountAddress>) -> String {
         None => "".to_string(),
     };
     format!("https://faucet.cedra.dev{}", params)
+}
+
+/// Resolve `(fa_address, symbol)` for `calculate_fa_fee_v2` from the transaction `coin_type` TypeTag.
+/// Expects a struct type tag such as `0x1::cedra_coin::CedraCoin` or `0xc745…::usdt::USDCT`.
+fn resolve_fa_oracle_identity(coin_type: &TypeTag) -> CliTypedResult<(AccountAddress, Vec<u8>)> {
+    match coin_type {
+        TypeTag::Struct(s) => {
+            // Native Cedra coin uses oracle feed NewPriceIdentifier("0x1", "Cedra").
+            if s.module.as_str() == "cedra_coin" && s.name.as_str() == "CedraCoin" {
+                return Ok((s.address, b"Cedra".to_vec()));
+            }
+            Ok((s.address, s.name.as_str().as_bytes().to_vec()))
+        },
+        _ => Err(CliError::CommandArgumentError(format!(
+            "--fa-address must be a struct type tag (got '{}')",
+            coin_type
+        ))),
+    }
 }

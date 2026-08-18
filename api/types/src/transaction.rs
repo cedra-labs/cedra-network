@@ -784,7 +784,6 @@ impl
                     fa_address,
                 })
             },
-
         }
     }
 }
@@ -818,7 +817,6 @@ pub struct PriceRemoveTransaction {
     pub timestamp: U64,
     pub fa_address: String,
 }
-
 
 /// A more API-friendly representation of the on-chain `cedra_types::jwks::QuorumCertifiedUpdate`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
