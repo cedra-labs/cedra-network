@@ -366,7 +366,7 @@ fn get_whitelist_request(
                     )
                 })?;
 
-            // Convert MoveValue to JSON and decode module_name/symbol
+            // Convert MoveValue to JSON and decode symbol
             let json_result = serde_json::to_value(&move_vals).map_err(|err| {
                 BasicErrorWith404::bad_request_with_code(
                     err,
@@ -387,17 +387,6 @@ fn get_whitelist_request(
                             .map(|obj| {
                                 let addr = obj.get("addr").cloned().unwrap_or(Value::Null);
 
-                                // Decode hex fields to plain UTF-8
-                                let module_name = obj
-                                    .get("module_name")
-                                    .and_then(|m| m.as_str())
-                                    .map(|hex| {
-                                        let bytes = hex::decode(&hex.trim_start_matches("0x"))
-                                            .unwrap_or_default();
-                                        String::from_utf8(bytes).unwrap_or_else(|_| "".to_string())
-                                    })
-                                    .unwrap_or_default();
-
                                 let symbol = obj
                                     .get("symbol")
                                     .and_then(|s| s.as_str())
@@ -410,7 +399,6 @@ fn get_whitelist_request(
 
                                 serde_json::json!({
                                     "addr": addr,
-                                    "module_name": module_name,
                                     "symbol": symbol
                                 })
                             })

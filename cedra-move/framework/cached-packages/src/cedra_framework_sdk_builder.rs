@@ -1311,7 +1311,7 @@ pub enum EntryFunctionCall {
 
     WhitelistRemoveAsset {
         asset_addr: AccountAddress,
-        module_name: Vec<u8>,
+        _module_name: Vec<u8>,
         symbol: Vec<u8>,
     },
 }
@@ -2062,9 +2062,9 @@ impl EntryFunctionCall {
             WhitelistInitRegistry {} => whitelist_init_registry(),
             WhitelistRemoveAsset {
                 asset_addr,
-                module_name,
+                _module_name,
                 symbol,
-            } => whitelist_remove_asset(asset_addr, module_name, symbol),
+            } => whitelist_remove_asset(asset_addr, _module_name, symbol),
         }
     }
 
@@ -5823,7 +5823,7 @@ pub fn whitelist_init_registry() -> TransactionPayload {
 
 pub fn whitelist_remove_asset(
     asset_addr: AccountAddress,
-    module_name: Vec<u8>,
+    _module_name: Vec<u8>,
     symbol: Vec<u8>,
 ) -> TransactionPayload {
     TransactionPayload::EntryFunction(EntryFunction::new(
@@ -5838,7 +5838,7 @@ pub fn whitelist_remove_asset(
         vec![],
         vec![
             bcs::to_bytes(&asset_addr).unwrap(),
-            bcs::to_bytes(&module_name).unwrap(),
+            bcs::to_bytes(&_module_name).unwrap(),
             bcs::to_bytes(&symbol).unwrap(),
         ],
     ))
@@ -7979,7 +7979,7 @@ mod decoder {
         if let TransactionPayload::EntryFunction(script) = payload {
             Some(EntryFunctionCall::WhitelistRemoveAsset {
                 asset_addr: bcs::from_bytes(script.args().get(0)?).ok()?,
-                module_name: bcs::from_bytes(script.args().get(1)?).ok()?,
+                _module_name: bcs::from_bytes(script.args().get(1)?).ok()?,
                 symbol: bcs::from_bytes(script.args().get(2)?).ok()?,
             })
         } else {
