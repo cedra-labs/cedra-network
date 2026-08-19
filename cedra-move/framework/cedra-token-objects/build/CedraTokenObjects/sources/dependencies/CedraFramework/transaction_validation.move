@@ -920,7 +920,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
         fa_addr: address,
-        fa_module: vector<u8>,
+        _fa_module: vector<u8>,
         fa_symbol: vector<u8>,
         is_orderless_txn: bool
     ) {
@@ -950,7 +950,7 @@ module cedra_framework::transaction_validation {
             transaction_fee::burn_fee_v2(
                 from_addr,
                 fa_addr,
-                fa_module,
+                vector::empty(),
                 fa_symbol,
                 cedra_fee_amount
             );
@@ -989,10 +989,23 @@ module cedra_framework::transaction_validation {
 
     }
 
+    /// Kept for upgrade compatibility. `fa_module` is ignored; identity is `(fa_addr, fa_symbol)`.
     public fun unified_epilogue_fee_v3(
         from: signer,
         fa_addr: address,
-        fa_module: vector<u8>,
+        _fa_module: vector<u8>,
+        fa_symbol: vector<u8>,
+        stablecoin_amount: u64,
+        is_orderless_txn: bool
+    ) {
+        unified_epilogue_fee_v4(
+            from, fa_addr, fa_symbol, stablecoin_amount, is_orderless_txn
+        )
+    }
+
+    public fun unified_epilogue_fee_v4(
+        from: signer,
+        fa_addr: address,
         fa_symbol: vector<u8>,
         stablecoin_amount: u64,
         is_orderless_txn: bool
@@ -1008,7 +1021,7 @@ module cedra_framework::transaction_validation {
             transaction_fee::burn_fee_v2(
                 from_addr,
                 fa_addr,
-                fa_module,
+                vector::empty(),
                 fa_symbol,
                 stablecoin_amount
             );

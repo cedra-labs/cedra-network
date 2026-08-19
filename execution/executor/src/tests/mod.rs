@@ -33,10 +33,9 @@ use cedra_types::{
         signature_verified_transaction::SignatureVerifiedTransaction, ExecutionStatus,
         RawTransaction, Script, SignedTransaction, Transaction, TransactionAuxiliaryData,
         TransactionListWithProof, TransactionOutput, TransactionPayload, TransactionStatus,
-        Version,
+        FaAddress, Version,
     },
     write_set::{WriteOp, WriteSet, WriteSetMut},
-    CedraCoinType, CoinType,
 };
 use cedra_vm::VMBlockExecutor;
 use itertools::Itertools;
@@ -445,7 +444,7 @@ fn create_test_transaction(sequence_number: u64) -> Transaction {
         0,
         0,
         ChainId::new(10),
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

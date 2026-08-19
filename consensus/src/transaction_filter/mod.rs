@@ -39,10 +39,9 @@ mod test {
         chain_id::ChainId,
         move_utils::MemberId,
         transaction::{
-            EntryFunction, RawTransaction, SignedTransaction, TransactionExecutableRef,
+            EntryFunction, FaAddress, RawTransaction, SignedTransaction, TransactionExecutableRef,
             TransactionPayload,
         },
-        CedraCoinType, CoinType,
     };
     use move_core_types::account_address::AccountAddress;
 
@@ -71,7 +70,7 @@ mod test {
             0,
             0,
             ChainId::new(10),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
 
         SignedTransaction::new(

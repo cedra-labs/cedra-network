@@ -8,7 +8,7 @@ use crate::{
         internal_indexer_db_config::InternalIndexerDBConfig,
         jwk_consensus_config::JWKConsensusConfig, netbench_config::NetbenchConfig,
         node_config_loader::NodeConfigLoader, node_startup_config::NodeStartupConfig,
-        oracle_config::OracleConfig, persistable_config::PersistableConfig, utils::RootPath,
+        persistable_config::PersistableConfig, utils::RootPath,
         AdminServiceConfig, ApiConfig, BaseConfig, ConsensusConfig, Error, ExecutionConfig,
         IndexerConfig, IndexerGrpcConfig, InspectionServiceConfig, LoggerConfig, MempoolConfig,
         NetworkConfig, PeerMonitoringServiceConfig, SafetyRulesTestConfig, StateSyncConfig,
@@ -65,8 +65,6 @@ pub struct NodeConfig {
     pub inspection_service: InspectionServiceConfig,
     #[serde(default)]
     pub jwk_consensus: JWKConsensusConfig,
-    #[serde(default)]
-    pub oracle: OracleConfig,
     #[serde(default)]
     pub logger: LoggerConfig,
     #[serde(default)]

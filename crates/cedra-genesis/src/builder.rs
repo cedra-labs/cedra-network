@@ -26,12 +26,13 @@ use cedra_framework::ReleaseBundle;
 use cedra_keygen::KeyGen;
 use cedra_logger::prelude::*;
 use cedra_types::{
+    account_address::AccountAddress,
     chain_id::ChainId,
     jwks::patch::IssuerJWK,
     keyless::Groth16VerificationKey,
     on_chain_config::{
-        Features, GasScheduleV2, OnChainConsensusConfig, OnChainExecutionConfig,
-        OnChainJWKConsensusConfig, OnChainRandomnessConfig,
+        default_oracle_address, Features, GasScheduleV2, OnChainConsensusConfig,
+        OnChainExecutionConfig, OnChainJWKConsensusConfig, OnChainRandomnessConfig,
     },
     transaction::Transaction,
     waypoint::Waypoint,
@@ -445,6 +446,7 @@ pub struct GenesisConfiguration {
     pub jwk_consensus_config_override: Option<OnChainJWKConsensusConfig>,
     pub initial_jwks: Vec<IssuerJWK>,
     pub keyless_groth16_vk: Option<Groth16VerificationKey>,
+    pub oracle_address: AccountAddress,
 }
 
 pub type InitConfigFn = Arc<dyn Fn(usize, &mut NodeConfig, &mut NodeConfig) + Send + Sync>;
@@ -668,6 +670,7 @@ impl Builder {
             jwk_consensus_config_override: None,
             initial_jwks: vec![],
             keyless_groth16_vk: None,
+            oracle_address: default_oracle_address(),
         };
         if let Some(init_genesis_config) = &self.init_genesis_config {
             (init_genesis_config)(&mut genesis_config);

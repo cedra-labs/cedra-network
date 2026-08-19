@@ -262,6 +262,7 @@ pub fn fetch_mainnet_genesis_info(git_options: GitOptions) -> CliTypedResult<Mai
             jwk_consensus_config_override: None,
             initial_jwks: vec![],
             keyless_groth16_vk: None,
+            oracle_address: layout.oracle_address,
         },
     )?)
 }
@@ -307,6 +308,7 @@ pub fn fetch_genesis_info(git_options: GitOptions) -> CliTypedResult<GenesisInfo
             jwk_consensus_config_override: layout.jwk_consensus_config_override.clone(),
             initial_jwks: layout.initial_jwks.clone(),
             keyless_groth16_vk: layout.keyless_groth16_vk_override.clone(),
+            oracle_address: layout.oracle_address,
         },
     )?)
 }

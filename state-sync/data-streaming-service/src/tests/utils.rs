@@ -40,12 +40,11 @@ use cedra_types::{
         state_value::{StateValue, StateValueChunkWithProof},
     },
     transaction::{
-        RawTransaction, Script, SignedTransaction, Transaction, TransactionAuxiliaryData,
+        FaAddress, RawTransaction, Script, SignedTransaction, Transaction, TransactionAuxiliaryData,
         TransactionListWithProof, TransactionOutput, TransactionOutputListWithProof,
         TransactionPayload, TransactionStatus, Version,
     },
     write_set::WriteSet,
-    CedraCoinType, CoinType,
 };
 use futures::StreamExt;
 use rand::{rngs::OsRng, Rng};
@@ -985,7 +984,7 @@ fn create_transaction() -> Transaction {
         0,
         0,
         ChainId::new(10),
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     );
     let signature = private_key.sign(&raw_transaction).unwrap();
     let signed_transaction = SignedTransaction::new(raw_transaction, public_key, signature);

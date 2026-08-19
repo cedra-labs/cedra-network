@@ -36,7 +36,7 @@ use cedra_forge::{
 use cedra_rest_client::Client as RestClient;
 use cedra_sdk::{
     transaction_builder::TransactionFactory,
-    types::{CedraCoinType, CoinType, PeerId},
+    types::{transaction::FaAddress, PeerId},
 };
 use futures::future::join_all;
 use log::info;
@@ -146,7 +146,7 @@ pub async fn create_emitter_and_request(
 
     let chain_info = swarm.read().await.chain_info();
     let transaction_factory =
-        TransactionFactory::new(chain_info.chain_id, CedraCoinType::type_tag());
+        TransactionFactory::new(chain_info.chain_id, FaAddress::native_cedra());
     let rest_cli = swarm
         .read()
         .await

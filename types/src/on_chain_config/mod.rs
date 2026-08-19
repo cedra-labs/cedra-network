@@ -35,6 +35,7 @@ mod timed_features;
 mod timestamp;
 mod transaction_fee;
 mod validator_set;
+mod oracle_config;
 
 pub use self::{
     approved_execution_hashes::ApprovedExecutionHashes,
@@ -63,6 +64,11 @@ pub use self::{
     timestamp::CurrentTimeMicroseconds,
     transaction_fee::TransactionFeeBurnCap,
     validator_set::{ConsensusScheme, ValidatorSet},
+    oracle_config::{
+        default_oracle_address, fa_feed_address_bytes, new_price_feed_id, oracle_module_id,
+        OracleConfig, OraclePrice, OracleQuote, CEDRA_FEED_ADDRESS, CEDRA_FEED_SYMBOL,
+        GET_PRICE_BY_FEED_ID,
+    },
 };
 
 /// To register an on-chain config in Rust:

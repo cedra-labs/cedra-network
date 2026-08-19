@@ -6,11 +6,11 @@ mod diag;
 
 use anyhow::{Context, Result};
 use cedra_logger::{Level, Logger};
-use cedra_sdk::types::{CedraCoinType, CoinType};
 use cedra_transaction_emitter_lib::{
     create_accounts_command, emit_transactions, Cluster, ClusterArgs, CreateAccountsArgs, EmitArgs,
 };
 use cedra_transaction_workloads_lib::args::EmitWorkloadArgs;
+use cedra_sdk::types::transaction::FaAddress;
 use clap::{Parser, Subcommand};
 use diag::diag;
 
@@ -77,7 +77,7 @@ pub async fn main() -> Result<()> {
     Logger::builder().level(Level::Info).build();
 
     let args = Args::parse();
-    let fa_address = CedraCoinType::type_tag();
+    let fa_address = FaAddress::native_cedra();
 
     // TODO: Check if I need DisplayChain here in the error case.
     match args.command {

@@ -4,9 +4,10 @@
 use crate::common::{
     local_simulation,
     types::{
-        AccountType, CliConfig, CliError, CliTypedResult, ConfigSearchMode, EncodingOptions,
-        ExtractEd25519PublicKey, GasOptions, PrivateKeyInputOptions, ProfileOptions, PromptOptions,
-        RestOptions, TransactionSummary, ACCEPTED_CLOCK_SKEW_US, US_IN_SECS,
+        parse_cli_fa_address, AccountType, CliConfig, CliError, CliTypedResult, ConfigSearchMode,
+        EncodingOptions, ExtractEd25519PublicKey, GasOptions, PrivateKeyInputOptions,
+        ProfileOptions, PromptOptions, RestOptions, TransactionSummary, ACCEPTED_CLOCK_SKEW_US,
+        US_IN_SECS,
     },
     utils::{get_account_with_state, get_sequence_number},
 };
@@ -25,11 +26,10 @@ use cedra_types::{
         authenticator::{AccountAuthenticator, TransactionAuthenticator},
         SignedTransaction, TransactionPayload, TransactionStatus,
     },
-    CedraCoinType, CoinType,
 };
 use cedra_vm_types::output::VMOutput;
 use clap::Parser;
-use move_core_types::{parser::parse_type_tag, vm_status::VMStatus};
+use move_core_types::vm_status::VMStatus;
 pub use move_package::*;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -171,11 +171,7 @@ impl TxnOptions {
 
         let chain_id = ChainId::new(state.chain_id);
 
-        let coin_type = if let Some(fa_address) = &self.fa_address {
-            parse_type_tag(&fa_address).unwrap()
-        } else {
-            CedraCoinType::type_tag()
-        };
+        let coin_type = parse_cli_fa_address(&self.fa_address);
 
         let transaction_factory =
             TransactionFactory::new(chain_id, coin_type).with_gas_unit_price(gas_unit_price);
@@ -262,11 +258,7 @@ impl TxnOptions {
             }
         });
 
-        let coin_type = if let Some(fa_address) = &self.fa_address {
-            parse_type_tag(&fa_address).unwrap()
-        } else {
-            CedraCoinType::type_tag()
-        };
+        let coin_type = parse_cli_fa_address(&self.fa_address);
 
         let transaction_factory = TransactionFactory::new(chain_id, coin_type)
             .with_gas_unit_price(gas_unit_price)

@@ -44,10 +44,9 @@ use cedra_sdk::{
 use cedra_types::{
     chain_id::ChainId,
     transaction::{
-        authenticator::AuthenticationKey, EntryFunction, MultisigTransactionPayload, Script,
-        SignedTransaction, TransactionArgument, TransactionPayload, TransactionStatus,
+        authenticator::AuthenticationKey, EntryFunction, FaAddress, MultisigTransactionPayload,
+        Script, SignedTransaction, TransactionArgument, TransactionPayload, TransactionStatus,
     },
-    CedraCoinType, CoinType,
 };
 use cedra_vm_types::output::VMOutput;
 use clap::{Parser, ValueEnum};
@@ -55,8 +54,7 @@ use hex::FromHexError;
 use indoc::indoc;
 use move_compiler_v2::Experiment;
 use move_core_types::{
-    account_address::AccountAddress, language_storage::TypeTag, parser::parse_type_tag,
-    vm_status::VMStatus,
+    account_address::AccountAddress, language_storage::TypeTag, vm_status::VMStatus,
 };
 use move_model::metadata::{
     CompilerVersion, LanguageVersion, LATEST_STABLE_COMPILER_VERSION,
@@ -1782,6 +1780,8 @@ pub struct TransactionOptions {
     #[clap(long)]
     pub(crate) profile_gas: bool,
 
+    /// Fee-asset identity as `address::symbol` (legacy `address::module::name` is also accepted).
+    /// Native Cedra is `0x1::Cedra`.
     #[clap(long)]
     pub(crate) fa_address: Option<String>,
 }
@@ -1915,14 +1915,10 @@ impl TransactionOptions {
             }
             max_gas
         } else {
-            let coin_type = if let Some(fa_address) = &self.fa_address {
-                parse_type_tag(&fa_address).unwrap()
-            } else {
-                CedraCoinType::type_tag()
-            };
+            let coin_type = parse_cli_fa_address(&self.fa_address);
 
-            let transaction_factory =
-                TransactionFactory::new(chain_id, coin_type).with_gas_unit_price(gas_unit_price);
+            let transaction_factory = TransactionFactory::new(chain_id, coin_type.clone())
+                .with_gas_unit_price(gas_unit_price);
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1936,7 +1932,6 @@ impl TransactionOptions {
                 sender_public_key.clone(),
                 Ed25519Signature::try_from([0u8; 64].as_ref()).unwrap(),
             );
-
 
             let txns = client
                 .simulate_with_gas_estimation(&signed_transaction, true, false)
@@ -1958,61 +1953,55 @@ impl TransactionOptions {
             let adjusted_max_gas =
                 adjust_gas_headroom(gas_used, max(simulated_txn.request.max_gas_amount.0, 530));
 
-                    if let Some(fa_address) = &self.fa_address {
+            if self.fa_address.is_some() {
+                let (fa_addr, fa_symbol) = resolve_fa_oracle_identity(&coin_type);
 
-            let lower = client
-            .view_fa_fee_amount(gas_used, gas_unit_price, fa_address.to_string())
-            .await
-            .map_err(|err| CliError::ApiError(err.to_string()))?
-            .into_inner();
+                let lower = client
+                    .view_fa_fee_amount(gas_used, gas_unit_price, fa_addr, &fa_symbol)
+                    .await
+                    .map_err(|err| CliError::ApiError(err.to_string()))?
+                    .into_inner();
 
-           let upper = client
-            .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_address.to_string())
-            .await
-            .map_err(|err| CliError::ApiError(err.to_string()))?
-            .into_inner();
+                let upper = client
+                    .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_addr, &fa_symbol)
+                    .await
+                    .map_err(|err| CliError::ApiError(err.to_string()))?
+                    .into_inner();
 
                 let message = format!(
                     "Do you want to submit a transaction for a range of [{} - {}] {} at a gas unit price of {} Octas?",
                     lower,
                     upper,
-                    fa_address,
-                    gas_unit_price);
+                    coin_type,
+                    gas_unit_price
+                );
                 prompt_yes_with_override(&message, self.prompt_options)?;
-
-
-        } else {
-
-
-            let (lower_cost_bound, upper_cost_bound) = if gas_used == 0 {
-                let estimated_gas = 100;
-                let lower = estimated_gas / 2 * gas_unit_price;
-                let upper = estimated_gas * 2 * gas_unit_price;
-
-                (lower, upper)
             } else {
-                // Normal case: use actual simulation results
-                let lower = gas_used * gas_unit_price;
-                let upper = adjusted_max_gas * gas_unit_price;
+                let (lower_cost_bound, upper_cost_bound) = if gas_used == 0 {
+                    let estimated_gas = 100;
+                    let lower = estimated_gas / 2 * gas_unit_price;
+                    let upper = estimated_gas * 2 * gas_unit_price;
 
-                (lower, upper)
-            };
-            let message = format!(
+                    (lower, upper)
+                } else {
+                    // Normal case: use actual simulation results
+                    let lower = gas_used * gas_unit_price;
+                    let upper = adjusted_max_gas * gas_unit_price;
+
+                    (lower, upper)
+                };
+                let message = format!(
                     "Do you want to submit a transaction for a range of [{} - {}] Octas at a gas unit price of {} Octas?",
                     lower_cost_bound,
                     upper_cost_bound,
                     gas_unit_price);
-            prompt_yes_with_override(&message, self.prompt_options)?;
+                prompt_yes_with_override(&message, self.prompt_options)?;
             };
             adjusted_max_gas
         };
 
         // Build a transaction
-        let coin_type = if let Some(fa_address) = &self.fa_address {
-            parse_type_tag(&fa_address).unwrap()
-        } else {
-            CedraCoinType::type_tag()
-        };
+        let coin_type = parse_cli_fa_address(&self.fa_address);
 
         let transaction_factory = TransactionFactory::new(chain_id, coin_type)
             .with_gas_unit_price(gas_unit_price)
@@ -2130,11 +2119,7 @@ impl TransactionOptions {
             }
         });
 
-        let coin_type = if let Some(fa_address) = &self.fa_address {
-            parse_type_tag(&fa_address).unwrap()
-        } else {
-            CedraCoinType::type_tag()
-        };
+        let coin_type = parse_cli_fa_address(&self.fa_address);
 
         let transaction_factory = TransactionFactory::new(chain_id, coin_type)
             .with_gas_unit_price(gas_unit_price)
@@ -2590,4 +2575,17 @@ pub fn get_mint_site_url(address: Option<AccountAddress>) -> String {
         None => "".to_string(),
     };
     format!("https://faucet.cedra.dev{}", params)
+}
+
+/// Parse `--fa-address` (`address::symbol` or legacy `address::module::name`).
+pub(crate) fn parse_cli_fa_address(fa_address: &Option<String>) -> FaAddress {
+    match fa_address {
+        Some(s) => FaAddress::from_str(s).expect("invalid --fa-address"),
+        None => FaAddress::empty(),
+    }
+}
+
+/// Resolve `(address, symbol)` for `calculate_fa_fee_v2`.
+fn resolve_fa_oracle_identity(fa: &FaAddress) -> (AccountAddress, Vec<u8>) {
+    (fa.address, fa.symbol.clone())
 }

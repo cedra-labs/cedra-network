@@ -12,13 +12,15 @@ use serde::{Deserialize, Serialize};
 use std::{sync::LazyLock, fmt::Debug};
 use move_core_types::language_storage::TypeTag;
 
-/// Rust reflection of `0x1::whitelist::FungibleAssetStruct`
+/// Rust reflection of `0x1::whitelist::FungibleAssetStruct`.
+/// `module_name` is kept so existing on-chain BCS still deserializes; identity is `(addr, symbol)`.
 #[derive(
     Clone, Debug, Hash, Serialize, Object, Deserialize, PartialEq, Eq, CryptoHasher, BCSCryptoHash,
 )]
 pub struct FungibleAssetStruct {
     pub addr: String,
-    pub module_name:  Vec<u8>,
+    #[serde(default)]
+    pub module_name: Vec<u8>,
     pub symbol: Vec<u8>,
 }
 
@@ -52,13 +54,14 @@ impl FungibleAssetStruct {
             String::from_utf8(out).unwrap_or_default()
         }
 
-        let module_str = decode_hex_vec(&self.module_name);
         let symbol_str = decode_hex_vec(&self.symbol);
-
-        format!("{}::{}::{}", self.addr, module_str, symbol_str)
+        let module_str = decode_hex_vec(&self.module_name);
+        if module_str.is_empty() {
+            format!("{}::{}", self.addr, symbol_str)
+        } else {
+            format!("{}::{}::{}", self.addr, module_str, symbol_str)
+        }
     }
-
-
 }
 
 impl MoveStructType for FungibleAssetStruct {
@@ -66,9 +69,22 @@ impl MoveStructType for FungibleAssetStruct {
     const STRUCT_NAME: &'static IdentStr = ident_str!("FungibleAssetStruct");
 }
 
+/// Rust reflection of `0x1::whitelist::WhitelistAsset` (view type, no module).
+#[derive(Clone, Debug, Hash, Serialize, Object, Deserialize, PartialEq, Eq)]
+pub struct WhitelistAsset {
+    pub addr: String,
+    pub symbol: Vec<u8>,
+}
+
+impl MoveStructType for WhitelistAsset {
+    const MODULE_NAME: &'static IdentStr = ident_str!("whitelist");
+    const STRUCT_NAME: &'static IdentStr = ident_str!("WhitelistAsset");
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AssetAddedEvent {
     pub addr: String,
+    #[serde(default)]
     pub module_name: Vec<u8>,
     pub symbol: Vec<u8>
 }
@@ -85,6 +101,7 @@ pub static WHITELIST_ASSET_ADDED_MOVE_TYPE_TAG: LazyLock<TypeTag> =
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AssetRemovedEvent {
     pub addr: String,
+    #[serde(default)]
     pub module_name: Vec<u8>,
     pub symbol: Vec<u8>
 }

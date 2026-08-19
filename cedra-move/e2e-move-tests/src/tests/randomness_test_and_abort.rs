@@ -8,8 +8,7 @@ use cedra_types::{
     account_address::AccountAddress,
     on_chain_config::OnChainConfig,
     randomness::PerBlockRandomness,
-    transaction::{ExecutionStatus, Script, TransactionStatus},
-    CedraCoinType, CoinType,
+    transaction::{ExecutionStatus, FaAddress, Script, TransactionStatus},
 };
 use claims::assert_ok;
 use move_core_types::{ident_str, language_storage::ModuleId, vm_status::AbortLocation};
@@ -159,7 +158,7 @@ fn run_script(h: &mut MoveHarness, package: &BuiltPackage) -> TransactionStatus 
     let scripts = package.extract_script_code();
     let code = scripts[0].clone();
 
-    let txn = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let txn = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .script(Script::new(code, vec![], vec![]))
         .sequence_number(10)
         .max_gas_amount(1_000_000)
