@@ -353,7 +353,7 @@ impl From<(&SignedTransaction, TransactionPayload)> for UserTransactionRequest {
             signature: Some(txn.authenticator().into()),
             payload,
             replay_protection_nonce: txn.replay_protector().get_nonce().map(|nonce| nonce.into()),
-            fa_address: MoveType::from(&txn.get_fa_address()),
+            fa_address: fa_address_from_txn(&txn.get_fa_address()),
         }
     }
 }
@@ -477,6 +477,33 @@ pub struct TransactionsBatchSingleSubmissionFailure {
     pub transaction_index: usize,
 }
 
+/// Fee-asset identity shown on fetched transactions: creator address + symbol.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
+pub struct FaAddress {
+    /// Creator / metadata owner address
+    pub address: Address,
+    /// Asset symbol (e.g. `"Cedra"`, `"USDCT"`)
+    pub symbol: String,
+}
+
+impl From<&cedra_types::transaction::FaAddress> for FaAddress {
+    fn from(fa: &cedra_types::transaction::FaAddress) -> Self {
+        Self {
+            address: fa.address.into(),
+            symbol: fa.symbol_str(),
+        }
+    }
+}
+
+fn fa_address_from_txn(tag: &move_core_types::language_storage::TypeTag) -> Option<FaAddress> {
+    let fa = cedra_types::transaction::FaAddress::from_type_tag(tag);
+    if fa.is_empty() {
+        None
+    } else {
+        Some((&fa).into())
+    }
+}
+
 // TODO: Rename this to remove the Inner when we cut over.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
 pub struct UserTransactionRequestInner {
@@ -487,7 +514,10 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
-    pub fa_address: MoveType,
+    /// Fee-asset TypeTag. Same value as on the signed `RawTransaction`.
+    /// e.g. `"0x1::cedra_coin::CedraCoin"` or `"0xc745…::usdct::USDCT"`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fa_address: Option<MoveType>,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -501,7 +531,11 @@ impl VerifyInput for UserTransactionRequestInner {
             }
         }
 
-        self.payload.verify()
+        self.payload.verify()?;
+        if let Some(fa) = &self.fa_address {
+            fa.verify(0)?;
+        }
+        Ok(())
     }
 }
 
@@ -517,7 +551,9 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
-    pub fa_address: MoveType,
+    /// Fee-asset identity derived from the signed TypeTag (`address` + `symbol`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fa_address: Option<FaAddress>,
 }
 
 /// Request to create signing messages
@@ -525,7 +561,7 @@ pub struct UserTransactionRequest {
 pub struct UserCreateSigningMessageRequest {
     #[serde(flatten)]
     #[oai(flatten)]
-    pub transaction: UserTransactionRequest,
+    pub transaction: UserTransactionRequestInner,
     /// Secondary signer accounts of the request for Multi-agent
     #[serde(skip_serializing_if = "Option::is_none")]
     pub secondary_signers: Option<Vec<Address>>,

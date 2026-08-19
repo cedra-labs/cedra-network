@@ -666,12 +666,16 @@ impl CedraVM {
                 let gas_params = self.gas_params(log_context)?;
                 let gas_unit_price = u64::from(txn_data.gas_unit_price());
                 if gas_unit_price != 0 || !self.features().is_default_account_resource_enabled() {
-                    let actual : u64;
-                   
+                    let actual: u64;
+
                     if txn_data.use_fee_v2() {
-                        actual = custom_fee_statement.gas_used() * gas_unit_price + custom_fee_statement.storage_fee_used() - custom_fee_statement.storage_fee_refund();
+                        actual = custom_fee_statement.gas_used() * gas_unit_price
+                            + custom_fee_statement.storage_fee_used()
+                            - custom_fee_statement.storage_fee_refund();
                     } else {
-                        actual = fee_statement.gas_used() * gas_unit_price + fee_statement.storage_fee_used() - fee_statement.storage_fee_refund();
+                        actual = fee_statement.gas_used() * gas_unit_price
+                            + fee_statement.storage_fee_used()
+                            - fee_statement.storage_fee_refund();
                     }
                     /*
                         gas_used = fee_statement.gas_used();
@@ -757,10 +761,14 @@ impl CedraVM {
             )
         })?;
         epilogue_session.finish(
-            if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement }, 
-            status, 
-            change_set_configs, 
-            module_storage
+            if txn_data.use_fee_v2() {
+                custom_fee_statement.into()
+            } else {
+                fee_statement
+            },
+            status,
+            change_set_configs,
+            module_storage,
         )
     }
 
@@ -791,47 +799,39 @@ impl CedraVM {
         }
 
         let fee_statement = CedraVM::fee_statement_from_gas_meter(
-                txn_data,
-                gas_meter,
-                u64::from(epilogue_session.get_storage_fee_refund()),
-            );
+            txn_data,
+            gas_meter,
+            u64::from(epilogue_session.get_storage_fee_refund()),
+        );
 
-            let storage_refund = u64::from(epilogue_session.get_storage_fee_refund());
-
+        let storage_refund = u64::from(epilogue_session.get_storage_fee_refund());
 
         epilogue_session.execute(|session| {
+            if txn_data.use_fee_v2() {
+                let mut unmetered_gas_meter = UnmeteredGasMeter;
+                let txn_gas_price = txn_data.gas_unit_price();
+                let txn_max_gas_units = txn_data.max_gas_amount();
+                let gas_used =
+                    u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
 
-        if txn_data.use_fee_v2() {
-            let mut unmetered_gas_meter = UnmeteredGasMeter;
-            let txn_gas_price = txn_data.gas_unit_price();
-            let txn_max_gas_units = txn_data.max_gas_amount();
-            let gas_used =
-                u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
-
-            let stablecoin_amount: u64 =
-                if let Some((fa_addr, symbol)) = txn_data.fa_oracle_identity() {
-                    fa_oracle::compute_fa_fee_v2(
-                        session,
-                        module_storage,
-                        &mut unmetered_gas_meter,
-                        traversal_context,
-                        gas_used,
-                        storage_refund,
-                        txn_gas_price.into(),
-                        fa_addr,
-                        &symbol,
-                    )?
-                } else {
-                    return Err(PartialVMError::new(
-                        StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
-                    )
-                    .with_message("FA oracle identity missing for fee_v2 transaction".to_string())
-                    .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
-                    .into_vm_status());
+                let (fa_addr, symbol) = txn_data.fa_oracle_identity();
+                let stablecoin_amount: u64 = match fa_oracle::compute_fa_fee_v2(
+                    session,
+                    module_storage,
+                    &mut unmetered_gas_meter,
+                    traversal_context,
+                    gas_used,
+                    storage_refund,
+                    txn_gas_price.into(),
+                    fa_addr,
+                    &symbol,
+                ) {
+                    Ok(amount) => amount,
+                    Err(err) => return Err(err),
                 };
 
-            txn_data.with_stablecoin_amount(stablecoin_amount);
-        }
+                txn_data.with_stablecoin_amount(stablecoin_amount);
+            }
             transaction_validation::run_success_epilogue(
                 session,
                 module_storage,
@@ -856,7 +856,11 @@ impl CedraVM {
         }
 
         let output = epilogue_session.finish(
-            if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement },
+            if txn_data.use_fee_v2() {
+                custom_fee_statement.into()
+            } else {
+                fee_statement
+            },
             ExecutionStatus::Success,
             change_set_configs,
             module_storage,

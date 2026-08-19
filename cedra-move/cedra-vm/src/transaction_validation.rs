@@ -467,51 +467,50 @@ fn run_epilogue(
     let is_orderless_txn = txn_data.is_orderless();
 
     if txn_data.use_fee_v2() && features.is_fee_v2_enabled() {
-        if let Some(fa) = txn_data.fa_address() {
-            let mut serialize_args = vec![
-                serialized_signers.sender(),
-                MoveValue::Address(fa.address).simple_serialize().unwrap(),
-                MoveValue::vector_u8(fa.symbol.clone())
+        let fa = txn_data.fa_address();
+        let mut serialize_args = vec![
+            serialized_signers.sender(),
+            MoveValue::Address(fa.address).simple_serialize().unwrap(),
+            MoveValue::vector_u8(fa.symbol.clone())
+                .simple_serialize()
+                .unwrap(),
+            MoveValue::U64(txn_data.stablecoin_amount())
+                .simple_serialize()
+                .unwrap(),
+        ];
+
+        if features.is_transaction_payload_v2_enabled() {
+            serialize_args.push(
+                MoveValue::Bool(is_orderless_txn)
                     .simple_serialize()
                     .unwrap(),
-                MoveValue::U64(txn_data.stablecoin_amount())
-                    .simple_serialize()
-                    .unwrap(),
-            ];
-
-            if features.is_transaction_payload_v2_enabled() {
-                serialize_args.push(
-                    MoveValue::Bool(is_orderless_txn)
-                        .simple_serialize()
-                        .unwrap(),
-                );
-            } else {
-                serialize_args.push(MoveValue::Bool(false).simple_serialize().unwrap());
-            }
-
-            session
-                .execute_function_bypass_visibility(
-                    &CEDRA_TRANSACTION_VALIDATION.module_id(),
-                    &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v4_name,
-                    vec![],
-                    serialize_args,
-                    &mut UnmeteredGasMeter,
-                    traversal_context,
-                    module_storage,
-                )
-                .map_err(|e| {
-                    println!("unified_epilogue_fee_v4 failed: {:?}", e);
-                    e
-                })?;
-
-            let custom_fee_statement = fee_statement.extend(txn_data.stablecoin_amount());
-            emit_custom_fee_statement_v2(
-                session,
-                module_storage,
-                custom_fee_statement,
-                traversal_context,
-            )?;
+            );
+        } else {
+            serialize_args.push(MoveValue::Bool(false).simple_serialize().unwrap());
         }
+
+        session
+            .execute_function_bypass_visibility(
+                &CEDRA_TRANSACTION_VALIDATION.module_id(),
+                &CEDRA_TRANSACTION_VALIDATION.unified_epilogue_fee_v4_name,
+                vec![],
+                serialize_args,
+                &mut UnmeteredGasMeter,
+                traversal_context,
+                module_storage,
+            )
+            .map_err(|e| {
+                println!("unified_epilogue_fee_v4 failed: {:?}", e);
+                e
+            })?;
+
+        let custom_fee_statement = fee_statement.extend(txn_data.stablecoin_amount());
+        emit_custom_fee_statement_v2(
+            session,
+            module_storage,
+            custom_fee_statement,
+            traversal_context,
+        )?;
     } else {
         if features.is_account_abstraction_enabled()
             || features.is_derivable_account_abstraction_enabled()
@@ -637,13 +636,12 @@ fn run_epilogue(
             }
         }
         .map_err(expect_no_verification_errors)?;
-    
+
         // Emit the FeeStatement event
         if features.is_emit_fee_statement_enabled() {
             emit_fee_statement(session, module_storage, fee_statement, traversal_context)?;
         }
     }
-
 
     maybe_raise_injected_error(InjectedError::EndOfRunEpilogue)?;
 

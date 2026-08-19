@@ -6,11 +6,10 @@ use crate::{
     account_address::AccountAddress,
     chain_id::ChainId,
     transaction::{
-        AccountOrderedTransactionsWithProof, RawTransaction, Script, SignedTransaction,
+        AccountOrderedTransactionsWithProof, FaAddress, RawTransaction, Script, SignedTransaction,
         Transaction, TransactionInfo, TransactionListWithProof, TransactionPayload,
         TransactionWithProof,
     },
-    CedraCoinType, CoinType,
 };
 use bcs::test_helpers::assert_canonical_encode_decode;
 use cedra_crypto::{
@@ -31,7 +30,7 @@ fn test_invalid_signature() {
             0,
             0,
             ChainId::test(),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         ),
         Ed25519PrivateKey::generate_for_testing().public_key(),
         Ed25519Signature::try_from(&[1u8; 64][..]).unwrap(),

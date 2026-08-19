@@ -158,9 +158,9 @@ mod test {
         account_address::AccountAddress,
         chain_id::ChainId,
         transaction::{
-            RawTransaction, ReplayProtector, Script, SignedTransaction, TransactionExecutable,
+            FaAddress, RawTransaction, ReplayProtector, Script, SignedTransaction,
+            TransactionExecutable,
         },
-        CedraCoinType, CoinType,
     };
     use std::time::{Duration, SystemTime};
 
@@ -206,7 +206,7 @@ mod test {
             0,
             u64::MAX,
             ChainId::new(10),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
         SignedTransaction::new(
             raw_transaction.clone(),

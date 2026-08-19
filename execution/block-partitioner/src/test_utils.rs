@@ -27,7 +27,7 @@ use cedra_types::state_store::state_key::StateKey;
 use cedra_types::{
     chain_id::ChainId,
     transaction::{
-        analyzed_transaction::AnalyzedTransaction, EntryFunction, RawTransaction,
+        analyzed_transaction::AnalyzedTransaction, EntryFunction, FaAddress, RawTransaction,
         SignedTransaction, Transaction, TransactionPayload,
     },
     CedraCoinType, CoinType,
@@ -100,7 +100,7 @@ pub fn create_signed_p2p_transaction(
             0,
             0,
             ChainId::new(10),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
         sender.sequence_number += 1;
         let txn = Transaction::UserTransaction(SignedTransaction::new(

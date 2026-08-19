@@ -15,9 +15,9 @@ use crate::{
         TransactionPayload,
     },
 };
+use move_core_types::language_storage::TypeTag;
 
 use cedra_crypto::{ed25519::*, traits::*};
-use move_core_types::language_storage::TypeTag;
 
 const MAX_GAS_AMOUNT: u64 = 1_000_000;
 const TEST_GAS_PRICE: u64 = 100;
@@ -47,7 +47,7 @@ pub fn get_test_signed_transaction(
     expiration_timestamp_secs: u64,
     gas_unit_price: u64,
     max_gas_amount: Option<u64>,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     let raw_txn = RawTransaction::new(
         sender,
@@ -77,7 +77,7 @@ pub fn get_test_unchecked_transaction(
     expiration_time: u64,
     gas_unit_price: u64,
     max_gas_amount: Option<u64>,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     get_test_unchecked_transaction_(
         sender,
@@ -104,7 +104,7 @@ fn get_test_unchecked_transaction_(
     gas_unit_price: u64,
     max_gas_amount: Option<u64>,
     chain_id: ChainId,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     let raw_txn = RawTransaction::new(
         sender,
@@ -130,7 +130,7 @@ pub fn get_test_signed_txn(
     private_key: &Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     payload: Option<TransactionPayload>,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     get_test_signed_transaction(
@@ -152,7 +152,7 @@ pub fn get_test_unchecked_txn(
     private_key: &Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     payload: TransactionPayload,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     get_test_unchecked_transaction(
@@ -177,7 +177,7 @@ pub fn get_test_unchecked_multi_agent_txn(
     secondary_private_keys: Vec<&Ed25519PrivateKey>,
     secondary_public_keys: Vec<Ed25519PublicKey>,
     script: Option<Script>,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     let raw_txn = RawTransaction::new(
@@ -221,7 +221,7 @@ pub fn get_test_txn_with_chain_id(
     private_key: &Ed25519PrivateKey,
     public_key: Ed25519PublicKey,
     chain_id: ChainId,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> SignedTransaction {
     let expiration_time = expiration_time(10);
     let raw_txn = RawTransaction::new_script(
@@ -251,7 +251,7 @@ pub fn get_test_raw_transaction(
     expiration_timestamp_secs: Option<u64>,
     gas_unit_price: Option<u64>,
     max_gas_amount: Option<u64>,
-    fa_address: TypeTag,
+    fa_address: impl Into<TypeTag>,
 ) -> RawTransaction {
     RawTransaction::new(
         sender,

@@ -9,46 +9,11 @@ use cedra_types::{
     chain_id::ChainId,
     transaction::{
         authenticator::AuthenticationProof, user_transaction_context::UserTransactionContext,
-        EntryFunction, Multisig, MultisigTransactionPayload, ReplayProtector, SignedTransaction,
-        TransactionExecutable, TransactionExecutableRef, TransactionExtraConfig,
+        EntryFunction, FaAddress, Multisig, MultisigTransactionPayload, ReplayProtector,
+        SignedTransaction, TransactionExecutable, TransactionExecutableRef, TransactionExtraConfig,
         TransactionPayload, TransactionPayloadInner,
     },
 };
-use move_core_types::language_storage::TypeTag;
-
-/// Fee-asset identity: creator address + symbol.
-/// Parsed from the on-chain transaction `fa_address` TypeTag (`address::module::Name`),
-/// dropping the unused module so existing signed transactions still load from storage.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct FaIdentity {
-    pub address: AccountAddress,
-    pub symbol: Vec<u8>,
-}
-
-impl FaIdentity {
-    /// Native Cedra coin (`0x1::cedra_coin::CedraCoin`) uses oracle symbol `"Cedra"`.
-    pub fn from_type_tag(tag: &TypeTag) -> Option<Self> {
-        match tag {
-            TypeTag::Struct(s) => {
-                let symbol = if s.module.as_str() == "cedra_coin" && s.name.as_str() == "CedraCoin"
-                {
-                    b"Cedra".to_vec()
-                } else {
-                    s.name.as_str().as_bytes().to_vec()
-                };
-                Some(Self {
-                    address: s.address,
-                    symbol,
-                })
-            },
-            _ => None,
-        }
-    }
-
-    pub fn is_native_cedra(&self) -> bool {
-        self.address == AccountAddress::ONE && self.symbol == b"Cedra"
-    }
-}
 
 pub struct TransactionMetadata {
     pub sender: AccountAddress,
@@ -70,7 +35,7 @@ pub struct TransactionMetadata {
     pub is_keyless: bool,
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
-    pub fa_address: Option<FaIdentity>,
+    pub fa_address: FaAddress,
     pub stablecoin_amount: u64,
 }
 
@@ -144,7 +109,7 @@ impl TransactionMetadata {
                 }),
                 _ => None,
             },
-            fa_address: FaIdentity::from_type_tag(&txn.get_fa_address()),
+            fa_address: FaAddress::from_type_tag(&txn.get_fa_address()),
             stablecoin_amount: 0,
         }
     }
@@ -161,15 +126,13 @@ impl TransactionMetadata {
         self.stablecoin_amount
     }
 
-    pub fn fa_address(&self) -> Option<&FaIdentity> {
-        self.fa_address.as_ref()
+    pub fn fa_address(&self) -> &FaAddress {
+        &self.fa_address
     }
 
     /// Oracle feed identity for `calculate_fa_fee_v2`: `(address, symbol_bytes)`.
-    pub fn fa_oracle_identity(&self) -> Option<(AccountAddress, Vec<u8>)> {
-        self.fa_address
-            .as_ref()
-            .map(|fa| (fa.address, fa.symbol.clone()))
+    pub fn fa_oracle_identity(&self) -> (AccountAddress, Vec<u8>) {
+        (self.fa_address.address, self.fa_address.symbol.clone())
     }
 
     pub fn gas_unit_price(&self) -> FeePerGasUnit {
@@ -263,8 +226,6 @@ impl TransactionMetadata {
     }
 
     pub fn use_fee_v2(&self) -> bool {
-        self.fa_address
-            .as_ref()
-            .is_some_and(|fa| !fa.is_native_cedra())
+        self.fa_address.use_fee_v2()
     }
 }

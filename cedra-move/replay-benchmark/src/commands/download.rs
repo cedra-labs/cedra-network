@@ -6,7 +6,7 @@ use crate::{
     workload::TransactionBlock,
 };
 use anyhow::{anyhow, bail};
-use cedra_types::transaction::{CedraCoinType, CoinType, Transaction, Version};
+use cedra_types::transaction::{Transaction, Version};
 use clap::Parser;
 use std::path::PathBuf;
 use tokio::fs;
@@ -122,7 +122,7 @@ mod tests {
     use cedra_types::{
         block_metadata::BlockMetadata,
         chain_id::ChainId,
-        transaction::{EntryFunction, RawTransaction, SignedTransaction},
+        transaction::{EntryFunction, FaAddress, RawTransaction, SignedTransaction},
     };
     use move_core_types::{
         account_address::AccountAddress, identifier::Identifier, language_storage::ModuleId,
@@ -151,7 +151,7 @@ mod tests {
             1,
             10,
             ChainId::test(),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
 
         let mut rng = StdRng::from_seed([0; 32]);

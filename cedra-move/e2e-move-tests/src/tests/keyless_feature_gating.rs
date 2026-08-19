@@ -21,9 +21,8 @@ use cedra_types::{
     on_chain_config::FeatureFlag,
     transaction::{
         authenticator::{AnyPublicKey, AuthenticationKey, EphemeralSignature},
-        EntryFunction, Script, SignedTransaction, Transaction, TransactionStatus,
+        EntryFunction, FaAddress, Script, SignedTransaction, Transaction, TransactionStatus,
     },
-    CedraCoinType, CoinType,
 };
 use move_core_types::{
     account_address::AccountAddress,
@@ -391,7 +390,7 @@ fn spend_keyless_account(
 ) -> SignedTransaction {
     let payload = cedra_stdlib::cedra_coin_transfer(recipient, 1);
     //println!("Payload: {:?}", payload);
-    let raw_txn = TransactionBuilder::new(account.clone(), CedraCoinType::type_tag())
+    let raw_txn = TransactionBuilder::new(account.clone(), FaAddress::native_cedra())
         .payload(payload)
         .sequence_number(h.sequence_number(account.address()))
         .max_gas_amount(1_000_000)
@@ -483,7 +482,7 @@ fn run_jwk_and_config_script(h: &mut MoveHarness) -> Account {
     let jwk = get_sample_jwk();
     let config = Configuration::new_for_testing();
 
-    let txn = TransactionBuilder::new(core_resources.clone(), CedraCoinType::type_tag())
+    let txn = TransactionBuilder::new(core_resources.clone(), FaAddress::native_cedra())
         .script(Script::new(
             script,
             vec![],
@@ -539,7 +538,7 @@ fn federated_keyless_init_config(h: &mut MoveHarness, core_resources: Account) {
 
     let config = Configuration::new_for_testing();
 
-    let txn = TransactionBuilder::new(core_resources.clone(), CedraCoinType::type_tag())
+    let txn = TransactionBuilder::new(core_resources.clone(), FaAddress::native_cedra())
         .script(Script::new(
             script,
             vec![],
@@ -564,7 +563,7 @@ fn federated_keyless_install_jwk(
 ) {
     let jwk_owner_account = h.new_account_at(jwk_owner);
 
-    let txn = TransactionBuilder::new(jwk_owner_account.clone(), CedraCoinType::type_tag())
+    let txn = TransactionBuilder::new(jwk_owner_account.clone(), FaAddress::native_cedra())
         .entry_function(EntryFunction::new(
             ModuleId::new(CORE_CODE_ADDRESS, ident_str!("jwks").to_owned()),
             ident_str!("update_federated_jwk_set").to_owned(),
@@ -600,7 +599,7 @@ fn run_upgrade_vk_script(h: &mut MoveHarness, core_resources: Account, vk: Groth
 
     let script = package.extract_script_code()[0].clone();
 
-    let txn = TransactionBuilder::new(core_resources.clone(), CedraCoinType::type_tag())
+    let txn = TransactionBuilder::new(core_resources.clone(), FaAddress::native_cedra())
         .script(Script::new(
             script,
             vec![],

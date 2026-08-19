@@ -50,7 +50,6 @@ use move_core_types::{
     value::{MoveStructLayout, MoveTypeLayout},
 };
 use serde_json::Value;
-use std::str::FromStr;
 use std::{
     collections::BTreeMap,
     convert::{TryFrom, TryInto},
@@ -679,7 +678,12 @@ impl<'a, S: StateView> MoveConverter<'a, S> {
             gas_unit_price.into(),
             expiration_timestamp_secs.into(),
             chain_id,
-            TypeTag::from_str(&fa_address.to_string()).unwrap(),
+            fa_address
+                .as_ref()
+                .map(TypeTag::try_from)
+                .transpose()
+                .context("invalid fa_address TypeTag")?
+                .unwrap_or(TypeTag::Bool),
         ))
     }
 

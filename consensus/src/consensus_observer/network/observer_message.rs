@@ -1055,10 +1055,10 @@ mod test {
         aggregate_signature::AggregateSignature,
         chain_id::ChainId,
         ledger_info::LedgerInfo,
-        transaction::{RawTransaction, Script, TransactionPayload},
+        transaction::{FaAddress, RawTransaction, Script, TransactionPayload},
         validator_signer::ValidatorSigner,
         validator_verifier::{ValidatorConsensusInfo, ValidatorVerifier},
-        CedraCoinType, CoinType, PeerId,
+        PeerId,
     };
     use claims::{assert_matches, assert_ok};
     use move_core_types::account_address::AccountAddress;
@@ -2009,7 +2009,7 @@ mod test {
                 0,
                 0,
                 ChainId::new(10),
-                CedraCoinType::type_tag(),
+                FaAddress::native_cedra(),
             );
 
             // Create the signed transaction

@@ -18,7 +18,6 @@ use crate::{
     },
     vm_status::{DiscardedVMStatus, KeptVMStatus, StatusCode, StatusType, VMStatus},
     write_set::WriteSet,
-    CedraCoinType, CoinType,
 };
 use anyhow::{ensure, format_err, Context, Error, Result};
 use cedra_crypto::{
@@ -46,6 +45,7 @@ pub mod authenticator;
 pub mod block_epilogue;
 mod block_output;
 mod change_set;
+pub mod fa_address;
 mod module;
 mod multisig;
 mod script;
@@ -69,6 +69,7 @@ use crate::{
 };
 pub use block_output::BlockOutput;
 pub use change_set::ChangeSet;
+pub use fa_address::FaAddress;
 pub use module::{Module, ModuleBundle};
 pub use move_core_types::transaction_argument::TransactionArgument;
 use move_core_types::{
@@ -198,8 +199,9 @@ pub struct RawTransaction {
     /// Chain ID of the Cedra network this transaction is intended for.
     chain_id: ChainId,
 
-    /// fee_coin detects fee coin address that will used in transaction fee v2 event.
-    /// If the field is empty, the default fee event will be used.
+    /// Fee-asset identity on the signed payload. BCS is a `TypeTag` so existing
+    /// ledger / quorum-store transactions keep verifying.
+    /// API and VM use `FaAddress` (`from_type_tag` / `to_type_tag`).
     fa_address: TypeTag,
 }
 
@@ -216,7 +218,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fa_address: TypeTag,
+        fa_address: impl Into<TypeTag>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -226,7 +228,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 
@@ -242,7 +244,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fa_address: TypeTag,
+        fa_address: impl Into<TypeTag>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -252,7 +254,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 
@@ -266,7 +268,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fa_address: TypeTag,
+        fa_address: impl Into<TypeTag>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -276,7 +278,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 
@@ -290,7 +292,7 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fa_address: TypeTag,
+        fa_address: impl Into<TypeTag>,
     ) -> Self {
         RawTransaction {
             sender,
@@ -300,7 +302,7 @@ impl RawTransaction {
             gas_unit_price,
             expiration_timestamp_secs,
             chain_id,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 
@@ -316,8 +318,9 @@ impl RawTransaction {
         gas_unit_price: u64,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fa_address: TypeTag,
+        fa_address: impl Into<TypeTag>,
     ) -> Self {
+        let fa_address = fa_address.into();
         match replay_protector {
             ReplayProtector::SequenceNumber(sequence_number) => RawTransaction {
                 sender,
@@ -1165,12 +1168,12 @@ impl SignedTransaction {
     }
 
     pub fn use_fee_v2(&self) -> bool {
-        self.raw_txn.fa_address.to_string() != ""
-            && self.raw_txn.fa_address != CedraCoinType::type_tag()
+        FaAddress::from_type_tag(&self.raw_txn.fa_address).use_fee_v2()
     }
 
+    /// Signed TypeTag as stored on `RawTransaction` (not rewritten).
     pub fn get_fa_address(&self) -> TypeTag {
-        return self.raw_txn.fa_address.clone();
+        self.raw_txn.fa_address.clone()
     }
 
     pub fn payload(&self) -> &TransactionPayload {

@@ -21,8 +21,8 @@ use cedra_types::{
     block_info::BlockInfo,
     ledger_info::{generate_ledger_info_with_sig, LedgerInfo},
     test_helpers::transaction_test_helpers::get_test_signed_txn,
+    transaction::FaAddress,
     validator_signer::{proptests, ValidatorSigner},
-    CedraCoinType, CoinType,
 };
 use proptest::prelude::*;
 
@@ -271,7 +271,7 @@ pub fn random_payload(count: usize) -> Payload {
                     &private_key,
                     public_key.clone(),
                     None,
-                    CedraCoinType::type_tag(),
+                    FaAddress::native_cedra(),
                 )
             })
             .collect(),
