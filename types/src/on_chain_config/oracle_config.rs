@@ -13,15 +13,6 @@ use move_core_types::{
 };
 use serde::{Deserialize, Serialize};
 
-/// Default oracle package address (resource-account style). Used when a network
-/// does not override `oracle_address` in genesis layout.
-pub fn default_oracle_address() -> AccountAddress {
-    AccountAddress::from_hex_literal(
-        "0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c",
-    )
-    .expect("valid default oracle address")
-}
-
 /// On-chain `0x1::oracle_config::OracleConfig`.
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
 pub struct OracleConfig {
