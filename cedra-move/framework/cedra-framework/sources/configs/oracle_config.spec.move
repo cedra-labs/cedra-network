@@ -10,7 +10,6 @@ spec cedra_framework::oracle_config {
         use std::signer;
         let addr = signer::address_of(cedra_framework);
         aborts_if !system_addresses::is_cedra_framework_address(addr);
-        aborts_if oracle_addr == @0x0;
         aborts_if exists<OracleConfig>(@cedra_framework);
         ensures global<OracleConfig>(addr).addr == oracle_addr;
     }

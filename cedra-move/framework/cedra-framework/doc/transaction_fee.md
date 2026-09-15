@@ -495,9 +495,10 @@ Burn transaction fees in epilogue.
 ## Function `burn_fee_v2`
 
 Burn custom transaction fees in epilogue.
+<code>module_name</code> is kept for upgrade compatibility and ignored; identity is <code>(creator_addr, symbol)</code>.
 
 
-<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">burn_fee_v2</a>(from_addr: <b>address</b>, creator_addr: <b>address</b>, module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fee: u64)
+<pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">burn_fee_v2</a>(from_addr: <b>address</b>, creator_addr: <b>address</b>, _module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fee: u64)
 </code></pre>
 
 
@@ -509,7 +510,7 @@ Burn custom transaction fees in epilogue.
 <pre><code><b>public</b>(<b>friend</b>) <b>fun</b> <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">burn_fee_v2</a>(
     from_addr: <b>address</b>,
     creator_addr: <b>address</b>,
-    module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    _module_name: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fee: u64
 ) {
@@ -517,7 +518,7 @@ Burn custom transaction fees in epilogue.
     <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_has_registry">whitelist::has_registry</a>(@admin), 1001);
 
     // 1002 - asset not registered in <a href="whitelist.md#0x1_whitelist">whitelist</a>
-    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_asset_exists">whitelist::asset_exists</a>(creator_addr, module_name, symbol), 1002);
+    <b>assert</b>!(<a href="whitelist.md#0x1_whitelist_asset_exists">whitelist::asset_exists</a>(creator_addr, <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>(), symbol), 1002);
 
     // 1003 - insufficient FA balance
     <b>assert</b>!(<a href="transaction_fee.md#0x1_transaction_fee_get_balance">get_balance</a>(creator_addr, from_addr, symbol) &gt;= fee, 1003);

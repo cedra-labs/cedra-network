@@ -7,7 +7,7 @@ use anyhow::Result;
 use cedra_rest_client::Client as RestClient;
 use cedra_sdk::{
     transaction_builder::TransactionFactory,
-    types::{chain_id::ChainId, CedraCoinType, CoinType, LocalAccount},
+    types::{chain_id::ChainId, transaction::FaAddress, LocalAccount},
 };
 use reqwest::Url;
 use std::sync::Arc;
@@ -60,7 +60,7 @@ impl ChainInfo {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.chain_id(), CedraCoinType::type_tag())
+        TransactionFactory::new(self.chain_id(), FaAddress::native_cedra())
     }
 
     pub fn into_cedra_public_info(self) -> CedraPublicInfo {

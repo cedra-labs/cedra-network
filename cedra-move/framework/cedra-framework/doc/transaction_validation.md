@@ -38,6 +38,7 @@
 -  [Function `unified_epilogue_fee_v2`](#0x1_transaction_validation_unified_epilogue_fee_v2)
 -  [Function `unified_epilogue_fee`](#0x1_transaction_validation_unified_epilogue_fee)
 -  [Function `unified_epilogue_fee_v3`](#0x1_transaction_validation_unified_epilogue_fee_v3)
+-  [Function `unified_epilogue_fee_v4`](#0x1_transaction_validation_unified_epilogue_fee_v4)
 -  [Specification](#@Specification_1)
     -  [High-level Requirements](#high-level-req)
     -  [Module-level Specification](#module-level-spec)
@@ -1749,7 +1750,7 @@ If there is no fee_payer, fee_payer = sender
 
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v2">unified_epilogue_fee_v2</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, storage_fee_refunded: u64, txn_gas_price: u64, txn_max_gas_units: u64, gas_units_remaining: u64, fa_addr: <b>address</b>, fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, is_orderless_txn: bool)
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v2">unified_epilogue_fee_v2</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, storage_fee_refunded: u64, txn_gas_price: u64, txn_max_gas_units: u64, gas_units_remaining: u64, fa_addr: <b>address</b>, _fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, is_orderless_txn: bool)
 </code></pre>
 
 
@@ -1765,7 +1766,7 @@ If there is no fee_payer, fee_payer = sender
     txn_max_gas_units: u64,
     gas_units_remaining: u64,
     fa_addr: <b>address</b>,
-    fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    _fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     is_orderless_txn: bool
 ) {
@@ -1795,7 +1796,7 @@ If there is no fee_payer, fee_payer = sender
         <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(
             from_addr,
             fa_addr,
-            fa_module,
+            <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>(),
             fa_symbol,
             cedra_fee_amount
         );
@@ -1863,9 +1864,10 @@ If there is no fee_payer, fee_payer = sender
 
 ## Function `unified_epilogue_fee_v3`
 
+Kept for upgrade compatibility. <code>fa_module</code> is ignored; identity is <code>(fa_addr, fa_symbol)</code>.
 
 
-<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v3">unified_epilogue_fee_v3</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, fa_addr: <b>address</b>, fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, stablecoin_amount: u64, is_orderless_txn: bool)
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v3">unified_epilogue_fee_v3</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, fa_addr: <b>address</b>, _fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, stablecoin_amount: u64, is_orderless_txn: bool)
 </code></pre>
 
 
@@ -1877,7 +1879,39 @@ If there is no fee_payer, fee_payer = sender
 <pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v3">unified_epilogue_fee_v3</a>(
     from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
     fa_addr: <b>address</b>,
-    fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    _fa_module: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
+    stablecoin_amount: u64,
+    is_orderless_txn: bool
+) {
+    <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v4">unified_epilogue_fee_v4</a>(
+        from, fa_addr, fa_symbol, stablecoin_amount, is_orderless_txn
+    )
+}
+</code></pre>
+
+
+
+</details>
+
+<a id="0x1_transaction_validation_unified_epilogue_fee_v4"></a>
+
+## Function `unified_epilogue_fee_v4`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v4">unified_epilogue_fee_v4</a>(from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>, fa_addr: <b>address</b>, fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;, stablecoin_amount: u64, is_orderless_txn: bool)
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="transaction_validation.md#0x1_transaction_validation_unified_epilogue_fee_v4">unified_epilogue_fee_v4</a>(
+    from: <a href="../../cedra-stdlib/../move-stdlib/doc/signer.md#0x1_signer">signer</a>,
+    fa_addr: <b>address</b>,
     fa_symbol: <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector">vector</a>&lt;u8&gt;,
     stablecoin_amount: u64,
     is_orderless_txn: bool
@@ -1893,7 +1927,7 @@ If there is no fee_payer, fee_payer = sender
         <a href="transaction_fee.md#0x1_transaction_fee_burn_fee_v2">transaction_fee::burn_fee_v2</a>(
             from_addr,
             fa_addr,
-            fa_module,
+            <a href="../../cedra-stdlib/../move-stdlib/doc/vector.md#0x1_vector_empty">vector::empty</a>(),
             fa_symbol,
             stablecoin_amount
         );

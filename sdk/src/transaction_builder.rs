@@ -14,9 +14,8 @@ use cedra_crypto::{ed25519::Ed25519PublicKey, HashValue};
 use cedra_global_constants::{GAS_UNIT_PRICE, MAX_GAS_AMOUNT};
 use cedra_types::{
     function_info::FunctionInfo,
-    transaction::{EntryFunction, Script},
+    transaction::{EntryFunction, FaAddress, Script},
 };
-use move_core_types::language_storage::TypeTag;
 
 pub struct TransactionBuilder {
     sender: Option<AccountAddress>,
@@ -26,7 +25,7 @@ pub struct TransactionBuilder {
     gas_unit_price: u64,
     expiration_timestamp_secs: u64,
     chain_id: ChainId,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 }
 
 impl TransactionBuilder {
@@ -34,7 +33,7 @@ impl TransactionBuilder {
         payload: TransactionPayload,
         expiration_timestamp_secs: u64,
         chain_id: ChainId,
-        fa_address: TypeTag,
+        fa_address: impl Into<FaAddress>,
     ) -> Self {
         Self {
             payload,
@@ -45,7 +44,7 @@ impl TransactionBuilder {
             gas_unit_price: std::cmp::max(GAS_UNIT_PRICE, 1),
             sender: None,
             sequence_number: None,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 
@@ -124,18 +123,18 @@ pub struct TransactionFactory {
     gas_unit_price: u64,
     transaction_expiration_time: u64,
     chain_id: ChainId,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 }
 
 impl TransactionFactory {
-    pub fn new(chain_id: ChainId, fa_address: TypeTag) -> Self {
+    pub fn new(chain_id: ChainId, fa_address: impl Into<FaAddress>) -> Self {
         Self {
             // TODO(Gas): double check if this right
             max_gas_amount: MAX_GAS_AMOUNT,
             gas_unit_price: GAS_UNIT_PRICE,
             transaction_expiration_time: 30,
             chain_id,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 

@@ -32,9 +32,9 @@ use cedra_types::{
     move_utils::as_move_value::AsMoveValue,
     on_chain_config::{
         randomness_api_v0_config::{AllowCustomMaxGasFlag, RequiredGasDeposit},
-        default_oracle_address, FeatureFlag, Features, GasScheduleV2, OnChainConsensusConfig,
-        OnChainExecutionConfig, OnChainJWKConsensusConfig, OnChainRandomnessConfig,
-        RandomnessConfigMoveStruct, CEDRA_MAX_KNOWN_VERSION,
+        FeatureFlag, Features, GasScheduleV2, OnChainConsensusConfig, OnChainExecutionConfig,
+        OnChainJWKConsensusConfig, OnChainRandomnessConfig, RandomnessConfigMoveStruct,
+        CEDRA_MAX_KNOWN_VERSION,
     },
     state_store::state_key::StateKey,
     transaction::{authenticator::AuthenticationKey, ChangeSet, Transaction, WriteSetPayload},
@@ -1246,7 +1246,7 @@ pub fn generate_test_genesis(
             jwk_consensus_config_override: None,
             initial_jwks: vec![],
             keyless_groth16_vk: None,
-            oracle_address: default_oracle_address(),
+            oracle_address: AccountAddress::ZERO,
         },
         &OnChainConsensusConfig::default_for_genesis(),
         &OnChainExecutionConfig::default_for_genesis(),
@@ -1299,7 +1299,7 @@ fn mainnet_genesis_config() -> GenesisConfiguration {
         jwk_consensus_config_override: None,
         initial_jwks: vec![],
         keyless_groth16_vk: None,
-        oracle_address: default_oracle_address(),
+        oracle_address: AccountAddress::ZERO,
     }
 }
 

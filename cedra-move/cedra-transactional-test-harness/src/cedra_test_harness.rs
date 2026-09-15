@@ -26,10 +26,9 @@ use cedra_types::{
     state_store::{state_key::StateKey, table::TableHandle, MoveResourceExt, TStateView},
     transaction::{
         signature_verified_transaction::into_signature_verified_block,
-        EntryFunction as TransactionEntryFunction, ExecutionStatus, RawTransaction,
+        EntryFunction as TransactionEntryFunction, ExecutionStatus, FaAddress, RawTransaction,
         Script as TransactionScript, Transaction, TransactionOutput, TransactionStatus,
     },
-    CedraCoinType, CoinType,
 };
 use cedra_vm::{cedra_vm::CedraVMBlockExecutor, VMBlockExecutor};
 use cedra_vm_environment::prod_configs::set_paranoid_type_checks;
@@ -530,7 +529,7 @@ impl<'a> CedraTestAdapter<'a> {
             parameters.gas_unit_price,
             parameters.expiration_timestamp_secs,
             ChainId::test(),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         )
         .sign(&GENESIS_KEYPAIR.0, GENESIS_KEYPAIR.1.clone())
         .unwrap()
@@ -547,7 +546,7 @@ impl<'a> CedraTestAdapter<'a> {
             parameters.gas_unit_price,
             parameters.expiration_timestamp_secs,
             ChainId::test(),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         )
         .sign(&GENESIS_KEYPAIR.0, GENESIS_KEYPAIR.1.clone())
         .unwrap()
@@ -847,7 +846,7 @@ impl<'a> MoveTestAdapter<'a> for CedraTestAdapter<'a> {
             params.gas_unit_price,
             params.expiration_timestamp_secs,
             ChainId::test(),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         )
         .sign(&private_key, Ed25519PublicKey::from(&private_key))
         .unwrap()
@@ -918,7 +917,7 @@ impl<'a> MoveTestAdapter<'a> for CedraTestAdapter<'a> {
             params.gas_unit_price,
             params.expiration_timestamp_secs,
             ChainId::test(),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
 
         let txn = match &extra_args.secondary_signers {

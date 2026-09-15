@@ -21,13 +21,13 @@ use cedra_types::{
     state_store::state_key::StateKey,
     transaction::{
         authenticator::{AnyPublicKey, AuthenticationKey},
-        EntryFunction, RawTransaction, Script, SignedTransaction, TransactionPayload,
+        EntryFunction, FaAddress, RawTransaction, Script, SignedTransaction, TransactionPayload,
     },
     write_set::{WriteOp, WriteSet, WriteSetMut},
-    CedraCoinType, CoinType,
+    CedraCoinType,
 };
 use cedra_vm_genesis::GENESIS_KEYPAIR;
-use move_core_types::{language_storage::TypeTag, move_resource::MoveStructType};
+use move_core_types::move_resource::MoveStructType;
 use proptest::prelude::*;
 
 // TTL is 86400s. Initial time was set to 0.
@@ -234,7 +234,7 @@ impl Account {
     }
 
     pub fn transaction(&self) -> TransactionBuilder {
-        TransactionBuilder::new(self.clone(), CedraCoinType::type_tag())
+        TransactionBuilder::new(self.clone(), FaAddress::native_cedra())
     }
 }
 
@@ -269,11 +269,11 @@ pub struct TransactionBuilder {
     pub gas_unit_price: Option<u64>,
     pub chain_id: Option<ChainId>,
     pub ttl: Option<u64>,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 }
 
 impl TransactionBuilder {
-    pub fn new(sender: Account, fa_address: TypeTag) -> Self {
+    pub fn new(sender: Account, fa_address: impl Into<FaAddress>) -> Self {
         Self {
             sender,
             secondary_signers: Vec::new(),
@@ -284,7 +284,7 @@ impl TransactionBuilder {
             gas_unit_price: None,
             chain_id: None,
             ttl: None,
-            fa_address,
+            fa_address: fa_address.into(),
         }
     }
 

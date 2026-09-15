@@ -12,8 +12,10 @@ use cedra_types::{
     account_config::CoinStoreResource,
     move_utils::MemberId,
     on_chain_config::FeatureFlag,
-    transaction::{EntryFunction, ExecutionStatus, Script, TransactionPayload, TransactionStatus},
-    CedraCoinType, CedraCoinType, CoinType,
+    transaction::{
+        EntryFunction, ExecutionStatus, FaAddress, Script, TransactionPayload, TransactionStatus,
+    },
+    CedraCoinType, CoinType,
 };
 use cedra_vm_types::storage::StorageGasParameters;
 use move_core_types::{move_resource::MoveStructType, vm_status::StatusCode};
@@ -48,7 +50,7 @@ fn test_existing_account_with_fee_payer() {
     let bob_start = h.read_cedra_balance(bob.address());
 
     let payload = cedra_stdlib::cedra_coin_transfer(*alice.address(), 0);
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(h.sequence_number(alice.address()))
@@ -83,7 +85,7 @@ fn test_existing_account_with_fee_payer_aborts() {
     let bob_start = h.read_cedra_balance(bob.address());
 
     let payload = cedra_stdlib::cedra_coin_transfer(*alice.address(), 1);
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(h.sequence_number(alice.address()))
@@ -123,7 +125,7 @@ fn test_account_not_exist_with_fee_payer() {
     let bob_start = h.read_cedra_balance(bob.address());
 
     let payload = cedra_stdlib::cedra_account_set_allow_direct_coin_transfers(true);
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(0)
@@ -165,7 +167,7 @@ fn test_account_not_exist_with_fee_payer_insufficient_gas() {
     let bob_start = h.read_cedra_balance(bob.address());
 
     let payload = cedra_stdlib::cedra_coin_transfer(*alice.address(), 1);
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(0)
@@ -221,7 +223,7 @@ fn test_account_not_exist_and_move_abort_with_fee_payer_create_account() {
     const GAS_UNIT_PRICE: u64 = 2;
     // Offered max fee is storage fee for a new account ( 2 * 50000 / gas_unit_price) + 10 gas_units,
     //     about the minimum to execute this transaction
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .script(script)
         .sequence_number(0)
@@ -274,7 +276,7 @@ fn test_account_not_exist_out_of_gas_with_fee_payer() {
     } = str::parse("0xbeef::test::run").unwrap();
     let payload =
         TransactionPayload::EntryFunction(EntryFunction::new(module_id, member_id, vec![], vec![]));
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(beef.clone())
         .payload(payload)
         .sequence_number(0)
@@ -317,7 +319,7 @@ fn test_account_not_exist_move_abort_with_fee_payer_out_of_gas() {
 
     let payload =
         TransactionPayload::EntryFunction(EntryFunction::new(module_id, member_id, vec![], vec![]));
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(cafe.clone())
         .payload(payload.clone())
         .sequence_number(0)
@@ -328,7 +330,7 @@ fn test_account_not_exist_move_abort_with_fee_payer_out_of_gas() {
     assert_eq!(result.gas_used(), PRICING.new_account_upfront(1));
 
     let new_alice = Account::new();
-    let transaction = TransactionBuilder::new(new_alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(new_alice.clone(), FaAddress::native_cedra())
         .fee_payer(cafe.clone())
         .payload(payload)
         .sequence_number(0)
@@ -356,7 +358,7 @@ fn test_account_not_exist_with_fee_payer_without_create_account() {
     assert!(alice_start.is_none());
 
     let payload = cedra_stdlib::cedra_account_set_allow_direct_coin_transfers(true);
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(0)
@@ -385,7 +387,7 @@ fn test_normal_tx_with_fee_payer_insufficient_funds() {
     let bob = h.new_account_with_balance_and_sequence_number(1, 0);
 
     let payload = cedra_stdlib::cedra_account_set_allow_direct_coin_transfers(true);
-    let transaction = TransactionBuilder::new(alice.clone(), CedraCoinType::type_tag())
+    let transaction = TransactionBuilder::new(alice.clone(), FaAddress::native_cedra())
         .fee_payer(bob.clone())
         .payload(payload)
         .sequence_number(h.sequence_number(alice.address()))
