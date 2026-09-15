@@ -4,6 +4,7 @@
 #[cfg(any(test, feature = "fuzzing"))]
 use crate::dkg::DKGTranscriptMetadata;
 use crate::{dkg::DKGTranscript, jwks};
+use crate::oracle::PriceInfoV2;
 use cedra_crypto_derive::{BCSCryptoHash, CryptoHasher};
 #[cfg(any(test, feature = "fuzzing"))]
 use move_core_types::account_address::AccountAddress;
@@ -14,6 +15,11 @@ use std::fmt::Debug;
 pub enum ValidatorTransaction {
     DKGResult(DKGTranscript),
     ObservedJWKUpdate(jwks::QuorumCertifiedUpdate),
+    /// Historical oracle price updates. Kept for BCS compatibility with committed chain data.
+    /// The oracle runtime no longer emits these.
+    AddPrice(Vec<PriceInfoV2>),
+    /// Historical oracle price removals. Kept for BCS compatibility with committed chain data.
+    RemovePrice(String),
 }
 
 impl ValidatorTransaction {
@@ -38,6 +44,10 @@ impl ValidatorTransaction {
             ValidatorTransaction::ObservedJWKUpdate(_) => {
                 "validator_transaction__observed_jwk_update"
             },
+            ValidatorTransaction::AddPrice(_) => "validator_transaction__price_storage_add_price",
+            ValidatorTransaction::RemovePrice(_) => {
+                "validator_transaction__price_storage_remove_price"
+            },
         }
     }
 }
@@ -51,4 +61,17 @@ pub enum Topic {
         issuer: jwks::Issuer,
         kid: jwks::KID,
     },
+    CUSTOM(String),
+}
+
+impl From<&str> for Topic {
+    fn from(s: &str) -> Self {
+        Topic::CUSTOM(s.to_string())
+    }
+}
+
+impl From<String> for Topic {
+    fn from(s: String) -> Self {
+        Topic::CUSTOM(s)
+    }
 }

@@ -779,6 +779,7 @@ pub fn setup_environment_and_start_node(
         indexer_grpc_runtime,
         internal_indexer_db_runtime,
         mempool_client_sender,
+        _indexer_reader,
     ) = services::bootstrap_api_and_indexer(
         &node_config,
         db_rw.clone(),

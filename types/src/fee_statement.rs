@@ -67,6 +67,21 @@ impl FeeStatement {
         }
     }
 
+    pub fn extend(
+        &self,
+        stablecoin_amount: u64,
+    ) -> CustomFeeStatement {
+        CustomFeeStatement {
+            total_charge_gas_units: self.total_charge_gas_units,
+            stablecoin_amount,
+            execution_gas_units: self.execution_gas_units,
+            io_gas_units: self.io_gas_units,
+            storage_fee_octas: self.storage_fee_octas,
+            storage_fee_refund_octas: self.storage_fee_refund_octas,
+        }
+    }
+
+
     pub fn clear_refunds(&mut self) {
         self.storage_fee_refund_octas = 0;
     }
@@ -111,6 +126,8 @@ impl MoveStructType for FeeStatement {
 pub struct CustomFeeStatement {
     /// Total gas charge.
     total_charge_gas_units: u64,
+    /// FA amount.
+    stablecoin_amount: u64,
     /// Execution gas charge.
     execution_gas_units: u64,
     /// IO gas charge.
@@ -125,6 +142,7 @@ impl CustomFeeStatement {
     pub fn zero() -> Self {
         Self {
             total_charge_gas_units: 0,
+            stablecoin_amount: 0,
             execution_gas_units: 0,
             io_gas_units: 0,
             storage_fee_octas: 0,
@@ -134,6 +152,7 @@ impl CustomFeeStatement {
 
     pub fn new(
         total_charge_gas_units: u64,
+        stablecoin_amount: u64,
         execution_gas_units: u64,
         io_gas_units: u64,
         storage_fee_octas: u64,
@@ -141,6 +160,7 @@ impl CustomFeeStatement {
     ) -> Self {
         Self {
             total_charge_gas_units,
+            stablecoin_amount,
             execution_gas_units,
             io_gas_units,
             storage_fee_octas,
@@ -154,6 +174,10 @@ impl CustomFeeStatement {
 
     pub fn gas_used(&self) -> u64 {
         self.total_charge_gas_units
+    }
+
+    pub fn stablecoin_amount(&self) -> u64 {
+        self.stablecoin_amount
     }
 
     pub fn execution_gas_used(&self) -> u64 {
@@ -174,6 +198,7 @@ impl CustomFeeStatement {
 
     pub fn add_fee_statement(&mut self, other: &CustomFeeStatement) {
         self.total_charge_gas_units += other.total_charge_gas_units;
+        self.stablecoin_amount += other.stablecoin_amount;
         self.execution_gas_units += other.execution_gas_units;
         self.io_gas_units += other.io_gas_units;
         self.storage_fee_octas += other.storage_fee_octas;

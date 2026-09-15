@@ -6,7 +6,7 @@ spec cedra_framework::genesis {
     /// Criticality: Critical
     /// Implementation: Resources created during genesis initialization: GovernanceResponsbility, ConsensusConfig,
     /// ExecutionConfig, Version, SetVersionCapability, ValidatorSet, ValidatorPerformance, StakingConfig,
-    /// StorageGasConfig, StorageGas, GasScheduleV2, AggregatorFactory, SupplyConfig, ChainId, Configuration,
+    /// StorageGasConfig, StorageGas, GasScheduleV2, AggregatorFactory, SupplyConfig, ChainId, OracleConfig, Configuration,
     /// BlockResource, StateStorageUsage, CurrentTimeMicroseconds. If some of the resources were to be owned by a
     /// malicious account, it could lead to the compromise of the chain, as these are core resources. It should be
     /// formally verified by a post condition to ensure that all the critical resources are owned by the Cedra framework.
@@ -48,6 +48,7 @@ spec cedra_framework::genesis {
     }
 
     spec initialize {
+        use cedra_framework::oracle_config;
         pragma aborts_if_is_partial;
         include InitalizeRequires;
 
@@ -89,6 +90,7 @@ spec cedra_framework::genesis {
         ensures exists<aggregator_factory::AggregatorFactory>(@cedra_framework);
         ensures exists<coin::SupplyConfig>(@cedra_framework);
         ensures exists<chain_id::ChainId>(@cedra_framework);
+        ensures exists<oracle_config::OracleConfig>(@cedra_framework);
         ensures exists<reconfiguration::Configuration>(@cedra_framework);
         ensures exists<block::BlockResource>(@cedra_framework);
         ensures exists<state_storage::StateStorageUsage>(@cedra_framework);

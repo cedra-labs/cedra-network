@@ -1922,7 +1922,7 @@ impl TransactionOptions {
             };
 
             let transaction_factory =
-                TransactionFactory::new(chain_id, coin_type).with_gas_unit_price(gas_unit_price);
+                TransactionFactory::new(chain_id, coin_type.clone()).with_gas_unit_price(gas_unit_price);
 
             let unsigned_transaction = transaction_factory
                 .payload(payload.clone())
@@ -1936,6 +1936,7 @@ impl TransactionOptions {
                 sender_public_key.clone(),
                 Ed25519Signature::try_from([0u8; 64].as_ref()).unwrap(),
             );
+
 
             let txns = client
                 .simulate_with_gas_estimation(&signed_transaction, true, false)
@@ -1957,6 +1958,32 @@ impl TransactionOptions {
             let adjusted_max_gas =
                 adjust_gas_headroom(gas_used, max(simulated_txn.request.max_gas_amount.0, 530));
 
+            if self.fa_address.is_some() {
+                let (fa_addr, fa_symbol) = resolve_fa_oracle_identity(&coin_type)?;
+
+                let lower = client
+                    .view_fa_fee_amount(gas_used, gas_unit_price, fa_addr, &fa_symbol)
+                    .await
+                    .map_err(|err| CliError::ApiError(err.to_string()))?
+                    .into_inner();
+
+                let upper = client
+                    .view_fa_fee_amount(adjusted_max_gas, gas_unit_price, fa_addr, &fa_symbol)
+                    .await
+                    .map_err(|err| CliError::ApiError(err.to_string()))?
+                    .into_inner();
+
+                let message = format!(
+                    "Do you want to submit a transaction for a range of [{} - {}] {} at a gas unit price of {} Octas?",
+                    lower,
+                    upper,
+                    coin_type,
+                    gas_unit_price
+                );
+                prompt_yes_with_override(&message, self.prompt_options)?;
+            } else {
+
+
             let (lower_cost_bound, upper_cost_bound) = if gas_used == 0 {
                 let estimated_gas = 100;
                 let lower = estimated_gas / 2 * gas_unit_price;
@@ -1976,6 +2003,7 @@ impl TransactionOptions {
                     upper_cost_bound,
                     gas_unit_price);
             prompt_yes_with_override(&message, self.prompt_options)?;
+            };
             adjusted_max_gas
         };
 
@@ -2537,7 +2565,7 @@ pub struct ChunkedPublishOption {
 
     /// Address of the `large_packages` move module for chunked publishing
     ///
-    /// By default, on the module is published at `0x0e1ca3011bdd07246d4d16d909dbb2d6953a86c4735d5acf5865d962c630cce7`
+    /// By default, on the module is published at `0x3c9124028c90111d7cfd47a28fae30612e397d115c7b78f69713fb729347a77e`
     /// on Testnet and Mainnet. On any other network, you will need to first publish it from the framework
     /// under move-examples/large_packages.
     #[clap(long, default_value = LARGE_PACKAGES_MODULE_ADDRESS, value_parser = crate::common::types::load_account_arg)]
@@ -2562,4 +2590,22 @@ pub fn get_mint_site_url(address: Option<AccountAddress>) -> String {
         None => "".to_string(),
     };
     format!("https://faucet.cedra.dev{}", params)
+}
+
+/// Resolve `(fa_address, symbol)` for `calculate_fa_fee_v2` from the transaction `coin_type` TypeTag.
+/// Expects a struct type tag such as `0x1::cedra_coin::CedraCoin` or `0xc745…::usdt::USDCT`.
+fn resolve_fa_oracle_identity(coin_type: &TypeTag) -> CliTypedResult<(AccountAddress, Vec<u8>)> {
+    match coin_type {
+        TypeTag::Struct(s) => {
+            // Native Cedra coin uses oracle feed NewPriceIdentifier("0x1", "Cedra").
+            if s.module.as_str() == "cedra_coin" && s.name.as_str() == "CedraCoin" {
+                return Ok((s.address, b"Cedra".to_vec()));
+            }
+            Ok((s.address, s.name.as_str().as_bytes().to_vec()))
+        },
+        _ => Err(CliError::CommandArgumentError(format!(
+            "--fa-address must be a struct type tag (got '{}')",
+            coin_type
+        ))),
+    }
 }
