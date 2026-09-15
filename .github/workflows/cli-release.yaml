@@ -175,12 +175,11 @@ jobs:
           pattern: cli-builds-*
           merge-multiple: true
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # pin@v3.0.3
+        uses: marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0 # pin@v1.2.1
         with:
-          tag_name: "${{ format('cedra-cli-v{0}', inputs.release_version) }}"
-          name: "${{ format('Cedra CLI Release v{0}', inputs.release_version) }}"
-          target_commitish: ${{ inputs.source_git_ref_override || github.sha }}
-          files: cedra-cli-*.zip
-          fail_on_unmatched_files: true
-          generate_release_notes: true
-          make_latest: true
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ format('cedra-cli-v{0}', inputs.release_version) }}"
+          prerelease: false
+          title: "${{ format('Cedra CLI Release v{0}', inputs.release_version) }}"
+          files: |
+            cedra-cli-*.zip
