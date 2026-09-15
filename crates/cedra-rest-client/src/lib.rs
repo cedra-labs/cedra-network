@@ -388,21 +388,26 @@ impl Client {
         &self,
         gas_used: u64,
         gas_unit_price: u64,
-        fa_address: String,
+        fa_address: AccountAddress,
+        symbol: impl AsRef<[u8]>,
     ) -> CedraResult<Response<u64>> {
+        let symbol_bytes = symbol.as_ref().to_vec();
         let resp: Response<Vec<u64>> = self
             .view_bcs(
                 &ViewFunction {
                     module: ModuleId::new(AccountAddress::ONE, ident_str!("price_storage").into()),
-                    function: ident_str!("calculate_fa_fee").into(),
+                    function: ident_str!("calculate_fa_fee_v2").into(),
                     ty_args: vec![],
                     args: vec![
-                   bcs::to_bytes(&u64::from(gas_used)).unwrap(),
-                bcs::to_bytes(&0u64).unwrap(),
-                bcs::to_bytes(&u64::from(gas_unit_price)).unwrap(),
-                bcs::to_bytes(&fa_address).unwrap(),                    ],
+                        bcs::to_bytes(&gas_used).unwrap(),
+                        bcs::to_bytes(&0u64).unwrap(),
+                        bcs::to_bytes(&gas_unit_price).unwrap(),
+                        bcs::to_bytes(&fa_address).unwrap(),
+                        // Move `vector<u8>` (oracle symbol), not a Move String
+                        bcs::to_bytes(&symbol_bytes).unwrap(),
+                    ],
                 },
-                    None
+                None,
             )
             .await?;
 

@@ -132,6 +132,23 @@ impl TransactionMetadata {
         self.fa_address.to_string()
     }
 
+    /// Oracle feed identity for `calculate_fa_fee_v2`: `(address, symbol_bytes)`.
+    /// Drawn from the fee coin TypeTag struct (`address` + `name`, with CedraCoin → "Cedra").
+    pub fn fa_oracle_identity(&self) -> Option<(AccountAddress, Vec<u8>)> {
+        match &self.fa_address {
+            TypeTag::Struct(s) => {
+                let symbol = if s.module.as_str() == "cedra_coin" && s.name.as_str() == "CedraCoin"
+                {
+                    b"Cedra".to_vec()
+                } else {
+                    s.name.as_str().as_bytes().to_vec()
+                };
+                Some((s.address, symbol))
+            },
+            _ => None,
+        }
+    }
+
     pub fn gas_unit_price(&self) -> FeePerGasUnit {
         self.gas_unit_price
     }

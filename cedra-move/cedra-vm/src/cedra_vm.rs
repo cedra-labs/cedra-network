@@ -7,6 +7,7 @@ use crate::{
     counters::*,
     data_cache::{AsMoveResolver, StorageAdapter},
     errors::{discarded_output, expect_only_successful_execution},
+    fa_oracle,
     gas::{check_gas, make_prod_gas_meter, ProdGasMeter},
     keyless_validation,
     move_vm_ext::{
@@ -801,41 +802,36 @@ impl CedraVM {
         epilogue_session.execute(|session| {
 
         if txn_data.use_fee_v2() {
-                let mut unmetered_gas_meter = UnmeteredGasMeter;
-
-
+            let mut unmetered_gas_meter = UnmeteredGasMeter;
             let txn_gas_price = txn_data.gas_unit_price();
-            let fa_address = txn_data.fa_address();
             let txn_max_gas_units = txn_data.max_gas_amount();
-            let gas_used = u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
+            let gas_used =
+                u64::from(txn_max_gas_units).saturating_sub(u64::from(gas_meter.balance()));
 
-            let stablecoin_amount: u64 = match session.execute_function_bypass_visibility(
-                &PRICE_STORAGE_MODULE,
-                CALCULATE_FA_FEE,
-                vec![],
-                vec![
-                    MoveValue::U64(gas_used.into()).simple_serialize().unwrap(),
-                    MoveValue::U64(storage_refund).simple_serialize().unwrap(),
-                    MoveValue::U64(txn_gas_price.into()).simple_serialize().unwrap(),
-                    fa_address.as_move_value().simple_serialize().unwrap(),
-                ],
-                &mut unmetered_gas_meter,
-                traversal_context,
-                module_storage,
-            ) {
-                Ok(output) => {
-                    output
-                        .return_values
-                        .get(0)
-                        .and_then(|(bytes, _)| bcs::from_bytes::<u64>(bytes).ok())
-                        .unwrap_or(0)
-                }
-                Err(_) => 0,
-            };
+            let stablecoin_amount: u64 =
+                if let Some((fa_addr, symbol)) = txn_data.fa_oracle_identity() {
+                    fa_oracle::compute_fa_fee_v2(
+                        session,
+                        module_storage,
+                        &mut unmetered_gas_meter,
+                        traversal_context,
+                        gas_used,
+                        storage_refund,
+                        txn_gas_price.into(),
+                        fa_addr,
+                        &symbol,
+                    )?
+                } else {
+                    return Err(PartialVMError::new(
+                        StatusCode::UNEXPECTED_ERROR_FROM_KNOWN_MOVE_FUNCTION,
+                    )
+                    .with_message("FA oracle identity missing for fee_v2 transaction".to_string())
+                    .finish(Location::Module(PRICE_STORAGE_MODULE.clone()))
+                    .into_vm_status());
+                };
 
-           txn_data.with_stablecoin_amount(stablecoin_amount);
+            txn_data.with_stablecoin_amount(stablecoin_amount);
         }
-
             transaction_validation::run_success_epilogue(
                 session,
                 module_storage,
@@ -851,15 +847,13 @@ impl CedraVM {
         })?;
 
         let mut custom_fee_statement = CustomFeeStatement::zero();
- if txn_data.use_fee_v2() {
-        custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
+        if txn_data.use_fee_v2() {
+            custom_fee_statement = CedraVM::custom_fee_statement_from_gas_meter(
                 txn_data,
                 gas_meter,
                 u64::from(epilogue_session.get_storage_fee_refund()),
             );
-
-
-            }
+        }
 
         let output = epilogue_session.finish(
             if txn_data.use_fee_v2() { custom_fee_statement.into() } else { fee_statement },
@@ -2508,6 +2502,19 @@ impl CedraVM {
         )?;
 
         let storage = TraversalStorage::new();
+        let mut traversal_context = TraversalContext::new(&storage);
+
+        if module_id == *PRICE_STORAGE_MODULE && func_name.as_ident_str() == CALCULATE_FA_FEE_V2 {
+            let amount = fa_oracle::try_compute_fa_fee_v2_view(
+                session,
+                module_storage,
+                gas_meter,
+                &mut traversal_context,
+                &arguments,
+            )
+            .map_err(|err| anyhow!("Failed to execute function: {:?}", err))?;
+            return Ok(vec![bcs::to_bytes(&amount)?]);
+        }
 
         Ok(session
             .execute_function_bypass_visibility(
@@ -2516,7 +2523,7 @@ impl CedraVM {
                 type_args,
                 arguments,
                 gas_meter,
-                &mut TraversalContext::new(&storage),
+                &mut traversal_context,
                 module_storage,
             )
             .map_err(|err| anyhow!("Failed to execute function: {:?}", err))?

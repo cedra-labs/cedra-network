@@ -109,6 +109,7 @@ pub mod data_cache;
 pub mod cedra_vm;
 pub mod block_executor;
 mod errors;
+pub mod fa_oracle;
 pub mod gas;
 #[cfg(not(feature = "testing"))]
 mod keyless_validation;

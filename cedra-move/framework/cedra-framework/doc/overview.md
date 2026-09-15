@@ -53,6 +53,7 @@ This is the reference documentation of the Cedra framework.
 -  [`0x1::object`](object.md#0x1_object)
 -  [`0x1::object_code_deployment`](object_code_deployment.md#0x1_object_code_deployment)
 -  [`0x1::optional_aggregator`](optional_aggregator.md#0x1_optional_aggregator)
+-  [`0x1::oracle_config`](oracle_config.md#0x1_oracle_config)
 -  [`0x1::ordered_map`](ordered_map.md#0x1_ordered_map)
 -  [`0x1::permissioned_delegation`](permissioned_delegation.md#0x1_permissioned_delegation)
 -  [`0x1::permissioned_signer`](permissioned_signer.md#0x1_permissioned_signer)
