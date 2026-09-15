@@ -4803,7 +4803,7 @@ dependencies = [
 
 [[package]]
 name = "cedra-node"
-version = "1.0.5-devnet"
+version = "1.0.5"
 dependencies = [
  "anyhow",
  "bcs 0.1.4",
