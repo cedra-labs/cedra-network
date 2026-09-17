@@ -32,9 +32,9 @@ use cedra_types::{
     move_utils::as_move_value::AsMoveValue,
     on_chain_config::{
         randomness_api_v0_config::{AllowCustomMaxGasFlag, RequiredGasDeposit},
-        FeatureFlag, Features, GasScheduleV2, OnChainConsensusConfig, OnChainExecutionConfig,
-        OnChainJWKConsensusConfig, OnChainRandomnessConfig, RandomnessConfigMoveStruct,
-        CEDRA_MAX_KNOWN_VERSION,
+        default_oracle_address, FeatureFlag, Features, GasScheduleV2, OnChainConsensusConfig,
+        OnChainExecutionConfig, OnChainJWKConsensusConfig, OnChainRandomnessConfig,
+        RandomnessConfigMoveStruct, CEDRA_MAX_KNOWN_VERSION,
     },
     state_store::state_key::StateKey,
     transaction::{authenticator::AuthenticationKey, ChangeSet, Transaction, WriteSetPayload},
@@ -113,6 +113,8 @@ pub struct GenesisConfiguration {
     pub jwk_consensus_config_override: Option<OnChainJWKConsensusConfig>,
     pub initial_jwks: Vec<IssuerJWK>,
     pub keyless_groth16_vk: Option<Groth16VerificationKey>,
+    /// Per-network address of the published CedraOracle package.
+    pub oracle_address: AccountAddress,
 }
 
 pub static GENESIS_KEYPAIR: Lazy<(Ed25519PrivateKey, Ed25519PublicKey)> = Lazy::new(|| {
@@ -457,6 +459,7 @@ fn initialize(
             MoveValue::U64(rewards_rate_numerator),
             MoveValue::U64(rewards_rate_denominator),
             MoveValue::U64(genesis_config.voting_power_increase_limit),
+            MoveValue::Address(genesis_config.oracle_address),
         ]),
     );
 }
@@ -1243,6 +1246,7 @@ pub fn generate_test_genesis(
             jwk_consensus_config_override: None,
             initial_jwks: vec![],
             keyless_groth16_vk: None,
+            oracle_address: default_oracle_address(),
         },
         &OnChainConsensusConfig::default_for_genesis(),
         &OnChainExecutionConfig::default_for_genesis(),
@@ -1295,6 +1299,7 @@ fn mainnet_genesis_config() -> GenesisConfiguration {
         jwk_consensus_config_override: None,
         initial_jwks: vec![],
         keyless_groth16_vk: None,
+        oracle_address: default_oracle_address(),
     }
 }
 

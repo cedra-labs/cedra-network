@@ -94,7 +94,9 @@ jobs:
 
   build-macos-x86_64-binary:
     name: "Build MacOS x86_64 binary"
-    runs-on: macos-13
+    # macos-13 was retired in Dec 2025; jobs requesting it queue forever.
+    # macos-15-intel is the remaining GitHub-hosted Intel (x86_64) image.
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
         with:
@@ -126,7 +128,10 @@ jobs:
 
   build-windows-binary:
     name: "Build Windows binary"
-    runs-on: windows-latest
+    # Pin to windows-2022: windows-latest is Windows Server 2025 with VS 2026
+    # (path ...\Visual Studio\18\...), and aws-lc-sys 0.29.0 / cmake-rs 0.1.54
+    # cannot determine a Visual Studio generator for VS 18.
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
         with:

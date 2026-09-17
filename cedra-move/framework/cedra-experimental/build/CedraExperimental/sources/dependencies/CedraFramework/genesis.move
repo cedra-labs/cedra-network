@@ -19,6 +19,7 @@ module cedra_framework::genesis {
     use cedra_framework::create_signer::create_signer;
     use cedra_framework::gas_schedule;
     use cedra_framework::nonce_validation;
+    use cedra_framework::oracle_config;
     use cedra_framework::reconfiguration;
     use cedra_framework::stake;
     use cedra_framework::staking_contract;
@@ -79,6 +80,7 @@ module cedra_framework::genesis {
         rewards_rate: u64,
         rewards_rate_denominator: u64,
         voting_power_increase_limit: u64,
+        oracle_addr: address,
     ) {
         // Initialize the cedra framework account. This is the account where system resources and modules will be
         // deployed to. This will be entirely managed by on-chain governance and no entities have the key or privileges
@@ -127,6 +129,7 @@ module cedra_framework::genesis {
         aggregator_factory::initialize_aggregator_factory(&cedra_framework_account);
 
         chain_id::initialize(&cedra_framework_account, chain_id);
+        oracle_config::initialize(&cedra_framework_account, oracle_addr);
         reconfiguration::initialize(&cedra_framework_account);
         block::initialize(&cedra_framework_account, epoch_interval_microsecs);
         state_storage::initialize(&cedra_framework_account);
@@ -412,6 +415,7 @@ module cedra_framework::genesis {
         rewards_rate: u64,
         rewards_rate_denominator: u64,
         voting_power_increase_limit: u64,
+        oracle_addr: address,
         cedra_framework: &signer,
         min_voting_threshold: u128,
         required_proposer_stake: u64,
@@ -435,7 +439,8 @@ module cedra_framework::genesis {
             allow_validator_set_change,
             rewards_rate,
             rewards_rate_denominator,
-            voting_power_increase_limit
+            voting_power_increase_limit,
+            oracle_addr
         );
         features::change_feature_flags_for_verification(cedra_framework, vector[1, 2], vector[]);
         initialize_cedra_coin(cedra_framework);
@@ -467,6 +472,7 @@ module cedra_framework::genesis {
             1,
             1,
             30,
+            @0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c,
         )
     }
 
@@ -483,6 +489,10 @@ module cedra_framework::genesis {
         assert!(account::exists_at(@0x8), 1);
         assert!(account::exists_at(@0x9), 1);
         assert!(account::exists_at(@0xa), 1);
+        assert!(
+            oracle_config::oracle_address() == @0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c,
+            1
+        );
     }
 
     #[test(cedra_framework = @0x1)]

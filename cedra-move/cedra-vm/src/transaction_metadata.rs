@@ -38,6 +38,7 @@ pub struct TransactionMetadata {
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
     pub fa_address: TypeTag,
+    pub stablecoin_amount: u64,
 }
 
 impl TransactionMetadata {
@@ -111,11 +112,41 @@ impl TransactionMetadata {
                 _ => None,
             },
             fa_address: txn.get_fa_address(),
+            stablecoin_amount: 0,
         }
+    }
+
+    pub fn with_stablecoin_amount(&mut self, amount: u64) {
+        self.stablecoin_amount = amount;
     }
 
     pub fn max_gas_amount(&self) -> Gas {
         self.max_gas_amount
+    }
+
+    pub fn stablecoin_amount(&self) -> u64 {
+        self.stablecoin_amount
+    }
+   
+    pub fn fa_address(&self) -> String {
+        self.fa_address.to_string()
+    }
+
+    /// Oracle feed identity for `calculate_fa_fee_v2`: `(address, symbol_bytes)`.
+    /// Drawn from the fee coin TypeTag struct (`address` + `name`, with CedraCoin → "Cedra").
+    pub fn fa_oracle_identity(&self) -> Option<(AccountAddress, Vec<u8>)> {
+        match &self.fa_address {
+            TypeTag::Struct(s) => {
+                let symbol = if s.module.as_str() == "cedra_coin" && s.name.as_str() == "CedraCoin"
+                {
+                    b"Cedra".to_vec()
+                } else {
+                    s.name.as_str().as_bytes().to_vec()
+                };
+                Some((s.address, symbol))
+            },
+            _ => None,
+        }
     }
 
     pub fn gas_unit_price(&self) -> FeePerGasUnit {
