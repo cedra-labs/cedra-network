@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: "Release branch to run the workflow against"
+        description: "Release branch to run against, e.g. cedra-release-v1.0.5-devnet, cedra-release-v1.0.5-testnet, or cedra-release-v1.0.5-mainnet. The Cargo.toml version is taken from the branch without the -devnet/-testnet/-mainnet suffix."
         required: true
         default: "cedra-release-v1."
       override-version:
@@ -57,13 +57,21 @@ jobs:
               console.log(`Using overridden version: ${overrideVersion}`);
               newVersion = overrideVersion;
             } else {
-              // Match everything after 'v' in the branch name
-              const match = branch.match(/cedra-release-v(.*)/);
+              // cedra-release-v1.0.5, cedra-release-v1.0.5-devnet, -testnet, -mainnet
+              const match = branch.match(/^cedra-release-v(.+)$/);
               if (!match) {
                 throw new Error(`Branch name does not match expected pattern 'cedra-release-v*'. Got: ${branch}`);
               }
-              const versionSuffix = match[1]; // Extract everything after 'v'
-              console.log(`Version suffix extracted from branch: ${versionSuffix}`);           
+              const versionSuffix = match[1].replace(/-(devnet|testnet|mainnet)$/i, "");
+              console.log(`Version suffix extracted from branch: ${versionSuffix}`);
+
+              if (!/^\d+\.\d+\.\d+$/.test(versionSuffix)) {
+                throw new Error(
+                  `Could not parse x.y.z version from branch '${branch}'. ` +
+                    `Expected cedra-release-vX.Y.Z or cedra-release-vX.Y.Z-(devnet|testnet|mainnet). ` +
+                    `Got version '${versionSuffix}'.`
+                );
+              }
 
               if (currentVersion === "0.0.0-main") {
                 newVersion = `${versionSuffix}`; // Use the branch suffix for the new version
