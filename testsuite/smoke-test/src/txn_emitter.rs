@@ -14,7 +14,7 @@ use cedra_forge::{
 use cedra_sdk::{transaction_builder::TransactionFactory, types::PeerId};
 use cedra_types::{
     keyless::test_utils::{get_sample_esk, get_sample_exp_date, get_sample_jwt_token},
-    CedraCoinType, CoinType,
+    transaction::FaAddress,
 };
 use once_cell::sync::Lazy;
 use rand::{rngs::OsRng, SeedableRng};
@@ -39,7 +39,7 @@ pub async fn generate_traffic(
     )
     .await?;
     let transaction_factory =
-        TransactionFactory::new(swarm.chain_info().chain_id, CedraCoinType::type_tag())
+        TransactionFactory::new(swarm.chain_info().chain_id, FaAddress::native_cedra())
             .with_gas_unit_price(gas_price);
     let rest_cli = swarm.validators().next().unwrap().rest_client();
     let emitter = TxnEmitter::new(transaction_factory, rng, rest_cli);
@@ -72,7 +72,7 @@ pub async fn generate_keyless_traffic(
     )
     .await?;
     let transaction_factory =
-        TransactionFactory::new(swarm.chain_info().chain_id, CedraCoinType::type_tag())
+        TransactionFactory::new(swarm.chain_info().chain_id, FaAddress::native_cedra())
             .with_gas_unit_price(gas_price);
     let rest_cli = swarm.validators().next().unwrap().rest_client();
     let emitter = TxnEmitter::new(transaction_factory, rng, rest_cli);
@@ -273,7 +273,7 @@ async fn test_txn_emmitter_low_funds() {
         .collect::<Vec<_>>();
     let chain_info = swarm.chain_info();
     let transaction_factory =
-        TransactionFactory::new(chain_info.chain_id, CedraCoinType::type_tag())
+        TransactionFactory::new(chain_info.chain_id, FaAddress::native_cedra())
             .with_gas_unit_price(100);
     let emitter = TxnEmitter::new(transaction_factory, rng, validator_clients[0].clone());
 

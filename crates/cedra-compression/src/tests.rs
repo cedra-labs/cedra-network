@@ -10,12 +10,11 @@ use cedra_types::{
     chain_id::ChainId,
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
     transaction::{
-        ExecutionStatus, RawTransaction, Script, SignedTransaction, Transaction,
+        ExecutionStatus, FaAddress, RawTransaction, Script, SignedTransaction, Transaction,
         TransactionAuxiliaryData, TransactionListWithProof, TransactionOutput,
         TransactionOutputListWithProof, TransactionPayload, TransactionStatus,
     },
     write_set::WriteSet,
-    CedraCoinType, CoinType,
 };
 use rand::Rng;
 use serde::{de::DeserializeOwned, Serialize};
@@ -173,7 +172,7 @@ fn create_test_transaction(sequence_number: u64) -> Transaction {
         0,
         0,
         ChainId::new(10),
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

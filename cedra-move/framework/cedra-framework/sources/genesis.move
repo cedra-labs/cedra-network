@@ -472,7 +472,7 @@ module cedra_framework::genesis {
             1,
             1,
             30,
-            @0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c,
+            @0x0, // unset at genesis; configure later via governance
         )
     }
 
@@ -489,10 +489,7 @@ module cedra_framework::genesis {
         assert!(account::exists_at(@0x8), 1);
         assert!(account::exists_at(@0x9), 1);
         assert!(account::exists_at(@0xa), 1);
-        assert!(
-            oracle_config::oracle_address() == @0x108c56518936177dbd434b82b5e0ee287affeba5d702fa0d27348e16c77bda4c,
-            1
-        );
+        assert!(oracle_config::oracle_address() == @0x0, 1);
     }
 
     #[test(cedra_framework = @0x1)]

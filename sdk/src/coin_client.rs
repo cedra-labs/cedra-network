@@ -13,11 +13,11 @@ use crate::{
         account_address::AccountAddress,
         chain_id::ChainId,
         transaction::{EntryFunction, TransactionPayload},
-        CedraCoinType, CoinType, LocalAccount,
+        LocalAccount,
     },
 };
 use anyhow::{Context, Result};
-use cedra_types::transaction::SignedTransaction;
+use cedra_types::transaction::{FaAddress, SignedTransaction};
 use std::{
     str::FromStr,
     time::{SystemTime, UNIX_EPOCH},
@@ -121,7 +121,7 @@ pub struct TransferOptions<'a> {
     pub coin_type: &'a str,
 
     /// This is the custom fee address
-    pub fa_address: TypeTag,
+    pub fa_address: FaAddress,
 }
 
 impl<'a> Default for TransferOptions<'a> {
@@ -131,7 +131,7 @@ impl<'a> Default for TransferOptions<'a> {
             gas_unit_price: 100,
             timeout_secs: 10,
             coin_type: "0x1::cedra_coin::CedraCoin",
-            fa_address: CedraCoinType::type_tag(),
+            fa_address: FaAddress::native_cedra(),
         }
     }
 }

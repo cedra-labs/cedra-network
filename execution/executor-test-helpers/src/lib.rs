@@ -17,10 +17,9 @@ use cedra_types::{
     block_info::BlockInfo,
     ledger_info::{generate_ledger_info_with_sig, LedgerInfo, LedgerInfoWithSignatures},
     test_helpers::transaction_test_helpers::get_test_signed_txn,
-    transaction::{Transaction, TransactionPayload},
+    transaction::{FaAddress, Transaction, TransactionPayload},
     validator_signer::ValidatorSigner,
     waypoint::Waypoint,
-    CedraCoinType, CoinType,
 };
 use cedra_vm::VMBlockExecutor;
 use std::sync::Arc;
@@ -81,6 +80,6 @@ pub fn get_test_signed_transaction(
         &private_key,
         public_key,
         payload,
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     ))
 }

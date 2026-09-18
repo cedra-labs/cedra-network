@@ -1,5 +1,5 @@
 /// On-chain oracle module address used for FA fee pricing.
-/// Set at genesis per network and updated only by framework governance.
+/// May be `@0x0` at genesis and set later by framework governance.
 module cedra_framework::oracle_config {
     use std::error;
     use cedra_framework::chain_status;
@@ -9,7 +9,7 @@ module cedra_framework::oracle_config {
     friend cedra_framework::genesis;
     friend cedra_framework::reconfiguration_with_dkg;
 
-    /// Oracle address must be non-zero.
+    /// Oracle address must be non-zero when updating via governance.
     const EINVALID_ORACLE_ADDRESS: u64 = 1;
     /// Oracle config has not been initialized.
     const EORACLE_CONFIG_NOT_FOUND: u64 = 2;
@@ -18,9 +18,9 @@ module cedra_framework::oracle_config {
         addr: address,
     }
 
+    /// May be `@0x0` at genesis; set a real address later via `set_for_next_epoch`.
     public(friend) fun initialize(cedra_framework: &signer, oracle_addr: address) {
         system_addresses::assert_cedra_framework(cedra_framework);
-        assert!(oracle_addr != @0x0, error::invalid_argument(EINVALID_ORACLE_ADDRESS));
         move_to(cedra_framework, OracleConfig { addr: oracle_addr });
     }
 

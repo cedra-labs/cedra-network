@@ -25,9 +25,8 @@ use cedra_types::{
     on_chain_config::CurrentTimeMicroseconds,
     state_store::{state_key::StateKey, state_value::StateValueMetadata},
     test_helpers::transaction_test_helpers::get_test_raw_transaction,
-    transaction::{ExecutionStatus, TransactionInfo, TransactionInfoV0},
+    transaction::{ExecutionStatus, FaAddress, TransactionInfo, TransactionInfoV0},
     write_set::{WriteOp, WriteSet, WriteSetMut},
-    CedraCoinType, CoinType,
 };
 use move_core_types::{account_address::AccountAddress, ident_str, language_storage::StructTag};
 use once_cell::sync::Lazy;
@@ -72,7 +71,7 @@ fn test_transaction(
                     None,      // Expiration timestamp
                     Some(101), // Gas unit price, specifically make it different than 100 to check calculations
                     None,      // Max gas amount
-                    CedraCoinType::type_tag(),
+                    FaAddress::native_cedra(),
                 ),
                 // Dummy keys and signatures
                 private_key.public_key(),

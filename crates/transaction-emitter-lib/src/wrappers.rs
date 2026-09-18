@@ -16,9 +16,11 @@ use crate::{
     CreateAccountsArgs,
 };
 use anyhow::{bail, Context, Result};
-use cedra_sdk::{move_types::language_storage::TypeTag, transaction_builder::TransactionFactory};
+use cedra_sdk::transaction_builder::TransactionFactory;
 use cedra_transaction_generator_lib::{AccountType, TransactionType};
-use cedra_types::{account_address::AccountAddress, keyless::test_utils::get_sample_esk};
+use cedra_types::{
+    account_address::AccountAddress, keyless::test_utils::get_sample_esk, transaction::FaAddress,
+};
 use log::{error, info};
 use rand::{rngs::StdRng, SeedableRng};
 use std::{
@@ -30,7 +32,7 @@ pub async fn emit_transactions(
     cluster_args: &ClusterArgs,
     emit_args: &EmitArgs,
     transaction_mix_per_phase: Vec<Vec<(TransactionType, usize)>>,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 ) -> Result<TxnStats> {
     if emit_args.coordination_delay_between_instances.is_none() {
         let cluster = Cluster::try_from_cluster_args(cluster_args)
@@ -86,7 +88,7 @@ pub async fn emit_transactions_with_cluster(
     cluster: &Cluster,
     args: &EmitArgs,
     transaction_mix_per_phase: Vec<Vec<(TransactionType, usize)>>,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 ) -> Result<TxnStats> {
     let emitter_mode = EmitJobMode::create(args.mempool_backlog, args.target_tps);
 
@@ -206,7 +208,7 @@ pub async fn emit_transactions_with_cluster(
 pub async fn create_accounts_command(
     cluster_args: &ClusterArgs,
     create_accounts_args: &CreateAccountsArgs,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 ) -> Result<()> {
     let cluster = Cluster::try_from_cluster_args(cluster_args)
         .await

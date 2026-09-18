@@ -65,9 +65,8 @@ pub use self::{
     transaction_fee::TransactionFeeBurnCap,
     validator_set::{ConsensusScheme, ValidatorSet},
     oracle_config::{
-        default_oracle_address, fa_feed_address_bytes, new_price_feed_id, oracle_module_id,
-        OracleConfig, OraclePrice, OracleQuote, CEDRA_FEED_ADDRESS, CEDRA_FEED_SYMBOL,
-        GET_PRICE_BY_FEED_ID,
+        fa_feed_address_bytes, new_price_feed_id, oracle_module_id, OracleConfig, OraclePrice,
+        OracleQuote, CEDRA_FEED_ADDRESS, CEDRA_FEED_SYMBOL, GET_PRICE_BY_FEED_ID,
     },
 };
 

@@ -16,9 +16,9 @@ use cedra_sdk::{
         chain_id::ChainId,
         transaction::{
             authenticator::{AnyPublicKey, AuthenticationKey},
-            SignedTransaction,
+            FaAddress, SignedTransaction,
         },
-        CedraCoinType, CoinType, LocalAccount,
+        LocalAccount,
     },
 };
 use rand::{rngs::OsRng, Rng, SeedableRng};
@@ -77,7 +77,7 @@ impl<'t> CedraContext<'t> {
 
     pub fn transaction_factory(&self) -> TransactionFactory {
         let unit_price = std::cmp::max(cedra_global_constants::GAS_UNIT_PRICE, 1);
-        TransactionFactory::new(self.chain_id(), CedraCoinType::type_tag())
+        TransactionFactory::new(self.chain_id(), FaAddress::native_cedra())
             .with_gas_unit_price(unit_price)
     }
 
@@ -224,7 +224,7 @@ impl CedraPublicInfo {
 
     pub fn transaction_factory(&self) -> TransactionFactory {
         let unit_price = std::cmp::max(cedra_global_constants::GAS_UNIT_PRICE, 1);
-        TransactionFactory::new(self.chain_id, CedraCoinType::type_tag())
+        TransactionFactory::new(self.chain_id, FaAddress::native_cedra())
             .with_gas_unit_price(unit_price)
     }
 
