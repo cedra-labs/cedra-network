@@ -174,11 +174,25 @@ jobs:
         with:
           pattern: cli-builds-*
           merge-multiple: true
+      - name: Determine release tag
+        id: release-tag
+        env:
+          SOURCE_REF: ${{ inputs.source_git_ref_override || github.ref_name }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: |
+          tag="cedra-cli-v${RELEASE_VERSION}"
+          case "${SOURCE_REF}" in
+            *-devnet) tag="${tag}-devnet" ;;
+            *-testnet) tag="${tag}-testnet" ;;
+            *-mainnet) tag="${tag}-mainnet" ;;
+          esac
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "Using automatic_release_tag=${tag} (source ref: ${SOURCE_REF})"
       - name: Create GitHub Release
         uses: marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0 # pin@v1.2.1
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ format('cedra-cli-v{0}', inputs.release_version) }}"
+          automatic_release_tag: "${{ steps.release-tag.outputs.tag }}"
           prerelease: false
           title: "${{ format('Cedra CLI Release v{0}', inputs.release_version) }}"
           files: |
