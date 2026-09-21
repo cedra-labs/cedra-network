@@ -32,15 +32,14 @@ use cedra_types::{
     },
     state_store::state_value::StateValueChunkWithProof,
     transaction::{
-        use_case::UseCaseAwareTransaction, ExecutionStatus, RawTransaction, ReplayProtector,
-        Script, SignedTransaction, Transaction, TransactionAuxiliaryData, TransactionInfo,
-        TransactionListWithProof, TransactionOutput, TransactionOutputListWithProof,
+        use_case::UseCaseAwareTransaction, ExecutionStatus, FaAddress, RawTransaction,
+        ReplayProtector, Script, SignedTransaction, Transaction, TransactionAuxiliaryData,
+        TransactionInfo, TransactionListWithProof, TransactionOutput, TransactionOutputListWithProof,
         TransactionPayload, TransactionStatus, Version,
     },
     validator_verifier::ValidatorVerifier,
     waypoint::Waypoint,
     write_set::WriteSet,
-    CedraCoinType, CoinType,
 };
 use futures::{channel::mpsc, StreamExt};
 use move_core_types::language_storage::TypeTag;
@@ -222,7 +221,7 @@ pub fn create_transaction() -> Transaction {
         0,
         0,
         ChainId::new(10),
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction,

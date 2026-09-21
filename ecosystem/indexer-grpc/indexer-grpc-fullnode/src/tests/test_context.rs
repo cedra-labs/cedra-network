@@ -18,7 +18,7 @@ use cedra_types::{
     block_metadata::BlockMetadata,
     chain_id::ChainId,
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
-    transaction::{Transaction, TransactionStatus},
+    transaction::{FaAddress, Transaction, TransactionStatus},
 };
 use cedra_vm::CedraVM;
 use cedradb::CedraDB;
@@ -133,7 +133,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id(), CedraCoinType::type_tag())
+        TransactionFactory::new(self.context.chain_id(), FaAddress::native_cedra())
     }
 
     pub fn root_account(&self) -> LocalAccount {

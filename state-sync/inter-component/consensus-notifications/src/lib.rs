@@ -414,8 +414,9 @@ mod tests {
         contract_event::ContractEvent,
         event::EventKey,
         ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
-        transaction::{RawTransaction, Script, SignedTransaction, Transaction, TransactionPayload},
-        CedraCoinType, CoinType,
+        transaction::{
+            FaAddress, RawTransaction, Script, SignedTransaction, Transaction, TransactionPayload,
+        },
     };
     use claims::{assert_err, assert_matches, assert_ok};
     use futures::{executor::block_on, FutureExt, StreamExt};
@@ -600,7 +601,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

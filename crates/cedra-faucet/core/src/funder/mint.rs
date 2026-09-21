@@ -7,7 +7,6 @@ use crate::endpoints::{CedraTapError, CedraTapErrorCode};
 use anyhow::{Context, Result};
 use async_trait::async_trait;
 use cedra_logger::info;
-use cedra_sdk::types::{CedraCoinType, CoinType};
 use cedra_sdk::{
     crypto::ed25519::Ed25519PublicKey,
     rest_client::Client,
@@ -16,7 +15,8 @@ use cedra_sdk::{
         account_address::AccountAddress,
         chain_id::ChainId,
         transaction::{
-            authenticator::AuthenticationKey, Script, SignedTransaction, TransactionArgument,
+            authenticator::AuthenticationKey, FaAddress, Script, SignedTransaction,
+            TransactionArgument,
         },
         LocalAccount,
     },
@@ -108,7 +108,7 @@ impl MintFunder {
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), txn_config.get_gas_unit_price_ttl_secs());
-        let transaction_factory = TransactionFactory::new(chain_id, CedraCoinType::type_tag())
+        let transaction_factory = TransactionFactory::new(chain_id, FaAddress::native_cedra())
             .with_max_gas_amount(txn_config.max_gas_amount)
             .with_transaction_expiration_time(txn_config.transaction_expiration_secs);
         Self {

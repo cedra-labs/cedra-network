@@ -23,7 +23,7 @@ use crate::{
     proof::TransactionInfoListWithProof,
     state_store::state_key::StateKey,
     transaction::{
-        block_epilogue::BlockEndInfo, ChangeSet, EntryFunction, ExecutionStatus,
+        block_epilogue::BlockEndInfo, ChangeSet, EntryFunction, ExecutionStatus, FaAddress,
         IndexedTransactionSummary, Module, Multisig, MultisigTransactionPayload, RawTransaction,
         ReplayProtector, Script, SignatureCheckedTransaction, SignedTransaction, Transaction,
         TransactionArgument, TransactionAuxiliaryData, TransactionExecutable,
@@ -325,7 +325,7 @@ pub struct RawTransactionGen {
     max_gas_amount: u64,
     gas_unit_price: u64,
     expiration_time_secs: u64,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 }
 
 impl RawTransactionGen {
@@ -383,7 +383,7 @@ impl RawTransaction {
             any::<u64>(),
             any::<u64>(),
             any::<u64>(),
-            any::<TypeTag>(),
+            any::<FaAddress>(),
         )
             .prop_map(
                 |(
@@ -416,7 +416,7 @@ fn new_raw_transaction(
     max_gas_amount: u64,
     gas_unit_price: u64,
     expiration_time_secs: u64,
-    fa_address: TypeTag,
+    fa_address: FaAddress,
 ) -> RawTransaction {
     let chain_id = ChainId::test();
     match payload {

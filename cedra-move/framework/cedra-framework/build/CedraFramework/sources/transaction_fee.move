@@ -145,10 +145,11 @@ module cedra_framework::transaction_fee {
     }
 
     /// Burn custom transaction fees in epilogue.
+    /// `module_name` is kept for upgrade compatibility and ignored; identity is `(creator_addr, symbol)`.
     public(friend) fun burn_fee_v2(
         from_addr: address,
         creator_addr: address,
-        module_name: vector<u8>,
+        _module_name: vector<u8>,
         symbol: vector<u8>,
         fee: u64
     ) {
@@ -156,7 +157,7 @@ module cedra_framework::transaction_fee {
         assert!(whitelist::has_registry(@admin), 1001);
 
         // 1002 - asset not registered in whitelist
-        assert!(whitelist::asset_exists(creator_addr, module_name, symbol), 1002);
+        assert!(whitelist::asset_exists(creator_addr, vector::empty(), symbol), 1002);
 
         // 1003 - insufficient FA balance
         assert!(get_balance(creator_addr, from_addr, symbol) >= fee, 1003);
