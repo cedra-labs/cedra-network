@@ -189,11 +189,10 @@ mod tests {
         block_metadata::BlockMetadata,
         chain_id::ChainId,
         transaction::{
-            use_case::UseCaseAwareTransaction, ChangeSet, RawTransaction, Script,
+            use_case::UseCaseAwareTransaction, ChangeSet, FaAddress, RawTransaction, Script,
             SignedTransaction, Transaction, TransactionPayload, WriteSetPayload,
         },
         write_set::WriteSetMut,
-        CedraCoinType, CoinType,
     };
     use claims::{assert_matches, assert_ok};
     use futures::{FutureExt, StreamExt};
@@ -321,7 +320,7 @@ mod tests {
             0,
             0,
             ChainId::new(10),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
         let signed_transaction = SignedTransaction::new(
             raw_transaction.clone(),

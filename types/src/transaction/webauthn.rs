@@ -227,9 +227,8 @@ mod tests {
         transaction::{
             authenticator::{AnyPublicKey, AuthenticationKey},
             webauthn::{AssertionSignature, PartialAuthenticatorAssertionResponse},
-            RawTransaction,
+            FaAddress, RawTransaction,
         },
-        CedraCoinType, CoinType,
     };
     use anyhow::anyhow;
     use cedra_crypto::{
@@ -539,7 +538,7 @@ mod tests {
             None,
             None,
             None,
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
 
         // Generate signing message (returns the concatenation of hash prefix || BCS serialization of transaction)
@@ -924,7 +923,7 @@ mod tests {
             None,
             None,
             None,
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
         let bad_paar = PartialAuthenticatorAssertionResponse::new(
             AssertionSignature::Secp256r1Ecdsa {

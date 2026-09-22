@@ -9,7 +9,9 @@ use cedra_types::{
     jwks::patch::IssuerJWK,
     keyless::Groth16VerificationKey,
     network_address::{DnsName, NetworkAddress, Protocol},
-    on_chain_config::{OnChainConsensusConfig, OnChainExecutionConfig, OnChainJWKConsensusConfig},
+    on_chain_config::{
+        OnChainConsensusConfig, OnChainExecutionConfig, OnChainJWKConsensusConfig,
+    },
     transaction::authenticator::AuthenticationKey,
 };
 use cedra_vm_genesis::{AccountBalance, EmployeePool, Validator, ValidatorWithCommissionRate};
@@ -87,6 +89,16 @@ pub struct Layout {
     /// Keyless Groth16 verification key to install in genesis.
     #[serde(default)]
     pub keyless_groth16_vk_override: Option<Groth16VerificationKey>,
+
+    /// Address of the published CedraOracle package for this network.
+    /// Optional in layout YAML: if omitted, defaults to `0x0` and must be set
+    /// later via governance (`oracle_config::set_for_next_epoch`).
+    #[serde(default = "unset_oracle_address")]
+    pub oracle_address: AccountAddress,
+}
+
+fn unset_oracle_address() -> AccountAddress {
+    AccountAddress::ZERO
 }
 
 impl Layout {
@@ -129,6 +141,7 @@ impl Default for Layout {
             jwk_consensus_config_override: None,
             initial_jwks: vec![],
             keyless_groth16_vk_override: None,
+            oracle_address: AccountAddress::ZERO,
         }
     }
 }

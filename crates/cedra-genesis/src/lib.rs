@@ -22,6 +22,7 @@ use cedra_framework::ReleaseBundle;
 use cedra_storage_interface::DbReaderWriter;
 use cedra_temppath::TempPath;
 use cedra_types::{
+    account_address::AccountAddress,
     chain_id::ChainId,
     jwks::patch::IssuerJWK,
     keyless::Groth16VerificationKey,
@@ -80,6 +81,7 @@ pub struct GenesisInfo {
     pub jwk_consensus_config_override: Option<OnChainJWKConsensusConfig>,
     pub initial_jwks: Vec<IssuerJWK>,
     pub keyless_groth16_vk: Option<Groth16VerificationKey>,
+    pub oracle_address: AccountAddress,
 }
 
 impl GenesisInfo {
@@ -121,6 +123,7 @@ impl GenesisInfo {
             jwk_consensus_config_override: genesis_config.jwk_consensus_config_override.clone(),
             initial_jwks: genesis_config.initial_jwks.clone(),
             keyless_groth16_vk: genesis_config.keyless_groth16_vk.clone(),
+            oracle_address: genesis_config.oracle_address,
         })
     }
 
@@ -158,6 +161,7 @@ impl GenesisInfo {
                 jwk_consensus_config_override: self.jwk_consensus_config_override.clone(),
                 initial_jwks: self.initial_jwks.clone(),
                 keyless_groth16_vk: self.keyless_groth16_vk.clone(),
+                oracle_address: self.oracle_address,
             },
             &self.consensus_config,
             &self.execution_config,

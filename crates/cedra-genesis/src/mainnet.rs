@@ -11,6 +11,7 @@ use cedra_framework::ReleaseBundle;
 use cedra_storage_interface::DbReaderWriter;
 use cedra_temppath::TempPath;
 use cedra_types::{
+    account_address::AccountAddress,
     chain_id::ChainId,
     on_chain_config::{Features, OnChainJWKConsensusConfig, OnChainRandomnessConfig},
     transaction::Transaction,
@@ -65,6 +66,7 @@ pub struct MainnetGenesisInfo {
     randomness_config_override: Option<OnChainRandomnessConfig>,
     /// An optional feature vec to replace `OnChainJWKConsensusConfig::default_for_genesis()`.
     jwk_consensus_config_override: Option<OnChainJWKConsensusConfig>,
+    oracle_address: AccountAddress,
 }
 
 impl MainnetGenesisInfo {
@@ -107,6 +109,7 @@ impl MainnetGenesisInfo {
             initial_features_override: genesis_config.initial_features_override.clone(),
             randomness_config_override: genesis_config.randomness_config_override.clone(),
             jwk_consensus_config_override: genesis_config.jwk_consensus_config_override.clone(),
+            oracle_address: genesis_config.oracle_address,
         })
     }
 
@@ -145,6 +148,7 @@ impl MainnetGenesisInfo {
                 jwk_consensus_config_override: self.jwk_consensus_config_override.clone(),
                 initial_jwks: vec![],
                 keyless_groth16_vk: None,
+                oracle_address: self.oracle_address,
             },
         )
     }

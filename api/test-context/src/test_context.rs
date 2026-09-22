@@ -29,7 +29,7 @@ use cedra_sdk::{
     transaction_builder::TransactionFactory,
     types::{
         account_config::cedra_test_root_address, get_cedra_primary_store_address,
-        transaction::SignedTransaction, AccountKey, LocalAccount, CedraCoinType, CoinType, LocalAccount,
+        transaction::{FaAddress, SignedTransaction}, AccountKey, LocalAccount,
     },
 };
 use cedra_storage_interface::{
@@ -366,7 +366,7 @@ impl TestContext {
     }
 
     pub fn transaction_factory(&self) -> TransactionFactory {
-        TransactionFactory::new(self.context.chain_id(), CedraCoinType::type_tag())
+        TransactionFactory::new(self.context.chain_id(), FaAddress::native_cedra())
     }
 
     pub async fn root_account(&self) -> LocalAccount {

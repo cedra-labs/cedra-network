@@ -77,6 +77,11 @@ impl FromStr for NamedChain {
 pub struct ChainId(u8);
 
 impl ChainId {
+    /// Returns true iff the chain ID matches devnet
+    pub fn is_devnet(&self) -> bool {
+        self.matches_named_chain(NamedChain::DEVNET)
+    }
+
     /// Returns true iff the chain ID matches testnet
     pub fn is_testnet(&self) -> bool {
         self.matches_named_chain(NamedChain::TESTNET)

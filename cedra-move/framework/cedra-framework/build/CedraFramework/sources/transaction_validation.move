@@ -912,6 +912,7 @@ module cedra_framework::transaction_validation {
         }
     }
 
+//todo: make this deprecated, remove unused code
     public fun unified_epilogue_fee_v2(
         from: signer,
         storage_fee_refunded: u64,
@@ -919,7 +920,7 @@ module cedra_framework::transaction_validation {
         txn_max_gas_units: u64,
         gas_units_remaining: u64,
         fa_addr: address,
-        fa_module: vector<u8>,
+        _fa_module: vector<u8>,
         fa_symbol: vector<u8>,
         is_orderless_txn: bool
     ) {
@@ -942,15 +943,16 @@ module cedra_framework::transaction_validation {
             );
 
             let transaction_fee_amount = txn_gas_price * gas_used;
-            let fee_amount = transaction_fee_amount - storage_fee_refunded;
+            let cedra_fee_amount = transaction_fee_amount - storage_fee_refunded;
+                   
             let from_addr = signer::address_of(&from);
 
             transaction_fee::burn_fee_v2(
                 from_addr,
                 fa_addr,
-                fa_module,
+                vector::empty(),
                 fa_symbol,
-                fee_amount
+                cedra_fee_amount
             );
 
             if (!is_orderless_txn) {
@@ -986,4 +988,53 @@ module cedra_framework::transaction_validation {
         )
 
     }
+
+    /// Kept for upgrade compatibility. `fa_module` is ignored; identity is `(fa_addr, fa_symbol)`.
+    public fun unified_epilogue_fee_v3(
+        from: signer,
+        fa_addr: address,
+        _fa_module: vector<u8>,
+        fa_symbol: vector<u8>,
+        stablecoin_amount: u64,
+        is_orderless_txn: bool
+    ) {
+        unified_epilogue_fee_v4(
+            from, fa_addr, fa_symbol, stablecoin_amount, is_orderless_txn
+        )
+    }
+
+    public fun unified_epilogue_fee_v4(
+        from: signer,
+        fa_addr: address,
+        fa_symbol: vector<u8>,
+        stablecoin_amount: u64,
+        is_orderless_txn: bool
+    ) {
+        assert!(
+            features::fee_v2_enabled(),
+            error::invalid_state(FEE_V2_NOT_ENABLED)
+        );
+
+        if (fa_addr != @0x1 && stablecoin_amount != 0) { 
+            let from_addr = signer::address_of(&from);
+
+            transaction_fee::burn_fee_v2(
+                from_addr,
+                fa_addr,
+                vector::empty(),
+                fa_symbol,
+                stablecoin_amount
+            );
+
+            if (!is_orderless_txn) {
+                // Increment sequence number
+                let addr = signer::address_of(&from);
+                account::increment_sequence_number(addr);
+            }
+        } else {
+            assert!(false, error::invalid_argument(WRONG_UNIFIED_EPILOGUE));
+        }
+    }
+
+
 }

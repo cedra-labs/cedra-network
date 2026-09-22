@@ -23,13 +23,12 @@ use cedra_types::{
     state_store::{state_key::StateKey, StateView},
     transaction::{
         signature_verified_transaction::SignatureVerifiedTransaction, BlockOutput, ChangeSet,
-        ExecutionStatus, RawTransaction, Script, SignedTransaction, Transaction,
+        ExecutionStatus, FaAddress, RawTransaction, Script, SignedTransaction, Transaction,
         TransactionArgument, TransactionAuxiliaryData, TransactionExecutableRef, TransactionOutput,
         TransactionStatus, WriteSetPayload,
     },
     vm_status::{StatusCode, VMStatus},
     write_set::{WriteOp, WriteSet, WriteSetMut},
-    CedraCoinType, CoinType,
 };
 use cedra_vm::{
     sharded_block_executor::{executor_client::ExecutorClient, ShardedBlockExecutor},
@@ -373,7 +372,7 @@ fn encode_transaction(sender: AccountAddress, program: Script) -> Transaction {
         0,
         0,
         ChainId::test(),
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     );
 
     let privkey = Ed25519PrivateKey::generate_for_testing();

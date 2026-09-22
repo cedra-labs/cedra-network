@@ -26,6 +26,7 @@ use cedra_types::{
     function_info::FunctionInfo,
     jwks::{jwk::JWK, ProviderJWKs, QuorumCertifiedUpdate},
     keyless,
+    oracle::PriceInfoV2,
     transaction::{
         authenticator::{
             AccountAuthenticator, AnyPublicKey, AnySignature, MultiKey, MultiKeyAuthenticator,
@@ -352,7 +353,7 @@ impl From<(&SignedTransaction, TransactionPayload)> for UserTransactionRequest {
             signature: Some(txn.authenticator().into()),
             payload,
             replay_protection_nonce: txn.replay_protector().get_nonce().map(|nonce| nonce.into()),
-            fa_address: MoveType::from(&txn.get_fa_address()),
+            fa_address: fa_address_from_txn(&txn.get_fa_address()),
         }
     }
 }
@@ -476,6 +477,33 @@ pub struct TransactionsBatchSingleSubmissionFailure {
     pub transaction_index: usize,
 }
 
+/// Fee-asset identity shown on fetched transactions: creator address + symbol.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
+pub struct FaAddress {
+    /// Creator / metadata owner address
+    pub address: Address,
+    /// Asset symbol (e.g. `"Cedra"`, `"USDCT"`)
+    pub symbol: String,
+}
+
+impl From<&cedra_types::transaction::FaAddress> for FaAddress {
+    fn from(fa: &cedra_types::transaction::FaAddress) -> Self {
+        Self {
+            address: fa.address.into(),
+            symbol: fa.symbol_str(),
+        }
+    }
+}
+
+fn fa_address_from_txn(tag: &move_core_types::language_storage::TypeTag) -> Option<FaAddress> {
+    let fa = cedra_types::transaction::FaAddress::from_type_tag(tag);
+    if fa.is_empty() {
+        None
+    } else {
+        Some((&fa).into())
+    }
+}
+
 // TODO: Rename this to remove the Inner when we cut over.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
 pub struct UserTransactionRequestInner {
@@ -486,7 +514,10 @@ pub struct UserTransactionRequestInner {
     pub expiration_timestamp_secs: U64,
     pub payload: TransactionPayload,
     pub replay_protection_nonce: Option<U64>,
-    pub fa_address: MoveType,
+    /// Fee-asset TypeTag. Same value as on the signed `RawTransaction`.
+    /// e.g. `"0x1::cedra_coin::CedraCoin"` or `"0xc745…::usdct::USDCT"`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fa_address: Option<MoveType>,
 }
 
 impl VerifyInput for UserTransactionRequestInner {
@@ -500,7 +531,11 @@ impl VerifyInput for UserTransactionRequestInner {
             }
         }
 
-        self.payload.verify()
+        self.payload.verify()?;
+        if let Some(fa) = &self.fa_address {
+            fa.verify(0)?;
+        }
+        Ok(())
     }
 }
 
@@ -516,7 +551,9 @@ pub struct UserTransactionRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<TransactionSignature>,
     pub replay_protection_nonce: Option<U64>,
-    pub fa_address: MoveType,
+    /// Fee-asset identity derived from the signed TypeTag (`address` + `symbol`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fa_address: Option<FaAddress>,
 }
 
 /// Request to create signing messages
@@ -524,7 +561,7 @@ pub struct UserTransactionRequest {
 pub struct UserCreateSigningMessageRequest {
     #[serde(flatten)]
     #[oai(flatten)]
-    pub transaction: UserTransactionRequest,
+    pub transaction: UserTransactionRequestInner,
     /// Secondary signer accounts of the request for Multi-agent
     #[serde(skip_serializing_if = "Option::is_none")]
     pub secondary_signers: Option<Vec<Address>>,
@@ -681,6 +718,8 @@ impl BlockMetadataTransaction {
 pub enum ValidatorTransaction {
     ObservedJwkUpdate(JWKUpdateTransaction),
     DkgResult(DKGResultTransaction),
+    AddPrice(PriceUpdateTransaction),
+    RemovePrice(PriceRemoveTransaction),
 }
 
 impl ValidatorTransaction {
@@ -690,6 +729,8 @@ impl ValidatorTransaction {
                 "validator_transaction__observed_jwk_update"
             },
             ValidatorTransaction::DkgResult(_) => "validator_transaction__dkg_result",
+            ValidatorTransaction::AddPrice(_) => "validator_transaction__set_price",
+            ValidatorTransaction::RemovePrice(_) => "validator_transaction__remove_price",
         }
     }
 
@@ -697,6 +738,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &t.info,
             ValidatorTransaction::DkgResult(t) => &t.info,
+            ValidatorTransaction::AddPrice(t) => &t.info,
+            ValidatorTransaction::RemovePrice(t) => &t.info,
         }
     }
 
@@ -704,6 +747,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &mut t.info,
             ValidatorTransaction::DkgResult(t) => &mut t.info,
+            ValidatorTransaction::AddPrice(t) => &mut t.info,
+            ValidatorTransaction::RemovePrice(t) => &mut t.info,
         }
     }
 
@@ -711,6 +756,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => t.timestamp,
             ValidatorTransaction::DkgResult(t) => t.timestamp,
+            ValidatorTransaction::AddPrice(t) => t.timestamp,
+            ValidatorTransaction::RemovePrice(t) => t.timestamp,
         }
     }
 
@@ -718,6 +765,8 @@ impl ValidatorTransaction {
         match self {
             ValidatorTransaction::ObservedJwkUpdate(t) => &t.events,
             ValidatorTransaction::DkgResult(t) => &t.events,
+            ValidatorTransaction::AddPrice(t) => &t.events,
+            ValidatorTransaction::RemovePrice(t) => &t.events,
         }
     }
 }
@@ -755,6 +804,22 @@ impl
                 timestamp: U64::from(timestamp),
                 quorum_certified_update: quorum_certified_update.into(),
             }),
+            cedra_types::validator_txn::ValidatorTransaction::AddPrice(price_info) => {
+                Self::AddPrice(PriceUpdateTransaction {
+                    info,
+                    events,
+                    timestamp: U64::from(timestamp),
+                    price_info,
+                })
+            },
+            cedra_types::validator_txn::ValidatorTransaction::RemovePrice(fa_address) => {
+                Self::RemovePrice(PriceRemoveTransaction {
+                    info,
+                    events,
+                    timestamp: U64::from(timestamp),
+                    fa_address,
+                })
+            },
         }
     }
 }
@@ -767,6 +832,26 @@ pub struct JWKUpdateTransaction {
     pub events: Vec<Event>,
     pub timestamp: U64,
     pub quorum_certified_update: ExportedQuorumCertifiedUpdate,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
+pub struct PriceUpdateTransaction {
+    #[serde(flatten)]
+    #[oai(flatten)]
+    pub info: TransactionInfo,
+    pub events: Vec<Event>,
+    pub timestamp: U64,
+    pub price_info: Vec<PriceInfoV2>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Object)]
+pub struct PriceRemoveTransaction {
+    #[serde(flatten)]
+    #[oai(flatten)]
+    pub info: TransactionInfo,
+    pub events: Vec<Event>,
+    pub timestamp: U64,
+    pub fa_address: String,
 }
 
 /// A more API-friendly representation of the on-chain `cedra_types::jwks::QuorumCertifiedUpdate`.

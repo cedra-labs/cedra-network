@@ -17,7 +17,7 @@ use cedra_sdk::{
         Client,
     },
     transaction_builder::{cedra_stdlib, TransactionFactory},
-    types::{CedraCoinType, CoinType, LocalAccount},
+    types::{transaction::FaAddress, LocalAccount},
 };
 use cedra_transaction_emitter_lib::{
     emitter::{
@@ -146,7 +146,7 @@ pub async fn execute_submit<T: Clone, B: SignedTransactionBuilder<T>>(
         .all_instances()
         .map(|i| i.rest_client())
         .collect::<Vec<_>>();
-    let txn_factory = TransactionFactory::new(cluster.chain_id, CedraCoinType::type_tag());
+    let txn_factory = TransactionFactory::new(cluster.chain_id, FaAddress::native_cedra());
 
     let needed_balance_per_account = get_needed_balance_per_account(
         work.len() as u64,
@@ -214,7 +214,7 @@ pub async fn execute_return_worker_funds(
 
     let txn_factory = transaction_factory_args.with_params(TransactionFactory::new(
         cluster.chain_id,
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     ));
 
     let txn_executor = RestApiReliableTransactionSubmitter::new(

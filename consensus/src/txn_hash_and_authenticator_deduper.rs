@@ -112,7 +112,7 @@ mod tests {
     use cedra_types::{
         chain_id::ChainId,
         transaction::{
-            EntryFunction, RawTransaction, ReplayProtector, Script, SignedTransaction,
+            EntryFunction, FaAddress, RawTransaction, ReplayProtector, Script, SignedTransaction,
             TransactionExecutable,
         },
         utility_coin::CedraCoinType,
@@ -160,7 +160,7 @@ mod tests {
             gas_unit_price,
             0,
             ChainId::new(10),
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         )
     }
 

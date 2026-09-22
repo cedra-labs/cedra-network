@@ -9,13 +9,11 @@ use cedra_types::{
     chain_id::ChainId,
     transaction::{
         authenticator::AuthenticationProof, user_transaction_context::UserTransactionContext,
-        EntryFunction, Multisig, MultisigTransactionPayload, ReplayProtector, SignedTransaction,
-        TransactionExecutable, TransactionExecutableRef, TransactionExtraConfig,
+        EntryFunction, FaAddress, Multisig, MultisigTransactionPayload, ReplayProtector,
+        SignedTransaction, TransactionExecutable, TransactionExecutableRef, TransactionExtraConfig,
         TransactionPayload, TransactionPayloadInner,
     },
-    CedraCoinType, CoinType,
 };
-use move_core_types::language_storage::TypeTag;
 
 pub struct TransactionMetadata {
     pub sender: AccountAddress,
@@ -37,7 +35,8 @@ pub struct TransactionMetadata {
     pub is_keyless: bool,
     pub entry_function_payload: Option<EntryFunction>,
     pub multisig_payload: Option<Multisig>,
-    pub fa_address: TypeTag,
+    pub fa_address: FaAddress,
+    pub stablecoin_amount: u64,
 }
 
 impl TransactionMetadata {
@@ -110,12 +109,30 @@ impl TransactionMetadata {
                 }),
                 _ => None,
             },
-            fa_address: txn.get_fa_address(),
+            fa_address: FaAddress::from_type_tag(&txn.get_fa_address()),
+            stablecoin_amount: 0,
         }
+    }
+
+    pub fn with_stablecoin_amount(&mut self, amount: u64) {
+        self.stablecoin_amount = amount;
     }
 
     pub fn max_gas_amount(&self) -> Gas {
         self.max_gas_amount
+    }
+
+    pub fn stablecoin_amount(&self) -> u64 {
+        self.stablecoin_amount
+    }
+
+    pub fn fa_address(&self) -> &FaAddress {
+        &self.fa_address
+    }
+
+    /// Oracle feed identity for `calculate_fa_fee_v2`: `(address, symbol_bytes)`.
+    pub fn fa_oracle_identity(&self) -> (AccountAddress, Vec<u8>) {
+        (self.fa_address.address, self.fa_address.symbol.clone())
     }
 
     pub fn gas_unit_price(&self) -> FeePerGasUnit {
@@ -209,6 +226,6 @@ impl TransactionMetadata {
     }
 
     pub fn use_fee_v2(&self) -> bool {
-        self.fa_address.to_string() != "" && self.fa_address != CedraCoinType::type_tag()
+        self.fa_address.use_fee_v2()
     }
 }

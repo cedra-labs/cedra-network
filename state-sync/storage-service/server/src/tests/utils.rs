@@ -41,13 +41,12 @@ use cedra_types::{
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
     on_chain_config::ValidatorSet,
     transaction::{
-        ExecutionStatus, RawTransaction, Script, SignedTransaction, Transaction,
+        ExecutionStatus, FaAddress, RawTransaction, Script, SignedTransaction, Transaction,
         TransactionAuxiliaryData, TransactionListWithProof, TransactionOutput,
         TransactionOutputListWithProof, TransactionPayload, TransactionStatus,
     },
     validator_verifier::ValidatorVerifier,
     write_set::WriteSet,
-    CedraCoinType, CoinType,
 };
 use claims::assert_none;
 use dashmap::DashMap;
@@ -213,7 +212,7 @@ fn create_test_transaction(sequence_number: u64, code_bytes: Vec<u8>) -> Transac
         0,
         0,
         ChainId::new(10),
-        CedraCoinType::type_tag(),
+        FaAddress::native_cedra(),
     );
     let signed_transaction = SignedTransaction::new(
         raw_transaction.clone(),

@@ -9,6 +9,7 @@ module cedra_framework::reconfiguration_with_dkg {
     use cedra_framework::jwk_consensus_config;
     use cedra_framework::jwks;
     use cedra_framework::keyless_account;
+    use cedra_framework::oracle_config;
     use cedra_framework::randomness_api_v0_config;
     use cedra_framework::randomness_config;
     use cedra_framework::randomness_config_seqnum;
@@ -57,6 +58,7 @@ module cedra_framework::reconfiguration_with_dkg {
         randomness_config_seqnum::on_new_epoch(framework);
         randomness_config::on_new_epoch(framework);
         randomness_api_v0_config::on_new_epoch(framework);
+        oracle_config::on_new_epoch(framework);
         reconfiguration::reconfigure();
     }
 

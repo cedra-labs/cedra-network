@@ -14,7 +14,6 @@ use crate::{
 use anyhow::{Context, Result};
 use async_trait::async_trait;
 use cedra_logger::info;
-use cedra_sdk::move_types::language_storage::TypeTag;
 use cedra_sdk::{
     crypto::{ed25519::Ed25519PrivateKey, PrivateKey},
     rest_client::Client,
@@ -22,8 +21,10 @@ use cedra_sdk::{
     types::{
         account_address::AccountAddress,
         chain_id::ChainId,
-        transaction::{authenticator::AuthenticationKey, SignedTransaction, TransactionPayload},
-        CedraCoinType, CoinType, LocalAccount,
+        transaction::{
+            authenticator::AuthenticationKey, FaAddress, SignedTransaction, TransactionPayload,
+        },
+        LocalAccount,
     },
 };
 use reqwest::Url;
@@ -74,7 +75,7 @@ impl TransferFunderConfig {
             self.transaction_submission_config
                 .wait_for_outstanding_txns_secs,
             self.transaction_submission_config.wait_for_transactions,
-            CedraCoinType::type_tag(),
+            FaAddress::native_cedra(),
         );
 
         Ok(funder)
@@ -126,7 +127,7 @@ impl TransferFunder {
         transaction_expiration_secs: u64,
         wait_for_outstanding_txns_secs: u64,
         wait_for_transactions: bool,
-        fa_address: TypeTag,
+        fa_address: FaAddress,
     ) -> Self {
         let gas_unit_price_manager =
             GasUnitPriceManager::new(node_url.clone(), gas_unit_price_ttl_secs);
